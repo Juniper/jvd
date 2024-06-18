@@ -1,2293 +1,1144 @@
 groups {
-
     GR-EDGE-INTF {
-
         interfaces {
-
             <*> {
-
                 description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;
-
                 traps;
-
                 flexible-vlan-tagging;
-
                 mtu 9102;
-
                 hold-time up 180000 down 0;
-
                 encapsulation flexible-ethernet-services;
-
             }
-
             <ae*> {
-
                 aggregated-ether-options {
-
                     lacp {
-
                         active;
-
                         hold-time up 2;
-
                     }
-
                 }
-
             }
-
             "<[egx][te]-*>" {
-
                 optics-options {
-
                     alarm low-light-alarm {
-
                         link-down;
-
                     }
-
                     warning low-light-warning {
-
                         syslog;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-EDGE-INTF-LAG-MEMBER {
-
         interfaces {
-
             <*> {
-
                 traps;
-
                 hold-time up 180000 down 0;
-
                 optics-options {
-
                     alarm low-light-alarm {
-
                         link-down;
-
                     }
-
                     warning low-light-warning {
-
                         syslog;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-ISIS-BCP {
-
         protocols {
-
             isis {
-
                 interface <ae*> {
-
                     max-hello-size 9106;
-
                     lsp-interval 10;
-
                 }
-
                 interface <et-*> {
-
                     max-hello-size 9106;
-
                     lsp-interval 10;
-
                 }
-
                 spf-options {
-
                     delay 50;
-
                     holddown 2000;
-
                     rapid-runs 5;
-
                 }
-
             }
-
         }
-
     }
-
     GR-CORE-INTF {
-
         interfaces {
-
             <*> {
-
                 description "********GR-CORE-INTF-SETTINGS-APPLIED ********";
-
                 traps;
-
                 mtu 9192;
-
                 hold-time up 2000 down 0;
-
                 unit <*> {
-
                     traps;
-
                     family inet {
-
                         mtu 9106;
-
                     }
-
                     family iso {
-
                         mtu 9106;
-
                     }
-
                     family mpls {
-
                         mtu 9170;
-
                         maximum-labels 14;
-
                     }
-
                 }
-
             }
-
             <ae*> {
-
                 aggregated-ether-options {
-
                     lacp {
-
                         active;
-
                         hold-time up 2;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-CORE-INTF-LAG-MEMBER {
-
         interfaces {
-
             <*> {
-
                 description "********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********";
-
                 traps;
-
                 hold-time up 2000 down 0;
-
                 optics-options {
-
                     alarm low-light-alarm {
-
                         link-down;
-
                     }
-
                     warning low-light-warning {
-
                         syslog;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-UNNUMBERED-AN-CORE {
-
         interfaces {
-
             <*> {
-
                 unit <*> {
-
                     family inet {
-
                         unnumbered-address lo0.0;
-
                     }
-
                     family inet6 {
-
                         unnumbered-address lo0.0;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-BGP-BCP {
-
         protocols {
-
             bgp {
-
                 path-selection external-router-id;
-
                 precision-timers;
-
                 hold-time 10;
-
                 bgp-error-tolerance;
-
                 tcp-mss 4096;
-
             }
-
         }
-
     }
-
     GR-EDGE-INTF-MH {
-
         interfaces {
-
             <*> {
-
                 description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;
-
                 traps;
-
                 flexible-vlan-tagging;
-
                 mtu 9102;
-
                 hold-time down 0;
-
                 encapsulation flexible-ethernet-services;
-
             }
-
             <ae*> {
-
                 aggregated-ether-options {
-
                     lacp {
-
                         hold-time up 180;
-
                     }
-
                 }
-
             }
-
             "<[egx][te]-*>" {
-
                 optics-options {
-
                     alarm low-light-alarm {
-
                         link-down;
-
                     }
-
                     warning low-light-warning {
-
                         syslog;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
     GR-EDGE-INTF-LAG-MEMBER-MH {
-
         interfaces {
-
             <*> {
-
                 traps;
-
                 hold-time up 180000 down 0;
-
                 optics-options {
-
                     alarm low-light-alarm {
-
                         link-down;
-
                     }
-
                     warning low-light-warning {
-
                         syslog;
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }
-
-
 chassis {
-
     aggregated-devices {
-
         ethernet {
-
             device-count 25;
-
         }
-
     }
-
     network-services enhanced-ip;
-
 }
-
 interfaces {
-
     et-0/0/0 {
-
         number-of-sub-ports 4;
-
         speed 10g;
-
     }
-
     et-0/0/1 {
-
         unused;
-
     }
-
     et-0/0/2 {
-
         number-of-sub-ports 4;
-
         speed 10g;
-
     }
-
     et-0/0/3 {
-
         unused;
-
     }
-
     et-0/0/4 {
-
         number-of-sub-ports 4;
-
         speed 10g;
-
     }
-
     et-0/0/5 {
-
         unused;
-
     }
-
     et-0/0/9 {
-
         apply-groups GR-CORE-INTF-LAG-MEMBER;
-
         ether-options {
-
             802.3ad ae72;
-
         }
-
     }
-
     et-0/0/10 {
-
         apply-groups GR-CORE-INTF-LAG-MEMBER;
-
         ether-options {
-
             802.3ad ae74;
-
         }
-
     }
-
     et-0/0/11 {
-
         apply-groups GR-CORE-INTF-LAG-MEMBER;
-
         ether-options {
-
             802.3ad ae25;
-
         }
-
     }
-
     et-0/0/12 {
-
         apply-groups GR-CORE-INTF-LAG-MEMBER;
-
         ether-options {
-
             802.3ad ae26;
-
         }
-
     }
-
     et-0/0/13 {
-
         apply-groups GR-CORE-INTF-LAG-MEMBER;
-
         ether-options {
-
             802.3ad ae76;
-
         }
-
     }
-
     et-0/0/14 {
-
         apply-groups GR-CORE-INTF;
-
         description "to MEG2 rtme-acx7509-01";
-
         mtu 9192;
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.85/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:55/126;
-
             }
-
             family mpls;
-
         }
-
     }
-
     et-0/0/32 {
-
         apply-groups GR-CORE-INTF;
-
         description "to MEG1 rtme-acx7100-32c-d";
-
         mtu 9192;
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.9/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:9/126;
-
             }
-
             family mpls;
-
         }
-
     }
-
     et-0/0/34 {
-
         apply-groups GR-CORE-INTF;
-
         description "to MEG2 rtme-acx7509-01";
-
         mtu 9192;
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.13/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:d/126;
-
             }
-
             family mpls;
-
         }
-
     }
-
     ae25 {
-
         apply-groups GR-CORE-INTF;
-
         description "to AN3 rtme-acx-48l-05 ae25";
-
         mtu 9192;
-
         aggregated-ether-options {
-
             minimum-links 1;
-
             lacp {
-
                 active;
-
                 periodic fast;
-
             }
-
         }
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.190/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:be/126;
-
-
             }
-
             family mpls;
-
         }
-
     }
-
     ae26 {
-
         apply-groups GR-CORE-INTF;
-
         description "to AN3 rtme-acx-48l-05 ae26";
-
         mtu 9192;
-
         aggregated-ether-options {
-
             minimum-links 1;
-
             lacp {
-
                 active;
-
                 periodic fast;
-
             }
-
         }
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.194/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:c2/126;
-
             }
-
             family mpls;
-
         }
-
     }
-
     ae72 {
-
         apply-groups GR-CORE-INTF;
-
         description "to AN1 rtme-mx-45 ae72";
-
         mtu 9192;
-
         aggregated-ether-options {
-
             minimum-links 1;
-
             lacp {
-
                 active;
-
                 periodic fast;
-
             }
-
         }
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.202/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:ca/126;
-
             }
-
             family mpls;
-
         }
-
     }
-
     ae74 {
-
         apply-groups GR-CORE-INTF;
-
         description "to AN2 rtme-acx17 ae74";
-
         mtu 9192;
-
         aggregated-ether-options {
-
             minimum-links 1;
-
             lacp {
-
                 active;
-
                 periodic fast;
-
             }
-
         }
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.210/30;
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:d2/126;
-
-
             }
-
             family mpls;
-
         }
-
     }
-
     ae76 {
-
         apply-groups GR-CORE-INTF;
-
         description "to AN4 rtme-acx710-h ae76";
-
         mtu 9192;
-
         aggregated-ether-options {
-
             minimum-links 1;
-
             lacp {
-
                 active;
-
                 periodic fast;
-
             }
-
         }
-
         unit 0 {
-
             family inet {
-
                 address 10.10.0.218/30;
-
-
             }
-
             family iso;
-
             family inet6 {
-
                 address 2001::10:10:0:da/126;
-
-
             }
-
             family mpls;
-
         }
-
     }
-
     lo0 {
-
         description "AG1.2 Aggregation Node Metro Fabric Spine";
-
         unit 0 {
-
             family inet {
-
                 address 1.1.0.5/32 {
-
                     primary;
-
                 }
-
             }
-
             family iso {
-
                 address 49.0000.0010.0100.0005.00;
-
             }
-
             family inet6 {
-
                 address 2001::1:1:0:5/128 {
-
                     primary;
-
                 }
-
             }
-
         }
-
     }
-
 }
-
 forwarding-options {
-
     hash-key {
-
         family inet {
-
             layer-3;
-
             layer-4;
-
         }
-
         family inet6 {
-
             layer-3;
-
             layer-4;
-
         }
-
         family mpls {
-
             all-labels;
-
             payload {
-
                 ip;
-
             }
-
         }
-
         family multiservice {
-
             source-mac;
-
             destination-mac;
-
         }
-
     }
-
 }
-
 policy-options {
-
     policy-statement PS-ISIS-EXPORT {
-
         term OOB-MGMT {
-
             from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
-
             then reject;
-
         }
-
         term LOCAL-LOOPBACK-IPV4 {
-
             from {
-
                 protocol direct;
-
                 interface lo0.0;
-
                 route-filter 1.1.0.5/32 exact;
-
             }
-
             then {
-
                 tag 101;
-
                 prefix-segment {
-
                     algorithm 128 index 505 node-segment;
-
                     algorithm 129 index 605 node-segment;
-
                     index 905;
-
                     node-segment;
-
                 }
-
                 accept;
-
             }
-
         }
-
         term LOCAL-LOOPBACK-IPV6 {
-
             from {
-
                 protocol direct;
-
                 interface lo0.0;
-
                 route-filter 2001::1:1:0:5/128 exact;
-
             }
-
             then {
-
                 tag 101;
-
                 accept;
-
             }
-
         }
-
         term DIRECT-ROUTES-IPV4 {
-
             from {
-
                 protocol direct;
-
                 route-filter 10.10.0.0/24 prefix-length-range /30-/30;
-
             }
-
             then accept;
-
         }
-
         term CORE-SUMMARY {
-
             from {
-
                 protocol aggregate;
-
                 tag [ 1000 1001 ];
-
                 tag2 0;
-
             }
-
             then reject;
-
         }
-
         term REJECT {
-
             then reject;
-
         }
-
     }
-
     policy-statement PS-PPLB {
-
         then {
-
             load-balance per-packet;
-
             accept;
-
         }
-
     }
-
     policy-statement SR_NONZERO_LOOPBACKS_V4 {
-
         term t1 {
-
             from {
-
                 route-filter 1.1.10.5/32 exact;
-
             }
-
             then {
-
                 prefix-segment {
-
                     index 205;
-
                 }
-
                 accept;
-
             }
-
         }
-
     }
-
     policy-statement SR_NONZERO_LOOPBACKS_V6 {
-
         term t1 {
-
             from {
-
                 family inet6;
-
                 route-filter 2001::1:1:10:35/128 exact;
-
             }
-
             then {
-
                 prefix-segment {
-
                     index 305;
-
                 }
-
                 accept;
-
             }
-
         }
-
     }
-
     policy-statement prefix-sid {
-
         term 1 {
-
             from {
-
                 route-filter 1.1.0.5/32 exact;
-
             }
-
             then {
-
                 prefix-segment {
-
                     algorithm 128 index 505 node-segment;
-
                     algorithm 129 index 605 node-segment;
-
                     index 905;
-
                     node-segment;
-
                 }
-
                 accept;
-
             }
-
         }
-
     }
-
     community CM-ACCESS-FABRIC members 63535:2;
-
     community CM-INET-BACKUP members target:63536:99999;
-
     community CM-INET-DEFAULT members target:63536:11111;
-
     community CM-INET-PRIMARY members target:63536:00000;
-
     community CM-L3VPN-PUB members target:63536:22222;
-
     community CM-LOOPBACK members 63535:10000;
-
     community CM-METRO-FABRIC members 63535:1;
-
     community CM-METRO-RING members 63536:20;
-
     community CM-NO-ADVERTISE members no-advertise;
-
     community CM-REGION-EDGE members 63536:30;
-
     community CM-REGIONAL-BORDER members 63535:3;
-
     community CM-SERVICE-EDGE members 63536:10;
-
 }
-
 class-of-service {
-
     classifiers {
-
         dscp DSCP {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-points be;
-
                 loss-priority low code-points [ cs1 af11 af12 af13 ];
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-points [ cs4 af41 af42 af43 ];
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-points [ cs6 cs7 ];
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-points [ cs2 af21 af22 af23 ];
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-points [ cs5 ef ];
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-points [ cs3 af31 af32 af33 ];
-
             }
-
         }
-
         exp EXP {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-points 000;
-
                 loss-priority low code-points 001;
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-points 100;
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-points [ 110 111 ];
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-points 010;
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-points 101;
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-points 011;
-
             }
-
         }
-
         ieee-802.1 8021P {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-points 000;
-
                 loss-priority low code-points 001;
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-points 100;
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-points [ 110 111 ];
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-points 010;
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-points 101;
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-points 011;
-
             }
-
         }
-
     }
-
     forwarding-classes {
-
         class BEST-EFFORT queue-num 0;
-
         class BUSINESS queue-num 5;
-
         class CONTROL queue-num 4;
-
         class MEDIUM queue-num 1;
-
         class REALTIME queue-num 2;
-
         class SIG-OAM queue-num 3;
-
     }
-
     interfaces {
-
         et-0/0/14 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         et-0/0/32 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         et-0/0/34 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         ae25 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         ae26 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         ae72 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         ae74 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
         ae76 {
-
             scheduler-map 5G_SCHEDULER;
-
             unit 0 {
-
                 classifiers {
-
                     exp EXP;
-
                 }
-
                 rewrite-rules {
-
                     exp EXP-REWRITE;
-
                 }
-
             }
-
         }
-
     }
-
     rewrite-rules {
-
         dscp DSCP-REWRITE {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-point be;
-
                 loss-priority low code-point cs1;
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-point cs5;
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-point cs6;
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-point cs2;
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-point ef;
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-point cs3;
-
             }
-
         }
-
         exp EXP-REWRITE {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-point 000;
-
                 loss-priority low code-point 001;
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-point 100;
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-point 111;
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-point 010;
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-point 101;
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-point 011;
-
             }
-
         }
-
         ieee-802.1 8021P-REWRITE {
-
             forwarding-class BEST-EFFORT {
-
                 loss-priority high code-point 000;
-
                 loss-priority low code-point 001;
-
             }
-
             forwarding-class BUSINESS {
-
                 loss-priority low code-point 100;
-
             }
-
             forwarding-class CONTROL {
-
                 loss-priority low code-point 111;
-
             }
-
             forwarding-class MEDIUM {
-
                 loss-priority high code-point 010;
-
             }
-
             forwarding-class REALTIME {
-
                 loss-priority low code-point 101;
-
             }
-
             forwarding-class SIG-OAM {
-
                 loss-priority low code-point 011;
-
             }
-
         }
-
     }
-
     scheduler-maps {
-
         5G_SCHEDULER {
-
             forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;
-
             forwarding-class BUSINESS scheduler BUSINESS-SC;
-
             forwarding-class CONTROL scheduler CONTROL-SC;
-
             forwarding-class MEDIUM scheduler MEDIUM-SC;
-
             forwarding-class REALTIME scheduler REALTIME-SC;
-
             forwarding-class SIG-OAM scheduler SIG-OAM-SC;
-
         }
-
     }
-
     schedulers {
-
         BEST-EFFORT-SC {
-
             transmit-rate {
-
                 remainder;
-
             }
-
             buffer-size {
-
                 remainder;
-
             }
-
             priority low;
-
         }
-
         BUSINESS-SC {
-
             transmit-rate percent 20;
-
             buffer-size percent 20;
-
             priority low;
-
         }
-
         CONTROL-SC {
-
             transmit-rate percent 5;
-
             buffer-size percent 2;
-
             priority low;
-
         }
-
         MEDIUM-SC {
-
             transmit-rate percent 20;
-
             buffer-size percent 20;
-
             priority low;
-
         }
-
         REALTIME-SC {
-
             shaping-rate percent 40;
-
             buffer-size percent 30;
-
             priority strict-high;
-
         }
-
         SIG-OAM-SC {
-
             transmit-rate percent 5;
-
             buffer-size percent 2;
-
             priority low;
-
         }
-
     }
-
 }
-
 routing-instances {
-
     mgmt_junos {
-
         routing-options {
-
             static {
-
                 route 0.0.0.0/0 {
-
                     next-hop 10.83.152.254;
-
                     retain;
-
                     no-readvertise;
-
                 }
-
             }
-
         }
-
     }
-
 }
-
 routing-options {
-
     router-id 1.1.0.5;
-
     autonomous-system 63535;
-
     static {
-
         route 0.0.0.0/0 {
-
             next-hop 10.83.152.254;
-
             retain;
-
             no-readvertise;
-
         }
-
     }
-
     aggregate {
-
         route 1.1.0.0/24 {
-
             tag 1000;
-
             tag2 0;
-
             preference 14;
-
             discard;
-
         }
-
         route 10.10.0.0/24 {
-
             tag 1001;
-
             tag2 0;
-
             preference 14;
-
             discard;
-
         }
-
     }
-
     forwarding-table {
-
         export PS-PPLB;
-
     }
-
 }
-
 protocols {
-
     isis {
-
         apply-groups GR-ISIS-BCP;
-
         interface et-0/0/14.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 15;
-
                         admin-group green;
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 8;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface et-0/0/32.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 15;
-
                         admin-group [ blue green ];
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 10;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface et-0/0/34.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 15;
-
                         admin-group blue;
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
                 metric 15;
-
             }
-
             delay-metric 8;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface ae25.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 110;
-
                         admin-group green;
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 105;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface ae26.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 110;
-
                         admin-group blue;
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
                 metric 25;
-
             }
-
             delay-metric 105;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface ae72.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 110;
-
                         admin-group [ blue green ];
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 105;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface ae74.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 110;
-
                         admin-group [ blue green ];
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 105;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface ae76.0 {
-
             level 1 {
-
                 post-convergence-lfa {
-
                     node-protection cost 16777214;
-
                 }
-
                 application-specific {
-
                     attribute-group ASLA {
-
                         advertise-delay-metric;
-
                         te-metric 110;
-
                         admin-group [ blue green ];
-
                         application {
-
                             flex-algorithm;
-
                         }
-
                     }
-
                 }
-
             }
-
             delay-metric 105;
-
             point-to-point;
-
             family inet {
-
                 bfd-liveness-detection {
-
                     minimum-interval 100;
-
                     multiplier 3;
-
                     no-adaptation;
-
                 }
-
             }
-
         }
-
         interface lo0.0 {
-
             passive;
-
         }
-
         source-packet-routing {
-
             node-segment {
-
                 ipv4-index 5;
-
                 ipv6-index 105;
-
             }
-
             flex-algorithm [ 128 129 ];
-
             strict-asla-based-flex-algorithm;
-
             explicit-null;
-
             traffic-statistics {
-
                 statistics-granularity per-interface;
-
             }
-
         }
-
         level 1 {
-
             purge-originator empty;
-
             wide-metrics-only;
-
             max-lsp-size 8000;
-
         }
-
         level 2 disable;
-
         spf-options {
-
             microloop-avoidance {
-
                 post-convergence-path {
-
                     delay 5000;
-
                 }
-
             }
-
         }
-
         backup-spf-options {
-
             use-post-convergence-lfa maximum-labels 3;
-
             use-source-packet-routing;
-
         }
-
         traffic-engineering {
-
             advertisement {
-
                 application-specific {
-
                     all-applications;
-
                 }
-
             }
-
         }
-
         export PS-ISIS-EXPORT;
-
     }
-
     mpls {
-
         admin-groups {
-
             blue 1;
-
             green 2;
-
             red 3;
-
         }
-
         no-propagate-ttl;
-
         icmp-tunneling;
-
         label-range {
-
             srgb-label-range 16000 24000;
-
         }
-
         ipv6-tunneling;
-
     }
-
     lldp {
-
         interface all;
-
     }
-
 }
-
