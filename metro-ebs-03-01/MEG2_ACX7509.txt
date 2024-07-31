@@ -35547,20 +35547,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4000;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4000-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4000;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35578,20 +35568,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4001;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4001-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4001;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35609,20 +35589,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4002;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4002-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4002;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35640,20 +35610,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4003;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4003-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4003;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35671,20 +35631,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4004;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4004-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4004;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35702,20 +35652,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4005;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4005-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4005;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35733,20 +35673,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4006;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4006-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4006;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35764,20 +35694,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4007;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4007-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4007;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35795,20 +35715,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4008;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4008-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4008;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35826,20 +35736,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4009;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4009-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4009;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35857,20 +35757,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4010;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4010-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4010;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35888,20 +35778,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4011;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4011-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4011;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35919,20 +35799,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4012;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4012-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4012;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35950,20 +35820,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4013;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4013-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4013;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -35981,20 +35841,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4014;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4014-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4014;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36012,20 +35862,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4015;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4015-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4015;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36043,20 +35883,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4016;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4016-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4016;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36074,20 +35904,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4017;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4017-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4017;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36105,20 +35925,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4018;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4018-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4018;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36136,20 +35946,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4019;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4019-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4019;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36167,20 +35967,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4020;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4020-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4020;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36198,20 +35988,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4021;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4021-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4021;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36229,20 +36009,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4022;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4022-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4022;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36260,20 +36030,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4023;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4023-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4023;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36291,20 +36051,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4024;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4024-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4024;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36322,20 +36072,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4025;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4025-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4025;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36353,20 +36093,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4026;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4026-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4026;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36384,20 +36114,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4027;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4027-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4027;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36415,20 +36135,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4028;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4028-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4028;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36446,20 +36156,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4029;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4029-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4029;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36477,20 +36177,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4030;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4030-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4030;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36508,20 +36198,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4031;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4031-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4031;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36539,20 +36219,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4032;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4032-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4032;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36570,20 +36240,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4033;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4033-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4033;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36601,20 +36261,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4034;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4034-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4034;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36632,20 +36282,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4035;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4035-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4035;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36663,20 +36303,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4036;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4036-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4036;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36694,20 +36324,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4037;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4037-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4037;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36725,20 +36345,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4038;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4038-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4038;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36756,20 +36366,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4039;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4039-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4039;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36787,20 +36387,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4040;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4040-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4040;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36818,20 +36408,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4041;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4041-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4041;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36849,20 +36429,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4042;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4042-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4042;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36880,20 +36450,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4043;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4043-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4043;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36911,20 +36471,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4044;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4044-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4044;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36942,20 +36492,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4045;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4045-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4045;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -36973,20 +36513,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4046;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4046-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4046;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -37004,20 +36534,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4047;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4047-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4047;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -37035,20 +36555,10 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4048;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4048-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4048;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
             then accept;
         }
     }
@@ -37066,26 +36576,11 @@ policy-options {
                 accept;
             }
         }
-        term tag-default {
-            then {
-                community add METRO_L3VPN_4049;
-                accept;
-            }
-        }
     }
     policy-statement PS-METRO_L3VPN_4049-IMPORT {
         term L3VPN-CUST {
             from community METRO_L3VPN_4049;
             then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
-            then accept;
-        }
-    }
-    policy-statement PS-MULTIPATH {
-        term recursive-resolution {
-            then multipath-resolve;
         }
     }
     policy-statement PS-REMOTE-LOOPBACKS {
