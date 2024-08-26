@@ -1,0 +1,4180 @@
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+    network-services enhanced-ip;
+}
+interfaces {
+    et-0/0/0 {
+        speed 10g;
+    }
+    et-0/0/1 {
+        speed 100g;
+        ether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/0/2 {
+        speed 100g;
+    }
+    et-0/0/4 {
+        description "P2Node to P1Node";
+        unit 0 {
+            family inet {
+                address 192.168.67.2/24;
+            }
+            family mpls;
+        }
+    }
+    et-0/0/5 {
+        ether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/0/6 {
+        ether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/0/9 {
+        description "P2Node to WANEdge3";
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 192.168.89.1/24;
+            }
+            family mpls;
+        }
+    }
+    et-0/2/8 {
+        description "P2Node to WANEdge2";
+        flexible-vlan-tagging;
+        speed 100g;
+        encapsulation flexible-ethernet-services;
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 192.168.34.2/24;
+            }
+            family inet6 {
+                address 5000::2/68;
+            }
+            family mpls;
+        }
+        unit 1801 {
+            vlan-id 1801;
+            family inet {
+                address 45.1.1.1/24;
+            }
+            family inet6 {
+                address 4500::1/64;
+            }
+        }
+        unit 1802 {
+            vlan-id 1802;
+            family inet {
+                address 45.1.2.1/24;
+            }
+            family inet6 {
+                address 4501::1/64;
+            }
+        }
+        unit 1803 {
+            vlan-id 1803;
+            family inet {
+                address 45.1.3.1/24;
+            }
+            family inet6 {
+                address 4502::1/64;
+            }
+        }
+        unit 1804 {
+            vlan-id 1804;
+            family inet {
+                address 45.1.4.1/24;
+            }
+            family inet6 {
+                address 4503::1/64;
+            }
+        }
+        unit 1805 {
+            vlan-id 1805;
+            family inet {
+                address 45.1.5.1/24;
+            }
+            family inet6 {
+                address 4504::1/64;
+            }
+        }
+        unit 1806 {
+            vlan-id 1806;
+            family inet {
+                address 45.1.6.1/24;
+            }
+            family inet6 {
+                address 4505::1/64;
+            }
+        }
+        unit 1807 {
+            vlan-id 1807;
+            family inet {
+                address 45.1.7.1/24;
+            }
+            family inet6 {
+                address 4506::1/64;
+            }
+        }
+        unit 1808 {
+            vlan-id 1808;
+            family inet {
+                address 45.1.8.1/24;
+            }
+            family inet6 {
+                address 4507::1/64;
+            }
+        }
+        unit 1809 {
+            vlan-id 1809;
+            family inet {
+                address 45.1.9.1/24;
+            }
+            family inet6 {
+                address 4508::1/64;
+            }
+        }
+        unit 1810 {
+            vlan-id 1810;
+            family inet {
+                address 45.1.10.1/24;
+            }
+            family inet6 {
+                address 4509::1/64;
+            }
+        }
+        unit 1811 {
+            vlan-id 1811;
+            family inet {
+                address 45.1.11.1/24;
+            }
+            family inet6 {
+                address 450a::1/64;
+            }
+        }
+        unit 1812 {
+            vlan-id 1812;
+            family inet {
+                address 45.1.12.1/24;
+            }
+            family inet6 {
+                address 450b::1/64;
+            }
+        }
+        unit 1813 {
+            vlan-id 1813;
+            family inet {
+                address 45.1.13.1/24;
+            }
+            family inet6 {
+                address 450c::1/64;
+            }
+        }
+        unit 1814 {
+            vlan-id 1814;
+            family inet {
+                address 45.1.14.1/24;
+            }
+            family inet6 {
+                address 450d::1/64;
+            }
+        }
+        unit 1815 {
+            vlan-id 1815;
+            family inet {
+                address 45.1.15.1/24;
+            }
+            family inet6 {
+                address 450e::1/64;
+            }
+        }
+        unit 1816 {
+            vlan-id 1816;
+            family inet {
+                address 45.1.16.1/24;
+            }
+            family inet6 {
+                address 450f::1/64;
+            }
+        }
+        unit 1817 {
+            vlan-id 1817;
+            family inet {
+                address 45.1.17.1/24;
+            }
+            family inet6 {
+                address 4510::1/64;
+            }
+        }
+        unit 1818 {
+            vlan-id 1818;
+            family inet {
+                address 45.1.18.1/24;
+            }
+            family inet6 {
+                address 4511::1/64;
+            }
+        }
+        unit 1819 {
+            vlan-id 1819;
+            family inet {
+                address 45.1.19.1/24;
+            }
+            family inet6 {
+                address 4512::1/64;
+            }
+        }
+        unit 1820 {
+            vlan-id 1820;
+            family inet {
+                address 45.1.20.1/24;
+            }
+            family inet6 {
+                address 4513::1/64;
+            }
+        }
+        unit 1821 {
+            vlan-id 1821;
+            family inet {
+                address 45.1.21.1/24;
+            }
+            family inet6 {
+                address 4514::1/64;
+            }
+        }
+        unit 1822 {
+            vlan-id 1822;
+            family inet {
+                address 45.1.22.1/24;
+            }
+            family inet6 {
+                address 4515::1/64;
+            }
+        }
+        unit 1823 {
+            vlan-id 1823;
+            family inet {
+                address 45.1.23.1/24;
+            }
+            family inet6 {
+                address 4516::1/64;
+            }
+        }
+        unit 1824 {
+            vlan-id 1824;
+            family inet {
+                address 45.1.24.1/24;
+            }
+            family inet6 {
+                address 4517::1/64;
+            }
+        }
+        unit 1825 {
+            vlan-id 1825;
+            family inet {
+                address 45.1.25.1/24;
+            }
+            family inet6 {
+                address 4518::1/64;
+            }
+        }
+        unit 1826 {
+            vlan-id 1826;
+            family inet {
+                address 45.1.26.1/24;
+            }
+            family inet6 {
+                address 4519::1/64;
+            }
+        }
+        unit 1827 {
+            vlan-id 1827;
+            family inet {
+                address 45.1.27.1/24;
+            }
+            family inet6 {
+                address 451a::1/64;
+            }
+        }
+        unit 1828 {
+            vlan-id 1828;
+            family inet {
+                address 45.1.28.1/24;
+            }
+            family inet6 {
+                address 451b::1/64;
+            }
+        }
+        unit 1829 {
+            vlan-id 1829;
+            family inet {
+                address 45.1.29.1/24;
+            }
+            family inet6 {
+                address 451c::1/64;
+            }
+        }
+        unit 1830 {
+            vlan-id 1830;
+            family inet {
+                address 45.1.30.1/24;
+            }
+            family inet6 {
+                address 451d::1/64;
+            }
+        }
+        unit 1831 {
+            vlan-id 1831;
+            family inet {
+                address 45.1.31.1/24;
+            }
+            family inet6 {
+                address 451e::1/64;
+            }
+        }
+        unit 1832 {
+            vlan-id 1832;
+            family inet {
+                address 45.1.32.1/24;
+            }
+            family inet6 {
+                address 451f::1/64;
+            }
+        }
+        unit 1833 {
+            vlan-id 1833;
+            family inet {
+                address 45.1.33.1/24;
+            }
+            family inet6 {
+                address 4520::1/64;
+            }
+        }
+        unit 1834 {
+            vlan-id 1834;
+            family inet {
+                address 45.1.34.1/24;
+            }
+            family inet6 {
+                address 4521::1/64;
+            }
+        }
+        unit 1835 {
+            vlan-id 1835;
+            family inet {
+                address 45.1.35.1/24;
+            }
+            family inet6 {
+                address 4522::1/64;
+            }
+        }
+        unit 1836 {
+            vlan-id 1836;
+            family inet {
+                address 45.1.36.1/24;
+            }
+            family inet6 {
+                address 4523::1/64;
+            }
+        }
+        unit 1837 {
+            vlan-id 1837;
+            family inet {
+                address 45.1.37.1/24;
+            }
+            family inet6 {
+                address 4524::1/64;
+            }
+        }
+        unit 1838 {
+            vlan-id 1838;
+            family inet {
+                address 45.1.38.1/24;
+            }
+            family inet6 {
+                address 4525::1/64;
+            }
+        }
+        unit 1839 {
+            vlan-id 1839;
+            family inet {
+                address 45.1.39.1/24;
+            }
+            family inet6 {
+                address 4526::1/64;
+            }
+        }
+        unit 1840 {
+            vlan-id 1840;
+            family inet {
+                address 45.1.40.1/24;
+            }
+            family inet6 {
+                address 4527::1/64;
+            }
+        }
+        unit 1841 {
+            vlan-id 1841;
+            family inet {
+                address 45.1.41.1/24;
+            }
+            family inet6 {
+                address 4528::1/64;
+            }
+        }
+        unit 1842 {
+            vlan-id 1842;
+            family inet {
+                address 45.1.42.1/24;
+            }
+            family inet6 {
+                address 4529::1/64;
+            }
+        }
+        unit 1843 {
+            vlan-id 1843;
+            family inet {
+                address 45.1.43.1/24;
+            }
+            family inet6 {
+                address 452a::1/64;
+            }
+        }
+        unit 1844 {
+            vlan-id 1844;
+            family inet {
+                address 45.1.44.1/24;
+            }
+            family inet6 {
+                address 452b::1/64;
+            }
+        }
+        unit 1845 {
+            vlan-id 1845;
+            family inet {
+                address 45.1.45.1/24;
+            }
+            family inet6 {
+                address 452c::1/64;
+            }
+        }
+        unit 1846 {
+            vlan-id 1846;
+            family inet {
+                address 45.1.46.1/24;
+            }
+            family inet6 {
+                address 452d::1/64;
+            }
+        }
+        unit 1847 {
+            vlan-id 1847;
+            family inet {
+                address 45.1.47.1/24;
+            }
+            family inet6 {
+                address 452e::1/64;
+            }
+        }
+        unit 1848 {
+            vlan-id 1848;
+            family inet {
+                address 45.1.48.1/24;
+            }
+            family inet6 {
+                address 452f::1/64;
+            }
+        }
+        unit 1849 {
+            vlan-id 1849;
+            family inet {
+                address 45.1.49.1/24;
+            }
+            family inet6 {
+                address 4530::1/64;
+            }
+        }
+        unit 1850 {
+            vlan-id 1850;
+            family inet {
+                address 45.1.50.1/24;
+            }
+            family inet6 {
+                address 4531::1/64;
+            }
+        }
+        unit 1851 {
+            vlan-id 1851;
+            family inet {
+                address 45.1.51.1/24;
+            }
+            family inet6 {
+                address 4532::1/64;
+            }
+        }
+        unit 1852 {
+            vlan-id 1852;
+            family inet {
+                address 45.1.52.1/24;
+            }
+            family inet6 {
+                address 4533::1/64;
+            }
+        }
+        unit 1853 {
+            vlan-id 1853;
+            family inet {
+                address 45.1.53.1/24;
+            }
+            family inet6 {
+                address 4534::1/64;
+            }
+        }
+        unit 1854 {
+            vlan-id 1854;
+            family inet {
+                address 45.1.54.1/24;
+            }
+            family inet6 {
+                address 4535::1/64;
+            }
+        }
+        unit 1855 {
+            vlan-id 1855;
+            family inet {
+                address 45.1.55.1/24;
+            }
+            family inet6 {
+                address 4536::1/64;
+            }
+        }
+        unit 1856 {
+            vlan-id 1856;
+            family inet {
+                address 45.1.56.1/24;
+            }
+            family inet6 {
+                address 4537::1/64;
+            }
+        }
+        unit 1857 {
+            vlan-id 1857;
+            family inet {
+                address 45.1.57.1/24;
+            }
+            family inet6 {
+                address 4538::1/64;
+            }
+        }
+        unit 1858 {
+            vlan-id 1858;
+            family inet {
+                address 45.1.58.1/24;
+            }
+            family inet6 {
+                address 4539::1/64;
+            }
+        }
+        unit 1859 {
+            vlan-id 1859;
+            family inet {
+                address 45.1.59.1/24;
+            }
+            family inet6 {
+                address 453a::1/64;
+            }
+        }
+        unit 1860 {
+            vlan-id 1860;
+            family inet {
+                address 45.1.60.1/24;
+            }
+            family inet6 {
+                address 453b::1/64;
+            }
+        }
+        unit 1861 {
+            vlan-id 1861;
+            family inet {
+                address 45.1.61.1/24;
+            }
+            family inet6 {
+                address 453c::1/64;
+            }
+        }
+        unit 1862 {
+            vlan-id 1862;
+            family inet {
+                address 45.1.62.1/24;
+            }
+            family inet6 {
+                address 453d::1/64;
+            }
+        }
+        unit 1863 {
+            vlan-id 1863;
+            family inet {
+                address 45.1.63.1/24;
+            }
+            family inet6 {
+                address 453e::1/64;
+            }
+        }
+        unit 1864 {
+            vlan-id 1864;
+            family inet {
+                address 45.1.64.1/24;
+            }
+            family inet6 {
+                address 453f::1/64;
+            }
+        }
+        unit 1865 {
+            vlan-id 1865;
+            family inet {
+                address 45.1.65.1/24;
+            }
+            family inet6 {
+                address 4540::1/64;
+            }
+        }
+        unit 1866 {
+            vlan-id 1866;
+            family inet {
+                address 45.1.66.1/24;
+            }
+            family inet6 {
+                address 4541::1/64;
+            }
+        }
+        unit 1867 {
+            vlan-id 1867;
+            family inet {
+                address 45.1.67.1/24;
+            }
+            family inet6 {
+                address 4542::1/64;
+            }
+        }
+        unit 1868 {
+            vlan-id 1868;
+            family inet {
+                address 45.1.68.1/24;
+            }
+            family inet6 {
+                address 4543::1/64;
+            }
+        }
+        unit 1869 {
+            vlan-id 1869;
+            family inet {
+                address 45.1.69.1/24;
+            }
+            family inet6 {
+                address 4544::1/64;
+            }
+        }
+        unit 1870 {
+            vlan-id 1870;
+            family inet {
+                address 45.1.70.1/24;
+            }
+            family inet6 {
+                address 4545::1/64;
+            }
+        }
+        unit 1871 {
+            vlan-id 1871;
+            family inet {
+                address 45.1.71.1/24;
+            }
+            family inet6 {
+                address 4546::1/64;
+            }
+        }
+        unit 1872 {
+            vlan-id 1872;
+            family inet {
+                address 45.1.72.1/24;
+            }
+            family inet6 {
+                address 4547::1/64;
+            }
+        }
+        unit 1873 {
+            vlan-id 1873;
+            family inet {
+                address 45.1.73.1/24;
+            }
+            family inet6 {
+                address 4548::1/64;
+            }
+        }
+        unit 1874 {
+            vlan-id 1874;
+            family inet {
+                address 45.1.74.1/24;
+            }
+            family inet6 {
+                address 4549::1/64;
+            }
+        }
+        unit 1875 {
+            vlan-id 1875;
+            family inet {
+                address 45.1.75.1/24;
+            }
+            family inet6 {
+                address 454a::1/64;
+            }
+        }
+        unit 1876 {
+            vlan-id 1876;
+            family inet {
+                address 45.1.76.1/24;
+            }
+            family inet6 {
+                address 454b::1/64;
+            }
+        }
+        unit 1877 {
+            vlan-id 1877;
+            family inet {
+                address 45.1.77.1/24;
+            }
+            family inet6 {
+                address 454c::1/64;
+            }
+        }
+        unit 1878 {
+            vlan-id 1878;
+            family inet {
+                address 45.1.78.1/24;
+            }
+            family inet6 {
+                address 454d::1/64;
+            }
+        }
+        unit 1879 {
+            vlan-id 1879;
+            family inet {
+                address 45.1.79.1/24;
+            }
+            family inet6 {
+                address 454e::1/64;
+            }
+        }
+        unit 1880 {
+            vlan-id 1880;
+            family inet {
+                address 45.1.80.1/24;
+            }
+            family inet6 {
+                address 454f::1/64;
+            }
+        }
+        unit 1881 {
+            vlan-id 1881;
+            family inet {
+                address 45.1.81.1/24;
+            }
+            family inet6 {
+                address 4550::1/64;
+            }
+        }
+        unit 1882 {
+            vlan-id 1882;
+            family inet {
+                address 45.1.82.1/24;
+            }
+            family inet6 {
+                address 4551::1/64;
+            }
+        }
+        unit 1883 {
+            vlan-id 1883;
+            family inet {
+                address 45.1.83.1/24;
+            }
+            family inet6 {
+                address 4552::1/64;
+            }
+        }
+        unit 1884 {
+            vlan-id 1884;
+            family inet {
+                address 45.1.84.1/24;
+            }
+            family inet6 {
+                address 4553::1/64;
+            }
+        }
+        unit 1885 {
+            vlan-id 1885;
+            family inet {
+                address 45.1.85.1/24;
+            }
+            family inet6 {
+                address 4554::1/64;
+            }
+        }
+        unit 1886 {
+            vlan-id 1886;
+            family inet {
+                address 45.1.86.1/24;
+            }
+            family inet6 {
+                address 4555::1/64;
+            }
+        }
+        unit 1887 {
+            vlan-id 1887;
+            family inet {
+                address 45.1.87.1/24;
+            }
+            family inet6 {
+                address 4556::1/64;
+            }
+        }
+        unit 1888 {
+            vlan-id 1888;
+            family inet {
+                address 45.1.88.1/24;
+            }
+            family inet6 {
+                address 4557::1/64;
+            }
+        }
+        unit 1889 {
+            vlan-id 1889;
+            family inet {
+                address 45.1.89.1/24;
+            }
+            family inet6 {
+                address 4558::1/64;
+            }
+        }
+        unit 1890 {
+            vlan-id 1890;
+            family inet {
+                address 45.1.90.1/24;
+            }
+            family inet6 {
+                address 4559::1/64;
+            }
+        }
+        unit 1891 {
+            vlan-id 1891;
+            family inet {
+                address 45.1.91.1/24;
+            }
+            family inet6 {
+                address 455a::1/64;
+            }
+        }
+        unit 1892 {
+            vlan-id 1892;
+            family inet {
+                address 45.1.92.1/24;
+            }
+            family inet6 {
+                address 455b::1/64;
+            }
+        }
+        unit 1893 {
+            vlan-id 1893;
+            family inet {
+                address 45.1.93.1/24;
+            }
+            family inet6 {
+                address 455c::1/64;
+            }
+        }
+        unit 1894 {
+            vlan-id 1894;
+            family inet {
+                address 45.1.94.1/24;
+            }
+            family inet6 {
+                address 455d::1/64;
+            }
+        }
+        unit 1895 {
+            vlan-id 1895;
+            family inet {
+                address 45.1.95.1/24;
+            }
+            family inet6 {
+                address 455e::1/64;
+            }
+        }
+        unit 1896 {
+            vlan-id 1896;
+            family inet {
+                address 45.1.96.1/24;
+            }
+            family inet6 {
+                address 455f::1/64;
+            }
+        }
+        unit 1897 {
+            vlan-id 1897;
+            family inet {
+                address 45.1.97.1/24;
+            }
+            family inet6 {
+                address 4560::1/64;
+            }
+        }
+        unit 1898 {
+            vlan-id 1898;
+            family inet {
+                address 45.1.98.1/24;
+            }
+            family inet6 {
+                address 4561::1/64;
+            }
+        }
+        unit 1899 {
+            vlan-id 1899;
+            family inet {
+                address 45.1.99.1/24;
+            }
+            family inet6 {
+                address 4562::1/64;
+            }
+        }
+        unit 1900 {
+            vlan-id 1900;
+            family inet {
+                address 45.1.100.1/24;
+            }
+            family inet6 {
+                address 4563::1/64;
+            }
+        }
+        unit 2801 {
+            vlan-id 2801;
+            family inet {
+                address 46.1.1.1/24;
+            }
+            family inet6 {
+                address 4600::1/64;
+            }
+        }
+        unit 2802 {
+            vlan-id 2802;
+            family inet {
+                address 46.1.2.1/24;
+            }
+            family inet6 {
+                address 4601::1/64;
+            }
+        }
+        unit 2803 {
+            vlan-id 2803;
+            family inet {
+                address 46.1.3.1/24;
+            }
+            family inet6 {
+                address 4602::1/64;
+            }
+        }
+        unit 2804 {
+            vlan-id 2804;
+            family inet {
+                address 46.1.4.1/24;
+            }
+            family inet6 {
+                address 4603::1/64;
+            }
+        }
+        unit 2805 {
+            vlan-id 2805;
+            family inet {
+                address 46.1.5.1/24;
+            }
+            family inet6 {
+                address 4604::1/64;
+            }
+        }
+        unit 2806 {
+            vlan-id 2806;
+            family inet {
+                address 46.1.6.1/24;
+            }
+            family inet6 {
+                address 4605::1/64;
+            }
+        }
+        unit 2807 {
+            vlan-id 2807;
+            family inet {
+                address 46.1.7.1/24;
+            }
+            family inet6 {
+                address 4606::1/64;
+            }
+        }
+        unit 2808 {
+            vlan-id 2808;
+            family inet {
+                address 46.1.8.1/24;
+            }
+            family inet6 {
+                address 4607::1/64;
+            }
+        }
+        unit 2809 {
+            vlan-id 2809;
+            family inet {
+                address 46.1.9.1/24;
+            }
+            family inet6 {
+                address 4608::1/64;
+            }
+        }
+        unit 2810 {
+            vlan-id 2810;
+            family inet {
+                address 46.1.10.1/24;
+            }
+            family inet6 {
+                address 4609::1/64;
+            }
+        }
+        unit 2811 {
+            vlan-id 2811;
+            family inet {
+                address 46.1.11.1/24;
+            }
+            family inet6 {
+                address 460a::1/64;
+            }
+        }
+        unit 2812 {
+            vlan-id 2812;
+            family inet {
+                address 46.1.12.1/24;
+            }
+            family inet6 {
+                address 460b::1/64;
+            }
+        }
+        unit 2813 {
+            vlan-id 2813;
+            family inet {
+                address 46.1.13.1/24;
+            }
+            family inet6 {
+                address 460c::1/64;
+            }
+        }
+        unit 2814 {
+            vlan-id 2814;
+            family inet {
+                address 46.1.14.1/24;
+            }
+            family inet6 {
+                address 460d::1/64;
+            }
+        }
+        unit 2815 {
+            vlan-id 2815;
+            family inet {
+                address 46.1.15.1/24;
+            }
+            family inet6 {
+                address 460e::1/64;
+            }
+        }
+        unit 2816 {
+            vlan-id 2816;
+            family inet {
+                address 46.1.16.1/24;
+            }
+            family inet6 {
+                address 460f::1/64;
+            }
+        }
+        unit 2817 {
+            vlan-id 2817;
+            family inet {
+                address 46.1.17.1/24;
+            }
+            family inet6 {
+                address 4610::1/64;
+            }
+        }
+        unit 2818 {
+            vlan-id 2818;
+            family inet {
+                address 46.1.18.1/24;
+            }
+            family inet6 {
+                address 4611::1/64;
+            }
+        }
+        unit 2819 {
+            vlan-id 2819;
+            family inet {
+                address 46.1.19.1/24;
+            }
+            family inet6 {
+                address 4612::1/64;
+            }
+        }
+        unit 2820 {
+            vlan-id 2820;
+            family inet {
+                address 46.1.20.1/24;
+            }
+            family inet6 {
+                address 4613::1/64;
+            }
+        }
+        unit 2821 {
+            vlan-id 2821;
+            family inet {
+                address 46.1.21.1/24;
+            }
+            family inet6 {
+                address 4614::1/64;
+            }
+        }
+        unit 2822 {
+            vlan-id 2822;
+            family inet {
+                address 46.1.22.1/24;
+            }
+            family inet6 {
+                address 4615::1/64;
+            }
+        }
+        unit 2823 {
+            vlan-id 2823;
+            family inet {
+                address 46.1.23.1/24;
+            }
+            family inet6 {
+                address 4616::1/64;
+            }
+        }
+        unit 2824 {
+            vlan-id 2824;
+            family inet {
+                address 46.1.24.1/24;
+            }
+            family inet6 {
+                address 4617::1/64;
+            }
+        }
+        unit 2825 {
+            vlan-id 2825;
+            family inet {
+                address 46.1.25.1/24;
+            }
+            family inet6 {
+                address 4618::1/64;
+            }
+        }
+        unit 2826 {
+            vlan-id 2826;
+            family inet {
+                address 46.1.26.1/24;
+            }
+            family inet6 {
+                address 4619::1/64;
+            }
+        }
+        unit 2827 {
+            vlan-id 2827;
+            family inet {
+                address 46.1.27.1/24;
+            }
+            family inet6 {
+                address 461a::1/64;
+            }
+        }
+        unit 2828 {
+            vlan-id 2828;
+            family inet {
+                address 46.1.28.1/24;
+            }
+            family inet6 {
+                address 461b::1/64;
+            }
+        }
+        unit 2829 {
+            vlan-id 2829;
+            family inet {
+                address 46.1.29.1/24;
+            }
+            family inet6 {
+                address 461c::1/64;
+            }
+        }
+        unit 2830 {
+            vlan-id 2830;
+            family inet {
+                address 46.1.30.1/24;
+            }
+            family inet6 {
+                address 461d::1/64;
+            }
+        }
+        unit 2831 {
+            vlan-id 2831;
+            family inet {
+                address 46.1.31.1/24;
+            }
+            family inet6 {
+                address 461e::1/64;
+            }
+        }
+        unit 2832 {
+            vlan-id 2832;
+            family inet {
+                address 46.1.32.1/24;
+            }
+            family inet6 {
+                address 461f::1/64;
+            }
+        }
+        unit 2833 {
+            vlan-id 2833;
+            family inet {
+                address 46.1.33.1/24;
+            }
+            family inet6 {
+                address 4620::1/64;
+            }
+        }
+        unit 2834 {
+            vlan-id 2834;
+            family inet {
+                address 46.1.34.1/24;
+            }
+            family inet6 {
+                address 4621::1/64;
+            }
+        }
+        unit 2835 {
+            vlan-id 2835;
+            family inet {
+                address 46.1.35.1/24;
+            }
+            family inet6 {
+                address 4622::1/64;
+            }
+        }
+        unit 2836 {
+            vlan-id 2836;
+            family inet {
+                address 46.1.36.1/24;
+            }
+            family inet6 {
+                address 4623::1/64;
+            }
+        }
+        unit 2837 {
+            vlan-id 2837;
+            family inet {
+                address 46.1.37.1/24;
+            }
+            family inet6 {
+                address 4624::1/64;
+            }
+        }
+        unit 2838 {
+            vlan-id 2838;
+            family inet {
+                address 46.1.38.1/24;
+            }
+            family inet6 {
+                address 4625::1/64;
+            }
+        }
+        unit 2839 {
+            vlan-id 2839;
+            family inet {
+                address 46.1.39.1/24;
+            }
+            family inet6 {
+                address 4626::1/64;
+            }
+        }
+        unit 2840 {
+            vlan-id 2840;
+            family inet {
+                address 46.1.40.1/24;
+            }
+            family inet6 {
+                address 4627::1/64;
+            }
+        }
+        unit 2841 {
+            vlan-id 2841;
+            family inet {
+                address 46.1.41.1/24;
+            }
+            family inet6 {
+                address 4628::1/64;
+            }
+        }
+        unit 2842 {
+            vlan-id 2842;
+            family inet {
+                address 46.1.42.1/24;
+            }
+            family inet6 {
+                address 4629::1/64;
+            }
+        }
+        unit 2843 {
+            vlan-id 2843;
+            family inet {
+                address 46.1.43.1/24;
+            }
+            family inet6 {
+                address 462a::1/64;
+            }
+        }
+        unit 2844 {
+            vlan-id 2844;
+            family inet {
+                address 46.1.44.1/24;
+            }
+            family inet6 {
+                address 462b::1/64;
+            }
+        }
+        unit 2845 {
+            vlan-id 2845;
+            family inet {
+                address 46.1.45.1/24;
+            }
+            family inet6 {
+                address 462c::1/64;
+            }
+        }
+        unit 2846 {
+            vlan-id 2846;
+            family inet {
+                address 46.1.46.1/24;
+            }
+            family inet6 {
+                address 462d::1/64;
+            }
+        }
+        unit 2847 {
+            vlan-id 2847;
+            family inet {
+                address 46.1.47.1/24;
+            }
+            family inet6 {
+                address 462e::1/64;
+            }
+        }
+        unit 2848 {
+            vlan-id 2848;
+            family inet {
+                address 46.1.48.1/24;
+            }
+            family inet6 {
+                address 462f::1/64;
+            }
+        }
+        unit 2849 {
+            vlan-id 2849;
+            family inet {
+                address 46.1.49.1/24;
+            }
+            family inet6 {
+                address 4630::1/64;
+            }
+        }
+        unit 2850 {
+            vlan-id 2850;
+            family inet {
+                address 46.1.50.1/24;
+            }
+            family inet6 {
+                address 4631::1/64;
+            }
+        }
+        unit 2851 {
+            vlan-id 2851;
+            family inet {
+                address 46.1.51.1/24;
+            }
+            family inet6 {
+                address 4632::1/64;
+            }
+        }
+        unit 2852 {
+            vlan-id 2852;
+            family inet {
+                address 46.1.52.1/24;
+            }
+            family inet6 {
+                address 4633::1/64;
+            }
+        }
+        unit 2853 {
+            vlan-id 2853;
+            family inet {
+                address 46.1.53.1/24;
+            }
+            family inet6 {
+                address 4634::1/64;
+            }
+        }
+        unit 2854 {
+            vlan-id 2854;
+            family inet {
+                address 46.1.54.1/24;
+            }
+            family inet6 {
+                address 4635::1/64;
+            }
+        }
+        unit 2855 {
+            vlan-id 2855;
+            family inet {
+                address 46.1.55.1/24;
+            }
+            family inet6 {
+                address 4636::1/64;
+            }
+        }
+        unit 2856 {
+            vlan-id 2856;
+            family inet {
+                address 46.1.56.1/24;
+            }
+            family inet6 {
+                address 4637::1/64;
+            }
+        }
+        unit 2857 {
+            vlan-id 2857;
+            family inet {
+                address 46.1.57.1/24;
+            }
+            family inet6 {
+                address 4638::1/64;
+            }
+        }
+        unit 2858 {
+            vlan-id 2858;
+            family inet {
+                address 46.1.58.1/24;
+            }
+            family inet6 {
+                address 4639::1/64;
+            }
+        }
+        unit 2859 {
+            vlan-id 2859;
+            family inet {
+                address 46.1.59.1/24;
+            }
+            family inet6 {
+                address 463a::1/64;
+            }
+        }
+        unit 2860 {
+            vlan-id 2860;
+            family inet {
+                address 46.1.60.1/24;
+            }
+            family inet6 {
+                address 463b::1/64;
+            }
+        }
+        unit 2861 {
+            vlan-id 2861;
+            family inet {
+                address 46.1.61.1/24;
+            }
+            family inet6 {
+                address 463c::1/64;
+            }
+        }
+        unit 2862 {
+            vlan-id 2862;
+            family inet {
+                address 46.1.62.1/24;
+            }
+            family inet6 {
+                address 463d::1/64;
+            }
+        }
+        unit 2863 {
+            vlan-id 2863;
+            family inet {
+                address 46.1.63.1/24;
+            }
+            family inet6 {
+                address 463e::1/64;
+            }
+        }
+        unit 2864 {
+            vlan-id 2864;
+            family inet {
+                address 46.1.64.1/24;
+            }
+            family inet6 {
+                address 463f::1/64;
+            }
+        }
+        unit 2865 {
+            vlan-id 2865;
+            family inet {
+                address 46.1.65.1/24;
+            }
+            family inet6 {
+                address 4640::1/64;
+            }
+        }
+        unit 2866 {
+            vlan-id 2866;
+            family inet {
+                address 46.1.66.1/24;
+            }
+            family inet6 {
+                address 4641::1/64;
+            }
+        }
+        unit 2867 {
+            vlan-id 2867;
+            family inet {
+                address 46.1.67.1/24;
+            }
+            family inet6 {
+                address 4642::1/64;
+            }
+        }
+        unit 2868 {
+            vlan-id 2868;
+            family inet {
+                address 46.1.68.1/24;
+            }
+            family inet6 {
+                address 4643::1/64;
+            }
+        }
+        unit 2869 {
+            vlan-id 2869;
+            family inet {
+                address 46.1.69.1/24;
+            }
+            family inet6 {
+                address 4644::1/64;
+            }
+        }
+        unit 2870 {
+            vlan-id 2870;
+            family inet {
+                address 46.1.70.1/24;
+            }
+            family inet6 {
+                address 4645::1/64;
+            }
+        }
+        unit 2871 {
+            vlan-id 2871;
+            family inet {
+                address 46.1.71.1/24;
+            }
+            family inet6 {
+                address 4646::1/64;
+            }
+        }
+        unit 2872 {
+            vlan-id 2872;
+            family inet {
+                address 46.1.72.1/24;
+            }
+            family inet6 {
+                address 4647::1/64;
+            }
+        }
+        unit 2873 {
+            vlan-id 2873;
+            family inet {
+                address 46.1.73.1/24;
+            }
+            family inet6 {
+                address 4648::1/64;
+            }
+        }
+        unit 2874 {
+            vlan-id 2874;
+            family inet {
+                address 46.1.74.1/24;
+            }
+            family inet6 {
+                address 4649::1/64;
+            }
+        }
+        unit 2875 {
+            vlan-id 2875;
+            family inet {
+                address 46.1.75.1/24;
+            }
+            family inet6 {
+                address 464a::1/64;
+            }
+        }
+        unit 2876 {
+            vlan-id 2876;
+            family inet {
+                address 46.1.76.1/24;
+            }
+            family inet6 {
+                address 464b::1/64;
+            }
+        }
+        unit 2877 {
+            vlan-id 2877;
+            family inet {
+                address 46.1.77.1/24;
+            }
+            family inet6 {
+                address 464c::1/64;
+            }
+        }
+        unit 2878 {
+            vlan-id 2878;
+            family inet {
+                address 46.1.78.1/24;
+            }
+            family inet6 {
+                address 464d::1/64;
+            }
+        }
+        unit 2879 {
+            vlan-id 2879;
+            family inet {
+                address 46.1.79.1/24;
+            }
+            family inet6 {
+                address 464e::1/64;
+            }
+        }
+        unit 2880 {
+            vlan-id 2880;
+            family inet {
+                address 46.1.80.1/24;
+            }
+            family inet6 {
+                address 464f::1/64;
+            }
+        }
+        unit 2881 {
+            vlan-id 2881;
+            family inet {
+                address 46.1.81.1/24;
+            }
+            family inet6 {
+                address 4650::1/64;
+            }
+        }
+        unit 2882 {
+            vlan-id 2882;
+            family inet {
+                address 46.1.82.1/24;
+            }
+            family inet6 {
+                address 4651::1/64;
+            }
+        }
+        unit 2883 {
+            vlan-id 2883;
+            family inet {
+                address 46.1.83.1/24;
+            }
+            family inet6 {
+                address 4652::1/64;
+            }
+        }
+        unit 2884 {
+            vlan-id 2884;
+            family inet {
+                address 46.1.84.1/24;
+            }
+            family inet6 {
+                address 4653::1/64;
+            }
+        }
+        unit 2885 {
+            vlan-id 2885;
+            family inet {
+                address 46.1.85.1/24;
+            }
+            family inet6 {
+                address 4654::1/64;
+            }
+        }
+        unit 2886 {
+            vlan-id 2886;
+            family inet {
+                address 46.1.86.1/24;
+            }
+            family inet6 {
+                address 4655::1/64;
+            }
+        }
+        unit 2887 {
+            vlan-id 2887;
+            family inet {
+                address 46.1.87.1/24;
+            }
+            family inet6 {
+                address 4656::1/64;
+            }
+        }
+        unit 2888 {
+            vlan-id 2888;
+            family inet {
+                address 46.1.88.1/24;
+            }
+            family inet6 {
+                address 4657::1/64;
+            }
+        }
+        unit 2889 {
+            vlan-id 2889;
+            family inet {
+                address 46.1.89.1/24;
+            }
+            family inet6 {
+                address 4658::1/64;
+            }
+        }
+        unit 2890 {
+            vlan-id 2890;
+            family inet {
+                address 46.1.90.1/24;
+            }
+            family inet6 {
+                address 4659::1/64;
+            }
+        }
+        unit 2891 {
+            vlan-id 2891;
+            family inet {
+                address 46.1.91.1/24;
+            }
+            family inet6 {
+                address 465a::1/64;
+            }
+        }
+        unit 2892 {
+            vlan-id 2892;
+            family inet {
+                address 46.1.92.1/24;
+            }
+            family inet6 {
+                address 465b::1/64;
+            }
+        }
+        unit 2893 {
+            vlan-id 2893;
+            family inet {
+                address 46.1.93.1/24;
+            }
+            family inet6 {
+                address 465c::1/64;
+            }
+        }
+        unit 2894 {
+            vlan-id 2894;
+            family inet {
+                address 46.1.94.1/24;
+            }
+            family inet6 {
+                address 465d::1/64;
+            }
+        }
+        unit 2895 {
+            vlan-id 2895;
+            family inet {
+                address 46.1.95.1/24;
+            }
+            family inet6 {
+                address 465e::1/64;
+            }
+        }
+        unit 2896 {
+            vlan-id 2896;
+            family inet {
+                address 46.1.96.1/24;
+            }
+            family inet6 {
+                address 465f::1/64;
+            }
+        }
+        unit 2897 {
+            vlan-id 2897;
+            family inet {
+                address 46.1.97.1/24;
+            }
+            family inet6 {
+                address 4660::1/64;
+            }
+        }
+        unit 2898 {
+            vlan-id 2898;
+            family inet {
+                address 46.1.98.1/24;
+            }
+            family inet6 {
+                address 4661::1/64;
+            }
+        }
+        unit 2899 {
+            vlan-id 2899;
+            family inet {
+                address 46.1.99.1/24;
+            }
+            family inet6 {
+                address 4662::1/64;
+            }
+        }
+        unit 2900 {
+            vlan-id 2900;
+            family inet {
+                address 46.1.100.1/24;
+            }
+            family inet6 {
+                address 4663::1/64;
+            }
+        }
+    }
+    ae4 {
+        description "P2 Node to WANEdge4";
+        flexible-vlan-tagging;
+        mtu 1522;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 192.168.45.1/24;
+            }
+            family inet6 {
+                address 6000::1/68;
+            }
+            family mpls;
+        }
+        unit 1801 {
+            vlan-id 1801;
+            family inet;
+            family inet6;
+        }
+        unit 1802 {
+            vlan-id 1802;
+            family inet;
+            family inet6;
+        }
+        unit 1803 {
+            vlan-id 1803;
+            family inet;
+            family inet6;
+        }
+        unit 1804 {
+            vlan-id 1804;
+            family inet;
+            family inet6;
+        }
+        unit 1805 {
+            vlan-id 1805;
+            family inet;
+            family inet6;
+        }
+        unit 1806 {
+            vlan-id 1806;
+            family inet;
+            family inet6;
+        }
+        unit 1807 {
+            vlan-id 1807;
+            family inet;
+            family inet6;
+        }
+        unit 1808 {
+            vlan-id 1808;
+            family inet;
+            family inet6;
+        }
+        unit 1809 {
+            vlan-id 1809;
+            family inet;
+            family inet6;
+        }
+        unit 1810 {
+            vlan-id 1810;
+            family inet;
+            family inet6;
+        }
+        unit 1811 {
+            vlan-id 1811;
+            family inet;
+            family inet6;
+        }
+        unit 1812 {
+            vlan-id 1812;
+            family inet;
+            family inet6;
+        }
+        unit 1813 {
+            vlan-id 1813;
+            family inet;
+            family inet6;
+        }
+        unit 1814 {
+            vlan-id 1814;
+            family inet;
+            family inet6;
+        }
+        unit 1815 {
+            vlan-id 1815;
+            family inet;
+            family inet6;
+        }
+        unit 1816 {
+            vlan-id 1816;
+            family inet;
+            family inet6;
+        }
+        unit 1817 {
+            vlan-id 1817;
+            family inet;
+            family inet6;
+        }
+        unit 1818 {
+            vlan-id 1818;
+            family inet;
+            family inet6;
+        }
+        unit 1819 {
+            vlan-id 1819;
+            family inet;
+            family inet6;
+        }
+        unit 1820 {
+            vlan-id 1820;
+            family inet;
+            family inet6;
+        }
+        unit 1821 {
+            vlan-id 1821;
+            family inet;
+            family inet6;
+        }
+        unit 1822 {
+            vlan-id 1822;
+            family inet;
+            family inet6;
+        }
+        unit 1823 {
+            vlan-id 1823;
+            family inet;
+            family inet6;
+        }
+        unit 1824 {
+            vlan-id 1824;
+            family inet;
+            family inet6;
+        }
+        unit 1825 {
+            vlan-id 1825;
+            family inet;
+            family inet6;
+        }
+        unit 1826 {
+            vlan-id 1826;
+            family inet;
+            family inet6;
+        }
+        unit 1827 {
+            vlan-id 1827;
+            family inet;
+            family inet6;
+        }
+        unit 1828 {
+            vlan-id 1828;
+            family inet;
+            family inet6;
+        }
+        unit 1829 {
+            vlan-id 1829;
+            family inet;
+            family inet6;
+        }
+        unit 1830 {
+            vlan-id 1830;
+            family inet;
+            family inet6;
+        }
+        unit 1831 {
+            vlan-id 1831;
+            family inet;
+            family inet6;
+        }
+        unit 1832 {
+            vlan-id 1832;
+            family inet;
+            family inet6;
+        }
+        unit 1833 {
+            vlan-id 1833;
+            family inet;
+            family inet6;
+        }
+        unit 1834 {
+            vlan-id 1834;
+            family inet;
+            family inet6;
+        }
+        unit 1835 {
+            vlan-id 1835;
+            family inet;
+            family inet6;
+        }
+        unit 1836 {
+            vlan-id 1836;
+            family inet;
+            family inet6;
+        }
+        unit 1837 {
+            vlan-id 1837;
+            family inet;
+            family inet6;
+        }
+        unit 1838 {
+            vlan-id 1838;
+            family inet;
+            family inet6;
+        }
+        unit 1839 {
+            vlan-id 1839;
+            family inet;
+            family inet6;
+        }
+        unit 1840 {
+            vlan-id 1840;
+            family inet;
+            family inet6;
+        }
+        unit 1841 {
+            vlan-id 1841;
+            family inet;
+            family inet6;
+        }
+        unit 1842 {
+            vlan-id 1842;
+            family inet;
+            family inet6;
+        }
+        unit 1843 {
+            vlan-id 1843;
+            family inet;
+            family inet6;
+        }
+        unit 1844 {
+            vlan-id 1844;
+            family inet;
+            family inet6;
+        }
+        unit 1845 {
+            vlan-id 1845;
+            family inet;
+            family inet6;
+        }
+        unit 1846 {
+            vlan-id 1846;
+            family inet;
+            family inet6;
+        }
+        unit 1847 {
+            vlan-id 1847;
+            family inet;
+            family inet6;
+        }
+        unit 1848 {
+            vlan-id 1848;
+            family inet;
+            family inet6;
+        }
+        unit 1849 {
+            vlan-id 1849;
+            family inet;
+            family inet6;
+        }
+        unit 1850 {
+            vlan-id 1850;
+            family inet;
+            family inet6;
+        }
+        unit 1851 {
+            vlan-id 1851;
+            family inet;
+            family inet6;
+        }
+        unit 1852 {
+            vlan-id 1852;
+            family inet;
+            family inet6;
+        }
+        unit 1853 {
+            vlan-id 1853;
+            family inet;
+            family inet6;
+        }
+        unit 1854 {
+            vlan-id 1854;
+            family inet;
+            family inet6;
+        }
+        unit 1855 {
+            vlan-id 1855;
+            family inet;
+            family inet6;
+        }
+        unit 1856 {
+            vlan-id 1856;
+            family inet;
+            family inet6;
+        }
+        unit 1857 {
+            vlan-id 1857;
+            family inet;
+            family inet6;
+        }
+        unit 1858 {
+            vlan-id 1858;
+            family inet;
+            family inet6;
+        }
+        unit 1859 {
+            vlan-id 1859;
+            family inet;
+            family inet6;
+        }
+        unit 1860 {
+            vlan-id 1860;
+            family inet;
+            family inet6;
+        }
+        unit 1861 {
+            vlan-id 1861;
+            family inet;
+            family inet6;
+        }
+        unit 1862 {
+            vlan-id 1862;
+            family inet;
+            family inet6;
+        }
+        unit 1863 {
+            vlan-id 1863;
+            family inet;
+            family inet6;
+        }
+        unit 1864 {
+            vlan-id 1864;
+            family inet;
+            family inet6;
+        }
+        unit 1865 {
+            vlan-id 1865;
+            family inet;
+            family inet6;
+        }
+        unit 1866 {
+            vlan-id 1866;
+            family inet;
+            family inet6;
+        }
+        unit 1867 {
+            vlan-id 1867;
+            family inet;
+            family inet6;
+        }
+        unit 1868 {
+            vlan-id 1868;
+            family inet;
+            family inet6;
+        }
+        unit 1869 {
+            vlan-id 1869;
+            family inet;
+            family inet6;
+        }
+        unit 1870 {
+            vlan-id 1870;
+            family inet;
+            family inet6;
+        }
+        unit 1871 {
+            vlan-id 1871;
+            family inet;
+            family inet6;
+        }
+        unit 1872 {
+            vlan-id 1872;
+            family inet;
+            family inet6;
+        }
+        unit 1873 {
+            vlan-id 1873;
+            family inet;
+            family inet6;
+        }
+        unit 1874 {
+            vlan-id 1874;
+            family inet;
+            family inet6;
+        }
+        unit 1875 {
+            vlan-id 1875;
+            family inet;
+            family inet6;
+        }
+        unit 1876 {
+            vlan-id 1876;
+            family inet;
+            family inet6;
+        }
+        unit 1877 {
+            vlan-id 1877;
+            family inet;
+            family inet6;
+        }
+        unit 1878 {
+            vlan-id 1878;
+            family inet;
+            family inet6;
+        }
+        unit 1879 {
+            vlan-id 1879;
+            family inet;
+            family inet6;
+        }
+        unit 1880 {
+            vlan-id 1880;
+            family inet;
+            family inet6;
+        }
+        unit 1881 {
+            vlan-id 1881;
+            family inet;
+            family inet6;
+        }
+        unit 1882 {
+            vlan-id 1882;
+            family inet;
+            family inet6;
+        }
+        unit 1883 {
+            vlan-id 1883;
+            family inet;
+            family inet6;
+        }
+        unit 1884 {
+            vlan-id 1884;
+            family inet;
+            family inet6;
+        }
+        unit 1885 {
+            vlan-id 1885;
+            family inet;
+            family inet6;
+        }
+        unit 1886 {
+            vlan-id 1886;
+            family inet;
+            family inet6;
+        }
+        unit 1887 {
+            vlan-id 1887;
+            family inet;
+            family inet6;
+        }
+        unit 1888 {
+            vlan-id 1888;
+            family inet;
+            family inet6;
+        }
+        unit 1889 {
+            vlan-id 1889;
+            family inet;
+            family inet6;
+        }
+        unit 1890 {
+            vlan-id 1890;
+            family inet;
+            family inet6;
+        }
+        unit 1891 {
+            vlan-id 1891;
+            family inet;
+            family inet6;
+        }
+        unit 1892 {
+            vlan-id 1892;
+            family inet;
+            family inet6;
+        }
+        unit 1893 {
+            vlan-id 1893;
+            family inet;
+            family inet6;
+        }
+        unit 1894 {
+            vlan-id 1894;
+            family inet;
+            family inet6;
+        }
+        unit 1895 {
+            vlan-id 1895;
+            family inet;
+            family inet6;
+        }
+        unit 1896 {
+            vlan-id 1896;
+            family inet;
+            family inet6;
+        }
+        unit 1897 {
+            vlan-id 1897;
+            family inet;
+            family inet6;
+        }
+        unit 1898 {
+            vlan-id 1898;
+            family inet;
+            family inet6;
+        }
+        unit 1899 {
+            vlan-id 1899;
+            family inet;
+            family inet6;
+        }
+        unit 1900 {
+            vlan-id 1900;
+            family inet;
+            family inet6;
+        }
+        unit 2801 {
+            vlan-id 2801;
+            family inet {
+                address 56.1.1.1/24;
+            }
+            family inet6;
+        }
+        unit 2802 {
+            vlan-id 2802;
+            family inet {
+                address 56.1.2.1/24;
+            }
+            family inet6;
+        }
+        unit 2803 {
+            vlan-id 2803;
+            family inet {
+                address 56.1.3.1/24;
+            }
+            family inet6;
+        }
+        unit 2804 {
+            vlan-id 2804;
+            family inet {
+                address 56.1.4.1/24;
+            }
+            family inet6;
+        }
+        unit 2805 {
+            vlan-id 2805;
+            family inet {
+                address 56.1.5.1/24;
+            }
+            family inet6;
+        }
+        unit 2806 {
+            vlan-id 2806;
+            family inet {
+                address 56.1.6.1/24;
+            }
+            family inet6;
+        }
+        unit 2807 {
+            vlan-id 2807;
+            family inet {
+                address 56.1.7.1/24;
+            }
+            family inet6;
+        }
+        unit 2808 {
+            vlan-id 2808;
+            family inet {
+                address 56.1.8.1/24;
+            }
+            family inet6;
+        }
+        unit 2809 {
+            vlan-id 2809;
+            family inet {
+                address 56.1.9.1/24;
+            }
+            family inet6;
+        }
+        unit 2810 {
+            vlan-id 2810;
+            family inet {
+                address 56.1.10.1/24;
+            }
+            family inet6;
+        }
+        unit 2811 {
+            vlan-id 2811;
+            family inet {
+                address 56.1.11.1/24;
+            }
+            family inet6;
+        }
+        unit 2812 {
+            vlan-id 2812;
+            family inet {
+                address 56.1.12.1/24;
+            }
+            family inet6;
+        }
+        unit 2813 {
+            vlan-id 2813;
+            family inet {
+                address 56.1.13.1/24;
+            }
+            family inet6;
+        }
+        unit 2814 {
+            vlan-id 2814;
+            family inet {
+                address 56.1.14.1/24;
+            }
+            family inet6;
+        }
+        unit 2815 {
+            vlan-id 2815;
+            family inet {
+                address 56.1.15.1/24;
+            }
+            family inet6;
+        }
+        unit 2816 {
+            vlan-id 2816;
+            family inet {
+                address 56.1.16.1/24;
+            }
+            family inet6;
+        }
+        unit 2817 {
+            vlan-id 2817;
+            family inet {
+                address 56.1.17.1/24;
+            }
+            family inet6;
+        }
+        unit 2818 {
+            vlan-id 2818;
+            family inet {
+                address 56.1.18.1/24;
+            }
+            family inet6;
+        }
+        unit 2819 {
+            vlan-id 2819;
+            family inet {
+                address 56.1.19.1/24;
+            }
+            family inet6;
+        }
+        unit 2820 {
+            vlan-id 2820;
+            family inet {
+                address 56.1.20.1/24;
+            }
+            family inet6;
+        }
+        unit 2821 {
+            vlan-id 2821;
+            family inet {
+                address 56.1.21.1/24;
+            }
+            family inet6;
+        }
+        unit 2822 {
+            vlan-id 2822;
+            family inet {
+                address 56.1.22.1/24;
+            }
+            family inet6;
+        }
+        unit 2823 {
+            vlan-id 2823;
+            family inet {
+                address 56.1.23.1/24;
+            }
+            family inet6;
+        }
+        unit 2824 {
+            vlan-id 2824;
+            family inet {
+                address 56.1.24.1/24;
+            }
+            family inet6;
+        }
+        unit 2825 {
+            vlan-id 2825;
+            family inet {
+                address 56.1.25.1/24;
+            }
+            family inet6;
+        }
+        unit 2826 {
+            vlan-id 2826;
+            family inet {
+                address 56.1.26.1/24;
+            }
+            family inet6;
+        }
+        unit 2827 {
+            vlan-id 2827;
+            family inet {
+                address 56.1.27.1/24;
+            }
+            family inet6;
+        }
+        unit 2828 {
+            vlan-id 2828;
+            family inet {
+                address 56.1.28.1/24;
+            }
+            family inet6;
+        }
+        unit 2829 {
+            vlan-id 2829;
+            family inet {
+                address 56.1.29.1/24;
+            }
+            family inet6;
+        }
+        unit 2830 {
+            vlan-id 2830;
+            family inet {
+                address 56.1.30.1/24;
+            }
+            family inet6;
+        }
+        unit 2831 {
+            vlan-id 2831;
+            family inet {
+                address 56.1.31.1/24;
+            }
+            family inet6;
+        }
+        unit 2832 {
+            vlan-id 2832;
+            family inet {
+                address 56.1.32.1/24;
+            }
+            family inet6;
+        }
+        unit 2833 {
+            vlan-id 2833;
+            family inet {
+                address 56.1.33.1/24;
+            }
+            family inet6;
+        }
+        unit 2834 {
+            vlan-id 2834;
+            family inet {
+                address 56.1.34.1/24;
+            }
+            family inet6;
+        }
+        unit 2835 {
+            vlan-id 2835;
+            family inet {
+                address 56.1.35.1/24;
+            }
+            family inet6;
+        }
+        unit 2836 {
+            vlan-id 2836;
+            family inet {
+                address 56.1.36.1/24;
+            }
+            family inet6;
+        }
+        unit 2837 {
+            vlan-id 2837;
+            family inet {
+                address 56.1.37.1/24;
+            }
+            family inet6;
+        }
+        unit 2838 {
+            vlan-id 2838;
+            family inet {
+                address 56.1.38.1/24;
+            }
+            family inet6;
+        }
+        unit 2839 {
+            vlan-id 2839;
+            family inet {
+                address 56.1.39.1/24;
+            }
+            family inet6;
+        }
+        unit 2840 {
+            vlan-id 2840;
+            family inet {
+                address 56.1.40.1/24;
+            }
+            family inet6;
+        }
+        unit 2841 {
+            vlan-id 2841;
+            family inet {
+                address 56.1.41.1/24;
+            }
+            family inet6;
+        }
+        unit 2842 {
+            vlan-id 2842;
+            family inet {
+                address 56.1.42.1/24;
+            }
+            family inet6;
+        }
+        unit 2843 {
+            vlan-id 2843;
+            family inet {
+                address 56.1.43.1/24;
+            }
+            family inet6;
+        }
+        unit 2844 {
+            vlan-id 2844;
+            family inet {
+                address 56.1.44.1/24;
+            }
+            family inet6;
+        }
+        unit 2845 {
+            vlan-id 2845;
+            family inet {
+                address 56.1.45.1/24;
+            }
+            family inet6;
+        }
+        unit 2846 {
+            vlan-id 2846;
+            family inet {
+                address 56.1.46.1/24;
+            }
+            family inet6;
+        }
+        unit 2847 {
+            vlan-id 2847;
+            family inet {
+                address 56.1.47.1/24;
+            }
+            family inet6;
+        }
+        unit 2848 {
+            vlan-id 2848;
+            family inet {
+                address 56.1.48.1/24;
+            }
+            family inet6;
+        }
+        unit 2849 {
+            vlan-id 2849;
+            family inet {
+                address 56.1.49.1/24;
+            }
+            family inet6;
+        }
+        unit 2850 {
+            vlan-id 2850;
+            family inet {
+                address 56.1.50.1/24;
+            }
+            family inet6;
+        }
+        unit 2851 {
+            vlan-id 2851;
+            family inet {
+                address 56.1.51.1/24;
+            }
+            family inet6;
+        }
+        unit 2852 {
+            vlan-id 2852;
+            family inet {
+                address 56.1.52.1/24;
+            }
+            family inet6;
+        }
+        unit 2853 {
+            vlan-id 2853;
+            family inet {
+                address 56.1.53.1/24;
+            }
+            family inet6;
+        }
+        unit 2854 {
+            vlan-id 2854;
+            family inet {
+                address 56.1.54.1/24;
+            }
+            family inet6;
+        }
+        unit 2855 {
+            vlan-id 2855;
+            family inet {
+                address 56.1.55.1/24;
+            }
+            family inet6;
+        }
+        unit 2856 {
+            vlan-id 2856;
+            family inet {
+                address 56.1.56.1/24;
+            }
+            family inet6;
+        }
+        unit 2857 {
+            vlan-id 2857;
+            family inet {
+                address 56.1.57.1/24;
+            }
+            family inet6;
+        }
+        unit 2858 {
+            vlan-id 2858;
+            family inet {
+                address 56.1.58.1/24;
+            }
+            family inet6;
+        }
+        unit 2859 {
+            vlan-id 2859;
+            family inet {
+                address 56.1.59.1/24;
+            }
+            family inet6;
+        }
+        unit 2860 {
+            vlan-id 2860;
+            family inet {
+                address 56.1.60.1/24;
+            }
+            family inet6;
+        }
+        unit 2861 {
+            vlan-id 2861;
+            family inet {
+                address 56.1.61.1/24;
+            }
+            family inet6;
+        }
+        unit 2862 {
+            vlan-id 2862;
+            family inet {
+                address 56.1.62.1/24;
+            }
+            family inet6;
+        }
+        unit 2863 {
+            vlan-id 2863;
+            family inet {
+                address 56.1.63.1/24;
+            }
+            family inet6;
+        }
+        unit 2864 {
+            vlan-id 2864;
+            family inet {
+                address 56.1.64.1/24;
+            }
+            family inet6;
+        }
+        unit 2865 {
+            vlan-id 2865;
+            family inet {
+                address 56.1.65.1/24;
+            }
+            family inet6;
+        }
+        unit 2866 {
+            vlan-id 2866;
+            family inet {
+                address 56.1.66.1/24;
+            }
+            family inet6;
+        }
+        unit 2867 {
+            vlan-id 2867;
+            family inet {
+                address 56.1.67.1/24;
+            }
+            family inet6;
+        }
+        unit 2868 {
+            vlan-id 2868;
+            family inet {
+                address 56.1.68.1/24;
+            }
+            family inet6;
+        }
+        unit 2869 {
+            vlan-id 2869;
+            family inet {
+                address 56.1.69.1/24;
+            }
+            family inet6;
+        }
+        unit 2870 {
+            vlan-id 2870;
+            family inet {
+                address 56.1.70.1/24;
+            }
+            family inet6;
+        }
+        unit 2871 {
+            vlan-id 2871;
+            family inet {
+                address 56.1.71.1/24;
+            }
+            family inet6;
+        }
+        unit 2872 {
+            vlan-id 2872;
+            family inet {
+                address 56.1.72.1/24;
+            }
+            family inet6;
+        }
+        unit 2873 {
+            vlan-id 2873;
+            family inet {
+                address 56.1.73.1/24;
+            }
+            family inet6;
+        }
+        unit 2874 {
+            vlan-id 2874;
+            family inet {
+                address 56.1.74.1/24;
+            }
+            family inet6;
+        }
+        unit 2875 {
+            vlan-id 2875;
+            family inet {
+                address 56.1.75.1/24;
+            }
+            family inet6;
+        }
+        unit 2876 {
+            vlan-id 2876;
+            family inet {
+                address 56.1.76.1/24;
+            }
+            family inet6;
+        }
+        unit 2877 {
+            vlan-id 2877;
+            family inet {
+                address 56.1.77.1/24;
+            }
+            family inet6;
+        }
+        unit 2878 {
+            vlan-id 2878;
+            family inet {
+                address 56.1.78.1/24;
+            }
+            family inet6;
+        }
+        unit 2879 {
+            vlan-id 2879;
+            family inet {
+                address 56.1.79.1/24;
+            }
+            family inet6;
+        }
+        unit 2880 {
+            vlan-id 2880;
+            family inet {
+                address 56.1.80.1/24;
+            }
+            family inet6;
+        }
+        unit 2881 {
+            vlan-id 2881;
+            family inet {
+                address 56.1.81.1/24;
+            }
+            family inet6;
+        }
+        unit 2882 {
+            vlan-id 2882;
+            family inet {
+                address 56.1.82.1/24;
+            }
+            family inet6;
+        }
+        unit 2883 {
+            vlan-id 2883;
+            family inet {
+                address 56.1.83.1/24;
+            }
+            family inet6;
+        }
+        unit 2884 {
+            vlan-id 2884;
+            family inet {
+                address 56.1.84.1/24;
+            }
+            family inet6;
+        }
+        unit 2885 {
+            vlan-id 2885;
+            family inet {
+                address 56.1.85.1/24;
+            }
+            family inet6;
+        }
+        unit 2886 {
+            vlan-id 2886;
+            family inet {
+                address 56.1.86.1/24;
+            }
+            family inet6;
+        }
+        unit 2887 {
+            vlan-id 2887;
+            family inet {
+                address 56.1.87.1/24;
+            }
+            family inet6;
+        }
+        unit 2888 {
+            vlan-id 2888;
+            family inet {
+                address 56.1.88.1/24;
+            }
+            family inet6;
+        }
+        unit 2889 {
+            vlan-id 2889;
+            family inet {
+                address 56.1.89.1/24;
+            }
+            family inet6;
+        }
+        unit 2890 {
+            vlan-id 2890;
+            family inet {
+                address 56.1.90.1/24;
+            }
+            family inet6;
+        }
+        unit 2891 {
+            vlan-id 2891;
+            family inet {
+                address 56.1.91.1/24;
+            }
+            family inet6;
+        }
+        unit 2892 {
+            vlan-id 2892;
+            family inet {
+                address 56.1.92.1/24;
+            }
+            family inet6;
+        }
+        unit 2893 {
+            vlan-id 2893;
+            family inet {
+                address 56.1.93.1/24;
+            }
+            family inet6;
+        }
+        unit 2894 {
+            vlan-id 2894;
+            family inet {
+                address 56.1.94.1/24;
+            }
+            family inet6;
+        }
+        unit 2895 {
+            vlan-id 2895;
+            family inet {
+                address 56.1.95.1/24;
+            }
+            family inet6;
+        }
+        unit 2896 {
+            vlan-id 2896;
+            family inet {
+                address 56.1.96.1/24;
+            }
+            family inet6;
+        }
+        unit 2897 {
+            vlan-id 2897;
+            family inet {
+                address 56.1.97.1/24;
+            }
+            family inet6;
+        }
+        unit 2898 {
+            vlan-id 2898;
+            family inet {
+                address 56.1.98.1/24;
+            }
+            family inet6;
+        }
+        unit 2899 {
+            vlan-id 2899;
+            family inet {
+                address 56.1.99.1/24;
+            }
+            family inet6;
+        }
+        unit 2900 {
+            vlan-id 2900;
+            family inet {
+                address 56.1.100.1/24;
+            }
+            family inet6;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 6.6.6.6/32;
+            }
+        }
+    }
+}
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
+    }
+}
+policy-options {
+    policy-statement pplb {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+    policy-statement send-ospf {
+        term 2 {
+            from protocol ospf;
+            then accept;
+        }
+    }
+}
+class-of-service {
+    classifiers {
+        exp EXP {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-points 000;
+            }
+            forwarding-class BUSINESS {
+                loss-priority high code-points 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points 111;
+            }
+            forwarding-class LOW {
+                loss-priority low code-points 001;
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-points 010;
+            }
+            forwarding-class NETWORK {
+                loss-priority low code-points 110;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority high code-points 011;
+            }
+        }
+    }
+    forwarding-classes {
+        class BEST-EFFORT queue-num 0;
+        class BUSINESS queue-num 4;
+        class CONTROL queue-num 7;
+        class LOW queue-num 1;
+        class MEDIUM queue-num 2;
+        class NETWORK queue-num 6;
+        class REALTIME queue-num 5;
+        class SIG-OAM queue-num 3;
+    }
+    interfaces {
+        et-0/0/4 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        et-0/0/9 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        et-0/2/8 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        ae4 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        exp EXP-REWRITE {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-point 000;
+            }
+            forwarding-class BUSINESS {
+                loss-priority high code-point 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-point 111;
+            }
+            forwarding-class LOW {
+                loss-priority low code-point 001;
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-point 010;
+            }
+            forwarding-class NETWORK {
+                loss-priority high code-point 110;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-point 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority high code-point 011;
+            }
+        }
+    }
+}
+routing-options {
+    source-packet-routing {
+        mapping-server-entry ospf-mapping-server {
+            prefix-segment-range ldp-lo1 {
+                start-prefix 4.4.4.4/32;
+                start-index 1000;
+                size 10;
+            }
+        }
+    }
+    router-id 6.6.6.6;
+    autonomous-system 64512;
+    forwarding-table {
+        export pplb;
+    }
+}
+protocols {
+    bgp {
+        group ibgp {
+            type internal;
+            local-address 6.6.6.6;
+            family inet {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            cluster 6.6.6.6;
+            local-as 64512;
+            graceful-restart;
+            multipath;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 2.2.2.2;
+            neighbor 4.4.4.4;
+            neighbor 5.5.5.5;
+            neighbor 7.7.7.7;
+        }
+    }
+    ldp {
+        interface et-0/0/9.0;
+        interface lo0.0;
+        sr-mapping-client;
+    }
+    mpls {
+        interface et-0/0/4.0;
+        interface et-0/2/8.0;
+        interface et-0/0/9.0;
+        interface ae4.0;
+    }
+    ospf {
+        backup-spf-options {
+            use-post-convergence-lfa {
+                maximum-labels 8;
+                maximum-backup-paths 5;
+            }
+            use-source-packet-routing;
+        }
+        traffic-engineering;
+        source-packet-routing {
+            node-segment ipv4-index 106;
+            srgb start-label 16000 index-range 8000;
+            mapping-server ospf-mapping-server;
+            install-prefix-sid-for-best-route;
+            ldp-stitching;
+        }
+        area 0.0.0.0 {
+            interface et-0/0/4.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface ae4.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface et-0/2/8.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface et-0/0/9.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                ldp-synchronization;
+            }
+            interface fxp0.0 {
+                disable;
+            }
+            interface em0.0 {
+                disable;
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+        area 0.0.0.1 {
+            interface et-0/2/8.2801;
+            interface ae4.2801;
+        }
+        area 0.0.0.2 {
+            interface et-0/2/8.2802;
+            interface ae4.2802;
+        }
+        area 0.0.0.3 {
+            interface et-0/2/8.2803;
+            interface ae4.2803;
+        }
+        area 0.0.0.4 {
+            interface et-0/2/8.2804;
+            interface ae4.2804;
+        }
+        area 0.0.0.5 {
+            interface et-0/2/8.2805;
+            interface ae4.2805;
+        }
+        area 0.0.0.6 {
+            interface et-0/2/8.2806;
+            interface ae4.2806;
+        }
+        area 0.0.0.7 {
+            interface et-0/2/8.2807;
+            interface ae4.2807;
+        }
+        area 0.0.0.8 {
+            interface et-0/2/8.2808;
+            interface ae4.2808;
+        }
+        area 0.0.0.9 {
+            interface et-0/2/8.2809;
+            interface ae4.2809;
+        }
+        area 0.0.0.10 {
+            interface et-0/2/8.2810;
+            interface ae4.2810;
+        }
+        area 0.0.0.11 {
+            interface et-0/2/8.2811;
+            interface ae4.2811;
+        }
+        area 0.0.0.12 {
+            interface et-0/2/8.2812;
+            interface ae4.2812;
+        }
+        area 0.0.0.13 {
+            interface et-0/2/8.2813;
+            interface ae4.2813;
+        }
+        area 0.0.0.14 {
+            interface et-0/2/8.2814;
+            interface ae4.2814;
+        }
+        area 0.0.0.15 {
+            interface et-0/2/8.2815;
+            interface ae4.2815;
+        }
+        area 0.0.0.16 {
+            interface et-0/2/8.2816;
+            interface ae4.2816;
+        }
+        area 0.0.0.17 {
+            interface et-0/2/8.2817;
+            interface ae4.2817;
+        }
+        area 0.0.0.18 {
+            interface et-0/2/8.2818;
+            interface ae4.2818;
+        }
+        area 0.0.0.19 {
+            interface et-0/2/8.2819;
+            interface ae4.2819;
+        }
+        area 0.0.0.20 {
+            interface et-0/2/8.2820;
+            interface ae4.2820;
+        }
+        area 0.0.0.21 {
+            interface et-0/2/8.2821;
+            interface ae4.2821;
+        }
+        area 0.0.0.22 {
+            interface et-0/2/8.2822;
+            interface ae4.2822;
+        }
+        area 0.0.0.23 {
+            interface et-0/2/8.2823;
+            interface ae4.2823;
+        }
+        area 0.0.0.24 {
+            interface et-0/2/8.2824;
+            interface ae4.2824;
+        }
+        area 0.0.0.25 {
+            interface et-0/2/8.2825;
+            interface ae4.2825;
+        }
+        area 0.0.0.26 {
+            interface et-0/2/8.2826;
+            interface ae4.2826;
+        }
+        area 0.0.0.27 {
+            interface et-0/2/8.2827;
+            interface ae4.2827;
+        }
+        area 0.0.0.28 {
+            interface et-0/2/8.2828;
+            interface ae4.2828;
+        }
+        area 0.0.0.29 {
+            interface et-0/2/8.2829;
+            interface ae4.2829;
+        }
+        area 0.0.0.30 {
+            interface et-0/2/8.2830;
+            interface ae4.2830;
+        }
+        area 0.0.0.31 {
+            interface et-0/2/8.2831;
+            interface ae4.2831;
+        }
+        area 0.0.0.32 {
+            interface et-0/2/8.2832;
+            interface ae4.2832;
+        }
+        area 0.0.0.33 {
+            interface et-0/2/8.2833;
+            interface ae4.2833;
+        }
+        area 0.0.0.34 {
+            interface et-0/2/8.2834;
+            interface ae4.2834;
+        }
+        area 0.0.0.35 {
+            interface et-0/2/8.2835;
+            interface ae4.2835;
+        }
+        area 0.0.0.36 {
+            interface et-0/2/8.2836;
+            interface ae4.2836;
+        }
+        area 0.0.0.37 {
+            interface et-0/2/8.2837;
+            interface ae4.2837;
+        }
+        area 0.0.0.38 {
+            interface et-0/2/8.2838;
+            interface ae4.2838;
+        }
+        area 0.0.0.39 {
+            interface et-0/2/8.2839;
+            interface ae4.2839;
+        }
+        area 0.0.0.40 {
+            interface et-0/2/8.2840;
+            interface ae4.2840;
+        }
+        area 0.0.0.41 {
+            interface et-0/2/8.2841;
+            interface ae4.2841;
+        }
+        area 0.0.0.42 {
+            interface et-0/2/8.2842;
+            interface ae4.2842;
+        }
+        area 0.0.0.43 {
+            interface et-0/2/8.2843;
+            interface ae4.2843;
+        }
+        area 0.0.0.44 {
+            interface et-0/2/8.2844;
+            interface ae4.2844;
+        }
+        area 0.0.0.45 {
+            interface et-0/2/8.2845;
+            interface ae4.2845;
+        }
+        area 0.0.0.46 {
+            interface et-0/2/8.2846;
+            interface ae4.2846;
+        }
+        area 0.0.0.47 {
+            interface et-0/2/8.2847;
+            interface ae4.2847;
+        }
+        area 0.0.0.48 {
+            interface et-0/2/8.2848;
+            interface ae4.2848;
+        }
+        area 0.0.0.49 {
+            interface et-0/2/8.2849;
+            interface ae4.2849;
+        }
+        area 0.0.0.50 {
+            interface et-0/2/8.2850;
+            interface ae4.2850;
+        }
+        area 0.0.0.51 {
+            interface et-0/2/8.2851;
+            interface ae4.2851;
+        }
+        area 0.0.0.52 {
+            interface et-0/2/8.2852;
+            interface ae4.2852;
+        }
+        area 0.0.0.53 {
+            interface et-0/2/8.2853;
+            interface ae4.2853;
+        }
+        area 0.0.0.54 {
+            interface et-0/2/8.2854;
+            interface ae4.2854;
+        }
+        area 0.0.0.55 {
+            interface et-0/2/8.2855;
+            interface ae4.2855;
+        }
+        area 0.0.0.56 {
+            interface et-0/2/8.2856;
+            interface ae4.2856;
+        }
+        area 0.0.0.57 {
+            interface et-0/2/8.2857;
+            interface ae4.2857;
+        }
+        area 0.0.0.58 {
+            interface et-0/2/8.2858;
+            interface ae4.2858;
+        }
+        area 0.0.0.59 {
+            interface et-0/2/8.2859;
+            interface ae4.2859;
+        }
+        area 0.0.0.60 {
+            interface et-0/2/8.2860;
+            interface ae4.2860;
+        }
+        area 0.0.0.61 {
+            interface et-0/2/8.2861;
+            interface ae4.2861;
+        }
+        area 0.0.0.62 {
+            interface et-0/2/8.2862;
+            interface ae4.2862;
+        }
+        area 0.0.0.63 {
+            interface et-0/2/8.2863;
+            interface ae4.2863;
+        }
+        area 0.0.0.64 {
+            interface et-0/2/8.2864;
+            interface ae4.2864;
+        }
+        area 0.0.0.65 {
+            interface et-0/2/8.2865;
+            interface ae4.2865;
+        }
+        area 0.0.0.66 {
+            interface et-0/2/8.2866;
+            interface ae4.2866;
+        }
+        area 0.0.0.67 {
+            interface et-0/2/8.2867;
+            interface ae4.2867;
+        }
+        area 0.0.0.68 {
+            interface et-0/2/8.2868;
+            interface ae4.2868;
+        }
+        area 0.0.0.69 {
+            interface et-0/2/8.2869;
+            interface ae4.2869;
+        }
+        area 0.0.0.70 {
+            interface et-0/2/8.2870;
+            interface ae4.2870;
+        }
+        area 0.0.0.71 {
+            interface et-0/2/8.2871;
+            interface ae4.2871;
+        }
+        area 0.0.0.72 {
+            interface et-0/2/8.2872;
+            interface ae4.2872;
+        }
+        area 0.0.0.73 {
+            interface et-0/2/8.2873;
+            interface ae4.2873;
+        }
+        area 0.0.0.74 {
+            interface et-0/2/8.2874;
+            interface ae4.2874;
+        }
+        area 0.0.0.75 {
+            interface et-0/2/8.2875;
+            interface ae4.2875;
+        }
+        area 0.0.0.76 {
+            interface et-0/2/8.2876;
+            interface ae4.2876;
+        }
+        area 0.0.0.77 {
+            interface et-0/2/8.2877;
+            interface ae4.2877;
+        }
+        area 0.0.0.78 {
+            interface et-0/2/8.2878;
+            interface ae4.2878;
+        }
+        area 0.0.0.79 {
+            interface et-0/2/8.2879;
+            interface ae4.2879;
+        }
+        area 0.0.0.80 {
+            interface et-0/2/8.2880;
+            interface ae4.2880;
+        }
+        area 0.0.0.81 {
+            interface et-0/2/8.2881;
+            interface ae4.2881;
+        }
+        area 0.0.0.82 {
+            interface et-0/2/8.2882;
+            interface ae4.2882;
+        }
+        area 0.0.0.83 {
+            interface et-0/2/8.2883;
+            interface ae4.2883;
+        }
+        area 0.0.0.84 {
+            interface et-0/2/8.2884;
+            interface ae4.2884;
+        }
+        area 0.0.0.85 {
+            interface et-0/2/8.2885;
+            interface ae4.2885;
+        }
+        area 0.0.0.86 {
+            interface et-0/2/8.2886;
+            interface ae4.2886;
+        }
+        area 0.0.0.87 {
+            interface et-0/2/8.2887;
+            interface ae4.2887;
+        }
+        area 0.0.0.88 {
+            interface et-0/2/8.2888;
+            interface ae4.2888;
+        }
+        area 0.0.0.89 {
+            interface et-0/2/8.2889;
+            interface ae4.2889;
+        }
+        area 0.0.0.90 {
+            interface et-0/2/8.2890;
+            interface ae4.2890;
+        }
+        area 0.0.0.91 {
+            interface et-0/2/8.2891;
+            interface ae4.2891;
+        }
+        area 0.0.0.92 {
+            interface et-0/2/8.2892;
+            interface ae4.2892;
+        }
+        area 0.0.0.93 {
+            interface et-0/2/8.2893;
+            interface ae4.2893;
+        }
+        area 0.0.0.94 {
+            interface et-0/2/8.2894;
+            interface ae4.2894;
+        }
+        area 0.0.0.95 {
+            interface et-0/2/8.2895;
+            interface ae4.2895;
+        }
+        area 0.0.0.96 {
+            interface et-0/2/8.2896;
+            interface ae4.2896;
+        }
+        area 0.0.0.97 {
+            interface et-0/2/8.2897;
+            interface ae4.2897;
+        }
+        area 0.0.0.98 {
+            interface et-0/2/8.2898;
+            interface ae4.2898;
+        }
+        area 0.0.0.99 {
+            interface et-0/2/8.2899;
+            interface ae4.2899;
+        }
+        area 0.0.0.100 {
+            interface et-0/2/8.2900;
+            interface ae4.2900;
+        }
+        traceoptions {
+            flag all;
+        }
+    }
+    ospf3 {
+        area 0.0.0.0 {
+            interface et-0/2/8.0;
+            interface ae4.0;
+        }
+        area 0.0.0.1 {
+            interface et-0/2/8.2801;
+            interface ae4.2801;
+        }
+        area 0.0.0.2 {
+            interface et-0/2/8.2802;
+            interface ae4.2802;
+        }
+        area 0.0.0.3 {
+            interface et-0/2/8.2803;
+            interface ae4.2803;
+        }
+        area 0.0.0.4 {
+            interface et-0/2/8.2804;
+            interface ae4.2804;
+        }
+        area 0.0.0.5 {
+            interface et-0/2/8.2805;
+            interface ae4.2805;
+        }
+        area 0.0.0.6 {
+            interface et-0/2/8.2806;
+            interface ae4.2806;
+        }
+        area 0.0.0.7 {
+            interface et-0/2/8.2807;
+            interface ae4.2807;
+        }
+        area 0.0.0.8 {
+            interface et-0/2/8.2808;
+            interface ae4.2808;
+        }
+        area 0.0.0.9 {
+            interface et-0/2/8.2809;
+            interface ae4.2809;
+        }
+        area 0.0.0.10 {
+            interface et-0/2/8.2810;
+            interface ae4.2810;
+        }
+        area 0.0.0.11 {
+            interface et-0/2/8.2811;
+            interface ae4.2811;
+        }
+        area 0.0.0.12 {
+            interface et-0/2/8.2812;
+            interface ae4.2812;
+        }
+        area 0.0.0.13 {
+            interface et-0/2/8.2813;
+            interface ae4.2813;
+        }
+        area 0.0.0.14 {
+            interface et-0/2/8.2814;
+            interface ae4.2814;
+        }
+        area 0.0.0.15 {
+            interface et-0/2/8.2815;
+            interface ae4.2815;
+        }
+        area 0.0.0.16 {
+            interface et-0/2/8.2816;
+            interface ae4.2816;
+        }
+        area 0.0.0.17 {
+            interface et-0/2/8.2817;
+            interface ae4.2817;
+        }
+        area 0.0.0.18 {
+            interface et-0/2/8.2818;
+            interface ae4.2818;
+        }
+        area 0.0.0.19 {
+            interface et-0/2/8.2819;
+            interface ae4.2819;
+        }
+        area 0.0.0.20 {
+            interface et-0/2/8.2820;
+            interface ae4.2820;
+        }
+        area 0.0.0.21 {
+            interface et-0/2/8.2821;
+            interface ae4.2821;
+        }
+        area 0.0.0.22 {
+            interface et-0/2/8.2822;
+            interface ae4.2822;
+        }
+        area 0.0.0.23 {
+            interface et-0/2/8.2823;
+            interface ae4.2823;
+        }
+        area 0.0.0.24 {
+            interface et-0/2/8.2824;
+            interface ae4.2824;
+        }
+        area 0.0.0.25 {
+            interface et-0/2/8.2825;
+            interface ae4.2825;
+        }
+        area 0.0.0.26 {
+            interface et-0/2/8.2826;
+            interface ae4.2826;
+        }
+        area 0.0.0.27 {
+            interface et-0/2/8.2827;
+            interface ae4.2827;
+        }
+        area 0.0.0.28 {
+            interface et-0/2/8.2828;
+            interface ae4.2828;
+        }
+        area 0.0.0.29 {
+            interface et-0/2/8.2829;
+            interface ae4.2829;
+        }
+        area 0.0.0.30 {
+            interface et-0/2/8.2830;
+            interface ae4.2830;
+        }
+        area 0.0.0.31 {
+            interface et-0/2/8.2831;
+            interface ae4.2831;
+        }
+        area 0.0.0.32 {
+            interface et-0/2/8.2832;
+            interface ae4.2832;
+        }
+        area 0.0.0.33 {
+            interface et-0/2/8.2833;
+            interface ae4.2833;
+        }
+        area 0.0.0.34 {
+            interface et-0/2/8.2834;
+            interface ae4.2834;
+        }
+        area 0.0.0.35 {
+            interface et-0/2/8.2835;
+            interface ae4.2835;
+        }
+        area 0.0.0.36 {
+            interface et-0/2/8.2836;
+            interface ae4.2836;
+        }
+        area 0.0.0.37 {
+            interface et-0/2/8.2837;
+            interface ae4.2837;
+        }
+        area 0.0.0.38 {
+            interface et-0/2/8.2838;
+            interface ae4.2838;
+        }
+        area 0.0.0.39 {
+            interface et-0/2/8.2839;
+            interface ae4.2839;
+        }
+        area 0.0.0.40 {
+            interface et-0/2/8.2840;
+            interface ae4.2840;
+        }
+        area 0.0.0.41 {
+            interface et-0/2/8.2841;
+            interface ae4.2841;
+        }
+        area 0.0.0.42 {
+            interface et-0/2/8.2842;
+            interface ae4.2842;
+        }
+        area 0.0.0.43 {
+            interface et-0/2/8.2843;
+            interface ae4.2843;
+        }
+        area 0.0.0.44 {
+            interface et-0/2/8.2844;
+            interface ae4.2844;
+        }
+        area 0.0.0.45 {
+            interface et-0/2/8.2845;
+            interface ae4.2845;
+        }
+        area 0.0.0.46 {
+            interface et-0/2/8.2846;
+            interface ae4.2846;
+        }
+        area 0.0.0.47 {
+            interface et-0/2/8.2847;
+            interface ae4.2847;
+        }
+        area 0.0.0.48 {
+            interface et-0/2/8.2848;
+            interface ae4.2848;
+        }
+        area 0.0.0.49 {
+            interface et-0/2/8.2849;
+            interface ae4.2849;
+        }
+        area 0.0.0.50 {
+            interface et-0/2/8.2850;
+            interface ae4.2850;
+        }
+        area 0.0.0.51 {
+            interface et-0/2/8.2851;
+            interface ae4.2851;
+        }
+        area 0.0.0.52 {
+            interface et-0/2/8.2852;
+            interface ae4.2852;
+        }
+        area 0.0.0.53 {
+            interface et-0/2/8.2853;
+            interface ae4.2853;
+        }
+        area 0.0.0.54 {
+            interface et-0/2/8.2854;
+            interface ae4.2854;
+        }
+        area 0.0.0.55 {
+            interface et-0/2/8.2855;
+            interface ae4.2855;
+        }
+        area 0.0.0.56 {
+            interface et-0/2/8.2856;
+            interface ae4.2856;
+        }
+        area 0.0.0.57 {
+            interface et-0/2/8.2857;
+            interface ae4.2857;
+        }
+        area 0.0.0.58 {
+            interface et-0/2/8.2858;
+            interface ae4.2858;
+        }
+        area 0.0.0.59 {
+            interface et-0/2/8.2859;
+            interface ae4.2859;
+        }
+        area 0.0.0.60 {
+            interface et-0/2/8.2860;
+            interface ae4.2860;
+        }
+        area 0.0.0.61 {
+            interface et-0/2/8.2861;
+            interface ae4.2861;
+        }
+        area 0.0.0.62 {
+            interface et-0/2/8.2862;
+            interface ae4.2862;
+        }
+        area 0.0.0.63 {
+            interface et-0/2/8.2863;
+            interface ae4.2863;
+        }
+        area 0.0.0.64 {
+            interface et-0/2/8.2864;
+            interface ae4.2864;
+        }
+        area 0.0.0.65 {
+            interface et-0/2/8.2865;
+            interface ae4.2865;
+        }
+        area 0.0.0.66 {
+            interface et-0/2/8.2866;
+            interface ae4.2866;
+        }
+        area 0.0.0.67 {
+            interface et-0/2/8.2867;
+            interface ae4.2867;
+        }
+        area 0.0.0.68 {
+            interface et-0/2/8.2868;
+            interface ae4.2868;
+        }
+        area 0.0.0.69 {
+            interface et-0/2/8.2869;
+            interface ae4.2869;
+        }
+        area 0.0.0.70 {
+            interface et-0/2/8.2870;
+            interface ae4.2870;
+        }
+        area 0.0.0.71 {
+            interface et-0/2/8.2871;
+            interface ae4.2871;
+        }
+        area 0.0.0.72 {
+            interface et-0/2/8.2872;
+            interface ae4.2872;
+        }
+        area 0.0.0.73 {
+            interface et-0/2/8.2873;
+            interface ae4.2873;
+        }
+        area 0.0.0.74 {
+            interface et-0/2/8.2874;
+            interface ae4.2874;
+        }
+        area 0.0.0.75 {
+            interface et-0/2/8.2875;
+            interface ae4.2875;
+        }
+        area 0.0.0.76 {
+            interface et-0/2/8.2876;
+            interface ae4.2876;
+        }
+        area 0.0.0.77 {
+            interface et-0/2/8.2877;
+            interface ae4.2877;
+        }
+        area 0.0.0.78 {
+            interface et-0/2/8.2878;
+            interface ae4.2878;
+        }
+        area 0.0.0.79 {
+            interface et-0/2/8.2879;
+            interface ae4.2879;
+        }
+        area 0.0.0.80 {
+            interface et-0/2/8.2880;
+            interface ae4.2880;
+        }
+        area 0.0.0.81 {
+            interface et-0/2/8.2881;
+            interface ae4.2881;
+        }
+        area 0.0.0.82 {
+            interface et-0/2/8.2882;
+            interface ae4.2882;
+        }
+        area 0.0.0.83 {
+            interface et-0/2/8.2883;
+            interface ae4.2883;
+        }
+        area 0.0.0.84 {
+            interface et-0/2/8.2884;
+            interface ae4.2884;
+        }
+        area 0.0.0.85 {
+            interface et-0/2/8.2885;
+            interface ae4.2885;
+        }
+        area 0.0.0.86 {
+            interface et-0/2/8.2886;
+            interface ae4.2886;
+        }
+        area 0.0.0.87 {
+            interface et-0/2/8.2887;
+            interface ae4.2887;
+        }
+        area 0.0.0.88 {
+            interface et-0/2/8.2888;
+            interface ae4.2888;
+        }
+        area 0.0.0.89 {
+            interface et-0/2/8.2889;
+            interface ae4.2889;
+        }
+        area 0.0.0.90 {
+            interface et-0/2/8.2890;
+            interface ae4.2890;
+        }
+        area 0.0.0.91 {
+            interface et-0/2/8.2891;
+            interface ae4.2891;
+        }
+        area 0.0.0.92 {
+            interface et-0/2/8.2892;
+            interface ae4.2892;
+        }
+        area 0.0.0.93 {
+            interface et-0/2/8.2893;
+            interface ae4.2893;
+        }
+        area 0.0.0.94 {
+            interface et-0/2/8.2894;
+            interface ae4.2894;
+        }
+        area 0.0.0.95 {
+            interface et-0/2/8.2895;
+            interface ae4.2895;
+        }
+        area 0.0.0.96 {
+            interface et-0/2/8.2896;
+            interface ae4.2896;
+        }
+        area 0.0.0.97 {
+            interface et-0/2/8.2897;
+            interface ae4.2897;
+        }
+        area 0.0.0.98 {
+            interface et-0/2/8.2898;
+            interface ae4.2898;
+        }
+        area 0.0.0.99 {
+            interface et-0/2/8.2899;
+            interface ae4.2899;
+        }
+        area 0.0.0.100 {
+            interface et-0/2/8.2900;
+            interface ae4.2900;
+        }
+    }
+    lldp {
+        interface all;
+    }
+}
