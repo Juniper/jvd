@@ -1,4 +1,4 @@
-# <h5> Configurations provided for the Juniper Networks Validated Design for Enterprise WAN Advanced Core and Edge Services.
+# <h3> Configurations provided for the Juniper Networks Validated Design for Enterprise WAN Advanced Core and Edge Services.
 
 Enhance enterprise network with Juniper's EVPN & MPLS-backed validated design. Secure connectivity across locations and simplify data sharing. Find implementation insights for reliable network performance.
 
