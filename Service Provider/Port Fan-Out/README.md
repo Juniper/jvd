@@ -1,4 +1,4 @@
-# <h5> Configurations provided for the Juniper Networks Validated Design for Port Fan-Out.
+# <h3> Configurations provided for the Juniper Networks Validated Design for Port Fan-Out.
 
 Implement Juniper's port fan-out solution to achieve cost savings, port flexibility, and a higher density of ports in your network. Benefit from reduced complexity and operational costs.
 
