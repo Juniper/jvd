@@ -1,0 +1,323 @@
+## Last changed: 2024-10-01 16:14:24 PDT
+version 22.2R3-S1.9;
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    fpc 0 {
+        pic 0 {
+            tunnel-services;
+            port 1 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 3 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 5 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 7 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+}
+interfaces {
+    xe-0/0/3:1 {
+        vlan-tagging;
+        unit 0 {
+            vlan-id 1100;
+            family inet {
+                address 192.168.37.1/24;
+            }
+            family inet6 {
+                address 2001:db8:192:168:37::1/112;
+            }
+        }
+    }
+    xe-0/0/7:0 {
+        vlan-tagging;
+        unit 0 {
+            vlan-id 0;
+            family inet;
+        }
+        unit 199 {
+            vlan-id 199;
+            family inet {
+                address 10.204.0.5/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::9/127;
+            }
+        }
+        unit 299 {
+            vlan-id 299;
+            family inet {
+                address 10.204.0.9/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::1/127;
+            }
+        }
+        unit 399 {
+            vlan-id 399;
+            family inet {
+                address 10.204.0.1/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::5/127;
+            }
+        }
+        unit 499 {
+            vlan-id 499;
+            family inet {
+                address 10.204.0.13/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::11/127;
+            }
+        }
+        unit 599 {
+            vlan-id 599;
+            family inet {
+                address 10.204.0.17/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::d/127;
+            }
+        }
+    }
+    xe-0/0/7:1 {
+        vlan-tagging;
+        unit 0 {
+            vlan-id 0;
+            family inet;
+        }
+        unit 199 {
+            vlan-id 199;
+            family inet {
+                address 10.204.0.7/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::b/127;
+            }
+        }
+        unit 299 {
+            vlan-id 299;
+            family inet {
+                address 10.204.0.11/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::3/127;
+            }
+        }
+        unit 399 {
+            vlan-id 399;
+            family inet {
+                address 10.204.0.3/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::7/127;
+            }
+        }
+        unit 499 {
+            vlan-id 499;
+            family inet {
+                address 10.204.0.15/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::13/127;
+            }
+        }
+        unit 599 {
+            vlan-id 599;
+            family inet {
+                address 10.204.0.19/31;
+            }
+            family inet6 {
+                address 2001:db8:dc4:10:204::f/127;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 100.100.100.100/32;
+            }
+            family inet6 {
+                address 2001:db8:100:100:100::100/128;
+            }
+        }
+    }
+}
+policy-options {
+    route-filter-list RoutesToFabric {
+        0.0.0.0/0 exact;
+        ::/0 exact;
+    }
+    policy-statement AllRoutes {
+        term 1 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement RoutesToFabric {
+        term 1 {
+            from interface lo0.0;
+            then accept;
+        }
+        term 2 {
+            from {
+                protocol [ static bgp ];
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term 3 {
+            from {
+                protocol [ static bgp ];
+                rib inet6.0;
+                route-filter ::/0 exact;
+            }
+            then accept;
+        }
+        term 4 {
+            then reject;
+        }
+    }
+}
+routing-options {
+    route-distinguisher-id 100.100.100.100;
+    rib inet6.0 {
+        static {
+            route ::/0 discard;
+        }
+    }
+    autonomous-system 65000;
+    static {
+        route 0.0.0.0/0 discard;
+    }
+}
+protocols {
+    bgp {
+        group fabric {
+            type external;
+            multihop {
+                ttl 1;
+            }
+            multipath {
+                multiple-as;
+            }
+            neighbor 10.204.0.4 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 2001:db8:dc4:10:204::8 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 10.204.0.8 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 2001:db8:dc4:10:204::0 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 10.204.0.0 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 2001:db8:dc4:10:204::4 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 10.204.0.12 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 2001:db8:dc4:10:204::10 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 10.204.0.16 {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 2001:db8:dc4:10:204::c {
+                export RoutesToFabric;
+                peer-as 64708;
+            }
+            neighbor 10.204.0.6 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 2001:db8:dc4:10:204::a {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 10.204.0.10 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 2001:db8:dc4:10:204::2 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 10.204.0.2 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 2001:db8:dc4:10:204::6 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 10.204.0.14 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 2001:db8:dc4:10:204::12 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 10.204.0.18 {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+            neighbor 2001:db8:dc4:10:204::e {
+                export RoutesToFabric;
+                peer-as 64709;
+            }
+        }
+    }
+    igmp {
+        interface all;
+    }
+    ospf {
+        area 0.0.0.0 {
+            interface lo0.0;
+            interface xe-0/0/7:0.299;
+            interface xe-0/0/7:1.299;
+        }
+    }
+    pim {
+        rp {
+            local {
+                address 100.100.100.100;
+            }
+        }
+        interface all;
+    }
+}
