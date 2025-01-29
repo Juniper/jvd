@@ -1,0 +1,1615 @@
+MA3:
+
+root@rtme-acx-48l-07> show configuration groups MEF_L2CKT_LSW | no-more
+interfaces {
+    et-0/0/0 {
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        ether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x8100 0x88a8 ];
+            }
+        }
+        unit 2500 {
+            encapsulation vlan-ccc;
+            vlan-id-list 2500-2599;
+            input-vlan-map {
+                push;
+                tag-protocol-id 0x88a8;
+                vlan-id 4082;
+            }
+            output-vlan-map pop;
+            family ccc {
+                filter {
+                    input f_vlan-based_fam_ccc;
+                }
+            }
+        }
+    }
+    et-0/0/51 {
+        mtu 9102;
+        ether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x8100 0x88a8 ];
+            }
+        }
+        unit 4082 {
+            encapsulation vlan-ccc;
+            vlan-tags outer 0x88a8.4082;
+        }
+    }
+}
+class-of-service {
+    interfaces {
+        et-0/0/0 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 2500 {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+        et-0/0/51 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 2500 {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+            unit 4082 {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+protocols {
+    l2circuit {
+        local-switching {
+            interface et-0/0/0.2500 {
+                end-interface {
+                    interface et-0/0/51.4082;
+                }
+                ignore-mtu-mismatch;
+            }
+        }
+    }
+}
+
+root@rtme-acx-48l-07> show configuration groups MEF_TESTING | no-more
+system {
+    packet-forwarding-options {
+        mef-forwarding-profile;
+    }
+}
+firewall {
+    family ccc {
+        filter f_vlan-based_fam_ccc {
+            interface-specific;
+            term discard_pcp {
+                from {
+                    learn-vlan-1p-priority [ 6 7 ];
+                }
+                then {
+                    count discard_pcp6_7;
+                    discard;
+                }
+            }
+            term high_class {
+                from {
+                    learn-vlan-1p-priority [ 5 4 ];
+                }
+                then {
+                    three-color-policer {
+                        two-rate high_policer;
+                    }
+                    count high_class;
+                }
+            }
+            term medium_class {
+                from {
+                    learn-vlan-1p-priority [ 3 2 ];
+                }
+                then {
+                    three-color-policer {
+                        two-rate medium_policer;
+                    }
+                    count class_medium;
+                }
+            }
+            term low_class {
+                from {
+                    learn-vlan-1p-priority [ 0 1 ];
+                }
+                then {
+                    three-color-policer {
+                        two-rate low_policer;
+                    }
+                    count class_low;
+                }
+            }
+            term default {
+                then {
+                    three-color-policer {
+                        two-rate high_policer;
+                    }
+                    count default;
+                }
+            }
+        }
+    }
+    three-color-policer high_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-blind;
+            committed-information-rate 3500000000;
+            committed-burst-size 35k;
+            peak-information-rate 3500000000;
+            peak-burst-size 35125;
+        }
+    }
+    three-color-policer low_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-blind;
+            committed-information-rate 22k;
+            committed-burst-size 125;
+            peak-information-rate 3500000000;
+            peak-burst-size 35k;
+        }
+    }
+    three-color-policer medium_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-blind;
+            committed-information-rate 3500000000;
+            committed-burst-size 35k;
+            peak-information-rate 7g;
+            peak-burst-size 70k;
+        }
+    }
+}
+
+root@rtme-acx-48l-07> show configuration groups GR-JVD-5G-LLQ-COS | no-more
+class-of-service {
+    classifiers {
+        dscp CL-DSCP {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points cs6;
+                loss-priority high code-points cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+                loss-priority high code-points af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+                loss-priority high code-points af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+                loss-priority high code-points af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+                loss-priority high code-points af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+        }
+        dscp-ipv6 CL-DSCP-IPV6 {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points cs6;
+                loss-priority high code-points cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+                loss-priority high code-points af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+                loss-priority high code-points af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+                loss-priority high code-points af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+                loss-priority high code-points af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+        }
+        exp CL-MPLS {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points 110;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points 100;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points 011;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points 111;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points 001;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-points 000;
+            }
+        }
+        ieee-802.1 CL-8021P {
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ 101 100 ];
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ 011 010 ];
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ 001 000 ];
+            }
+        }
+    }
+    forwarding-classes {
+        class FC-SIGNALING queue-num 7;
+        class FC-LLQ queue-num 6;
+        class FC-REALTIME queue-num 5;
+        class FC-HIGH queue-num 4;
+        class FC-CONTROL queue-num 3;
+        class FC-MEDIUM queue-num 2;
+        class FC-LOW queue-num 1;
+        class FC-BEST-EFFORT queue-num 0;
+    }
+    interfaces {
+        ae84 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+        ae55 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 1 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+            unit 2 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+        ae82 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 1 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+            unit 2 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+        et-0/0/51 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 1 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        dscp RR-DSCP {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point cs6;
+                loss-priority high code-point cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+                loss-priority high code-point af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point ef;
+                loss-priority high code-point ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+                loss-priority high code-point af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point cs7;
+                loss-priority high code-point cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+                loss-priority high code-point af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+                loss-priority high code-point af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point be;
+                loss-priority high code-point be;
+            }
+        }
+        dscp-ipv6 RR-DSCP-IPV6 {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point cs6;
+                loss-priority high code-point cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+                loss-priority high code-point af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point ef;
+                loss-priority high code-point ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+                loss-priority high code-point af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point cs7;
+                loss-priority high code-point cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+                loss-priority high code-point af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+                loss-priority high code-point af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point be;
+                loss-priority high code-point be;
+            }
+        }
+        exp RR-MPLS {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point 110;
+                loss-priority high code-point 110;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point 100;
+                loss-priority medium-high code-point 100;
+                loss-priority high code-point 100;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point 101;
+                loss-priority high code-point 101;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 011;
+                loss-priority medium-high code-point 011;
+                loss-priority high code-point 011;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point 111;
+                loss-priority high code-point 111;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point 010;
+                loss-priority medium-high code-point 010;
+                loss-priority high code-point 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point 001;
+                loss-priority medium-high code-point 001;
+                loss-priority high code-point 001;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point 000;
+                loss-priority high code-point 000;
+            }
+        }
+        ieee-802.1 RR-8021P {
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 100;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point 000;
+            }
+        }
+    }
+    scheduler-maps {
+        SM-5G-SCHEDULER {
+            forwarding-class FC-SIGNALING scheduler SC-SIGNALING;
+            forwarding-class FC-LLQ scheduler SC-LLQ;
+            forwarding-class FC-REALTIME scheduler SC-REALTIME;
+            forwarding-class FC-HIGH scheduler SC-HIGH;
+            forwarding-class FC-CONTROL scheduler SC-CONTROL;
+            forwarding-class FC-MEDIUM scheduler SC-MEDIUM;
+            forwarding-class FC-LOW scheduler SC-LOW;
+            forwarding-class FC-BEST-EFFORT scheduler SC-BEST-EFFORT;
+        }
+    }
+    schedulers {
+        SC-SIGNALING {
+            shaping-rate percent 5;
+            buffer-size percent 5;
+            priority strict-high;
+        }
+        SC-LLQ {
+            shaping-rate percent 40;
+            buffer-size percent 10;
+            priority low-latency;
+        }
+        SC-REALTIME {
+            shaping-rate percent 30;
+            buffer-size percent 20;
+            priority medium-high;
+        }
+        SC-HIGH {
+            transmit-rate percent 40;
+            buffer-size percent 30;
+            priority low;
+        }
+        SC-CONTROL {
+            shaping-rate percent 5;
+            buffer-size percent 5;
+            priority high;
+        }
+        SC-MEDIUM {
+            transmit-rate percent 30;
+            buffer-size percent 20;
+            priority low;
+        }
+        SC-LOW {
+            transmit-rate percent 20;
+            buffer-size percent 10;
+            priority low;
+        }
+        SC-BEST-EFFORT {
+            transmit-rate {
+                remainder;
+            }
+            buffer-size {
+                remainder;
+            }
+            priority low;
+        }
+    }
+}
+
+root@rtme-acx-48l-07> show configuration apply-groups
+## Last commit: 2024-12-17 01:20:18 PST by regress
+apply-groups [ global l3vpn_ospf_serv_map GR-AUTOMATION GR-JVD-5G-LLQ-COS MEF_TESTING MEF_EVPN_VPWS_LSW ];
+
+
+
+MA5:
+
+regress@rtme-mx-59> show configuration groups MEF_L2CKT_LSW | no-more
+interfaces {
+    et-0/0/2 {
+        mtu 9102;
+        gigether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x8100 0x88A8 ];
+            }
+        }
+        unit 4082 {
+            encapsulation vlan-bridge;
+            vlan-tags outer 0x88a8.4082;
+        }
+    }
+    xe-0/1/0 {
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        gigether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x8100 0x88A8 ];
+            }
+        }
+        unit 4082 {
+            encapsulation vlan-bridge;
+            vlan-tags outer 0x88a8.4082;
+            family bridge {
+                filter {
+                    input f-vlan_based_fam_bridge;
+                }
+            }
+        }
+    }
+}
+class-of-service {
+    interfaces {
+        xe-0/1/0 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 4082 {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+        et-0/0/2 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 4082 {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+bridge-domains {
+    bd_group_lsw_4082 {
+        interface et-0/0/2.4082;
+        interface xe-0/1/0.4082;
+    }
+}
+
+regress@rtme-mx-59> show configuration groups MEF_TESTING | no-more
+firewall {
+    family bridge {
+        filter f-vlan_based_fam_bridge {
+            interface-specific;
+            term high_class_discard {
+                from {
+                    learn-vlan-1p-priority [ 6 7 ];
+                }
+                then {
+                    count pcp_6_7;
+                    discard;
+                }
+            }
+            term high_class {
+                from {
+                    learn-vlan-1p-priority 4;
+                }
+                then {
+                    count high_pcp4;
+                    loss-priority high;
+                    next term;
+                }
+            }
+            term color-envelop {
+                from {
+                    learn-vlan-1p-priority [ 5 4 ];
+                }
+                then {
+                    three-color-policer {
+                        two-rate high_policer;
+                    }
+                    count color-envelop;
+                }
+            }
+            term medium_class-3 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then {
+                    three-color-policer {
+                        two-rate medium_policer;
+                    }
+                    count med-3;
+                    accept;
+                }
+            }
+            term medium_class-2 {
+                from {
+                    learn-vlan-1p-priority 2;
+                }
+                then {
+                    three-color-policer {
+                        two-rate medium_policer;
+                    }
+                    count med-2;
+                    next term;
+                }
+            }
+            term CF0-yellow {
+                from {
+                    loss-priority medium-high;
+                    learn-vlan-1p-priority 2;
+                }
+                then {
+                    count CFO-yellow;
+                    discard;
+                }
+            }
+            term low_class {
+                from {
+                    learn-vlan-1p-priority [ 0 1 ];
+                }
+                then {
+                    three-color-policer {
+                        two-rate low_policer;
+                    }
+                    count low_class;
+                }
+            }
+            term deault {
+                then count default_traffic;
+            }
+        }
+    }
+    three-color-policer high_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-aware;
+            committed-information-rate 3500000000;
+            committed-burst-size 35k;
+            peak-information-rate 3500000000;
+            peak-burst-size 35125;
+        }
+    }
+    three-color-policer low_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-aware;
+            committed-information-rate 22k;
+            committed-burst-size 1500;
+            peak-information-rate 3500000000;
+            peak-burst-size 35k;
+        }
+    }
+    three-color-policer medium_policer {
+        action {
+            loss-priority high then discard;
+        }
+        two-rate {
+            color-aware;
+            committed-information-rate 3500000000;
+            committed-burst-size 35k;
+            peak-information-rate 7g;
+            peak-burst-size 70k;
+        }
+    }
+}
+
+regress@rtme-mx-59> show configuration groups GR-JVD-5G-LLQ-COS | no-more
+class-of-service {
+    classifiers {
+        dscp CL-DSCP {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points cs6;
+                loss-priority high code-points cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+                loss-priority high code-points af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+                loss-priority high code-points af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+                loss-priority high code-points af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+                loss-priority high code-points af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+        }
+        dscp-ipv6 CL-DSCP-IPV6 {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points cs6;
+                loss-priority high code-points cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+                loss-priority high code-points af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+                loss-priority high code-points af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+                loss-priority high code-points af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+                loss-priority high code-points af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+        }
+        exp CL-MPLS {
+            import default;
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-points 110;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points 100;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-points 011;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points 111;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points 001;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-points 000;
+            }
+        }
+        ieee-802.1 CL-8021P {
+            forwarding-class FC-HIGH {
+                loss-priority low code-points [ 101 100 ];
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-points [ 011 010 ];
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-points [ 001 000 ];
+            }
+        }
+    }
+    forwarding-classes {
+        class FC-SIGNALING queue-num 7;
+        class FC-LLQ queue-num 6;
+        class FC-REALTIME queue-num 5;
+        class FC-HIGH queue-num 4;
+        class FC-CONTROL queue-num 3;
+        class FC-MEDIUM queue-num 2;
+        class FC-LOW queue-num 1;
+        class FC-BEST-EFFORT queue-num 0;
+    }
+    interfaces {
+        et-0/0/1 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+        et-0/0/2 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+        xe-0/1/4 {
+            scheduler-map SM-5G-SCHEDULER;
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        dscp RR-DSCP {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point cs6;
+                loss-priority high code-point cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+                loss-priority high code-point af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point ef;
+                loss-priority high code-point ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+                loss-priority high code-point af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point cs7;
+                loss-priority high code-point cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+                loss-priority high code-point af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+                loss-priority high code-point af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point be;
+                loss-priority high code-point be;
+            }
+        }
+        dscp-ipv6 RR-DSCP-IPV6 {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point cs6;
+                loss-priority high code-point cs5;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+                loss-priority high code-point af43;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point ef;
+                loss-priority high code-point ef;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+                loss-priority high code-point af33;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point cs7;
+                loss-priority high code-point cs7;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+                loss-priority high code-point af23;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+                loss-priority high code-point af13;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point be;
+                loss-priority high code-point be;
+            }
+        }
+        exp RR-MPLS {
+            forwarding-class FC-SIGNALING {
+                loss-priority low code-point 110;
+                loss-priority high code-point 110;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point 100;
+                loss-priority medium-high code-point 100;
+                loss-priority high code-point 100;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-point 101;
+                loss-priority high code-point 101;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 011;
+                loss-priority medium-high code-point 011;
+                loss-priority high code-point 011;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-point 111;
+                loss-priority high code-point 111;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point 010;
+                loss-priority medium-high code-point 010;
+                loss-priority high code-point 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point 001;
+                loss-priority medium-high code-point 001;
+                loss-priority high code-point 001;
+            }
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority low code-point 000;
+                loss-priority high code-point 000;
+            }
+        }
+        ieee-802.1 RR-8021P {
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 101;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority low code-point 010;
+            }
+            forwarding-class FC-LOW {
+                loss-priority low code-point 000;
+            }
+        }
+    }
+    scheduler-maps {
+        SM-5G-SCHEDULER {
+            forwarding-class FC-SIGNALING scheduler SC-SIGNALING;
+            forwarding-class FC-LLQ scheduler SC-LLQ;
+            forwarding-class FC-REALTIME scheduler SC-REALTIME;
+            forwarding-class FC-HIGH scheduler SC-HIGH;
+            forwarding-class FC-CONTROL scheduler SC-CONTROL;
+            forwarding-class FC-MEDIUM scheduler SC-MEDIUM;
+            forwarding-class FC-LOW scheduler SC-LOW;
+            forwarding-class FC-BEST-EFFORT scheduler SC-BEST-EFFORT;
+        }
+    }
+    schedulers {
+        SC-SIGNALING {
+            transmit-rate percent 5;
+            buffer-size percent 5;
+            priority high;
+        }
+        SC-LLQ {
+            shaping-rate percent 40;
+            buffer-size percent 10;
+            priority strict-high;
+        }
+        SC-REALTIME {
+            transmit-rate percent 15;
+            buffer-size percent 20;
+            priority medium-high;
+        }
+        SC-HIGH {
+            transmit-rate percent 10;
+            buffer-size percent 20;
+            priority high;
+        }
+        SC-CONTROL {
+            transmit-rate percent 5;
+            buffer-size percent 5;
+            priority high;
+        }
+        SC-MEDIUM {
+            transmit-rate percent 10;
+            buffer-size percent 10;
+            priority low;
+        }
+        SC-LOW {
+            transmit-rate percent 10;
+            buffer-size percent 10;
+            priority low;
+        }
+        SC-BEST-EFFORT {
+            transmit-rate {
+                remainder;
+            }
+            buffer-size {
+                remainder;
+            }
+            priority low;
+        }
+    }
+}
+
+regress@rtme-mx-59> show configuration apply-groups
+## Last commit: 2024-12-17 06:01:15 PST by regress
+apply-groups [ global re0 etree_evpn_group_80 GR-AUTOMATION jcloud-script GR-JVD-5G-LLQ-COS MEF_TESTING MEF_EVPN_ELAN_PORT_BASED ];
+
+
+
+========================================================================================================================================================================================
+
+
+MA3:
+
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 flexible-vlan-tagging
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 mtu 9102
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 encapsulation flexible-ethernet-services
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 ether-options ethernet-switch-profile tag-protocol-id 0x8100
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 ether-options ethernet-switch-profile tag-protocol-id 0x88a8
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 encapsulation vlan-ccc
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 vlan-id-list 2500-2599
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 input-vlan-map push
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 input-vlan-map tag-protocol-id 0x88a8
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 input-vlan-map vlan-id 4082
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 output-vlan-map pop
+set groups MEF_L2CKT_LSW interfaces et-0/0/0 unit 2500 family ccc filter input f_vlan-based_fam_ccc
+set groups MEF_L2CKT_LSW interfaces et-0/0/51 mtu 9102
+set groups MEF_L2CKT_LSW interfaces et-0/0/51 ether-options ethernet-switch-profile tag-protocol-id 0x8100
+set groups MEF_L2CKT_LSW interfaces et-0/0/51 ether-options ethernet-switch-profile tag-protocol-id 0x88a8
+set groups MEF_L2CKT_LSW interfaces et-0/0/51 unit 4082 encapsulation vlan-ccc
+set groups MEF_L2CKT_LSW interfaces et-0/0/51 unit 4082 vlan-tags outer 0x88a8.4082
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/0 scheduler-map SM-5G-SCHEDULER
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/0 unit 2500 classifiers ieee-802.1 CL-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/0 unit 2500 rewrite-rules ieee-802.1 RR-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/51 scheduler-map SM-5G-SCHEDULER
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/51 unit 2500 classifiers ieee-802.1 CL-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/51 unit 2500 rewrite-rules ieee-802.1 RR-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/51 unit 4082 classifiers ieee-802.1 CL-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/51 unit 4082 rewrite-rules ieee-802.1 RR-8021P
+set groups MEF_L2CKT_LSW protocols l2circuit local-switching interface et-0/0/0.2500 end-interface interface et-0/0/51.4082
+set groups MEF_L2CKT_LSW protocols l2circuit local-switching interface et-0/0/0.2500 ignore-mtu-mismatch
+
+set groups MEF_TESTING system packet-forwarding-options mef-forwarding-profile
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc interface-specific
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term discard_pcp from learn-vlan-1p-priority 6
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term discard_pcp from learn-vlan-1p-priority 7
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term discard_pcp then count discard_pcp6_7
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term discard_pcp then discard
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term high_class from learn-vlan-1p-priority 5
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term high_class from learn-vlan-1p-priority 4
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term high_class then three-color-policer two-rate high_policer
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term high_class then count high_class
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term medium_class from learn-vlan-1p-priority 3
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term medium_class from learn-vlan-1p-priority 2
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term medium_class then three-color-policer two-rate medium_policer
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term medium_class then count class_medium
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term low_class from learn-vlan-1p-priority 0
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term low_class from learn-vlan-1p-priority 1
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term low_class then three-color-policer two-rate low_policer
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term low_class then count class_low
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term default then three-color-policer two-rate high_policer
+set groups MEF_TESTING firewall family ccc filter f_vlan-based_fam_ccc term default then count default
+set groups MEF_TESTING firewall three-color-policer high_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate color-blind
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate committed-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate committed-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate peak-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate peak-burst-size 35125
+set groups MEF_TESTING firewall three-color-policer low_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate color-blind
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate committed-information-rate 22k
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate committed-burst-size 125
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate peak-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate peak-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer medium_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate color-blind
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate committed-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate committed-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate peak-information-rate 7g
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate peak-burst-size 70k
+set apply-groups MEF_TESTING
+
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points cs4
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points af41
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority high code-points af43
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-REALTIME loss-priority low code-points ef
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points cs3
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points af31
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority high code-points af33
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-CONTROL loss-priority low code-points cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points af21
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority high code-points af23
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points cs1
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points af11
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority medium-high code-points af12
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority high code-points af13
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points cs4
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points af41
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-points af43
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-points ef
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points cs3
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points af31
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-points af33
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-points cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points af21
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-points af23
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points cs1
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points af11
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-points af12
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-points af13
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-SIGNALING loss-priority low code-points 110
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-LLQ loss-priority low code-points 100
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-REALTIME loss-priority low code-points 101
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-HIGH loss-priority low code-points 011
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-CONTROL loss-priority low code-points 111
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-MEDIUM loss-priority low code-points 010
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-LOW loss-priority low code-points 001
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-points 000
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-HIGH loss-priority low code-points 101
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-HIGH loss-priority low code-points 100
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-MEDIUM loss-priority low code-points 011
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-MEDIUM loss-priority low code-points 010
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LOW loss-priority low code-points 001
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LOW loss-priority low code-points 000
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-SIGNALING queue-num 7
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-LLQ queue-num 6
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-REALTIME queue-num 5
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-HIGH queue-num 4
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-CONTROL queue-num 3
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-MEDIUM queue-num 2
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-LOW queue-num 1
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-BEST-EFFORT queue-num 0
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae84 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae84 unit 0 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae84 unit 0 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae55 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae55 unit 1 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae55 unit 1 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae55 unit 2 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae55 unit 2 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae82 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae82 unit 1 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae82 unit 1 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae82 unit 2 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces ae82 unit 2 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/51 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/51 unit 1 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/51 unit 1 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority low code-point af41
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority high code-point af43
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority low code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority high code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority low code-point af31
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority high code-point af33
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority low code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority high code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority low code-point af21
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority high code-point af23
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority low code-point af11
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority medium-high code-point af12
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority high code-point af13
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-point af41
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-point af43
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority high code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-point af31
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-point af33
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority high code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-point af21
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-point af23
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-point af11
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-point af12
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-point af13
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority low code-point 110
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority high code-point 110
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority low code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority medium-high code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority high code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority low code-point 101
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority high code-point 101
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority low code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority medium-high code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority high code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority low code-point 111
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority high code-point 111
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority low code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority medium-high code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority high code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority low code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority medium-high code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority high code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority high code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-HIGH loss-priority low code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-MEDIUM loss-priority low code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LOW loss-priority low code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-SIGNALING scheduler SC-SIGNALING
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LLQ scheduler SC-LLQ
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-REALTIME scheduler SC-REALTIME
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-HIGH scheduler SC-HIGH
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-CONTROL scheduler SC-CONTROL
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-MEDIUM scheduler SC-MEDIUM
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LOW scheduler SC-LOW
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-BEST-EFFORT scheduler SC-BEST-EFFORT
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING shaping-rate percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING buffer-size percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING priority strict-high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ shaping-rate percent 40
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ buffer-size percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ priority low-latency
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME shaping-rate percent 30
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME buffer-size percent 20
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME priority medium-high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH transmit-rate percent 40
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH buffer-size percent 30
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH priority low
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL shaping-rate percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL buffer-size percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL priority high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM transmit-rate percent 30
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM buffer-size percent 20
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM priority low
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW transmit-rate percent 20
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW buffer-size percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW priority low
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT transmit-rate remainder
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT buffer-size remainder
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT priority low
+set apply-groups GR-JVD-5G-LLQ-COS
+
+
+MA5:
+
+set groups MEF_L2CKT_LSW interfaces et-0/0/2 mtu 9102
+set groups MEF_L2CKT_LSW interfaces et-0/0/2 gigether-options ethernet-switch-profile tag-protocol-id 0x8100
+set groups MEF_L2CKT_LSW interfaces et-0/0/2 gigether-options ethernet-switch-profile tag-protocol-id 0x88A8
+set groups MEF_L2CKT_LSW interfaces et-0/0/2 unit 4082 encapsulation vlan-bridge
+set groups MEF_L2CKT_LSW interfaces et-0/0/2 unit 4082 vlan-tags outer 0x88a8.4082
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 flexible-vlan-tagging
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 mtu 9102
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 encapsulation flexible-ethernet-services
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 gigether-options ethernet-switch-profile tag-protocol-id 0x8100
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 gigether-options ethernet-switch-profile tag-protocol-id 0x88A8
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 unit 4082 encapsulation vlan-bridge
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 unit 4082 vlan-tags outer 0x88a8.4082
+set groups MEF_L2CKT_LSW interfaces xe-0/1/0 unit 4082 family bridge filter input f-vlan_based_fam_bridge
+set groups MEF_L2CKT_LSW class-of-service interfaces xe-0/1/0 scheduler-map SM-5G-SCHEDULER
+set groups MEF_L2CKT_LSW class-of-service interfaces xe-0/1/0 unit 4082 classifiers ieee-802.1 CL-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces xe-0/1/0 unit 4082 rewrite-rules ieee-802.1 RR-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/2 scheduler-map SM-5G-SCHEDULER
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/2 unit 4082 classifiers ieee-802.1 CL-8021P
+set groups MEF_L2CKT_LSW class-of-service interfaces et-0/0/2 unit 4082 rewrite-rules ieee-802.1 RR-8021P
+set groups MEF_L2CKT_LSW bridge-domains bd_group_lsw_4082 interface et-0/0/2.4082
+set groups MEF_L2CKT_LSW bridge-domains bd_group_lsw_4082 interface xe-0/1/0.4082
+
+
+
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge interface-specific
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class_discard from learn-vlan-1p-priority 6
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class_discard from learn-vlan-1p-priority 7
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class_discard then count pcp_6_7
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class_discard then discard
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class from learn-vlan-1p-priority 4
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class then count high_pcp4
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class then loss-priority high
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term high_class then next term
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term color-envelop from learn-vlan-1p-priority 5
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term color-envelop from learn-vlan-1p-priority 4
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term color-envelop then three-color-policer two-rate high_policer
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term color-envelop then count color-envelop
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-3 from learn-vlan-1p-priority 3
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-3 then three-color-policer two-rate medium_policer
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-3 then count med-3
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-3 then accept
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-2 from learn-vlan-1p-priority 2
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-2 then three-color-policer two-rate medium_policer
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-2 then count med-2
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term medium_class-2 then next term
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term CF0-yellow from loss-priority medium-high
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term CF0-yellow from learn-vlan-1p-priority 2
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term CF0-yellow then count CFO-yellow
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term CF0-yellow then discard
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term low_class from learn-vlan-1p-priority 0
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term low_class from learn-vlan-1p-priority 1
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term low_class then three-color-policer two-rate low_policer
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term low_class then count low_class
+set groups MEF_TESTING firewall family bridge filter f-vlan_based_fam_bridge term deault then count default_traffic
+set groups MEF_TESTING firewall three-color-policer high_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate color-aware
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate committed-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate committed-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate peak-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer high_policer two-rate peak-burst-size 35125
+set groups MEF_TESTING firewall three-color-policer low_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate color-aware
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate committed-information-rate 22k
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate committed-burst-size 1500
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate peak-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer low_policer two-rate peak-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer medium_policer action loss-priority high then discard
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate color-aware
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate committed-information-rate 3500000000
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate committed-burst-size 35k
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate peak-information-rate 7g
+set groups MEF_TESTING firewall three-color-policer medium_policer two-rate peak-burst-size 70k
+set apply-groups MEF_TESTING
+
+
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points cs4
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points af41
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority high code-points af43
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-REALTIME loss-priority low code-points ef
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points cs3
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points af31
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority high code-points af33
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-CONTROL loss-priority low code-points cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points af21
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority high code-points af23
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points cs1
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points af11
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority medium-high code-points af12
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority high code-points af13
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp CL-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points cs4
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points af41
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-points af43
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-points ef
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points cs3
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points af31
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-points af33
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-points cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points af21
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-points af23
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points cs1
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points af11
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-points af12
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-points af13
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS import default
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-SIGNALING loss-priority low code-points 110
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-LLQ loss-priority low code-points 100
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-REALTIME loss-priority low code-points 101
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-HIGH loss-priority low code-points 011
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-CONTROL loss-priority low code-points 111
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-MEDIUM loss-priority low code-points 010
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-LOW loss-priority low code-points 001
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers exp CL-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-points 000
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-HIGH loss-priority low code-points 101
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-HIGH loss-priority low code-points 100
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-MEDIUM loss-priority low code-points 011
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-MEDIUM loss-priority low code-points 010
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LOW loss-priority low code-points 001
+set groups GR-JVD-5G-LLQ-COS class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LOW loss-priority low code-points 000
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-SIGNALING queue-num 7
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-LLQ queue-num 6
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-REALTIME queue-num 5
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-HIGH queue-num 4
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-CONTROL queue-num 3
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-MEDIUM queue-num 2
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-LOW queue-num 1
+set groups GR-JVD-5G-LLQ-COS class-of-service forwarding-classes class FC-BEST-EFFORT queue-num 0
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/1 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/1 unit 0 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/1 unit 0 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/2 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/2 unit 0 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces et-0/0/2 unit 0 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces xe-0/1/4 scheduler-map SM-5G-SCHEDULER
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces xe-0/1/4 unit 0 classifiers exp CL-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service interfaces xe-0/1/4 unit 0 rewrite-rules exp RR-MPLS
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority low code-point af41
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority high code-point af43
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority low code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority high code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority low code-point af31
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority high code-point af33
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority low code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority high code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority low code-point af21
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority high code-point af23
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority low code-point af11
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority medium-high code-point af12
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority high code-point af13
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-point af41
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-point af43
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority high code-point ef
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-point af31
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-point af33
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority high code-point cs7
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-point af21
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-point af23
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-point af11
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-point af12
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-point af13
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority low code-point 110
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority high code-point 110
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority low code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority medium-high code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority high code-point 100
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority low code-point 101
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority high code-point 101
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority low code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority medium-high code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority high code-point 011
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority low code-point 111
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority high code-point 111
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority low code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority medium-high code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority high code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority low code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority medium-high code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority high code-point 001
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority high code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-HIGH loss-priority low code-point 101
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-MEDIUM loss-priority low code-point 010
+set groups GR-JVD-5G-LLQ-COS class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LOW loss-priority low code-point 000
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-SIGNALING scheduler SC-SIGNALING
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LLQ scheduler SC-LLQ
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-REALTIME scheduler SC-REALTIME
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-HIGH scheduler SC-HIGH
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-CONTROL scheduler SC-CONTROL
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-MEDIUM scheduler SC-MEDIUM
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LOW scheduler SC-LOW
+set groups GR-JVD-5G-LLQ-COS class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-BEST-EFFORT scheduler SC-BEST-EFFORT
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING transmit-rate percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING buffer-size percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-SIGNALING priority high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ shaping-rate percent 40
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ buffer-size percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LLQ priority strict-high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME transmit-rate percent 15
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME buffer-size percent 20
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-REALTIME priority medium-high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH transmit-rate percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH buffer-size percent 20
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-HIGH priority high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL transmit-rate percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL buffer-size percent 5
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-CONTROL priority high
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM transmit-rate percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM buffer-size percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-MEDIUM priority low
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW transmit-rate percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW buffer-size percent 10
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-LOW priority low
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT transmit-rate remainder
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT buffer-size remainder
+set groups GR-JVD-5G-LLQ-COS class-of-service schedulers SC-BEST-EFFORT priority low
+set apply-groups GR-JVD-5G-LLQ-COS
