@@ -1,0 +1,1594 @@
+system {
+    host-name GPU-R2-L2;
+    services {
+        netconf {
+            ssh;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    ssl {
+                        port 32767;
+                        local-certificate aos_grpc;
+                    }
+                    routing-instance mgmt_junos;
+                }
+            }
+        }
+    }
+    management-instance;
+    ddos-protection {
+        protocols {
+            resolve {
+                aggregate {
+                    disable-fpc;
+                }
+            }
+        }
+    }
+}
+chassis {
+    fpc 0 {
+        traffic-manager {
+            buffer-monitor-enable;
+        }
+    }
+}
+security {
+    certificates {
+        local {
+            aos_grpc {
+                "secret"; ## SECRET-DATA
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description "Breakout et-0/0/0";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/0:0 {
+        description facing_spine1:et-0/0/5:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.153/31;
+            }
+        }
+    }
+    et-0/0/0:1 {
+        description facing_spine1:et-0/0/5:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.163/31;
+            }
+        }
+    }
+    et-0/0/1 {
+        description "Breakout et-0/0/1";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/1:0 {
+        description facing_spine2:et-0/0/5:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.171/31;
+            }
+        }
+    }
+    et-0/0/1:1 {
+        description facing_spine2:et-0/0/5:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.167/31;
+            }
+        }
+    }
+    et-0/0/2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/5 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12 {
+        description "Breakout et-0/0/12";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/12:0 {
+        description "VRF tenant-5 to H100-03";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.12.15/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/12:1 {
+        description "VRF tenant-6 to H100-03";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.13.15/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/13 {
+        description "Breakout et-0/0/13";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/13:0 {
+        description "VRF tenant-7 to H100-03";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.14.15/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/13:1 {
+        description "VRF tenant-8 to H100-03";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.15.15/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/14 {
+        description "Breakout et-0/0/14";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/15 {
+        description "Breakout et-0/0/15";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/16 {
+        description "Breakout et-0/0/16";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/16:0 {
+        description "VRF tenant-5 to H100-04";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.12.17/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/16:1 {
+        description "VRF tenant-6 to H100-04";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.13.17/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/17 {
+        description "Breakout et-0/0/17";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/17:0 {
+        description "VRF tenant-7 to H100-04";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.14.17/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/17:1 {
+        description "VRF tenant-8 to H100-04";
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.200.15.17/31;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/18 {
+        description "Breakout et-0/0/18";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/19 {
+        description "Breakout et-0/0/19";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/20:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        description "Breakout et-0/0/32";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/32:0 {
+        description facing_spine3:et-0/0/5:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.187/31;
+            }
+        }
+    }
+    et-0/0/32:1 {
+        description facing_spine3:et-0/0/5:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.141/31;
+            }
+        }
+    }
+    et-0/0/33 {
+        description "Breakout et-0/0/33";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/33:0 {
+        description facing_spine4:et-0/0/5:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.191/31;
+            }
+        }
+    }
+    et-0/0/33:1 {
+        description facing_spine4:et-0/0/5:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.157/31;
+            }
+        }
+    }
+    et-0/0/34 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/35 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/36 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/37 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/38 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/39 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/40 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/41 {
+        description "Breakout et-0/0/41";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/41:0 {
+        description to.ixiaaresone;
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 10.200.107.1/24;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/41:1 {
+        description to.ixiaaresone;
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 10.200.108.1/24;
+            }
+            family inet6;
+        }
+    }
+    et-0/0/42 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/43 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/44 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/45 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/46 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/47 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/48 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/49 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/50 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/51 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/52 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/53 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/54 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/55 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/56 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/57 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/58 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/60 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/61 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/62 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/63 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/64 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/65 {
+        unit 0 {
+            family inet;
+        }
+    }
+    irb {
+        mtu 9216;
+        unit 2 {
+            family inet {
+                mtu 9000;
+                address 10.200.0.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 3 {
+            family inet {
+                mtu 9000;
+                address 10.200.1.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 4 {
+            family inet {
+                mtu 9000;
+                address 10.200.2.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 5 {
+            family inet {
+                mtu 9000;
+                address 10.200.3.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 6 {
+            family inet {
+                mtu 9000;
+                address 10.200.4.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 7 {
+            family inet {
+                mtu 9000;
+                address 10.200.5.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 8 {
+            family inet {
+                mtu 9000;
+                address 10.200.6.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 9 {
+            family inet {
+                mtu 9000;
+                address 10.200.7.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 10 {
+            family inet {
+                mtu 9000;
+                address 10.200.8.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 11 {
+            family inet {
+                mtu 9000;
+                address 10.200.9.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 12 {
+            family inet {
+                mtu 9000;
+                address 10.200.10.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 13 {
+            family inet {
+                mtu 9000;
+                address 10.200.11.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 14 {
+            family inet {
+                mtu 9000;
+                address 10.200.12.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 15 {
+            family inet {
+                mtu 9000;
+                address 10.200.13.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 16 {
+            family inet {
+                mtu 9000;
+                address 10.200.14.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 17 {
+            family inet {
+                mtu 9000;
+                address 10.200.15.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 26 {
+            family inet {
+                mtu 9000;
+                address 10.200.24.254/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 27 {
+            family inet {
+                mtu 9000;
+                address 10.200.25.254/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 28 {
+            family inet {
+                mtu 9000;
+                address 10.200.26.254/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 29 {
+            family inet {
+                mtu 9000;
+                address 10.200.27.254/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 107 {
+            family inet {
+                mtu 9000;
+                address 10.200.107.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 108 {
+            family inet {
+                mtu 9000;
+                address 10.200.108.1/24;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.0.1.11/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::1006/128;
+            }
+        }
+        unit 6 {
+            family inet {
+                address 192.168.11.16/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::1018/128;
+            }
+        }
+        unit 7 {
+            family inet {
+                address 192.168.11.18/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::101a/128;
+            }
+        }
+        unit 8 {
+            family inet {
+                address 192.168.11.20/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::101c/128;
+            }
+        }
+        unit 9 {
+            family inet {
+                address 192.168.11.22/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::101e/128;
+            }
+        }
+    }
+}
+forwarding-options {
+    evpn-vxlan {
+        ##
+        ## Warning: statement ignored: unsupported platform (qfx5240-64od)
+        ##
+        shared-tunnels;
+    }
+    /* Load balancing policy label: AI-Core-Team-DLB */
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+    }
+    enhanced-hash-key {
+        ecmp-dlb {
+            flowlet {
+                inactivity-interval 128;
+                flowset-table-size 2048;
+                reassignment {
+                    prob-threshold 3;
+                    quality-delta 6;
+                }
+            }
+            ether-type {
+                ipv4;
+                ipv6;
+            }
+            sampling-rate 1000000;
+        }
+    }
+}
+policy-options {
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-non-tenant {
+        term AllPodNetworks-non-tenant-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add NON-TENANT_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-non-tenant-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add NON-TENANT_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-non-tenant-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-tenant-5 {
+        term AllPodNetworks-tenant-5-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add TENANT-5_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-5-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add TENANT-5_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-5-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-tenant-6 {
+        term AllPodNetworks-tenant-6-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add TENANT-6_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-6-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add TENANT-6_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-6-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-tenant-7 {
+        term AllPodNetworks-tenant-7-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add TENANT-7_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-7-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add TENANT-7_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-7-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-tenant-8 {
+        term AllPodNetworks-tenant-8-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add TENANT-8_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-8-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add TENANT-8_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-tenant-8-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-non-tenant {
+        term BGP-AOS-Policy-non-tenant-10 {
+            from policy AllPodNetworks-non-tenant;
+            then accept;
+        }
+        term BGP-AOS-Policy-non-tenant-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add NON-TENANT_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-non-tenant-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add NON-TENANT_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-non-tenant-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-tenant-5 {
+        term BGP-AOS-Policy-tenant-5-10 {
+            from policy AllPodNetworks-tenant-5;
+            then accept;
+        }
+        term BGP-AOS-Policy-tenant-5-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add TENANT-5_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-5-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add TENANT-5_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-5-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-tenant-6 {
+        term BGP-AOS-Policy-tenant-6-10 {
+            from policy AllPodNetworks-tenant-6;
+            then accept;
+        }
+        term BGP-AOS-Policy-tenant-6-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add TENANT-6_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-6-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add TENANT-6_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-6-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-tenant-7 {
+        term BGP-AOS-Policy-tenant-7-10 {
+            from policy AllPodNetworks-tenant-7;
+            then accept;
+        }
+        term BGP-AOS-Policy-tenant-7-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add TENANT-7_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-7-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add TENANT-7_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-7-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-tenant-8 {
+        term BGP-AOS-Policy-tenant-8-10 {
+            from policy AllPodNetworks-tenant-8;
+            then accept;
+        }
+        term BGP-AOS-Policy-tenant-8-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add TENANT-8_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-8-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add TENANT-8_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-tenant-8-100 {
+            then reject;
+        }
+    }
+    policy-statement EVPN_EXPORT {
+        term EVPN_EXPORT-4095 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_EVPN_OUT {
+        term LEAF_TO_SPINE_EVPN_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_EVPN_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_EVPN_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_FABRIC_OUT {
+        term LEAF_TO_SPINE_FABRIC_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_FABRIC_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_FABRIC_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 8:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 8:20008 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+    community NON-TENANT_COMMUNITY_V4 members [ 8:20007 21010:26000 ];
+    community NON-TENANT_COMMUNITY_V6 members [ 8:20008 21010:26000 ];
+    community TENANT-5_COMMUNITY_V4 members [ 8:20007 21006:26000 ];
+    community TENANT-5_COMMUNITY_V6 members [ 8:20008 21006:26000 ];
+    community TENANT-6_COMMUNITY_V4 members [ 8:20007 21007:26000 ];
+    community TENANT-6_COMMUNITY_V6 members [ 8:20008 21007:26000 ];
+    community TENANT-7_COMMUNITY_V4 members [ 8:20007 21008:26000 ];
+    community TENANT-7_COMMUNITY_V6 members [ 8:20008 21008:26000 ];
+    community TENANT-8_COMMUNITY_V4 members [ 8:20007 21009:26000 ];
+    community TENANT-8_COMMUNITY_V6 members [ 8:20008 21009:26000 ];
+}
+class-of-service {
+    classifiers {
+        dscp mydscp {
+            forwarding-class CNP {
+                loss-priority low code-points 110000;
+            }
+            forwarding-class NO-LOSS {
+                loss-priority low code-points 011010;
+            }
+        }
+    }
+    drop-profiles {
+        dp1 {
+            interpolate {
+                fill-level [ 55 90 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+    }
+    shared-buffer {
+        ingress {
+            buffer-partition lossless {
+                percent 66;
+                dynamic-threshold 10;
+            }
+            buffer-partition lossless-headroom {
+                percent 24;
+            }
+            buffer-partition lossy {
+                percent 10;
+            }
+        }
+        egress {
+            buffer-partition lossless {
+                percent 66;
+            }
+            buffer-partition lossy {
+                percent 10;
+            }
+        }
+    }
+    dedicated-buffer {
+        ingress {
+            percent 15;
+        }
+        egress {
+            percent 30;
+        }
+    }
+    forwarding-classes {
+        class CNP queue-num 3;
+        class NO-LOSS queue-num 4 no-loss pfc-priority 3;
+    }
+    congestion-notification-profile {
+        cnp {
+            pfc-watchdog;
+            input {
+                dscp {
+                    code-point 011010 {
+                        pfc;
+                    }
+                }
+            }
+            output {
+                ieee-802.1 {
+                    code-point 011 {
+                        flow-control-queue 4;
+                    }
+                }
+            }
+        }
+    }
+    interfaces {
+        et-* {
+            congestion-notification-profile cnp;
+            scheduler-map sm1;
+            unit * {
+                classifiers {
+                    dscp mydscp;
+                }
+            }
+        }
+    }
+    scheduler-maps {
+        sm1 {
+            forwarding-class CNP scheduler s2-cnp;
+            forwarding-class NO-LOSS scheduler s1;
+        }
+    }
+    schedulers {
+        s1 {
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+        }
+        s2-cnp {
+            transmit-rate percent 5;
+            priority strict-high;
+        }
+    }
+}
+routing-instances {
+    tenant-5 {
+        instance-type vrf;
+        routing-options {
+            rib tenant-5.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20005;
+                    export BGP-AOS-Policy-tenant-5;
+                }
+            }
+        }
+        interface et-0/0/12:0.0;
+        interface et-0/0/16:0.0;
+        interface et-0/0/41:0.0;
+        interface et-0/0/41:1.0;
+        interface lo0.6;
+        route-distinguisher 10.0.1.11:2005;
+        vrf-target target:20005:1;
+    }
+    tenant-6 {
+        instance-type vrf;
+        routing-options {
+            rib tenant-6.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20006;
+                    export BGP-AOS-Policy-tenant-6;
+                }
+            }
+        }
+        interface et-0/0/12:1.0;
+        interface et-0/0/16:1.0;
+        interface lo0.7;
+        route-distinguisher 10.0.1.11:2006;
+        vrf-target target:20006:1;
+    }
+    tenant-7 {
+        instance-type vrf;
+        routing-options {
+            rib tenant-7.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20007;
+                    export BGP-AOS-Policy-tenant-7;
+                }
+            }
+        }
+        interface et-0/0/13:0.0;
+        interface et-0/0/17:0.0;
+        interface lo0.8;
+        route-distinguisher 10.0.1.11:2007;
+        vrf-target target:20007:1;
+    }
+    tenant-8 {
+        instance-type vrf;
+        routing-options {
+            rib tenant-8.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20008;
+                    export BGP-AOS-Policy-tenant-8;
+                }
+            }
+        }
+        interface et-0/0/13:1.0;
+        interface et-0/0/17:1.0;
+        interface lo0.9;
+        route-distinguisher 10.0.1.11:2008;
+        vrf-target target:20008:1;
+    }
+}
+routing-options {
+    router-id 10.0.1.11;
+    autonomous-system 211;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+protocols {
+    router-advertisement {
+        interface et-0/0/12:0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/12:1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/13:0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/13:1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/16:0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/16:1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/17:0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/17:1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+    }
+    bgp {
+        group l3clos-l {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor 10.0.2.152 {
+                description facing_spine1;
+                local-address 10.0.2.153;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 108;
+            }
+            neighbor 10.0.2.162 {
+                description facing_spine1;
+                local-address 10.0.2.163;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 108;
+            }
+            neighbor 10.0.2.166 {
+                description facing_spine2;
+                local-address 10.0.2.167;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 109;
+            }
+            neighbor 10.0.2.170 {
+                description facing_spine2;
+                local-address 10.0.2.171;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 109;
+            }
+            neighbor 10.0.2.140 {
+                description facing_spine3;
+                local-address 10.0.2.141;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 110;
+            }
+            neighbor 10.0.2.186 {
+                description facing_spine3;
+                local-address 10.0.2.187;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 110;
+            }
+            neighbor 10.0.2.156 {
+                description facing_spine4;
+                local-address 10.0.2.157;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 111;
+            }
+            neighbor 10.0.2.190 {
+                description facing_spine4;
+                local-address 10.0.2.191;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 111;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-l-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 10.0.0.8 {
+                description facing_spine1-evpn-overlay;
+                local-address 10.0.1.11;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 108;
+            }
+            neighbor 10.0.0.9 {
+                description facing_spine2-evpn-overlay;
+                local-address 10.0.1.11;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 109;
+            }
+            neighbor 10.0.0.10 {
+                description facing_spine3-evpn-overlay;
+                local-address 10.0.1.11;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 110;
+            }
+            neighbor 10.0.0.11 {
+                description facing_spine4-evpn-overlay;
+                local-address 10.0.1.11;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 111;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    l2-learning {
+        telemetry {
+            enable-remote-entries;
+        }
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+}
