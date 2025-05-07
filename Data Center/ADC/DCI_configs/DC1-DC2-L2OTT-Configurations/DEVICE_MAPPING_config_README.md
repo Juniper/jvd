@@ -1,3 +1,6 @@
+![Pasted Graphic](https://github.com/user-attachments/assets/584d211a-140f-4b0d-b54c-ed384f4b3b8c)
+
+
 #  R0 - DC1_TOR  (NOT FOR PUBLISHING, TESTBED USE ONLY)
 #  R1 - DC2_TOR  (NOT FOR PUBLISHING, TESTBED USE ONLY)
 #  R2 - DC1 External Router   (NOT FOR PUBLISHING, TESTBED USE ONLY)
