@@ -1,0 +1,893 @@
+system {
+    host-name spine3;
+    services {
+        netconf {
+            ssh;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    ssl {
+                        port 32767;
+                        local-certificate aos_grpc;
+                    }
+                    routing-instance mgmt_junos;
+                }
+            }
+        }
+    }
+    management-instance;
+    ddos-protection {
+        protocols {
+            resolve {
+                aggregate {
+                    disable-fpc;
+                }
+            }
+        }
+    }
+}
+chassis {
+    fpc 0 {
+        traffic-manager {
+            buffer-monitor-enable;
+        }
+    }
+}
+security {
+    certificates {
+        local {
+            aos_grpc {
+                "secret"; ## SECRET-DATA
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description "Breakout et-0/0/0";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/0:0 {
+        description facing_gpu-r1-l1:et-0/0/32:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.144/31;
+            }
+        }
+    }
+    et-0/0/0:1 {
+        description facing_gpu-r1-l1:et-0/0/32:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.174/31;
+            }
+        }
+    }
+    et-0/0/1 {
+        description "Breakout et-0/0/1";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/1:0 {
+        description facing_gpu-r1-l2:et-0/0/32:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.132/31;
+            }
+        }
+    }
+    et-0/0/1:1 {
+        description facing_gpu-r1-l2:et-0/0/32:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.178/31;
+            }
+        }
+    }
+    et-0/0/2:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/2:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4 {
+        description "Breakout et-0/0/4";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/4:0 {
+        description facing_gpu-r2-l1:et-0/0/32:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.138/31;
+            }
+        }
+    }
+    et-0/0/4:1 {
+        description facing_gpu-r2-l1:et-0/0/32:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.168/31;
+            }
+        }
+    }
+    et-0/0/5 {
+        description "Breakout et-0/0/5";
+        number-of-sub-ports 2;
+        speed 400g;
+    }
+    et-0/0/5:0 {
+        description facing_gpu-r2-l2:et-0/0/32:0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.186/31;
+            }
+        }
+    }
+    et-0/0/5:1 {
+        description facing_gpu-r2-l2:et-0/0/32:1;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.2.140/31;
+            }
+        }
+    }
+    et-0/0/6:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/34 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/35 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/36 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/37 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/38 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/39 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/40 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/41 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/42 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/43 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/44 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/45 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/46 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/47 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/48 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/49 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/50 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/51 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/52 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/53 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/54 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/55 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/56 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/57 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/58 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/60 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/61 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/62 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/63 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/64 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/65 {
+        unit 0 {
+            family inet;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.0.0.10/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d2::1002/128;
+            }
+        }
+    }
+}
+forwarding-options {
+    /* Load balancing policy label: AI-Core-Team-DLB */
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+    }
+    enhanced-hash-key {
+        ecmp-dlb {
+            flowlet {
+                inactivity-interval 128;
+                flowset-table-size 2048;
+                reassignment {
+                    prob-threshold 3;
+                    quality-delta 6;
+                }
+            }
+            ether-type {
+                ipv4;
+                ipv6;
+            }
+            sampling-rate 1000000;
+        }
+    }
+}
+policy-options {
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-20 {
+            from protocol bgp;
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement SPINE_TO_LEAF_EVPN_OUT {
+        term SPINE_TO_LEAF_EVPN_OUT-10 {
+            then {
+                community add FROM_SPINE_EVPN_TIER;
+                accept;
+            }
+        }
+    }
+    policy-statement SPINE_TO_LEAF_FABRIC_OUT {
+        term SPINE_TO_LEAF_FABRIC_OUT-10 {
+            then {
+                community add FROM_SPINE_FABRIC_TIER;
+                accept;
+            }
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 3:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 3:20008 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+}
+class-of-service {
+    classifiers {
+        dscp mydscp {
+            forwarding-class CNP {
+                loss-priority low code-points 110000;
+            }
+            forwarding-class NO-LOSS {
+                loss-priority low code-points 011010;
+            }
+        }
+    }
+    drop-profiles {
+        dp1 {
+            interpolate {
+                fill-level [ 55 90 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+    }
+    shared-buffer {
+        ingress {
+            buffer-partition lossless {
+                percent 66;
+                dynamic-threshold 10;
+            }
+            buffer-partition lossless-headroom {
+                percent 24;
+            }
+            buffer-partition lossy {
+                percent 10;
+            }
+        }
+        egress {
+            buffer-partition lossless {
+                percent 66;
+            }
+            buffer-partition lossy {
+                percent 10;
+            }
+        }
+    }
+    dedicated-buffer {
+        ingress {
+            percent 15;
+        }
+        egress {
+            percent 30;
+        }
+    }
+    forwarding-classes {
+        class CNP queue-num 3;
+        class NO-LOSS queue-num 4 no-loss pfc-priority 3;
+    }
+    congestion-notification-profile {
+        cnp {
+            pfc-watchdog;
+            input {
+                dscp {
+                    code-point 011010 {
+                        pfc;
+                    }
+                }
+            }
+            output {
+                ieee-802.1 {
+                    code-point 011 {
+                        flow-control-queue 4;
+                    }
+                }
+            }
+        }
+    }
+    interfaces {
+        et-* {
+            congestion-notification-profile cnp;
+            scheduler-map sm1;
+            unit * {
+                classifiers {
+                    dscp mydscp;
+                }
+            }
+        }
+    }
+    scheduler-maps {
+        sm1 {
+            forwarding-class CNP scheduler s2-cnp;
+            forwarding-class NO-LOSS scheduler s1;
+        }
+    }
+    schedulers {
+        s1 {
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+        }
+        s2-cnp {
+            transmit-rate percent 5;
+            priority strict-high;
+        }
+    }
+}
+routing-instances {
+    mgmt_junos {
+        routing-options {
+            static {
+                route 0.0.0.0/0 next-hop 10.161.39.254;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 10.0.0.10;
+    autonomous-system 110;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+    }
+}
+protocols {
+    bgp {
+        group l3clos-s {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor 10.0.2.145 {
+                description facing_gpu-r1-l1;
+                local-address 10.0.2.144;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 208;
+            }
+            neighbor 10.0.2.175 {
+                description facing_gpu-r1-l1;
+                local-address 10.0.2.174;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 208;
+            }
+            neighbor 10.0.2.133 {
+                description facing_gpu-r1-l2;
+                local-address 10.0.2.132;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 209;
+            }
+            neighbor 10.0.2.179 {
+                description facing_gpu-r1-l2;
+                local-address 10.0.2.178;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 209;
+            }
+            neighbor 10.0.2.139 {
+                description facing_gpu-r2-l1;
+                local-address 10.0.2.138;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 210;
+            }
+            neighbor 10.0.2.169 {
+                description facing_gpu-r2-l1;
+                local-address 10.0.2.168;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 210;
+            }
+            neighbor 10.0.2.141 {
+                description facing_gpu-r2-l2;
+                local-address 10.0.2.140;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 211;
+            }
+            neighbor 10.0.2.187 {
+                description facing_gpu-r2-l2;
+                local-address 10.0.2.186;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 211;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-s-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 10.0.1.9 {
+                description facing_gpu-r1-l1-evpn-overlay;
+                local-address 10.0.0.10;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 208;
+            }
+            neighbor 10.0.1.8 {
+                description facing_gpu-r1-l2-evpn-overlay;
+                local-address 10.0.0.10;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 209;
+            }
+            neighbor 10.0.1.10 {
+                description facing_gpu-r2-l1-evpn-overlay;
+                local-address 10.0.0.10;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 210;
+            }
+            neighbor 10.0.1.11 {
+                description facing_gpu-r2-l2-evpn-overlay;
+                local-address 10.0.0.10;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 211;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        disable;
+    }
+}
