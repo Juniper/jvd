@@ -1,5 +1,5 @@
-#  R0 - DC1_TOR  (not for publishing, internal lab use)
-#  R1 - DC3_TOR  (not for publishing, internal lab use)
+![Pasted Graphic](https://github.com/user-attachments/assets/0a150066-78fe-4f1b-96fd-0ec3c699915b)
+
 #  R2 - DC3 Leaf1
 #  R3 - DC3 Leaf2
 #  R4 - DC1 Spine1
