@@ -1,0 +1,882 @@
+## Last changed: 2025-02-07 08:43:55 PST
+version 23.4R2-S4.4-EVO;
+system {
+    host-name sspine001-1;
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+    }
+    management-instance;
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description facing_spine001-001-1:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.1/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::19/127;
+            }
+        }
+    }
+    et-0/0/1 {
+        description facing_spine001-001-2:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.5/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::1d/127;
+            }
+        }
+    }
+    et-0/0/2 {
+        description facing_spine003-001-1:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.17/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::29/127;
+            }
+        }
+    }
+    et-0/0/3 {
+        description facing_spine003-001-2:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.21/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::2d/127;
+            }
+        }
+    }
+    et-0/0/4 {
+        description facing_spine002-001-1:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.9/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::21/127;
+            }
+        }
+    }
+    et-0/0/5 {
+        description facing_spine002-001-2:et-0/0/0;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.13/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::25/127;
+            }
+        }
+    }
+    et-0/0/6 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/34 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/35 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/36 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/37 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/38 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/39 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/40 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/41 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/42 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/43 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/44 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/45 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/46 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/47 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/48 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/49 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/50 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/51 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/52 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/53 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/54 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/55 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/56 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/57 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/58 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/59 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/60 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/61 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/62 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/63 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/64 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/65 {
+        unit 0 {
+            family inet;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input cpp-filter-v1;
+                }
+                address 192.168.252.12/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::1006/128;
+            }
+        }
+    }
+}
+policy-options {
+    prefix-list bgp-sources {
+        10.0.0.0/8;
+        192.0.0.0/8;
+        2001::/24;
+        fdf6::/24;
+    }
+    prefix-list ntp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list snmp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list ssh-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-20 {
+            from protocol bgp;
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement SUPERSPINE_TO_SPINE_EVPN_OUT {
+        term SUPERSPINE_TO_SPINE_EVPN_OUT-10 {
+            then {
+                community add FROM_SUPERSPINE_EVPN_TIER;
+                accept;
+            }
+        }
+    }
+    policy-statement SUPERSPINE_TO_SPINE_FABRIC_OUT {
+        term SUPERSPINE_TO_SPINE_FABRIC_OUT-10 {
+            then {
+                community add FROM_SUPERSPINE_FABRIC_TIER;
+                accept;
+            }
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 1:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 1:20008 21001:26000 ];
+    community FROM_SUPERSPINE_EVPN_TIER members 0:12;
+    community FROM_SUPERSPINE_FABRIC_TIER members 0:13;
+}
+firewall {
+    policer police-5mbps {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 5m;
+        }
+        then discard;
+    }
+    filter cpp-filter-v1 {
+        term ssh {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port ssh;
+            }
+            then {
+                count cpp-ssh-accept;
+                accept;
+            }
+        }
+        term icmp {
+            from {
+                protocol icmp;
+                icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+            }
+            then {
+                policer police-5mbps;
+                count cpp-icmp-accept;
+            }
+        }
+        term bgp {
+            from {
+                source-prefix-list {
+                    bgp-sources;
+                }
+                protocol tcp;
+                port bgp;
+            }
+            then accept;
+        }
+        term dns {
+            from {
+                protocol udp;
+                source-port 53;
+            }
+            then {
+                count cpp-dns-accept;
+                accept;
+            }
+        }
+        term ntp {
+            from {
+                source-prefix-list {
+                    ntp-sources;
+                }
+                protocol udp;
+                port ntp;
+            }
+            then {
+                count cpp-ntp-accept;
+                accept;
+            }
+        }
+        term dhcp {
+            from {
+                protocol udp;
+                port dhcp;
+            }
+            then {
+                count cpp-dhcp-accept;
+                accept;
+            }
+        }
+        term netconf {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port 830;
+            }
+            then {
+                count cpp-netconf-accept;
+                accept;
+            }
+        }
+        term bfd {
+            from {
+                protocol udp;
+                port [ 1280 3784 4784 3785 ];
+            }
+            then {
+                count cpp-bfd-accept;
+                accept;
+            }
+        }
+        term snmp {
+            from {
+                source-prefix-list {
+                    snmp-sources;
+                }
+                port snmp;
+            }
+            then accept;
+        }
+        term ospf {
+            from {
+                protocol ospf;
+            }
+            then accept;
+        }
+        term fetch {
+            from {
+                protocol tcp;
+                port 8080;
+            }
+            then accept;
+        }
+        term discard-rest {
+            then {
+                count cpp-discard-rest;
+                discard;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 192.168.252.12;
+    autonomous-system 64701;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+    }
+}
+protocols {
+    router-advertisement {
+        interface et-0/0/0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/2.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/3.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/4.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/5.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+    }
+    bgp {
+        group l3clos-s {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::18 {
+                description facing_spine001-001-1;
+                local-address fdf6:ed70:1fac:f2d4::19;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64702;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::1c {
+                description facing_spine001-001-2;
+                local-address fdf6:ed70:1fac:f2d4::1d;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64702;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::20 {
+                description facing_spine002-001-1;
+                local-address fdf6:ed70:1fac:f2d4::21;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64706;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::24 {
+                description facing_spine002-001-2;
+                local-address fdf6:ed70:1fac:f2d4::25;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64706;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::28 {
+                description facing_spine003-001-1;
+                local-address fdf6:ed70:1fac:f2d4::29;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::2c {
+                description facing_spine003-001-2;
+                local-address fdf6:ed70:1fac:f2d4::2d;
+                family inet6 {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor 10.0.4.0 {
+                description facing_spine001-001-1;
+                local-address 10.0.4.1;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64702;
+            }
+            neighbor 10.0.4.4 {
+                description facing_spine001-001-2;
+                local-address 10.0.4.5;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64702;
+            }
+            neighbor 10.0.4.8 {
+                description facing_spine002-001-1;
+                local-address 10.0.4.9;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64706;
+            }
+            neighbor 10.0.4.12 {
+                description facing_spine002-001-2;
+                local-address 10.0.4.13;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64706;
+            }
+            neighbor 10.0.4.16 {
+                description facing_spine003-001-1;
+                local-address 10.0.4.17;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor 10.0.4.20 {
+                description facing_spine003-001-2;
+                local-address 10.0.4.21;
+                family inet {
+                    unicast;
+                }
+                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-s-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 192.168.252.0 {
+                description facing_spine001-001-1-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64702;
+            }
+            neighbor 192.168.252.1 {
+                description facing_spine001-001-2-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64702;
+            }
+            neighbor 192.168.252.2 {
+                description facing_spine002-001-1-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64706;
+            }
+            neighbor 192.168.252.3 {
+                description facing_spine002-001-2-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64706;
+            }
+            neighbor 192.168.252.4 {
+                description facing_spine003-001-1-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64710;
+            }
+            neighbor 192.168.252.5 {
+                description facing_spine003-001-2-evpn-overlay;
+                local-address 192.168.252.12;
+                family evpn {
+                    signaling;
+                }
+                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );
+                peer-as 64710;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        disable;
+    }
+}
