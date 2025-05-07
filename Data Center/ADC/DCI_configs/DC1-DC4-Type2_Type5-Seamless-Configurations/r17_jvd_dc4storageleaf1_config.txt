@@ -1,0 +1,1214 @@
+## Last changed: 2025-02-07 13:52:32 PST
+version 23.4R2-S4.4-EVO;
+system {
+    host-name leaf003-001-1;
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+    }
+    management-instance;
+    ports {
+        console log-out-on-disconnect;
+    }
+    packet-forwarding-options {
+        forwarding-profile {
+            host-profile;
+        }
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 1;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description facing_spine003-001-1:et-0/0/2;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.41/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::11/127;
+            }
+        }
+    }
+    et-0/0/1 {
+        description facing_spine003-001-2:et-0/0/2;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.4.45/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::15/127;
+            }
+        }
+    }
+    et-0/0/2 {
+        description to.sys003-001-001;
+        speed 100g;
+        mtu 9216;
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/5 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8 {
+        description "Breakout et-0/0/8";
+        number-of-sub-ports 4;
+        speed 10g;
+    }
+    et-0/0/8:0 {
+        description to.sys003-001-002;
+        mtu 9216;
+        unit 0 {
+            family ethernet-switching {
+                interface-mode trunk;
+                vlan {
+                    members [ vn2500 vn2501 vn2502 vn2503 vn2504 vn2505 vn2506 vn2507 vn2508 vn2509 ];
+                }
+            }
+        }
+    }
+    et-0/0/8:1 {
+        description to.sys003-001-003;
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/8:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19:0 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19:1 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19:2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19:3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    ae1 {
+        description to.sys003-001-003;
+        mtu 9216;
+        esi {
+            00:08:00:00:00:00:03:00:00:03;
+            all-active;
+        }
+        aggregated-ether-options {
+            lacp {
+                active;
+                system-id 08:00:00:00:00:03;
+            }
+        }
+        unit 0 {
+            family ethernet-switching {
+                interface-mode trunk;
+                vlan {
+                    members [ vn2500 vn2501 vn2502 vn2503 vn2504 vn2505 vn2506 vn2507 vn2508 vn2509 ];
+                }
+            }
+        }
+    }
+    irb {
+        mtu 9216;
+        unit 2500 {
+            family inet {
+                mtu 9000;
+                address 10.25.0.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:00::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2501 {
+            family inet {
+                mtu 9000;
+                address 10.25.1.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:01::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2502 {
+            family inet {
+                mtu 9000;
+                address 10.25.2.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:02::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2503 {
+            family inet {
+                mtu 9000;
+                address 10.25.3.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:03::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2504 {
+            family inet {
+                mtu 9000;
+                address 10.25.4.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:04::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2505 {
+            family inet {
+                mtu 9000;
+                address 10.25.5.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:05::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2506 {
+            family inet {
+                mtu 9000;
+                address 10.25.6.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:06::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2507 {
+            family inet {
+                mtu 9000;
+                address 10.25.7.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:07::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2508 {
+            family inet {
+                mtu 9000;
+                address 10.25.8.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:08::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2509 {
+            family inet {
+                mtu 9000;
+                address 10.25.9.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc1:10:19:09::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input cpp-filter-v1;
+                }
+                address 192.168.252.10/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::1004/128;
+            }
+        }
+        unit 4 {
+            family inet {
+                address 192.168.14.12/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::200c/128;
+            }
+        }
+    }
+}
+policy-options {
+    prefix-list bgp-sources {
+        10.0.0.0/8;
+        192.0.0.0/8;
+        2001::/24;
+        fdf6::/24;
+    }
+    prefix-list ntp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list snmp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list ssh-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-green {
+        term AllPodNetworks-green-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add GREEN_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-green-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add GREEN_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-green-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-green {
+        term BGP-AOS-Policy-green-10 {
+            from policy AllPodNetworks-green;
+            then accept;
+        }
+        term BGP-AOS-Policy-green-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add GREEN_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-green-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add GREEN_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-green-100 {
+            then reject;
+        }
+    }
+    policy-statement EVPN_EXPORT {
+        term EVPN_EXPORT-4095 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_EVPN_OUT {
+        term LEAF_TO_SPINE_EVPN_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_EVPN_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_EVPN_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_FABRIC_OUT {
+        term LEAF_TO_SPINE_FABRIC_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_FABRIC_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_FABRIC_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 13:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 13:20008 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+    community GREEN_COMMUNITY_V4 members [ 13:20007 21004:26000 ];
+    community GREEN_COMMUNITY_V6 members [ 13:20008 21004:26000 ];
+}
+firewall {
+    policer police-5mbps {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 5m;
+        }
+        then discard;
+    }
+    filter cpp-filter-v1 {
+        term ssh {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port ssh;
+            }
+            then {
+                count cpp-ssh-accept;
+                accept;
+            }
+        }
+        term icmp {
+            from {
+                protocol icmp;
+                icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+            }
+            then {
+                policer police-5mbps;
+                count cpp-icmp-accept;
+            }
+        }
+        term bgp {
+            from {
+                source-prefix-list {
+                    bgp-sources;
+                }
+                protocol tcp;
+                port bgp;
+            }
+            then accept;
+        }
+        term dns {
+            from {
+                protocol udp;
+                source-port 53;
+            }
+            then {
+                count cpp-dns-accept;
+                accept;
+            }
+        }
+        term ntp {
+            from {
+                source-prefix-list {
+                    ntp-sources;
+                }
+                protocol udp;
+                port ntp;
+            }
+            then {
+                count cpp-ntp-accept;
+                accept;
+            }
+        }
+        term dhcp {
+            from {
+                protocol udp;
+                port dhcp;
+            }
+            then {
+                count cpp-dhcp-accept;
+                accept;
+            }
+        }
+        term netconf {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port 830;
+            }
+            then {
+                count cpp-netconf-accept;
+                accept;
+            }
+        }
+        term bfd {
+            from {
+                protocol udp;
+                port [ 1280 3784 4784 3785 ];
+            }
+            then {
+                count cpp-bfd-accept;
+                accept;
+            }
+        }
+        term snmp {
+            from {
+                source-prefix-list {
+                    snmp-sources;
+                }
+                port snmp;
+            }
+            then accept;
+        }
+        term ospf {
+            from {
+                protocol ospf;
+            }
+            then accept;
+        }
+        term fetch {
+            from {
+                protocol tcp;
+                port 8080;
+            }
+            then accept;
+        }
+        term discard-rest {
+            then {
+                count cpp-discard-rest;
+                discard;
+            }
+        }
+    }
+}
+routing-instances {
+    evpn-1 {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation vxlan;
+                default-gateway do-not-advertise;
+                duplicate-mac-detection {
+                    auto-recovery-time 9;
+                }
+                extended-vni-list all;
+                vni-options {
+                    vni 12500 {
+                        vrf-target target:12500:1;
+                    }
+                    vni 12501 {
+                        vrf-target target:12501:1;
+                    }
+                    vni 12502 {
+                        vrf-target target:12502:1;
+                    }
+                    vni 12503 {
+                        vrf-target target:12503:1;
+                    }
+                    vni 12504 {
+                        vrf-target target:12504:1;
+                    }
+                    vni 12505 {
+                        vrf-target target:12505:1;
+                    }
+                    vni 12506 {
+                        vrf-target target:12506:1;
+                    }
+                    vni 12507 {
+                        vrf-target target:12507:1;
+                    }
+                    vni 12508 {
+                        vrf-target target:12508:1;
+                    }
+                    vni 12509 {
+                        vrf-target target:12509:1;
+                    }
+                }
+            }
+        }
+        vtep-source-interface lo0.0;
+        service-type vlan-aware;
+        interface et-0/0/8:0.0;
+        interface ae1.0;
+        route-distinguisher 192.168.252.10:65534;
+        vrf-target target:100:100;
+        vlans {
+            vn2500 {
+                description green_2500;
+                vlan-id 2500;
+                l3-interface irb.2500;
+                vxlan {
+                    vni 12500;
+                }
+            }
+            vn2501 {
+                description green_2501;
+                vlan-id 2501;
+                l3-interface irb.2501;
+                vxlan {
+                    vni 12501;
+                }
+            }
+            vn2502 {
+                description green_2502;
+                vlan-id 2502;
+                l3-interface irb.2502;
+                vxlan {
+                    vni 12502;
+                }
+            }
+            vn2503 {
+                description green_2503;
+                vlan-id 2503;
+                l3-interface irb.2503;
+                vxlan {
+                    vni 12503;
+                }
+            }
+            vn2504 {
+                description green_2504;
+                vlan-id 2504;
+                l3-interface irb.2504;
+                vxlan {
+                    vni 12504;
+                }
+            }
+            vn2505 {
+                description green_2505;
+                vlan-id 2505;
+                l3-interface irb.2505;
+                vxlan {
+                    vni 12505;
+                }
+            }
+            vn2506 {
+                description green_2506;
+                vlan-id 2506;
+                l3-interface irb.2506;
+                vxlan {
+                    vni 12506;
+                }
+            }
+            vn2507 {
+                description green_2507;
+                vlan-id 2507;
+                l3-interface irb.2507;
+                vxlan {
+                    vni 12507;
+                }
+            }
+            vn2508 {
+                description green_2508;
+                vlan-id 2508;
+                l3-interface irb.2508;
+                vxlan {
+                    vni 12508;
+                }
+            }
+            vn2509 {
+                description green_2509;
+                vlan-id 2509;
+                l3-interface irb.2509;
+                vxlan {
+                    vni 12509;
+                }
+            }
+        }
+    }
+    green {
+        instance-type vrf;
+        routing-options {
+            rib green.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20004;
+                    export BGP-AOS-Policy-green;
+                }
+            }
+        }
+        interface irb.2500;
+        interface irb.2501;
+        interface irb.2502;
+        interface irb.2503;
+        interface irb.2504;
+        interface irb.2505;
+        interface irb.2506;
+        interface irb.2507;
+        interface irb.2508;
+        interface irb.2509;
+        interface lo0.4;
+        route-distinguisher 192.168.252.10:4;
+        vrf-target target:20004:1;
+    }
+}
+routing-options {
+    router-id 192.168.252.10;
+    autonomous-system 64712;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+protocols {
+    router-advertisement {
+        interface et-0/0/0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2500 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2501 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2502 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2503 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2504 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2505 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2506 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2507 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2508 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2509 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+    }
+    bgp {
+        group l3clos-l {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::10 {
+                description facing_spine003-001-1;
+                local-address fdf6:ed70:1fac:f2d4::11;
+                family inet6 {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::14 {
+                description facing_spine003-001-2;
+                local-address fdf6:ed70:1fac:f2d4::15;
+                family inet6 {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor 10.0.4.40 {
+                description facing_spine003-001-1;
+                local-address 10.0.4.41;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            neighbor 10.0.4.44 {
+                description facing_spine003-001-2;
+                local-address 10.0.4.45;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64710;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-l-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 192.168.252.4 {
+                description facing_spine003-001-1-evpn-overlay;
+                local-address 192.168.252.10;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 64710;
+            }
+            neighbor 192.168.252.5 {
+                description facing_spine003-001-2-evpn-overlay;
+                local-address 192.168.252.10;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 64710;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    l2-learning {
+        telemetry {
+            enable-remote-entries;
+        }
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        bridge-priority 0;
+        interface et-0/0/8:0 {
+            edge;
+        }
+        interface ae1 {
+            edge;
+        }
+        bpdu-block-on-edge;
+    }
+}
