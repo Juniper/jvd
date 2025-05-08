@@ -722,12 +722,6 @@ interfaces {
     }
 }
 forwarding-options {
-    evpn-vxlan {
-        ##
-        ## Warning: statement ignored: unsupported platform (qfx5240-64od)
-        ##
-        shared-tunnels;
-    }
     /* Load balancing policy label: AI-Core-Team-DLB */
     hash-key {
         family inet {
