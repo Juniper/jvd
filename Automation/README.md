@@ -6,10 +6,32 @@ In the dynamic landscape of network engineering, the importance of leveraging va
 
 This solution integrates a general access and aggregation use case network for the tier 2-3 operators with the capabilities of network automation and Paragon Automation (aka EoP or Epic on Prem) to demonstrate its capabilities in this context and enhance the final solution.
 
-## Access Nodes
+## Configurations
 
-## Aggregat
+Here you can find all the configurations of the files being part of this Automation JVD.
 
+### Access Nodes
+
+- [Access Nodes Onboarding](./Configurations/ANs/Onboarding/)
+- [Access Nodes Services](./Configurations/ANs/Services/)
+
+### Aggregation Nodes
+
+- [Aggregation Nodes](./Configurations/AGs/)
+
+### Core Nodes
+
+- [Core Nodes](./Configurations/Core/)
+
+### SAG
+
+- [SAG](./Configurations/SAG/)
+
+## Scripts
+
+Here there are the scripts being used in this Automation JVD.
+
+[Scripts](./Scripts/)
 
 ## Considerations
 
