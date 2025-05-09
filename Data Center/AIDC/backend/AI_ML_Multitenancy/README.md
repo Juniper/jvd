@@ -1,4 +1,4 @@
-**AI ML Multitenancy JVD**
+**AI Data Center Multitenancy with EVPN/VXLAN—Juniper Validated Design JVD**
 
 The AI Data Center Multitenancy with EVPN/VXLAN JVD defines best practices, solution components, and configuration guidelines for
 deploying an EVPN/VXLAN GPU backend fabric infrastructure—based on Juniper Networks QFX Series high-performance switches—
