@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-Metro as a Service (MaaS) sets a new industry benchmark with the first validated design to achieve full end-to-end MEF 3.0 compliance over a Cloud Metro architecture, featuring a dense services portfolio. With MaaS, operators can trust that Juniper solutions meet the most stringent performance, quality, reliability, and interoperability standards required for Carrier Ethernet service delivery.
-=======
 # Metro as a Service (MaaS) JVD
 
 Metro as a Service (MaaS) sets a new industry benchmark with the first validated design to achieve full end-to-end **MEF 3.0 conformance** over a **Cloud Metro architecture**, featuring a dense services portfolio.
