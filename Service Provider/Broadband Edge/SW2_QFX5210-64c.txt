@@ -1,0 +1,415 @@
+
+show configuration |no-more
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            port 26 {
+                channel-speed 10g;
+            }
+        }
+    }
+}
+interfaces {
+    xe-0/0/0:0 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    xe-0/0/0:1 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    xe-0/0/0:2 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    xe-0/0/0:3 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    xe-0/0/26:1 {
+        description R13-SW2-To-RT0-IXIA;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1036 {
+            encapsulation vlan-bridge;
+            vlan-id 1036;
+        }
+        unit 1037 {
+            encapsulation vlan-bridge;
+            vlan-id 1037;
+        }
+        unit 1038 {
+            encapsulation vlan-bridge;
+            vlan-id 1038;
+        }
+        unit 1039 {
+            encapsulation vlan-bridge;
+            vlan-id 1039;
+        }
+        unit 1040 {
+            encapsulation vlan-bridge;
+            vlan-id 1040;
+        }
+        unit 1046 {
+            encapsulation vlan-bridge;
+            vlan-id 1046;
+        }
+        unit 1047 {
+            encapsulation vlan-bridge;
+            vlan-id 1047;
+        }
+        unit 1048 {
+            encapsulation vlan-bridge;
+            vlan-id 1048;
+        }
+        unit 1049 {
+            encapsulation vlan-bridge;
+            vlan-id 1049;
+        }
+        unit 1050 {
+            encapsulation vlan-bridge;
+            vlan-id 1050;
+        }
+        unit 1071 {
+            encapsulation vlan-bridge;
+            vlan-id 1071;
+        }
+        unit 1072 {
+            encapsulation vlan-bridge;
+            vlan-id 1072;
+        }
+        unit 1075 {
+            encapsulation vlan-bridge;
+            vlan-id 1075;
+        }
+        unit 1076 {
+            encapsulation vlan-bridge;
+            vlan-id 1076;
+        }
+    }
+    xe-0/0/54:2 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    xe-0/0/54:3 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    ae0 {
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1071 {
+            encapsulation vlan-bridge;
+            vlan-id 1071;
+        }
+        unit 1072 {
+            encapsulation vlan-bridge;
+            vlan-id 1072;
+        }
+        unit 1075 {
+            encapsulation vlan-bridge;
+            vlan-id 1075;
+        }
+        unit 1076 {
+            encapsulation vlan-bridge;
+            vlan-id 1076;
+        }
+    }
+    ae1 {
+        description R13-SW2-To-RT0-IXIA;
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1036 {
+            encapsulation vlan-bridge;
+            vlan-id 1036;
+        }
+        unit 1037 {
+            encapsulation vlan-bridge;
+            vlan-id 1037;
+        }
+        unit 1038 {
+            encapsulation vlan-bridge;
+            vlan-id 1038;
+        }
+        unit 1039 {
+            encapsulation vlan-bridge;
+            vlan-id 1039;
+        }
+        unit 1040 {
+            encapsulation vlan-bridge;
+            vlan-id 1040;
+        }
+        unit 1046 {
+            encapsulation vlan-bridge;
+            vlan-id 1046;
+        }
+        unit 1047 {
+            encapsulation vlan-bridge;
+            vlan-id 1047;
+        }
+        unit 1048 {
+            encapsulation vlan-bridge;
+            vlan-id 1048;
+        }
+        unit 1049 {
+            encapsulation vlan-bridge;
+            vlan-id 1049;
+        }
+        unit 1050 {
+            encapsulation vlan-bridge;
+            vlan-id 1050;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.13/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0013.00;
+            }
+            family inet6 {
+                address 2001:db8::1:1:0:d/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+routing-options {
+    router-id 192.168.0.13;
+}
+vlans {
+    bd_group_1036 {
+        vlan-id 1036;
+        interface xe-0/0/26:1.1036;
+        interface ae1.1036;
+    }
+    bd_group_1037 {
+        vlan-id 1037;
+        interface xe-0/0/26:1.1037;
+        interface ae1.1037;
+    }
+    bd_group_1038 {
+        vlan-id 1038;
+        interface xe-0/0/26:1.1038;
+        interface ae1.1038;
+    }
+    bd_group_1039 {
+        vlan-id 1039;
+        interface xe-0/0/26:1.1039;
+        interface ae1.1039;
+    }
+    bd_group_1040 {
+        vlan-id 1040;
+        interface xe-0/0/26:1.1040;
+        interface ae1.1040;
+    }
+    bd_group_1046 {
+        vlan-id 1046;
+        interface xe-0/0/26:1.1046;
+        interface ae1.1046;
+    }
+    bd_group_1047 {
+        vlan-id 1047;
+        interface xe-0/0/26:1.1047;
+        interface ae1.1047;
+    }
+    bd_group_1048 {
+        vlan-id 1048;
+        interface xe-0/0/26:1.1048;
+        interface ae1.1048;
+    }
+    bd_group_1049 {
+        vlan-id 1049;
+        interface xe-0/0/26:1.1049;
+        interface ae1.1049;
+    }
+    bd_group_1050 {
+        vlan-id 1050;
+        interface xe-0/0/26:1.1050;
+        interface ae1.1050;
+    }
+    bd_group_1071 {
+        vlan-id 1071;
+        interface xe-0/0/26:1.1071;
+        interface ae0.1071;
+    }
+    bd_group_1072 {
+        vlan-id 1072;
+        interface xe-0/0/26:1.1072;
+        interface ae0.1072;
+    }
+    bd_group_1075 {
+        vlan-id 1075;
+        interface xe-0/0/26:1.1075;
+        interface ae0.1075;
+    }
+    bd_group_1076 {
+        vlan-id 1076;
+        interface xe-0/0/26:1.1076;
+        interface ae0.1076;
+    }
+}
+
+
+
+show configuration | display set|no-more
+set system ports console log-out-on-disconnect
+set chassis aggregated-devices ethernet device-count 25
+set chassis fpc 0 pic 0 port 26 channel-speed 10g
+set interfaces xe-0/0/0:0 ether-options 802.3ad ae1
+set interfaces xe-0/0/0:1 ether-options 802.3ad ae0
+set interfaces xe-0/0/0:2 ether-options 802.3ad ae1
+set interfaces xe-0/0/0:3 ether-options 802.3ad ae0
+set interfaces xe-0/0/26:1 description R13-SW2-To-RT0-IXIA
+set interfaces xe-0/0/26:1 flexible-vlan-tagging
+set interfaces xe-0/0/26:1 encapsulation flexible-ethernet-services
+set interfaces xe-0/0/26:1 unit 1036 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1036 vlan-id 1036
+set interfaces xe-0/0/26:1 unit 1037 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1037 vlan-id 1037
+set interfaces xe-0/0/26:1 unit 1038 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1038 vlan-id 1038
+set interfaces xe-0/0/26:1 unit 1039 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1039 vlan-id 1039
+set interfaces xe-0/0/26:1 unit 1040 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1040 vlan-id 1040
+set interfaces xe-0/0/26:1 unit 1046 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1046 vlan-id 1046
+set interfaces xe-0/0/26:1 unit 1047 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1047 vlan-id 1047
+set interfaces xe-0/0/26:1 unit 1048 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1048 vlan-id 1048
+set interfaces xe-0/0/26:1 unit 1049 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1049 vlan-id 1049
+set interfaces xe-0/0/26:1 unit 1050 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1050 vlan-id 1050
+set interfaces xe-0/0/26:1 unit 1071 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1071 vlan-id 1071
+set interfaces xe-0/0/26:1 unit 1072 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1072 vlan-id 1072
+set interfaces xe-0/0/26:1 unit 1075 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1075 vlan-id 1075
+set interfaces xe-0/0/26:1 unit 1076 encapsulation vlan-bridge
+set interfaces xe-0/0/26:1 unit 1076 vlan-id 1076
+set interfaces xe-0/0/54:2 ether-options 802.3ad ae1
+set interfaces xe-0/0/54:3 ether-options 802.3ad ae0
+set interfaces ae0 flexible-vlan-tagging
+set interfaces ae0 mtu 9102
+set interfaces ae0 encapsulation flexible-ethernet-services
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 aggregated-ether-options lacp periodic fast
+set interfaces ae0 unit 1071 encapsulation vlan-bridge
+set interfaces ae0 unit 1071 vlan-id 1071
+set interfaces ae0 unit 1072 encapsulation vlan-bridge
+set interfaces ae0 unit 1072 vlan-id 1072
+set interfaces ae0 unit 1075 encapsulation vlan-bridge
+set interfaces ae0 unit 1075 vlan-id 1075
+set interfaces ae0 unit 1076 encapsulation vlan-bridge
+set interfaces ae0 unit 1076 vlan-id 1076
+set interfaces ae1 description R13-SW2-To-RT0-IXIA
+set interfaces ae1 flexible-vlan-tagging
+set interfaces ae1 mtu 9102
+set interfaces ae1 encapsulation flexible-ethernet-services
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 aggregated-ether-options lacp periodic fast
+set interfaces ae1 unit 1036 encapsulation vlan-bridge
+set interfaces ae1 unit 1036 vlan-id 1036
+set interfaces ae1 unit 1037 encapsulation vlan-bridge
+set interfaces ae1 unit 1037 vlan-id 1037
+set interfaces ae1 unit 1038 encapsulation vlan-bridge
+set interfaces ae1 unit 1038 vlan-id 1038
+set interfaces ae1 unit 1039 encapsulation vlan-bridge
+set interfaces ae1 unit 1039 vlan-id 1039
+set interfaces ae1 unit 1040 encapsulation vlan-bridge
+set interfaces ae1 unit 1040 vlan-id 1040
+set interfaces ae1 unit 1046 encapsulation vlan-bridge
+set interfaces ae1 unit 1046 vlan-id 1046
+set interfaces ae1 unit 1047 encapsulation vlan-bridge
+set interfaces ae1 unit 1047 vlan-id 1047
+set interfaces ae1 unit 1048 encapsulation vlan-bridge
+set interfaces ae1 unit 1048 vlan-id 1048
+set interfaces ae1 unit 1049 encapsulation vlan-bridge
+set interfaces ae1 unit 1049 vlan-id 1049
+set interfaces ae1 unit 1050 encapsulation vlan-bridge
+set interfaces ae1 unit 1050 vlan-id 1050
+set interfaces lo0 unit 0 family inet address 192.168.0.13/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0013.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::1:1:0:d/128 primary
+set routing-options router-id 192.168.0.13
+set vlans bd_group_1036 vlan-id 1036
+set vlans bd_group_1036 interface xe-0/0/26:1.1036
+set vlans bd_group_1036 interface ae1.1036
+set vlans bd_group_1037 vlan-id 1037
+set vlans bd_group_1037 interface xe-0/0/26:1.1037
+set vlans bd_group_1037 interface ae1.1037
+set vlans bd_group_1038 vlan-id 1038
+set vlans bd_group_1038 interface xe-0/0/26:1.1038
+set vlans bd_group_1038 interface ae1.1038
+set vlans bd_group_1039 vlan-id 1039
+set vlans bd_group_1039 interface xe-0/0/26:1.1039
+set vlans bd_group_1039 interface ae1.1039
+set vlans bd_group_1040 vlan-id 1040
+set vlans bd_group_1040 interface xe-0/0/26:1.1040
+set vlans bd_group_1040 interface ae1.1040
+set vlans bd_group_1046 vlan-id 1046
+set vlans bd_group_1046 interface xe-0/0/26:1.1046
+set vlans bd_group_1046 interface ae1.1046
+set vlans bd_group_1047 vlan-id 1047
+set vlans bd_group_1047 interface xe-0/0/26:1.1047
+set vlans bd_group_1047 interface ae1.1047
+set vlans bd_group_1048 vlan-id 1048
+set vlans bd_group_1048 interface xe-0/0/26:1.1048
+set vlans bd_group_1048 interface ae1.1048
+set vlans bd_group_1049 vlan-id 1049
+set vlans bd_group_1049 interface xe-0/0/26:1.1049
+set vlans bd_group_1049 interface ae1.1049
+set vlans bd_group_1050 vlan-id 1050
+set vlans bd_group_1050 interface xe-0/0/26:1.1050
+set vlans bd_group_1050 interface ae1.1050
+set vlans bd_group_1071 vlan-id 1071
+set vlans bd_group_1071 interface xe-0/0/26:1.1071
+set vlans bd_group_1071 interface ae0.1071
+set vlans bd_group_1072 vlan-id 1072
+set vlans bd_group_1072 interface xe-0/0/26:1.1072
+set vlans bd_group_1072 interface ae0.1072
+set vlans bd_group_1075 vlan-id 1075
+set vlans bd_group_1075 interface xe-0/0/26:1.1075
+set vlans bd_group_1075 interface ae0.1075
+set vlans bd_group_1076 vlan-id 1076
+set vlans bd_group_1076 interface xe-0/0/26:1.1076
+set vlans bd_group_1076 interface ae0.1076
+

@@ -1,0 +1,390 @@
+show configuration |no-more
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    xe-0/0/0:0 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    xe-0/0/0:1 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    xe-0/0/0:3 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1031 {
+            encapsulation vlan-bridge;
+            vlan-id 1031;
+        }
+        unit 1032 {
+            encapsulation vlan-bridge;
+            vlan-id 1032;
+        }
+        unit 1033 {
+            encapsulation vlan-bridge;
+            vlan-id 1033;
+        }
+        unit 1034 {
+            encapsulation vlan-bridge;
+            vlan-id 1034;
+        }
+        unit 1035 {
+            encapsulation vlan-bridge;
+            vlan-id 1035;
+        }
+        unit 1041 {
+            encapsulation vlan-bridge;
+            vlan-id 1041;
+        }
+        unit 1042 {
+            encapsulation vlan-bridge;
+            vlan-id 1042;
+        }
+        unit 1043 {
+            encapsulation vlan-bridge;
+            vlan-id 1043;
+        }
+        unit 1044 {
+            encapsulation vlan-bridge;
+            vlan-id 1044;
+        }
+        unit 1045 {
+            encapsulation vlan-bridge;
+            vlan-id 1045;
+        }
+        unit 1061 {
+            encapsulation vlan-bridge;
+            vlan-id 1061;
+        }
+        unit 1062 {
+            encapsulation vlan-bridge;
+            vlan-id 1062;
+        }
+        unit 1065 {
+            encapsulation vlan-bridge;
+            vlan-id 1065;
+        }
+        unit 1066 {
+            encapsulation vlan-bridge;
+            vlan-id 1066;
+        }
+    }
+    xe-0/0/1:0 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    xe-0/0/1:1 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    ae0 {
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1061 {
+            encapsulation vlan-bridge;
+            vlan-id 1061;
+        }
+        unit 1062 {
+            encapsulation vlan-bridge;
+            vlan-id 1062;
+        }
+        unit 1065 {
+            encapsulation vlan-bridge;
+            vlan-id 1065;
+        }
+        unit 1066 {
+            encapsulation vlan-bridge;
+            vlan-id 1066;
+        }
+    }
+    ae1 {
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 1031 {
+            encapsulation vlan-bridge;
+            vlan-id 1031;
+        }
+        unit 1032 {
+            encapsulation vlan-bridge;
+            vlan-id 1032;
+        }
+        unit 1033 {
+            encapsulation vlan-bridge;
+            vlan-id 1033;
+        }
+        unit 1034 {
+            encapsulation vlan-bridge;
+            vlan-id 1034;
+        }
+        unit 1035 {
+            encapsulation vlan-bridge;
+            vlan-id 1035;
+        }
+        unit 1041 {
+            encapsulation vlan-bridge;
+            vlan-id 1041;
+        }
+        unit 1042 {
+            encapsulation vlan-bridge;
+            vlan-id 1042;
+        }
+        unit 1043 {
+            encapsulation vlan-bridge;
+            vlan-id 1043;
+        }
+        unit 1044 {
+            encapsulation vlan-bridge;
+            vlan-id 1044;
+        }
+        unit 1045 {
+            encapsulation vlan-bridge;
+            vlan-id 1045;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.12/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0012.00;
+            }
+            family inet6 {
+                address 2001:db8::1:1:0:c/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+routing-options {
+    router-id 192.168.0.12;
+}
+vlans {
+    bd_group_1031 {
+        vlan-id 1031;
+        interface xe-0/0/0:3.1031;
+        interface ae1.1031;
+    }
+    bd_group_1032 {
+        vlan-id 1032;
+        interface xe-0/0/0:3.1032;
+        interface ae1.1032;
+    }
+    bd_group_1033 {
+        vlan-id 1033;
+        interface xe-0/0/0:3.1033;
+        interface ae1.1033;
+    }
+    bd_group_1034 {
+        vlan-id 1034;
+        interface xe-0/0/0:3.1034;
+        interface ae1.1034;
+    }
+    bd_group_1035 {
+        vlan-id 1035;
+        interface xe-0/0/0:3.1035;
+        interface ae1.1035;
+    }
+    bd_group_1041 {
+        vlan-id 1041;
+        interface xe-0/0/0:3.1041;
+        interface ae1.1041;
+    }
+    bd_group_1042 {
+        vlan-id 1042;
+        interface xe-0/0/0:3.1042;
+        interface ae1.1042;
+    }
+    bd_group_1043 {
+        vlan-id 1043;
+        interface xe-0/0/0:3.1043;
+        interface ae1.1043;
+    }
+    bd_group_1044 {
+        vlan-id 1044;
+        interface xe-0/0/0:3.1044;
+        interface ae1.1044;
+    }
+    bd_group_1045 {
+        vlan-id 1045;
+        interface xe-0/0/0:3.1045;
+        interface ae1.1045;
+    }
+    bd_group_1061 {
+        vlan-id 1061;
+        interface xe-0/0/0:3.1061;
+        interface ae0.1061;
+    }
+    bd_group_1062 {
+        vlan-id 1062;
+        interface xe-0/0/0:3.1062;
+        interface ae0.1062;
+    }
+    bd_group_1065 {
+        vlan-id 1065;
+        interface xe-0/0/0:3.1065;
+        interface ae0.1065;
+    }
+    bd_group_1066 {
+        vlan-id 1066;
+        interface xe-0/0/0:3.1066;
+        interface ae0.1066;
+    }
+}
+
+
+
+show configuration | display set|no-more
+set system ports console log-out-on-disconnect
+set chassis aggregated-devices ethernet device-count 25
+set interfaces xe-0/0/0:0 ether-options 802.3ad ae0
+set interfaces xe-0/0/0:1 ether-options 802.3ad ae1
+set interfaces xe-0/0/0:3 flexible-vlan-tagging
+set interfaces xe-0/0/0:3 encapsulation flexible-ethernet-services
+set interfaces xe-0/0/0:3 unit 1031 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1031 vlan-id 1031
+set interfaces xe-0/0/0:3 unit 1032 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1032 vlan-id 1032
+set interfaces xe-0/0/0:3 unit 1033 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1033 vlan-id 1033
+set interfaces xe-0/0/0:3 unit 1034 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1034 vlan-id 1034
+set interfaces xe-0/0/0:3 unit 1035 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1035 vlan-id 1035
+set interfaces xe-0/0/0:3 unit 1041 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1041 vlan-id 1041
+set interfaces xe-0/0/0:3 unit 1042 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1042 vlan-id 1042
+set interfaces xe-0/0/0:3 unit 1043 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1043 vlan-id 1043
+set interfaces xe-0/0/0:3 unit 1044 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1044 vlan-id 1044
+set interfaces xe-0/0/0:3 unit 1045 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1045 vlan-id 1045
+set interfaces xe-0/0/0:3 unit 1061 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1061 vlan-id 1061
+set interfaces xe-0/0/0:3 unit 1062 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1062 vlan-id 1062
+set interfaces xe-0/0/0:3 unit 1065 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1065 vlan-id 1065
+set interfaces xe-0/0/0:3 unit 1066 encapsulation vlan-bridge
+set interfaces xe-0/0/0:3 unit 1066 vlan-id 1066
+set interfaces xe-0/0/1:0 ether-options 802.3ad ae1
+set interfaces xe-0/0/1:1 ether-options 802.3ad ae0
+set interfaces ae0 flexible-vlan-tagging
+set interfaces ae0 mtu 9102
+set interfaces ae0 encapsulation flexible-ethernet-services
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 aggregated-ether-options lacp periodic fast
+set interfaces ae0 unit 1061 encapsulation vlan-bridge
+set interfaces ae0 unit 1061 vlan-id 1061
+set interfaces ae0 unit 1062 encapsulation vlan-bridge
+set interfaces ae0 unit 1062 vlan-id 1062
+set interfaces ae0 unit 1065 encapsulation vlan-bridge
+set interfaces ae0 unit 1065 vlan-id 1065
+set interfaces ae0 unit 1066 encapsulation vlan-bridge
+set interfaces ae0 unit 1066 vlan-id 1066
+set interfaces ae1 flexible-vlan-tagging
+set interfaces ae1 mtu 9102
+set interfaces ae1 encapsulation flexible-ethernet-services
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 aggregated-ether-options lacp periodic fast
+set interfaces ae1 unit 1031 encapsulation vlan-bridge
+set interfaces ae1 unit 1031 vlan-id 1031
+set interfaces ae1 unit 1032 encapsulation vlan-bridge
+set interfaces ae1 unit 1032 vlan-id 1032
+set interfaces ae1 unit 1033 encapsulation vlan-bridge
+set interfaces ae1 unit 1033 vlan-id 1033
+set interfaces ae1 unit 1034 encapsulation vlan-bridge
+set interfaces ae1 unit 1034 vlan-id 1034
+set interfaces ae1 unit 1035 encapsulation vlan-bridge
+set interfaces ae1 unit 1035 vlan-id 1035
+set interfaces ae1 unit 1041 encapsulation vlan-bridge
+set interfaces ae1 unit 1041 vlan-id 1041
+set interfaces ae1 unit 1042 encapsulation vlan-bridge
+set interfaces ae1 unit 1042 vlan-id 1042
+set interfaces ae1 unit 1043 encapsulation vlan-bridge
+set interfaces ae1 unit 1043 vlan-id 1043
+set interfaces ae1 unit 1044 encapsulation vlan-bridge
+set interfaces ae1 unit 1044 vlan-id 1044
+set interfaces ae1 unit 1045 encapsulation vlan-bridge
+set interfaces ae1 unit 1045 vlan-id 1045
+set interfaces lo0 unit 0 family inet address 192.168.0.12/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0012.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::1:1:0:c/128 primary
+set routing-options router-id 192.168.0.12
+set vlans bd_group_1031 vlan-id 1031
+set vlans bd_group_1031 interface xe-0/0/0:3.1031
+set vlans bd_group_1031 interface ae1.1031
+set vlans bd_group_1032 vlan-id 1032
+set vlans bd_group_1032 interface xe-0/0/0:3.1032
+set vlans bd_group_1032 interface ae1.1032
+set vlans bd_group_1033 vlan-id 1033
+set vlans bd_group_1033 interface xe-0/0/0:3.1033
+set vlans bd_group_1033 interface ae1.1033
+set vlans bd_group_1034 vlan-id 1034
+set vlans bd_group_1034 interface xe-0/0/0:3.1034
+set vlans bd_group_1034 interface ae1.1034
+set vlans bd_group_1035 vlan-id 1035
+set vlans bd_group_1035 interface xe-0/0/0:3.1035
+set vlans bd_group_1035 interface ae1.1035
+set vlans bd_group_1041 vlan-id 1041
+set vlans bd_group_1041 interface xe-0/0/0:3.1041
+set vlans bd_group_1041 interface ae1.1041
+set vlans bd_group_1042 vlan-id 1042
+set vlans bd_group_1042 interface xe-0/0/0:3.1042
+set vlans bd_group_1042 interface ae1.1042
+set vlans bd_group_1043 vlan-id 1043
+set vlans bd_group_1043 interface xe-0/0/0:3.1043
+set vlans bd_group_1043 interface ae1.1043
+set vlans bd_group_1044 vlan-id 1044
+set vlans bd_group_1044 interface xe-0/0/0:3.1044
+set vlans bd_group_1044 interface ae1.1044
+set vlans bd_group_1045 vlan-id 1045
+set vlans bd_group_1045 interface xe-0/0/0:3.1045
+set vlans bd_group_1045 interface ae1.1045
+set vlans bd_group_1061 vlan-id 1061
+set vlans bd_group_1061 interface xe-0/0/0:3.1061
+set vlans bd_group_1061 interface ae0.1061
+set vlans bd_group_1062 vlan-id 1062
+set vlans bd_group_1062 interface xe-0/0/0:3.1062
+set vlans bd_group_1062 interface ae0.1062
+set vlans bd_group_1065 vlan-id 1065
+set vlans bd_group_1065 interface xe-0/0/0:3.1065
+set vlans bd_group_1065 interface ae0.1065
+set vlans bd_group_1066 vlan-id 1066
+set vlans bd_group_1066 interface xe-0/0/0:3.1066
+set vlans bd_group_1066 interface ae0.1066
+

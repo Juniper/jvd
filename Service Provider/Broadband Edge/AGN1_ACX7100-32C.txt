@@ -1,0 +1,711 @@
+
+show configuration |no-more
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description R5-AGN1-To-R1-AN2;
+        unit 0 {
+            family inet {
+                address 10.10.15.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:15:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/2 {
+        description R5-AGN1-To-R2-AN3;
+        unit 0 {
+            family inet {
+                address 10.10.25.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:25:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/4 {
+        description R5-AGN1-To-R3-AN4;
+        unit 0 {
+            family inet {
+                address 10.10.35.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:35:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/6 {
+        description R5-AGN1-To-R4-AN5;
+        unit 0 {
+            family inet {
+                address 10.10.45.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:45:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/8 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    et-0/0/10 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    et-0/0/12 {
+        description R5-AGN1-To-R11-CR1;
+        unit 0 {
+            family inet {
+                address 10.10.115.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:115:1:1/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/16 {
+        description R5-AGN1-To-R0-AN1;
+        unit 0 {
+            family inet {
+                address 10.10.5.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:5:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/20 {
+        description R5-AGN1-To-R8-BNG2;
+        unit 0 {
+            family inet {
+                address 10.10.58.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:58:1:1/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/24 {
+        description R5-AGN1-To-R7-BNG1;
+        unit 0 {
+            family inet {
+                address 10.10.57.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:57:1:1/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ae0 {
+        description R5-AGN1-To-R6-AGN2;
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 2;
+            lacp {
+                active;
+            }
+        }
+        unit 1 {
+            vlan-id 1001;
+            family inet {
+                address 10.10.56.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:56:1:1/120;
+            }
+            family mpls;
+        }
+        unit 2 {
+            vlan-id 1002;
+            family inet {
+                address 10.10.156.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:156:1:1/120;
+            }
+            family mpls;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.5/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0005.00;
+            }
+            family inet6 {
+                address 2001:db8::192:168:0:5/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+policy-options {
+    prefix-list PL-AN-REGION {
+        192.168.0.0/32;
+        192.168.0.1/32;
+        192.168.0.2/32;
+        192.168.0.3/32;
+        192.168.0.4/32;
+    }
+    prefix-list PL-CORE {
+        192.168.0.7/32;
+        192.168.0.8/32;
+        192.168.0.11/32;
+    }
+    policy-statement PS-BGP-RR-EXPORT {
+        term CORE-NHS {
+            from {
+                prefix-list PL-CORE;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-CLIENT-RR-EXPORT {
+        term LOOPBACKS {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then accept;
+        }
+    }
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 192.168.0.5/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index 1005;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 2001:db8::192:168:0:5/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index 4005;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+    }
+    policy-statement PS-PPLB {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+}
+routing-options {
+    router-id 192.168.0.5;
+    autonomous-system 65001;
+    forwarding-table {
+        export PS-PPLB;
+    }
+}
+protocols {
+    bgp {
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-FABRIC-RR {
+            type internal;
+            local-address 192.168.0.5;
+            family inet {
+                labeled-unicast {
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family evpn {
+                signaling;
+            }
+            cluster 192.168.0.5;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.0;
+            neighbor 192.168.0.1;
+            neighbor 192.168.0.2;
+            neighbor 192.168.0.3;
+            neighbor 192.168.0.4;
+        }
+        group GR-IBGP-CR {
+            type internal;
+            local-address 192.168.0.5;
+            family inet {
+                labeled-unicast {
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family evpn {
+                signaling;
+            }
+            cluster 192.168.0.5;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.7;
+            neighbor 192.168.0.8;
+            neighbor 192.168.0.11;
+        }
+    }
+    isis {
+        interface et-0/0/0.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/2.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/4.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/6.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/12.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/16.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/20.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/24.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface ae0.1 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface ae0.2 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface lo0.0 {
+            passive;
+        }
+        source-packet-routing explicit-null;
+        level 1 wide-metrics-only;
+        level 2 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+            multipath {
+                weighted one-hop;
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export PS-ISIS-EXPORT;
+    }
+    mpls {
+        label-range {
+            srgb-label-range 800000 890000;
+        }
+        ipv6-tunneling;
+    }
+}
+
+show configuration | display set|no-more
+set system ports console log-out-on-disconnect
+set chassis aggregated-devices ethernet device-count 25
+set interfaces et-0/0/0 description R5-AGN1-To-R1-AN2
+set interfaces et-0/0/0 unit 0 family inet address 10.10.15.2/24
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family inet6 address 2001:db8::10:10:15:1:2/120
+set interfaces et-0/0/0 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/2 description R5-AGN1-To-R2-AN3
+set interfaces et-0/0/2 unit 0 family inet address 10.10.25.2/24
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/2 unit 0 family inet6 address 2001:db8::10:10:25:1:2/120
+set interfaces et-0/0/2 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/4 description R5-AGN1-To-R3-AN4
+set interfaces et-0/0/4 unit 0 family inet address 10.10.35.2/24
+set interfaces et-0/0/4 unit 0 family iso
+set interfaces et-0/0/4 unit 0 family inet6 address 2001:db8::10:10:35:1:2/120
+set interfaces et-0/0/4 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/6 description R5-AGN1-To-R4-AN5
+set interfaces et-0/0/6 unit 0 family inet address 10.10.45.2/24
+set interfaces et-0/0/6 unit 0 family iso
+set interfaces et-0/0/6 unit 0 family inet6 address 2001:db8::10:10:45:1:2/120
+set interfaces et-0/0/6 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/8 ether-options 802.3ad ae0
+set interfaces et-0/0/10 ether-options 802.3ad ae0
+set interfaces et-0/0/12 description R5-AGN1-To-R11-CR1
+set interfaces et-0/0/12 unit 0 family inet address 10.10.115.1/24
+set interfaces et-0/0/12 unit 0 family iso
+set interfaces et-0/0/12 unit 0 family inet6 address 2001:db8::10:10:115:1:1/120
+set interfaces et-0/0/12 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/16 description R5-AGN1-To-R0-AN1
+set interfaces et-0/0/16 unit 0 family inet address 10.10.5.2/24
+set interfaces et-0/0/16 unit 0 family iso
+set interfaces et-0/0/16 unit 0 family inet6 address 2001:db8::10:10:5:1:2/120
+set interfaces et-0/0/16 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/20 description R5-AGN1-To-R8-BNG2
+set interfaces et-0/0/20 unit 0 family inet address 10.10.58.1/24
+set interfaces et-0/0/20 unit 0 family iso
+set interfaces et-0/0/20 unit 0 family inet6 address 2001:db8::10:10:58:1:1/120
+set interfaces et-0/0/20 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/24 description R5-AGN1-To-R7-BNG1
+set interfaces et-0/0/24 unit 0 family inet address 10.10.57.1/24
+set interfaces et-0/0/24 unit 0 family iso
+set interfaces et-0/0/24 unit 0 family inet6 address 2001:db8::10:10:57:1:1/120
+set interfaces et-0/0/24 unit 0 family mpls maximum-labels 16
+set interfaces ae0 description R5-AGN1-To-R6-AGN2
+set interfaces ae0 vlan-tagging
+set interfaces ae0 aggregated-ether-options minimum-links 2
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 unit 1 vlan-id 1001
+set interfaces ae0 unit 1 family inet address 10.10.56.1/24
+set interfaces ae0 unit 1 family iso
+set interfaces ae0 unit 1 family inet6 address 2001:db8::10:10:56:1:1/120
+set interfaces ae0 unit 1 family mpls
+set interfaces ae0 unit 2 vlan-id 1002
+set interfaces ae0 unit 2 family inet address 10.10.156.1/24
+set interfaces ae0 unit 2 family iso
+set interfaces ae0 unit 2 family inet6 address 2001:db8::10:10:156:1:1/120
+set interfaces ae0 unit 2 family mpls
+set interfaces lo0 unit 0 family inet address 192.168.0.5/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0005.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::192:168:0:5/128 primary
+set policy-options prefix-list PL-AN-REGION 192.168.0.0/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.1/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.2/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.3/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.4/32
+set policy-options prefix-list PL-CORE 192.168.0.7/32
+set policy-options prefix-list PL-CORE 192.168.0.8/32
+set policy-options prefix-list PL-CORE 192.168.0.11/32
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS from prefix-list PL-CORE
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS then next-hop self
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS then accept
+set policy-options policy-statement PS-CLIENT-RR-EXPORT term LOOPBACKS from prefix-list PL-AN-REGION
+set policy-options policy-statement PS-CLIENT-RR-EXPORT term LOOPBACKS then accept
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface em0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface fxp0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface re0:mgmt-0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT then reject
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from route-filter 192.168.0.5/32 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment index 1005
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then accept
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from route-filter 2001:db8::192:168:0:5/128 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment index 4005
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then accept
+set policy-options policy-statement PS-PPLB then load-balance per-packet
+set policy-options policy-statement PS-PPLB then accept
+set routing-options router-id 192.168.0.5
+set routing-options autonomous-system 65001
+set routing-options forwarding-table export PS-PPLB
+set protocols bgp advertise-from-main-vpn-tables
+set protocols bgp vpn-apply-export
+set protocols bgp group GR-IBGP-FABRIC-RR type internal
+set protocols bgp group GR-IBGP-FABRIC-RR local-address 192.168.0.5
+set protocols bgp group GR-IBGP-FABRIC-RR family inet labeled-unicast rib inet.3
+set protocols bgp group GR-IBGP-FABRIC-RR family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-FABRIC-RR family evpn signaling
+set protocols bgp group GR-IBGP-FABRIC-RR cluster 192.168.0.5
+set protocols bgp group GR-IBGP-FABRIC-RR bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-FABRIC-RR bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-FABRIC-RR neighbor 192.168.0.0
+set protocols bgp group GR-IBGP-FABRIC-RR neighbor 192.168.0.1
+set protocols bgp group GR-IBGP-FABRIC-RR neighbor 192.168.0.2
+set protocols bgp group GR-IBGP-FABRIC-RR neighbor 192.168.0.3
+set protocols bgp group GR-IBGP-FABRIC-RR neighbor 192.168.0.4
+set protocols bgp group GR-IBGP-CR type internal
+set protocols bgp group GR-IBGP-CR local-address 192.168.0.5
+set protocols bgp group GR-IBGP-CR family inet labeled-unicast rib inet.3
+set protocols bgp group GR-IBGP-CR family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-CR family evpn signaling
+set protocols bgp group GR-IBGP-CR cluster 192.168.0.5
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.7
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.8
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.11
+set protocols isis interface et-0/0/0.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/2.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/4.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/4.0 point-to-point
+set protocols isis interface et-0/0/4.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/4.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/4.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/6.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/6.0 point-to-point
+set protocols isis interface et-0/0/6.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/6.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/6.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/12.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/12.0 point-to-point
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/16.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/16.0 point-to-point
+set protocols isis interface et-0/0/16.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/16.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/16.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/20.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/20.0 point-to-point
+set protocols isis interface et-0/0/20.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/20.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/20.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/24.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/24.0 point-to-point
+set protocols isis interface et-0/0/24.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/24.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/24.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface ae0.1 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae0.1 point-to-point
+set protocols isis interface ae0.1 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae0.1 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae0.1 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface ae0.2 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae0.2 point-to-point
+set protocols isis interface ae0.2 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae0.2 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae0.2 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing explicit-null
+set protocols isis level 1 wide-metrics-only
+set protocols isis level 2 disable
+set protocols isis spf-options microloop-avoidance post-convergence-path delay 5000
+set protocols isis spf-options multipath weighted one-hop
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-labels 5
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering l3-unicast-topology
+set protocols isis traffic-engineering advertisement always
+set protocols isis export PS-ISIS-EXPORT
+set protocols mpls label-range srgb-label-range 800000 890000
+set protocols mpls ipv6-tunneling
+

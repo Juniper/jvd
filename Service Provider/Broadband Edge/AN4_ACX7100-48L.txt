@@ -1,0 +1,822 @@
+
+show configuration |no-more
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/1 {
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    et-0/0/48 {
+        description R3-AN4-To-R5-AGN1;
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.10.35.1/24;
+            }
+            family iso;
+            family inet6;
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/49 {
+        description R3-AN4-To-R6-AGN2;
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.10.36.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:36:1:1/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/50 {
+        speed 100g;
+    }
+    ae0 {
+        description R3-AN4-To-R13-SW2;
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        esi {
+            00:16:16:16:00:00:00:16:16:16;
+            single-active;
+            df-election-granularity {
+                per-esi {
+                    lacp-oos-on-ndf;
+                }
+            }
+        }
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+                system-id 00:00:00:00:03:03;
+            }
+        }
+        unit 1071 {
+            encapsulation vlan-ccc;
+            vlan-id 1071;
+            family ccc;
+        }
+        unit 1072 {
+            encapsulation vlan-ccc;
+            vlan-id 1072;
+            family ccc;
+        }
+        unit 1075 {
+            encapsulation vlan-ccc;
+            vlan-id 1075;
+            family ccc;
+        }
+        unit 1076 {
+            encapsulation vlan-ccc;
+            vlan-id 1076;
+            family ccc;
+        }
+    }
+    ae1 {
+        description R3-AN4-To-R13-SW2;
+        flexible-vlan-tagging;
+        mtu 9102;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+                system-id 00:00:00:00:04:04;
+            }
+        }
+        unit 1036 {
+            encapsulation vlan-ccc;
+            vlan-id 1036;
+            esi {
+                00:10:11:11:11:11:11:00:00:36;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1037 {
+            encapsulation vlan-ccc;
+            vlan-id 1037;
+            esi {
+                00:10:11:11:11:11:11:00:00:37;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1038 {
+            encapsulation vlan-ccc;
+            vlan-id 1038;
+            esi {
+                00:10:11:11:11:11:11:00:00:38;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1039 {
+            encapsulation vlan-ccc;
+            vlan-id 1039;
+            esi {
+                00:10:11:11:11:11:11:00:00:39;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1040 {
+            encapsulation vlan-ccc;
+            vlan-id 1040;
+            esi {
+                00:10:11:11:11:11:11:00:00:3a;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1046 {
+            encapsulation vlan-ccc;
+            vlan-id 1046;
+            esi {
+                00:10:11:11:11:11:11:00:00:46;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1047 {
+            encapsulation vlan-ccc;
+            vlan-id 1047;
+            esi {
+                00:10:11:11:11:11:11:00:00:47;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1048 {
+            encapsulation vlan-ccc;
+            vlan-id 1048;
+            esi {
+                00:10:11:11:11:11:11:00:00:48;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1049 {
+            encapsulation vlan-ccc;
+            vlan-id 1049;
+            esi {
+                00:10:11:11:11:11:11:00:00:49;
+                all-active;
+            }
+            family ccc;
+        }
+        unit 1050 {
+            encapsulation vlan-ccc;
+            vlan-id 1050;
+            esi {
+                00:10:11:11:11:11:11:00:00:4a;
+                all-active;
+            }
+            family ccc;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.3/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0003.00;
+            }
+            family inet6 {
+                address 2001:db8::192:168:0:3/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 192.168.0.3/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index 1003;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 2001:db8::192:168:0:3/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index 4003;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+    }
+    policy-statement PS-PPLB {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+}
+routing-instances {
+    METRO_BBE_EVPN_FXC_IPoE-GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                label-allocation per-instance;
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    esi {
+                        00:16:16:16:00:00:00:16:16:16;
+                    }
+                    interface ae0.1075;
+                    interface ae0.1076;
+                    service-id {
+                        local 5006;
+                        remote 6006;
+                    }
+                }
+            }
+        }
+        interface ae0.1075;
+        interface ae0.1076;
+        route-distinguisher 103.103.103.103:3002;
+        vrf-target target:60000:3002;
+    }
+    METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                label-allocation per-instance;
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    esi {
+                        00:16:16:16:00:00:00:16:16:16;
+                    }
+                    interface ae0.1071;
+                    interface ae0.1072;
+                    service-id {
+                        local 5005;
+                        remote 6005;
+                    }
+                }
+            }
+        }
+        interface ae0.1071;
+        interface ae0.1072;
+        route-distinguisher 103.103.103.103:2002;
+        vrf-target target:60000:2002;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1050 {
+                    vpws-service-id {
+                        local 20;
+                        remote 40;
+                    }
+                }
+            }
+        }
+        interface ae1.1050;
+        route-distinguisher 103.103.103.103:1050;
+        vrf-target target:60000:1050;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1046 {
+                    vpws-service-id {
+                        local 16;
+                        remote 36;
+                    }
+                }
+            }
+        }
+        interface ae1.1046;
+        route-distinguisher 103.103.103.103:1046;
+        vrf-target target:60000:1046;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1047 {
+                    vpws-service-id {
+                        local 17;
+                        remote 37;
+                    }
+                }
+            }
+        }
+        interface ae1.1047;
+        route-distinguisher 103.103.103.103:1047;
+        vrf-target target:60000:1047;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1048 {
+                    vpws-service-id {
+                        local 18;
+                        remote 38;
+                    }
+                }
+            }
+        }
+        interface ae1.1048;
+        route-distinguisher 103.103.103.103:1048;
+        vrf-target target:60000:1048;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1049 {
+                    vpws-service-id {
+                        local 19;
+                        remote 39;
+                    }
+                }
+            }
+        }
+        interface ae1.1049;
+        route-distinguisher 103.103.103.103:1049;
+        vrf-target target:60000:1049;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1040 {
+                    vpws-service-id {
+                        local 10;
+                        remote 30;
+                    }
+                }
+            }
+        }
+        interface ae1.1040;
+        route-distinguisher 103.103.103.103:1040;
+        vrf-target target:60000:1040;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1036 {
+                    vpws-service-id {
+                        local 6;
+                        remote 26;
+                    }
+                }
+            }
+        }
+        interface ae1.1036;
+        route-distinguisher 103.103.103.103:1036;
+        vrf-target target:60000:1036;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1037 {
+                    vpws-service-id {
+                        local 7;
+                        remote 27;
+                    }
+                }
+            }
+        }
+        interface ae1.1037;
+        route-distinguisher 103.103.103.103:1037;
+        vrf-target target:60000:1037;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1038 {
+                    vpws-service-id {
+                        local 8;
+                        remote 28;
+                    }
+                }
+            }
+        }
+        interface ae1.1038;
+        route-distinguisher 103.103.103.103:1038;
+        vrf-target target:60000:1038;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ae1.1039 {
+                    vpws-service-id {
+                        local 9;
+                        remote 29;
+                    }
+                }
+            }
+        }
+        interface ae1.1039;
+        route-distinguisher 103.103.103.103:1039;
+        vrf-target target:60000:1039;
+    }
+}
+routing-options {
+    router-id 192.168.0.3;
+    autonomous-system 65001;
+    forwarding-table {
+        export PS-PPLB;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+protocols {
+    bgp {
+        group GR-IBGP-AN {
+            type internal;
+            local-address 192.168.0.3;
+            family inet {
+                labeled-unicast {
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family evpn {
+                signaling;
+            }
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.5;
+            neighbor 192.168.0.6;
+        }
+    }
+    isis {
+        interface et-0/0/48.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/49.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface lo0.0 {
+            passive;
+        }
+        source-packet-routing explicit-null;
+        level 1 wide-metrics-only;
+        level 2 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+            multipath {
+                weighted one-hop;
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export PS-ISIS-EXPORT;
+    }
+    mpls {
+        label-range {
+            srgb-label-range 800000 890000;
+        }
+        ipv6-tunneling;
+    }
+}
+
+
+
+show configuration | display set|no-more
+set system ports console log-out-on-disconnect
+set chassis aggregated-devices ethernet device-count 25
+set interfaces et-0/0/0 ether-options 802.3ad ae1
+set interfaces et-0/0/1 ether-options 802.3ad ae0
+set interfaces et-0/0/48 description R3-AN4-To-R5-AGN1
+set interfaces et-0/0/48 speed 100g
+set interfaces et-0/0/48 unit 0 family inet address 10.10.35.1/24
+set interfaces et-0/0/48 unit 0 family iso
+set interfaces et-0/0/48 unit 0 family inet6
+set interfaces et-0/0/48 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/49 description R3-AN4-To-R6-AGN2
+set interfaces et-0/0/49 speed 100g
+set interfaces et-0/0/49 unit 0 family inet address 10.10.36.1/24
+set interfaces et-0/0/49 unit 0 family iso
+set interfaces et-0/0/49 unit 0 family inet6 address 2001:db8::10:10:36:1:1/120
+set interfaces et-0/0/49 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/50 speed 100g
+set interfaces ae0 description R3-AN4-To-R13-SW2
+set interfaces ae0 flexible-vlan-tagging
+set interfaces ae0 mtu 9102
+set interfaces ae0 encapsulation flexible-ethernet-services
+set interfaces ae0 esi 00:16:16:16:00:00:00:16:16:16
+set interfaces ae0 esi single-active
+set interfaces ae0 esi df-election-granularity per-esi lacp-oos-on-ndf
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 aggregated-ether-options lacp periodic fast
+set interfaces ae0 aggregated-ether-options lacp system-id 00:00:00:00:03:03
+set interfaces ae0 unit 1071 encapsulation vlan-ccc
+set interfaces ae0 unit 1071 vlan-id 1071
+set interfaces ae0 unit 1071 family ccc
+set interfaces ae0 unit 1072 encapsulation vlan-ccc
+set interfaces ae0 unit 1072 vlan-id 1072
+set interfaces ae0 unit 1072 family ccc
+set interfaces ae0 unit 1075 encapsulation vlan-ccc
+set interfaces ae0 unit 1075 vlan-id 1075
+set interfaces ae0 unit 1075 family ccc
+set interfaces ae0 unit 1076 encapsulation vlan-ccc
+set interfaces ae0 unit 1076 vlan-id 1076
+set interfaces ae0 unit 1076 family ccc
+set interfaces ae1 description R3-AN4-To-R13-SW2
+set interfaces ae1 flexible-vlan-tagging
+set interfaces ae1 mtu 9102
+set interfaces ae1 encapsulation flexible-ethernet-services
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 aggregated-ether-options lacp periodic fast
+set interfaces ae1 aggregated-ether-options lacp system-id 00:00:00:00:04:04
+set interfaces ae1 unit 1036 encapsulation vlan-ccc
+set interfaces ae1 unit 1036 vlan-id 1036
+set interfaces ae1 unit 1036 esi 00:10:11:11:11:11:11:00:00:36
+set interfaces ae1 unit 1036 esi all-active
+set interfaces ae1 unit 1036 family ccc
+set interfaces ae1 unit 1037 encapsulation vlan-ccc
+set interfaces ae1 unit 1037 vlan-id 1037
+set interfaces ae1 unit 1037 esi 00:10:11:11:11:11:11:00:00:37
+set interfaces ae1 unit 1037 esi all-active
+set interfaces ae1 unit 1037 family ccc
+set interfaces ae1 unit 1038 encapsulation vlan-ccc
+set interfaces ae1 unit 1038 vlan-id 1038
+set interfaces ae1 unit 1038 esi 00:10:11:11:11:11:11:00:00:38
+set interfaces ae1 unit 1038 esi all-active
+set interfaces ae1 unit 1038 family ccc
+set interfaces ae1 unit 1039 encapsulation vlan-ccc
+set interfaces ae1 unit 1039 vlan-id 1039
+set interfaces ae1 unit 1039 esi 00:10:11:11:11:11:11:00:00:39
+set interfaces ae1 unit 1039 esi all-active
+set interfaces ae1 unit 1039 family ccc
+set interfaces ae1 unit 1040 encapsulation vlan-ccc
+set interfaces ae1 unit 1040 vlan-id 1040
+set interfaces ae1 unit 1040 esi 00:10:11:11:11:11:11:00:00:3a
+set interfaces ae1 unit 1040 esi all-active
+set interfaces ae1 unit 1040 family ccc
+set interfaces ae1 unit 1046 encapsulation vlan-ccc
+set interfaces ae1 unit 1046 vlan-id 1046
+set interfaces ae1 unit 1046 esi 00:10:11:11:11:11:11:00:00:46
+set interfaces ae1 unit 1046 esi all-active
+set interfaces ae1 unit 1046 family ccc
+set interfaces ae1 unit 1047 encapsulation vlan-ccc
+set interfaces ae1 unit 1047 vlan-id 1047
+set interfaces ae1 unit 1047 esi 00:10:11:11:11:11:11:00:00:47
+set interfaces ae1 unit 1047 esi all-active
+set interfaces ae1 unit 1047 family ccc
+set interfaces ae1 unit 1048 encapsulation vlan-ccc
+set interfaces ae1 unit 1048 vlan-id 1048
+set interfaces ae1 unit 1048 esi 00:10:11:11:11:11:11:00:00:48
+set interfaces ae1 unit 1048 esi all-active
+set interfaces ae1 unit 1048 family ccc
+set interfaces ae1 unit 1049 encapsulation vlan-ccc
+set interfaces ae1 unit 1049 vlan-id 1049
+set interfaces ae1 unit 1049 esi 00:10:11:11:11:11:11:00:00:49
+set interfaces ae1 unit 1049 esi all-active
+set interfaces ae1 unit 1049 family ccc
+set interfaces ae1 unit 1050 encapsulation vlan-ccc
+set interfaces ae1 unit 1050 vlan-id 1050
+set interfaces ae1 unit 1050 esi 00:10:11:11:11:11:11:00:00:4a
+set interfaces ae1 unit 1050 esi all-active
+set interfaces ae1 unit 1050 family ccc
+set interfaces lo0 unit 0 family inet address 192.168.0.3/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0003.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::192:168:0:3/128 primary
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface em0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface fxp0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface re0:mgmt-0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT then reject
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from route-filter 192.168.0.3/32 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment index 1003
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then accept
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from route-filter 2001:db8::192:168:0:3/128 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment index 4003
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then accept
+set policy-options policy-statement PS-PPLB then load-balance per-packet
+set policy-options policy-statement PS-PPLB then accept
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn label-allocation per-instance
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn flexible-cross-connect-vlan-unaware
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn group fxc esi 00:16:16:16:00:00:00:16:16:16
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn group fxc interface ae0.1075
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn group fxc interface ae0.1076
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn group fxc service-id local 5006
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn group fxc service-id remote 6006
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 interface ae0.1075
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 interface ae0.1076
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 route-distinguisher 103.103.103.103:3002
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 vrf-target target:60000:3002
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn label-allocation per-instance
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn flexible-cross-connect-vlan-unaware
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn group fxc esi 00:16:16:16:00:00:00:16:16:16
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn group fxc interface ae0.1071
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn group fxc interface ae0.1072
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn group fxc service-id local 5005
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn group fxc service-id remote 6005
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 interface ae0.1071
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 interface ae0.1072
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 route-distinguisher 103.103.103.103:2002
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 vrf-target target:60000:2002
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 protocols evpn interface ae1.1050 vpws-service-id local 20
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 protocols evpn interface ae1.1050 vpws-service-id remote 40
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 interface ae1.1050
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 route-distinguisher 103.103.103.103:1050
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 vrf-target target:60000:1050
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 protocols evpn interface ae1.1046 vpws-service-id local 16
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 protocols evpn interface ae1.1046 vpws-service-id remote 36
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 interface ae1.1046
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 route-distinguisher 103.103.103.103:1046
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 vrf-target target:60000:1046
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 protocols evpn interface ae1.1047 vpws-service-id local 17
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 protocols evpn interface ae1.1047 vpws-service-id remote 37
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 interface ae1.1047
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 route-distinguisher 103.103.103.103:1047
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 vrf-target target:60000:1047
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 protocols evpn interface ae1.1048 vpws-service-id local 18
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 protocols evpn interface ae1.1048 vpws-service-id remote 38
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 interface ae1.1048
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 route-distinguisher 103.103.103.103:1048
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 vrf-target target:60000:1048
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 protocols evpn interface ae1.1049 vpws-service-id local 19
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 protocols evpn interface ae1.1049 vpws-service-id remote 39
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 interface ae1.1049
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 route-distinguisher 103.103.103.103:1049
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 vrf-target target:60000:1049
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 protocols evpn interface ae1.1040 vpws-service-id local 10
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 protocols evpn interface ae1.1040 vpws-service-id remote 30
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 interface ae1.1040
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 route-distinguisher 103.103.103.103:1040
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 vrf-target target:60000:1040
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 protocols evpn interface ae1.1036 vpws-service-id local 6
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 protocols evpn interface ae1.1036 vpws-service-id remote 26
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 interface ae1.1036
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 route-distinguisher 103.103.103.103:1036
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 vrf-target target:60000:1036
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 protocols evpn interface ae1.1037 vpws-service-id local 7
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 protocols evpn interface ae1.1037 vpws-service-id remote 27
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 interface ae1.1037
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 route-distinguisher 103.103.103.103:1037
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 vrf-target target:60000:1037
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 protocols evpn interface ae1.1038 vpws-service-id local 8
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 protocols evpn interface ae1.1038 vpws-service-id remote 28
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 interface ae1.1038
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 route-distinguisher 103.103.103.103:1038
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 vrf-target target:60000:1038
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 protocols evpn interface ae1.1039 vpws-service-id local 9
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 protocols evpn interface ae1.1039 vpws-service-id remote 29
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 interface ae1.1039
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 route-distinguisher 103.103.103.103:1039
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 vrf-target target:60000:1039
+set routing-options router-id 192.168.0.3
+set routing-options autonomous-system 65001
+set routing-options forwarding-table export PS-PPLB
+set routing-options forwarding-table chained-composite-next-hop ingress evpn
+set protocols bgp group GR-IBGP-AN type internal
+set protocols bgp group GR-IBGP-AN local-address 192.168.0.3
+set protocols bgp group GR-IBGP-AN family inet labeled-unicast rib inet.3
+set protocols bgp group GR-IBGP-AN family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-AN family evpn signaling
+set protocols bgp group GR-IBGP-AN bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-AN bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-AN neighbor 192.168.0.5
+set protocols bgp group GR-IBGP-AN neighbor 192.168.0.6
+set protocols isis interface et-0/0/48.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/48.0 point-to-point
+set protocols isis interface et-0/0/48.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/48.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/48.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/49.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/49.0 point-to-point
+set protocols isis interface et-0/0/49.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/49.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/49.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing explicit-null
+set protocols isis level 1 wide-metrics-only
+set protocols isis level 2 disable
+set protocols isis spf-options microloop-avoidance post-convergence-path delay 5000
+set protocols isis spf-options multipath weighted one-hop
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-labels 5
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering l3-unicast-topology
+set protocols isis traffic-engineering advertisement always
+set protocols isis export PS-ISIS-EXPORT
+set protocols mpls label-range srgb-label-range 800000 890000
+set protocols mpls ipv6-tunneling
+
+
