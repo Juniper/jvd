@@ -14,7 +14,7 @@ The Metro Ethernet Business Services (Metro EBS) JVD defines a production-ready 
   - **BGP-VPLS**, **L2VPN**, **L2Circuit**, **L3VPN**, and **EVPN ELAN Type 5**
 - **End-to-end resiliency** with active/standby and active/active redundancy
 - **Transport Classes** and **BGP Classful Transport (BGP-CT)** for traffic steering
-- Validated on platforms including **ACX7024, ACX7100-32C,ACX7100-48L, ACX5448, ACX710, MX204, MX304, PTX10001-36Mr**
+- Validated on platforms including **ACX7024, ACX7100-32C, ACX7100-48L, ACX5448, ACX710, MX204, MX304, PTX10001-36Mr**
 
 ---
 
