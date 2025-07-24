@@ -1,0 +1,590 @@
+## Last changed: 2025-01-27 21:22:05 PST
+apply-groups [ re0 re1 global ];
+system {
+    root-authentication {
+        encrypted-password "$6$j4r7BNAA$g6ZGOf7vciOFJzKvgtyeJeOvprpcF0ECgyElfrqjs2Huynr0fEafkmZ1//N.EqrHbhW5GjuUylbTJV9YR0vO0/"; ## SECRET-DATA
+    }
+    login {
+        user regress {
+            uid 928;
+            class superuser;
+            shell csh;
+            authentication {
+                encrypted-password "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."; ## SECRET-DATA
+            }
+        }
+    }
+    services {
+        netconf {
+            ssh;
+        }
+        ssh;
+        ftp;
+        telnet;
+        web-management {
+            http {
+                port 8088;
+            }
+        }
+    }
+    domain-search [ englab.juniper.net spglab.juniper.net dcbg.juniper.net juniper.net jnpr.net ];
+    time-zone America/Los_Angeles;
+    debugger-on-panic;
+    debugger-on-break;
+    authentication-order [ password radius ];
+    name-server {
+        10.92.236.2;
+        10.102.152.11;
+    }
+    radius-server {
+        192.168.69.162 secret "$9$oQajqTQn69tkqPQz3AtO1RSev8XNY4JEcdwYoUD"; ## SECRET-DATA
+        192.168.64.10 secret "$9$RyNElM7NbwY4vMLN-Vg4ZUjqfTFn9OIhikAuORyr"; ## SECRET-DATA
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 5;
+        }
+    }
+    fpc 1 {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            number-of-ports 0;
+        }
+    }
+    high-availability {
+        local-id {
+            1;
+            local-ip 192.168.0.1;
+        }
+        peer-id 2 {
+            peer-ip 192.168.0.2;
+            interface lo0.0;
+            routing-instance MNHA-VR;
+            vpn-profile L3HA_IPSEC_VPN;
+            liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+        }
+        services-redundancy-group 0 {
+            peer-id {
+                2;
+            }
+        }
+        services-redundancy-group 1 {
+            peer-id {
+                2;
+            }
+            activeness-probe {
+                dest-ip {
+                    10.1.1.1;
+                    src-ip 192.168.10.1;
+                }
+            }
+            monitor {
+                bfd-liveliness 10.1.1.1 {
+                    src-ip 10.1.1.2;
+                    session-type singlehop;
+                    interface ae1.0;
+                }
+            }
+            active-signal-route {
+                192.168.255.0;
+                routing-instance MNHA-VR;
+            }
+            backup-signal-route {
+                192.168.255.1;
+                routing-instance MNHA-VR;
+            }
+            prefix-list ike_lo0;
+            managed-services ipsec;
+            preemption;
+            activeness-priority 200;
+        }
+    }
+}
+security {
+    distribution-profile {
+        fat-core;
+    }
+    ike {
+        traceoptions {
+            file iked size 1g;
+            flag all;
+            level 15;
+        }
+        proposal IKE_PROP {
+            authentication-method pre-shared-keys;
+            dh-group group2;
+            authentication-algorithm sha1;
+            encryption-algorithm aes-256-cbc;
+            lifetime-seconds 3600;
+        }
+        proposal L3HA_IKE_PROP {
+            description l3ha_link_encr_tunnel;
+            authentication-method pre-shared-keys;
+            dh-group group14;
+            authentication-algorithm sha-256;
+            encryption-algorithm aes-256-cbc;
+            lifetime-seconds 3600;
+        }
+        policy IKE_POLICY {
+            proposals IKE_PROP;
+            pre-shared-key ascii-text "$9$alGjqTz6uORmfORhSMWJGD"; ## SECRET-DATA
+        }
+        policy L3HA_IKE_POL {
+            description l3ha_link_encr_tunnel;
+            proposals L3HA_IKE_PROP;
+            pre-shared-key ascii-text "$9$8V2x-woJDmfzYgfz36u0LxN"; ## SECRET-DATA
+        }
+        gateway avpn_ike_gw {
+            ike-policy IKE_POLICY;
+            dynamic {
+                hostname .juniper.net;
+                ike-user-type group-ike-id;
+            }
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname vsrx.juniper.net;
+            external-interface lo0.1;
+            local-address 10.100.0.1;
+            version v2-only;
+        }
+        gateway L3HA_IKE_GW {
+            ike-policy L3HA_IKE_POL;
+            version v2-only;
+        }
+    }
+    ipsec {
+        proposal IPSEC_PROP {
+            protocol esp;
+            encryption-algorithm aes-256-gcm;
+            lifetime-seconds 3600;
+        }
+        proposal L3HA_IPSEC_PROP {
+            description l3ha_link_encr_tunnel;
+            protocol esp;
+            encryption-algorithm aes-256-gcm;
+            lifetime-seconds 3600;
+        }
+        policy IPSEC_POLICY {
+            proposals IPSEC_PROP;
+        }
+        policy L3HA_IPSEC_POL {
+            description l3ha_link_encr_tunnel;
+            proposals L3HA_IPSEC_PROP;
+        }
+        vpn avpn_ipsec_vpn {
+            bind-interface st0.1;
+            ike {
+                gateway avpn_ike_gw;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts {
+                local-ip 0.0.0.0/0;
+                remote-ip 0.0.0.0/0;
+            }
+        }
+        vpn L3HA_IPSEC_VPN {
+            ha-link-encryption;
+            ike {
+                gateway L3HA_IKE_GW;
+                ipsec-policy L3HA_IPSEC_POL;
+            }
+        }
+        anti-replay-window-size 512;
+    }
+    address-book {
+        global {
+            address mnha_lo0_prefix_192.168.0.0/24 192.168.0.0/24;
+            address ike_source_prefix_10.200.0.0/16 10.200.0.0/16;
+            address ipsec_data_client_prefix_172.80.0.0/16 172.80.0.0/16;
+            address ipsec_data_server_prefix_172.160.0.0/16 172.160.0.0/16;
+        }
+    }
+    flow {
+        drop-flow {
+            timeout 30;
+        }
+    }
+    policies {
+        from-zone vr-1_trust_zone to-zone vr-1_trust_zone {
+            policy RE-ESP-BLOCK {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application ESP;
+                }
+                then {
+                    deny;
+                }
+            }
+            policy RE-ALLOW {
+                match {
+                    source-address any;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        from-zone trust_zone_mnha to-zone trust_zone_mnha {
+            policy MNHA-ICL-ALLOW {
+                match {
+                    source-address mnha_lo0_prefix_192.168.0.0/24;
+                    destination-address mnha_lo0_prefix_192.168.0.0/24;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        from-zone vr-1_untrust_zone to-zone vr-1_untrust_zone {
+            policy IPSEC_DATA_C2S_POLICY {
+                match {
+                    source-address ipsec_data_client_prefix_172.80.0.0/16;
+                    destination-address ipsec_data_server_prefix_172.160.0.0/16;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+            policy IPSEC_DATA_S2C_POLICY {
+                match {
+                    source-address ipsec_data_server_prefix_172.160.0.0/16;
+                    destination-address ipsec_data_client_prefix_172.80.0.0/16;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        inactive: default-policy {
+            permit-all;
+        }
+    }
+    zones {
+        security-zone vr-1_trust_zone {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                ae1.0;
+                lo0.1;
+            }
+        }
+        security-zone vr-1_untrust_zone {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                st0.1;
+                ae1.1;
+            }
+        }
+        security-zone trust_zone_mnha {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                ae1.100;
+                lo0.0;
+            }
+        }
+    }
+}
+interfaces {
+    et-1/0/0 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-1/0/1 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    ae1 {
+        vlan-tagging;
+        mtu 9130;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.1.2/30;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.1.2/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.1.2/30;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.1/32 {
+                    primary;
+                }
+            }
+        }
+        unit 1 {
+            family inet {
+                address 10.100.0.1/32;
+                address 192.168.10.1/32;
+            }
+        }
+    }
+    st0 {
+        unit 1 {
+            family inet;
+        }
+        unit 2 {
+            family inet;
+        }
+        unit 3 {
+            family inet;
+        }
+    }
+}
+snmp {
+    community GI-FW-POC {
+        authorization read-only;
+        clients {
+            ::/0;
+            0.0.0.0/0;
+        }
+    }
+}
+policy-options {
+    prefix-list active_probe_ip {
+        192.168.10.1/32;
+    }
+    prefix-list ike_lo0 {
+        10.100.0.1/32;
+    }
+    prefix-list mnha_lo0 {
+        192.168.0.1/32;
+    }
+    policy-statement ari_export_untrust {
+        term 1 {
+            from {
+                protocol ari-ts;
+                condition active_route_exists;
+            }
+            then accept;
+        }
+        term 2 {
+            from {
+                protocol ari-ts;
+                condition backup_route_exists;
+            }
+            then {
+                as-path-prepend 65000;
+                accept;
+            }
+        }
+        term 3 {
+            from protocol ari-ts;
+            then {
+                as-path-prepend "65000 65000";
+                accept;
+            }
+        }
+        term default {
+            then reject;
+        }
+    }
+    policy-statement ecmp_policy_lab {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement loopback_export_trust {
+        term 1 {
+            from {
+                prefix-list active_probe_ip;
+                condition active_route_exists;
+            }
+            then accept;
+        }
+        term 2 {
+            from {
+                prefix-list active_probe_ip;
+                condition backup_route_exists;
+            }
+            then {
+                as-path-prepend 65000;
+                accept;
+            }
+        }
+        term 3 {
+            from {
+                prefix-list active_probe_ip;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                accept;
+            }
+        }
+        term defualt {
+            then reject;
+        }
+    }
+    policy-statement mnha_ip {
+        term 1 {
+            from {
+                route-filter 192.168.0.1/32 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    condition active_route_exists {
+        if-route-exists {
+            address-family {
+                inet {
+                    192.168.255.0/32;
+                    table MNHA-VR.inet.0;
+                }
+            }
+        }
+    }
+    condition backup_route_exists {
+        if-route-exists {
+            address-family {
+                inet {
+                    192.168.255.1/32;
+                    table MNHA-VR.inet.0;
+                }
+            }
+        }
+    }
+}
+routing-instances {
+    MNHA-VR {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group mnha-ibgp {
+                    type external;
+                    export mnha_ip;
+                    peer-as 65050;
+                    local-as 65001;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.1.1 {
+                        local-address 10.3.1.2;
+                    }
+                }
+            }
+        }
+        interface ae1.100;
+        interface lo0.0;
+    }
+}
+applications {
+    application ESP protocol esp;
+}
+protocols {
+    bgp {
+        group SRX-to-MX_TRUST {
+            type external;
+            export loopback_export_trust;
+            local-as 65000;
+            bfd-liveness-detection {
+                minimum-interval 300;
+                minimum-receive-interval 300;
+                multiplier 3;
+            }
+            neighbor 10.1.1.1 {
+                local-address 10.1.1.2;
+                peer-as 65200;
+            }
+        }
+        group SRX-to-MX_UNTRUST {
+            type external;
+            export ari_export_untrust;
+            local-as 65000;
+            bfd-liveness-detection {
+                minimum-interval 300;
+                minimum-receive-interval 300;
+                multiplier 3;
+            }
+            neighbor 10.2.1.1 {
+                local-address 10.2.1.2;
+                peer-as 65400;
+            }
+        }
+        multipath;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        interface all;
+    }
+}
+routing-options {
+    forwarding-table {
+        export ecmp_policy_lab;
+    }
+}

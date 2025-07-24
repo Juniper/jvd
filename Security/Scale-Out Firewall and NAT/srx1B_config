@@ -1,0 +1,657 @@
+## Last changed: 2025-01-16 01:07:54 PST
+version 24.4R1.10;
+# End of the data from file (/volume/labtools/lab_cvs/system-test/machine/.global/lab_routes-config) 
+apply-groups [ global re0 ];
+system {
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+        web-management {
+            http {
+                port 8088;
+            }
+        }
+    }
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 50;
+        }
+    }
+    fpc 1 {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            number-of-ports 0;
+        }
+    }
+    high-availability {
+        local-id {
+            2;
+            local-ip 192.168.0.2;
+        }
+        peer-id 1 {
+            peer-ip 192.168.0.1;
+            interface lo0.0;
+            routing-instance MNHA-VR;
+            liveness-detection {
+                minimum-interval 300;
+                minimum-receive-interval 300;
+                multiplier 3;
+            }
+        }
+        services-redundancy-group 0 {
+            peer-id {
+                1;
+            }
+            monitor {
+                monitor-object trust {
+                    object-threshold 300;
+                    bfd-liveliness {
+                        threshold 300;
+                        destination-ip 10.1.2.1 {
+                            src-ip 10.1.2.2;
+                            routing-instance VR-1;
+                            session-type singlehop;
+                            interface ae1.0;
+                            weight 300;
+                        }
+                    }
+                }
+                srg-threshold 300;
+            }
+            install-on-failure-route {
+                192.168.255.0;
+                routing-instance MNHA-VR;
+            }
+        }
+    }
+}
+security {
+    address-book {
+        global {
+            address sfw_source_prefix_172.80.0.0/12 172.80.0.0/12;
+            address sfw_source_prefix_172.160.0.0/12 172.160.0.0/12;
+            address sfw_source_prefix_2001:db8:172:160::/96 2001:db8:172:160::/96;
+            address sfw_source_prefix_2001:db8:172:80::/96 2001:db8:172:80::/96;
+        }
+    }
+    alg {
+        sip;
+    }
+    nat {
+        source {
+            pool srx_nat_pool1 {
+                address {
+                    100.64.1.0/24;
+                }
+                address-pooling paired;
+            }
+            pool nat_64_source_ipv4_pool {
+                address {
+                    100.64.2.0/24;
+                }
+                address-pooling paired;
+            }
+            rule-set srx_nat_rule-set {
+                from zone VR-1_trust_zone;
+                to zone VR-1_untrust_zone;
+                rule srx_nat_rule1 {
+                    match {
+                        source-address 172.80.0.0/12;
+                        destination-address 0.0.0.0/0;
+                        application any;
+                    }
+                    then {
+                        source-nat {
+                            pool {
+                                srx_nat_pool1;
+                            }
+                        }
+                    }
+                }
+                rule srx_nat64_rule2 {
+                    match {
+                        source-address 2001:db8:172:80::/96;
+                        destination-address 172.16.10.3/32;
+                        application any;
+                    }
+                    then {
+                        source-nat {
+                            pool {
+                                nat_64_source_ipv4_pool;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        destination {
+            pool nat_64_dest_ipv4 {
+                address 172.16.10.3/32;
+            }
+            rule-set nat_64_dest_rule {
+                from zone VR-1_trust_zone;
+                rule d_rule-1 {
+                    match {
+                        destination-address 2001:db8:1::1/128;
+                    }
+                    then {
+                        destination-nat {
+                            pool {
+                                nat_64_dest_ipv4;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    policies {
+        from-zone VR-1_trust_zone to-zone VR-1_untrust_zone {
+            policy SNAT_NAT_POLICY {
+                match {
+                    source-address sfw_source_prefix_172.80.0.0/12;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+            policy NAT64_POLICY {
+                match {
+                    source-address sfw_source_prefix_2001:db8:172:80::/96;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+            policy SFW66_POLICY {
+                match {
+                    source-address sfw_source_prefix_2001:db8:172:160::/96;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+            policy SFW44_POLICY {
+                match {
+                    source-address sfw_source_prefix_172.160.0.0/12;
+                    destination-address any;
+                    application any;
+                }
+                then {
+                    permit;
+                }
+            }
+        }
+        default-policy {
+            permit-all;
+        }
+    }
+    zones {
+        security-zone VR-1_trust_zone {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                ae1.0;
+                lo0.1;
+            }
+        }
+        security-zone VR-1_untrust_zone {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                ae1.1;
+            }
+        }
+        security-zone trust_zone_mnha {
+            host-inbound-traffic {
+                system-services {
+                    all;
+                }
+                protocols {
+                    all;
+                }
+            }
+            interfaces {
+                lo0.0;
+                ae1.100;
+            }
+        }
+    }
+}
+interfaces {
+    et-1/0/2 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-1/0/3 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    ae1 {
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.2.2/30;
+            }
+            family inet6 {
+                address 2001:db8:1:1:2::2/126;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.2.2/30;
+            }
+            family inet6 {
+                address 2001:db8:1:2:2::2/126;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.2.2/30;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.2/32 {
+                    primary;
+                }
+            }
+        }
+        unit 1 {
+            family inet {
+                address 192.168.10.1/32;
+            }
+            family inet6 {
+                address 2001:db8:1:255::1/128;
+            }
+        }
+    }
+}
+snmp {
+    community GI-FW-POC {
+        authorization read-only;
+        clients {
+            ::/0;
+            0.0.0.0/0;
+        }
+    }
+    trap-group space {
+        targets {
+            10.204.243.205;
+        }
+    }
+}
+policy-options {
+    policy-statement ecmp_ploicy_lab {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement ecmp_policy_lab {
+        then {
+            load-balance per-flow;
+        }
+    }
+    policy-statement ipv6_trust_export_policy {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::1/128 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::1/128 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_untrust_export_policy {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::1/128 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::1/128 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement mnha_ip {
+        term 1 {
+            from {
+                route-filter 192.168.0.2/32 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement trust_export_policy {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.1/32 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.1/32 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement untrust_export_policy {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 100.64.1.0/24 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                protocol static;
+                route-filter 100.64.1.0/24 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            from {
+                protocol static;
+                route-filter 100.64.2.0/24 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 4 {
+            from {
+                protocol static;
+                route-filter 100.64.2.0/24 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 5 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.1/32 exact;
+                condition srg_sig_route_exist;
+            }
+            then {
+                as-path-prepend "65000 65000 65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 6 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.1/32 exact;
+            }
+            then {
+                as-path-prepend "65000 65000";
+                next-hop self;
+                accept;
+            }
+        }
+        term 7 {
+            then reject;
+        }
+    }
+    policy-statement v6_trust_export_policy_mx2 {
+        term 1 {
+            from {
+                route-filter ::/0 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement v6_untrust_export_policy_mx2 {
+        term t1 {
+            from {
+                protocol bgp;
+                route-filter 2001:db8:172:160::/96 orlonger;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term t2 {
+            then reject;
+        }
+    }
+    condition srg_sig_route_exist {
+        if-route-exists {
+            192.168.255.0/32;
+            table MNHA-VR.inet.0;
+        }
+    }
+}
+routing-instances {
+    MNHA-VR {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group mnha-ibgp {
+                    type external;
+                    export mnha_ip;
+                    peer-as 65050;
+                    local-as 65002;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.2.1 {
+                        local-address 10.3.2.2;
+                    }
+                }
+            }
+        }
+        interface ae1.100;
+        interface lo0.0;
+    }
+    VR-1 {
+        instance-type virtual-router;
+        routing-options {
+            static {
+                route 100.64.1.0/24 discard;
+                route 100.64.2.0/24 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group Vsrx-to-MX1_TRUST {
+                    type external;
+                    export trust_export_policy;
+                    local-as 65000;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.1.2.1 {
+                        peer-as 65200;
+                    }
+                }
+                group Vsrx-to-MX1_UNTRUST {
+                    type external;
+                    export untrust_export_policy;
+                    local-as 65000;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.2.1 {
+                        peer-as 65400;
+                    }
+                }
+                group IPv6_Vsrx-to-MX1_TRUST {
+                    type external;
+                    export ipv6_trust_export_policy;
+                    local-as 65000;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:1:2::1 {
+                        peer-as 65200;
+                    }
+                }
+                group IPv6_Vsrx-to-MX1_UNTRUST {
+                    type external;
+                    export ipv6_untrust_export_policy;
+                    local-as 65000;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:2:2::1 {
+                        peer-as 65400;
+                    }
+                }
+                multipath;
+            }
+        }
+        interface ae1.0;
+        interface ae1.1;
+        interface lo0.1;
+    }
+}
+routing-options {
+    autonomous-system 69;
+    forwarding-table {
+        export ecmp_policy_lab;
+    }
+}
