@@ -1,0 +1,605 @@
+## Last changed: 2024-11-01 14:01:59 PDT
+apply-groups [ global re0 re1 ];
+system {
+    commit synchronize;
+    services {
+        netconf {
+            ssh;
+        }
+    }
+    ports {
+        console log-out-on-disconnect;
+    }
+    processes {
+        sdk-service {
+            traceoptions {
+                file ssd-log size 10m;
+                level all;
+                flag all;
+            }
+        }
+        net-monitord enable;
+    }
+}
+chassis {
+    redundancy {
+        graceful-switchover;
+    }
+    aggregated-devices {
+        ethernet {
+            device-count 50;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            pic-mode 100G;
+            number-of-ports 16;
+        }
+        pic 1 {
+            pic-mode 100G;
+            number-of-ports 16;
+        }
+    }
+    network-services enhanced-ip;
+}
+services {
+    traffic-load-balance {
+        routing-engine-mode;
+        instance ipsec_lb {
+            interface lo0.1;
+            client-vrf TRUST_VR;
+            server-vrf TRUST_VR;
+            group mnha_srx_group {
+                real-services [ MNHA_SRX1 MNHA_SRX2 ];
+                routing-instance TRUST_VR;
+                network-monitoring-profile [ icmp-profile tcp-profile1 ];
+            }
+            real-service MNHA_SRX1 {
+                address 192.168.10.1;
+            }
+            real-service MNHA_SRX2 {
+                address 192.168.10.2;
+            }
+            virtual-service mnha_srx_vip {
+                mode direct-server-return;
+                address 10.100.0.1;
+                routing-instance srx-tproxy-fi;
+                group mnha_srx_group;
+                load-balance-method {
+                    hash {
+                        hash-key {
+                            source-ip;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    network-monitoring {
+        profile icmp-profile {
+            icmp;
+            probe-interval 1;
+            failure-retries 5;
+            recovery-retries 1;
+        }
+        profile tcp-profile1 {
+            tcp {
+                port 8088;
+            }
+            probe-interval 1;
+            failure-retries 5;
+            recovery-retries 1;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        gigether-options {
+            802.3ad ae3;
+        }
+    }
+    et-0/0/2 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/4 {
+        gigether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/0/6 {
+        gigether-options {
+            802.3ad ae2;
+        }
+    }
+    et-0/0/7 {
+        gigether-options {
+            802.3ad ae3;
+        }
+    }
+    et-0/0/9 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/10 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-0/0/12 {
+        gigether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/1/4 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-0/1/6 {
+        gigether-options {
+            802.3ad ae2;
+        }
+    }
+    ae1 {
+        vlan-tagging;
+        mtu 9130;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.1.1/30;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.1.1/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.1.1/30;
+            }
+        }
+    }
+    ae2 {
+        vlan-tagging;
+        mtu 9130;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.2.1/30;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.2.1/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.2.1/30;
+            }
+        }
+    }
+    ae3 {
+        vlan-tagging;
+        mtu 9130;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.3.1/30;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.3.1/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.3.1/30;
+            }
+        }
+    }
+    ae4 {
+        vlan-tagging;
+        mtu 9130;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.4.1/30;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.4.1/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.4.1/30;
+            }
+        }
+    }
+    ae10 {
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 40 {
+            vlan-id 40;
+            family inet {
+                filter {
+                    input IPSEC_LB;
+                }
+                address 172.16.1.1/30;
+            }
+        }
+        unit 80 {
+            vlan-id 80;
+            family inet {
+                address 172.16.2.1/30;
+            }
+        }
+    }
+    lo0 {
+        unit 1 {
+            family inet {
+                address 192.168.10.251/32;
+            }
+        }
+    }
+}
+forwarding-options {
+    enhanced-hash-key {
+        symmetric;
+    }
+}
+policy-options {
+    route-filter-list ari_route_rt_list {
+        172.80.0.0/16 orlonger;
+    }
+    route-filter-list ike_source_endpoint_rt_list {
+        10.200.0.0/16 orlonger;
+    }
+    policy-statement MX1-to-SRX_trust_export {
+        term lb_hc_source_ip_export {
+            from {
+                protocol direct;
+                route-filter 192.168.10.251/32 exact;
+            }
+            then accept;
+        }
+        term ike_source_endpoint_route_export {
+            from {
+                protocol bgp;
+                route-filter-list ike_source_endpoint_rt_list;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term reject {
+            then reject;
+        }
+    }
+    policy-statement default_export {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement ipsec_ari_route_export {
+        term 1 {
+            from {
+                protocol bgp;
+                route-filter-list ari_route_rt_list;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement mnha-mx-to-srx-export {
+        term 1 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement pplb {
+        term t1 {
+            then {
+                load-balance per-packet;
+                accept;
+            }
+        }
+    }
+    policy-statement untrust-to-trust-export {
+        term 1 {
+            from protocol [ bgp static ];
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+}
+firewall {
+    family inet {
+        filter IPSEC_LB {
+            term IPSEC {
+                from {
+                    destination-address {
+                        10.100.0.1/32;
+                    }
+                }
+                then {
+                    count ipsec_tlb_traffic;
+                    log;
+                    routing-instance srx-tproxy-fi;
+                }
+            }
+            term other_traffic {
+                then {
+                    count other_traffic;
+                    accept;
+                }
+            }
+        }
+    }
+}
+routing-instances {
+    MNHA-VR {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group mnha_pair_1_A_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65001;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.1.2 {
+                        local-address 10.3.1.1;
+                    }
+                }
+                group mnha_pair_1_B_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65002;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.2.2 {
+                        local-address 10.3.2.1;
+                    }
+                }
+                group mnha_pair_2_A_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65001;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.3.2 {
+                        local-address 10.3.3.1;
+                    }
+                }
+                group mnha_pair_2_B_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65002;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.4.2 {
+                        local-address 10.3.4.1;
+                    }
+                }
+            }
+        }
+        interface ae1.100;
+        interface ae2.100;
+        interface ae3.100;
+        interface ae4.100;
+    }
+    TRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            static {
+                route 0.0.0.0/0 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group MX1-to-SRX {
+                    type external;
+                    export MX1-to-SRX_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    as-override;
+                    neighbor 10.1.1.2 {
+                        description "to SRX1A";
+                    }
+                    neighbor 10.1.2.2 {
+                        description "to SRX1B";
+                    }
+                    neighbor 10.1.3.2 {
+                        description "to SRX2A";
+                    }
+                    neighbor 10.1.4.2 {
+                        description "to SRX2B";
+                    }
+                }
+                group MX2-to-GW_Router {
+                    type external;
+                    export default_export;
+                    peer-as 65100;
+                    local-as 65200;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.1.2;
+                }
+                multipath;
+            }
+        }
+        interface ae1.0;
+        interface ae2.0;
+        interface ae3.0;
+        interface ae4.0;
+        interface ae10.40;
+        interface lo0.1;
+    }
+    UNTRUST_VR {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group MX1-to-SRX {
+                    type external;
+                    export untrust-to-trust-export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.1.2 {
+                        description "to SRX1A";
+                    }
+                    neighbor 10.2.2.2 {
+                        description "to SRX1B";
+                    }
+                    neighbor 10.2.3.2 {
+                        description "to SRX2A";
+                    }
+                    neighbor 10.2.4.2 {
+                        description "to SRX2B";
+                    }
+                }
+                group MX2-to-UNTRUST_GW_Router {
+                    type external;
+                    export ipsec_ari_route_export;
+                    peer-as 65300;
+                    local-as 65400;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.2.2;
+                }
+            }
+        }
+        interface ae1.1;
+        interface ae2.1;
+        interface ae3.1;
+        interface ae4.1;
+        interface ae10.80;
+    }
+    srx-tproxy-fi {
+        instance-type forwarding;
+    }
+}
+routing-options {
+    autonomous-system 10000;
+    nonstop-routing;
+    forwarding-table {
+        export pplb;
+    }
+}
+protocols {
+    lldp {
+        port-id-subtype interface-name;
+        interface all;
+    }
+}

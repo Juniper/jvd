@@ -1,0 +1,601 @@
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 16;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            pic-mode 100G;
+            number-of-ports 2;
+        }
+        pic 1 {
+            pic-mode 100G;
+            number-of-ports 2;
+        }
+    }
+    fpc 1 {
+        power off;
+    }
+    fpc 5 {
+        power off;
+    }
+    network-services enhanced-ip;
+}
+services {
+    service-set IPSEC_TUN_1 {
+        next-hop-service {
+            inside-service-interface ams1.1;
+            outside-service-interface ams1.2001;
+        }
+        ipsec-vpn TUN_1;
+    }
+    service-set IPSEC_TUN_2 {
+        next-hop-service {
+            inside-service-interface ams1.2;
+            outside-service-interface ams1.2002;
+        }
+        ipsec-vpn TUN_2;
+    }
+    service-set IPSEC_TUN_3 {
+        next-hop-service {
+            inside-service-interface ams1.3;
+            outside-service-interface ams1.2003;
+        }
+        ipsec-vpn TUN_3;
+    }
+    service-set IPSEC_TUN_4 {
+        next-hop-service {
+            inside-service-interface ams1.4;
+            outside-service-interface ams1.2004;
+        }
+        ipsec-vpn TUN_4;
+    }
+    service-set IPSEC_TUN_5 {
+        next-hop-service {
+            inside-service-interface ams1.5;
+            outside-service-interface ams1.2005;
+        }
+        ipsec-vpn TUN_5;
+    }
+}
+security {
+    distribution-profile {
+        fat-core;
+    }
+    ike {
+        traceoptions {
+            file iked size 1g;
+            flag all;
+            level 15;
+        }
+        proposal IKE_PROP {
+            authentication-method pre-shared-keys;
+            dh-group group2;
+            authentication-algorithm sha1;
+            encryption-algorithm aes-256-cbc;
+            lifetime-seconds 3600;
+        }
+        policy IKE_POLICY {
+            proposals IKE_PROP;
+            pre-shared-key ascii-text "$9$zko/n9pIEyWLN0BLNdboaFn/"; ## SECRET-DATA
+        }
+        gateway IKE_GW_1 {
+            ike-policy IKE_POLICY;
+            address 10.100.0.1;
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname peer1.juniper.net;
+            remote-identity hostname vsrx.juniper.net;
+            external-interface lo0.0;
+            local-address 10.200.0.1;
+            version v2-only;
+        }
+        gateway IKE_GW_2 {
+            ike-policy IKE_POLICY;
+            address 10.100.0.1;
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname peer2.juniper.net;
+            remote-identity hostname vsrx.juniper.net;
+            external-interface lo0.0;
+            local-address 10.200.0.2;
+            version v2-only;
+        }
+        gateway IKE_GW_3 {
+            ike-policy IKE_POLICY;
+            address 10.100.0.1;
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname peer3.juniper.net;
+            remote-identity hostname vsrx.juniper.net;
+            external-interface lo0.0;
+            local-address 10.200.0.3;
+            version v2-only;
+        }
+        gateway IKE_GW_4 {
+            ike-policy IKE_POLICY;
+            address 10.100.0.1;
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname peer4.juniper.net;
+            remote-identity hostname vsrx.juniper.net;
+            external-interface lo0.0;
+            local-address 10.200.0.4;
+            version v2-only;
+        }
+        gateway IKE_GW_5 {
+            ike-policy IKE_POLICY;
+            address 10.100.0.1;
+            dead-peer-detection {
+                probe-idle-tunnel;
+                interval 10;
+                threshold 3;
+            }
+            local-identity hostname peer5.juniper.net;
+            remote-identity hostname vsrx.juniper.net;
+            external-interface lo0.0;
+            local-address 10.200.0.5;
+            version v2-only;
+        }
+      }
+    ipsec {
+        proposal IPSEC_PROP {
+            protocol esp;
+            encryption-algorithm aes-256-gcm;
+            lifetime-seconds 3600;
+        }
+        policy IPSEC_POLICY {
+            proposals IPSEC_PROP;
+        }
+        vpn TUN_1 {
+            bind-interface st0.1;
+            ike {
+                gateway IKE_GW_1;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts1 {
+                local-ip 172.80.0.1/32;
+                remote-ip 172.160.0.1/32;
+            }
+            establish-tunnels immediately;
+        }
+        vpn TUN_2 {
+            bind-interface st0.2;
+            ike {
+                gateway IKE_GW_2;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts1 {
+                local-ip 172.80.0.2/32;
+                remote-ip 172.160.0.2/32;
+            }
+            establish-tunnels immediately;
+        }
+        vpn TUN_3 {
+            bind-interface st0.3;
+            ike {
+                gateway IKE_GW_3;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts1 {
+                local-ip 172.80.0.3/32;
+                remote-ip 172.160.0.3/32;
+            }
+            establish-tunnels immediately;
+        }
+        vpn TUN_4 {
+            bind-interface st0.4;
+            ike {
+                gateway IKE_GW_4;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts1 {
+                local-ip 172.80.0.4/32;
+                remote-ip 172.160.0.4/32;
+            }
+            establish-tunnels immediately;
+        }
+        vpn TUN_5 {
+            bind-interface st0.5;
+            ike {
+                gateway IKE_GW_5;
+                ipsec-policy IPSEC_POLICY;
+            }
+            traffic-selector ts1 {
+                local-ip 172.80.0.5/32;
+                remote-ip 172.160.0.5/32;
+            }
+            establish-tunnels immediately;
+        }
+         anti-replay-window-size 512;
+    }
+    flow {
+        inactive: traceoptions {
+            file flow size 10m files 10;
+            flag all;
+        }
+        power-mode-ipsec;
+    }
+}
+interfaces {
+    xe-0/0/0 {
+        unit 0 {
+            family inet {
+                address 111.1.1.1/24;
+            }
+        }
+    }
+    xe-0/0/2 {
+        unit 0 {
+            family inet {
+                address 60.1.1.1/30;
+            }
+        }
+    }
+    et-0/1/2 {
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 172.16.8.2/30;
+            }
+        }
+    }
+    et-0/1/5 {
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 172.16.10.2/30;
+            }
+        }
+    }
+    xe-0/1/7 {
+        unit 0 {
+            family inet {
+                address 20.20.20.1/30;
+            }
+        }
+    }
+    et-2/0/1 {
+        unit 0 {
+            family inet {
+                address 113.1.1.1/24;
+            }
+        }
+    }
+    et-2/0/2 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-2/0/3 {
+        unit 0 {
+            family inet {
+                address 92.1.1.2/30;
+            }
+        }
+    }
+    et-2/1/0 {
+        unit 0 {
+            family inet {
+                address 90.1.1.2/30;
+            }
+            family inet6;
+        }
+    }
+    et-2/1/1 {
+        unit 0 {
+            family inet {
+                address 100.1.1.2/24;
+            }
+        }
+    }
+    et-2/1/2 {
+        unit 0 {
+            family inet {
+                address 184.0.0.1/24;
+            }
+        }
+    }
+    et-2/1/3 {
+        unit 0 {
+            family inet {
+                address 122.1.1.1/24;
+            }
+        }
+    }
+    et-4/2/4 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    ae10 {
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 40 {
+            vlan-id 40;
+            family inet {
+                address 172.16.1.2/30;
+            }
+        }
+        unit 80 {
+            vlan-id 80;
+            family inet {
+                address 172.16.2.2/30;
+            }
+        }
+    }
+    ams1 {
+        load-balancing-options {
+            member-interface mams-3/0/0;
+            member-interface mams-3/1/0;
+            member-failure-options {
+                drop-member-traffic {
+                    rejoin-timeout 0;
+                    enable-rejoin;
+                }
+            }
+        }
+        unit 1 {
+            family inet;
+            service-domain inside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2 {
+            family inet;
+            service-domain inside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 3 {
+            family inet;
+            service-domain inside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 4 {
+            family inet;
+            service-domain inside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 5 {
+            family inet;
+            service-domain inside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2001 {
+            family inet;
+            service-domain outside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2002 {
+            family inet;
+            service-domain outside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2003 {
+            family inet;
+            service-domain outside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2004 {
+            family inet;
+            service-domain outside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+        unit 2005 {
+            family inet;
+            service-domain outside;
+            load-balancing-options {
+                disable-hash;
+            }
+        }
+     }
+     lo0 {
+        unit 0 {
+            family inet {
+                address 10.200.0.1/32;
+                address 10.200.0.2/32;
+                address 10.200.0.3/32;
+                address 10.200.0.4/32;
+                address 10.200.0.5/32;
+              }
+        }
+    }
+    st0 {
+        unit 1 {
+            family inet;
+        }
+        unit 2 {
+            family inet;
+        }
+        unit 3 {
+            family inet;
+        }
+        unit 4 {
+            family inet;
+        }
+        unit 5 {
+            family inet;
+        }
+     }
+}
+policy-options {
+    policy-statement ECMP_POLICY-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement client_to_server_export_mx1 {
+        term 0 {
+            from {
+                protocol direct;
+                route-filter 10.200.0.0/16 orlonger;
+            }
+            then accept;
+        }
+        term t1 {
+            then reject;
+        }
+    }
+    policy-statement server_to_client_export {
+        term t0 {
+            from {
+                protocol static;
+                route-filter 172.160.0.0/16 exact;
+            }
+            then accept;
+        }
+        term t1 {
+            from {
+                protocol static;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+    policy-statement server_to_client_export_mx1 {
+        term t0 {
+            from {
+                protocol static;
+                route-filter 172.160.0.0/16 exact;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+}
+routing-instances {
+    TRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            autonomous-system 2500;
+            static {
+                route 172.160.0.0/16 next-hop 172.16.10.1;
+            }
+        }
+        protocols {
+            bgp {
+                group Untrust_GW-to-MX2_Untrust {
+                    type external;
+                    export server_to_client_export_mx1;
+                    peer-as 65400;
+                    local-as 65300;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.2.1;
+                }
+                multipath;
+            }
+        }
+        interface et-0/1/5.0;
+        interface ae10.80;
+    }
+    UNTRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            autonomous-system 65100;
+        }
+        protocols {
+            bgp {
+                group trust_GW-to-MX2_trust {
+                    type external;
+                    export client_to_server_export_mx1;
+                    peer-as 65200;
+                    local-as 65100;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.1.1;
+                }
+                multipath;
+            }
+        }
+        interface ae10.40;
+        interface ams1.2001;
+        interface ams1.2002;
+        interface ams1.2003;
+        interface ams1.2004;
+        interface ams1.2005;
+        interface lo0.0;
+    }
+    client {
+        instance-type virtual-router;
+        routing-options {
+            static {
+                route 172.80.0.0/16 next-hop 172.16.8.1;
+            }
+        }
+        interface et-0/1/2.0;
+        interface ams1.1;
+        interface ams1.2;
+        interface ams1.3;
+        interface ams1.4;
+        interface ams1.5;
+        interface st0.1;
+        interface st0.2;
+        interface st0.3;
+        interface st0.4;
+        interface st0.5;
+        }
+}
+routing-options {
+    forwarding-table {
+        export ECMP_POLICY-LB;
+    }
+}
+
+
+
+
+
+
+
+
+
