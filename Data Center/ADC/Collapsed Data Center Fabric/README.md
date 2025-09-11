@@ -6,4 +6,4 @@ The configuration uploaded are validated configuration and the JVD provides more
 
 https://www.juniper.net/documentation/us/en/software/jvd/jvd-collapsed-dc-fabric-with-apstra/index.html
 
-![image]()
+<img width="678" height="344" alt="image" src="https://github.com/user-attachments/assets/52e20a5a-127e-4947-97ea-0f7ded3f5431" />
