@@ -7,4 +7,4 @@ The configuration uploaded are validated configuration and the JVD provides more
 
 https://www.juniper.net/documentation/us/en/software/jvd/jvd-collapsed-dc-fabric-juniper-apstra-access-switches/index.html
 
-![image]()
+<img width="2250" height="1878" alt="image" src="https://github.com/user-attachments/assets/47a0a73e-5510-42ad-b40d-0b8082dbeaac" />
