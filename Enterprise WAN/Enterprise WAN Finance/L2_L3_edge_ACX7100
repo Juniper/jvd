@@ -1,0 +1,256 @@
+chassis {
+    dump-on-panic;
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    et-0/0/45 {
+        speed 10g;
+    }
+    et-0/0/46 {
+        escription "L2/L3 to Wanedge2";
+        speed 10g;
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    et-0/0/47 {
+        description "L2/L3 to TG-9/1";
+        flexible-vlan-tagging;
+        speed 10g;
+        mtu 1522;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            encapsulation vlan-bridge;
+            vlan-id 1;
+        }
+        unit 2 {
+            encapsulation vlan-bridge;
+            vlan-id 2;
+        }
+        unit 3 {
+            encapsulation vlan-bridge;
+            vlan-id 3;
+        }
+        unit 4 {
+            encapsulation vlan-bridge;
+            vlan-id 4;
+        }
+        unit 5 {
+            encapsulation vlan-bridge;
+            vlan-id 5;
+        }
+        unit 6 {
+            encapsulation vlan-bridge;
+            vlan-id 6;
+        }
+        unit 7 {
+            encapsulation vlan-bridge;
+            vlan-id 7;
+        }
+        unit 8 {
+            encapsulation vlan-bridge;
+            vlan-id 8;
+        }
+        unit 9 {
+            encapsulation vlan-bridge;
+            vlan-id 9;
+        }
+        unit 10 {
+            encapsulation vlan-bridge;
+            vlan-id 10;
+        }
+        unit 21 {
+            encapsulation vlan-bridge;
+            vlan-id 21;
+        }
+        unit 22 {
+            encapsulation vlan-bridge;
+            vlan-id 22;
+        }
+        unit 23 {
+            encapsulation vlan-bridge;
+            vlan-id 23;
+        }
+    }
+    et-0/0/48 {
+        number-of-sub-ports 4;
+        speed 10g;
+    }
+    et-0/0/48:0 {
+        description "L2/L3 to Wanedge1";
+        ether-options {
+            802.3ad ae0;
+        }
+    }
+    et-0/0/49 {
+        speed 100g;
+    }
+    et-0/0/50 {
+        number-of-sub-ports 4;
+        speed 10g;
+    }
+    et-0/0/51 {
+        speed 100g;
+    }
+    ae0 {
+        description "L2/L3 to WANEDGE1/2";
+        flexible-vlan-tagging;
+        mtu 1522;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+            }
+        }
+        unit 1 {
+            encapsulation vlan-bridge;
+            vlan-id 1;
+        }
+        unit 2 {
+            encapsulation vlan-bridge;
+            vlan-id 2;
+        }
+        unit 3 {
+            encapsulation vlan-bridge;
+            vlan-id 3;
+        }
+        unit 4 {
+            encapsulation vlan-bridge;
+            vlan-id 4;
+        }
+        unit 5 {
+            encapsulation vlan-bridge;
+            vlan-id 5;
+        }
+        unit 6 {
+            encapsulation vlan-bridge;
+            vlan-id 6;
+        }
+        unit 7 {
+            encapsulation vlan-bridge;
+            vlan-id 7;
+        }
+        unit 8 {
+            encapsulation vlan-bridge;
+            vlan-id 8;
+        }
+        unit 9 {
+            encapsulation vlan-bridge;
+            vlan-id 9;
+        }
+        unit 10 {
+            encapsulation vlan-bridge;
+            vlan-id 10;
+        }
+        unit 21 {
+            encapsulation vlan-bridge;
+            vlan-id 21;
+        }
+        unit 22 {
+            encapsulation vlan-bridge;
+            vlan-id 22;
+        }
+        unit 23 {
+            encapsulation vlan-bridge;
+            vlan-id 23;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 127.0.0.1/32;
+                address 127.0.0.64/32;
+                address 10.255.163.58/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 47.0005.80ff.f800.0000.0108.0001.0102.5516.3058.00;
+            }
+            family inet6 {
+                address 2001:db8::10:255:163:58/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+routing-options {
+    router-id 10.255.163.58;
+}
+protocols {
+    lldp {
+        interface all;
+    }
+}
+vlans {
+    vlan1 {
+        vlan-id 1;
+        interface ae0.1;
+        interface et-0/0/47.1;
+    }
+    vlan10 {
+        vlan-id 10;
+        interface ae0.10;
+        interface et-0/0/47.10;
+    }
+    vlan2 {
+        vlan-id 2;
+        interface ae0.2;
+        interface et-0/0/47.2;
+    }
+    vlan21 {
+        vlan-id 21;
+        interface ae0.21;
+        interface et-0/0/47.21;
+    }
+    vlan22 {
+        vlan-id 22;
+        interface et-0/0/47.22;
+        interface ae0.22;
+    }
+    vlan23 {
+        vlan-id 23;
+        interface ae0.23;
+        interface et-0/0/47.23;
+    }
+    vlan3 {
+        vlan-id 3;
+        interface ae0.3;
+        interface et-0/0/47.3;
+    }
+    vlan4 {
+        vlan-id 4;
+        interface ae0.4;
+        interface et-0/0/47.4;
+    }
+    vlan5 {
+        vlan-id 5;
+        interface ae0.5;
+        interface et-0/0/47.5;
+    }
+    vlan6 {
+        vlan-id 6;
+        interface ae0.6;
+        interface et-0/0/47.6;
+    }
+    vlan7 {
+        vlan-id 7;
+        interface ae0.7;
+        interface et-0/0/47.7;
+    }
+    vlan8 {
+        vlan-id 8;
+        interface ae0.8;
+        interface et-0/0/47.8;
+    }
+    vlan9 {
+        vlan-id 9;
+        interface ae0.9;
+        interface et-0/0/47.9;
+    }
+}
