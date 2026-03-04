@@ -24,25 +24,24 @@ Official documentation: https://www.juniper.net/documentation/validated-designs/
 
 | Domain | Summary |
 | --- | --- |
-| **[Branch](Branch/)** | Achieve simplified operations, reduced mean time to repair, and improved user experience with software-delivered branch network architectures. |
-| **[Campus](Campus/)** | Deliver reliable, secure, and agile campus networking solutions with common building blocks, automation workflows, and custom automation. |
-| **[Data Center and AI Cluster](Data%20Center/)** | Deploy and operate resilient data center networks for modern workloads, including validated ADC and AI-focused designs. |
-| **[Security](Security/)** | Operationalize security across the entire network with validated designs that help the network take an active role in its own defense. |
-| **[Enterprise WAN](Enterprise%20WAN/)** | Simplify management and operations through high-performance, reliable, and secure enterprise WAN architectures across locations, data centers, and cloud services. |
-| **[Service Provider Core, Edge, Cloud Metro, and 5G](Service%20Provider/)** | Create automated, secure, and service-assured networking across physical, virtualized, and containerized telco cloud domains. |
+| **[Branch](https://www.juniper.net/documentation/validated-designs/us/en/branch/)** | Achieve simplified operations, reduced mean time to repair, and improved user experience with software-delivered branch network architectures. |
+| **[Campus](https://www.juniper.net/documentation/validated-designs/us/en/campus/)** | Deliver reliable, secure, and agile campus networking solutions with common building blocks, automation workflows, and custom automation. |
+| **[Data Center and AI Cluster](https://www.juniper.net/documentation/validated-designs/us/en/data-center/)** | Deploy and operate resilient data center networks for modern workloads, including validated ADC and AI-focused designs. |
+| **[Security](https://www.juniper.net/documentation/validated-designs/us/en/security/)** | Operationalize security across the entire network with validated designs that help the network take an active role in its own defense. |
+| **[Enterprise WAN](https://www.juniper.net/documentation/validated-designs/us/en/enterprise-wan/)** | Simplify management and operations through high-performance, reliable, and secure enterprise WAN architectures across locations, data centers, and cloud services. |
+| **[Service Provider Core, Edge, Cloud Metro, and 5G](https://www.juniper.net/documentation/validated-designs/us/en/service-provider-edge/)** | Create automated, secure, and service-assured networking across physical, virtualized, and containerized telco cloud domains. |
 
 ---
 
 ## Repository Sections
 
 - [Automation](Automation/)
-- [Branch](Branch/)
-- [Campus](Campus/)
 - [Data Center](Data%20Center/)
 - [Enterprise WAN](Enterprise%20WAN/)
 - [Optical](Optical/)
 - [Security](Security/)
 - [Service Provider](Service%20Provider/)
+
 
 
 
