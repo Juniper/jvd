@@ -1,0 +1,400 @@
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+    fpc 1 {
+        pic 0 {
+            port 0 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 1 {
+                speed 40g;
+            }
+            port 5 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 8 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 9 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+        }
+        pic 1 {
+            port 4 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 5 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 6 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 7 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 8 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+            port 9 {
+                number-of-sub-ports 1;
+                speed 100g;
+            }
+        }
+    }
+    network-services enhanced-ip;
+}
+interfaces {
+    et-1/0/0 {
+        unit 0 {
+            family inet {
+                address 192.168.23.1/24;
+            }
+            family mpls;
+        }
+    }
+    et-1/0/1 {
+        unit 0 {
+            family inet {
+                address 192.168.78.1/24;
+            }
+            family mpls;
+        }
+    }
+    et-1/0/5 {
+        unit 0 {
+            family inet {
+                address 192.168.67.1/24;
+            }
+            family mpls;
+        }
+    }
+    et-1/1/5 {
+        ether-options {
+            802.3ad ae2;
+        }
+    }
+    et-1/1/6 {
+        ether-options {
+            802.3ad ae2;
+        }
+    }
+    et-1/1/7 {
+        ether-options {
+            802.3ad ae2;
+        }
+    }
+    ae2 {
+        description "PE1 to P1";
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            family inet {
+                address 192.168.12.2/24;
+            }
+            family mpls;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 3.3.3.3/32;
+            }
+        }
+    }
+}
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
+    }
+}
+policy-options {
+    policy-statement nexthop {
+        term 2 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement pplb {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+    policy-statement send-ospf {
+        term 2 {
+            from protocol ospf;
+            then accept;
+        }
+    }
+}
+class-of-service {
+    classifiers {
+        exp EXP {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-points 000;
+            }
+            forwarding-class BUSINESS {
+                loss-priority high code-points 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points 111;
+            }
+            forwarding-class LOW {
+                loss-priority low code-points 001;
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-points 010;
+            }
+            forwarding-class NETWORK {
+                loss-priority low code-points 110;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority high code-points 011;
+            }
+        }
+    }
+    forwarding-classes {
+        class BEST-EFFORT queue-num 0;
+        class BUSINESS queue-num 4;
+        class CONTROL queue-num 7;
+        class LOW queue-num 1;
+        class MEDIUM queue-num 2;
+        class NETWORK queue-num 6;
+        class REALTIME queue-num 5;
+        class SIG-OAM queue-num 3;
+    }
+    interfaces {
+        et-1/0/0 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        et-1/0/1 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        et-1/0/5 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+        ae2 {
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP-REWRITE;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        exp EXP-REWRITE {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-point 000;
+            }
+            forwarding-class BUSINESS {
+                loss-priority high code-point 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-point 111;
+            }
+            forwarding-class LOW {
+                loss-priority low code-point 001;
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-point 010;
+            }
+            forwarding-class NETWORK {
+                loss-priority high code-point 110;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-point 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority high code-point 011;
+            }
+        }
+    }
+}
+routing-options {
+    source-packet-routing {
+        mapping-server-entry ospf-mapping-server {
+            prefix-segment-range ldp-lo1 {
+                start-prefix 4.4.4.4/32;
+                start-index 1000;
+                size 10;
+            }
+        }
+    }
+    traceoptions {
+        file microsecond-stamp;
+    }
+    router-id 3.3.3.3;
+    autonomous-system 64512;
+    forwarding-table {
+        export pplb;
+    }
+}
+protocols {
+    bgp {
+        group ibgp {
+            type internal;
+            local-address 3.3.3.3;
+            family inet {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            cluster 3.3.3.3;
+            local-as 64512;
+            graceful-restart;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 2.2.2.2;
+            neighbor 5.5.5.5;
+            neighbor 4.4.4.4;
+            neighbor 7.7.7.7;
+        }
+        advertise-peer-as;
+    }
+    ldp {
+        interface et-1/0/0.0;
+        interface lo0.0;
+        sr-mapping-client;
+    }
+    mpls {
+        interface ae2.0;
+        interface et-1/0/5.0;
+        interface et-1/0/0.0;
+        interface et-1/0/1.0;
+    }
+    ospf {
+        backup-spf-options {
+            use-post-convergence-lfa {
+                maximum-labels 8;
+                maximum-backup-paths 5;
+            }
+            use-source-packet-routing;
+        }
+        traffic-engineering;
+        source-packet-routing {
+            node-segment ipv4-index 103;
+            srgb start-label 16000 index-range 8000;
+            mapping-server ospf-mapping-server;
+            install-prefix-sid-for-best-route;
+            ldp-stitching;
+        }
+        area 0.0.0.0 {
+            interface ae2.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface et-1/0/5.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface et-1/0/1.0 {
+                interface-type p2p;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+                ipv4-adjacency-segment {
+                    protected dynamic;
+                }
+            }
+            interface et-1/0/0.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                    full-neighbors-only;
+                }
+                ldp-synchronization;
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+    lldp {
+        interface all;
+    }
+}

@@ -1,0 +1,273 @@
+## Last changed: 2024-09-26 19:29:13 PDT
+version 24.4I-20240921.0.2131;
+# End of the data from file (/volume/labtools/lab_cvs/system-test/machine/.global/lab_routes-config) 
+apply-groups [ global re0 re1 ];
+system {
+    services {
+        ssh {
+            root-login allow;
+        }
+    }
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 50;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            pic-mode 100G;
+            number-of-ports 2;
+        }
+        pic 1 {
+            pic-mode 100G;
+            number-of-ports 2;
+        }
+    }
+    network-services enhanced-ip;
+}
+interfaces {
+    et-0/0/2 {
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 172.16.8.2/24;
+            }
+            family inet6 {
+                address 2001:db8:172:16:8::2/126;
+            }
+        }
+    }
+    et-0/0/5 {
+        unit 0 {
+            family inet {
+                address 172.16.10.2/24;
+            }
+            family inet6 {
+                address 2001:db8:172:16:10::2/126;
+            }
+        }
+    }
+    et-2/0/0 {
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 90.3.3.2/30;
+            }
+            family inet6 {
+                address 90:3:3::2/124;
+            }
+        }
+    }
+    et-2/0/2 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-4/0/0 {
+        mtu 9192;
+        unit 0 {
+            family inet {
+                address 100.3.3.2/24;
+            }
+            family inet6 {
+                address 100:3:3::2/124;
+            }
+        }
+    }
+    et-4/2/4 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    ae10 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 41 {
+            vlan-id 41;
+            family inet {
+                address 172.16.1.2/30;
+            }
+            family inet6 {
+                address 2001:db8:172:1:1::2/126;
+            }
+        }
+        unit 81 {
+            vlan-id 81;
+            family inet {
+                address 172.16.2.2/30;
+            }
+            family inet6 {
+                address 2001:db8:172:2:1::2/126;
+            }
+        }
+    }
+}
+snmp {
+    community GI-FW-POC {
+        authorization read-only;
+        clients {
+            ::/0;
+            0.0.0.0/0;
+        }
+    }
+}
+policy-options {
+    policy-statement client_to_server_export_mx1 {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 172.160.0.0/12 exact;
+                route-filter 172.80.0.0/12 orlonger;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_client_to_server_export_mx1 {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 2001:db8:172:80::/96 exact;
+                route-filter 2001:db8:172:160::/96 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_server_to_client_export_mx1 {
+        term t1 {
+            from {
+                protocol static;
+                route-filter ::/0 exact;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+    policy-statement server_to_client_export_mx1 {
+        term t1 {
+            from {
+                protocol static;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+}
+routing-instances {
+    TRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            rib TRUST_VR.inet6.0 {
+                static {
+                    route 2001:db8:172:80::/96 next-hop 2001:db8:172:16:8::1;
+                    route 2001:db8:172:160::/96 next-hop 2001:db8:172:16:8::1;
+                }
+            }
+            autonomous-system 65100;
+            static {
+                route 172.80.0.0/12 next-hop 172.16.8.1;
+                route 172.160.0.0/12 next-hop 172.16.8.1;
+            }
+        }
+        protocols {
+            bgp {
+                group trust_GW-to-MX1_trust {
+                    type external;
+                    export client_to_server_export_mx1;
+                    peer-as 65200;
+                    local-as 65100;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.1.1;
+                }
+                group ipv6_trust_GW-to-MX1_trust {
+                    type external;
+                    export ipv6_client_to_server_export_mx1;
+                    peer-as 65200;
+                    local-as 65100;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:172:1:1::1;
+                }
+                multipath;
+            }
+        }
+        interface et-0/0/2.0;
+        interface et-2/0/0.0;
+        interface ae10.41;
+    }
+    UNTRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            rib UNTRUST_VR.inet6.0 {
+                static {
+                    route ::/0 discard;
+                }
+            }
+            autonomous-system 65300;
+            static {
+                route 0.0.0.0/0 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group Untrust_GW-to-MX1_Untrust {
+                    type external;
+                    export server_to_client_export_mx1;
+                    peer-as 65400;
+                    local-as 65300;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.2.1;
+                }
+                group ipv6_trust_GW-to-MX1_untrust {
+                    type external;
+                    export ipv6_server_to_client_export_mx1;
+                    peer-as 65400;
+                    local-as 65300;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:172:2:1::1;
+                }
+                multipath;
+            }
+        }
+        interface et-0/0/5.0;
+        interface et-4/0/0.0;
+        interface ae10.81;
+    }
+}

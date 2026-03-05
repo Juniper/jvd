@@ -1,0 +1,3403 @@
+
+
+show configuration |no-more
+system {
+    configuration-database {
+        max-db-size 314572800;
+    }
+    services {
+        subscriber-management {
+            enable;
+            redundancy {
+                interface ps11.0 {
+                    shared-key ps11-key;
+                }
+                interface ps12.0 {
+                    shared-key ps12-key;
+                }
+                interface ps13.0 {
+                    shared-key ps13-key;
+                }
+                interface ps14.0 {
+                    shared-key ps14-key;
+                }
+                interface ps15.0 {
+                    shared-key ps15-key;
+                }
+                interface ps16.0 {
+                    shared-key ps16-key;
+                }
+                interface ps17.0 {
+                    shared-key ps17-key;
+                }
+                interface ps18.0 {
+                    shared-key ps18-key;
+                }
+                interface ps19.0 {
+                    shared-key ps19-key;
+                }
+                interface ps20.0 {
+                    shared-key ps20-key;
+                }
+                no-advertise-routes-on-backup;
+                route-operation-interval 1;
+            }
+        }
+    }
+    ports {
+        console log-out-on-disconnect;
+    }
+    dynamic-profile-options {
+        versioning;
+    }
+    processes {
+        smg-service;
+    }
+    ddos-protection {
+        protocols {
+            autoconf {
+                aggregate {
+                    bandwidth 20000;
+                    burst 20000;
+                }
+            }
+            pppoe {
+                padse {
+                    bandwidth 2000;
+                    burst 100;
+                }
+            }
+        }
+    }
+}
+chassis {
+    maximum-ecmp 128;
+    pseudowire-service {
+        device-count 100;
+    }
+    fpc 0 {
+        pic 0 {
+            tunnel-services {
+                bandwidth 100g;
+            }
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            number-of-ports 0;
+        }
+    }
+}
+access-profile vlan-auth-access1;
+interfaces {
+    et-0/0/0 {
+        description R8-BNG2-To-R6-AGN2;
+        unit 0 {
+            family inet {
+                address 10.10.68.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:68:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/1 {
+        description R8-BNG2-To-R5-AGN1;
+        unit 0 {
+            family inet {
+                address 10.10.58.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:58:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/3 {
+        description R8-BNG2-To-R11-CR1;
+        unit 0 {
+            family inet {
+                address 10.10.118.1/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:118:1:1/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.8/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0008.00;
+            }
+            family inet6 {
+                address 2001:db8::192:1:0:8/128 {
+                    primary;
+                }
+            }
+        }
+        unit 1 {
+            family inet {
+                address 192.168.8.8/32 {
+                    primary;
+                }
+            }
+            family inet6 {
+                address 2001:db8::192:168:8:8/128 {
+                    primary;
+                }
+            }
+        }
+        unit 7 {
+            family inet {
+                address 192.168.18.18/32 {
+                    primary;
+                }
+            }
+            family inet6 {
+                address 2001:db8::192:168:18:18/128 {
+                    primary;
+                }
+            }
+        }
+        unit 313 {
+            description "VRF:dhcp-subs Loopback";
+            family inet {
+                address 10.43.0.1/32 {
+                    primary;
+                }
+                address 172.18.18.8/32;
+            }
+            family inet6 {
+                address fc00:126:140::1/128 {
+                    primary;
+                }
+            }
+        }
+    }
+    ps0 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:31;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps1 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:32;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps2 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:33;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps3 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:34;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps4 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:35;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps5 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:36;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps6 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:37;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps7 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:38;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps8 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:39;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps9 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:3a;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps11 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:41;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps12 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:42;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps13 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:43;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps14 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:44;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps15 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:45;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps16 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:46;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps17 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:47;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps18 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:48;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps19 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:49;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps20 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:4a;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps31 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:81;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps32 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:10:91;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps35 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht {
+                    accept [ pppoe inet inet6 ];
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types [ pppoe any ];
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_pppoe;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:00:83;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+    ps36 {
+        anchor-point {
+            lt-0/0/0;
+        }
+        flexible-vlan-tagging;
+        auto-configure {
+            stacked-vlan-ranges {
+                dynamic-profile auto-stacked-pwht_dhcp {
+                    accept any;
+                    ranges {
+                        any,any;
+                    }
+                }
+                authentication {
+                    packet-types any;
+                    password joshua;
+                    username-include {
+                        domain-name jnpr.net;
+                        user-prefix pwht_dhcp;
+                    }
+                }
+                access-profile vlan-auth-access1;
+            }
+            remove-when-no-subscribers;
+        }
+        mtu 2022;
+        esi {
+            00:10:12:12:12:12:12:00:10:93;
+            single-active;
+            df-election-type {
+                preference {
+                    value 999;
+                }
+            }
+        }
+        mac aa:aa:aa:bb:bb:bb;
+        no-gratuitous-arp-request;
+        unit 0 {
+            encapsulation ethernet-ccc;
+        }
+    }
+}
+policy-options {
+    policy-statement PS-DHCP-SUBSv6 {
+        term 1 {
+            from {
+                instance dhcp-subs;
+                protocol access-internal;
+            }
+            then {
+                community add PS-DHCPSUBS-COMM_2;
+                next-hop 2001:db8::192:1:0:8;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 192.168.0.8/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index 1008;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 2001:db8::192:1:0:8/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index 4008;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+    }
+    policy-statement PS-PPLB {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+    policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT {
+        term 1 {
+            from protocol direct;
+            then {
+                community add PPPOE_SUBS_COMM_1;
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                protocol aggregate;
+                route-filter 10.26.0.0/16 exact;
+            }
+            then {
+                community add PPPOE_SUBS_COMM_2;
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            from {
+                protocol aggregate;
+                route-filter fc00:26:140::/48 exact;
+            }
+            then {
+                community add PPPOE_SUBS_COMM_2;
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-PPPOE-SUBS-1-VRF-IMPORT {
+        term 1 {
+            from community PS-RADIUS-COMM;
+            then accept;
+        }
+        term 2 {
+            from community PS-Internet-COMM;
+            then accept;
+        }
+    }
+    policy-statement PS-PPPOE-SUBSv6 {
+        term 1 {
+            from {
+                instance PPPOE_SUBS_1;
+                route-filter fc00:26:140::/48 exact;
+            }
+            then {
+                community add PPPOE_SUBS_COMM_2;
+                next-hop 2001:db8::192:1:0:8;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-RADIUS-VRF-EXPORT {
+        term 1 {
+            from protocol direct;
+            then {
+                community add PS-RADIUS-COMM;
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-RADIUS-VRF-IMPORT {
+        term 1 {
+            from community PS-RADIUS-COMM;
+            then accept;
+        }
+    }
+    policy-statement dhcp-subs-vrf-export-pol {
+        term 1 {
+            from protocol direct;
+            then {
+                community add PS-DHCPSUBS-COMM;
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            from protocol access-internal;
+            then {
+                community add PS-DHCPSUBS-COMM_2;
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement dhcp-subs-vrf-import-pol {
+        term 1 {
+            from community PS-RADIUS-COMM;
+            then accept;
+        }
+        term 2 {
+            from community PS-Internet-COMM;
+            then accept;
+        }
+    }
+    community PPPOE_SUBS_COMM_1 members target:20000:1031;
+    community PPPOE_SUBS_COMM_2 members target:20000:1032;
+    community PS-DHCPSUBS-COMM members target:65000:1131;
+    community PS-DHCPSUBS-COMM_2 members target:65000:1132;
+    community PS-Internet-COMM members target:100:1;
+    community PS-RADIUS-COMM members target:11111:1111;
+    condition if-master {
+        if-route-exists {
+            address-family {
+                ccc {
+                    ps11.0;
+                    table mpls.0;
+                }
+            }
+        }
+    }
+}
+firewall {
+    family inet {
+        filter clear-df-bit {
+            interface-specific;
+            term 1 {
+                then {
+                    accept;
+                    dont-fragment clear;
+                }
+            }
+        }
+        filter rpf-pass-dhcp {
+            term allow-dhcp {
+                from {
+                    destination-address {
+                        255.255.255.255/32;
+                    }
+                    destination-port dhcp;
+                }
+                then accept;
+            }
+            term default {
+                then {
+                    discard;
+                }
+            }
+        }
+    }
+    family inet6 {
+        filter rpf-pass-dhcpv6 {
+            term allow-dhcpv6 {
+                from {
+                    destination-address {
+                        ffff::ffff/128;
+                    }
+                    destination-port dhcp;
+                }
+                then accept;
+            }
+            term default {
+                then discard;
+            }
+        }
+    }
+}
+access {
+    radius-server {
+        10.189.189.2 {
+            port 1812;
+            secret "$9$9L4It0IXxdsgJlKJDiH5T"; ## SECRET-DATA
+            timeout 10;
+            retry 3;
+            max-outstanding-requests 2000;
+            source-address 192.168.18.18;
+            routing-instance RADIUS;
+        }
+    }
+    profile vlan-auth-access {
+        authentication-order none;
+        address-assignment {
+            pool pppv4-pool;
+        }
+    }
+    profile no-auth {
+        authentication-order none;
+    }
+    profile vlan-auth-access1 {
+        authentication-order radius;
+        radius {
+            authentication-server 10.189.189.2;
+            options {
+                nas-identifier R8-BNG2;
+                nas-port-id-format {
+                    agent-circuit-id;
+                }
+                nas-port-type {
+                    ethernet virtual;
+                }
+                calling-station-id-delimiter "@";
+                calling-station-id-format {
+                    agent-circuit-id;
+                    agent-remote-id;
+                }
+                accounting-session-id-format decimal;
+                vlan-nas-port-stacked-format;
+                client-authentication-algorithm round-robin;
+                client-accounting-algorithm round-robin;
+            }
+            attributes {
+                exclude {
+                    framed-ip-address access-request;
+                }
+            }
+        }
+        radius-server {
+            10.189.189.2 {
+                secret "$9$smgaU3nCuBEmfEyleXx"; ## SECRET-DATA
+                timeout 10;
+                retry 3;
+                max-outstanding-requests 2000;
+                source-address 192.168.18.18;
+                routing-instance RADIUS;
+            }
+        }
+    }
+    profile vlan-auth-access2 {
+        authentication-order radius;
+        radius {
+            authentication-server 10.189.189.2;
+        }
+        radius-server {
+            10.189.189.2 {
+                secret "$9$.fQnhclMLNuONbsYZG"; ## SECRET-DATA
+                timeout 10;
+                retry 3;
+                max-outstanding-requests 2000;
+            }
+        }
+    }
+    address-assignment {
+        neighbor-discovery-router-advertisement pppv6-pool;
+        pool pppv4-pool {
+            family inet {
+                network 10.26.0.0/16;
+            }
+        }
+        pool pppv6-pool {
+            family inet6 {
+                prefix fc00:26:140::/48;
+                range ndra-range prefix-length 64;
+            }
+        }
+    }
+}
+routing-instances {
+    METRO_BBE_EVPN_FXC_IPoE-GROUP_1 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps32.0 {
+                    vpws-service-id {
+                        local 6002;
+                        remote 5002;
+                    }
+                }
+            }
+        }
+        interface ps32.0;
+        route-distinguisher 192.168.108.108:3001;
+        vrf-target target:60000:3001;
+    }
+    METRO_BBE_EVPN_FXC_IPoE-GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps36.0 {
+                    vpws-service-id {
+                        local 6006;
+                        remote 5006;
+                    }
+                }
+            }
+        }
+        interface ps36.0;
+        route-distinguisher 192.168.108.108:3002;
+        vrf-target target:60000:3002;
+    }
+    METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps31.0 {
+                    vpws-service-id {
+                        local 6001;
+                        remote 5001;
+                    }
+                }
+            }
+        }
+        interface ps31.0;
+        route-distinguisher 192.168.108.108:2001;
+        vrf-target target:60000:2001;
+    }
+    METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps35.0 {
+                    vpws-service-id {
+                        local 6005;
+                        remote 5005;
+                    }
+                }
+            }
+        }
+        interface ps35.0;
+        route-distinguisher 192.168.108.108:2002;
+        vrf-target target:60000:2002;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps11.0 {
+                    vpws-service-id {
+                        local 31;
+                        remote 11;
+                    }
+                }
+            }
+        }
+        interface ps11.0;
+        route-distinguisher 192.168.108.108:1041;
+        vrf-target target:60000:1041;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps20.0 {
+                    vpws-service-id {
+                        local 40;
+                        remote 20;
+                    }
+                }
+            }
+        }
+        interface ps20.0;
+        route-distinguisher 192.168.108.108:1050;
+        vrf-target target:60000:1050;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps12.0 {
+                    vpws-service-id {
+                        local 32;
+                        remote 12;
+                    }
+                }
+            }
+        }
+        interface ps12.0;
+        route-distinguisher 192.168.108.108:1042;
+        vrf-target target:60000:1042;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps13.0 {
+                    vpws-service-id {
+                        local 33;
+                        remote 13;
+                    }
+                }
+            }
+        }
+        interface ps13.0;
+        route-distinguisher 192.168.108.108:1043;
+        vrf-target target:60000:1043;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps14.0 {
+                    vpws-service-id {
+                        local 34;
+                        remote 14;
+                    }
+                }
+            }
+        }
+        interface ps14.0;
+        route-distinguisher 192.168.108.108:1044;
+        vrf-target target:60000:1044;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps15.0 {
+                    vpws-service-id {
+                        local 35;
+                        remote 15;
+                    }
+                }
+            }
+        }
+        interface ps15.0;
+        route-distinguisher 192.168.108.108:1045;
+        vrf-target target:60000:1045;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps16.0 {
+                    vpws-service-id {
+                        local 36;
+                        remote 16;
+                    }
+                }
+            }
+        }
+        interface ps16.0;
+        route-distinguisher 192.168.108.108:1046;
+        vrf-target target:60000:1046;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps17.0 {
+                    vpws-service-id {
+                        local 37;
+                        remote 17;
+                    }
+                }
+            }
+        }
+        interface ps17.0;
+        route-distinguisher 192.168.108.108:1047;
+        vrf-target target:60000:1047;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps18.0 {
+                    vpws-service-id {
+                        local 38;
+                        remote 18;
+                    }
+                }
+            }
+        }
+        interface ps18.0;
+        route-distinguisher 192.168.108.108:1048;
+        vrf-target target:60000:1048;
+    }
+    METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps19.0 {
+                    vpws-service-id {
+                        local 39;
+                        remote 19;
+                    }
+                }
+            }
+        }
+        interface ps19.0;
+        route-distinguisher 192.168.108.108:1049;
+        vrf-target target:60000:1049;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps0.0 {
+                    vpws-service-id {
+                        local 21;
+                        remote 1;
+                    }
+                }
+            }
+        }
+        interface ps0.0;
+        route-distinguisher 192.168.108.108:1031;
+        vrf-target target:60000:1031;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps9.0 {
+                    vpws-service-id {
+                        local 30;
+                        remote 10;
+                    }
+                }
+            }
+        }
+        interface ps9.0;
+        route-distinguisher 192.168.108.108:1040;
+        vrf-target target:60000:1040;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps1.0 {
+                    vpws-service-id {
+                        local 22;
+                        remote 2;
+                    }
+                }
+            }
+        }
+        interface ps1.0;
+        route-distinguisher 192.168.108.108:1032;
+        vrf-target target:60000:1032;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps2.0 {
+                    vpws-service-id {
+                        local 23;
+                        remote 3;
+                    }
+                }
+            }
+        }
+        interface ps2.0;
+        route-distinguisher 192.168.108.108:1033;
+        vrf-target target:60000:1033;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps3.0 {
+                    vpws-service-id {
+                        local 24;
+                        remote 4;
+                    }
+                }
+            }
+        }
+        interface ps3.0;
+        route-distinguisher 192.168.108.108:1034;
+        vrf-target target:60000:1034;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps4.0 {
+                    vpws-service-id {
+                        local 25;
+                        remote 5;
+                    }
+                }
+            }
+        }
+        interface ps4.0;
+        route-distinguisher 192.168.108.108:1035;
+        vrf-target target:60000:1035;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps5.0 {
+                    vpws-service-id {
+                        local 26;
+                        remote 6;
+                    }
+                }
+            }
+        }
+        interface ps5.0;
+        route-distinguisher 192.168.108.108:1036;
+        vrf-target target:60000:1036;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps6.0 {
+                    vpws-service-id {
+                        local 27;
+                        remote 7;
+                    }
+                }
+            }
+        }
+        interface ps6.0;
+        route-distinguisher 192.168.108.108:1037;
+        vrf-target target:60000:1037;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps7.0 {
+                    vpws-service-id {
+                        local 28;
+                        remote 8;
+                    }
+                }
+            }
+        }
+        interface ps7.0;
+        route-distinguisher 192.168.108.108:1038;
+        vrf-target target:60000:1038;
+    }
+    METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface ps8.0 {
+                    vpws-service-id {
+                        local 29;
+                        remote 9;
+                    }
+                }
+            }
+        }
+        interface ps8.0;
+        route-distinguisher 192.168.108.108:1039;
+        vrf-target target:60000:1039;
+    }
+    PPPOE_SUBS_1 {
+        instance-type vrf;
+        routing-options {
+            rib PPPOE_SUBS_1.inet6.0 {
+                aggregate {
+                    route fc00:26:140::/48;
+                }
+            }
+            aggregate {
+                route 10.26.0.0/16;
+            }
+            auto-export;
+        }
+        access {
+            address-assignment {
+                neighbor-discovery-router-advertisement pppv6-pool;
+                pool pppv4-pool {
+                    family inet {
+                        network 10.26.0.0/16;
+                    }
+                }
+                pool pppv6-pool {
+                    family inet6 {
+                        prefix fc00:26:140::/48;
+                        range ndra-range prefix-length 64;
+                    }
+                }
+            }
+        }
+        interface lo0.1;
+        route-distinguisher 208.208.208.208:1031;
+        vrf-import PS-PPPOE-SUBS-1-VRF-IMPORT;
+        vrf-export PS-PPPOE-SUBS-1-VRF-EXPORT;
+        vrf-table-label;
+    }
+    RADIUS {
+        instance-type vrf;
+        routing-options {
+            auto-export;
+        }
+        interface lo0.7;
+        route-distinguisher 192.168.118.118:1118;
+        vrf-import PS-RADIUS-VRF-IMPORT;
+        vrf-export PS-RADIUS-VRF-EXPORT;
+        vrf-table-label;
+    }
+    dhcp-subs {
+        instance-type vrf;
+        routing-options {
+            rib dhcp-subs.inet6.0 {
+                static {
+                    route fc00:125:140::/64 discard;
+                }
+                aggregate {
+                    route fc00:125:140::/64;
+                    route fc00:126:140::/64;
+                }
+            }
+            static {
+                route 10.42.0.1/32 discard;
+            }
+            aggregate {
+                route 10.42.0.0/16;
+                route 10.43.0.0/16;
+            }
+            auto-export;
+        }
+        system {
+            services {
+                dhcp-local-server {
+                    dhcpv6 {
+                        group dhcp6-ls {
+                            authentication {
+                                password joshua;
+                                username-include {
+                                    domain-name jnpr.net;
+                                    user-prefix pwht_dhcp;
+                                }
+                            }
+                            dynamic-profile prod-dhcp-base;
+                            overrides {
+                                delegated-pool dhcp_v6_pool;
+                                dual-stack dhcp-ds;
+                            }
+                            interface demux0.0;
+                            interface demux0.1;
+                            interface ps11.0;
+                            interface ps12.0;
+                            interface ps13.0;
+                            interface ps14.0;
+                            interface ps15.0;
+                            interface ps16.0;
+                            interface ps17.0;
+                            interface ps18.0;
+                            interface ps19.0;
+                            interface ps20.0;
+                            interface ps32.0;
+                            interface ps36.0;
+                        }
+                        server-duid-type {
+                            duid_ll;
+                        }
+                    }
+                    pool-match-order {
+                        ip-address-first;
+                    }
+                    group dhcp-ls {
+                        overrides {
+                            client-discover-match incoming-interface;
+                            dual-stack dhcp-ds;
+                        }
+                        interface demux0.0;
+                        interface demux0.1;
+                        interface ps11.0;
+                        interface ps12.0;
+                        interface ps13.0;
+                        interface ps14.0;
+                        interface ps15.0;
+                        interface ps16.0;
+                        interface ps17.0;
+                        interface ps18.0;
+                        interface ps19.0;
+                        interface ps20.0;
+                        interface ps32.0;
+                        interface ps36.0;
+                    }
+                    dual-stack-group dhcp-ds {
+                        authentication {
+                            password joshua;
+                            username-include {
+                                domain-name jnpr.net;
+                                user-prefix pwht_dhcp;
+                            }
+                        }
+                        dynamic-profile prod-dhcp-base;
+                        on-demand-address-allocation;
+                        classification-key {
+                            mac-address;
+                        }
+                    }
+                    no-stale-timer-refresh;
+                    stale-timer 60;
+                }
+            }
+        }
+        access {
+            address-assignment {
+                high-utilization 80;
+                abated-utilization 70;
+                pool dhcp_v4_pool {
+                    family inet {
+                        network 10.43.0.0/16;
+                        range range1 {
+                            low 10.43.0.2;
+                            high 10.43.255.254;
+                        }
+                        dhcp-attributes {
+                            maximum-lease-time 600;
+                            server-identifier 10.43.0.1;
+                            router {
+                                10.43.0.1;
+                            }
+                        }
+                    }
+                }
+                pool dhcp_v6_pool {
+                    family inet6 {
+                        prefix fc00:126:140::/64;
+                        range rangev6 {
+                            low fc00:126:140::2/128;
+                            high fc00:126:140::ffff/128;
+                        }
+                        dhcp-attributes {
+                            maximum-lease-time 600;
+                        }
+                    }
+                }
+            }
+        }
+        access-profile vlan-auth-access1;
+        interface lo0.313;
+        route-distinguisher 192.168.208.208:1046;
+        vrf-import dhcp-subs-vrf-import-pol;
+        vrf-export dhcp-subs-vrf-export-pol;
+        vrf-table-label;
+    }
+}
+dynamic-profiles {
+    auto-stacked-pwht_dhcp {
+        predefined-variable-defaults {
+            routing-instances dhcp-subs;
+        }
+        routing-instances {
+            "$junos-routing-instance" {
+                interface "$junos-interface-name";
+            }
+        }
+        interfaces {
+            "$junos-interface-ifd-name" {
+                unit "$junos-interface-unit" {
+                    no-traps;
+                    proxy-arp unrestricted;
+                    vlan-tags outer "$junos-stacked-vlan-id" inner "$junos-vlan-id";
+                    demux-options {
+                        underlying-interface "$junos-interface-ifd-name";
+                    }
+                    family inet {
+                        mac-validate loose;
+                        unnumbered-address "$junos-loopback-interface";
+                        auto-configure {
+                            address-ranges {
+                                dynamic-profile prof_autosense_ipdemux {
+                                    network 10.42.0.0/16;
+                                    network 10.43.0.0/16;
+                                    network 10.44.0.0/16;
+                                    network 10.45.0.0/16;
+                                }
+                                authentication {
+                                    password joshua;
+                                    username-include {
+                                        domain-name jnpr.net;
+                                        user-prefix pwht_dhcp;
+                                    }
+                                }
+                                session-timeout 600;
+                            }
+                        }
+                    }
+                    family inet6 {
+                        unnumbered-address "$junos-loopback-interface";
+                        auto-configure {
+                            prefix-ranges {
+                                dynamic-profile prof_autosense_ipdemux {
+                                    prefix fc00:125:140::/48;
+                                    prefix fc00:126:140::/48;
+                                    prefix fc00:127:140::/48;
+                                    prefix fc00:128:140::/48;
+                                }
+                                authentication {
+                                    password joshua;
+                                    username-include {
+                                        domain-name jnpr.net;
+                                        user-prefix pwht_dhcp;
+                                    }
+                                }
+                                session-timeout 600;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        protocols {
+            router-advertisement {
+                interface "$junos-interface-name" {
+                    max-advertisement-interval 60;
+                    min-advertisement-interval 30;
+                    managed-configuration;
+                    other-stateful-configuration;
+                }
+            }
+        }
+    }
+    auto-stacked-pwht {
+        predefined-variable-defaults {
+            routing-instances PPPOE_SUBS_1;
+        }
+        routing-instances {
+            "$junos-routing-instance" {
+                interface "$junos-interface-name";
+            }
+        }
+        interfaces {
+            interface-set "$junos-phy-ifd-interface-set-name" {
+                interface "$junos-interface-ifd-name" {
+                    unit "$junos-interface-unit";
+                }
+            }
+            "$junos-interface-ifd-name" {
+                unit "$junos-interface-unit" {
+                    actual-transit-statistics;
+                    no-traps;
+                    proxy-arp restricted;
+                    vlan-tags outer "$junos-stacked-vlan-id" inner "$junos-vlan-id";
+                    family inet {
+                        mac-validate loose;
+                        unnumbered-address lo0.0;
+                    }
+                    family inet6 {
+                        unnumbered-address "$junos-loopback-interface";
+                    }
+                    family pppoe {
+                        duplicate-protection;
+                        dynamic-profile prod-pppoe-dt-base;
+                        short-cycle-protection {
+                            lockout-time-min 5;
+                            lockout-time-max 60;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    prof_autosense_ipdemux {
+        predefined-variable-defaults {
+            routing-instances dhcp-subs;
+        }
+        routing-instances {
+            "$junos-routing-instance" {
+                interface "$junos-interface-name";
+                routing-options {
+                    rib inet6.0 {
+                        access-internal {
+                            route $junos-subscriber-ipv6-address {
+                                qualified-next-hop "$junos-interface-name";
+                            }
+                        }
+                    }
+                    access-internal {
+                        route $junos-subscriber-ip-address {
+                            qualified-next-hop "$junos-interface-name";
+                        }
+                    }
+                }
+            }
+        }
+        interfaces {
+            demux0 {
+                unit "$junos-underlying-interface-unit" {
+                    proxy-arp unrestricted;
+                    family inet {
+                        mac-validate loose;
+                        unnumbered-address lo0.313;
+                    }
+                    family inet6 {
+                        unnumbered-address lo0.313;
+                    }
+                }
+            }
+        }
+    }
+    prod-dhcp-base {
+        predefined-variable-defaults {
+            routing-instances dhcp-subs;
+        }
+        routing-instances {
+            "$junos-routing-instance" {
+                interface "$junos-interface-name";
+                routing-options {
+                    access {
+                        route $junos-framed-route-ip-address-prefix metric "$junos-framed-route-cost";
+                    }
+                }
+            }
+        }
+        interfaces {
+            demux0 {
+                unit "$junos-interface-unit" {
+                    actual-transit-statistics;
+                    proxy-arp unrestricted;
+                    demux-options {
+                        underlying-interface "$junos-underlying-interface";
+                    }
+                    family inet {
+                        rpf-check fail-filter rpf-pass-dhcp;
+                        demux-source {
+                            $junos-subscriber-ip-address;
+                        }
+                        unnumbered-address lo0.313;
+                    }
+                    family inet6 {
+                        rpf-check fail-filter rpf-pass-dhcpv6;
+                        demux-source {
+                            "$junos-subscriber-ipv6-address";
+                        }
+                        unnumbered-address lo0.313;
+                    }
+                }
+            }
+        }
+    }
+    prod-pppoe-dt-base {
+        predefined-variable-defaults {
+            routing-instances PPPOE_SUBS_1;
+        }
+        routing-instances {
+            "$junos-routing-instance" {
+                interface "$junos-interface-name";
+            }
+        }
+        interfaces {
+            pp0 {
+                unit "$junos-interface-unit" {
+                    actual-transit-statistics;
+                    no-traps;
+                    ppp-options {
+                        mru 1500;
+                        mtu 1500;
+                    }
+                    pppoe-options {
+                        underlying-interface "$junos-underlying-interface";
+                        server;
+                    }
+                    keepalives interval 30;
+                    family inet {
+                        rpf-check;
+                        filter {
+                            output clear-df-bit;
+                        }
+                        unnumbered-address "$junos-loopback-interface";
+                    }
+                    family inet6 {
+                        unnumbered-address "$junos-loopback-interface";
+                    }
+                }
+            }
+        }
+        protocols {
+            router-advertisement {
+                interface "$junos-interface-name" {
+                    prefix $junos-ipv6-ndra-prefix;
+                }
+            }
+        }
+    }
+}
+routing-options {
+    router-id 192.168.0.8;
+    autonomous-system 65001;
+    rib-groups {
+        interface_routes {
+            import-rib [ PPPOE_SUBS_1.inet6.0 inet6.0 ];
+        }
+    }
+    forwarding-table {
+        export PS-PPLB;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+protocols {
+    bgp {
+        vpn-apply-export;
+        group GR-IBGP-CR {
+            type internal;
+            local-address 192.168.0.8;
+            family inet {
+                labeled-unicast {
+                    resolve-vpn;
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            export [ PS-PPPOE-SUBSv6 PS-DHCP-SUBSv6 ];
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.5;
+            neighbor 192.168.0.6;
+            neighbor 192.168.0.11;
+        }
+    }
+    isis {
+        interface et-0/0/0.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/1.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/3.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface lo0.0 {
+            passive;
+        }
+        source-packet-routing explicit-null;
+        level 1 wide-metrics-only;
+        level 2 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+            multipath {
+                weighted one-hop;
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export PS-ISIS-EXPORT;
+    }
+    mpls {
+        label-range {
+            srgb-label-range 800000 890000;
+        }
+        ipv6-tunneling;
+    }
+}
+
+
+
+show configuration | display set|no-more
+set system configuration-database max-db-size 314572800
+set system services subscriber-management enable
+set system services subscriber-management redundancy interface ps11.0 shared-key ps11-key
+set system services subscriber-management redundancy interface ps12.0 shared-key ps12-key
+set system services subscriber-management redundancy interface ps13.0 shared-key ps13-key
+set system services subscriber-management redundancy interface ps14.0 shared-key ps14-key
+set system services subscriber-management redundancy interface ps15.0 shared-key ps15-key
+set system services subscriber-management redundancy interface ps16.0 shared-key ps16-key
+set system services subscriber-management redundancy interface ps17.0 shared-key ps17-key
+set system services subscriber-management redundancy interface ps18.0 shared-key ps18-key
+set system services subscriber-management redundancy interface ps19.0 shared-key ps19-key
+set system services subscriber-management redundancy interface ps20.0 shared-key ps20-key
+set system services subscriber-management redundancy no-advertise-routes-on-backup
+set system services subscriber-management redundancy route-operation-interval 1
+set system ports console log-out-on-disconnect
+set system dynamic-profile-options versioning
+set system processes smg-service
+set system ddos-protection protocols autoconf aggregate bandwidth 20000
+set system ddos-protection protocols autoconf aggregate burst 20000
+set system ddos-protection protocols pppoe padse bandwidth 2000
+set system ddos-protection protocols pppoe padse burst 100
+set chassis maximum-ecmp 128
+set chassis pseudowire-service device-count 100
+set chassis fpc 0 pic 0 tunnel-services bandwidth 100g
+set chassis fpc 0 pic 0 port 0 speed 100g
+set chassis fpc 0 pic 0 port 1 speed 100g
+set chassis fpc 0 pic 0 port 2 speed 100g
+set chassis fpc 0 pic 0 port 3 speed 100g
+set chassis fpc 0 pic 1 number-of-ports 0
+set access-profile vlan-auth-access1
+set interfaces et-0/0/0 description R8-BNG2-To-R6-AGN2
+set interfaces et-0/0/0 unit 0 family inet address 10.10.68.2/24
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family inet6 address 2001:db8::10:10:68:1:2/120
+set interfaces et-0/0/0 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/1 description R8-BNG2-To-R5-AGN1
+set interfaces et-0/0/1 unit 0 family inet address 10.10.58.2/24
+set interfaces et-0/0/1 unit 0 family iso
+set interfaces et-0/0/1 unit 0 family inet6 address 2001:db8::10:10:58:1:2/120
+set interfaces et-0/0/1 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/3 description R8-BNG2-To-R11-CR1
+set interfaces et-0/0/3 unit 0 family inet address 10.10.118.1/24
+set interfaces et-0/0/3 unit 0 family iso
+set interfaces et-0/0/3 unit 0 family inet6 address 2001:db8::10:10:118:1:1/120
+set interfaces et-0/0/3 unit 0 family mpls maximum-labels 16
+set interfaces lo0 unit 0 family inet address 192.168.0.8/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0008.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::192:1:0:8/128 primary
+set interfaces lo0 unit 1 family inet address 192.168.8.8/32 primary
+set interfaces lo0 unit 1 family inet6 address 2001:db8::192:168:8:8/128 primary
+set interfaces lo0 unit 7 family inet address 192.168.18.18/32 primary
+set interfaces lo0 unit 7 family inet6 address 2001:db8::192:168:18:18/128 primary
+set interfaces lo0 unit 313 description "VRF:dhcp-subs Loopback"
+set interfaces lo0 unit 313 family inet address 10.43.0.1/32 primary
+set interfaces lo0 unit 313 family inet address 172.18.18.8/32
+set interfaces lo0 unit 313 family inet6 address fc00:126:140::1/128 primary
+set interfaces ps0 anchor-point lt-0/0/0
+set interfaces ps0 flexible-vlan-tagging
+set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps0 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps0 auto-configure remove-when-no-subscribers
+set interfaces ps0 mtu 2022
+set interfaces ps0 esi 00:10:12:12:12:12:12:00:00:31
+set interfaces ps0 esi single-active
+set interfaces ps0 esi df-election-type preference value 999
+set interfaces ps0 no-gratuitous-arp-request
+set interfaces ps0 unit 0 encapsulation ethernet-ccc
+set interfaces ps1 anchor-point lt-0/0/0
+set interfaces ps1 flexible-vlan-tagging
+set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps1 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps1 auto-configure remove-when-no-subscribers
+set interfaces ps1 mtu 2022
+set interfaces ps1 esi 00:10:12:12:12:12:12:00:00:32
+set interfaces ps1 esi single-active
+set interfaces ps1 esi df-election-type preference value 999
+set interfaces ps1 no-gratuitous-arp-request
+set interfaces ps1 unit 0 encapsulation ethernet-ccc
+set interfaces ps2 anchor-point lt-0/0/0
+set interfaces ps2 flexible-vlan-tagging
+set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps2 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps2 auto-configure remove-when-no-subscribers
+set interfaces ps2 mtu 2022
+set interfaces ps2 esi 00:10:12:12:12:12:12:00:00:33
+set interfaces ps2 esi single-active
+set interfaces ps2 esi df-election-type preference value 999
+set interfaces ps2 no-gratuitous-arp-request
+set interfaces ps2 unit 0 encapsulation ethernet-ccc
+set interfaces ps3 anchor-point lt-0/0/0
+set interfaces ps3 flexible-vlan-tagging
+set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps3 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps3 auto-configure remove-when-no-subscribers
+set interfaces ps3 mtu 2022
+set interfaces ps3 esi 00:10:12:12:12:12:12:00:00:34
+set interfaces ps3 esi single-active
+set interfaces ps3 esi df-election-type preference value 999
+set interfaces ps3 no-gratuitous-arp-request
+set interfaces ps3 unit 0 encapsulation ethernet-ccc
+set interfaces ps4 anchor-point lt-0/0/0
+set interfaces ps4 flexible-vlan-tagging
+set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps4 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps4 auto-configure remove-when-no-subscribers
+set interfaces ps4 mtu 2022
+set interfaces ps4 esi 00:10:12:12:12:12:12:00:00:35
+set interfaces ps4 esi single-active
+set interfaces ps4 esi df-election-type preference value 999
+set interfaces ps4 no-gratuitous-arp-request
+set interfaces ps4 unit 0 encapsulation ethernet-ccc
+set interfaces ps5 anchor-point lt-0/0/0
+set interfaces ps5 flexible-vlan-tagging
+set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps5 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps5 auto-configure remove-when-no-subscribers
+set interfaces ps5 mtu 2022
+set interfaces ps5 esi 00:10:12:12:12:12:12:00:00:36
+set interfaces ps5 esi single-active
+set interfaces ps5 esi df-election-type preference value 999
+set interfaces ps5 no-gratuitous-arp-request
+set interfaces ps5 unit 0 encapsulation ethernet-ccc
+set interfaces ps6 anchor-point lt-0/0/0
+set interfaces ps6 flexible-vlan-tagging
+set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps6 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps6 auto-configure remove-when-no-subscribers
+set interfaces ps6 mtu 2022
+set interfaces ps6 esi 00:10:12:12:12:12:12:00:00:37
+set interfaces ps6 esi single-active
+set interfaces ps6 esi df-election-type preference value 999
+set interfaces ps6 no-gratuitous-arp-request
+set interfaces ps6 unit 0 encapsulation ethernet-ccc
+set interfaces ps7 anchor-point lt-0/0/0
+set interfaces ps7 flexible-vlan-tagging
+set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps7 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps7 auto-configure remove-when-no-subscribers
+set interfaces ps7 mtu 2022
+set interfaces ps7 esi 00:10:12:12:12:12:12:00:00:38
+set interfaces ps7 esi single-active
+set interfaces ps7 esi df-election-type preference value 999
+set interfaces ps7 no-gratuitous-arp-request
+set interfaces ps7 unit 0 encapsulation ethernet-ccc
+set interfaces ps8 anchor-point lt-0/0/0
+set interfaces ps8 flexible-vlan-tagging
+set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps8 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps8 auto-configure remove-when-no-subscribers
+set interfaces ps8 mtu 2022
+set interfaces ps8 esi 00:10:12:12:12:12:12:00:00:39
+set interfaces ps8 esi single-active
+set interfaces ps8 esi df-election-type preference value 999
+set interfaces ps8 no-gratuitous-arp-request
+set interfaces ps8 unit 0 encapsulation ethernet-ccc
+set interfaces ps9 anchor-point lt-0/0/0
+set interfaces ps9 flexible-vlan-tagging
+set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps9 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps9 auto-configure remove-when-no-subscribers
+set interfaces ps9 mtu 2022
+set interfaces ps9 esi 00:10:12:12:12:12:12:00:00:3a
+set interfaces ps9 esi single-active
+set interfaces ps9 esi df-election-type preference value 999
+set interfaces ps9 no-gratuitous-arp-request
+set interfaces ps9 unit 0 encapsulation ethernet-ccc
+set interfaces ps11 anchor-point lt-0/0/0
+set interfaces ps11 flexible-vlan-tagging
+set interfaces ps11 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps11 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps11 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps11 auto-configure remove-when-no-subscribers
+set interfaces ps11 mtu 2022
+set interfaces ps11 esi 00:10:12:12:12:12:12:00:00:41
+set interfaces ps11 esi single-active
+set interfaces ps11 esi df-election-type preference value 999
+set interfaces ps11 mac aa:aa:aa:bb:bb:bb
+set interfaces ps11 no-gratuitous-arp-request
+set interfaces ps11 unit 0 encapsulation ethernet-ccc
+set interfaces ps12 anchor-point lt-0/0/0
+set interfaces ps12 flexible-vlan-tagging
+set interfaces ps12 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps12 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps12 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps12 auto-configure remove-when-no-subscribers
+set interfaces ps12 mtu 2022
+set interfaces ps12 esi 00:10:12:12:12:12:12:00:00:42
+set interfaces ps12 esi single-active
+set interfaces ps12 esi df-election-type preference value 999
+set interfaces ps12 mac aa:aa:aa:bb:bb:bb
+set interfaces ps12 no-gratuitous-arp-request
+set interfaces ps12 unit 0 encapsulation ethernet-ccc
+set interfaces ps13 anchor-point lt-0/0/0
+set interfaces ps13 flexible-vlan-tagging
+set interfaces ps13 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps13 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps13 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps13 auto-configure remove-when-no-subscribers
+set interfaces ps13 mtu 2022
+set interfaces ps13 esi 00:10:12:12:12:12:12:00:00:43
+set interfaces ps13 esi single-active
+set interfaces ps13 esi df-election-type preference value 999
+set interfaces ps13 mac aa:aa:aa:bb:bb:bb
+set interfaces ps13 no-gratuitous-arp-request
+set interfaces ps13 unit 0 encapsulation ethernet-ccc
+set interfaces ps14 anchor-point lt-0/0/0
+set interfaces ps14 flexible-vlan-tagging
+set interfaces ps14 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps14 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps14 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps14 auto-configure remove-when-no-subscribers
+set interfaces ps14 mtu 2022
+set interfaces ps14 esi 00:10:12:12:12:12:12:00:00:44
+set interfaces ps14 esi single-active
+set interfaces ps14 esi df-election-type preference value 999
+set interfaces ps14 mac aa:aa:aa:bb:bb:bb
+set interfaces ps14 no-gratuitous-arp-request
+set interfaces ps14 unit 0 encapsulation ethernet-ccc
+set interfaces ps15 anchor-point lt-0/0/0
+set interfaces ps15 flexible-vlan-tagging
+set interfaces ps15 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps15 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps15 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps15 auto-configure remove-when-no-subscribers
+set interfaces ps15 mtu 2022
+set interfaces ps15 esi 00:10:12:12:12:12:12:00:00:45
+set interfaces ps15 esi single-active
+set interfaces ps15 esi df-election-type preference value 999
+set interfaces ps15 mac aa:aa:aa:bb:bb:bb
+set interfaces ps15 no-gratuitous-arp-request
+set interfaces ps15 unit 0 encapsulation ethernet-ccc
+set interfaces ps16 anchor-point lt-0/0/0
+set interfaces ps16 flexible-vlan-tagging
+set interfaces ps16 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps16 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps16 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps16 auto-configure remove-when-no-subscribers
+set interfaces ps16 mtu 2022
+set interfaces ps16 esi 00:10:12:12:12:12:12:00:00:46
+set interfaces ps16 esi single-active
+set interfaces ps16 esi df-election-type preference value 999
+set interfaces ps16 mac aa:aa:aa:bb:bb:bb
+set interfaces ps16 no-gratuitous-arp-request
+set interfaces ps16 unit 0 encapsulation ethernet-ccc
+set interfaces ps17 anchor-point lt-0/0/0
+set interfaces ps17 flexible-vlan-tagging
+set interfaces ps17 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps17 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps17 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps17 auto-configure remove-when-no-subscribers
+set interfaces ps17 mtu 2022
+set interfaces ps17 esi 00:10:12:12:12:12:12:00:00:47
+set interfaces ps17 esi single-active
+set interfaces ps17 esi df-election-type preference value 999
+set interfaces ps17 mac aa:aa:aa:bb:bb:bb
+set interfaces ps17 no-gratuitous-arp-request
+set interfaces ps17 unit 0 encapsulation ethernet-ccc
+set interfaces ps18 anchor-point lt-0/0/0
+set interfaces ps18 flexible-vlan-tagging
+set interfaces ps18 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps18 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps18 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps18 auto-configure remove-when-no-subscribers
+set interfaces ps18 mtu 2022
+set interfaces ps18 esi 00:10:12:12:12:12:12:00:00:48
+set interfaces ps18 esi single-active
+set interfaces ps18 esi df-election-type preference value 999
+set interfaces ps18 mac aa:aa:aa:bb:bb:bb
+set interfaces ps18 no-gratuitous-arp-request
+set interfaces ps18 unit 0 encapsulation ethernet-ccc
+set interfaces ps19 anchor-point lt-0/0/0
+set interfaces ps19 flexible-vlan-tagging
+set interfaces ps19 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps19 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps19 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps19 auto-configure remove-when-no-subscribers
+set interfaces ps19 mtu 2022
+set interfaces ps19 esi 00:10:12:12:12:12:12:00:00:49
+set interfaces ps19 esi single-active
+set interfaces ps19 esi df-election-type preference value 999
+set interfaces ps19 mac aa:aa:aa:bb:bb:bb
+set interfaces ps19 no-gratuitous-arp-request
+set interfaces ps19 unit 0 encapsulation ethernet-ccc
+set interfaces ps20 anchor-point lt-0/0/0
+set interfaces ps20 flexible-vlan-tagging
+set interfaces ps20 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps20 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps20 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps20 auto-configure remove-when-no-subscribers
+set interfaces ps20 mtu 2022
+set interfaces ps20 esi 00:10:12:12:12:12:12:00:00:4a
+set interfaces ps20 esi single-active
+set interfaces ps20 esi df-election-type preference value 999
+set interfaces ps20 mac aa:aa:aa:bb:bb:bb
+set interfaces ps20 no-gratuitous-arp-request
+set interfaces ps20 unit 0 encapsulation ethernet-ccc
+set interfaces ps31 anchor-point lt-0/0/0
+set interfaces ps31 flexible-vlan-tagging
+set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps31 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps31 auto-configure remove-when-no-subscribers
+set interfaces ps31 mtu 2022
+set interfaces ps31 esi 00:10:12:12:12:12:12:00:00:81
+set interfaces ps31 esi single-active
+set interfaces ps31 esi df-election-type preference value 999
+set interfaces ps31 no-gratuitous-arp-request
+set interfaces ps31 unit 0 encapsulation ethernet-ccc
+set interfaces ps32 anchor-point lt-0/0/0
+set interfaces ps32 flexible-vlan-tagging
+set interfaces ps32 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps32 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps32 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps32 auto-configure remove-when-no-subscribers
+set interfaces ps32 mtu 2022
+set interfaces ps32 esi 00:10:12:12:12:12:12:00:10:91
+set interfaces ps32 esi single-active
+set interfaces ps32 esi df-election-type preference value 999
+set interfaces ps32 mac aa:aa:aa:bb:bb:bb
+set interfaces ps32 no-gratuitous-arp-request
+set interfaces ps32 unit 0 encapsulation ethernet-ccc
+set interfaces ps35 anchor-point lt-0/0/0
+set interfaces ps35 flexible-vlan-tagging
+set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept pppoe
+set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet
+set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht accept inet6
+set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication packet-types pppoe
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
+set interfaces ps35 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps35 auto-configure remove-when-no-subscribers
+set interfaces ps35 mtu 2022
+set interfaces ps35 esi 00:10:12:12:12:12:12:00:00:83
+set interfaces ps35 esi single-active
+set interfaces ps35 esi df-election-type preference value 999
+set interfaces ps35 no-gratuitous-arp-request
+set interfaces ps35 unit 0 encapsulation ethernet-ccc
+set interfaces ps36 anchor-point lt-0/0/0
+set interfaces ps36 flexible-vlan-tagging
+set interfaces ps36 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
+set interfaces ps36 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication packet-types any
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication password joshua
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
+set interfaces ps36 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
+set interfaces ps36 auto-configure remove-when-no-subscribers
+set interfaces ps36 mtu 2022
+set interfaces ps36 esi 00:10:12:12:12:12:12:00:10:93
+set interfaces ps36 esi single-active
+set interfaces ps36 esi df-election-type preference value 999
+set interfaces ps36 mac aa:aa:aa:bb:bb:bb
+set interfaces ps36 no-gratuitous-arp-request
+set interfaces ps36 unit 0 encapsulation ethernet-ccc
+set policy-options policy-statement PS-DHCP-SUBSv6 term 1 from instance dhcp-subs
+set policy-options policy-statement PS-DHCP-SUBSv6 term 1 from protocol access-internal
+set policy-options policy-statement PS-DHCP-SUBSv6 term 1 then community add PS-DHCPSUBS-COMM_2
+set policy-options policy-statement PS-DHCP-SUBSv6 term 1 then next-hop 2001:db8::192:1:0:8
+set policy-options policy-statement PS-DHCP-SUBSv6 term 1 then accept
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface em0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface fxp0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface re0:mgmt-0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT then reject
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from route-filter 192.168.0.8/32 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment index 1008
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then accept
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from route-filter 2001:db8::192:1:0:8/128 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment index 4008
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then accept
+set policy-options policy-statement PS-PPLB then load-balance per-packet
+set policy-options policy-statement PS-PPLB then accept
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 1 from protocol direct
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 1 then community add PPPOE_SUBS_COMM_1
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 1 then next-hop self
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 1 then accept
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 2 from protocol aggregate
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 2 from route-filter 10.26.0.0/16 exact
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 2 then community add PPPOE_SUBS_COMM_2
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 2 then next-hop self
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 2 then accept
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 3 from protocol aggregate
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 3 from route-filter fc00:26:140::/48 exact
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 3 then community add PPPOE_SUBS_COMM_2
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 3 then next-hop self
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-EXPORT term 3 then accept
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-IMPORT term 1 from community PS-RADIUS-COMM
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-IMPORT term 1 then accept
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-IMPORT term 2 from community PS-Internet-COMM
+set policy-options policy-statement PS-PPPOE-SUBS-1-VRF-IMPORT term 2 then accept
+set policy-options policy-statement PS-PPPOE-SUBSv6 term 1 from instance PPPOE_SUBS_1
+set policy-options policy-statement PS-PPPOE-SUBSv6 term 1 from route-filter fc00:26:140::/48 exact
+set policy-options policy-statement PS-PPPOE-SUBSv6 term 1 then community add PPPOE_SUBS_COMM_2
+set policy-options policy-statement PS-PPPOE-SUBSv6 term 1 then next-hop 2001:db8::192:1:0:8
+set policy-options policy-statement PS-PPPOE-SUBSv6 term 1 then accept
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 from protocol direct
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then community add PS-RADIUS-COMM
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then next-hop self
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then accept
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 1 from community PS-RADIUS-COMM
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 1 then accept
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 1 from protocol direct
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 1 then community add PS-DHCPSUBS-COMM
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 1 then next-hop self
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 1 then accept
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 2 from protocol access-internal
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 2 then community add PS-DHCPSUBS-COMM_2
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 2 then next-hop self
+set policy-options policy-statement dhcp-subs-vrf-export-pol term 2 then accept
+set policy-options policy-statement dhcp-subs-vrf-import-pol term 1 from community PS-RADIUS-COMM
+set policy-options policy-statement dhcp-subs-vrf-import-pol term 1 then accept
+set policy-options policy-statement dhcp-subs-vrf-import-pol term 2 from community PS-Internet-COMM
+set policy-options policy-statement dhcp-subs-vrf-import-pol term 2 then accept
+set policy-options community PPPOE_SUBS_COMM_1 members target:20000:1031
+set policy-options community PPPOE_SUBS_COMM_2 members target:20000:1032
+set policy-options community PS-DHCPSUBS-COMM members target:65000:1131
+set policy-options community PS-DHCPSUBS-COMM_2 members target:65000:1132
+set policy-options community PS-Internet-COMM members target:100:1
+set policy-options community PS-RADIUS-COMM members target:11111:1111
+set policy-options condition if-master if-route-exists address-family ccc ps11.0
+set policy-options condition if-master if-route-exists address-family ccc table mpls.0
+set firewall family inet filter clear-df-bit interface-specific
+set firewall family inet filter clear-df-bit term 1 then accept
+set firewall family inet filter clear-df-bit term 1 then dont-fragment clear
+set firewall family inet filter rpf-pass-dhcp term allow-dhcp from destination-address 255.255.255.255/32
+set firewall family inet filter rpf-pass-dhcp term allow-dhcp from destination-port dhcp
+set firewall family inet filter rpf-pass-dhcp term allow-dhcp then accept
+set firewall family inet filter rpf-pass-dhcp term default then discard
+set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 from destination-address ffff::ffff/128
+set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 from destination-port dhcp
+set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 then accept
+set firewall family inet6 filter rpf-pass-dhcpv6 term default then discard
+set access radius-server 10.189.189.2 port 1812
+set access radius-server 10.189.189.2 secret "$9$9L4It0IXxdsgJlKJDiH5T"
+set access radius-server 10.189.189.2 timeout 10
+set access radius-server 10.189.189.2 retry 3
+set access radius-server 10.189.189.2 max-outstanding-requests 2000
+set access radius-server 10.189.189.2 source-address 192.168.18.18
+set access radius-server 10.189.189.2 routing-instance RADIUS
+set access profile vlan-auth-access authentication-order none
+set access profile vlan-auth-access address-assignment pool pppv4-pool
+set access profile no-auth authentication-order none
+set access profile vlan-auth-access1 authentication-order radius
+set access profile vlan-auth-access1 radius authentication-server 10.189.189.2
+set access profile vlan-auth-access1 radius options nas-identifier R8-BNG2
+set access profile vlan-auth-access1 radius options nas-port-id-format agent-circuit-id
+set access profile vlan-auth-access1 radius options nas-port-type ethernet virtual
+set access profile vlan-auth-access1 radius options calling-station-id-delimiter "@"
+set access profile vlan-auth-access1 radius options calling-station-id-format agent-circuit-id
+set access profile vlan-auth-access1 radius options calling-station-id-format agent-remote-id
+set access profile vlan-auth-access1 radius options accounting-session-id-format decimal
+set access profile vlan-auth-access1 radius options vlan-nas-port-stacked-format
+set access profile vlan-auth-access1 radius options client-authentication-algorithm round-robin
+set access profile vlan-auth-access1 radius options client-accounting-algorithm round-robin
+set access profile vlan-auth-access1 radius attributes exclude framed-ip-address access-request
+set access profile vlan-auth-access1 radius-server 10.189.189.2 secret "$9$smgaU3nCuBEmfEyleXx"
+set access profile vlan-auth-access1 radius-server 10.189.189.2 timeout 10
+set access profile vlan-auth-access1 radius-server 10.189.189.2 retry 3
+set access profile vlan-auth-access1 radius-server 10.189.189.2 max-outstanding-requests 2000
+set access profile vlan-auth-access1 radius-server 10.189.189.2 source-address 192.168.18.18
+set access profile vlan-auth-access1 radius-server 10.189.189.2 routing-instance RADIUS
+set access profile vlan-auth-access2 authentication-order radius
+set access profile vlan-auth-access2 radius authentication-server 10.189.189.2
+set access profile vlan-auth-access2 radius-server 10.189.189.2 secret "$9$.fQnhclMLNuONbsYZG"
+set access profile vlan-auth-access2 radius-server 10.189.189.2 timeout 10
+set access profile vlan-auth-access2 radius-server 10.189.189.2 retry 3
+set access profile vlan-auth-access2 radius-server 10.189.189.2 max-outstanding-requests 2000
+set access address-assignment neighbor-discovery-router-advertisement pppv6-pool
+set access address-assignment pool pppv4-pool family inet network 10.26.0.0/16
+set access address-assignment pool pppv6-pool family inet6 prefix fc00:26:140::/48
+set access address-assignment pool pppv6-pool family inet6 range ndra-range prefix-length 64
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 protocols evpn interface ps32.0 vpws-service-id local 6002
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 protocols evpn interface ps32.0 vpws-service-id remote 5002
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 interface ps32.0
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 route-distinguisher 192.168.108.108:3001
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_1 vrf-target target:60000:3001
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn interface ps36.0 vpws-service-id local 6006
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 protocols evpn interface ps36.0 vpws-service-id remote 5006
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 interface ps36.0
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 route-distinguisher 192.168.108.108:3002
+set routing-instances METRO_BBE_EVPN_FXC_IPoE-GROUP_2 vrf-target target:60000:3002
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 protocols evpn interface ps31.0 vpws-service-id local 6001
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 protocols evpn interface ps31.0 vpws-service-id remote 5001
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 interface ps31.0
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 route-distinguisher 192.168.108.108:2001
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_1 vrf-target target:60000:2001
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn interface ps35.0 vpws-service-id local 6005
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 protocols evpn interface ps35.0 vpws-service-id remote 5005
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 interface ps35.0
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 route-distinguisher 192.168.108.108:2002
+set routing-instances METRO_BBE_EVPN_FXC_PPPoE-GROUP_2 vrf-target target:60000:2002
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 protocols evpn interface ps11.0 vpws-service-id local 31
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 protocols evpn interface ps11.0 vpws-service-id remote 11
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 interface ps11.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 route-distinguisher 192.168.108.108:1041
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_1 vrf-target target:60000:1041
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 protocols evpn interface ps20.0 vpws-service-id local 40
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 protocols evpn interface ps20.0 vpws-service-id remote 20
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 interface ps20.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 route-distinguisher 192.168.108.108:1050
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_10 vrf-target target:60000:1050
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 protocols evpn interface ps12.0 vpws-service-id local 32
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 protocols evpn interface ps12.0 vpws-service-id remote 12
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 interface ps12.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 route-distinguisher 192.168.108.108:1042
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_2 vrf-target target:60000:1042
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 protocols evpn interface ps13.0 vpws-service-id local 33
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 protocols evpn interface ps13.0 vpws-service-id remote 13
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 interface ps13.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 route-distinguisher 192.168.108.108:1043
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_3 vrf-target target:60000:1043
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 protocols evpn interface ps14.0 vpws-service-id local 34
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 protocols evpn interface ps14.0 vpws-service-id remote 14
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 interface ps14.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 route-distinguisher 192.168.108.108:1044
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_4 vrf-target target:60000:1044
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 protocols evpn interface ps15.0 vpws-service-id local 35
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 protocols evpn interface ps15.0 vpws-service-id remote 15
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 interface ps15.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 route-distinguisher 192.168.108.108:1045
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_5 vrf-target target:60000:1045
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 protocols evpn interface ps16.0 vpws-service-id local 36
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 protocols evpn interface ps16.0 vpws-service-id remote 16
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 interface ps16.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 route-distinguisher 192.168.108.108:1046
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_6 vrf-target target:60000:1046
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 protocols evpn interface ps17.0 vpws-service-id local 37
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 protocols evpn interface ps17.0 vpws-service-id remote 17
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 interface ps17.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 route-distinguisher 192.168.108.108:1047
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_7 vrf-target target:60000:1047
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 protocols evpn interface ps18.0 vpws-service-id local 38
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 protocols evpn interface ps18.0 vpws-service-id remote 18
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 interface ps18.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 route-distinguisher 192.168.108.108:1048
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_8 vrf-target target:60000:1048
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 protocols evpn interface ps19.0 vpws-service-id local 39
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 protocols evpn interface ps19.0 vpws-service-id remote 19
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 interface ps19.0
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 route-distinguisher 192.168.108.108:1049
+set routing-instances METRO_BBE_EVPN_VPWS_IPoE_GROUP_9 vrf-target target:60000:1049
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 protocols evpn interface ps0.0 vpws-service-id local 21
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 protocols evpn interface ps0.0 vpws-service-id remote 1
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 interface ps0.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 route-distinguisher 192.168.108.108:1031
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1 vrf-target target:60000:1031
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 protocols evpn interface ps9.0 vpws-service-id local 30
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 protocols evpn interface ps9.0 vpws-service-id remote 10
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 interface ps9.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 route-distinguisher 192.168.108.108:1040
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_10 vrf-target target:60000:1040
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 protocols evpn interface ps1.0 vpws-service-id local 22
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 protocols evpn interface ps1.0 vpws-service-id remote 2
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 interface ps1.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 route-distinguisher 192.168.108.108:1032
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_2 vrf-target target:60000:1032
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 protocols evpn interface ps2.0 vpws-service-id local 23
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 protocols evpn interface ps2.0 vpws-service-id remote 3
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 interface ps2.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 route-distinguisher 192.168.108.108:1033
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_3 vrf-target target:60000:1033
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 protocols evpn interface ps3.0 vpws-service-id local 24
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 protocols evpn interface ps3.0 vpws-service-id remote 4
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 interface ps3.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 route-distinguisher 192.168.108.108:1034
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_4 vrf-target target:60000:1034
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 protocols evpn interface ps4.0 vpws-service-id local 25
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 protocols evpn interface ps4.0 vpws-service-id remote 5
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 interface ps4.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 route-distinguisher 192.168.108.108:1035
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_5 vrf-target target:60000:1035
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 protocols evpn interface ps5.0 vpws-service-id local 26
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 protocols evpn interface ps5.0 vpws-service-id remote 6
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 interface ps5.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 route-distinguisher 192.168.108.108:1036
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_6 vrf-target target:60000:1036
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 protocols evpn interface ps6.0 vpws-service-id local 27
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 protocols evpn interface ps6.0 vpws-service-id remote 7
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 interface ps6.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 route-distinguisher 192.168.108.108:1037
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_7 vrf-target target:60000:1037
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 protocols evpn interface ps7.0 vpws-service-id local 28
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 protocols evpn interface ps7.0 vpws-service-id remote 8
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 interface ps7.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 route-distinguisher 192.168.108.108:1038
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_8 vrf-target target:60000:1038
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 instance-type evpn-vpws
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 protocols evpn interface ps8.0 vpws-service-id local 29
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 protocols evpn interface ps8.0 vpws-service-id remote 9
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 interface ps8.0
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 route-distinguisher 192.168.108.108:1039
+set routing-instances METRO_BBE_EVPN_VPWS_PPPoE_GROUP_9 vrf-target target:60000:1039
+set routing-instances PPPOE_SUBS_1 instance-type vrf
+set routing-instances PPPOE_SUBS_1 routing-options rib PPPOE_SUBS_1.inet6.0 aggregate route fc00:26:140::/48
+set routing-instances PPPOE_SUBS_1 routing-options aggregate route 10.26.0.0/16
+set routing-instances PPPOE_SUBS_1 routing-options auto-export
+set routing-instances PPPOE_SUBS_1 access address-assignment neighbor-discovery-router-advertisement pppv6-pool
+set routing-instances PPPOE_SUBS_1 access address-assignment pool pppv4-pool family inet network 10.26.0.0/16
+set routing-instances PPPOE_SUBS_1 access address-assignment pool pppv6-pool family inet6 prefix fc00:26:140::/48
+set routing-instances PPPOE_SUBS_1 access address-assignment pool pppv6-pool family inet6 range ndra-range prefix-length 64
+set routing-instances PPPOE_SUBS_1 interface lo0.1
+set routing-instances PPPOE_SUBS_1 route-distinguisher 208.208.208.208:1031
+set routing-instances PPPOE_SUBS_1 vrf-import PS-PPPOE-SUBS-1-VRF-IMPORT
+set routing-instances PPPOE_SUBS_1 vrf-export PS-PPPOE-SUBS-1-VRF-EXPORT
+set routing-instances PPPOE_SUBS_1 vrf-table-label
+set routing-instances RADIUS instance-type vrf
+set routing-instances RADIUS routing-options auto-export
+set routing-instances RADIUS interface lo0.7
+set routing-instances RADIUS route-distinguisher 192.168.118.118:1118
+set routing-instances RADIUS vrf-import PS-RADIUS-VRF-IMPORT
+set routing-instances RADIUS vrf-export PS-RADIUS-VRF-EXPORT
+set routing-instances RADIUS vrf-table-label
+set routing-instances dhcp-subs instance-type vrf
+set routing-instances dhcp-subs routing-options rib dhcp-subs.inet6.0 static route fc00:125:140::/64 discard
+set routing-instances dhcp-subs routing-options rib dhcp-subs.inet6.0 aggregate route fc00:125:140::/64
+set routing-instances dhcp-subs routing-options rib dhcp-subs.inet6.0 aggregate route fc00:126:140::/64
+set routing-instances dhcp-subs routing-options static route 10.42.0.1/32 discard
+set routing-instances dhcp-subs routing-options aggregate route 10.42.0.0/16
+set routing-instances dhcp-subs routing-options aggregate route 10.43.0.0/16
+set routing-instances dhcp-subs routing-options auto-export
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication password joshua
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication username-include domain-name jnpr.net
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication username-include user-prefix pwht_dhcp
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls dynamic-profile prod-dhcp-base
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls overrides delegated-pool dhcp_v6_pool
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls overrides dual-stack dhcp-ds
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface demux0.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface demux0.1
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps11.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps12.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps13.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps14.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps15.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps16.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps17.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps18.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps19.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps20.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps32.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls interface ps36.0
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 server-duid-type duid_ll
+set routing-instances dhcp-subs system services dhcp-local-server pool-match-order ip-address-first
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls overrides client-discover-match incoming-interface
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls overrides dual-stack dhcp-ds
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface demux0.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface demux0.1
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps11.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps12.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps13.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps14.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps15.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps16.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps17.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps18.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps19.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps20.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps32.0
+set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps36.0
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication password joshua
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication username-include domain-name jnpr.net
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication username-include user-prefix pwht_dhcp
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds dynamic-profile prod-dhcp-base
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds on-demand-address-allocation
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds classification-key mac-address
+set routing-instances dhcp-subs system services dhcp-local-server no-stale-timer-refresh
+set routing-instances dhcp-subs system services dhcp-local-server stale-timer 60
+set routing-instances dhcp-subs access address-assignment high-utilization 80
+set routing-instances dhcp-subs access address-assignment abated-utilization 70
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet network 10.43.0.0/16
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet range range1 low 10.43.0.2
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet range range1 high 10.43.255.254
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet dhcp-attributes maximum-lease-time 600
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet dhcp-attributes server-identifier 10.43.0.1
+set routing-instances dhcp-subs access address-assignment pool dhcp_v4_pool family inet dhcp-attributes router 10.43.0.1
+set routing-instances dhcp-subs access address-assignment pool dhcp_v6_pool family inet6 prefix fc00:126:140::/64
+set routing-instances dhcp-subs access address-assignment pool dhcp_v6_pool family inet6 range rangev6 low fc00:126:140::2/128
+set routing-instances dhcp-subs access address-assignment pool dhcp_v6_pool family inet6 range rangev6 high fc00:126:140::ffff/128
+set routing-instances dhcp-subs access address-assignment pool dhcp_v6_pool family inet6 dhcp-attributes maximum-lease-time 600
+set routing-instances dhcp-subs access-profile vlan-auth-access1
+set routing-instances dhcp-subs interface lo0.313
+set routing-instances dhcp-subs route-distinguisher 192.168.208.208:1046
+set routing-instances dhcp-subs vrf-import dhcp-subs-vrf-import-pol
+set routing-instances dhcp-subs vrf-export dhcp-subs-vrf-export-pol
+set routing-instances dhcp-subs vrf-table-label
+set dynamic-profiles auto-stacked-pwht_dhcp predefined-variable-defaults routing-instances dhcp-subs
+set dynamic-profiles auto-stacked-pwht_dhcp routing-instances "$junos-routing-instance" interface "$junos-interface-name"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" no-traps
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" proxy-arp unrestricted
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" vlan-tags outer "$junos-stacked-vlan-id"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" vlan-tags inner "$junos-vlan-id"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" demux-options underlying-interface "$junos-interface-ifd-name"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet mac-validate loose
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet unnumbered-address "$junos-loopback-interface"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.42.0.0/16
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.43.0.0/16
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.44.0.0/16
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.45.0.0/16
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication password joshua
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication username-include domain-name jnpr.net
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication username-include user-prefix pwht_dhcp
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges session-timeout 600
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 unnumbered-address "$junos-loopback-interface"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:125:140::/48
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:126:140::/48
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:127:140::/48
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:128:140::/48
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication password joshua
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication username-include domain-name jnpr.net
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication username-include user-prefix pwht_dhcp
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges session-timeout 600
+set dynamic-profiles auto-stacked-pwht_dhcp protocols router-advertisement interface "$junos-interface-name" max-advertisement-interval 60
+set dynamic-profiles auto-stacked-pwht_dhcp protocols router-advertisement interface "$junos-interface-name" min-advertisement-interval 30
+set dynamic-profiles auto-stacked-pwht_dhcp protocols router-advertisement interface "$junos-interface-name" managed-configuration
+set dynamic-profiles auto-stacked-pwht_dhcp protocols router-advertisement interface "$junos-interface-name" other-stateful-configuration
+set dynamic-profiles auto-stacked-pwht predefined-variable-defaults routing-instances PPPOE_SUBS_1
+set dynamic-profiles auto-stacked-pwht routing-instances "$junos-routing-instance" interface "$junos-interface-name"
+set dynamic-profiles auto-stacked-pwht interfaces interface-set "$junos-phy-ifd-interface-set-name" interface "$junos-interface-ifd-name" unit "$junos-interface-unit"
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" actual-transit-statistics
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" no-traps
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" proxy-arp restricted
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" vlan-tags outer "$junos-stacked-vlan-id"
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" vlan-tags inner "$junos-vlan-id"
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet mac-validate loose
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet unnumbered-address lo0.0
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 unnumbered-address "$junos-loopback-interface"
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family pppoe duplicate-protection
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family pppoe dynamic-profile prod-pppoe-dt-base
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family pppoe short-cycle-protection lockout-time-min 5
+set dynamic-profiles auto-stacked-pwht interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family pppoe short-cycle-protection lockout-time-max 60
+set dynamic-profiles prof_autosense_ipdemux predefined-variable-defaults routing-instances dhcp-subs
+set dynamic-profiles prof_autosense_ipdemux routing-instances "$junos-routing-instance" interface "$junos-interface-name"
+set dynamic-profiles prof_autosense_ipdemux routing-instances "$junos-routing-instance" routing-options rib inet6.0 access-internal route $junos-subscriber-ipv6-address qualified-next-hop "$junos-interface-name"
+set dynamic-profiles prof_autosense_ipdemux routing-instances "$junos-routing-instance" routing-options access-internal route $junos-subscriber-ip-address qualified-next-hop "$junos-interface-name"
+set dynamic-profiles prof_autosense_ipdemux interfaces demux0 unit "$junos-underlying-interface-unit" proxy-arp unrestricted
+set dynamic-profiles prof_autosense_ipdemux interfaces demux0 unit "$junos-underlying-interface-unit" family inet mac-validate loose
+set dynamic-profiles prof_autosense_ipdemux interfaces demux0 unit "$junos-underlying-interface-unit" family inet unnumbered-address lo0.313
+set dynamic-profiles prof_autosense_ipdemux interfaces demux0 unit "$junos-underlying-interface-unit" family inet6 unnumbered-address lo0.313
+set dynamic-profiles prod-dhcp-base predefined-variable-defaults routing-instances dhcp-subs
+set dynamic-profiles prod-dhcp-base routing-instances "$junos-routing-instance" interface "$junos-interface-name"
+set dynamic-profiles prod-dhcp-base routing-instances "$junos-routing-instance" routing-options access route $junos-framed-route-ip-address-prefix metric "$junos-framed-route-cost"
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" actual-transit-statistics
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" proxy-arp unrestricted
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" demux-options underlying-interface "$junos-underlying-interface"
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet rpf-check fail-filter rpf-pass-dhcp
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet demux-source $junos-subscriber-ip-address
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet unnumbered-address lo0.313
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet6 rpf-check fail-filter rpf-pass-dhcpv6
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet6 demux-source $junos-subscriber-ipv6-address
+set dynamic-profiles prod-dhcp-base interfaces demux0 unit "$junos-interface-unit" family inet6 unnumbered-address lo0.313
+set dynamic-profiles prod-pppoe-dt-base predefined-variable-defaults routing-instances PPPOE_SUBS_1
+set dynamic-profiles prod-pppoe-dt-base routing-instances "$junos-routing-instance" interface "$junos-interface-name"
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" actual-transit-statistics
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" no-traps
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" ppp-options mru 1500
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" ppp-options mtu 1500
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" pppoe-options underlying-interface "$junos-underlying-interface"
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" pppoe-options server
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" keepalives interval 30
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" family inet rpf-check
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" family inet filter output clear-df-bit
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" family inet unnumbered-address "$junos-loopback-interface"
+set dynamic-profiles prod-pppoe-dt-base interfaces pp0 unit "$junos-interface-unit" family inet6 unnumbered-address "$junos-loopback-interface"
+set dynamic-profiles prod-pppoe-dt-base protocols router-advertisement interface "$junos-interface-name" prefix $junos-ipv6-ndra-prefix
+set routing-options router-id 192.168.0.8
+set routing-options autonomous-system 65001
+set routing-options rib-groups interface_routes import-rib PPPOE_SUBS_1.inet6.0
+set routing-options rib-groups interface_routes import-rib inet6.0
+set routing-options forwarding-table export PS-PPLB
+set routing-options forwarding-table chained-composite-next-hop ingress evpn
+set protocols bgp vpn-apply-export
+set protocols bgp group GR-IBGP-CR type internal
+set protocols bgp group GR-IBGP-CR local-address 192.168.0.8
+set protocols bgp group GR-IBGP-CR family inet labeled-unicast resolve-vpn
+set protocols bgp group GR-IBGP-CR family inet-vpn unicast
+set protocols bgp group GR-IBGP-CR family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-CR family inet6-vpn unicast
+set protocols bgp group GR-IBGP-CR family evpn signaling
+set protocols bgp group GR-IBGP-CR export PS-PPPOE-SUBSv6
+set protocols bgp group GR-IBGP-CR export PS-DHCP-SUBSv6
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.5
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.6
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.11
+set protocols isis interface et-0/0/0.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/1.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/1.0 point-to-point
+set protocols isis interface et-0/0/1.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/1.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/1.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/3.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/3.0 point-to-point
+set protocols isis interface et-0/0/3.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/3.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/3.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing explicit-null
+set protocols isis level 1 wide-metrics-only
+set protocols isis level 2 disable
+set protocols isis spf-options microloop-avoidance post-convergence-path delay 5000
+set protocols isis spf-options multipath weighted one-hop
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-labels 5
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering l3-unicast-topology
+set protocols isis traffic-engineering advertisement always
+set protocols isis export PS-ISIS-EXPORT
+set protocols mpls label-range srgb-label-range 800000 890000
+set protocols mpls ipv6-tunneling
+
+

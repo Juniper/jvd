@@ -1,0 +1,885 @@
+
+show configuration |no-more
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description R11-CR1-To-R5-AGN1;
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.10.115.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:115:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/2 {
+        description R11-CR1-To-R6-AGN2;
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.10.116.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:116:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/4 {
+        speed 100g;
+    }
+    et-0/0/6 {
+        description R11-CR1-To-R10-BNG4-AE-MEMBER1;
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/12 {
+        description R11-CR1-To-R8-BNG2;
+        unit 0 {
+            family inet {
+                address 10.10.118.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:118:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/18 {
+        description R11-CR1-To-R9-BNG3;
+        unit 0 {
+            family inet {
+                address 10.10.119.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:119:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    et-0/0/20 {
+        number-of-sub-ports 4;
+        speed 10g;
+    }
+    et-0/0/20:0 {
+        description R11-CR1-To-Radius;
+        unit 0 {
+            family inet {
+                address 10.189.189.1/24;
+            }
+            family inet6 {
+                address 2001:db8::10:189:189:1/112;
+            }
+        }
+    }
+    et-0/0/21 {
+        unused;
+    }
+    et-0/0/26 {
+        number-of-sub-ports 4;
+        speed 10g;
+    }
+    et-0/0/26:1 {
+        description R11-CR1-To-IXIA;
+        unit 0 {
+            family inet {
+                address 10.11.110.1/24;
+            }
+            family inet6 {
+                address 2001:db8::11:11:110:1/120;
+            }
+        }
+    }
+    et-0/0/29 {
+        description R11-CR1-To-R10-BNG4-AE-MEMBER2;
+        speed 100g;
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/32 {
+        description R11-CR1-To-R7-BNG1;
+        unit 0 {
+            family inet {
+                address 10.10.117.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:117:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    ae1 {
+        description R11-CR1-To-R10-BNG4;
+        aggregated-ether-options {
+            lacp {
+                active;
+            }
+        }
+        unit 0 {
+            family inet {
+                address 10.10.110.2/24;
+            }
+            family iso;
+            family inet6 {
+                address 2001:db8::10:10:110:1:2/120;
+            }
+            family mpls {
+                maximum-labels 16;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 192.168.0.11/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 49.0000.0010.0100.0011.00;
+            }
+            family inet6 {
+                address 2001:db8::192:168:0:b/128 {
+                    primary;
+                }
+            }
+        }
+        unit 11 {
+            family inet {
+                address 192.168.11.11/32 {
+                    primary;
+                }
+            }
+            family inet6 {
+                address 2001:db8::192:168:11:11/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+forwarding-options {
+    tunnels {
+        udp;
+    }
+}
+policy-options {
+    prefix-list PL-AN-REGION {
+        192.168.0.0/32;
+        192.168.0.1/32;
+        192.168.0.2/32;
+        192.168.0.3/32;
+        192.168.0.4/32;
+        192.168.0.7/32;
+        192.168.0.8/32;
+    }
+    prefix-list PL-BNG {
+        192.168.0.7/32;
+        192.168.0.8/32;
+        192.168.0.9/32;
+        192.168.0.10/32;
+    }
+    prefix-list PL-CORE {
+        192.168.0.9/32;
+        192.168.0.10/32;
+    }
+    policy-statement PS-BGP-RR-EXPORT {
+        term CORE-NHS {
+            from {
+                prefix-list PL-CORE;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-CLIENT-RR-EXPORT {
+        term LOOPBACKS {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then accept;
+        }
+    }
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 192.168.0.11/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index 1011;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 2001:db8::192:168:0:b/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index 4011;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+    }
+    policy-statement PS-PPLB {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+    policy-statement PS-RADIUS-VRF-EXPORT {
+        term 1 {
+            from protocol direct;
+            then {
+                community add PS-RADIUS-COMM;
+                next-hop self;
+                accept;
+            }
+        }
+    }
+    policy-statement PS-RADIUS-VRF-IMPORT {
+        term 2 {
+            from community [ PPPOE_SUBS_COMM_1 PS-DHCPSUBS-COMM ];
+            then accept;
+        }
+        term 1 {
+            from community PS-RADIUS-COMM;
+            then accept;
+        }
+    }
+    policy-statement PS-REDIS-OSPF {
+        term 1 {
+            from protocol bgp;
+            then accept;
+        }
+    }
+    policy-statement PS-V6-default {
+        term 1 {
+            from {
+                instance VRF_Internet;
+                route-filter ::/0 exact;
+            }
+            then {
+                community add PS-Internet-COMM;
+                next-hop 2001:db8::192:168:0:b;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement VRF_Internet_export {
+        term 1 {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                community add PS-Internet-COMM;
+                next-hop 192.168.0.11;
+                accept;
+            }
+        }
+        term 2 {
+            from {
+                route-filter ::/0 exact;
+            }
+            then {
+                community add PS-Internet-COMM;
+                next-hop 2001:db8::192:168:0:b;
+                accept;
+            }
+        }
+    }
+    policy-statement VRF_Internet_import {
+        term 1 {
+            from community PS-Internet-COMM;
+            then accept;
+        }
+        term 2 {
+            from community PPPOE_SUBS_COMM_2;
+            then accept;
+        }
+        term 3 {
+            from community PS-DHCPSUBS-COMM_2;
+            then accept;
+        }
+    }
+    policy-statement stop_leak {
+        term 1 {
+            from level 1;
+            to level 2;
+            then reject;
+        }
+    }
+    community PPPOE_SUBS_COMM_1 members target:20000:1031;
+    community PPPOE_SUBS_COMM_2 members target:20000:1032;
+    community PS-DHCPSUBS-COMM members target:65000:1131;
+    community PS-DHCPSUBS-COMM_2 members target:65000:1132;
+    community PS-Internet-COMM members target:100:1;
+    community PS-RADIUS-COMM members target:11111:1111;
+}
+routing-instances {
+    RADIUS {
+        instance-type vrf;
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface et-0/0/20:0.0;
+                }
+                export PS-REDIS-OSPF;
+            }
+        }
+        interface et-0/0/20:0.0;
+        interface lo0.11;
+        route-distinguisher 111.111.111.111:1111;
+        vrf-import PS-RADIUS-VRF-IMPORT;
+        vrf-export PS-RADIUS-VRF-EXPORT;
+        vrf-target target:11111:111;
+        vrf-table-label;
+    }
+    VRF_Internet {
+        instance-type vrf;
+        routing-options {
+            rib VRF_Internet.inet6.0 {
+                static {
+                    route ::/0 discard;
+                }
+            }
+            static {
+                route 0.0.0.0/0 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group CE1 {
+                    type external;
+                    accept-remote-nexthop;
+                    family inet {
+                        unicast;
+                    }
+                    neighbor 10.11.110.2 {
+                        family inet {
+                            unicast;
+                        }
+                        peer-as 200;
+                    }
+                    neighbor 2001:db8::11:11:110:2 {
+                        family inet6 {
+                            unicast;
+                        }
+                        peer-as 300;
+                    }
+                }
+            }
+        }
+        interface et-0/0/26:1.0;
+        route-distinguisher 192.168.0.11:1;
+        vrf-import VRF_Internet_import;
+        vrf-export VRF_Internet_export;
+        vrf-table-label;
+    }
+}
+routing-options {
+    router-id 192.168.0.11;
+    autonomous-system 65001;
+    forwarding-table {
+        export PS-PPLB;
+    }
+}
+protocols {
+    bgp {
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-CORE-RR {
+            type internal;
+            accept-remote-nexthop;
+            local-address 192.168.0.11;
+            family inet {
+                labeled-unicast {
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            export PS-BGP-RR-EXPORT;
+            cluster 192.168.0.11;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.5;
+            neighbor 192.168.0.6;
+            neighbor 192.168.0.7;
+            neighbor 192.168.0.8;
+        }
+        group GR-IBGP-CR {
+            type internal;
+            accept-remote-nexthop;
+            local-address 192.168.0.11;
+            family inet {
+                labeled-unicast {
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family evpn {
+                signaling;
+            }
+            export PS-CLIENT-RR-EXPORT;
+            cluster 192.168.0.11;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 192.168.0.9;
+            neighbor 192.168.0.10;
+        }
+    }
+    isis {
+        interface et-0/0/0.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/2.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/12.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/18.0 {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface et-0/0/32.0 {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface ae1.0 {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+        interface lo0.0 {
+            passive;
+        }
+        source-packet-routing explicit-null;
+        level 1 wide-metrics-only;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+            multipath {
+                weighted one-hop;
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            l3-unicast-topology;
+            advertisement always;
+        }
+        export [ PS-ISIS-EXPORT stop_leak ];
+    }
+    mpls {
+        label-range {
+            srgb-label-range 800000 890000;
+        }
+        ipv6-tunneling;
+    }
+    lldp {
+        interface all;
+    }
+}
+
+
+show configuration | display set|no-more
+set system ports console log-out-on-disconnect
+set chassis aggregated-devices ethernet device-count 25
+set interfaces et-0/0/0 description R11-CR1-To-R5-AGN1
+set interfaces et-0/0/0 speed 100g
+set interfaces et-0/0/0 unit 0 family inet address 10.10.115.2/24
+set interfaces et-0/0/0 unit 0 family iso
+set interfaces et-0/0/0 unit 0 family inet6 address 2001:db8::10:10:115:1:2/120
+set interfaces et-0/0/0 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/2 description R11-CR1-To-R6-AGN2
+set interfaces et-0/0/2 speed 100g
+set interfaces et-0/0/2 unit 0 family inet address 10.10.116.2/24
+set interfaces et-0/0/2 unit 0 family iso
+set interfaces et-0/0/2 unit 0 family inet6 address 2001:db8::10:10:116:1:2/120
+set interfaces et-0/0/2 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/4 speed 100g
+set interfaces et-0/0/6 description R11-CR1-To-R10-BNG4-AE-MEMBER1
+set interfaces et-0/0/6 ether-options 802.3ad ae1
+set interfaces et-0/0/12 description R11-CR1-To-R8-BNG2
+set interfaces et-0/0/12 unit 0 family inet address 10.10.118.2/24
+set interfaces et-0/0/12 unit 0 family iso
+set interfaces et-0/0/12 unit 0 family inet6 address 2001:db8::10:10:118:1:2/120
+set interfaces et-0/0/12 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/18 description R11-CR1-To-R9-BNG3
+set interfaces et-0/0/18 unit 0 family inet address 10.10.119.2/24
+set interfaces et-0/0/18 unit 0 family iso
+set interfaces et-0/0/18 unit 0 family inet6 address 2001:db8::10:10:119:1:2/120
+set interfaces et-0/0/18 unit 0 family mpls maximum-labels 16
+set interfaces et-0/0/20 number-of-sub-ports 4
+set interfaces et-0/0/20 speed 10g
+set interfaces et-0/0/20:0 description R11-CR1-To-Radius
+set interfaces et-0/0/20:0 unit 0 family inet address 10.189.189.1/24
+set interfaces et-0/0/20:0 unit 0 family inet6 address 2001:db8::10:189:189:1/112
+set interfaces et-0/0/21 unused
+set interfaces et-0/0/26 number-of-sub-ports 4
+set interfaces et-0/0/26 speed 10g
+set interfaces et-0/0/26:1 description R11-CR1-To-IXIA
+set interfaces et-0/0/26:1 unit 0 family inet address 10.11.110.1/24
+set interfaces et-0/0/26:1 unit 0 family inet6 address 2001:db8::11:11:110:1/120
+set interfaces et-0/0/29 description R11-CR1-To-R10-BNG4-AE-MEMBER2
+set interfaces et-0/0/29 speed 100g
+set interfaces et-0/0/29 ether-options 802.3ad ae1
+set interfaces et-0/0/32 description R11-CR1-To-R7-BNG1
+set interfaces et-0/0/32 unit 0 family inet address 10.10.117.2/24
+set interfaces et-0/0/32 unit 0 family iso
+set interfaces et-0/0/32 unit 0 family inet6 address 2001:db8::10:10:117:1:2/120
+set interfaces et-0/0/32 unit 0 family mpls maximum-labels 16
+set interfaces ae1 description R11-CR1-To-R10-BNG4
+set interfaces ae1 aggregated-ether-options lacp active
+set interfaces ae1 unit 0 family inet address 10.10.110.2/24
+set interfaces ae1 unit 0 family iso
+set interfaces ae1 unit 0 family inet6 address 2001:db8::10:10:110:1:2/120
+set interfaces ae1 unit 0 family mpls maximum-labels 16
+set interfaces lo0 unit 0 family inet address 192.168.0.11/32 primary
+set interfaces lo0 unit 0 family iso address 49.0000.0010.0100.0011.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::192:168:0:b/128 primary
+set interfaces lo0 unit 11 family inet address 192.168.11.11/32 primary
+set interfaces lo0 unit 11 family inet6 address 2001:db8::192:168:11:11/128 primary
+set forwarding-options tunnels udp
+set policy-options prefix-list PL-AN-REGION 192.168.0.0/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.1/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.2/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.3/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.4/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.7/32
+set policy-options prefix-list PL-AN-REGION 192.168.0.8/32
+set policy-options prefix-list PL-BNG 192.168.0.7/32
+set policy-options prefix-list PL-BNG 192.168.0.8/32
+set policy-options prefix-list PL-BNG 192.168.0.9/32
+set policy-options prefix-list PL-BNG 192.168.0.10/32
+set policy-options prefix-list PL-CORE 192.168.0.9/32
+set policy-options prefix-list PL-CORE 192.168.0.10/32
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS from prefix-list PL-CORE
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS then next-hop self
+set policy-options policy-statement PS-BGP-RR-EXPORT term CORE-NHS then accept
+set policy-options policy-statement PS-CLIENT-RR-EXPORT term LOOPBACKS from prefix-list PL-AN-REGION
+set policy-options policy-statement PS-CLIENT-RR-EXPORT term LOOPBACKS then accept
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface em0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface fxp0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT from interface re0:mgmt-0.0
+set policy-options policy-statement PS-ISIS-EXPORT term OOB-MGMT then reject
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 from route-filter 192.168.0.11/32 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment index 1011
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV4 then accept
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from protocol direct
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from interface lo0.0
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 from route-filter 2001:db8::192:168:0:b/128 exact
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment index 4011
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then prefix-segment node-segment
+set policy-options policy-statement PS-ISIS-EXPORT term LOCAL-LOOPBACK-IPV6 then accept
+set policy-options policy-statement PS-PPLB then load-balance per-packet
+set policy-options policy-statement PS-PPLB then accept
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 from protocol direct
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then community add PS-RADIUS-COMM
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then next-hop self
+set policy-options policy-statement PS-RADIUS-VRF-EXPORT term 1 then accept
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 2 from community PPPOE_SUBS_COMM_1
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 2 from community PS-DHCPSUBS-COMM
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 2 then accept
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 1 from community PS-RADIUS-COMM
+set policy-options policy-statement PS-RADIUS-VRF-IMPORT term 1 then accept
+set policy-options policy-statement PS-REDIS-OSPF term 1 from protocol bgp
+set policy-options policy-statement PS-REDIS-OSPF term 1 then accept
+set policy-options policy-statement PS-V6-default term 1 from instance VRF_Internet
+set policy-options policy-statement PS-V6-default term 1 from route-filter ::/0 exact
+set policy-options policy-statement PS-V6-default term 1 then community add PS-Internet-COMM
+set policy-options policy-statement PS-V6-default term 1 then next-hop 2001:db8::192:168:0:b
+set policy-options policy-statement PS-V6-default term 1 then accept
+set policy-options policy-statement PS-V6-default term 2 then reject
+set policy-options policy-statement VRF_Internet_export term 1 from route-filter 0.0.0.0/0 exact
+set policy-options policy-statement VRF_Internet_export term 1 then community add PS-Internet-COMM
+set policy-options policy-statement VRF_Internet_export term 1 then next-hop 192.168.0.11
+set policy-options policy-statement VRF_Internet_export term 1 then accept
+set policy-options policy-statement VRF_Internet_export term 2 from route-filter ::/0 exact
+set policy-options policy-statement VRF_Internet_export term 2 then community add PS-Internet-COMM
+set policy-options policy-statement VRF_Internet_export term 2 then next-hop 2001:db8::192:168:0:b
+set policy-options policy-statement VRF_Internet_export term 2 then accept
+set policy-options policy-statement VRF_Internet_import term 1 from community PS-Internet-COMM
+set policy-options policy-statement VRF_Internet_import term 1 then accept
+set policy-options policy-statement VRF_Internet_import term 2 from community PPPOE_SUBS_COMM_2
+set policy-options policy-statement VRF_Internet_import term 2 then accept
+set policy-options policy-statement VRF_Internet_import term 3 from community PS-DHCPSUBS-COMM_2
+set policy-options policy-statement VRF_Internet_import term 3 then accept
+set policy-options policy-statement stop_leak term 1 from level 1
+set policy-options policy-statement stop_leak term 1 to level 2
+set policy-options policy-statement stop_leak term 1 then reject
+set policy-options community PPPOE_SUBS_COMM_1 members target:20000:1031
+set policy-options community PPPOE_SUBS_COMM_2 members target:20000:1032
+set policy-options community PS-DHCPSUBS-COMM members target:65000:1131
+set policy-options community PS-DHCPSUBS-COMM_2 members target:65000:1132
+set policy-options community PS-Internet-COMM members target:100:1
+set policy-options community PS-RADIUS-COMM members target:11111:1111
+set routing-instances RADIUS instance-type vrf
+set routing-instances RADIUS protocols ospf area 0.0.0.0 interface et-0/0/20:0.0
+set routing-instances RADIUS protocols ospf export PS-REDIS-OSPF
+set routing-instances RADIUS interface et-0/0/20:0.0
+set routing-instances RADIUS interface lo0.11
+set routing-instances RADIUS route-distinguisher 111.111.111.111:1111
+set routing-instances RADIUS vrf-import PS-RADIUS-VRF-IMPORT
+set routing-instances RADIUS vrf-export PS-RADIUS-VRF-EXPORT
+set routing-instances RADIUS vrf-target target:11111:111
+set routing-instances RADIUS vrf-table-label
+set routing-instances VRF_Internet instance-type vrf
+set routing-instances VRF_Internet routing-options rib VRF_Internet.inet6.0 static route ::/0 discard
+set routing-instances VRF_Internet routing-options static route 0.0.0.0/0 discard
+set routing-instances VRF_Internet protocols bgp group CE1 type external
+set routing-instances VRF_Internet protocols bgp group CE1 accept-remote-nexthop
+set routing-instances VRF_Internet protocols bgp group CE1 family inet unicast
+set routing-instances VRF_Internet protocols bgp group CE1 neighbor 10.11.110.2 family inet unicast
+set routing-instances VRF_Internet protocols bgp group CE1 neighbor 10.11.110.2 peer-as 200
+set routing-instances VRF_Internet protocols bgp group CE1 neighbor 2001:db8::11:11:110:2 family inet6 unicast
+set routing-instances VRF_Internet protocols bgp group CE1 neighbor 2001:db8::11:11:110:2 peer-as 300
+set routing-instances VRF_Internet interface et-0/0/26:1.0
+set routing-instances VRF_Internet route-distinguisher 192.168.0.11:1
+set routing-instances VRF_Internet vrf-import VRF_Internet_import
+set routing-instances VRF_Internet vrf-export VRF_Internet_export
+set routing-instances VRF_Internet vrf-table-label
+set routing-options router-id 192.168.0.11
+set routing-options autonomous-system 65001
+set routing-options forwarding-table export PS-PPLB
+set protocols bgp advertise-from-main-vpn-tables
+set protocols bgp vpn-apply-export
+set protocols bgp group GR-IBGP-CORE-RR type internal
+set protocols bgp group GR-IBGP-CORE-RR accept-remote-nexthop
+set protocols bgp group GR-IBGP-CORE-RR local-address 192.168.0.11
+set protocols bgp group GR-IBGP-CORE-RR family inet labeled-unicast rib inet.3
+set protocols bgp group GR-IBGP-CORE-RR family inet-vpn unicast
+set protocols bgp group GR-IBGP-CORE-RR family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-CORE-RR family inet6-vpn unicast
+set protocols bgp group GR-IBGP-CORE-RR family evpn signaling
+set protocols bgp group GR-IBGP-CORE-RR export PS-BGP-RR-EXPORT
+set protocols bgp group GR-IBGP-CORE-RR cluster 192.168.0.11
+set protocols bgp group GR-IBGP-CORE-RR bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-CORE-RR bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-CORE-RR neighbor 192.168.0.5
+set protocols bgp group GR-IBGP-CORE-RR neighbor 192.168.0.6
+set protocols bgp group GR-IBGP-CORE-RR neighbor 192.168.0.7
+set protocols bgp group GR-IBGP-CORE-RR neighbor 192.168.0.8
+set protocols bgp group GR-IBGP-CR type internal
+set protocols bgp group GR-IBGP-CR accept-remote-nexthop
+set protocols bgp group GR-IBGP-CR local-address 192.168.0.11
+set protocols bgp group GR-IBGP-CR family inet labeled-unicast rib inet.3
+set protocols bgp group GR-IBGP-CR family inet-vpn unicast
+set protocols bgp group GR-IBGP-CR family inet6 labeled-unicast rib inet6.3
+set protocols bgp group GR-IBGP-CR family inet6-vpn unicast
+set protocols bgp group GR-IBGP-CR family evpn signaling
+set protocols bgp group GR-IBGP-CR export PS-CLIENT-RR-EXPORT
+set protocols bgp group GR-IBGP-CR cluster 192.168.0.11
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection minimum-interval 100
+set protocols bgp group GR-IBGP-CR bfd-liveness-detection multiplier 3
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.9
+set protocols bgp group GR-IBGP-CR neighbor 192.168.0.10
+set protocols isis interface et-0/0/0.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/0.0 point-to-point
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/0.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/2.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/2.0 point-to-point
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/2.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/12.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/12.0 point-to-point
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/12.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/18.0 level 2 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/18.0 point-to-point
+set protocols isis interface et-0/0/18.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/18.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/18.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface et-0/0/32.0 level 1 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface et-0/0/32.0 point-to-point
+set protocols isis interface et-0/0/32.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface et-0/0/32.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface et-0/0/32.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface ae1.0 level 2 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae1.0 point-to-point
+set protocols isis interface ae1.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae1.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae1.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing explicit-null
+set protocols isis level 1 wide-metrics-only
+set protocols isis level 2 wide-metrics-only
+set protocols isis spf-options microloop-avoidance post-convergence-path delay 5000
+set protocols isis spf-options multipath weighted one-hop
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-labels 5
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis traffic-engineering l3-unicast-topology
+set protocols isis traffic-engineering advertisement always
+set protocols isis export PS-ISIS-EXPORT
+set protocols isis export stop_leak
+set protocols mpls label-range srgb-label-range 800000 890000
+set protocols mpls ipv6-tunneling
+set protocols lldp interface all
+
+

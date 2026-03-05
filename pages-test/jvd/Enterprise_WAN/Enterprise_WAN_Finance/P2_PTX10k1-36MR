@@ -1,0 +1,319 @@
+chassis {
+    dump-on-panic;
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+}
+interfaces {
+    et-0/0/1 {
+        speed 100g;
+    }
+    et-0/0/2 {
+        description "P2_P1";
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.101.36.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/0/3 {
+        speed 100g;
+    }
+    et-0/0/4 {
+        speed 100g;
+    }
+    et-0/0/5 {
+        speed 100g;
+    }
+    et-0/0/6 {
+        speed 100g;
+    }
+    et-0/0/9 {
+        speed 100g;
+    }
+    et-0/1/4 {
+        speed 100g;
+    }
+    et-0/1/5 {
+        speed 100g;
+    }
+    et-0/1/6 {
+        speed 100g;
+    }
+    et-0/1/7 {
+        speed 100g;
+    }
+    et-0/2/0 {
+        speed 100g;
+    }
+    et-0/2/8 {
+        description "P2_Wanedge2";
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.101.56.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/2/10 {
+        description "P2_AP2";
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.101.67.1/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/2/11 {
+        description "P2_AP1";
+        speed 100g;
+        unit 0 {
+            family inet {
+                address 10.101.46.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.200.50.11/32 {
+                    primary;
+                    preferred;
+                }
+                address 127.0.0.1/32;
+                address 127.0.0.64/32;
+                address 10.255.164.236/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 47.0005.80ff.f800.0000.0108.0001.0102.5516.4236.00;
+            }
+            family inet6 {
+                address 2001:db8::10:255:164:236/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement PS-ADV_DIRECT {
+        from protocol direct;
+        then accept;
+    }
+    policy-statement PS-BGP-TO-OSPF {
+        from protocol bgp;
+        then accept;
+    }
+    policy-statement PS-send-ospf {
+        from protocol ospf;
+        then accept;
+    }
+}
+class-of-service {
+    classifiers {
+        exp EXP {
+            forwarding-class FC-HIGH {
+                loss-priority low code-points 001;
+            }
+            forwarding-class BEST-EFFORT {
+                loss-priority low code-points 000;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points 010;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points 011;
+            }
+        }
+    }
+    forwarding-classes {
+        class FC-HIGH queue-num 1;
+        class BEST-EFFORT queue-num 0;
+        class CONTROL queue-num 3;
+        class FC-LLQ queue-num 2;
+    }
+    interfaces {
+        et-0/0/2 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/2/10 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/2/11 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/2/8 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        exp EXP_REWRITE {
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 001;
+            }
+            forwarding-class BEST-EFFORT {
+                loss-priority low code-point 000;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point 010;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-point 011;
+            }
+        }
+    }
+    scheduler-maps {
+        sched-map {
+            forwarding-class BEST-EFFORT scheduler s0;
+            forwarding-class FC-HIGH scheduler s1;
+            forwarding-class FC-LLQ scheduler s2;
+            forwarding-class CONTROL scheduler s3;
+        }
+    }
+    schedulers {
+        s0 {
+            priority low;
+        }
+        s1 {
+            priority low;
+        }
+        s2 {
+            priority strict-high;
+        }
+        s3 {
+            priority low;
+        }
+    }
+}
+routing-options {
+    router-id 10.200.50.11;
+    autonomous-system 64512;
+    }
+}
+protocols {
+    bgp {
+        group IBGP {
+            type internal;
+            local-address 10.200.50.11;
+            family inet {
+                unicast;
+            }
+            family inet-vpn {
+                unicast;
+                any;
+            }
+            family evpn {
+                signaling;
+            }
+            family inet-mvpn {
+                signaling;
+            }
+            family route-target;
+            export [ PS-send-ospf PS-BGP-TO-OSPF ];
+            local-as 64512;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.200.50.13;
+            neighbor 10.200.50.14;
+            neighbor 10.200.50.12;
+            neighbor 10.200.50.16;
+            neighbor 10.200.50.15;
+        }
+    }
+    mpls {
+        interface et-0/0/2.0;
+        interface et-0/2/8.0;
+        interface et-0/2/10.0;
+        interface et-0/2/11.0;
+        interface lo0.0;
+    }
+    ospf {
+        traffic-engineering;
+        area 0.0.0.0 {
+            interface et-0/0/2.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface et-0/2/8.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface et-0/2/10.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface et-0/2/11.0 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+    rsvp {
+        interface lo0.0;
+        interface et-0/0/2.0;
+        interface et-0/2/8.0;
+        interface et-0/2/10.0;
+        interface et-0/2/11.0;
+    }
+    lldp {
+        interface all;
+    }
+}

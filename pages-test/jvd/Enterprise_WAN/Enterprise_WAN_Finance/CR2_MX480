@@ -1,0 +1,1137 @@
+chassis {
+    dump-on-panic;
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            tunnel-services {
+                bandwidth 10g;
+            }
+        }
+    }
+}
+services {
+    rpm {
+        twamp {
+            client {
+                control-connection CR24_1 {
+                    control-type managed;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    target-address 10.101.49.1;
+                    test-count 0;
+                    test-session T24_1 {
+                        target-address 10.101.49.1;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_1 {
+                    control-type managed;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    target-address 10.101.79.1;
+                    test-count 0;
+                    test-session T27_1 {
+                        target-address 10.101.79.1;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_2 {
+                    control-type managed;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    target-address 10.101.49.5;
+                    test-count 0;
+                    test-session T24_2 {
+                        target-address 10.101.49.5;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_2 {
+                    control-type managed;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    target-address 10.101.79.5;
+                    test-count 0;
+                    test-session T27_2 {
+                        target-address 10.101.79.5;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_3 {
+                    control-type managed;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    target-address 10.101.49.9;
+                    test-count 0;
+                    test-session T24_3 {
+                        target-address 10.101.49.9;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_3 {
+                    control-type managed;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    target-address 10.101.79.9;
+                    test-count 0;
+                    test-session T27_3 {
+                        target-address 10.101.79.9;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_4 {
+                    control-type managed;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    target-address 10.101.49.13;
+                    test-count 0;
+                    test-session T24_4 {
+                        target-address 10.101.49.13;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_4 {
+                    control-type managed;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    target-address 10.101.79.13;
+                    test-count 0;
+                    test-session T27_4 {
+                        target-address 10.101.79.13;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_5 {
+                    control-type managed;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    target-address 10.101.49.17;
+                    test-count 0;
+                    test-session T24_5 {
+                        target-address 10.101.49.17;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_5 {
+                    control-type managed;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    target-address 10.101.79.17;
+                    test-count 0;
+                    test-session T27_5 {
+                        target-address 10.101.79.17;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_6 {
+                    control-type managed;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    target-address 10.101.49.21;
+                    test-count 0;
+                    test-session T24_6 {
+                        target-address 10.101.49.21;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_6 {
+                    control-type managed;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    target-address 10.101.79.21;
+                    test-count 0;
+                    test-session T27_6 {
+                        target-address 10.101.79.21;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_7 {
+                    control-type managed;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    target-address 10.101.49.25;
+                    test-count 0;
+                    test-session T24_7 {
+                        target-address 10.101.49.25;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_7 {
+                    control-type managed;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    target-address 10.101.79.25;
+                    test-count 0;
+                    test-session T27_7 {
+                        target-address 10.101.79.25;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_8 {
+                    control-type managed;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    target-address 10.101.49.29;
+                    test-count 0;
+                    test-session T24_8 {
+                        target-address 10.101.49.29;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_8 {
+                    control-type managed;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    target-address 10.101.79.29;
+                    test-count 0;
+                    test-session T27_8 {
+                        target-address 10.101.79.29;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_9 {
+                    control-type managed;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    target-address 10.101.49.33;
+                    test-count 0;
+                    test-session T24_9 {
+                        target-address 10.101.49.33;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_9 {
+                    control-type managed;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    target-address 10.101.79.33;
+                    test-count 0;
+                    test-session T27_9 {
+                        target-address 10.101.79.33;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_10 {
+                    control-type managed;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    target-address 10.101.49.37;
+                    test-count 0;
+                    test-session T24_10 {
+                        target-address 10.101.49.37;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_10 {
+                    control-type managed;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    target-address 10.101.79.37;
+                    test-count 0;
+                    test-session T27_10 {
+                        target-address 10.101.79.37;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_21 {
+                    control-type managed;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    target-address 10.101.49.41;
+                    test-count 0;
+                    test-session T24_21 {
+                        target-address 10.101.49.41;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_21 {
+                    control-type managed;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    target-address 10.101.79.41;
+                    test-count 0;
+                    test-session T27_21 {
+                        target-address 10.101.79.41;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_22 {
+                    control-type managed;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    target-address 10.101.49.45;
+                    test-count 0;
+                    test-session T24_22 {
+                        target-address 10.101.49.45;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_22 {
+                    control-type managed;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    target-address 10.101.79.45;
+                    test-count 0;
+                    test-session T27_22 {
+                        target-address 10.101.79.45;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_23 {
+                    control-type managed;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    target-address 10.101.49.49;
+                    test-count 0;
+                    test-session T24_23 {
+                        target-address 10.101.49.49;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_23 {
+                    control-type managed;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    target-address 10.101.79.49;
+                    test-count 0;
+                    test-session T27_23 {
+                        target-address 10.101.79.49;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+            }
+        }
+    }
+}
+interfaces {
+    xe-3/0/6 {
+        description "CR2 to TG-9/4";
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            vlan-id 1;
+            family inet {
+                address 10.101.91.1/24;
+            }
+        }
+        unit 2 {
+            vlan-id 2;
+            family inet {
+                address 10.101.92.1/24;
+            }
+        }
+        unit 3 {
+            vlan-id 3;
+            family inet {
+                address 10.101.93.1/24;
+            }
+        }
+        unit 4 {
+            vlan-id 4;
+            family inet {
+                address 10.101.94.1/24;
+            }
+        }
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.101.95.1/24;
+            }
+        }
+        unit 6 {
+            vlan-id 6;
+            family inet {
+                address 10.101.96.1/24;
+            }
+        }
+        unit 7 {
+            vlan-id 7;
+            family inet {
+                address 10.101.97.1/24;
+            }
+        }
+        unit 8 {
+            vlan-id 8;
+            family inet {
+                address 10.101.98.1/24;
+            }
+        }
+        unit 9 {
+            vlan-id 9;
+            family inet {
+                address 10.101.99.1/24;
+            }
+        }
+        unit 10 {
+            vlan-id 10;
+            family inet {
+                address 10.101.100.1/24;
+            }
+        }
+        unit 21 {
+            vlan-id 21;
+            family inet {
+                address 10.9.21.1/24;
+            }
+        }
+        unit 22 {
+            vlan-id 22;
+            family inet {
+                address 10.9.22.1/24;
+            }
+        }
+        unit 23 {
+            vlan-id 23;
+            family inet {
+                address 10.9.23.1/24;
+            }
+        }
+    }
+    et-5/0/0 {
+        description CR2_AP1;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            vlan-id 1;
+            family inet {
+                address 10.101.49.2/30;
+            }
+        }
+        unit 2 {
+            vlan-id 2;
+            family inet {
+                address 10.101.49.6/30;
+            }
+        }
+        unit 3 {
+            vlan-id 3;
+            family inet {
+                address 10.101.49.10/30;
+            }
+        }
+        unit 4 {
+            vlan-id 4;
+            family inet {
+                address 10.101.49.14/30;
+            }
+        }
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.101.49.18/30;
+            }
+        }
+        unit 6 {
+            vlan-id 6;
+            family inet {
+                address 10.101.49.22/30;
+            }
+        }
+        unit 7 {
+            vlan-id 7;
+            family inet {
+                address 10.101.49.26/30;
+            }
+        }
+        unit 8 {
+            vlan-id 8;
+            family inet {
+                address 10.101.49.30/30;
+            }
+        }
+        unit 9 {
+            vlan-id 9;
+            family inet {
+                address 10.101.49.34/30;
+            }
+        }
+        unit 10 {
+            vlan-id 10;
+            family inet {
+                address 10.101.49.38/30;
+            }
+        }
+        unit 21 {
+            vlan-id 21;
+            family inet {
+                address 10.101.49.42/30;
+            }
+        }
+        unit 22 {
+            vlan-id 22;
+            family inet {
+                address 10.101.49.46/30;
+            }
+        }
+        unit 23 {
+            vlan-id 23;
+            family inet {
+                address 10.101.49.50/30;
+            }
+        }
+    }
+    et-5/0/1 {
+        description CR2_AP2;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            vlan-id 1;
+            family inet {
+                address 10.101.79.2/30;
+            }
+        }
+        unit 2 {
+            vlan-id 2;
+            family inet {
+                address 10.101.79.6/30;
+            }
+        }
+        unit 3 {
+            vlan-id 3;
+            family inet {
+                address 10.101.79.10/30;
+            }
+        }
+        unit 4 {
+            vlan-id 4;
+            family inet {
+                address 10.101.79.14/30;
+            }
+        }
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.101.79.18/30;
+            }
+        }
+        unit 6 {
+            vlan-id 6;
+            family inet {
+                address 10.101.79.22/30;
+            }
+        }
+        unit 7 {
+            vlan-id 7;
+            family inet {
+                address 10.101.79.26/30;
+            }
+        }
+        unit 8 {
+            vlan-id 8;
+            family inet {
+                address 10.101.79.30/30;
+            }
+        }
+        unit 9 {
+            vlan-id 9;
+            family inet {
+                address 10.101.79.34/30;
+            }
+        }
+        unit 10 {
+            vlan-id 10;
+            family inet {
+                address 10.101.79.38/30;
+            }
+        }
+        unit 21 {
+            vlan-id 21;
+            family inet {
+                address 10.101.79.42/30;
+            }
+        }
+        unit 22 {
+            vlan-id 22;
+            family inet {
+                address 10.101.79.46/30;
+            }
+        }
+        unit 23 {
+            vlan-id 23;
+            family inet {
+                address 10.101.79.50/30;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.200.50.18/32 {
+                    primary;
+                    preferred;
+                }
+                address 127.0.0.1/32;
+                address 10.255.163.193/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 47.0005.80ff.f800.0000.0108.0001.0102.5516.3193.00;
+            }
+            family inet6 {
+                address 2001:db8::10:255:163:193/128 {
+                    primary;
+                }
+            }
+        }
+    }
+}
+policy-options {
+    policy-statement PS-ADV_DIRECT {
+        from protocol direct;
+        then accept;
+    }
+    policy-statement PS-send-ospf {
+        from protocol bgp;
+        then accept;
+    }
+    policy-statement PS-med-10 {
+        from {
+            route-filter 10.101.0.0/16 exact;
+        }
+        then {
+            metric 10;
+            accept;
+        }
+    }
+    policy-statement PS-med-30 {
+        from {
+            route-filter 0.0.0.0/0 longer;
+        }
+        then {
+            metric 30;
+            accept;
+        }
+    }
+    policy-statement PS-send-ospf {
+        from protocol ospf;
+        then accept;
+    }
+}
+routing-instances {
+    VIRTUAL-ROUTER-V1 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.1;
+                    neighbor 10.101.79.1;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.91.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.101 {
+                            group-ranges {
+                                225.0.0.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.1 {
+                    mode sparse;
+                }
+                interface et-5/0/1.1 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.1 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.1;
+        interface et-5/0/0.1;
+        interface et-5/0/1.1;
+    }
+    VIRTUAL-ROUTER-V10 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.37;
+                    neighbor 10.101.79.37;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.100.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.110 {
+                            group-ranges {
+                                225.0.36.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.10 {
+                    mode sparse;
+                }
+                interface et-5/0/1.10 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.10 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.10;
+        interface et-5/0/0.10;
+        interface et-5/0/1.10;
+    }
+    VIRTUAL-ROUTER-V2 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.5;
+                    neighbor 10.101.79.5;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.92.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.102 {
+                            group-ranges {
+                                225.0.4.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.2 {
+                    mode sparse;
+                }
+                interface et-5/0/1.2 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.2 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.2;
+        interface et-5/0/0.2;
+        interface et-5/0/1.2;
+    }
+    VIRTUAL-ROUTER-V21 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.41;
+                    neighbor 10.101.79.41;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.9.21.2;
+                }
+            }
+        }
+        interface xe-3/0/6.21;
+        interface et-5/0/0.21;
+        interface et-5/0/1.21;
+    }
+    VIRTUAL-ROUTER-V22 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.45;
+                    neighbor 10.101.79.45;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.9.22.2;
+                }
+            }
+        }
+        interface xe-3/0/6.22;
+        interface et-5/0/0.22;
+        interface et-5/0/1.22;
+    }
+    VIRTUAL-ROUTER-V23 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.49;
+                    neighbor 10.101.79.49;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.9.23.2;
+                }
+            }
+        }
+        interface xe-3/0/6.23;
+        interface et-5/0/0.23;
+        interface et-5/0/1.23;
+    }
+    VIRTUAL-ROUTER-V3 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.9;
+                    neighbor 10.101.79.9;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.93.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.103 {
+                            group-ranges {
+                                225.0.8.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.3 {
+                    mode sparse;
+                }
+                interface et-5/0/1.3 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.3 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.3;
+        interface et-5/0/0.3;
+        interface et-5/0/1.3;
+    }
+    VIRTUAL-ROUTER-V4 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.13;
+                    neighbor 10.101.79.13;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.94.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.104 {
+                            group-ranges {
+                                225.0.12.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.4 {
+                    mode sparse;
+                }
+                interface et-5/0/1.4 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.4 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.4;
+        interface et-5/0/0.4;
+        interface et-5/0/1.4;
+    }
+    VIRTUAL-ROUTER-V5 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.17;
+                    neighbor 10.101.79.17;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.95.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.105 {
+                            group-ranges {
+                                225.0.16.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.5 {
+                    mode sparse;
+                }
+                interface et-5/0/1.5 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.5 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.5;
+        interface et-5/0/0.5;
+        interface et-5/0/1.5;
+    }
+    VIRTUAL-ROUTER-V6 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.21;
+                    neighbor 10.101.79.21;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.96.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.106 {
+                            group-ranges {
+                                225.0.20.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.6 {
+                    mode sparse;
+                }
+                interface et-5/0/1.6 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.6 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.6;
+        interface et-5/0/0.6;
+        interface et-5/0/1.6;
+    }
+    VIRTUAL-ROUTER-V7 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.25;
+                    neighbor 10.101.79.25;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.97.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.107 {
+                            group-ranges {
+                                225.0.24.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.7 {
+                    mode sparse;
+                }
+                interface et-5/0/1.7 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.7 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.7;
+        interface et-5/0/0.7;
+        interface et-5/0/1.7;
+    }
+    VIRTUAL-ROUTER-V8 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.29;
+                    neighbor 10.101.79.29;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.98.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.108 {
+                            group-ranges {
+                                225.0.28.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.8 {
+                    mode sparse;
+                }
+                interface et-5/0/1.8 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.8 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.8;
+        interface et-5/0/0.8;
+        interface et-5/0/1.8;
+    }
+    VIRTUAL-ROUTER-V9 {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ med-10 med-30 ];
+                    peer-as 64512;
+                    neighbor 10.101.49.33;
+                    neighbor 10.101.79.33;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as 64521;
+                    neighbor 10.101.99.2;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address 10.10.47.109 {
+                            group-ranges {
+                                225.0.32.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-5/0/0.9 {
+                    mode sparse;
+                }
+                interface et-5/0/1.9 {
+                    mode sparse;
+                }
+                interface xe-3/0/6.9 {
+                    mode sparse;
+                }
+            }
+        }
+        interface xe-3/0/6.9;
+        interface et-5/0/0.9;
+        interface et-5/0/1.9;
+    }
+}
+routing-options {
+    router-id 10.200.50.18;
+    autonomous-system 64521;
+}
+protocols {
+    lldp {
+        interface all;
+    }
+}

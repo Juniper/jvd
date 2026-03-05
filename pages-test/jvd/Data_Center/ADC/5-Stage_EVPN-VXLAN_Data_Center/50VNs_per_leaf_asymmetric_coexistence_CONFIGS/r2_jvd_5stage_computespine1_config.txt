@@ -1,0 +1,1896 @@
+## Last changed: 2024-10-01 07:49:54 PDT
+version 23.4R2-S3.2;
+system {
+    host-name spine001-001-1;
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    ssl {
+                        port 32767;
+                        local-certificate aos_grpc;
+                    }
+                    routing-instance mgmt_junos;
+                }
+            }
+        }
+    }
+    management-instance;
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    fpc 0 {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        description facing_sspine001-1:et-0/0/0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.0/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::/127;
+            }
+        }
+    }
+    et-0/0/0:0 {
+        disable;
+    }
+    xe-0/0/0:0 {
+        disable;
+    }
+    et-0/0/0:1 {
+        disable;
+    }
+    xe-0/0/0:1 {
+        disable;
+    }
+    et-0/0/0:2 {
+        disable;
+    }
+    xe-0/0/0:2 {
+        disable;
+    }
+    et-0/0/0:3 {
+        disable;
+    }
+    xe-0/0/0:3 {
+        disable;
+    }
+    et-0/0/1 {
+        description facing_sspine001-2:et-0/0/0;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.2/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::2/127;
+            }
+        }
+    }
+    et-0/0/1:0 {
+        disable;
+    }
+    xe-0/0/1:0 {
+        disable;
+    }
+    et-0/0/1:1 {
+        disable;
+    }
+    xe-0/0/1:1 {
+        disable;
+    }
+    et-0/0/1:2 {
+        disable;
+    }
+    xe-0/0/1:2 {
+        disable;
+    }
+    et-0/0/1:3 {
+        disable;
+    }
+    xe-0/0/1:3 {
+        disable;
+    }
+    et-0/0/2 {
+        description facing_leaf001-001-1:et-0/0/48;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.24/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::18/127;
+            }
+        }
+    }
+    et-0/0/2:0 {
+        disable;
+    }
+    xe-0/0/2:0 {
+        disable;
+    }
+    et-0/0/2:1 {
+        disable;
+    }
+    xe-0/0/2:1 {
+        disable;
+    }
+    et-0/0/2:2 {
+        disable;
+    }
+    xe-0/0/2:2 {
+        disable;
+    }
+    et-0/0/2:3 {
+        disable;
+    }
+    xe-0/0/2:3 {
+        disable;
+    }
+    et-0/0/3 {
+        description facing_leaf001-001-2:et-0/0/48;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.26/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::1a/127;
+            }
+        }
+    }
+    et-0/0/3:0 {
+        disable;
+    }
+    xe-0/0/3:0 {
+        disable;
+    }
+    et-0/0/3:1 {
+        disable;
+    }
+    xe-0/0/3:1 {
+        disable;
+    }
+    et-0/0/3:2 {
+        disable;
+    }
+    xe-0/0/3:2 {
+        disable;
+    }
+    et-0/0/3:3 {
+        disable;
+    }
+    xe-0/0/3:3 {
+        disable;
+    }
+    et-0/0/4 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4:0 {
+        disable;
+    }
+    xe-0/0/4:0 {
+        disable;
+    }
+    et-0/0/4:1 {
+        disable;
+    }
+    xe-0/0/4:1 {
+        disable;
+    }
+    et-0/0/4:2 {
+        disable;
+    }
+    xe-0/0/4:2 {
+        disable;
+    }
+    et-0/0/4:3 {
+        disable;
+    }
+    xe-0/0/4:3 {
+        disable;
+    }
+    et-0/0/5 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/5:0 {
+        disable;
+    }
+    xe-0/0/5:0 {
+        disable;
+    }
+    et-0/0/5:1 {
+        disable;
+    }
+    xe-0/0/5:1 {
+        disable;
+    }
+    et-0/0/5:2 {
+        disable;
+    }
+    xe-0/0/5:2 {
+        disable;
+    }
+    et-0/0/5:3 {
+        disable;
+    }
+    xe-0/0/5:3 {
+        disable;
+    }
+    et-0/0/6 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6:0 {
+        disable;
+    }
+    xe-0/0/6:0 {
+        disable;
+    }
+    et-0/0/6:1 {
+        disable;
+    }
+    xe-0/0/6:1 {
+        disable;
+    }
+    et-0/0/6:2 {
+        disable;
+    }
+    xe-0/0/6:2 {
+        disable;
+    }
+    et-0/0/6:3 {
+        disable;
+    }
+    xe-0/0/6:3 {
+        disable;
+    }
+    et-0/0/7 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7:0 {
+        disable;
+    }
+    xe-0/0/7:0 {
+        disable;
+    }
+    et-0/0/7:1 {
+        disable;
+    }
+    xe-0/0/7:1 {
+        disable;
+    }
+    et-0/0/7:2 {
+        disable;
+    }
+    xe-0/0/7:2 {
+        disable;
+    }
+    et-0/0/7:3 {
+        disable;
+    }
+    xe-0/0/7:3 {
+        disable;
+    }
+    et-0/0/8 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8:0 {
+        disable;
+    }
+    xe-0/0/8:0 {
+        disable;
+    }
+    et-0/0/8:1 {
+        disable;
+    }
+    xe-0/0/8:1 {
+        disable;
+    }
+    et-0/0/8:2 {
+        disable;
+    }
+    xe-0/0/8:2 {
+        disable;
+    }
+    et-0/0/8:3 {
+        disable;
+    }
+    xe-0/0/8:3 {
+        disable;
+    }
+    et-0/0/9 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9:0 {
+        disable;
+    }
+    xe-0/0/9:0 {
+        disable;
+    }
+    et-0/0/9:1 {
+        disable;
+    }
+    xe-0/0/9:1 {
+        disable;
+    }
+    et-0/0/9:2 {
+        disable;
+    }
+    xe-0/0/9:2 {
+        disable;
+    }
+    et-0/0/9:3 {
+        disable;
+    }
+    xe-0/0/9:3 {
+        disable;
+    }
+    et-0/0/10 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10:0 {
+        disable;
+    }
+    xe-0/0/10:0 {
+        disable;
+    }
+    et-0/0/10:1 {
+        disable;
+    }
+    xe-0/0/10:1 {
+        disable;
+    }
+    et-0/0/10:2 {
+        disable;
+    }
+    xe-0/0/10:2 {
+        disable;
+    }
+    et-0/0/10:3 {
+        disable;
+    }
+    xe-0/0/10:3 {
+        disable;
+    }
+    et-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11:0 {
+        disable;
+    }
+    xe-0/0/11:0 {
+        disable;
+    }
+    et-0/0/11:1 {
+        disable;
+    }
+    xe-0/0/11:1 {
+        disable;
+    }
+    et-0/0/11:2 {
+        disable;
+    }
+    xe-0/0/11:2 {
+        disable;
+    }
+    et-0/0/11:3 {
+        disable;
+    }
+    xe-0/0/11:3 {
+        disable;
+    }
+    et-0/0/12 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12:0 {
+        disable;
+    }
+    xe-0/0/12:0 {
+        disable;
+    }
+    et-0/0/12:1 {
+        disable;
+    }
+    xe-0/0/12:1 {
+        disable;
+    }
+    et-0/0/12:2 {
+        disable;
+    }
+    xe-0/0/12:2 {
+        disable;
+    }
+    et-0/0/12:3 {
+        disable;
+    }
+    xe-0/0/12:3 {
+        disable;
+    }
+    et-0/0/13 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13:0 {
+        disable;
+    }
+    xe-0/0/13:0 {
+        disable;
+    }
+    et-0/0/13:1 {
+        disable;
+    }
+    xe-0/0/13:1 {
+        disable;
+    }
+    et-0/0/13:2 {
+        disable;
+    }
+    xe-0/0/13:2 {
+        disable;
+    }
+    et-0/0/13:3 {
+        disable;
+    }
+    xe-0/0/13:3 {
+        disable;
+    }
+    et-0/0/14 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14:0 {
+        disable;
+    }
+    xe-0/0/14:0 {
+        disable;
+    }
+    et-0/0/14:1 {
+        disable;
+    }
+    xe-0/0/14:1 {
+        disable;
+    }
+    et-0/0/14:2 {
+        disable;
+    }
+    xe-0/0/14:2 {
+        disable;
+    }
+    et-0/0/14:3 {
+        disable;
+    }
+    xe-0/0/14:3 {
+        disable;
+    }
+    et-0/0/15 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15:0 {
+        disable;
+    }
+    xe-0/0/15:0 {
+        disable;
+    }
+    et-0/0/15:1 {
+        disable;
+    }
+    xe-0/0/15:1 {
+        disable;
+    }
+    et-0/0/15:2 {
+        disable;
+    }
+    xe-0/0/15:2 {
+        disable;
+    }
+    et-0/0/15:3 {
+        disable;
+    }
+    xe-0/0/15:3 {
+        disable;
+    }
+    et-0/0/16 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16:0 {
+        disable;
+    }
+    xe-0/0/16:0 {
+        disable;
+    }
+    et-0/0/16:1 {
+        disable;
+    }
+    xe-0/0/16:1 {
+        disable;
+    }
+    et-0/0/16:2 {
+        disable;
+    }
+    xe-0/0/16:2 {
+        disable;
+    }
+    et-0/0/16:3 {
+        disable;
+    }
+    xe-0/0/16:3 {
+        disable;
+    }
+    et-0/0/17 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17:0 {
+        disable;
+    }
+    xe-0/0/17:0 {
+        disable;
+    }
+    et-0/0/17:1 {
+        disable;
+    }
+    xe-0/0/17:1 {
+        disable;
+    }
+    et-0/0/17:2 {
+        disable;
+    }
+    xe-0/0/17:2 {
+        disable;
+    }
+    et-0/0/17:3 {
+        disable;
+    }
+    xe-0/0/17:3 {
+        disable;
+    }
+    et-0/0/18 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18:0 {
+        disable;
+    }
+    xe-0/0/18:0 {
+        disable;
+    }
+    et-0/0/18:1 {
+        disable;
+    }
+    xe-0/0/18:1 {
+        disable;
+    }
+    et-0/0/18:2 {
+        disable;
+    }
+    xe-0/0/18:2 {
+        disable;
+    }
+    et-0/0/18:3 {
+        disable;
+    }
+    xe-0/0/18:3 {
+        disable;
+    }
+    et-0/0/19 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19:0 {
+        disable;
+    }
+    xe-0/0/19:0 {
+        disable;
+    }
+    et-0/0/19:1 {
+        disable;
+    }
+    xe-0/0/19:1 {
+        disable;
+    }
+    et-0/0/19:2 {
+        disable;
+    }
+    xe-0/0/19:2 {
+        disable;
+    }
+    et-0/0/19:3 {
+        disable;
+    }
+    xe-0/0/19:3 {
+        disable;
+    }
+    et-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20:0 {
+        disable;
+    }
+    xe-0/0/20:0 {
+        disable;
+    }
+    et-0/0/20:1 {
+        disable;
+    }
+    xe-0/0/20:1 {
+        disable;
+    }
+    et-0/0/20:2 {
+        disable;
+    }
+    xe-0/0/20:2 {
+        disable;
+    }
+    et-0/0/20:3 {
+        disable;
+    }
+    xe-0/0/20:3 {
+        disable;
+    }
+    et-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21:0 {
+        disable;
+    }
+    xe-0/0/21:0 {
+        disable;
+    }
+    et-0/0/21:1 {
+        disable;
+    }
+    xe-0/0/21:1 {
+        disable;
+    }
+    et-0/0/21:2 {
+        disable;
+    }
+    xe-0/0/21:2 {
+        disable;
+    }
+    et-0/0/21:3 {
+        disable;
+    }
+    xe-0/0/21:3 {
+        disable;
+    }
+    et-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22:0 {
+        disable;
+    }
+    xe-0/0/22:0 {
+        disable;
+    }
+    et-0/0/22:1 {
+        disable;
+    }
+    xe-0/0/22:1 {
+        disable;
+    }
+    et-0/0/22:2 {
+        disable;
+    }
+    xe-0/0/22:2 {
+        disable;
+    }
+    et-0/0/22:3 {
+        disable;
+    }
+    xe-0/0/22:3 {
+        disable;
+    }
+    et-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23:0 {
+        disable;
+    }
+    xe-0/0/23:0 {
+        disable;
+    }
+    et-0/0/23:1 {
+        disable;
+    }
+    xe-0/0/23:1 {
+        disable;
+    }
+    et-0/0/23:2 {
+        disable;
+    }
+    xe-0/0/23:2 {
+        disable;
+    }
+    et-0/0/23:3 {
+        disable;
+    }
+    xe-0/0/23:3 {
+        disable;
+    }
+    et-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24:0 {
+        disable;
+    }
+    xe-0/0/24:0 {
+        disable;
+    }
+    et-0/0/24:1 {
+        disable;
+    }
+    xe-0/0/24:1 {
+        disable;
+    }
+    et-0/0/24:2 {
+        disable;
+    }
+    xe-0/0/24:2 {
+        disable;
+    }
+    et-0/0/24:3 {
+        disable;
+    }
+    xe-0/0/24:3 {
+        disable;
+    }
+    et-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25:0 {
+        disable;
+    }
+    xe-0/0/25:0 {
+        disable;
+    }
+    et-0/0/25:1 {
+        disable;
+    }
+    xe-0/0/25:1 {
+        disable;
+    }
+    et-0/0/25:2 {
+        disable;
+    }
+    xe-0/0/25:2 {
+        disable;
+    }
+    et-0/0/25:3 {
+        disable;
+    }
+    xe-0/0/25:3 {
+        disable;
+    }
+    et-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26:0 {
+        disable;
+    }
+    xe-0/0/26:0 {
+        disable;
+    }
+    et-0/0/26:1 {
+        disable;
+    }
+    xe-0/0/26:1 {
+        disable;
+    }
+    et-0/0/26:2 {
+        disable;
+    }
+    xe-0/0/26:2 {
+        disable;
+    }
+    et-0/0/26:3 {
+        disable;
+    }
+    xe-0/0/26:3 {
+        disable;
+    }
+    et-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27:0 {
+        disable;
+    }
+    xe-0/0/27:0 {
+        disable;
+    }
+    et-0/0/27:1 {
+        disable;
+    }
+    xe-0/0/27:1 {
+        disable;
+    }
+    et-0/0/27:2 {
+        disable;
+    }
+    xe-0/0/27:2 {
+        disable;
+    }
+    et-0/0/27:3 {
+        disable;
+    }
+    xe-0/0/27:3 {
+        disable;
+    }
+    et-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28:0 {
+        disable;
+    }
+    xe-0/0/28:0 {
+        disable;
+    }
+    et-0/0/28:1 {
+        disable;
+    }
+    xe-0/0/28:1 {
+        disable;
+    }
+    et-0/0/28:2 {
+        disable;
+    }
+    xe-0/0/28:2 {
+        disable;
+    }
+    et-0/0/28:3 {
+        disable;
+    }
+    xe-0/0/28:3 {
+        disable;
+    }
+    et-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29:0 {
+        disable;
+    }
+    xe-0/0/29:0 {
+        disable;
+    }
+    et-0/0/29:1 {
+        disable;
+    }
+    xe-0/0/29:1 {
+        disable;
+    }
+    et-0/0/29:2 {
+        disable;
+    }
+    xe-0/0/29:2 {
+        disable;
+    }
+    et-0/0/29:3 {
+        disable;
+    }
+    xe-0/0/29:3 {
+        disable;
+    }
+    et-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30:0 {
+        disable;
+    }
+    xe-0/0/30:0 {
+        disable;
+    }
+    et-0/0/30:1 {
+        disable;
+    }
+    xe-0/0/30:1 {
+        disable;
+    }
+    et-0/0/30:2 {
+        disable;
+    }
+    xe-0/0/30:2 {
+        disable;
+    }
+    et-0/0/30:3 {
+        disable;
+    }
+    xe-0/0/30:3 {
+        disable;
+    }
+    et-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31:0 {
+        disable;
+    }
+    et-0/0/31:1 {
+        disable;
+    }
+    xe-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    xe-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input cpp-filter-v1;
+                }
+                address 192.168.252.2/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d1::1002/128;
+            }
+        }
+    }
+}
+forwarding-options {
+    evpn-vxlan {
+        shared-tunnels;
+    }
+    vxlan-routing {
+        overlay-ecmp;
+    }
+}
+policy-options {
+    prefix-list bgp-sources {
+        10.0.0.0/8;
+        192.0.0.0/8;
+        2001::/24;
+        fdf6::/24;
+    }
+    prefix-list ntp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list snmp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list ssh-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-20 {
+            from protocol bgp;
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement SPINE_TO_LEAF_EVPN_OUT {
+        term SPINE_TO_LEAF_EVPN_OUT-10 {
+            then {
+                community add FROM_SPINE_EVPN_TIER;
+                accept;
+            }
+        }
+    }
+    policy-statement SPINE_TO_LEAF_FABRIC_OUT {
+        term SPINE_TO_LEAF_FABRIC_OUT-10 {
+            then {
+                community add FROM_SPINE_FABRIC_TIER;
+                accept;
+            }
+        }
+    }
+    policy-statement SPINE_TO_SUPERSPINE_EVPN_OUT {
+        term SPINE_TO_SUPERSPINE_EVPN_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SUPERSPINE_EVPN_TIER;
+            }
+            then reject;
+        }
+        term SPINE_TO_SUPERSPINE_EVPN_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement SPINE_TO_SUPERSPINE_FABRIC_OUT {
+        term SPINE_TO_SUPERSPINE_FABRIC_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SUPERSPINE_FABRIC_TIER;
+            }
+            then reject;
+        }
+        term SPINE_TO_SUPERSPINE_FABRIC_OUT-20 {
+            then accept;
+        }
+    }
+    community DEFAULT_DIRECT_V4 members [ 3:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 3:20008 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+    community FROM_SUPERSPINE_EVPN_TIER members 0:12;
+    community FROM_SUPERSPINE_FABRIC_TIER members 0:13;
+}
+class-of-service {
+    classifiers {
+        dscp dscp-classifier {
+            forwarding-class fc0 {
+                loss-priority low code-points 001010;
+            }
+            forwarding-class fc1 {
+                loss-priority low code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001001 001011 001100 001101 001110 001111 010001 010011 010100 010101 010110 010111 011001 011011 011100 011101 011111 100001 100010 100011 100101 100110 100111 101001 101010 101011 101100 101101 101111 110001 110010 110011 110100 110101 110110 110111 111001 111010 111011 111100 111101 111110 111111 010010 100100 011110 ];
+            }
+            forwarding-class fc2 {
+                loss-priority low code-points 100000;
+            }
+            forwarding-class fc3 {
+                loss-priority low code-points [ 010000 101000 ];
+            }
+            forwarding-class fc4 {
+                loss-priority low code-points 011000;
+            }
+            forwarding-class fc5 {
+                loss-priority low code-points [ 001000 011010 ];
+            }
+            forwarding-class fc6 {
+                loss-priority low code-points [ 101110 111000 ];
+            }
+            forwarding-class fc7 {
+                loss-priority low code-points 110000;
+            }
+        }
+    }
+    drop-profiles {
+        dp0 {
+            interpolate {
+                fill-level [ 0 20 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+        dp1 {
+            interpolate {
+                fill-level [ 1 2 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+    }
+    forwarding-classes {
+        class fc0 queue-num 0;
+        class fc1 queue-num 1;
+        class fc2 queue-num 2;
+        class fc3 queue-num 3;
+        class fc4 queue-num 4;
+        class fc5 queue-num 5;
+        class fc6 queue-num 6;
+        class fc7 queue-num 7;
+        class mcast-fc queue-num 8;
+    }
+    interfaces {
+        et-0/0/0 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/1 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/2 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/3 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/4 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/5 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/6 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/7 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/8 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/9 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/10 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/11 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/12 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/13 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/14 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/15 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/16 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/17 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/18 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/19 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/20 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/21 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/22 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/23 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/24 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/25 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/26 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/27 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/28 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/29 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/30 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/31 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        xe-0/0/32 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        xe-0/0/33 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+    }
+    rewrite-rules {
+        dscp rw1 {
+            forwarding-class fc0 {
+                loss-priority low code-point af11;
+            }
+            forwarding-class fc1 {
+                loss-priority low code-point be;
+            }
+            forwarding-class fc2 {
+                loss-priority low code-point cs4;
+            }
+            forwarding-class fc3 {
+                loss-priority low code-point cs2;
+            }
+            forwarding-class fc4 {
+                loss-priority low code-point cs3;
+            }
+            forwarding-class fc5 {
+                loss-priority low code-point cs1;
+            }
+            forwarding-class fc6 {
+                loss-priority low code-point ef;
+            }
+            forwarding-class fc7 {
+                loss-priority low code-point cs6;
+            }
+        }
+    }
+    scheduler-maps {
+        sm1 {
+            forwarding-class fc0 scheduler s0;
+            forwarding-class fc1 scheduler s1;
+            forwarding-class fc2 scheduler s2;
+            forwarding-class fc3 scheduler s3;
+            forwarding-class fc4 scheduler s4;
+            forwarding-class fc5 scheduler s5;
+            forwarding-class fc6 scheduler s6;
+            forwarding-class fc7 scheduler s7;
+        }
+    }
+    schedulers {
+        s0 {
+            transmit-rate percent 50;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp0;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s1 {
+            transmit-rate percent 2;
+            priority low;
+        }
+        s2 {
+            transmit-rate percent 12;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s3 {
+            transmit-rate percent 12;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s4 {
+            transmit-rate percent 12;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s5 {
+            transmit-rate percent 12;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s6 {
+            shaping-rate 16g;
+            priority strict-high;
+            buffer-dynamic-threshold 7;
+        }
+        s7 {
+            shaping-rate 8g;
+            priority strict-high;
+            buffer-dynamic-threshold 7;
+        }
+    }
+}
+firewall {
+    policer police-5mbps {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 5m;
+        }
+        then discard;
+    }
+    filter cpp-filter-v1 {
+        term ssh {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port ssh;
+            }
+            then {
+                count cpp-ssh-accept;
+                accept;
+            }
+        }
+        term icmp {
+            from {
+                protocol icmp;
+                icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+            }
+            then {
+                policer police-5mbps;
+                count cpp-icmp-accept;
+            }
+        }
+        term bgp {
+            from {
+                source-prefix-list {
+                    bgp-sources;
+                }
+                protocol tcp;
+                port bgp;
+            }
+            then accept;
+        }
+        term dns {
+            from {
+                protocol udp;
+                source-port 53;
+            }
+            then {
+                count cpp-dns-accept;
+                accept;
+            }
+        }
+        term ntp {
+            from {
+                source-prefix-list {
+                    ntp-sources;
+                }
+                protocol udp;
+                port ntp;
+            }
+            then {
+                count cpp-ntp-accept;
+                accept;
+            }
+        }
+        term dhcp {
+            from {
+                protocol udp;
+                port dhcp;
+            }
+            then {
+                count cpp-dhcp-accept;
+                accept;
+            }
+        }
+        term netconf {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port 830;
+            }
+            then {
+                count cpp-netconf-accept;
+                accept;
+            }
+        }
+        term bfd {
+            from {
+                protocol udp;
+                port [ 1280 3784 4784 3785 ];
+            }
+            then {
+                count cpp-bfd-accept;
+                accept;
+            }
+        }
+        term snmp {
+            from {
+                source-prefix-list {
+                    snmp-sources;
+                }
+                port snmp;
+            }
+            then accept;
+        }
+        term ospf {
+            from {
+                protocol ospf;
+            }
+            then accept;
+        }
+        term discard-rest {
+            then {
+                count cpp-discard-rest;
+                discard;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 192.168.252.2;
+    autonomous-system 64701;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+    }
+}
+protocols {
+    router-advertisement {
+        interface et-0/0/0.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/1.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/2.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/3.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+    }
+    bgp {
+        group l3clos-s {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::19 {
+                description facing_leaf001-001-1;
+                local-address fdf6:ed70:1fac:f2d4::18;
+                family inet6 {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64704;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::1b {
+                description facing_leaf001-001-2;
+                local-address fdf6:ed70:1fac:f2d4::1a;
+                family inet6 {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64705;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::1 {
+                description facing_sspine001-1;
+                local-address fdf6:ed70:1fac:f2d4::;
+                family inet6 {
+                    unicast;
+                }
+                export ( SPINE_TO_SUPERSPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64700;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::3 {
+                description facing_sspine001-2;
+                local-address fdf6:ed70:1fac:f2d4::2;
+                family inet6 {
+                    unicast;
+                }
+                export ( SPINE_TO_SUPERSPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64700;
+            }
+            neighbor 10.0.1.25 {
+                description facing_leaf001-001-1;
+                local-address 10.0.1.24;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64704;
+            }
+            neighbor 10.0.1.27 {
+                description facing_leaf001-001-2;
+                local-address 10.0.1.26;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64705;
+            }
+            neighbor 10.0.1.1 {
+                description facing_sspine001-1;
+                local-address 10.0.1.0;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_SUPERSPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64700;
+            }
+            neighbor 10.0.1.3 {
+                description facing_sspine001-2;
+                local-address 10.0.1.2;
+                family inet {
+                    unicast;
+                }
+                export ( SPINE_TO_SUPERSPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64700;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-s-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 192.168.252.8 {
+                description facing_leaf001-001-1-evpn-overlay;
+                local-address 192.168.252.2;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 64704;
+            }
+            neighbor 192.168.252.9 {
+                description facing_leaf001-001-2-evpn-overlay;
+                local-address 192.168.252.2;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_LEAF_EVPN_OUT );
+                peer-as 64705;
+            }
+            neighbor 192.168.252.0 {
+                description facing_sspine001-1-evpn-overlay;
+                local-address 192.168.252.2;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_SUPERSPINE_EVPN_OUT );
+                peer-as 64700;
+            }
+            neighbor 192.168.252.1 {
+                description facing_sspine001-2-evpn-overlay;
+                local-address 192.168.252.2;
+                family evpn {
+                    signaling;
+                }
+                export ( SPINE_TO_SUPERSPINE_EVPN_OUT );
+                peer-as 64700;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        disable;
+    }
+}

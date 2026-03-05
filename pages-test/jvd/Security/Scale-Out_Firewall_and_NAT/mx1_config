@@ -1,0 +1,1113 @@
+## Last changed: 2024-10-16 12:56:35 PDT
+version 24.4I-20241014.0.0829;
+# End of the data from file (/volume/labtools/lab_cvs/system-test/machine/.global/lab_routes-config) 
+apply-groups [ global re0 re1 ];
+system {
+    commit synchronize;
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+    }
+    ports {
+        console log-out-on-disconnect;
+    }
+    processes {
+        sdk-service enable;
+    }
+}
+chassis {
+    redundancy {
+        graceful-switchover;
+    }
+    aggregated-devices {
+        ethernet {
+            device-count 50;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            pic-mode 100G;
+            number-of-ports 16;
+        }
+        pic 1 {
+            pic-mode 100G;
+            number-of-ports 16;
+        }
+    }
+    network-services enhanced-ip;
+}
+services {
+    traffic-load-balance {
+        traceoptions {
+            file tdird.txt size 100m;
+            level error;
+            flag all;
+        }
+        routing-engine-mode;
+        instance ipv6_tlb_sfw_trust {
+            interface lo0.0;
+            client-vrf TRUST_VR;
+            server-vrf TRUST_VR;
+            group ipv6_trust_group {
+                real-services [ IPv6_MNHA_SRX1 IPv6_MNHA_SRX2 ];
+                routing-instance TRUST_VR;
+                health-check-interface-subunit 1;
+                network-monitoring-profile [ icmp-profile tcp-profile ];
+            }
+            real-service IPv6_MNHA_SRX1 {
+                address 2001:db8:1:255::1;
+            }
+            real-service IPv6_MNHA_SRX2 {
+                address 2001:db8:1:255::2;
+            }
+            virtual-service ipv6_srx_trust_vs {
+                mode direct-server-return;
+                address 0::0;
+                routing-instance srx_mnha_group_tlb-trust_fi;
+                group ipv6_trust_group;
+                load-balance-method {
+                    hash {
+                        hash-key {
+                            source-ip;
+                        }
+                    }
+                }
+            }
+        }
+        instance ipv6_tlb_sfw_untrust {
+            interface lo0.0;
+            client-vrf UNTRUST_VR;
+            server-vrf UNTRUST_VR;
+            group ipv6_untrust_group {
+                real-services [ IPv6_UNTRUST_SRX1 IPv6_UNTRUST_SRX2 ];
+                routing-instance UNTRUST_VR;
+                health-check-interface-subunit 2;
+                network-monitoring-profile [ icmp-profile tcp-profile ];
+            }
+            real-service IPv6_UNTRUST_SRX1 {
+                address 2001:db8:1:255::1;
+            }
+            real-service IPv6_UNTRUST_SRX2 {
+                address 2001:db8:1:255::2;
+            }
+            virtual-service ipv6_srx_untrust_vs {
+                mode direct-server-return;
+                address 0::0;
+                routing-instance srx_mnha_group_tlb-untrust_fi;
+                group ipv6_untrust_group;
+                load-balance-method {
+                    hash {
+                        hash-key {
+                            destination-ip;
+                        }
+                    }
+                }
+            }
+        }
+        instance tlb_sfw_trust {
+            interface lo0.0;
+            client-vrf TRUST_VR;
+            server-vrf TRUST_VR;
+            group srx_trust_group {
+                real-services [ MNHA_SRX1 MNHA_SRX2 ];
+                routing-instance TRUST_VR;
+                health-check-interface-subunit 1;
+                network-monitoring-profile [ icmp-profile tcp-profile ];
+            }
+            real-service MNHA_SRX1 {
+                address 192.168.10.1;
+            }
+            real-service MNHA_SRX2 {
+                address 192.168.10.2;
+            }
+            virtual-service srx_trust_vs {
+                mode direct-server-return;
+                address 0.0.0.0;
+                routing-instance srx_mnha_group_tlb-trust_fi;
+                group srx_trust_group;
+                load-balance-method {
+                    hash {
+                        hash-key {
+                            source-ip;
+                        }
+                    }
+                }
+            }
+        }
+        instance tlb_sfw_untrust {
+            interface lo0.0;
+            client-vrf UNTRUST_VR;
+            server-vrf UNTRUST_VR;
+            group srx_untrust_group {
+                real-services [ UNTRUST_SRX1 UNTRUST_SRX2 ];
+                routing-instance UNTRUST_VR;
+                health-check-interface-subunit 2;
+                network-monitoring-profile [ icmp-profile tcp-profile ];
+            }
+            real-service UNTRUST_SRX1 {
+                address 192.168.10.1;
+            }
+            real-service UNTRUST_SRX2 {
+                address 192.168.10.2;
+            }
+            virtual-service srx_untrust_vs {
+                mode direct-server-return;
+                address 0.0.0.0;
+                routing-instance srx_mnha_group_tlb-untrust_fi;
+                group srx_untrust_group;
+                load-balance-method {
+                    hash {
+                        hash-key {
+                            destination-ip;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    network-monitoring {
+        profile icmp-profile {
+            icmp;
+            probe-interval 1;
+            failure-retries 1;
+            recovery-retries 1;
+        }
+        profile tcp-profile {
+            tcp {
+                port 8088;
+            }
+            probe-interval 1;
+            failure-retries 1;
+            recovery-retries 1;
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        gigether-options {
+            802.3ad ae3;
+        }
+    }
+    et-0/0/2 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/4 {
+        gigether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/0/6 {
+        gigether-options {
+            802.3ad ae2;
+        }
+    }
+    et-0/0/7 {
+        gigether-options {
+            802.3ad ae3;
+        }
+    }
+    et-0/0/9 {
+        gigether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/10 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-0/0/12 {
+        gigether-options {
+            802.3ad ae4;
+        }
+    }
+    et-0/1/4 {
+        gigether-options {
+            802.3ad ae10;
+        }
+    }
+    et-0/1/6 {
+        gigether-options {
+            802.3ad ae2;
+        }
+    }
+    ae1 {
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.1.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:1:1::1/126;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.1.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:2:1::1/126;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.1.1/30;
+            }
+        }
+    }
+    ae2 {
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.2.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:1:2::1/126;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.2.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:2:2::1/126;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.2.1/30;
+            }
+        }
+    }
+    ae3 {
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.3.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:1:3::1/126;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.3.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:2:3::1/126;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.3.1/30;
+            }
+        }
+    }
+    ae4 {
+        vlan-tagging;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            vlan-id 1;
+            family inet {
+                address 10.1.4.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:1:4::1/126;
+            }
+        }
+        unit 1 {
+            vlan-id 2;
+            family inet {
+                address 10.2.4.1/30;
+            }
+            family inet6 {
+                address 2001:db8:1:2:4::1/126;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.3.4.1/30;
+            }
+        }
+    }
+    ae10 {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 41 {
+            vlan-id 41;
+            family inet {
+                filter {
+                    input MX_TLB_LB_TRUST;
+                }
+                address 172.16.1.1/30;
+            }
+            family inet6 {
+                filter {
+                    input IPv6_MX_TLB_LB_TRUST;
+                }
+                address 2001:db8:172:1:1::1/126;
+            }
+        }
+        unit 81 {
+            vlan-id 81;
+            family inet {
+                filter {
+                    input MX_TLB_LB_UNTRUST;
+                }
+                address 172.16.2.1/30;
+            }
+            family inet6 {
+                filter {
+                    input IPv6_MX_TLB_LB_UNTRUST;
+                }
+                address 2001:db8:172:2:1::1/126;
+            }
+        }
+    }
+    lo0 {
+        unit 1 {
+            description "TLB Health-Check Source IP Addresses for TRUST VR";
+            family inet {
+                address 192.168.10.251/32;
+            }
+            family inet6 {
+                address 2001:db8:1:255::251/128;
+            }
+        }
+        unit 2 {
+            description "TLB Health-Check Source IP Addresses for UNTRUST VR";
+            family inet {
+                address 192.168.10.252/32;
+            }
+            family inet6 {
+                address 2001:db8:1:255::252/128;
+            }
+        }
+    }
+}
+snmp {
+    community GI-FW-POC {
+        authorization read-only;
+        clients {
+            ::/0;
+            0.0.0.0/0;
+        }
+    }
+}
+forwarding-options {
+    enhanced-hash-key {
+        symmetric;
+    }
+}
+policy-options {
+    route-filter-list nat_pool_route_filter_list {
+        100.64.1.0/24 exact;
+        100.64.2.0/24 exact;
+        100.64.3.0/24 exact;
+        100.64.4.0/24 exact;
+    }
+    policy-statement client_route_export {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 172.80.0.0/12 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement def_route_export {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement ipv4_mx_trust-to-srx_trust_export {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.251/32 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement ipv4_mx_untrust-to-srx_untrust_export {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 192.168.10.252/32 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement ipv4_mx_untrust_to_gw_export {
+        term sfw4_prefix {
+            from {
+                protocol static;
+                route-filter 172.160.0.0/12 exact;
+            }
+            then accept;
+        }
+        term napt44_prefix_list {
+            from {
+                protocol bgp;
+                route-filter-list nat_pool_route_filter_list;
+            }
+            then accept;
+        }
+        term reject {
+            then reject;
+        }
+    }
+    policy-statement ipv6_def_route_export {
+        term 1 {
+            from {
+                protocol static;
+                route-filter ::/0 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_mx_trust-to-srx_trust_export {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::251/128 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_mx_untrust-to-srx_untrust_export {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 2001:db8:1:255::252/128 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement ipv6_mx_untrust_to_gw_export {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 2001:db8:172:160::/96 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement mnha-mx-to-srx-export {
+        term 1 {
+            from protocol bgp;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement pfe_lb_hash {
+        term ALL-ELSE {
+            then {
+                load-balance per-packet;
+                accept;
+            }
+        }
+    }
+}
+firewall {
+    family inet {
+        filter MX_TLB_LB_TRUST {
+            term NAPT44_tlb_traffic {
+                from {
+                    source-address {
+                        172.80.0.0/12;
+                    }
+                }
+                then {
+                    count NAPT44_tlb_forward_traffic;
+                    routing-instance srx_mnha_group_tlb-trust_fi;
+                }
+            }
+            term SFW44_tlb_traffic {
+                from {
+                    source-address {
+                        172.160.0.0/12;
+                    }
+                }
+                then {
+                    count SFW44_tlb_forward_traffic;
+                    routing-instance srx_mnha_group_tlb-trust_fi;
+                }
+            }
+            term other_traffic {
+                then {
+                    count other_traffic;
+                    accept;
+                }
+            }
+        }
+        filter MX_TLB_LB_UNTRUST {
+            term NAPT44_tlb_traffic {
+                from {
+                    destination-address {
+                        172.80.0.0/12;
+                    }
+                }
+                then {
+                    count SFW44_tlb_return_traffic;
+                    routing-instance srx_mnha_group_tlb-untrust_fi;
+                }
+            }
+            term SFW44_tlb_traffic {
+                from {
+                    destination-address {
+                        172.160.0.0/12;
+                    }
+                }
+                then {
+                    count SFW44_tlb_return_traffic;
+                    routing-instance srx_mnha_group_tlb-untrust_fi;
+                }
+            }
+            term other_traffic {
+                then {
+                    count other_traffic;
+                    accept;
+                }
+            }
+        }
+    }
+    family inet6 {
+        filter IPv6_MX_TLB_LB_TRUST {
+            term NAT64_tlb_traffic_traffic {
+                from {
+                    source-address {
+                        2001:db8:172:80::/96;
+                        2001:db8:172:160::/96;
+                    }
+                }
+                then {
+                    count SFW44_tlb_forward_traffic;
+                    routing-instance srx_mnha_group_tlb-trust_fi;
+                }
+            }
+            term other_traffic {
+                then {
+                    count other_traffic;
+                    accept;
+                }
+            }
+        }
+        filter IPv6_MX_TLB_LB_UNTRUST {
+            term NAT64_tlb_traffic_traffic {
+                from {
+                    destination-address {
+                        2001:db8:172:80::/96;
+                        2001:db8:172:160::/96;
+                    }
+                }
+                then {
+                    count SFW66_tlb_return_traffic;
+                    routing-instance srx_mnha_group_tlb-untrust_fi;
+                }
+            }
+            term other_traffic {
+                then {
+                    count other_traffic;
+                    accept;
+                }
+            }
+        }
+    }
+}
+routing-instances {
+    MNHA-VR {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group mnha_pair_1_A_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65001;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.1.2 {
+                        local-address 10.3.1.1;
+                    }
+                }
+                group mnha_pair_1_B_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65002;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.2.2 {
+                        local-address 10.3.2.1;
+                    }
+                }
+                group mnha_pair_2_A_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65001;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.3.2 {
+                        local-address 10.3.3.1;
+                    }
+                }
+                group mnha_pair_2_B_icl_ebgp {
+                    type external;
+                    export mnha-mx-to-srx-export;
+                    peer-as 65002;
+                    local-as 65050;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.3.4.2 {
+                        local-address 10.3.4.1;
+                    }
+                }
+            }
+        }
+        interface ae1.100;
+        interface ae2.100;
+        interface ae3.100;
+        interface ae4.100;
+    }
+    TRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            rib TRUST_VR.inet6.0 {
+                static {
+                    route ::/0 discard;
+                }
+            }
+            autonomous-system 1000;
+            static {
+                route 0.0.0.0/0 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group MX-to-TRUST_GW_Router {
+                    type external;
+                    export def_route_export;
+                    peer-as 65100;
+                    local-as 65200;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.1.2;
+                }
+                group MX-to-MNHA-pair_2_A {
+                    type external;
+                    export ipv4_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.1.3.2;
+                }
+                group MX-to-MNHA-pair_2_B {
+                    type external;
+                    export ipv4_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.1.4.2;
+                }
+                group MX-to-MNHA-pair_1_A {
+                    type external;
+                    export ipv4_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.1.1.2;
+                }
+                group MX-to-MNHA-pair_1_B {
+                    type external;
+                    export ipv4_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.1.2.2;
+                }
+                group IPv6_MX-to-MNHA-pair_2_A {
+                    type external;
+                    export ipv6_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:1:3::2;
+                }
+                group IPv6_MX-to-MNHA-pair_2_B {
+                    type external;
+                    export ipv6_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:1:4::2;
+                }
+                group IPv6_MX-to-MNHA-pair_1_A {
+                    type external;
+                    export ipv6_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:1:1::2;
+                }
+                group IPv6_MX-to-MNHA-pair_1_B {
+                    type external;
+                    export ipv6_mx_trust-to-srx_trust_export;
+                    peer-as 65000;
+                    local-as 65200;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:1:2::2;
+                }
+                group IPv6_MX-to-TRUST_GW_Router {
+                    type external;
+                    export ipv6_def_route_export;
+                    peer-as 65100;
+                    local-as 65200;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:172:1:1::2;
+                }
+            }
+        }
+        interface ae1.0;
+        interface ae2.0;
+        interface ae3.0;
+        interface ae4.0;
+        interface ae10.41;
+        interface lo0.1;
+    }
+    UNTRUST_VR {
+        instance-type virtual-router;
+        routing-options {
+            rib UNTRUST_VR.inet6.0 {
+                static {
+                    route 2001:db8:172:160::/96 discard;
+                }
+            }
+            autonomous-system 65400;
+            static {
+                route 172.160.0.0/12 discard;
+            }
+        }
+        protocols {
+            bgp {
+                group MX-to-UNTRUST_GW_Router {
+                    type external;
+                    export ipv4_mx_untrust_to_gw_export;
+                    peer-as 65300;
+                    local-as 65400;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 172.16.2.2;
+                }
+                group MX-to-MNHA-pair_2_A {
+                    type external;
+                    export ipv4_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.3.2;
+                }
+                group MX-to-MNHA-pair_2_B {
+                    type external;
+                    export ipv4_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.4.2;
+                }
+                group MX-to-MNHA-pair_1_A {
+                    type external;
+                    export ipv4_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.1.2;
+                }
+                group MX-to-MNHA-pair_1_B {
+                    type external;
+                    export ipv4_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 10.2.2.2;
+                }
+                group IPv6_MX-to-MNHA-pair_2_A {
+                    type external;
+                    export ipv6_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:2:3::2;
+                }
+                group IPv6_MX-to-MNHA-pair_2_B {
+                    type external;
+                    export ipv6_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:2:4::2;
+                }
+                group IPv6_MX-to-MNHA-pair_1_A {
+                    type external;
+                    export ipv6_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:2:1::2;
+                }
+                group IPv6_MX-to-MNHA-pair_1_B {
+                    type external;
+                    export ipv6_mx_untrust-to-srx_untrust_export;
+                    peer-as 65000;
+                    local-as 65400;
+                    multipath;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:1:2:2::2;
+                }
+                group IPv6_MX-to-UNTRUST_GW_Router {
+                    type external;
+                    export ipv6_mx_untrust_to_gw_export;
+                    peer-as 65300;
+                    local-as 65400;
+                    bfd-liveness-detection {
+                        minimum-interval 300;
+                        minimum-receive-interval 300;
+                        multiplier 3;
+                    }
+                    neighbor 2001:db8:172:2:1::2;
+                }
+            }
+        }
+        interface ae1.1;
+        interface ae2.1;
+        interface ae3.1;
+        interface ae4.1;
+        interface ae10.81;
+        interface lo0.2;
+    }
+    srx_mnha_group_tlb-trust_fi {
+        instance-type forwarding;
+    }
+    srx_mnha_group_tlb-untrust_fi {
+        instance-type forwarding;
+    }
+}
+routing-options {
+    nonstop-routing;
+    forwarding-table {
+        export pfe_lb_hash;
+    }
+}

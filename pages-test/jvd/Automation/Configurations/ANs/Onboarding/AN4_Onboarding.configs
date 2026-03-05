@@ -1,0 +1,31 @@
+set system root-authentication encrypted-password "$1$ZUlES4dp$OUwWo1g7cLoV/aMWpHUnC/"
+set system services ssh root-login allow
+set interfaces lo0 unit 1 family inet address 44.44.44.44/32
+set routing-instances VR-ONBOARD instance-type virtual-router
+set routing-instances VR-ONBOARD routing-options instance-import IMPORT-FROM-MASTER-DIRECT
+set routing-instances VR-ONBOARD interface lo0.1
+set policy-options policy-statement IMPORT-FROM-MASTER-DIRECT from instance master
+set policy-options policy-statement IMPORT-FROM-MASTER-DIRECT from route-filter 6.1.0.0/16 exact
+set policy-options policy-statement IMPORT-FROM-MASTER-DIRECT then accept
+set routing-options instance-import IMPORT-FROM-VR-ONBOARD-DIRECT
+set routing-options auto-export family inet unicast
+set policy-options policy-statement IMPORT-FROM-VR-ONBOARD-DIRECT from instance VR-ONBOARD
+set policy-options policy-statement IMPORT-FROM-VR-ONBOARD-DIRECT from protocol direct
+set policy-options policy-statement IMPORT-FROM-VR-ONBOARD-DIRECT then accept
+set system services extension-service request-response grpc routing-instance VR-ONBOARD
+set system services extension-service request-response grpc ssl local-certificate gnmi-terminator.juniper.net
+set system services outbound-ssh routing-instance VR-ONBOARD
+set system services ssh protocol-version v2
+set interfaces et-0/0/5 unit 0 family inet address 6.1.1.2/24
+set interfaces et-0/0/4 unit 0 family inet address 6.1.2.2/24
+set routing-options static route 0.0.0.0/0 next-hop [6.1.1.1 6.1.2.1]
+delete system authentication-order radius
+set system authentication-order password
+set system login user jcloud-dev class super-user
+set system login user jcloud-dev authentication encrypted-password $6$j8r02ZwQz9V0ajy.$h7W5Je/Xo3A4qQBfH.qQpRymvR2OGyv8Gghw4Dyg8/N.NjzerYb9Hj8o54AFGxJnP9Va3qNQVKQZatSa5voPL1
+set system login user jcloud-dev authentication ssh-rsa "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDRedlxAt/vG/eSKcFgxzWO7niPL72MZNQ0r5JTMC/a+p97V/hSVcUvGGyG8xLlVRYLhQCh0DSoGJ1m5GWRMxlSbx2LOLR03iCxOIFAAVVs3o2iSagQbXH3MltdiY2ZjVudd8kF1wiUMULJUqE54vwT4/+yAg9/hUJ6Oo+x2b5POMX4t7R671COyhYW6K/qia+OU0Bb0frU2lXFbs535WUX62LL9ihh2+Wn2nTMvH7920K7m6FArYs7mY8HKzEKJlQdgIhFRe5dG9UUIBziia39W4b0OIZOPJ5TciE0TaW4sJXa6+tVEj5+RmyZjzoPlnp+FSWQhlyI/dEiYJfGRQQNR5xOwyYQcAU+nldDN/CDYaxGpyYWZRqxpTtSaBTe8lpuyWhY8Cbs5p/Sx+VSgEemLurglYXvBA5qdcFYOfBMaGVOKURXPMX3Rminy/2hEJvcBMkfl+L4Hj29Xa/jKVgx9vDoNvig7n9XwIBeeXD+U25DrU7MIqyOi7SswIFUxD8= jcloud-dev@0d3146bb-6157-4356-9bbc-08f9dfeef81c"
+set system services outbound-ssh client jcloud-dev secret f1b15c70c6083799aad0d38e62dfbeff77d3e33b71c52033d1ffc59fdacd2b55466b5382b5095aa3f4c875cc7eee4c18e713b1b6e62f175ce2eedf6b084a4a2c
+set system services outbound-ssh client jcloud-dev services netconf keep-alive retry 12 timeout 5
+set system services outbound-ssh client jcloud-dev A.B.C.D port 2200 timeout 60 retry 1000
+set system services outbound-ssh client jcloud-dev device-id 0d3146bb-6157-4356-9bbc-08f9dfeef81c.9f50a0bb-4139-42ea-9dcc-8cb739a90544
+delete system phone-home
