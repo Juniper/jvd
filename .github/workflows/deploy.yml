@@ -73,7 +73,6 @@ jobs:
   # ==========================================================
   cleanup-previews:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout gh-pages
         uses: actions/checkout@v4
