@@ -41,4 +41,4 @@ The Metro as a Service JVD is built upon the Metro Ethernet Business Services (E
 ---
 
 ![Metro as a Service](images/Metro-MEF-Topology.png)
->>>>>>> fce844f (update MaaS readme)
+
