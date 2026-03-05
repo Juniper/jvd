@@ -1,0 +1,1 @@
+from .caption_per_book import CaptionPerBookPlugin
