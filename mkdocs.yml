@@ -79,7 +79,6 @@ nav:
 - About us: about.md
 plugins:
 - caption-per-book
-- book-enumerate
 - search:
     separator: '[\s\-\_]'
 - minify:
