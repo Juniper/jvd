@@ -12,7 +12,7 @@ This JVD uses **Juniper ACX Series**, **MX Series**, and **PTX Series** platform
 - [Enterprise WAN for Finance and Stock Exchange](#enterprise-wan-for-finance-and-stock-exchange)
   - [Contents](#contents)
   - [Solution Highlights](#solution-highlights)
-  - [Test Coverage \& Validation](#test-coverage--validation)
+  - [Test Coverage \& Validation](#test-coverage-validation)
   - [Validated Platforms](#validated-platforms)
   - [Documentation](#documentation)
 
@@ -47,7 +47,7 @@ This JVD uses **Juniper ACX Series**, **MX Series**, and **PTX Series** platform
 
 ---
 
-## Test Coverage & Validation
+## Test Coverage Validation
 
 The JVD includes **59+ tests** across **4 high-level scenarios**, validating:
 

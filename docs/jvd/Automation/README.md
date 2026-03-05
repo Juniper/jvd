@@ -12,26 +12,26 @@ Here you can find all the configurations of the files being part of this Automat
 
 ### Access Nodes
 
-- [Access Nodes Onboarding](./Configurations/ANs/Onboarding/)
-- [Access Nodes Services](./Configurations/ANs/Services/)
+- Access Nodes Onboarding: ./Configurations/ANs/Onboarding/
+- Access Nodes Services : ./Configurations/ANs/Services/
 
 ### Aggregation Nodes
 
-- [Aggregation Nodes](./Configurations/AGs/)
+- Aggregation Nodes: ./Configurations/AGs/)
 
 ### Core Nodes
 
-- [Core Nodes](./Configurations/Core/)
+- Core Nodes: ./Configurations/Core/)
 
 ### SAG
 
-- [SAG](./Configurations/SAG/)
+- SAG: ./Configurations/SAG/
 
 ## Scripts
 
 Here there are the scripts being used in this Automation JVD.
 
-[Scripts](./Scripts/)
+Scripts: ./Scripts/
 
 ## Considerations
 

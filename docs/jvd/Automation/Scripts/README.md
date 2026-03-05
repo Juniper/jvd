@@ -10,4 +10,4 @@ This folder contains the scripts being used for this Automation JVD.
 
 These scripts have been used during ZTP process of Access node onboarding.
 
-Initiate ZTP on access nodes to load the configuations from [AN/Onboarding](../Configurations/ANs/Onboarding/) folder.
+Initiate ZTP on access nodes to load the configuations from AN/Onboarding: ../Configurations/ANs/Onboarding/ folder.
