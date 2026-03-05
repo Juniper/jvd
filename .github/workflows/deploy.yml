@@ -72,7 +72,6 @@ jobs:
   # CLEANUP JOB 
   # ==========================================================
   cleanup-previews:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
