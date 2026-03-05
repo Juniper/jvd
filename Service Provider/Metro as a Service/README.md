@@ -5,7 +5,6 @@ Metro as a Service (MaaS) sets a new industry benchmark with the first validated
 With MaaS, operators can trust that Juniper solutions meet the most stringent **performance**, **quality**, **reliability**, and **interoperability** standards required for Carrier Ethernet service delivery.
 
 --- 
-david
 
 ## 📄 MaaS JVD Documentation
 
