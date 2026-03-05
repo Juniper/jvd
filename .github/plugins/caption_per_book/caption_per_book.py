@@ -31,7 +31,7 @@ class CaptionPerBookPlugin(BasePlugin):
         def collect(item):
             if getattr(item, "file", None):
                 src_uri = item.file.src_uri
-                if src_uri.startswith("book/") and not src_uri.startswith("book/menu/"):
+                if src_uri.startswith("jvd/") and not src_uri.startswith("jvd/menu/"):
                     parts = src_uri.split("/")
                     if len(parts) < 2:
                         return

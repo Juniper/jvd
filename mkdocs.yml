@@ -34,49 +34,49 @@ nav:
 - Home: index.md
 - All JVDs:
   - Automation:
-      - Automation/README.md
+      - jvd/Automation/README.md
       - Configurations:
-          - Automation/Configurations/README.md
-          - DHCP: Automation/Configurations/DHCP/README.md
+          - jvd/Automation/Configurations/README.md
+          - DHCP: jvd/Automation/Configurations/DHCP/README.md
       - Scripts:
-          - Automation/Scripts/README.md
-          - ACX_SW_upgrade: Automation/Scripts/ACX_SW_upgrade/README.md
-          - AGs_Core: Automation/Scripts/AGs_Core/README.md
-          - SW_image_upload: Automation/Scripts/SW_image_upload/README.md
-  - Branch: Branch/README.md
-  - Campus: Campus/README.md
+          - jvd/Automation/Scripts/README.md
+          - ACX_SW_upgrade: jvd/Automation/Scripts/ACX_SW_upgrade/README.md
+          - AGs_Core: jvd/Automation/Scripts/AGs_Core/README.md
+          - SW_image_upload: jvd/Automation/Scripts/SW_image_upload/README.md
+  - Branch: jvd/Branch/README.md
+  - Campus: jvd/Campus/README.md
   - Data Center:
-      - Data Center/README.md
+      - jvd/Data Center/README.md
       - ADC:
-          - Data Center/ADC/README.md
-          - 3-Stage Data Center Design: Data Center/ADC/3-Stage Data Center Design/README.md
-          - 5-Stage EVPN-VXLAN Data Center: Data Center/ADC/5-Stage EVPN-VXLAN Data Center/README.md
-          - Collapsed Data Center Fabric: Data Center/ADC/Collapsed Data Center Fabric/README.md
-          - Collapsed Data Center Fabric with Access Switches: Data Center/ADC/Collapsed Data Center Fabric with Access Switches/README.md
-          - EVPN-VXLAN Data Center Interconnect Design: Data Center/ADC/EVPN-VXLAN Data Center Interconnect Design/README.md
+          - jvd/Data Center/ADC/README.md
+          - 3-Stage Data Center Design: jvd/Data Center/ADC/3-Stage Data Center Design/README.md
+          - 5-Stage EVPN-VXLAN Data Center: jvd/Data Center/ADC/5-Stage EVPN-VXLAN Data Center/README.md
+          - Collapsed Data Center Fabric: jvd/Data Center/ADC/Collapsed Data Center Fabric/README.md
+          - Collapsed Data Center Fabric with Access Switches: jvd/Data Center/ADC/Collapsed Data Center Fabric with Access Switches/README.md
+          - EVPN-VXLAN Data Center Interconnect Design: jvd/Data Center/ADC/EVPN-VXLAN Data Center Interconnect Design/README.md
       - AIDC:
-          - Data Center/AIDC/README.md
+          - jvd/Data Center/AIDC/README.md
           - backend:
-              - Data Center/AIDC/backend/README.md
-              - AI_ML_Multitenancy: Data Center/AIDC/backend/AI_ML_Multitenancy/README.md
-          - frontend: Data Center/AIDC/frontend/README.md
-          - storage: Data Center/AIDC/storage/README.md
+              - jvd/Data Center/AIDC/backend/README.md
+              - AI_ML_Multitenancy: jvd/Data Center/AIDC/backend/AI_ML_Multitenancy/README.md
+          - frontend: jvd/Data Center/AIDC/frontend/README.md
+          - storage: jvd/Data Center/AIDC/storage/README.md
   - Enterprise WAN:
-      - Enterprise WAN Advanced Core and Edge Services: Enterprise WAN/Enterprise WAN Advanced Core and Edge Services/README.md
-      - Enterprise WAN Core and Edge: Enterprise WAN/Enterprise WAN Core and Edge/README.md
-      - Enterprise WAN Finance: Enterprise WAN/Enterprise WAN Finance/README.md
-  - Optical: Optical/README.md
+      - Enterprise WAN Advanced Core and Edge Services: jvd/Enterprise WAN/Enterprise WAN Advanced Core and Edge Services/README.md
+      - Enterprise WAN Core and Edge: jvd/Enterprise WAN/Enterprise WAN Core and Edge/README.md
+      - Enterprise WAN Finance: jvd/Enterprise WAN/Enterprise WAN Finance/README.md
+  - Optical: jvd/Optical/README.md
   - Security:
-      - Security/README.md
-      - Scale-Out Firewall and NAT: Security/Scale-Out Firewall and NAT/README.md
-      - Scale-Out IPsec: Security/Scale-Out IPsec/README.md
+      - jvd/Security/README.md
+      - Scale-Out Firewall and NAT: jvd/Security/Scale-Out Firewall and NAT/README.md
+      - Scale-Out IPsec: jvd/Security/Scale-Out IPsec/README.md
   - Service Provider:
-      - Broadband Edge: Service Provider/Broadband Edge/README.md
-      - Low Latency Queueing: Service Provider/Low Latency Queueing/README.md
-      - Metro as a Service: Service Provider/Metro as a Service/README.md
-      - Metro Ethernet Business Services: Service Provider/Metro Ethernet Business Services/README.md
-      - Port Fan-Out: Service Provider/Port Fan-Out/README.md
-- About us: about.md 
+      - Broadband Edge: jvd/Service Provider/Broadband Edge/README.md
+      - Low Latency Queueing: jvd/Service Provider/Low Latency Queueing/README.md
+      - Metro as a Service: jvd/Service Provider/Metro as a Service/README.md
+      - Metro Ethernet Business Services: jvd/Service Provider/Metro Ethernet Business Services/README.md
+      - Port Fan-Out: jvd/Service Provider/Port Fan-Out/README.md
+- About us: about.md
 plugins:
 - caption-per-book
 - search:
