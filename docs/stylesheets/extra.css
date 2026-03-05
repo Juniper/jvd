@@ -129,7 +129,6 @@
     margin: 0 0 0.25em !important;
     font-weight: bold !important;
     text-align: center !important;
-    font-family: 'HPE Graphik XXCondensed';
     font-size: 64px;
     text-transform: uppercase;
 }
@@ -137,14 +136,12 @@
 .md-typeset h2 {
     margin: 0.2em 0 .2em !important;
     font-weight: bold !important;
-    font-family: 'HPE Graphik XXCondensed';
     font-size: 34px;
 }
 
 .md-typeset h3 {
     margin: 0.1em 0 .1em !important;
     font-weight: bold !important;
-    font-family: 'HPE Graphik XXCondensed';
     font-size: 24px;
 }
 

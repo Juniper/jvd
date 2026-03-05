@@ -100,7 +100,7 @@ class CaptionPerBookPlugin(BasePlugin):
             img.replace_with(figure)
             figure.append(img)
             figcaption = soup.new_tag("figcaption")
-            figcaption.string = f"Figure: {alt}"
+            figcaption.string = f"{alt}"
             figure.append(figcaption)
             #print(f"[DEBUG] Added figure caption: Figure {fig_num}: {alt}")
         counters["figure"] = fig_num
@@ -121,7 +121,7 @@ class CaptionPerBookPlugin(BasePlugin):
                     "p",
                     **{"class": "table-caption", "style": "text-align:center; font-style:italic;"}
                 )
-                caption_tag.string = f"Table: {caption_text}"
+                caption_tag.string = f"{caption_text}"
                 table.insert_after(caption_tag)
                 #print(f"[DEBUG] Added table caption: Table {tab_num}: {caption_text}")
         counters["table"] = tab_num
