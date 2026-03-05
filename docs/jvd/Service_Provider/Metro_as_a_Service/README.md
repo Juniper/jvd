@@ -42,3 +42,8 @@ The Metro as a Service JVD is built upon the Metro Ethernet Business Services (E
 
 ![Metro as a Service](images/Metro-MEF-Topology.png)
 
+## Configurations
+
+Heare are the config snippets:
+
+- [EACCESS_EVPN-VPWS_LSW Config](./EACCESS_EVPN-VPWS_LSW.md)

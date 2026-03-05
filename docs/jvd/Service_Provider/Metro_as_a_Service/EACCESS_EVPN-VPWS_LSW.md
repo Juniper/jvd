@@ -1,5 +1,6 @@
-MA3:
+# MA3 Configuration
 
+```plaintext
 root@rtme-acx-48l-07> show configuration groups MEF_EVPN_VPWS_LSW | no-more
 interfaces {
     et-0/0/0 {
@@ -1670,3 +1671,4 @@ set groups GR-JVD-METRO-LLQ-COS class-of-service schedulers SC-BEST-EFFORT trans
 set groups GR-JVD-METRO-LLQ-COS class-of-service schedulers SC-BEST-EFFORT buffer-size remainder
 set groups GR-JVD-METRO-LLQ-COS class-of-service schedulers SC-BEST-EFFORT priority low
 set apply-groups GR-JVD-METRO-LLQ-COS
+```
