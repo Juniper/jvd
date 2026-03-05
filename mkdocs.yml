@@ -34,30 +34,30 @@ nav:
 - Home: index.md
 - All JVDs:
   - Automation:
-      - jvd/Automation/README.md
+      - Introduction: jvd/Automation/README.md
       - Configurations:
-          - jvd/Automation/Configurations/README.md
+          - Introduction: jvd/Automation/Configurations/README.md
           - DHCP: jvd/Automation/Configurations/DHCP/README.md
       - Scripts:
-          - jvd/Automation/Scripts/README.md
+          - Introduction: jvd/Automation/Scripts/README.md
           - ACX_SW_upgrade: jvd/Automation/Scripts/ACX_SW_upgrade/README.md
           - AGs_Core: jvd/Automation/Scripts/AGs_Core/README.md
           - SW_image_upload: jvd/Automation/Scripts/SW_image_upload/README.md
   - Branch: jvd/Branch/README.md
   - Campus: jvd/Campus/README.md
   - Data Center:
-      - jvd/Data Center/README.md
+      - Introduction: jvd/Data Center/README.md
       - ADC:
-          - jvd/Data Center/ADC/README.md
+          - Introduction:jvd/Data Center/ADC/README.md
           - 3-Stage Data Center Design: jvd/Data Center/ADC/3-Stage Data Center Design/README.md
           - 5-Stage EVPN-VXLAN Data Center: jvd/Data Center/ADC/5-Stage EVPN-VXLAN Data Center/README.md
           - Collapsed Data Center Fabric: jvd/Data Center/ADC/Collapsed Data Center Fabric/README.md
           - Collapsed Data Center Fabric with Access Switches: jvd/Data Center/ADC/Collapsed Data Center Fabric with Access Switches/README.md
           - EVPN-VXLAN Data Center Interconnect Design: jvd/Data Center/ADC/EVPN-VXLAN Data Center Interconnect Design/README.md
       - AIDC:
-          - jvd/Data Center/AIDC/README.md
+          - Introduction: jvd/Data Center/AIDC/README.md
           - backend:
-              - jvd/Data Center/AIDC/backend/README.md
+              - Introduction: jvd/Data Center/AIDC/backend/README.md
               - AI_ML_Multitenancy: jvd/Data Center/AIDC/backend/AI_ML_Multitenancy/README.md
           - frontend: jvd/Data Center/AIDC/frontend/README.md
           - storage: jvd/Data Center/AIDC/storage/README.md
@@ -67,7 +67,7 @@ nav:
       - Enterprise WAN Finance: jvd/Enterprise WAN/Enterprise WAN Finance/README.md
   - Optical: jvd/Optical/README.md
   - Security:
-      - jvd/Security/README.md
+      - Introduction: jvd/Security/README.md
       - Scale-Out Firewall and NAT: jvd/Security/Scale-Out Firewall and NAT/README.md
       - Scale-Out IPsec: jvd/Security/Scale-Out IPsec/README.md
   - Service Provider:
