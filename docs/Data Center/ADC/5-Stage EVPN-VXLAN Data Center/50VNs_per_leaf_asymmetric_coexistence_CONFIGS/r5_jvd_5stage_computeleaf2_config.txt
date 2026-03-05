@@ -1,0 +1,3228 @@
+## Last changed: 2024-10-01 16:31:40 PDT
+version 23.4R2-S3.2;
+system {
+    host-name leaf001-001-2;
+    services {
+        netconf {
+            ssh;
+        }
+        ssh {
+            root-login allow;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    ssl {
+                        port 32767;
+                        local-certificate aos_grpc;
+                    }
+                    routing-instance mgmt_junos;
+                }
+            }
+        }
+    }
+    management-instance;
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count 1;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            port 48 {
+                speed 100g;
+            }
+            port 49 {
+                speed 100g;
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/0 {
+        disable;
+    }
+    ge-0/0/0 {
+        disable;
+    }
+    xe-0/0/0 {
+        description to.sys001-001-003;
+        ether-options {
+            802.3ad ae1;
+        }
+    }
+    et-0/0/1 {
+        disable;
+    }
+    ge-0/0/1 {
+        disable;
+    }
+    xe-0/0/1 {
+        description to.sys001-001-004;
+        mtu 9216;
+        unit 0 {
+            family ethernet-switching {
+                interface-mode trunk;
+                vlan {
+                    members [ vn400 vn401 vn402 vn403 vn404 vn405 vn406 vn407 vn408 vn409 vn410 vn411 vn412 vn413 vn414 vn415 vn416 vn417 vn418 vn419 vn1400 vn1401 vn1402 vn1403 vn1404 vn1405 vn1406 vn1407 vn1408 vn1409 vn1410 vn1411 vn1412 vn1413 vn1414 vn1415 vn1416 vn1417 vn1418 vn1419 vn2500 vn2501 vn2502 vn2503 vn2504 vn2505 vn2506 vn2507 vn2508 vn2509 ];
+                }
+            }
+        }
+    }
+    et-0/0/2 {
+        disable;
+    }
+    ge-0/0/2 {
+        disable;
+    }
+    xe-0/0/2 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/3 {
+        disable;
+    }
+    ge-0/0/3 {
+        disable;
+    }
+    xe-0/0/3 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/4 {
+        disable;
+    }
+    ge-0/0/4 {
+        disable;
+    }
+    xe-0/0/4 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/5 {
+        disable;
+    }
+    ge-0/0/5 {
+        disable;
+    }
+    xe-0/0/5 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/6 {
+        disable;
+    }
+    ge-0/0/6 {
+        disable;
+    }
+    xe-0/0/6 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/7 {
+        disable;
+    }
+    ge-0/0/7 {
+        disable;
+    }
+    xe-0/0/7 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/8 {
+        disable;
+    }
+    ge-0/0/8 {
+        disable;
+    }
+    xe-0/0/8 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/9 {
+        disable;
+    }
+    ge-0/0/9 {
+        disable;
+    }
+    xe-0/0/9 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/10 {
+        disable;
+    }
+    ge-0/0/10 {
+        disable;
+    }
+    xe-0/0/10 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/11 {
+        disable;
+    }
+    ge-0/0/11 {
+        disable;
+    }
+    xe-0/0/11 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/12 {
+        disable;
+    }
+    ge-0/0/12 {
+        disable;
+    }
+    xe-0/0/12 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/13 {
+        disable;
+    }
+    ge-0/0/13 {
+        disable;
+    }
+    xe-0/0/13 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/14 {
+        disable;
+    }
+    ge-0/0/14 {
+        disable;
+    }
+    xe-0/0/14 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/15 {
+        disable;
+    }
+    ge-0/0/15 {
+        disable;
+    }
+    xe-0/0/15 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/16 {
+        disable;
+    }
+    ge-0/0/16 {
+        disable;
+    }
+    xe-0/0/16 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/17 {
+        disable;
+    }
+    ge-0/0/17 {
+        disable;
+    }
+    xe-0/0/17 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/18 {
+        disable;
+    }
+    ge-0/0/18 {
+        disable;
+    }
+    xe-0/0/18 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/19 {
+        disable;
+    }
+    ge-0/0/19 {
+        disable;
+    }
+    xe-0/0/19 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/20 {
+        disable;
+    }
+    ge-0/0/20 {
+        disable;
+    }
+    xe-0/0/20 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/21 {
+        disable;
+    }
+    ge-0/0/21 {
+        disable;
+    }
+    xe-0/0/21 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/22 {
+        disable;
+    }
+    ge-0/0/22 {
+        disable;
+    }
+    xe-0/0/22 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/23 {
+        disable;
+    }
+    ge-0/0/23 {
+        disable;
+    }
+    xe-0/0/23 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/24 {
+        disable;
+    }
+    ge-0/0/24 {
+        disable;
+    }
+    xe-0/0/24 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/25 {
+        disable;
+    }
+    ge-0/0/25 {
+        disable;
+    }
+    xe-0/0/25 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/26 {
+        disable;
+    }
+    ge-0/0/26 {
+        disable;
+    }
+    xe-0/0/26 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/27 {
+        disable;
+    }
+    ge-0/0/27 {
+        disable;
+    }
+    xe-0/0/27 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/28 {
+        disable;
+    }
+    ge-0/0/28 {
+        disable;
+    }
+    xe-0/0/28 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/29 {
+        disable;
+    }
+    ge-0/0/29 {
+        disable;
+    }
+    xe-0/0/29 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/30 {
+        disable;
+    }
+    ge-0/0/30 {
+        disable;
+    }
+    xe-0/0/30 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/31 {
+        disable;
+    }
+    ge-0/0/31 {
+        disable;
+    }
+    xe-0/0/31 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/32 {
+        disable;
+    }
+    ge-0/0/32 {
+        disable;
+    }
+    xe-0/0/32 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/33 {
+        disable;
+    }
+    ge-0/0/33 {
+        disable;
+    }
+    xe-0/0/33 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/34 {
+        disable;
+    }
+    ge-0/0/34 {
+        disable;
+    }
+    xe-0/0/34 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/35 {
+        disable;
+    }
+    ge-0/0/35 {
+        disable;
+    }
+    xe-0/0/35 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/36 {
+        disable;
+    }
+    ge-0/0/36 {
+        disable;
+    }
+    xe-0/0/36 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/37 {
+        disable;
+    }
+    ge-0/0/37 {
+        disable;
+    }
+    xe-0/0/37 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/38 {
+        disable;
+    }
+    ge-0/0/38 {
+        disable;
+    }
+    xe-0/0/38 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/39 {
+        disable;
+    }
+    ge-0/0/39 {
+        disable;
+    }
+    xe-0/0/39 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/40 {
+        disable;
+    }
+    ge-0/0/40 {
+        disable;
+    }
+    xe-0/0/40 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/41 {
+        disable;
+    }
+    ge-0/0/41 {
+        disable;
+    }
+    xe-0/0/41 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/42 {
+        disable;
+    }
+    ge-0/0/42 {
+        disable;
+    }
+    xe-0/0/42 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/43 {
+        disable;
+    }
+    ge-0/0/43 {
+        disable;
+    }
+    xe-0/0/43 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/44 {
+        disable;
+    }
+    ge-0/0/44 {
+        disable;
+    }
+    xe-0/0/44 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/45 {
+        disable;
+    }
+    ge-0/0/45 {
+        disable;
+    }
+    xe-0/0/45 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/46 {
+        disable;
+    }
+    ge-0/0/46 {
+        disable;
+    }
+    xe-0/0/46 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/47 {
+        disable;
+    }
+    ge-0/0/47 {
+        disable;
+    }
+    xe-0/0/47 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/48 {
+        description facing_spine001-001-1:et-0/0/3;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.27/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::1b/127;
+            }
+        }
+    }
+    et-0/0/48:0 {
+        disable;
+    }
+    xe-0/0/48:0 {
+        disable;
+    }
+    et-0/0/48:1 {
+        disable;
+    }
+    xe-0/0/48:1 {
+        disable;
+    }
+    et-0/0/48:2 {
+        disable;
+    }
+    xe-0/0/48:2 {
+        disable;
+    }
+    et-0/0/48:3 {
+        disable;
+    }
+    xe-0/0/48:3 {
+        disable;
+    }
+    et-0/0/49 {
+        description facing_spine001-001-2:et-0/0/3;
+        mtu 9216;
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address 10.0.1.31/31;
+            }
+            family inet6 {
+                mtu 9170;
+                address fdf6:ed70:1fac:f2d4::1f/127;
+            }
+        }
+    }
+    et-0/0/49:0 {
+        disable;
+    }
+    xe-0/0/49:0 {
+        disable;
+    }
+    et-0/0/49:1 {
+        disable;
+    }
+    xe-0/0/49:1 {
+        disable;
+    }
+    et-0/0/49:2 {
+        disable;
+    }
+    xe-0/0/49:2 {
+        disable;
+    }
+    et-0/0/49:3 {
+        disable;
+    }
+    xe-0/0/49:3 {
+        disable;
+    }
+    et-0/0/50 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/50:0 {
+        disable;
+    }
+    xe-0/0/50:0 {
+        disable;
+    }
+    et-0/0/50:1 {
+        disable;
+    }
+    xe-0/0/50:1 {
+        disable;
+    }
+    et-0/0/50:2 {
+        disable;
+    }
+    xe-0/0/50:2 {
+        disable;
+    }
+    et-0/0/50:3 {
+        disable;
+    }
+    xe-0/0/50:3 {
+        disable;
+    }
+    et-0/0/51 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/51:0 {
+        disable;
+    }
+    xe-0/0/51:0 {
+        disable;
+    }
+    et-0/0/51:1 {
+        disable;
+    }
+    xe-0/0/51:1 {
+        disable;
+    }
+    et-0/0/51:2 {
+        disable;
+    }
+    xe-0/0/51:2 {
+        disable;
+    }
+    et-0/0/51:3 {
+        disable;
+    }
+    xe-0/0/51:3 {
+        disable;
+    }
+    et-0/0/52 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/52:0 {
+        disable;
+    }
+    xe-0/0/52:0 {
+        disable;
+    }
+    et-0/0/52:1 {
+        disable;
+    }
+    xe-0/0/52:1 {
+        disable;
+    }
+    et-0/0/52:2 {
+        disable;
+    }
+    xe-0/0/52:2 {
+        disable;
+    }
+    et-0/0/52:3 {
+        disable;
+    }
+    xe-0/0/52:3 {
+        disable;
+    }
+    et-0/0/53 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/53:0 {
+        disable;
+    }
+    xe-0/0/53:0 {
+        disable;
+    }
+    et-0/0/53:1 {
+        disable;
+    }
+    xe-0/0/53:1 {
+        disable;
+    }
+    et-0/0/53:2 {
+        disable;
+    }
+    xe-0/0/53:2 {
+        disable;
+    }
+    et-0/0/53:3 {
+        disable;
+    }
+    xe-0/0/53:3 {
+        disable;
+    }
+    et-0/0/54 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/54:0 {
+        disable;
+    }
+    xe-0/0/54:0 {
+        disable;
+    }
+    et-0/0/54:1 {
+        disable;
+    }
+    xe-0/0/54:1 {
+        disable;
+    }
+    et-0/0/54:2 {
+        disable;
+    }
+    xe-0/0/54:2 {
+        disable;
+    }
+    et-0/0/54:3 {
+        disable;
+    }
+    xe-0/0/54:3 {
+        disable;
+    }
+    et-0/0/55 {
+        unit 0 {
+            family inet;
+        }
+    }
+    et-0/0/55:0 {
+        disable;
+    }
+    xe-0/0/55:0 {
+        disable;
+    }
+    et-0/0/55:1 {
+        disable;
+    }
+    xe-0/0/55:1 {
+        disable;
+    }
+    et-0/0/55:2 {
+        disable;
+    }
+    xe-0/0/55:2 {
+        disable;
+    }
+    et-0/0/55:3 {
+        disable;
+    }
+    xe-0/0/55:3 {
+        disable;
+    }
+    ae1 {
+        description to.sys001-001-003;
+        mtu 9216;
+        esi {
+            00:02:00:00:00:00:01:00:00:01;
+            all-active;
+        }
+        aggregated-ether-options {
+            lacp {
+                active;
+                system-id 02:00:00:00:00:01;
+            }
+        }
+        unit 0 {
+            family ethernet-switching {
+                interface-mode trunk;
+                vlan {
+                    members [ vn400 vn401 vn402 vn403 vn404 vn405 vn406 vn407 vn408 vn409 vn410 vn411 vn412 vn413 vn414 vn415 vn416 vn417 vn418 vn419 vn1400 vn1401 vn1402 vn1403 vn1404 vn1405 vn1406 vn1407 vn1408 vn1409 vn1410 vn1411 vn1412 vn1413 vn1414 vn1415 vn1416 vn1417 vn1418 vn1419 vn2500 vn2501 vn2502 vn2503 vn2504 vn2505 vn2506 vn2507 vn2508 vn2509 ];
+                }
+            }
+        }
+    }
+    irb {
+        mtu 9216;
+        unit 400 {
+            family inet {
+                mtu 9000;
+                address 10.0.0.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:00::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+            no-dhcp-flood;
+        }
+        unit 401 {
+            family inet {
+                mtu 9000;
+                address 10.0.1.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:01::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 402 {
+            family inet {
+                mtu 9000;
+                address 10.0.2.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:02::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 403 {
+            family inet {
+                mtu 9000;
+                address 10.0.3.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:03::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 404 {
+            family inet {
+                mtu 9000;
+                address 10.0.4.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:04::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 405 {
+            family inet {
+                mtu 9000;
+                address 10.0.5.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:05::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 406 {
+            family inet {
+                mtu 9000;
+                address 10.0.6.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:06::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 407 {
+            family inet {
+                mtu 9000;
+                address 10.0.7.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:07::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 408 {
+            family inet {
+                mtu 9000;
+                address 10.0.8.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:08::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 409 {
+            family inet {
+                mtu 9000;
+                address 10.0.9.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:09::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 410 {
+            family inet {
+                mtu 9000;
+                address 10.0.10.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0a::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 411 {
+            family inet {
+                mtu 9000;
+                address 10.0.11.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0b::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 412 {
+            family inet {
+                mtu 9000;
+                address 10.0.12.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0c::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 413 {
+            family inet {
+                mtu 9000;
+                address 10.0.13.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0d::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 414 {
+            family inet {
+                mtu 9000;
+                address 10.0.14.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0e::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 415 {
+            family inet {
+                mtu 9000;
+                address 10.0.15.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:0f::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 416 {
+            family inet {
+                mtu 9000;
+                address 10.0.16.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:10::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 417 {
+            family inet {
+                mtu 9000;
+                address 10.0.17.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:11::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 418 {
+            family inet {
+                mtu 9000;
+                address 10.0.18.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:12::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 419 {
+            family inet {
+                mtu 9000;
+                address 10.0.19.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:00:13::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1400 {
+            family inet {
+                mtu 9000;
+                address 10.10.0.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:00::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+            no-dhcp-flood;
+        }
+        unit 1401 {
+            family inet {
+                mtu 9000;
+                address 10.10.1.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:01::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1402 {
+            family inet {
+                mtu 9000;
+                address 10.10.2.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:02::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1403 {
+            family inet {
+                mtu 9000;
+                address 10.10.3.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:03::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1404 {
+            family inet {
+                mtu 9000;
+                address 10.10.4.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:04::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1405 {
+            family inet {
+                mtu 9000;
+                address 10.10.5.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:05::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1406 {
+            family inet {
+                mtu 9000;
+                address 10.10.6.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:06::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1407 {
+            family inet {
+                mtu 9000;
+                address 10.10.7.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:07::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1408 {
+            family inet {
+                mtu 9000;
+                address 10.10.8.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:08::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1409 {
+            family inet {
+                mtu 9000;
+                address 10.10.9.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:09::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1410 {
+            family inet {
+                mtu 9000;
+                address 10.10.10.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0a::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1411 {
+            family inet {
+                mtu 9000;
+                address 10.10.11.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0b::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1412 {
+            family inet {
+                mtu 9000;
+                address 10.10.12.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0c::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1413 {
+            family inet {
+                mtu 9000;
+                address 10.10.13.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0d::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1414 {
+            family inet {
+                mtu 9000;
+                address 10.10.14.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0e::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1415 {
+            family inet {
+                mtu 9000;
+                address 10.10.15.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:0f::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1416 {
+            family inet {
+                mtu 9000;
+                address 10.10.16.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:10::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1417 {
+            family inet {
+                mtu 9000;
+                address 10.10.17.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:11::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1418 {
+            family inet {
+                mtu 9000;
+                address 10.10.18.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:12::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 1419 {
+            family inet {
+                mtu 9000;
+                address 10.10.19.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:0a:13::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2500 {
+            family inet {
+                mtu 9000;
+                address 10.25.0.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:00::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+            no-dhcp-flood;
+        }
+        unit 2501 {
+            family inet {
+                mtu 9000;
+                address 10.25.1.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:01::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2502 {
+            family inet {
+                mtu 9000;
+                address 10.25.2.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:02::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2503 {
+            family inet {
+                mtu 9000;
+                address 10.25.3.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:03::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2504 {
+            family inet {
+                mtu 9000;
+                address 10.25.4.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:04::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2505 {
+            family inet {
+                mtu 9000;
+                address 10.25.5.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:05::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2506 {
+            family inet {
+                mtu 9000;
+                address 10.25.6.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:06::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2507 {
+            family inet {
+                mtu 9000;
+                address 10.25.7.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:07::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2508 {
+            family inet {
+                mtu 9000;
+                address 10.25.8.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:08::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 2509 {
+            family inet {
+                mtu 9000;
+                address 10.25.9.1/24;
+            }
+            family inet6 {
+                mtu 9000;
+                address 2001:db8:dc4:10:19:09::1/96;
+            }
+            mac 00:1c:73:00:00:01;
+        }
+        unit 3500 {
+            virtual-gateway-accept-data;
+            family inet {
+                mtu 9000;
+                address 10.200.0.3/24 {
+                    virtual-gateway-address 10.200.0.1;
+                }
+            }
+            virtual-gateway-v4-mac 00:1c:73:00:00:01;
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input cpp-filter-v1;
+                }
+                address 192.168.252.9/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d1::1009/128;
+            }
+        }
+        unit 2 {
+            family inet {
+                address 192.168.14.17/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::200b/128;
+            }
+        }
+        unit 3 {
+            family inet {
+                address 192.168.14.13/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::2013/128;
+            }
+        }
+        unit 4 {
+            family inet {
+                address 192.168.14.11/32;
+            }
+            family inet6 {
+                address fdf6:ed70:1fac:f2d4::200f/128;
+            }
+        }
+    }
+}
+forwarding-options {
+    storm-control-profiles profile1 {
+        all {
+            bandwidth-level 10000000;
+        }
+    }
+    evpn-vxlan {
+        shared-tunnels;
+    }
+    multicast-replication {
+        evpn {
+            irb enhanced-oism;
+        }
+    }
+    enhanced-hash-key {
+        ecmp-dlb {
+            flowlet {
+                inactivity-interval 50;
+                flowset-table-size 256;
+            }
+        }
+    }
+    vxlan-tos-copy-filter;
+    vxlan-routing {
+        next-hop 45056;
+        interface-num 8192;
+        overlay-ecmp;
+    }
+}
+policy-options {
+    prefix-list bgp-sources {
+        10.0.0.0/8;
+        192.0.0.0/8;
+        2001::/24;
+        fdf6::/24;
+    }
+    prefix-list ntp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list snmp-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    prefix-list ssh-sources {
+        10.0.0.0/8;
+        172.0.0.0/8;
+        192.0.0.0/8;
+    }
+    policy-statement AllPodNetworks {
+        term AllPodNetworks-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add DEFAULT_DIRECT_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-blue {
+        term AllPodNetworks-blue-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add BLUE_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-blue-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add BLUE_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-blue-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-green {
+        term AllPodNetworks-green-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add GREEN_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-green-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add GREEN_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-green-100 {
+            then reject;
+        }
+    }
+    policy-statement AllPodNetworks-red {
+        term AllPodNetworks-red-10 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add RED_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term AllPodNetworks-red-20 {
+            from {
+                family inet6;
+                protocol direct;
+            }
+            then {
+                community add RED_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term AllPodNetworks-red-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy {
+        term BGP-AOS-Policy-10 {
+            from policy AllPodNetworks;
+            then accept;
+        }
+        term BGP-AOS-Policy-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then accept;
+        }
+        term BGP-AOS-Policy-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-blue {
+        term BGP-AOS-Policy-blue-10 {
+            from policy AllPodNetworks-blue;
+            then accept;
+        }
+        term BGP-AOS-Policy-blue-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add BLUE_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-blue-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add BLUE_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-blue-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-green {
+        term BGP-AOS-Policy-green-10 {
+            from policy AllPodNetworks-green;
+            then accept;
+        }
+        term BGP-AOS-Policy-green-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add GREEN_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-green-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add GREEN_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-green-100 {
+            then reject;
+        }
+    }
+    policy-statement BGP-AOS-Policy-red {
+        term BGP-AOS-Policy-red-10 {
+            from policy AllPodNetworks-red;
+            then accept;
+        }
+        term BGP-AOS-Policy-red-50 {
+            from {
+                protocol evpn;
+                route-filter 0.0.0.0/0 prefix-length-range /32-/32;
+            }
+            then {
+                community add RED_COMMUNITY_V4;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-red-60 {
+            from {
+                protocol evpn;
+                route-filter 0::0/0 prefix-length-range /128-/128;
+            }
+            then {
+                community add RED_COMMUNITY_V6;
+                accept;
+            }
+        }
+        term BGP-AOS-Policy-red-100 {
+            then reject;
+        }
+    }
+    policy-statement EVPN_EXPORT {
+        term EVPN_EXPORT-4095 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_EVPN_OUT {
+        term LEAF_TO_SPINE_EVPN_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_EVPN_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_EVPN_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement LEAF_TO_SPINE_FABRIC_OUT {
+        term LEAF_TO_SPINE_FABRIC_OUT-10 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_FABRIC_TIER;
+            }
+            then reject;
+        }
+        term LEAF_TO_SPINE_FABRIC_OUT-20 {
+            then accept;
+        }
+    }
+    policy-statement PFE-LB {
+        then {
+            load-balance per-packet;
+        }
+    }
+    community BLUE_COMMUNITY_V4 members [ 10:20007 21003:26000 ];
+    community BLUE_COMMUNITY_V6 members [ 10:20008 21003:26000 ];
+    community DEFAULT_DIRECT_V4 members [ 10:20007 21001:26000 ];
+    community DEFAULT_DIRECT_V6 members [ 10:20008 21001:26000 ];
+    community FROM_SPINE_EVPN_TIER members 0:14;
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+    community GREEN_COMMUNITY_V4 members [ 10:20007 21004:26000 ];
+    community GREEN_COMMUNITY_V6 members [ 10:20008 21004:26000 ];
+    community RED_COMMUNITY_V4 members [ 10:20007 21002:26000 ];
+    community RED_COMMUNITY_V6 members [ 10:20008 21002:26000 ];
+}
+class-of-service {
+    classifiers {
+        dscp dscp-classifier {
+            forwarding-class fc0 {
+                loss-priority low code-points 001010;
+            }
+            forwarding-class fc1 {
+                loss-priority low code-points [ 000000 000001 000010 000011 000100 000101 000110 000111 001001 001011 001100 001101 001110 001111 010001 010011 010100 010101 010110 010111 011001 011011 011100 011101 011111 100001 100010 100011 100101 100110 100111 101001 101010 101011 101100 101101 101111 110001 110010 110011 110100 110101 110110 110111 111001 111010 111011 111100 111101 111110 111111 010010 100100 011110 100000 010000 101000 011000 ];
+            }
+            forwarding-class fc5 {
+                loss-priority low code-points [ 001000 011010 ];
+            }
+            forwarding-class fc6 {
+                loss-priority low code-points [ 101110 111000 ];
+            }
+            forwarding-class fc7 {
+                loss-priority low code-points 110000;
+            }
+        }
+    }
+    drop-profiles {
+        dp0 {
+            interpolate {
+                fill-level [ 0 20 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+        dp1 {
+            interpolate {
+                fill-level [ 1 2 ];
+                drop-probability [ 0 100 ];
+            }
+        }
+    }
+    shared-buffer {
+        ingress {
+            percent 100;
+            buffer-partition lossless {
+                percent 0;
+            }
+            buffer-partition lossless-headroom {
+                percent 0;
+            }
+            buffer-partition lossy {
+                percent 100;
+            }
+        }
+        egress {
+            percent 100;
+            buffer-partition lossless {
+                percent 0;
+            }
+            buffer-partition lossy {
+                percent 90;
+            }
+            buffer-partition multicast {
+                percent 10;
+            }
+        }
+    }
+    dedicated-buffer-profile p1 {
+        egress;
+    }
+    forwarding-classes {
+        class fc0 queue-num 0;
+        class fc1 queue-num 1;
+        class fc2 queue-num 2;
+        class fc3 queue-num 3;
+        class fc4 queue-num 4;
+        class fc5 queue-num 5;
+        class fc6 queue-num 6;
+        class fc7 queue-num 7;
+        class mcast-fc queue-num 8;
+    }
+    congestion-notification-profile {
+        cnp {
+            output {
+                ieee-802.1 {
+                    code-point 011 {
+                        flow-control-queue 5;
+                    }
+                }
+            }
+        }
+    }
+    interfaces {
+        et-0/0/48 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+        et-0/0/49 {
+            scheduler-map sm1;
+            classifiers {
+                dscp dscp-classifier;
+            }
+            rewrite-rules {
+                dscp rw1;
+            }
+        }
+    }
+    rewrite-rules {
+        dscp rw1 {
+            forwarding-class fc0 {
+                loss-priority low code-point af11;
+            }
+            forwarding-class fc1 {
+                loss-priority low code-point be;
+            }
+            forwarding-class fc5 {
+                loss-priority low code-point cs1;
+            }
+            forwarding-class fc6 {
+                loss-priority low code-point ef;
+            }
+            forwarding-class fc7 {
+                loss-priority low code-point cs6;
+            }
+        }
+    }
+    scheduler-maps {
+        sm1 {
+            forwarding-class fc0 scheduler s0;
+            forwarding-class fc1 scheduler s1;
+            forwarding-class fc2 scheduler s2;
+            forwarding-class fc3 scheduler s3;
+            forwarding-class fc4 scheduler s4;
+            forwarding-class fc5 scheduler s5;
+            forwarding-class fc6 scheduler s6;
+            forwarding-class fc7 scheduler s7;
+        }
+    }
+    schedulers {
+        s0 {
+            transmit-rate percent 49;
+            buffer-size percent 20;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp0;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s1 {
+            transmit-rate percent 2;
+            buffer-size percent 20;
+            priority low;
+            buffer-dynamic-threshold 7;
+        }
+        s2 {
+            buffer-size percent 0;
+        }
+        s3 {
+            buffer-size percent 0;
+        }
+        s4 {
+            buffer-size percent 0;
+        }
+        s5 {
+            transmit-rate percent 49;
+            buffer-size percent 20;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile dp1;
+            explicit-congestion-notification;
+            buffer-dynamic-threshold 9;
+        }
+        s6 {
+            shaping-rate 16g;
+            buffer-size percent 20;
+            priority strict-high;
+            buffer-dynamic-threshold 7;
+        }
+        s7 {
+            shaping-rate 8g;
+            buffer-size percent 20;
+            priority strict-high;
+            buffer-dynamic-threshold 7;
+        }
+    }
+}
+firewall {
+    family ethernet-switching {
+        filter ALLOWED_FROM_HOST {
+            term BLOCK_RFC1112 {
+                from {
+                    destination-mac-address {
+                        01:00:5e:00:00:00/25;
+                    }
+                }
+                then discard;
+            }
+            term BLOCK_RFC2464 {
+                from {
+                    destination-mac-address {
+                        33:33:00:00:00:00/16;
+                    }
+                }
+                then discard;
+            }
+            term ALLOW_ALL {
+                then accept;
+            }
+        }
+    }
+    policer police-5mbps {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 5m;
+        }
+        then discard;
+    }
+    filter cpp-filter-v1 {
+        term ssh {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port ssh;
+            }
+            then {
+                count cpp-ssh-accept;
+                accept;
+            }
+        }
+        term icmp {
+            from {
+                protocol icmp;
+                icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+            }
+            then {
+                policer police-5mbps;
+                count cpp-icmp-accept;
+            }
+        }
+        term bgp {
+            from {
+                source-prefix-list {
+                    bgp-sources;
+                }
+                protocol tcp;
+                port bgp;
+            }
+            then accept;
+        }
+        term dns {
+            from {
+                protocol udp;
+                source-port 53;
+            }
+            then {
+                count cpp-dns-accept;
+                accept;
+            }
+        }
+        term ntp {
+            from {
+                source-prefix-list {
+                    ntp-sources;
+                }
+                protocol udp;
+                port ntp;
+            }
+            then {
+                count cpp-ntp-accept;
+                accept;
+            }
+        }
+        term dhcp {
+            from {
+                protocol udp;
+                port dhcp;
+            }
+            then {
+                count cpp-dhcp-accept;
+                accept;
+            }
+        }
+        term netconf {
+            from {
+                source-prefix-list {
+                    ssh-sources;
+                }
+                protocol tcp;
+                port 830;
+            }
+            then {
+                count cpp-netconf-accept;
+                accept;
+            }
+        }
+        term bfd {
+            from {
+                protocol udp;
+                port [ 1280 3784 4784 3785 ];
+            }
+            then {
+                count cpp-bfd-accept;
+                accept;
+            }
+        }
+        term snmp {
+            from {
+                source-prefix-list {
+                    snmp-sources;
+                }
+                port snmp;
+            }
+            then accept;
+        }
+        term ospf {
+            from {
+                protocol ospf;
+            }
+            then accept;
+        }
+        term discard-rest {
+            then {
+                count cpp-discard-rest;
+                discard;
+            }
+        }
+    }
+}
+routing-instances {
+    blue {
+        instance-type vrf;
+        routing-options {
+            rib blue.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20002;
+                    export BGP-AOS-Policy-blue;
+                }
+                oism {
+                    supplemental-bridge-domain-irb irb.3500;
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.3;
+                    interface irb.3500;
+                    interface all {
+                        passive;
+                    }
+                }
+            }
+            pim {
+                passive;
+                interface all;
+                interface irb.3500 {
+                    accept-remote-source;
+                }
+            }
+        }
+        forwarding-options {
+            dhcp-relay {
+                forward-only;
+                server-group {
+                    blue {
+                        10.10.0.200;
+                    }
+                }
+                group blue {
+                    active-server-group blue;
+                    relay-option-82 {
+                        server-id-override;
+                    }
+                    interface irb.1400 {
+                        overrides {
+                            relay-source lo0.3;
+                        }
+                    }
+                }
+            }
+        }
+        interface irb.1400;
+        interface irb.1401;
+        interface irb.1402;
+        interface irb.1403;
+        interface irb.1404;
+        interface irb.1405;
+        interface irb.1406;
+        interface irb.1407;
+        interface irb.1408;
+        interface irb.1409;
+        interface irb.1410;
+        interface irb.1411;
+        interface irb.1412;
+        interface irb.1413;
+        interface irb.1414;
+        interface irb.1415;
+        interface irb.1416;
+        interface irb.1417;
+        interface irb.1418;
+        interface irb.1419;
+        interface irb.3500;
+        interface lo0.3;
+        route-distinguisher 192.168.252.9:3;
+        vrf-target target:20002:1;
+    }
+    evpn-1 {
+        instance-type mac-vrf;
+        protocols {
+            igmp-snooping {
+                vlan all {
+                    proxy;
+                }
+            }
+            evpn {
+                encapsulation vxlan;
+                default-gateway no-gateway-community;
+                duplicate-mac-detection {
+                    auto-recovery-time 9;
+                }
+                extended-vni-list all;
+                vni-options {
+                    vni 10400 {
+                        vrf-target target:10400:1;
+                    }
+                    vni 10401 {
+                        vrf-target target:10401:1;
+                    }
+                    vni 10402 {
+                        vrf-target target:10402:1;
+                    }
+                    vni 10403 {
+                        vrf-target target:10403:1;
+                    }
+                    vni 10404 {
+                        vrf-target target:10404:1;
+                    }
+                    vni 10405 {
+                        vrf-target target:10405:1;
+                    }
+                    vni 10406 {
+                        vrf-target target:10406:1;
+                    }
+                    vni 10407 {
+                        vrf-target target:10407:1;
+                    }
+                    vni 10408 {
+                        vrf-target target:10408:1;
+                    }
+                    vni 10409 {
+                        vrf-target target:10409:1;
+                    }
+                    vni 10410 {
+                        vrf-target target:10410:1;
+                    }
+                    vni 10411 {
+                        vrf-target target:10411:1;
+                    }
+                    vni 10412 {
+                        vrf-target target:10412:1;
+                    }
+                    vni 10413 {
+                        vrf-target target:10413:1;
+                    }
+                    vni 10414 {
+                        vrf-target target:10414:1;
+                    }
+                    vni 10415 {
+                        vrf-target target:10415:1;
+                    }
+                    vni 10416 {
+                        vrf-target target:10416:1;
+                    }
+                    vni 10417 {
+                        vrf-target target:10417:1;
+                    }
+                    vni 10418 {
+                        vrf-target target:10418:1;
+                    }
+                    vni 10419 {
+                        vrf-target target:10419:1;
+                    }
+                    vni 11400 {
+                        vrf-target target:11400:1;
+                    }
+                    vni 11401 {
+                        vrf-target target:11401:1;
+                    }
+                    vni 11402 {
+                        vrf-target target:11402:1;
+                    }
+                    vni 11403 {
+                        vrf-target target:11403:1;
+                    }
+                    vni 11404 {
+                        vrf-target target:11404:1;
+                    }
+                    vni 11405 {
+                        vrf-target target:11405:1;
+                    }
+                    vni 11406 {
+                        vrf-target target:11406:1;
+                    }
+                    vni 11407 {
+                        vrf-target target:11407:1;
+                    }
+                    vni 11408 {
+                        vrf-target target:11408:1;
+                    }
+                    vni 11409 {
+                        vrf-target target:11409:1;
+                    }
+                    vni 11410 {
+                        vrf-target target:11410:1;
+                    }
+                    vni 11411 {
+                        vrf-target target:11411:1;
+                    }
+                    vni 11412 {
+                        vrf-target target:11412:1;
+                    }
+                    vni 11413 {
+                        vrf-target target:11413:1;
+                    }
+                    vni 11414 {
+                        vrf-target target:11414:1;
+                    }
+                    vni 11415 {
+                        vrf-target target:11415:1;
+                    }
+                    vni 11416 {
+                        vrf-target target:11416:1;
+                    }
+                    vni 11417 {
+                        vrf-target target:11417:1;
+                    }
+                    vni 11418 {
+                        vrf-target target:11418:1;
+                    }
+                    vni 11419 {
+                        vrf-target target:11419:1;
+                    }
+                    vni 12500 {
+                        vrf-target target:12500:1;
+                    }
+                    vni 12501 {
+                        vrf-target target:12501:1;
+                    }
+                    vni 12502 {
+                        vrf-target target:12502:1;
+                    }
+                    vni 12503 {
+                        vrf-target target:12503:1;
+                    }
+                    vni 12504 {
+                        vrf-target target:12504:1;
+                    }
+                    vni 12505 {
+                        vrf-target target:12505:1;
+                    }
+                    vni 12506 {
+                        vrf-target target:12506:1;
+                    }
+                    vni 12507 {
+                        vrf-target target:12507:1;
+                    }
+                    vni 12508 {
+                        vrf-target target:12508:1;
+                    }
+                    vni 12509 {
+                        vrf-target target:12509:1;
+                    }
+                    vni 35000 {
+                        vrf-target target:35000:1;
+                    }
+                }
+            }
+        }
+        vtep-source-interface lo0.0;
+        service-type vlan-aware;
+        interface xe-0/0/1.0;
+        interface ae1.0;
+        route-distinguisher 192.168.252.9:65534;
+        vrf-target target:100:100;
+        vlans {
+            vn1400 {
+                description blue_all_1400;
+                vlan-id 1400;
+                l3-interface irb.1400;
+                vxlan {
+                    vni 11400;
+                }
+            }
+            vn1401 {
+                description blue_all_1401;
+                vlan-id 1401;
+                l3-interface irb.1401;
+                vxlan {
+                    vni 11401;
+                }
+            }
+            vn1402 {
+                description blue_all_1402;
+                vlan-id 1402;
+                l3-interface irb.1402;
+                vxlan {
+                    vni 11402;
+                }
+            }
+            vn1403 {
+                description blue_all_1403;
+                vlan-id 1403;
+                l3-interface irb.1403;
+                vxlan {
+                    vni 11403;
+                }
+            }
+            vn1404 {
+                description blue_all_1404;
+                vlan-id 1404;
+                l3-interface irb.1404;
+                vxlan {
+                    vni 11404;
+                }
+            }
+            vn1405 {
+                description blue_all_1405;
+                vlan-id 1405;
+                l3-interface irb.1405;
+                vxlan {
+                    vni 11405;
+                }
+            }
+            vn1406 {
+                description blue_all_1406;
+                vlan-id 1406;
+                l3-interface irb.1406;
+                vxlan {
+                    vni 11406;
+                }
+            }
+            vn1407 {
+                description blue_all_1407;
+                vlan-id 1407;
+                l3-interface irb.1407;
+                vxlan {
+                    vni 11407;
+                }
+            }
+            vn1408 {
+                description blue_all_1408;
+                vlan-id 1408;
+                l3-interface irb.1408;
+                vxlan {
+                    vni 11408;
+                }
+            }
+            vn1409 {
+                description blue_all_1409;
+                vlan-id 1409;
+                l3-interface irb.1409;
+                vxlan {
+                    vni 11409;
+                }
+            }
+            vn1410 {
+                description blue_sub_1_1410;
+                vlan-id 1410;
+                l3-interface irb.1410;
+                vxlan {
+                    vni 11410;
+                }
+            }
+            vn1411 {
+                description blue_sub_1_1411;
+                vlan-id 1411;
+                l3-interface irb.1411;
+                vxlan {
+                    vni 11411;
+                }
+            }
+            vn1412 {
+                description blue_sub_1_1412;
+                vlan-id 1412;
+                l3-interface irb.1412;
+                vxlan {
+                    vni 11412;
+                }
+            }
+            vn1413 {
+                description blue_sub_1_1413;
+                vlan-id 1413;
+                l3-interface irb.1413;
+                vxlan {
+                    vni 11413;
+                }
+            }
+            vn1414 {
+                description blue_sub_1_1414;
+                vlan-id 1414;
+                l3-interface irb.1414;
+                vxlan {
+                    vni 11414;
+                }
+            }
+            vn1415 {
+                description blue_sub_1_1415;
+                vlan-id 1415;
+                l3-interface irb.1415;
+                vxlan {
+                    vni 11415;
+                }
+            }
+            vn1416 {
+                description blue_sub_1_1416;
+                vlan-id 1416;
+                l3-interface irb.1416;
+                vxlan {
+                    vni 11416;
+                }
+            }
+            vn1417 {
+                description blue_sub_1_1417;
+                vlan-id 1417;
+                l3-interface irb.1417;
+                vxlan {
+                    vni 11417;
+                }
+            }
+            vn1418 {
+                description blue_sub_1_1418;
+                vlan-id 1418;
+                l3-interface irb.1418;
+                vxlan {
+                    vni 11418;
+                }
+            }
+            vn1419 {
+                description blue_sub_1_1419;
+                vlan-id 1419;
+                l3-interface irb.1419;
+                vxlan {
+                    vni 11419;
+                }
+            }
+            vn2500 {
+                description green_2500;
+                vlan-id 2500;
+                l3-interface irb.2500;
+                vxlan {
+                    vni 12500;
+                }
+            }
+            vn2501 {
+                description green_2501;
+                vlan-id 2501;
+                l3-interface irb.2501;
+                vxlan {
+                    vni 12501;
+                }
+            }
+            vn2502 {
+                description green_2502;
+                vlan-id 2502;
+                l3-interface irb.2502;
+                vxlan {
+                    vni 12502;
+                }
+            }
+            vn2503 {
+                description green_2503;
+                vlan-id 2503;
+                l3-interface irb.2503;
+                vxlan {
+                    vni 12503;
+                }
+            }
+            vn2504 {
+                description green_2504;
+                vlan-id 2504;
+                l3-interface irb.2504;
+                vxlan {
+                    vni 12504;
+                }
+            }
+            vn2505 {
+                description green_2505;
+                vlan-id 2505;
+                l3-interface irb.2505;
+                vxlan {
+                    vni 12505;
+                }
+            }
+            vn2506 {
+                description green_2506;
+                vlan-id 2506;
+                l3-interface irb.2506;
+                vxlan {
+                    vni 12506;
+                }
+            }
+            vn2507 {
+                description green_2507;
+                vlan-id 2507;
+                l3-interface irb.2507;
+                vxlan {
+                    vni 12507;
+                }
+            }
+            vn2508 {
+                description green_2508;
+                vlan-id 2508;
+                l3-interface irb.2508;
+                vxlan {
+                    vni 12508;
+                }
+            }
+            vn2509 {
+                description green_2509;
+                vlan-id 2509;
+                l3-interface irb.2509;
+                vxlan {
+                    vni 12509;
+                }
+            }
+            vn3500 {
+                description blue-SBD;
+                vlan-id 3500;
+                l3-interface irb.3500;
+                vxlan {
+                    vni 35000;
+                }
+            }
+            vn400 {
+                description red_all_400;
+                vlan-id 400;
+                l3-interface irb.400;
+                vxlan {
+                    vni 10400;
+                }
+            }
+            vn401 {
+                description red_all_401;
+                vlan-id 401;
+                l3-interface irb.401;
+                vxlan {
+                    vni 10401;
+                }
+            }
+            vn402 {
+                description red_all_402;
+                vlan-id 402;
+                l3-interface irb.402;
+                vxlan {
+                    vni 10402;
+                }
+            }
+            vn403 {
+                description red_all_403;
+                vlan-id 403;
+                l3-interface irb.403;
+                vxlan {
+                    vni 10403;
+                }
+            }
+            vn404 {
+                description red_all_404;
+                vlan-id 404;
+                l3-interface irb.404;
+                vxlan {
+                    vni 10404;
+                }
+            }
+            vn405 {
+                description red_all_405;
+                vlan-id 405;
+                l3-interface irb.405;
+                vxlan {
+                    vni 10405;
+                }
+            }
+            vn406 {
+                description red_all_406;
+                vlan-id 406;
+                l3-interface irb.406;
+                vxlan {
+                    vni 10406;
+                }
+            }
+            vn407 {
+                description red_all_407;
+                vlan-id 407;
+                l3-interface irb.407;
+                vxlan {
+                    vni 10407;
+                }
+            }
+            vn408 {
+                description red_all_408;
+                vlan-id 408;
+                l3-interface irb.408;
+                vxlan {
+                    vni 10408;
+                }
+            }
+            vn409 {
+                description red_all_409;
+                vlan-id 409;
+                l3-interface irb.409;
+                vxlan {
+                    vni 10409;
+                }
+            }
+            vn410 {
+                description red_sub_1_410;
+                vlan-id 410;
+                l3-interface irb.410;
+                vxlan {
+                    vni 10410;
+                }
+            }
+            vn411 {
+                description red_sub_1_411;
+                vlan-id 411;
+                l3-interface irb.411;
+                vxlan {
+                    vni 10411;
+                }
+            }
+            vn412 {
+                description red_sub_1_412;
+                vlan-id 412;
+                l3-interface irb.412;
+                vxlan {
+                    vni 10412;
+                }
+            }
+            vn413 {
+                description red_sub_1_413;
+                vlan-id 413;
+                l3-interface irb.413;
+                vxlan {
+                    vni 10413;
+                }
+            }
+            vn414 {
+                description red_sub_1_414;
+                vlan-id 414;
+                l3-interface irb.414;
+                vxlan {
+                    vni 10414;
+                }
+            }
+            vn415 {
+                description red_sub_1_415;
+                vlan-id 415;
+                l3-interface irb.415;
+                vxlan {
+                    vni 10415;
+                }
+            }
+            vn416 {
+                description red_sub_1_416;
+                vlan-id 416;
+                l3-interface irb.416;
+                vxlan {
+                    vni 10416;
+                }
+            }
+            vn417 {
+                description red_sub_1_417;
+                vlan-id 417;
+                l3-interface irb.417;
+                vxlan {
+                    vni 10417;
+                }
+            }
+            vn418 {
+                description red_sub_1_418;
+                vlan-id 418;
+                l3-interface irb.418;
+                vxlan {
+                    vni 10418;
+                }
+            }
+            vn419 {
+                description red_sub_1_419;
+                vlan-id 419;
+                l3-interface irb.419;
+                vxlan {
+                    vni 10419;
+                }
+            }
+        }
+    }
+    green {
+        instance-type vrf;
+        routing-options {
+            rib green.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20003;
+                    export BGP-AOS-Policy-green;
+                }
+            }
+        }
+        forwarding-options {
+            dhcp-relay {
+                forward-only;
+                server-group {
+                    green {
+                        10.25.0.200;
+                    }
+                }
+                group green {
+                    active-server-group green;
+                    relay-option-82 {
+                        server-id-override;
+                    }
+                    interface irb.2500 {
+                        overrides {
+                            relay-source lo0.4;
+                        }
+                    }
+                }
+            }
+        }
+        interface irb.2500;
+        interface irb.2501;
+        interface irb.2502;
+        interface irb.2503;
+        interface irb.2504;
+        interface irb.2505;
+        interface irb.2506;
+        interface irb.2507;
+        interface irb.2508;
+        interface irb.2509;
+        interface lo0.4;
+        route-distinguisher 192.168.252.9:4;
+        vrf-target target:20003:1;
+    }
+    red {
+        instance-type vrf;
+        routing-options {
+            rib red.inet6.0 {
+                multipath;
+            }
+            graceful-restart;
+            multipath;
+            auto-export;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation vxlan;
+                    vni 20001;
+                    export BGP-AOS-Policy-red;
+                }
+            }
+        }
+        forwarding-options {
+            dhcp-relay {
+                forward-only;
+                server-group {
+                    red {
+                        192.168.37.100;
+                    }
+                }
+                group red {
+                    active-server-group red;
+                    relay-option-82 {
+                        server-id-override;
+                    }
+                    interface irb.400 {
+                        overrides {
+                            relay-source lo0.2;
+                        }
+                    }
+                }
+            }
+        }
+        interface irb.400;
+        interface irb.401;
+        interface irb.402;
+        interface irb.403;
+        interface irb.404;
+        interface irb.405;
+        interface irb.406;
+        interface irb.407;
+        interface irb.408;
+        interface irb.409;
+        interface irb.410;
+        interface irb.411;
+        interface irb.412;
+        interface irb.413;
+        interface irb.414;
+        interface irb.415;
+        interface irb.416;
+        interface irb.417;
+        interface irb.418;
+        interface irb.419;
+        interface lo0.2;
+        route-distinguisher 192.168.252.9:2;
+        vrf-target target:20001:1;
+    }
+}
+routing-options {
+    router-id 192.168.252.9;
+    autonomous-system 64705;
+    graceful-restart;
+    forwarding-table {
+        export PFE-LB;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+protocols {
+    router-advertisement {
+        interface et-0/0/48.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface et-0/0/49.0 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1400 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1401 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1402 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1403 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1404 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1405 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1406 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1407 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1408 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1409 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1410 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1411 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1412 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1413 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1414 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1415 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1416 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1417 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1418 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.1419 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2500 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2501 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2502 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2503 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2504 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2505 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2506 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2507 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2508 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.2509 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.400 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.401 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.402 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.403 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.404 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.405 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.406 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.407 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.408 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.409 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.410 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.411 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.412 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.413 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.414 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.415 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.416 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.417 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.418 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+        interface irb.419 {
+            max-advertisement-interval 30;
+            min-advertisement-interval 10;
+        }
+    }
+    bgp {
+        group l3clos-l {
+            type external;
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::1a {
+                description facing_spine001-001-1;
+                local-address fdf6:ed70:1fac:f2d4::1b;
+                family inet6 {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64701;
+            }
+            neighbor fdf6:ed70:1fac:f2d4::1e {
+                description facing_spine001-001-2;
+                local-address fdf6:ed70:1fac:f2d4::1f;
+                family inet6 {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64701;
+            }
+            neighbor 10.0.1.26 {
+                description facing_spine001-001-1;
+                local-address 10.0.1.27;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64701;
+            }
+            neighbor 10.0.1.30 {
+                description facing_spine001-001-2;
+                local-address 10.0.1.31;
+                family inet {
+                    unicast;
+                }
+                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
+                peer-as 64701;
+            }
+            vpn-apply-export;
+        }
+        group l3clos-l-evpn {
+            type external;
+            multihop {
+                ttl 1;
+                no-nexthop-change;
+            }
+            family evpn {
+                signaling {
+                    loops 2;
+                }
+            }
+            multipath {
+                multiple-as;
+            }
+            bfd-liveness-detection {
+                minimum-interval 3000;
+                multiplier 3;
+            }
+            neighbor 192.168.252.2 {
+                description facing_spine001-001-1-evpn-overlay;
+                local-address 192.168.252.9;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 64701;
+            }
+            neighbor 192.168.252.3 {
+                description facing_spine001-001-2-evpn-overlay;
+                local-address 192.168.252.9;
+                family evpn {
+                    signaling;
+                }
+                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );
+                peer-as 64701;
+            }
+            vpn-apply-export;
+        }
+        log-updown;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+        multipath;
+    }
+    igmp {
+        interface all;
+    }
+    l2-learning {
+        telemetry {
+            enable-remote-entries;
+        }
+    }
+    lldp {
+        port-id-subtype interface-name;
+        port-description-type interface-description;
+        neighbour-port-info-display port-id;
+        interface all;
+    }
+    rstp {
+        bridge-priority 0;
+        interface xe-0/0/1 {
+            edge;
+        }
+        interface ae1 {
+            edge;
+        }
+        bpdu-block-on-edge;
+    }
+}

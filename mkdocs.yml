@@ -1,0 +1,121 @@
+copyright: This site is maintained by HPE/Juniper Networking employees. Powered by
+  Material for MkDocs & Pandoc
+docs_dir: docs
+extra:
+  generator: false
+  social:
+  - icon: fontawesome/brands/linkedin
+    link: https://www.linkedin.com/company/juniper-networks
+  - icon: fontawesome/brands/github
+    link: https://github.com/juniper
+extra_css:
+- https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css
+- https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css
+- stylesheets/extra.css
+extra_javascript:
+- https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js
+- https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js
+- https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js
+- https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js
+- js/math-render.js
+- js/extra.js
+markdown_extensions:
+- attr_list
+- pymdownx.extra
+- markdown_katex
+- toc:
+    permalink: true
+    toc_depth: 3
+- pymdownx.highlight:
+    anchor_linenums: true
+    guess_lang: false
+    linenums: true
+nav:
+- Home: index.md
+- All JVDs:
+  - Automation:
+      - Automation/README.md
+      - Configurations:
+          - Automation/Configurations/README.md
+          - DHCP: Automation/Configurations/DHCP/README.md
+      - Scripts:
+          - Automation/Scripts/README.md
+          - ACX_SW_upgrade: Automation/Scripts/ACX_SW_upgrade/README.md
+          - AGs_Core: Automation/Scripts/AGs_Core/README.md
+          - SW_image_upload: Automation/Scripts/SW_image_upload/README.md
+  - Branch: Branch/README.md
+  - Campus: Campus/README.md
+  - Data Center:
+      - Data Center/README.md
+      - ADC:
+          - Data Center/ADC/README.md
+          - 3-Stage Data Center Design: Data Center/ADC/3-Stage Data Center Design/README.md
+          - 5-Stage EVPN-VXLAN Data Center: Data Center/ADC/5-Stage EVPN-VXLAN Data Center/README.md
+          - Collapsed Data Center Fabric: Data Center/ADC/Collapsed Data Center Fabric/README.md
+          - Collapsed Data Center Fabric with Access Switches: Data Center/ADC/Collapsed Data Center Fabric with Access Switches/README.md
+          - EVPN-VXLAN Data Center Interconnect Design: Data Center/ADC/EVPN-VXLAN Data Center Interconnect Design/README.md
+      - AIDC:
+          - Data Center/AIDC/README.md
+          - backend:
+              - Data Center/AIDC/backend/README.md
+              - AI_ML_Multitenancy: Data Center/AIDC/backend/AI_ML_Multitenancy/README.md
+          - frontend: Data Center/AIDC/frontend/README.md
+          - storage: Data Center/AIDC/storage/README.md
+  - Enterprise WAN:
+      - Enterprise WAN Advanced Core and Edge Services: Enterprise WAN/Enterprise WAN Advanced Core and Edge Services/README.md
+      - Enterprise WAN Core and Edge: Enterprise WAN/Enterprise WAN Core and Edge/README.md
+      - Enterprise WAN Finance: Enterprise WAN/Enterprise WAN Finance/README.md
+  - Optical: Optical/README.md
+  - Security:
+      - Security/README.md
+      - Scale-Out Firewall and NAT: Security/Scale-Out Firewall and NAT/README.md
+      - Scale-Out IPsec: Security/Scale-Out IPsec/README.md
+  - Service Provider:
+      - Broadband Edge: Service Provider/Broadband Edge/README.md
+      - Low Latency Queueing: Service Provider/Low Latency Queueing/README.md
+      - Metro as a Service: Service Provider/Metro as a Service/README.md
+      - Metro Ethernet Business Services: Service Provider/Metro Ethernet Business Services/README.md
+      - Port Fan-Out: Service Provider/Port Fan-Out/README.md
+- About us: about.md
+plugins:
+- caption-per-book
+- book-enumerate
+- search:
+    separator: '[\s\-\_]'
+- minify:
+    minify_html: true
+site_author: HPE Juniper JVD Teams
+site_name: Juniper Validated Designs - Documentation
+theme:
+  favicon: images/favicon.ico
+  features:
+  - toc.follow
+  - navigation.top
+  - navigation.tabs
+  - navigation.instant
+  - navigation.footer
+  - navigation.indexes
+  - search.suggest
+  - content.code.annotate
+  - content.code.copy
+  - content.code.select
+  - content.action.edit
+  - content.tooltips
+  - content.footnote.tooltips
+  font:
+    code: Nova
+    text: Google Sans
+  language: en
+  logo: images/favicon.ico
+  name: material
+  palette:
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    toggle:
+      icon: material/brightness-auto
+      name: Switch to light mode

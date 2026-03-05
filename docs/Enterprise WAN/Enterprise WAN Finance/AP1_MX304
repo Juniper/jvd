@@ -1,0 +1,1607 @@
+chassis {
+    dump-on-panic;
+    aggregated-devices {
+        ethernet {
+            device-count 25;
+        }
+    }
+    fpc 0 {
+        pic 0 {
+            tunnel-services {
+                bandwidth 10g;
+            }
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+            port 4 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+            port 6 {
+                speed 100g;
+            }
+            port 7 {
+                speed 100g;
+            }
+            port 10 {
+                speed 100g;
+            }
+            port 11 {
+                speed 100g;
+            }
+            port 12 {
+                speed 100g;
+            }
+            port 15 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+    network-services enhanced-ip;
+}
+services {
+    rpm {
+        twamp {
+            server {
+                routing-instance-list {
+                    MVPN_INSTANCE1 {
+                        port 862;
+                    }
+                    MVPN_INSTANCE2 {
+                        port 49152;
+                    }
+                    MVPN_INSTANCE3 {
+                        port 49153;
+                    }
+                    MVPN_INSTANCE4 {
+                        port 49154;
+                    }
+                    MVPN_INSTANCE5 {
+                        port 49155;
+                    }
+                    MVPN_INSTANCE6 {
+                        port 49156;
+                    }
+                    MVPN_INSTANCE7 {
+                        port 49157;
+                    }
+                    MVPN_INSTANCE8 {
+                        port 49158;
+                    }
+                    MVPN_INSTANCE9 {
+                        port 49159;
+                    }
+                    MVPN_INSTANCE10 {
+                        port 49160;
+                    }
+                    VRF21 {
+                        port 49161;
+                    }
+                    VRF22 {
+                        port 49162;
+                    }
+                    VRF23 {
+                        port 49163;
+                    }
+                }
+                authentication-mode none;
+                port 1862;
+                client-list CR1_1 {
+                    address {
+                        10.101.48.2/32;
+                    }
+                }
+                client-list CR2_1 {
+                    address {
+                        10.101.49.2/32;
+                    }
+                }
+                client-list CR1_2 {
+                    address {
+                        10.101.48.6/32;
+                    }
+                }
+                client-list CR2_2 {
+                    address {
+                        10.101.49.6/32;
+                    }
+                }
+                client-list CR1_3 {
+                    address {
+                        10.101.48.10/32;
+                    }
+                }
+                client-list CR2_3 {
+                    address {
+                        10.101.49.10/32;
+                    }
+                }
+                client-list CR1_4 {
+                    address {
+                        10.101.48.14/32;
+                    }
+                }
+                client-list CR2_4 {
+                    address {
+                        10.101.49.14/32;
+                    }
+                }
+                client-list CR1_5 {
+                    address {
+                        10.101.48.18/32;
+                    }
+                }
+                client-list CR2_5 {
+                    address {
+                        10.101.49.18/32;
+                    }
+                }
+                client-list CR1_6 {
+                    address {
+                        10.101.48.22/32;
+                    }
+                }
+                client-list CR2_6 {
+                    address {
+                        10.101.49.22/32;
+                    }
+                }
+                client-list CR1_7 {
+                    address {
+                        10.101.48.26/32;
+                    }
+                }
+                client-list CR2_7 {
+                    address {
+                        10.101.49.26/32;
+                    }
+                }
+                client-list CR1_8 {
+                    address {
+                        10.101.48.30/32;
+                    }
+                }
+                client-list CR2_8 {
+                    address {
+                        10.101.49.30/32;
+                    }
+                }
+                client-list CR1_9 {
+                    address {
+                        10.101.48.34/32;
+                    }
+                }
+                client-list CR2_9 {
+                    address {
+                        10.101.49.34/32;
+                    }
+                }
+                client-list CR1_10 {
+                    address {
+                        10.101.48.38/32;
+                    }
+                }
+                client-list CR2_10 {
+                    address {
+                        10.101.49.38/32;
+                    }
+                }
+                client-list CR1_21 {
+                    address {
+                        10.101.48.42/32;
+                    }
+                }
+                client-list CR2_21 {
+                    address {
+                        10.101.49.42/32;
+                    }
+                }
+                client-list CR1_22 {
+                    address {
+                        10.101.48.46/32;
+                    }
+                }
+                client-list CR2_22 {
+                    address {
+                        10.101.49.46/32;
+                    }
+                }
+                client-list CR1_23 {
+                    address {
+                        10.101.48.50/32;
+                    }
+                }
+                client-list CR2_23 {
+                    address {
+                        10.101.49.50/32;
+                    }
+                }
+                light;
+            }
+        }
+    }
+}
+interfaces {
+    et-0/0/3 {
+        description "AP1_P1";
+        unit 0 {
+            family inet {
+                address 10.101.34.2/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/0/5 {
+        description "AP1_AP2";
+        unit 0 {
+            family inet {
+                address 10.101.47.1/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/0/6 {
+        description "AP1_CR1";
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            vlan-id 1;
+            family inet {
+                address 10.101.49.1/30;
+            }
+        }
+        unit 2 {
+            vlan-id 2;
+            family inet {
+                address 10.101.49.5/30;
+            }
+        }
+        unit 3 {
+            vlan-id 3;
+            family inet {
+                address 10.101.49.9/30;
+            }
+        }
+        unit 4 {
+            vlan-id 4;
+            family inet {
+                address 10.101.49.13/30;
+            }
+        }
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.101.49.17/30;
+            }
+        }
+        unit 6 {
+            vlan-id 6;
+            family inet {
+                address 10.101.49.21/30;
+            }
+        }
+        unit 7 {
+            vlan-id 7;
+            family inet {
+                address 10.101.49.25/30;
+            }
+        }
+        unit 8 {
+            vlan-id 8;
+            family inet {
+                address 10.101.49.29/30;
+            }
+        }
+        unit 9 {
+            vlan-id 9;
+            family inet {
+                address 10.101.49.33/30;
+            }
+        }
+        unit 10 {
+            vlan-id 10;
+            family inet {
+                address 10.101.49.37/30;
+            }
+        }
+        unit 21 {
+            vlan-id 21;
+            family inet {
+                address 10.101.49.41/30;
+            }
+        }
+        unit 22 {
+            vlan-id 22;
+            family inet {
+                address 10.101.49.45/30;
+            }
+        }
+        unit 23 {
+            vlan-id 23;
+            family inet {
+                address 10.101.49.49/30;
+            }
+        }
+    }
+    et-0/0/7 {
+        unit 0 {
+            description "AP1_P2";
+            family inet {
+                address 10.101.46.1/24;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+    et-0/0/11 {
+        description "AP1_CR1";
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit 1 {
+            vlan-id 1;
+            family inet {
+                address 10.101.48.1/30;
+            }
+        }
+        unit 2 {
+            vlan-id 2;
+            family inet {
+                address 10.101.48.5/30;
+            }
+        }
+        unit 3 {
+            vlan-id 3;
+            family inet {
+                address 10.101.48.9/30;
+            }
+        }
+        unit 4 {
+            vlan-id 4;
+            family inet {
+                address 10.101.48.13/30;
+            }
+        }
+        unit 5 {
+            vlan-id 5;
+            family inet {
+                address 10.101.48.17/30;
+            }
+        }
+        unit 6 {
+            vlan-id 6;
+            family inet {
+                address 10.101.48.21/30;
+            }
+        }
+        unit 7 {
+            vlan-id 7;
+            family inet {
+                address 10.101.48.25/30;
+            }
+        }
+        unit 8 {
+            vlan-id 8;
+            family inet {
+                address 10.101.48.29/30;
+            }
+        }
+        unit 9 {
+            vlan-id 9;
+            family inet {
+                address 10.101.48.33/30;
+            }
+        }
+        unit 10 {
+            vlan-id 10;
+            family inet {
+                address 10.101.48.37/30;
+            }
+        }
+        unit 21 {
+            vlan-id 21;
+            family inet {
+                address 10.101.48.41/30;
+            }
+        }
+        unit 22 {
+            vlan-id 22;
+            family inet {
+                address 10.101.48.45/30;
+            }
+        }
+        unit 23 {
+            vlan-id 23;
+            family inet {
+                address 10.101.48.49/30;
+            }
+        }
+        unit 100 {
+            vlan-id 100;
+            family inet {
+                address 10.101.200.1/24;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.200.50.14/32 {
+                    primary;
+                    preferred;
+                }
+                address 127.0.0.1/32;
+                address 10.255.161.231/32 {
+                    primary;
+                }
+            }
+            family iso {
+                address 47.0005.80ff.f800.0000.0108.0001.0102.5516.1231.00;
+            }
+            family inet6 {
+                address 2001:db8::10:255:161:231/128 {
+                    primary;
+                }
+            }
+        }
+        unit 1 {
+            family inet {
+                address 10.10.4.101/32;
+            }
+        }
+        unit 2 {
+            family inet {
+                address 10.10.4.102/32;
+            }
+        }
+        unit 3 {
+            family inet {
+                address 10.10.4.103/32;
+            }
+        }
+        unit 4 {
+            family inet {
+                address 10.10.4.104/32;
+            }
+        }
+        unit 5 {
+            family inet {
+                address 10.10.4.105/32;
+            }
+        }
+        unit 6 {
+            family inet {
+                address 10.10.4.106/32;
+            }
+        }
+        unit 7 {
+            family inet {
+                address 10.10.4.107/32;
+            }
+        }
+        unit 8 {
+            family inet {
+                address 10.10.4.108/32;
+            }
+        }
+        unit 9 {
+            family inet {
+                address 10.10.4.109/32;
+            }
+        }
+        unit 10 {
+            family inet {
+                address 10.10.4.110/32;
+            }
+        }
+    }
+}
+forwarding-options {
+    multicast {
+        resolve-rate 1000;
+    }
+}
+policy-options {
+    policy-statement PS-ADV_DIRECT {
+        from protocol direct;
+        then accept;
+    }
+    policy-statement PS-BGP-TO-OSPF {
+        from protocol bgp;
+        then accept;
+    }
+    policy-statement PS-send-ospf {
+        from protocol ospf;
+        then accept;
+    }
+}
+class-of-service {
+    classifiers {
+        exp EXP {
+            forwarding-class FC-HIGH {
+                loss-priority low code-points 001;
+            }
+            forwarding-class BEST-EFFORT {
+                loss-priority low code-points 000;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-points 010;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points 011;
+            }
+        }
+    }
+    forwarding-classes {
+        class FC-HIGH queue-num 1;
+        class BEST-EFFORT queue-num 0;
+        class CONTROL queue-num 3;
+        class FC-LLQ queue-num 2;
+    }
+    interfaces {
+        et-0/0/3 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/0/5 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/0/7 {
+            scheduler-map sched-map;
+            unit 0 {
+                classifiers {
+                    exp EXP;
+                }
+                rewrite-rules {
+                    exp EXP_REWRITE;
+                }
+            }
+        }
+        et-0/0/6 {
+            scheduler-map sched-map;
+        }
+        et-0/0/11 {
+            scheduler-map sched-map;
+        }
+    }
+    rewrite-rules {
+        exp EXP_REWRITE {
+            forwarding-class FC-HIGH {
+                loss-priority low code-point 001;
+            }
+            forwarding-class BEST-EFFORT {
+                loss-priority low code-point 000;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority low code-point 010;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-point 011;
+            }
+        }
+    }
+    scheduler-maps {
+        sched-map {
+            forwarding-class BEST-EFFORT scheduler s0;
+            forwarding-class FC-HIGH scheduler s1;
+            forwarding-class FC-LLQ scheduler s2;
+            forwarding-class CONTROL scheduler s3;
+        }
+    }
+    schedulers {
+        s0 {
+            transmit-rate {
+                remainder;
+            }
+            priority low;
+        }
+        s1 {
+            transmit-rate percent 20;
+            shaping-rate percent 20;
+            priority low;
+        }
+        s2 {
+            transmit-rate percent 40;
+            priority strict-high;
+        }
+        s3 {
+            transmit-rate percent 20;
+            shaping-rate percent 20;
+            priority low;
+        }
+    }
+}
+routing-instances {
+    VRF21 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group TGN_AF_CR1 {
+                    type external;
+                    local-address 10.101.48.41;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.48.42 {
+                        peer-as 64520;
+                    }
+                }
+                group TGN_AF_CR2 {
+                    type external;
+                    local-address 10.101.49.41;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.49.42 {
+                        peer-as 64521;
+                    }
+                }
+            }
+        }
+        interface et-0/0/6.21;
+        interface et-0/0/11.21;
+        route-distinguisher 10.200.50.14:221;
+        vrf-target target:64512:21;
+        vrf-table-label;
+    }
+    VRF22 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group TGN_AF_CR1 {
+                    type external;
+                    local-address 10.101.48.45;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.48.46 {
+                        peer-as 64520;
+                    }
+                }
+                group TGN_AF_CR2 {
+                    type external;
+                    local-address 10.101.49.45;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.49.46 {
+                        peer-as 64521;
+                    }
+                }
+            }
+        }
+        interface et-0/0/6.22;
+        interface et-0/0/11.22;
+        route-distinguisher 10.200.50.14:222;
+        vrf-target target:64512:22;
+        vrf-table-label;
+    }
+    VRF23 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group TGN_AF_CR1 {
+                    type external;
+                    local-address 10.101.48.49;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.48.50 {
+                        peer-as 64520;
+                    }
+                }
+                group TGN_AF_CR2 {
+                    type external;
+                    local-address 10.101.49.49;
+                    export PS-ADV_DIRECT;
+                    neighbor 10.101.49.50 {
+                        peer-as 64521;
+                    }
+                }
+            }
+        }
+        interface et-0/0/6.23;
+        interface et-0/0/11.23;
+        route-distinguisher 10.200.50.14:223;
+        vrf-target target:64512:23;
+        vrf-table-label;
+    }
+    MVPN_INSTANCE1 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.1;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.2 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.1;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.2 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:101;
+                    }
+                    export-target {
+                        target target:64512:101;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface et-0/0/6.1;
+                    interface lo0.1;
+                    interface et-0/0/11.1;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.101 {
+                            group-ranges {
+                                225.0.0.0/22;
+                            }
+                        }
+                    }
+                }
+                interface et-0/0/6.1 {
+                    mode sparse;
+                }
+                interface lo0.1;
+                interface et-0/0/11.1 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.1;
+        interface et-0/0/11.1;
+        interface lo0.1;
+        route-distinguisher 10.200.50.14:61;
+        vrf-target target:64512:11;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE10 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.37;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.38 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.37;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.38 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:110;
+                    }
+                    export-target {
+                        target target:64512:110;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.10;
+                    interface et-0/0/6.10;
+                    interface et-0/0/11.10;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.110 {
+                            group-ranges {
+                                225.0.36.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.10;
+                interface et-0/0/6.10 {
+                    mode sparse;
+                }
+                interface et-0/0/11.10 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.10;
+        interface et-0/0/11.10;
+        interface lo0.10;
+        route-distinguisher 10.200.50.14:70;
+        vrf-target target:64512:20;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE2 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.5;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.6 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.5;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.6 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:102;
+                    }
+                    export-target {
+                        target target:64512:102;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.2;
+                    interface et-0/0/6.2;
+                    interface et-0/0/11.2;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.102 {
+                            group-ranges {
+                                225.0.4.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.2;
+                interface et-0/0/6.2 {
+                    mode sparse;
+                }
+                interface et-0/0/11.2 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.2;
+        interface et-0/0/11.2;
+        interface lo0.2;
+        route-distinguisher 10.200.50.14:62;
+        vrf-target target:64512:12;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE3 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.9;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.10 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.9;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.10 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:103;
+                    }
+                    export-target {
+                        target target:64512:103;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.3;
+                    interface et-0/0/6.3;
+                    interface et-0/0/11.3;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.103 {
+                            group-ranges {
+                                225.0.8.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.3;
+                interface et-0/0/6.3 {
+                    mode sparse;
+                }
+                interface et-0/0/11.3 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.3;
+        interface et-0/0/11.3;
+        interface lo0.3;
+        route-distinguisher 10.200.50.14:63;
+        vrf-target target:64512:13;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE4 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.13;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.14 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.13;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.14 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:104;
+                    }
+                    export-target {
+                        target target:64512:104;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.4;
+                    interface et-0/0/6.4;
+                    interface et-0/0/11.4;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.104 {
+                            group-ranges {
+                                225.0.12.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.4;
+                interface et-0/0/6.4 {
+                    mode sparse;
+                }
+                interface et-0/0/11.4 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.4;
+        interface et-0/0/11.4;
+        interface lo0.4;
+        route-distinguisher 10.200.50.14:64;
+        vrf-target target:64512:14;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE5 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.17;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.18 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.17;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.18 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:105;
+                    }
+                    export-target {
+                        target target:64512:105;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.5;
+                    interface et-0/0/6.5;
+                    interface et-0/0/11.5;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.105 {
+                            group-ranges {
+                                225.0.16.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.5;
+                interface et-0/0/6.5 {
+                    mode sparse;
+                }
+                interface et-0/0/11.5 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.5;
+        interface et-0/0/11.5;
+        interface lo0.5;
+        route-distinguisher 10.200.50.14:65;
+        vrf-target target:64512:15;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE6 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.21;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.22 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.21;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.22 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:106;
+                    }
+                    export-target {
+                        target target:64512:106;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.6;
+                    interface et-0/0/6.6;
+                    interface et-0/0/11.6;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.106 {
+                            group-ranges {
+                                225.0.20.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.6;
+                interface et-0/0/6.6 {
+                    mode sparse;
+                }
+                interface et-0/0/11.6 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.6;
+        interface et-0/0/11.6;
+        interface lo0.6;
+        route-distinguisher 10.200.50.14:66;
+        vrf-target target:64512:16;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE7 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.25;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.26 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.25;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.26 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:107;
+                    }
+                    export-target {
+                        target target:64512:107;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.7;
+                    interface et-0/0/6.7;
+                    interface et-0/0/11.7;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.107 {
+                            group-ranges {
+                                225.0.24.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.7;
+                interface et-0/0/6.7 {
+                    mode sparse;
+                }
+                interface et-0/0/11.7 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.7;
+        interface et-0/0/11.7;
+        interface lo0.7;
+        route-distinguisher 10.200.50.14:67;
+        vrf-target target:64512:17;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE8 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.29;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.30 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.29;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.30 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:108;
+                    }
+                    export-target {
+                        target target:64512:108;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.8;
+                    interface et-0/0/6.8;
+                    interface et-0/0/11.8;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.108 {
+                            group-ranges {
+                                225.0.28.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.8;
+                interface et-0/0/6.8 {
+                    mode sparse;
+                }
+                interface et-0/0/11.8 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.8;
+        interface et-0/0/11.8;
+        interface lo0.8;
+        route-distinguisher 10.200.50.14:68;
+        vrf-target target:64512:18;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+    MVPN_INSTANCE9 {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address 10.101.48.33;
+                    export PS-ADV_DIRECT;
+                    peer-as 64520;
+                    neighbor 10.101.48.34 {
+                        peer-as 64520;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address 10.101.49.33;
+                    export PS-ADV_DIRECT;
+                    peer-as 64521;
+                    neighbor 10.101.49.34 {
+                        peer-as 64521;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:64512:109;
+                    }
+                    export-target {
+                        target target:64512:109;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.9;
+                    interface et-0/0/6.9;
+                    interface et-0/0/11.9;
+                }
+                export PS-send-ospf;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address 10.10.47.109 {
+                            group-ranges {
+                                225.0.32.0/22;
+                            }
+                        }
+                    }
+                }
+                interface lo0.9;
+                interface et-0/0/6.9 {
+                    mode sparse;
+                }
+                interface et-0/0/11.9 {
+                    mode sparse;
+                }
+            }
+        }
+        interface et-0/0/6.9;
+        interface et-0/0/11.9;
+        interface lo0.9;
+        route-distinguisher 10.200.50.14:69;
+        vrf-target target:64512:19;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+}
+routing-options {
+    router-id 10.200.50.14;
+    autonomous-system 64512;
+}
+protocols {
+    bgp {
+        group IBGP {
+            type internal;
+            local-address 10.200.50.14;
+            family inet {
+                unicast;
+            }
+            family inet-vpn {
+                unicast;
+                any;
+            }
+            family evpn {
+                signaling;
+            }
+            family inet-mvpn {
+                signaling;
+            }
+            family route-target;
+            export [ PS-send-ospf PS-BGP-TO-OSPF ];
+            local-as 64512;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.200.50.13;
+            neighbor 10.200.50.11;
+            neighbor 10.200.50.12;
+            neighbor 10.200.50.15;
+            neighbor 10.200.50.16;
+        }
+    }
+    mpls {
+        optimize-aggressive;
+        explicit-null;
+        label-switched-path P2MP {
+            template;
+            retry-timer 5;
+            optimize-timer 5;
+            link-protection;
+            p2mp;
+        }
+        label-switched-path lsp_to_AP2 {
+            to 10.200.50.16;
+        }
+        label-switched-path lsp_to_PE2 {
+            to 10.200.50.15;
+        }
+        label-switched-path lsp_to_PE1 {
+            to 10.200.50.12;
+        }
+        interface et-0/0/3.0;
+        interface et-0/0/5.0;
+        interface et-0/0/7.0;
+        interface lo0.0;
+    }
+    ospf {
+        traffic-engineering;
+        area 0.0.0.0 {
+            interface et-0/0/3.0 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface et-0/0/5.0 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface et-0/0/7.0 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface lo0.0 {
+                passive;
+            }
+            interface et-0/0/11.100;
+        }
+    }
+    rsvp {
+        interface lo0.0;
+        interface et-0/0/3.0;
+        interface et-0/0/5.0;
+        interface et-0/0/7.0;
+    }
+    lldp {
+        interface all;
+    }
+}

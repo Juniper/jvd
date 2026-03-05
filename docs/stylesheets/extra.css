@@ -1,0 +1,352 @@
+/* =========================================================
+   Lightbox & Images
+   ========================================================= */
+
+.md-typeset a.glightbox {
+    position: relative;
+    display: inline-block;
+    cursor: zoom-in;
+}
+
+.md-typeset a.glightbox::after {
+    content: "\1F50D";
+    /* 🔍 Unicode magnifying glass icon */
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 0 2px #000;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.md-typeset a.glightbox:hover::after {
+    opacity: 1;
+}
+
+/* ✅ More specific image rule for MkDocs' .md-typeset content
+   (redundant with the above "img", but ensures priority inside MkDocs) */
+.md-typeset img[width] {
+    max-width: none !important;
+    height: auto !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.md-typeset img {
+    max-width: 80% !important;
+    height: auto !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.md-typeset figcaption {
+    margin: 0em auto !important;
+}
+
+
+/* =========================================================
+   Tables
+   ========================================================= */
+
+/* ✅ Center ALL Markdown tables */
+.md-typeset .md-typeset__table {
+    display: flex;
+    /* wrapper adapts to table size */
+    justify-content: center;
+    /* centers table horizontally */
+}
+
+.md-typeset .md-typeset__table table {
+    width: max-content;
+    /* table shrinks to fit its content */
+    max-width: 95%;
+    /* still responsive, won’t overflow */
+    margin: 0 auto;
+    /* fallback centering */
+}
+
+.md-typeset table {
+    border-collapse: collapse;
+    border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.md-typeset table th,
+.md-typeset table td {
+    border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+/* Table header styling */
+.md-typeset table thead th {
+    background-color: #1d1f27 !important;
+    color: white !important;
+    text-transform: uppercase !important;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+/* Table body styling */
+.md-typeset table tbody tr {
+    font-size: 0.7rem;
+}
+
+.md-typeset table-caption {
+    margin: 0em auto !important;
+}
+
+/* =========================================================
+   Layout & Grid
+   ========================================================= */
+
+.md-sidebar {
+    width: 15rem;
+}
+
+.md-nav--primary .md-nav__list {
+    width: 14rem;
+}
+
+.md-content__inner {
+    margin-left: 6rem !important;
+    margin-right: 6rem !important;
+}
+
+/* ✅ Adjust page grid (wider container than default MkDocs Material) */
+.md-grid {
+    max-width: 85rem;
+}
+
+
+/* =========================================================
+   Typography
+   ========================================================= */
+
+.md-typeset h1 {
+    margin: 0 0 0.25em !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    font-family: 'HPE Graphik XXCondensed';
+    font-size: 64px;
+    text-transform: uppercase;
+}
+
+.md-typeset h2 {
+    margin: 0.2em 0 .2em !important;
+    font-weight: bold !important;
+    font-family: 'HPE Graphik XXCondensed';
+    font-size: 34px;
+}
+
+.md-typeset h3 {
+    margin: 0.1em 0 .1em !important;
+    font-weight: bold !important;
+    font-family: 'HPE Graphik XXCondensed';
+    font-size: 24px;
+}
+
+.md-typeset ul li {
+    margin-bottom: .0 !important;
+}
+
+
+/* =========================================================
+   Header / Navigation / Tabs
+   ========================================================= */
+
+/* ✅ Header + navigation bar (default theme) */
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-header__inner {
+    background-color: #1d1f27 !important;
+}
+
+/* ✅ Tabs bar (default theme) */
+[data-md-color-scheme="default"] .md-tabs {
+    background-color: #21252f !important;
+}
+
+/* ✅ Active tab text color */
+[data-md-color-scheme="default"] .md-tabs__item--active > .md-tabs__link {
+    color: white !important;
+}
+
+/* ✅ Hover state on tab links */
+[data-md-color-scheme="default"] .md-tabs__link:hover {
+    color: white;
+}
+
+/* ✅ Same but for dark theme (slate) */
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-header__inner,
+[data-md-color-scheme="slate"] .md-tabs {
+    background-color: #00739d !important;
+}
+
+[data-md-color-scheme="slate"] .md-tabs__item--active > .md-tabs__link {
+    color: white !important;
+}
+
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+/* ✅ Footer custom styling */
+.mdx-content__footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.mdx-content__footer a {
+    display: inline-block;
+    transition: transform 250ms cubic-bezier(0.1, 0.7, 0.1, 1), color 125ms;
+}
+
+.mdx-content__footer a:focus,
+.mdx-content__footer a:hover {
+    transform: scale(1.2);
+}
+
+.mdx-content__footer hr {
+    display: inline-block;
+    width: 40px;
+    margin: 16px;
+    vertical-align: middle;
+    background-color: currentColor;
+    border: none;
+}
+
+/* ✅ Footer (light theme) */
+[data-md-color-scheme="default"] .md-footer {
+    background-color: #1d1f27 !important;
+    color: white !important;
+}
+
+/* ✅ Footer (dark theme) */
+[data-md-color-scheme="slate"] .md-footer {
+    background-color: #00739d !important;
+    color: white !important;
+}
+
+/* ✅ Footer links */
+.md-footer a {
+    color: white !important;
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+/* ✅ Custom pill-shaped button */
+.custom-button {
+    display: inline-block;
+    padding: 0.6em 1.2em;
+    background-color: #1d1f27;
+    color: white !important;
+    border-radius: 999px;
+    /* makes it pill-shaped */
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+/* ✅ Font Awesome icons inside custom buttons */
+.custom-button svg.svg-inline--fa {
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+    margin-right: 0.4em;
+    transform: translateY(2px);
+    /* tweak alignment */
+    color: white;
+    /* ensures icons are white */
+}
+
+/* ✅ Hover effect on custom button */
+.custom-button:hover {
+    background-color: #1d1f27;
+}
+
+/* ✅ Dark mode button color (same as default here) */
+[data-md-color-scheme="slate"] .custom-button {
+    background-color: #1d1f27;
+}
+
+
+/* =========================================================
+   Cards
+   ========================================================= */
+
+/* ✅ Card grid layout */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 550px);
+    grid-auto-rows: 200px;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+/* ✅ Card component (GRID, not flex) */
+.card {
+    display: grid;
+    grid-template-columns: 144px 1fr;
+    /* icon | text */
+    align-items: center;
+    /* 🔑 vertical centering */
+    width: 550px;
+    height: 200px;
+    gap: 1.5rem;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #1d1f27;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+}
+
+/* Dark mode (MkDocs / Material) */
+[data-md-color-scheme="slate"] .card {
+    background-color: #00739d;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ Card icon */
+.card-icon {
+    width: 144px;
+    height: 144px;
+    object-fit: contain;
+    justify-self: center;
+    /* center inside icon column */
+}
+
+/* ✅ Card text */
+.card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* keeps text nicely balanced */
+}
+
+/* ✅ Title */
+.card-title {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+/* ✅ Subtitle */
+.card-subtitle {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.85);
+}

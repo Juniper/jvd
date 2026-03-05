@@ -1,0 +1,364 @@
+set chassis aggregated-devices ethernet device-count 25
+set interfaces et-0/0/0 speed 100g
+set interfaces et-0/0/0 ether-options 802.3ad ae16
+set interfaces et-0/0/4 ether-options 802.3ad ae11
+set interfaces et-0/0/5 ether-options 802.3ad ae13
+set interfaces et-0/0/6 ether-options 802.3ad ae11
+set interfaces et-0/0/7 ether-options 802.3ad ae13
+set interfaces et-0/1/4 ether-options 802.3ad ae15
+set interfaces et-0/1/6 ether-options 802.3ad ae15
+set interfaces ae11 description To-AG3.1
+set interfaces ae11 mtu 9190
+set interfaces ae11 aggregated-ether-options lacp active
+set interfaces ae11 aggregated-ether-options lacp periodic fast
+set interfaces ae11 unit 0 family inet address 10.10.0.30/30
+set interfaces ae11 unit 0 family iso
+set interfaces ae11 unit 0 family inet6 address 2001:db8::10:10:0:1f/126
+set interfaces ae11 unit 0 family mpls maximum-labels 5
+set interfaces ae13 description To-AG3.2
+set interfaces ae13 mtu 9190
+set interfaces ae13 aggregated-ether-options lacp active
+set interfaces ae13 aggregated-ether-options lacp periodic fast
+set interfaces ae13 unit 0 family inet address 10.10.0.38/30
+set interfaces ae13 unit 0 family iso
+set interfaces ae13 unit 0 family inet6 address 2001:db8::10:10:0:27/126
+set interfaces ae13 unit 0 family mpls maximum-labels 5
+set interfaces ae15 description To-CR2
+set interfaces ae15 mtu 9190
+set interfaces ae15 aggregated-ether-options lacp active
+set interfaces ae15 aggregated-ether-options lacp periodic fast
+set interfaces ae15 unit 0 family inet address 10.10.0.45/30
+set interfaces ae15 unit 0 family iso
+set interfaces ae15 unit 0 family inet6 address 2001:db8::10:10:0:2d/126
+set interfaces ae15 unit 0 family mpls maximum-labels 5
+set interfaces ae16 description To-SAG
+set interfaces ae16 mtu 9190
+set interfaces ae16 aggregated-ether-options lacp active
+set interfaces ae16 aggregated-ether-options lacp periodic fast
+set interfaces ae16 unit 0 family inet address 10.10.0.49/30
+set interfaces ae16 unit 0 family iso
+set interfaces ae16 unit 0 family inet6 address 2001:db8::10:10:0:31/126
+set interfaces ae16 unit 0 family mpls maximum-labels 5
+set interfaces lo0 unit 0 family inet address 192.168.1.9/32 primary
+set interfaces lo0 unit 0 family inet address 192.168.10.9/32
+set interfaces lo0 unit 0 family iso address 49.1022.1001.0000.0014.00
+set interfaces lo0 unit 0 family inet6 address 2001:db8::1:1:0:9/128 primary
+set interfaces lo0 unit 0 family inet6 address 2001:db8::1:1:10:9/128
+set interfaces lo0 unit 0 family mpls
+set policy-options prefix-list MBH-REGION 192.168.1.9/32
+set policy-options prefix-list MBH-REGION 192.168.1.10/32
+set policy-options prefix-list MBH-REGION 192.168.1.11/32
+set policy-options policy-statement ALLOW_LOOPBACK from route-filter 0.0.0.0/32 orlonger
+set policy-options policy-statement ALLOW_LOOPBACK then accept
+set policy-options policy-statement PPLB then load-balance per-packet
+set policy-options policy-statement PPLB then accept
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V4 term t1 from route-filter 192.168.10.9/32 exact
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V4 term t1 then prefix-segment index 214
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V4 term t1 then accept
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V6 term t1 from family inet6
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V6 term t1 from route-filter 2001:db8::1:1:10:9/128 exact
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V6 term t1 then prefix-segment index 314
+set policy-options policy-statement SR_NONZERO_LOOPBACKS_V6 term t1 then accept
+set policy-options policy-statement as3536-out term LOOP_PREVENT from community FRONTHAUL
+set policy-options policy-statement as3536-out term LOOP_PREVENT then reject
+set policy-options policy-statement as3536-out term FROM-SAG from community SERVICE-EDGE
+set policy-options policy-statement as3536-out term FROM-SAG then next-hop self
+set policy-options policy-statement as3536-out term FROM-SAG then accept
+set policy-options policy-statement as3536-out term loopbacks from prefix-list MBH-REGION
+set policy-options policy-statement as3536-out term loopbacks then community add xHAUL
+set policy-options policy-statement as3536-out term loopbacks then accept
+set policy-options policy-statement as3536-out term REJECT then reject
+set policy-options policy-statement as63536-in term SAG-ALLOW from community SERVICE-EDGE
+set policy-options policy-statement as63536-in term SAG-ALLOW then accept
+set policy-options policy-statement as63536-in term reject then reject
+set policy-options policy-statement bgp-export term 1 from rib inet.3
+set policy-options policy-statement bgp-export term 1 then reject
+set policy-options policy-statement next-hop-self then next-hop self
+set policy-options policy-statement next-hop-self then accept
+set policy-options community FRONTHAUL members 65535:200
+set policy-options community SERVICE-EDGE members 63536:100
+set policy-options community xHAUL members 65535:100
+set class-of-service classifiers dscp CL-DSCP import default
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-CONTROL loss-priority low code-points cs7
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority high code-points af33
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points cs3
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority low code-points af31
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority high code-points af43
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points cs4
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority low code-points af41
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority high code-points af13
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points cs1
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority low code-points af11
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-LOW loss-priority medium-high code-points af12
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority high code-points af23
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority low code-points af21
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-REALTIME loss-priority low code-points ef
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set class-of-service classifiers dscp CL-DSCP forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 import default
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-points be
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-points cs7
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-points af33
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points cs3
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-points af31
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-points af32
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-points af43
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points cs4
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-points af41
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-points af42
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-points af13
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points cs1
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-points af11
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-points af12
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-points af23
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points cs2
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-points af21
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-points af22
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-points ef
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-points cs5
+set class-of-service classifiers dscp-ipv6 CL-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-points cs6
+set class-of-service classifiers exp CL-MPLS import default
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-points 000
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-CONTROL loss-priority low code-points 111
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-HIGH loss-priority low code-points 011
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-LLQ loss-priority low code-points 100
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-LOW loss-priority low code-points 001
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-MEDIUM loss-priority low code-points 010
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-REALTIME loss-priority low code-points 101
+set class-of-service classifiers exp CL-MPLS forwarding-class FC-SIGNALING loss-priority low code-points 110
+set class-of-service classifiers ieee-802.1 CL-8021P import default
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-BEST-EFFORT loss-priority low code-points 000
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-CONTROL loss-priority low code-points 111
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-HIGH loss-priority low code-points 011
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LLQ loss-priority low code-points 100
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-LOW loss-priority low code-points 001
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-MEDIUM loss-priority low code-points 010
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-REALTIME loss-priority low code-points 101
+set class-of-service classifiers ieee-802.1 CL-8021P forwarding-class FC-SIGNALING loss-priority low code-points 110
+set class-of-service forwarding-classes class FC-BEST-EFFORT queue-num 0
+set class-of-service forwarding-classes class FC-CONTROL queue-num 3
+set class-of-service forwarding-classes class FC-HIGH queue-num 4
+set class-of-service forwarding-classes class FC-LLQ queue-num 6
+set class-of-service forwarding-classes class FC-LOW queue-num 1
+set class-of-service forwarding-classes class FC-MEDIUM queue-num 2
+set class-of-service forwarding-classes class FC-REALTIME queue-num 5
+set class-of-service forwarding-classes class FC-SIGNALING queue-num 7
+set class-of-service interfaces ae11 scheduler-map SM-5G-SCHEDULER
+set class-of-service interfaces ae11 unit 0 classifiers exp CL-MPLS
+set class-of-service interfaces ae11 unit 0 rewrite-rules exp RR-MPLS
+set class-of-service interfaces ae13 scheduler-map SM-5G-SCHEDULER
+set class-of-service interfaces ae13 unit 0 classifiers exp CL-MPLS
+set class-of-service interfaces ae13 unit 0 rewrite-rules exp RR-MPLS
+set class-of-service interfaces ae15 scheduler-map SM-5G-SCHEDULER
+set class-of-service interfaces ae15 unit 0 classifiers exp CL-MPLS
+set class-of-service interfaces ae15 unit 0 rewrite-rules exp RR-MPLS
+set class-of-service interfaces ae16 scheduler-map SM-5G-SCHEDULER
+set class-of-service interfaces ae16 unit 0 classifiers exp CL-MPLS
+set class-of-service interfaces ae16 unit 0 rewrite-rules exp RR-MPLS
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority high code-point cs7
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-CONTROL loss-priority low code-point cs7
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority high code-point af33
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority low code-point af31
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority high code-point af43
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority low code-point af41
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority high code-point af13
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority low code-point af11
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-LOW loss-priority medium-high code-point af12
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority high code-point af23
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority low code-point af21
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority high code-point ef
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-REALTIME loss-priority low code-point ef
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set class-of-service rewrite-rules dscp RR-DSCP forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority high code-point be
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-BEST-EFFORT loss-priority low code-point be
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority high code-point cs7
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-CONTROL loss-priority low code-point cs7
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority high code-point af33
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority low code-point af31
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-HIGH loss-priority medium-high code-point af32
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority high code-point af43
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority low code-point af41
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LLQ loss-priority medium-high code-point af42
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority high code-point af13
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority low code-point af11
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-LOW loss-priority medium-high code-point af12
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority high code-point af23
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority low code-point af21
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-MEDIUM loss-priority medium-high code-point af22
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority high code-point ef
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-REALTIME loss-priority low code-point ef
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority high code-point cs5
+set class-of-service rewrite-rules dscp-ipv6 RR-DSCP-IPV6 forwarding-class FC-SIGNALING loss-priority low code-point cs6
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority high code-point 000
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-BEST-EFFORT loss-priority low code-point 000
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority high code-point 111
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-CONTROL loss-priority low code-point 111
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority high code-point 011
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority low code-point 011
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-HIGH loss-priority medium-high code-point 011
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority high code-point 100
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority low code-point 100
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LLQ loss-priority medium-high code-point 100
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority high code-point 001
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority low code-point 001
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-LOW loss-priority medium-high code-point 001
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority high code-point 010
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority low code-point 010
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-MEDIUM loss-priority medium-high code-point 010
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority high code-point 101
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-REALTIME loss-priority low code-point 101
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority high code-point 110
+set class-of-service rewrite-rules exp RR-MPLS forwarding-class FC-SIGNALING loss-priority low code-point 110
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-BEST-EFFORT loss-priority high code-point 000
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-BEST-EFFORT loss-priority low code-point 000
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-CONTROL loss-priority high code-point 111
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-CONTROL loss-priority low code-point 111
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-HIGH loss-priority high code-point 011
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-HIGH loss-priority low code-point 011
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-HIGH loss-priority medium-high code-point 011
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LLQ loss-priority high code-point 100
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LLQ loss-priority low code-point 100
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LLQ loss-priority medium-high code-point 100
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LOW loss-priority high code-point 001
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LOW loss-priority low code-point 001
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-LOW loss-priority medium-high code-point 001
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-MEDIUM loss-priority high code-point 010
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-MEDIUM loss-priority low code-point 010
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-MEDIUM loss-priority medium-high code-point 010
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-REALTIME loss-priority high code-point 101
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-REALTIME loss-priority low code-point 101
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-SIGNALING loss-priority high code-point 110
+set class-of-service rewrite-rules ieee-802.1 RR-8021P forwarding-class FC-SIGNALING loss-priority low code-point 110
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-BEST-EFFORT scheduler SC-BEST-EFFORT
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-CONTROL scheduler SC-CONTROL
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-HIGH scheduler SC-HIGH
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LLQ scheduler SC-LLQ
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-LOW scheduler SC-LOW
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-MEDIUM scheduler SC-MEDIUM
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-REALTIME scheduler SC-REALTIME
+set class-of-service scheduler-maps SM-5G-SCHEDULER forwarding-class FC-SIGNALING scheduler SC-SIGNALING
+set class-of-service schedulers SC-BEST-EFFORT transmit-rate remainder
+set class-of-service schedulers SC-BEST-EFFORT buffer-size remainder
+set class-of-service schedulers SC-BEST-EFFORT priority low
+set class-of-service schedulers SC-CONTROL shaping-rate percent 5
+set class-of-service schedulers SC-CONTROL buffer-size percent 5
+set class-of-service schedulers SC-CONTROL priority high
+set class-of-service schedulers SC-HIGH transmit-rate percent 40
+set class-of-service schedulers SC-HIGH buffer-size percent 30
+set class-of-service schedulers SC-HIGH priority low
+set class-of-service schedulers SC-LLQ shaping-rate percent 40
+set class-of-service schedulers SC-LLQ buffer-size percent 10
+set class-of-service schedulers SC-LLQ priority strict-high
+set class-of-service schedulers SC-LOW transmit-rate percent 20
+set class-of-service schedulers SC-LOW priority low
+set class-of-service schedulers SC-MEDIUM transmit-rate percent 30
+set class-of-service schedulers SC-MEDIUM buffer-size percent 20
+set class-of-service schedulers SC-MEDIUM priority low
+set class-of-service schedulers SC-REALTIME shaping-rate percent 30
+set class-of-service schedulers SC-REALTIME buffer-size percent 20
+set class-of-service schedulers SC-REALTIME priority medium-high
+set class-of-service schedulers SC-SIGNALING shaping-rate percent 5
+set class-of-service schedulers SC-SIGNALING buffer-size percent 5
+set class-of-service schedulers SC-SIGNALING priority high
+set routing-options auto-bandwidth template auto_bw_temp1 adjust-interval 900
+set routing-options auto-bandwidth template auto_bw_temp1 adjust-threshold 50
+set routing-options auto-bandwidth template auto_bw_temp1 statistic-collection-interval 60
+set routing-options auto-bandwidth template auto_bw_temp1 auto-bandwidth-subscription 100
+set routing-options router-id 192.168.1.9
+set routing-options autonomous-system 63535
+set routing-options rib-groups inet3-to-inet0 import-rib inet.3
+set routing-options rib-groups inet3-to-inet0 import-rib inet.0
+set routing-options rib-groups inet3-to-inet0 import-rib inet6.3
+set routing-options rib-groups inet3-to-inet0 import-policy ALLOW_LOOPBACK
+set routing-options forwarding-table export PPLB
+set routing-options forwarding-table chained-composite-next-hop ingress l2ckt
+set routing-options forwarding-table chained-composite-next-hop ingress evpn
+set routing-options forwarding-table chained-composite-next-hop ingress l3vpn
+set protocols bgp group ibgp_meg_rr type internal
+set protocols bgp group ibgp_meg_rr local-address 192.168.1.9
+set protocols bgp group ibgp_meg_rr family inet labeled-unicast rib-group inet3-to-inet0
+set protocols bgp group ibgp_meg_rr family inet labeled-unicast rib inet.3
+set protocols bgp group ibgp_meg_rr family inet6 labeled-unicast rib inet6.3
+set protocols bgp group ibgp_meg_rr export as3536-out
+set protocols bgp group ibgp_meg_rr cluster 192.168.1.9
+set protocols bgp group ibgp_meg_rr neighbor 192.168.1.3
+set protocols bgp group ibgp_meg_rr neighbor 192.168.1.4
+set protocols bgp group ibgp_cr type internal
+set protocols bgp group ibgp_cr local-address 192.168.1.9
+set protocols bgp group ibgp_cr family inet labeled-unicast rib-group inet3-to-inet0
+set protocols bgp group ibgp_cr family inet labeled-unicast rib inet.3
+set protocols bgp group ibgp_cr family inet unicast
+set protocols bgp group ibgp_cr family inet6 labeled-unicast rib inet6.3
+set protocols bgp group ibgp_cr export next-hop-self
+set protocols bgp group ibgp_cr neighbor 192.168.1.10
+set protocols bgp group ebgp_sag type external
+set protocols bgp group ebgp_sag multihop
+set protocols bgp group ebgp_sag import as63536-in
+set protocols bgp group ebgp_sag family inet labeled-unicast rib-group inet3-to-inet0
+set protocols bgp group ebgp_sag family inet labeled-unicast rib inet.3
+set protocols bgp group ebgp_sag family inet6 labeled-unicast rib inet6.3
+set protocols bgp group ebgp_sag family route-target
+set protocols bgp group ebgp_sag export next-hop-self
+set protocols bgp group ebgp_sag export bgp-export
+set protocols bgp group ebgp_sag peer-as 63536
+set protocols bgp group ebgp_sag neighbor 10.10.0.50
+set protocols bgp log-updown
+set protocols bgp multipath
+set protocols isis interface ae11.0 level 2 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae11.0 level 2 metric 10
+set protocols isis interface ae11.0 level 1 disable
+set protocols isis interface ae11.0 point-to-point
+set protocols isis interface ae11.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae11.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae11.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface ae13.0 level 2 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae13.0 level 2 metric 10
+set protocols isis interface ae13.0 level 1 disable
+set protocols isis interface ae13.0 point-to-point
+set protocols isis interface ae13.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae13.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae13.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface ae15.0 level 2 post-convergence-lfa node-protection cost 16777214
+set protocols isis interface ae15.0 level 2 metric 10
+set protocols isis interface ae15.0 level 1 disable
+set protocols isis interface ae15.0 point-to-point
+set protocols isis interface ae15.0 family inet bfd-liveness-detection minimum-interval 100
+set protocols isis interface ae15.0 family inet bfd-liveness-detection multiplier 3
+set protocols isis interface ae15.0 family inet bfd-liveness-detection no-adaptation
+set protocols isis interface lo0.0 passive
+set protocols isis source-packet-routing srgb start-label 16000
+set protocols isis source-packet-routing srgb index-range 80000
+set protocols isis source-packet-routing node-segment ipv4-index 14
+set protocols isis source-packet-routing node-segment ipv6-index 114
+set protocols isis source-packet-routing explicit-null
+set protocols isis level 2 wide-metrics-only
+set protocols isis spf-options delay 100
+set protocols isis spf-options rapid-runs 5
+set protocols isis backup-spf-options use-post-convergence-lfa maximum-labels 5
+set protocols isis backup-spf-options use-source-packet-routing
+set protocols isis export SR_NONZERO_LOOPBACKS_V4
+set protocols isis export SR_NONZERO_LOOPBACKS_V6
+set protocols isis ignore-attached-bit
+set protocols mpls lsp-external-controller pccd
+set protocols mpls log-updown syslog
+set protocols mpls log-updown trap
+set protocols mpls no-propagate-ttl
+set protocols mpls icmp-tunneling
+set protocols mpls optimize-timer 180
+set protocols mpls ipv6-tunneling
+set protocols mpls interface lo0.0
+set protocols mpls interface ae1.0
+set protocols mpls interface ae13.0
+set protocols mpls interface ae15.0
+set protocols mpls interface ae16.0
