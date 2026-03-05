@@ -23,7 +23,7 @@ Juniper Validated Designs have been validated at scale to help ensure faster, mo
 
 Official documentation: https://www.juniper.net/documentation/validated-designs/
 
-## Validated Designs for:
+## Validated Designs for?
 
 | Domain | Summary |
 | --- | --- |
