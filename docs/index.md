@@ -25,8 +25,6 @@ Official documentation: https://www.juniper.net/documentation/validated-designs/
 
 ## Validated Designs for:
 
-Table: Validated Designs Categories
-
 | Domain | Summary |
 | --- | --- |
 | **[Branch](https://www.juniper.net/documentation/validated-designs/us/en/branch/)** | Achieve simplified operations, reduced mean time to repair, and improved user experience with software-delivered branch network architectures. |
