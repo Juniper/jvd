@@ -5,9 +5,10 @@ The Juniper Secure Data Center Fabric solution provides a streamlined, highly av
 
 **Inter-VRF Traffic:** The SRX4600 is configured with all the Virtual Routing and Forwarding (VRF) instances. Inter-VRF traffic is forwarded to the SRX device by leaf (via spine), the SRX device applies appropriate security policies on the inner VXLAN packet header. Based on the security policies, SRX device then routes the traffic toward its intended destination while preserving VXLAN encapsulation across the fabric—without terminating the VXLAN tunnel on the firewall. This design eliminates the need for ACL configurations on the fabric switches. 
 
-**North-South:** The SRX device inspects every north‑south flow using both basic and advanced security policies. Traffic exiting the fabric is steered to the SRX based on the default route injected by the SRX device into the EVPN‑VXLAN fabric, ensuring consistent and deterministic forwarding for perimeter‑bound traffic. 
+**North-South:** The SRX device inspects every north‑south flow using both basic and advanced security policies. Traffic exiting the fabric is steered to the SRX based on the default route injected by the SRX device into the EVPN‑VXLAN fabric, ensuring consistent and deterministic forwarding for perimeter‑bound traffic.
+
 The configurations uploaded here are validated configurations.
 
-
+<img width="750" height="550" alt="image" src="https://github.com/user-attachments/assets/7481d686-ccf3-4dc1-8640-f52c2ff0a1f8" />
 
 
