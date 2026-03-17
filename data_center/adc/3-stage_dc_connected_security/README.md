@@ -1,4 +1,4 @@
-**3-stage EVPN-VXLAN Data Center Design**
+**3-stage EVPN-VXLAN Data Center Connected Security Design**
 
 This JVD is an extension to the 3-Stage Data Center Design with Juniper Apstra (JVD)
 The Juniper Secure Data Center Fabric solution provides a streamlined, highly available secured data center architecture by integrating SRX4600/SRX4700 devices into a Multinode High Availability (MNHA) cluster within the data center fabric. The firewall device’s ability to participate in EVPN signaling allows the SRX devices to learn all the Type 5 routes from the fabric simply by peering with spines. This helps network and firewall administrators to take care of their job independently and at their own pace. The typical use cases covered in this solution include: 
