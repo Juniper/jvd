@@ -39,6 +39,28 @@ When the same pattern is implemented differently across platforms, multiple vari
 | `firewall/` | Filters and policers (rate-limiting and marking templates). |
 | `interfaces/` | Representative interface patterns: edge flexible-vlan with bridge family, LAG with ESI for active/active multihoming, core-facing ISIS+MPLS interface. |
 
+## Current Snippets
+
+Extracted from [`../conf/an1_mx204.conf`](../conf/an1_mx204.conf):
+
+| File | What it shows |
+|---|---|
+| `apply-groups/gr-edge-intf__an1-mx204.conf` | Customer-facing interface baseline (MTU, flex-vlan, optics alarms) |
+| `apply-groups/gr-edge-intf-mh__an1-mx204.conf` | Multi-homed edge variant (no hold-time) |
+| `apply-groups/gr-core-intf__an1-mx204.conf` | Core-facing baseline (jumbo MTU, mpls max-labels 14) |
+| `apply-groups/gr-isis-bcp__an1-mx204.conf` | ISIS best-current-practice timers |
+| `apply-groups/gr-bgp-bcp__an1-mx204.conf` | BGP best-current-practice timers |
+| `transport/isis-srmpls-tilfa__an1-mx204.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
+| `transport/mpls-segment-routing__an1-mx204.conf` | SRGB, admin-groups, ipv6-tunneling |
+| `transport/bgp-overlay__an1-mx204.conf` | iBGP to RR with all overlay AFs (inet/inet6 LU, inet-vpn, inet6-vpn, l2vpn, evpn, route-target) |
+| `services/evpn-vpws__an1-mx204.conf` | MEF E-Line via EVPN-VPWS routing-instance |
+| `services/evpn-elan-mac-vrf__an1-mx204.conf` | MEF E-LAN via EVPN mac-vrf routing-instance |
+| `cos/forwarding-classes__an1-mx204.conf` | 6-class queue model |
+| `cos/schedulers__an1-mx204.conf` | Schedulers + scheduler-map for the 6-class model |
+| `firewall/policers__an1-mx204.conf` | 5/50 Mbps rate-limit policers and family-any filter |
+| `interfaces/lag-esi-multihoming__an1-mx204.conf` | Edge LAG with per-unit ESI (VPWS + ELAN attachment-circuits) |
+| `interfaces/core-isis-mpls__an1-mx204.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
+
 ## Scope
 
 Snippets are **excerpts**, not standalone configs. They:
