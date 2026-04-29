@@ -9,7 +9,7 @@ Here you can find the configurations related to:
 
 related to the Automation JVD topology used. (Coming from 5G Fronthaul JVD solution ([JVD-5G-FH-COS-LLQ-02-04](https://www.juniper.net/documentation/us/en/software/jvd/jvd-5g-fh-cos-llq-02-04/5g_xhaul_low_latency_class_of_service_juniper_validated_design_jvd.html)))
 
-![Automation JVD topology](../pics/Automation.JVD.topology.png)
+![Automation JVD topology](../images/automation-jvd-topo.png)
 
 ## Access Nodes
 
