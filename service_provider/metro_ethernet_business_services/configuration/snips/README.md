@@ -37,11 +37,12 @@ When the same pattern is implemented differently across platforms, multiple vari
 | `cos/` | Class-of-service: forwarding-classes, schedulers, scheduler-maps, classifiers, rewrite-rules. |
 | `policy/` | Routing policies and communities — route-targets per service, BGP-CT color-aware policies. |
 | `firewall/` | Filters and policers (rate-limiting and marking templates). |
+| `oam/` | Ethernet OAM — CFM maintenance domains, performance-monitoring (Y.1731 delay/loss), SLA iterator profiles. |
 | `interfaces/` | Representative interface patterns: edge flexible-vlan with bridge family, LAG with ESI for active/active multihoming, core-facing ISIS+MPLS interface. |
 
 ## Current Snippets
 
-Extracted from [`../conf/an1_mx204.conf`](../conf/an1_mx204.conf):
+### From [`../conf/an1_mx204.conf`](../conf/an1_mx204.conf) — MX204 access node
 
 | File | What it shows |
 |---|---|
@@ -60,6 +61,27 @@ Extracted from [`../conf/an1_mx204.conf`](../conf/an1_mx204.conf):
 | `firewall/policers__an1-mx204.conf` | 5/50 Mbps rate-limit policers and family-any filter |
 | `interfaces/lag-esi-multihoming__an1-mx204.conf` | Edge LAG with per-unit ESI (VPWS + ELAN attachment-circuits) |
 | `interfaces/core-isis-mpls__an1-mx204.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
+
+### From [`../conf/an3_acx7100-48l.conf`](../conf/an3_acx7100-48l.conf) — ACX7100-48L access node (richer service mix)
+
+| File | What it shows |
+|---|---|
+| `apply-groups/gr-fatpw-lb__an3-acx7100-48l.conf` | Forwarding-options for FAT-PW load balancing |
+| `apply-groups/gr-fatpw-label__an3-acx7100-48l.conf` | Wildcard flow-label config per L2VPN/EVPN/VPLS naming pattern |
+| `apply-groups/gr-l3vpn__an3-acx7100-48l.conf` | L3VPN VRF baseline (multipath, protect core, vrf-table-label) for `METRO_*` instances |
+| `apply-groups/gr-l2ckt-hs__an3-acx7100-48l.conf` | L2Circuit hot-standby knobs for every PW |
+| `apply-groups/gr-isis-bfd__an3-acx7100-48l.conf` | 50ms BFD on every ISIS interface (used with GR-ISIS-BCP) |
+| `apply-groups/gr-lag-member__an3-acx7100-48l.conf` | LAG-member templates: edge SH/MH and core variants |
+| `services/l2vpn-kompella__an3-acx7100-48l.conf` | BGP-signalled (Kompella) L2VPN, port-based |
+| `services/ldp-vpls__an3-acx7100-48l.conf` | LDP-VPLS via virtual-switch with `vpls-id`/`neighbor` |
+| `services/l3vpn-vrf__an3-acx7100-48l.conf` | L3VPN VRF with PE-CE eBGP and as-override |
+| `services/evpn-elan-mac-vrf-irb__an3-acx7100-48l.conf` | EVPN-ELAN mac-vrf with IRB integration (vlan-based) |
+| `services/evpn-port-based__an3-acx7100-48l.conf` | Port-based EVPN-VPWS (EPL) and EVPN-ELAN (vlan-bundle) |
+| `services/l2circuit-hot-standby__an3-acx7100-48l.conf` | L2Circuit PW with backup-neighbor + transport-class color |
+| `policy/l3vpn-export-import__an3-acx7100-48l.conf` | Per-VRF export/import policies (route-target tagging) |
+| `policy/communities__an3-acx7100-48l.conf` | BGP-CT color communities + L3VPN per-service RTs |
+| `oam/oam-cfm-perf-mon__an3-acx7100-48l.conf` | Y.1731 performance-monitoring with HW timestamping |
+| `interfaces/edge-vlan-normalization__an3-acx7100-48l.conf` | Edge port with input/output vlan-map push/pop, per-unit policer |
 
 ## Scope
 
