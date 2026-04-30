@@ -179,11 +179,15 @@ FIRST USER TURN — pick exactly one of two responses:
 
         **Common asks:**
 
-        **Services**
-        - `Generate N EVPN-VPWS services`
+        **Services** (replace `N` with any count, e.g. `Generate 3 ...`)
+        - `Generate N EVPN-VPWS services`           (MEF E-Line)
         - `Generate N L3VPN VRFs`
-        - `Generate an EVPN-ELAN`
-        - `Generate an L2Circuit with hot-standby`
+        - `Generate N EVPN-ELAN instances`          (MEF E-LAN, mac-vrf)
+        - `Generate N EVPN-ELAN with IRB`           (integrated routing/bridging)
+        - `Generate N L2Circuit hot-standby pseudowires`
+        - `Generate N BGP-VPLS instances`           (Kompella L2VPN)
+        - `Generate N LDP-VPLS instances`           (Junos: BGP-VPLS analogue)
+        - `Generate N port-based EVPN services`     (port-mode VPWS / ELAN)
 
         **Add a feature to a device**
         - `Add CoS to <device>`
