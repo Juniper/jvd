@@ -111,6 +111,10 @@ Snippets are **excerpts**, not standalone configs. They:
 - Are extracted from real, validated config in [`../conf/`](../conf/). When a topic isn't validated on the other OS family in this JVD, the counterpart file is clearly marked as a **reference shape** rather than copied/pasted production config.
 - Are **not exhaustive** — only the most pedagogically valuable patterns are extracted. The full configurations remain in [`../conf/`](../conf/) and [`../set/`](../set/) for complete reference.
 
+## Bring Your Own AI (BYOAI)
+
+Want to generate custom configurations for your own VLANs, IP ranges, and service counts using Claude, ChatGPT, Gemini, or a local model? See [`byoai/`](byoai/) for a model-agnostic system prompt and step-by-step recipes for using this snippet library as grounded corpus for any modern LLM.
+
 ## Pairing with Documentation
 
 The patterns shown here are described and validated in the [Metro EBS JVD](https://www.juniper.net/documentation/us/en/software/jvd/jvd-metro-ebs-03-01/index.html) and its [Solution Overview PDF](https://www.juniper.net/documentation/us/en/software/jvd/sol-overview-metro-ebs-03-01.pdf).
