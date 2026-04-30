@@ -45,6 +45,26 @@ Every snippet starts with a C-style comment header containing two cross-referenc
 
 When a topic is validated on only one OS family in this JVD (e.g., L2Circuit hot-standby is only on `an3_acx7100-48l`), the counterpart snippet in the other tree is clearly marked as a **reference shape** with a note that it is not deployed on that OS family in this JVD.
 
+## Templated values — `$VAR` placeholders
+
+Identifiers that vary per deployment (loopback addresses, RD/RT tails, instance names, attachment-circuit interfaces, VPWS service-IDs, etc.) appear as `$VAR` placeholders in the body of every snippet — matching the convention used elsewhere in Juniper's JVD documentation. Values that are JVD-wide constants (apply-group names, forwarding-class names, scheduler-map names, admin-group numbers, SRGB range, AS numbers) are left literal because they ARE the abstraction the JVD documents.
+
+Each snippet header includes a `Variables:` section listing the placeholders it uses, with example values from the device the snippet was extracted from. See [`_variables.md`](_variables.md) for the full glossary.
+
+The leading `/* ... */` header block is treated as documentation — placeholder text inside the header survives rendering verbatim, so the doc remains readable in both source and rendered form.
+
+To render a snippet with concrete values:
+
+```bash
+~/git-scripts/snips_render.py services/evpn-vpws.conf vars.json > rendered.conf
+```
+
+To list every placeholder a snippet uses:
+
+```bash
+~/git-scripts/snips_render.py --extract services/evpn-vpws.conf
+```
+
 ## Topic Index
 
 The same topic file exists under both `junos/` and `evo/`:
