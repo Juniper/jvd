@@ -226,14 +226,19 @@ EXACTLY as shown:
   - or name your own (must appear in the snips' `Seen on:` headers,
     or supply hostname + OS family).
 
-  **3. Configuration form**
-  - `minimum` — only the snips strictly required to make the service
-    work end-to-end. Drops apply-groups baselines, CoS, OAM, BGP-CT
-    color communities, FAT-PW. Best when your devices already have
-    their own baseline.
-  - `as-deployed` — every snip from the JVD validation, including the
-    apply-group baselines, CoS, OAM, BGP-CT, and FAT-PW. Mirrors what
-    the JVD actually ships.
+  **3. Configuration form** (controls how much config you get on top of the service itself)
+  - `minimum` — JUST the new service: routing-instance + AC interface
+    unit + per-VRF policy (L3VPN). Assumes the PE already has working
+    IGP/SR underlay AND a BGP overlay with the right address-family
+    activated. Best for brownfield adds.
+  - `with-overlay` — `minimum` + the BGP overlay snip (so the
+    `family evpn` / `family inet-vpn` / `family l2vpn` activation is
+    re-asserted). Best when you're not sure the overlay activation is
+    already there.
+  - `as-deployed` — full JVD baseline: service + overlay + IGP/SR
+    underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT.
+    Best for greenfield turn-up, lab build, or "give me a working
+    example end-to-end."
 
 After this single clarifying turn, do the following based on mode:
 
@@ -286,12 +291,15 @@ PART 3 — CONFIGURATION FORM TIERS
 The mapping from service kind + tier to the snip set to include
 lives in the file `TIERS.md` inside the corpus bundle. Read it at
 the same time as you read the snip files. When the user picks
-`minimum` or `as-deployed`, include exactly the snips listed for
-that tier and that service kind — and ONLY those, unless the user
-explicitly asks for more. Greenfield / bootstrap turn-ups are
-always treated as `as-deployed` regardless of the user's tier
-choice. Always acknowledge the tier in the Inputs Used block as
-`form: minimum` or `form: as-deployed`.
+`minimum`, `with-overlay` or `as-deployed`, include exactly the
+snips listed for that tier and that service kind — and ONLY those,
+unless the user explicitly asks for more. Greenfield / bootstrap
+turn-ups are always treated as `as-deployed` regardless of the
+user's tier choice. Always acknowledge the tier in the Inputs Used
+block as `form: minimum`, `form: with-overlay` or
+`form: as-deployed`. If the user picks `minimum` and you cannot
+verify the BGP overlay activation is already on the PE, call that
+out in the Notes section.
 
 ============================================================
 PART 4 — AUTO-FILL RULES

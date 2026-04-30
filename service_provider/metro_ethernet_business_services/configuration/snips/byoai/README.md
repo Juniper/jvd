@@ -34,9 +34,12 @@ Every generation starts with the AI asking three quick choices: **mode**, **devi
 
 - **Devices** — `EVO`, `JUNOS`, `MIXED`, or your own hostnames (drawn from any snip's `Seen on:` header).
 
-- **Configuration form**
-  - `minimum` — only the snips strictly required to make the service work end-to-end. Drops apply-group baselines, CoS, OAM, BGP-CT color communities, FAT-PW. **Best when your devices already have their own baseline** and you just want the service-overlay delta.
-  - `as-deployed` — every snip the JVD validates: the apply-group baselines, CoS, OAM, BGP-CT, FAT-PW, the lot. **Mirrors what the JVD actually ships.**
+- **Configuration form** — controls how much config you get on top of the service itself
+  - `minimum` — JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** Best for brownfield adds to a working PE.
+  - `with-overlay` — `minimum` + the BGP overlay snip (so the `family evpn` / `family inet-vpn` / `family l2vpn` activation is re-asserted). Best when you're not sure the overlay activation is already there.
+  - `as-deployed` — full JVD baseline: service + overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. **Mirrors what the JVD actually ships.** Best for greenfield turn-up, lab build, or "give me a working example end-to-end."
+
+> Greenfield / bootstrap requests (e.g. "build a new ACX7024 turn-up") are always treated as `as-deployed` regardless of what you pick.
 
 In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
 
@@ -79,6 +82,14 @@ The AI needs to know which devices to target. Three shortcuts:
 | explicit hostnames | uses them verbatim, infers OS from the model code |
 
 Or you can list any devices that appear in the snips' `Seen on:` headers.
+
+---
+
+## Not yet available
+
+These services aren't in the snip library yet. Asking the AI for them will get a polite refusal pointing here.
+
+- **EVPN Type-5 / IP-prefix routes** — EVPN with IP-prefix advertisement so prefixes from outside the bridge-domain are reachable through the EVI. On EVO this is the IRB participating in both MAC-VRF and an L3 VRF; on Junos this is `instance-type evpn` with `ip-prefix-routes`. Snip pair (`junos/services/evpn-type5.conf`, `evo/services/evpn-type5.conf`) is not yet authored.
 
 ---
 
