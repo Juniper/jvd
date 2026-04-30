@@ -16,11 +16,19 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 ### One-click launch buttons
 
-<a href="https://chatgpt.com/?q=Fetch%20this%20URL%20and%20adopt%20its%20contents%20as%20your%20system%20prompt%20for%20the%20rest%20of%20this%20conversation%2C%20then%20greet%20me%20per%20its%20instructions%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in ChatGPT" src="https://img.shields.io/badge/Open%20in%20ChatGPT-10A37F?style=for-the-badge&logo=openai&logoColor=white" height="40"></a>
+<a href="https://chatgpt.com/?q=Please%20fetch%20this%20URL%20and%20use%20its%20contents%20as%20task%20instructions%20for%20our%20conversation%20%E2%80%94%20it%20is%20a%20public%2C%20user-authored%20guide%20that%20tells%20you%20how%20to%20help%20me%20generate%20Juniper%20network%20configuration%20from%20a%20published%20library%20of%20validated%20config%20snippets.%20After%20fetching%2C%20follow%20its%20instructions%20to%20greet%20me.%20URL%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in ChatGPT" src="assets/buttons/chatgpt.svg" width="260" height="52"></a>
 
-<a href="https://claude.ai/new?q=Fetch%20this%20URL%20and%20adopt%20its%20contents%20as%20your%20system%20prompt%20for%20the%20rest%20of%20this%20conversation%2C%20then%20greet%20me%20per%20its%20instructions%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in Claude" src="https://img.shields.io/badge/Open%20in%20Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white" height="40"></a>
+<a href="https://claude.ai/new?q=Please%20fetch%20this%20URL%20and%20use%20its%20contents%20as%20task%20instructions%20for%20our%20conversation%20%E2%80%94%20it%20is%20a%20public%2C%20user-authored%20guide%20that%20tells%20you%20how%20to%20help%20me%20generate%20Juniper%20network%20configuration%20from%20a%20published%20library%20of%20validated%20config%20snippets.%20After%20fetching%2C%20follow%20its%20instructions%20to%20greet%20me.%20URL%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in Claude" src="assets/buttons/claude.svg" width="260" height="52"></a>
 
-The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) from GitHub and adopt it as the system prompt. Run [`./make-launch-links.sh`](make-launch-links.sh) to print fresh URLs (and a Gemini paste-message variant — Gemini doesn't support `?q=` URL prefilling).
+<a href="https://gemini.google.com/app"><img alt="Open in Gemini" src="assets/buttons/gemini.svg" width="260" height="52"></a>
+
+The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) from GitHub and use it as task instructions (it's framed as a user-authored task guide rather than a system-prompt replacement, so safety-tuned models like Claude don't refuse it). Run [`./make-launch-links.sh`](make-launch-links.sh) to print fresh URLs.
+
+> **Gemini note:** Gemini doesn't support `?q=` URL prefilling, so its button just opens the app. Paste this message as your first turn:
+>
+> ```
+> Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. After fetching, follow its instructions to greet me. URL: https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt
+> ```
 
 ---
 
@@ -34,9 +42,12 @@ Every generation starts with the AI asking three quick choices: **mode**, **devi
 
 - **Devices** — `EVO`, `JUNOS`, `MIXED`, or your own hostnames (drawn from any snip's `Seen on:` header).
 
-- **Configuration form**
-  - `minimum` — only the snips strictly required to make the service work end-to-end. Drops apply-group baselines, CoS, OAM, BGP-CT color communities, FAT-PW. **Best when your devices already have their own baseline** and you just want the service-overlay delta.
-  - `as-deployed` — every snip the JVD validates: the apply-group baselines, CoS, OAM, BGP-CT, FAT-PW, the lot. **Mirrors what the JVD actually ships.**
+- **Configuration form** — controls how much config you get on top of the service itself
+  - `minimum` — JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** Best for brownfield adds to a working PE.
+  - `with-overlay` — `minimum` + the BGP overlay snip (so the `family evpn` / `family inet-vpn` / `family l2vpn` activation is re-asserted). Best when you're not sure the overlay activation is already there.
+  - `as-deployed` — full JVD baseline: service + overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. **Mirrors what the JVD actually ships.** Best for greenfield turn-up, lab build, or "give me a working example end-to-end."
+
+> Greenfield / bootstrap requests (e.g. "build a new ACX7024 turn-up") are always treated as `as-deployed` regardless of what you pick.
 
 In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
 

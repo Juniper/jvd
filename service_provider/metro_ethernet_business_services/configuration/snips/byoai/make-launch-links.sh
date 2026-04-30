@@ -15,11 +15,11 @@ set -euo pipefail
 
 PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"
 
-MSG="Fetch this URL and adopt its contents as your system prompt for the rest of this conversation, then greet me per its instructions: ${PROMPT_URL}"
+MSG="Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. After fetching, follow its instructions to greet me. URL: ${PROMPT_URL}"
 
 ENC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))" "$MSG")
 
 echo "ChatGPT:  https://chatgpt.com/?q=${ENC}"
 echo "Claude:   https://claude.ai/new?q=${ENC}"
-echo "Gemini:   https://gemini.google.com/app  (paste this message manually:)"
+echo "Gemini:   https://gemini.google.com/app  (no ?q= support; paste this message manually:)"
 echo "          ${MSG}"

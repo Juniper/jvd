@@ -1489,6 +1489,75 @@ routing-instances {
 }
 ```
 
+## evo/services/evpn-type5.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
+ *    In this JVD, Type-5 is ALWAYS paired with a matching EVPN-ELAN
+ *    MAC-VRF (`evpn-elan-mac-vrf-irb.conf`) on the same `irb.<N>`,
+ *    so the EVI advertises both RT-2 (MAC+IP from learned hosts via
+ *    the MAC-VRF) and RT-5 (the IRB subnet, silent-host /32s, and
+ *    any VRF static/learned prefixes via this VRF). "Pure" RT-5
+ *    (VRF only, no MAC-VRF) is not deployed here.
+ *  - The VRF's `interface irb.<N>` ties this VRF to the matching
+ *    EVPN-ELAN MAC-VRF (`evo/services/evpn-elan-mac-vrf-irb.conf`)
+ *    whose `l3-interface` is the same `irb.<N>`.
+ *  - `advertise direct-nexthop encapsulation mpls` — emit Type-5
+ *    routes with the local PE as direct next-hop, MPLS-encapsulated
+ *    over the SR-MPLS underlay.
+ *  - vrf-table-label — per-VRF aggregate label so the egress PE
+ *    can do an L3 lookup on the inner header.
+ *  - vrf-import / vrf-export point at the per-VRF policies in
+ *    evo/policy/l3vpn-export-import.conf.
+ *
+ * Pair with:
+ *  - junos/services/evpn-type5.conf  (Junos end of the same VRF)
+ *  - evo/services/evpn-elan-mac-vrf-irb.conf  (the L2 / IRB side
+ *    that owns irb.<N> — this is the bridge-domain whose MACs and
+ *    silent-host IPs the Type-5 route exposes to remote PEs)
+ *  - evo/apply-groups/gr-l3vpn.conf
+ *  - evo/policy/l3vpn-export-import.conf
+ *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
+ *                     (the import/export policies are named
+ *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $ROUTER_ID        e.g. 1.1.0.2
+ *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
+ *   $RD               e.g. 63000:13000
+ */
+routing-instances {
+    apply-groups GR-L3VPN;
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation mpls;
+                }
+            }
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-import PS-$INSTANCE_NAME-IMPORT;
+        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-table-label;
+    }
+}
+```
+
 ## evo/services/evpn-vpws.conf
 
 ```
@@ -1742,7 +1811,7 @@ routing-instances {
  * (see KB-VPLS-TEST in the source file for that variant).
  *
  * Pair with:
- *  - junos/services/ldp-vpls.conf
+ *  - junos/services/bgp-vpls.conf  (BGP-VPLS sibling pattern, Junos only)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME    e.g. KB-VPLS-EPL
@@ -3233,6 +3302,80 @@ policy-options {
 }
 ```
 
+## junos/services/bgp-vpls.conf
+
+```
+/*
+ * Topic:   BGP-VPLS (Kompella VPLS, RFC 4761) via virtual-switch
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (none — EVO PEs in this JVD use LDP-VPLS instead;
+ *           see evo/services/ldp-vpls.conf)
+ *
+ * Highlights:
+ *  - instance-type virtual-switch with `protocols vpls` carrying
+ *    `site $NAME { site-identifier $ID; }` — this site/site-id
+ *    pair is what makes it BGP-VPLS rather than LDP-VPLS.
+ *  - BGP NLRI exchange (family l2vpn signaling) replaces LDP
+ *    targeted-session signalling; site-id / site-range /
+ *    label-block-size on each PE compute the PE-to-PE pseudowire
+ *    label blocks (RFC 4761 §3 math).
+ *  - virtual-switch (vs. plain `instance-type vpls`) lets one
+ *    routing-instance hold multiple bridge-domains, each with its
+ *    own VLAN — useful for vlan-aware service multiplexing on MX.
+ *  - bridge-options no-normalization — the AC keeps its customer
+ *    VLAN tag rather than being re-tagged at the BD boundary
+ *    (vlan-aware passthrough mode).
+ *  - The JVD does NOT deploy LDP-VPLS on Junos PEs (no `vpls-id`
+ *    + `neighbor` static config exists in any Junos conf/*.conf),
+ *    nor does it deploy LDP-VPLS with BGP auto-discovery (no
+ *    `l2vpn-id` form). For pure LDP-VPLS see the EVO snip.
+ *
+ * Pair with:
+ *  - evo/services/ldp-vpls.conf  (LDP-VPLS sibling pattern, EVO only)
+ *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
+ *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *
+ * Variables (example values from ma5_mx204 / vpls_group_108_800):
+ *   $INSTANCE_NAME      e.g. vpls_group_108_800
+ *                       (the vrf-export policy is named after the instance)
+ *   $L2VPN_SITE         e.g. r19
+ *   $SITE_ID            e.g. 3
+ *   $BD_NAME            e.g. vlan800
+ *   $VLAN_BD            e.g. 800
+ *   $AC_INTF            e.g. xe-0/1/4.800
+ *   $RD                 e.g. 64535:81000
+ *   $RT                 e.g. 64535:1183000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $L2VPN_SITE {
+                    site-identifier $SITE_ID;
+                }
+                site-range 10;
+                label-block-size 8;
+                no-tunnel-services;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_INTF;
+                bridge-options {
+                    no-normalization;
+                }
+            }
+        }
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
 ## junos/services/evpn-elan-mac-vrf-irb.conf
 
 ```
@@ -3423,6 +3566,80 @@ routing-instances {
         interface $AC_INTF_ELAN;
         route-distinguisher $LOOPBACK_V4:$RD_ID_ELAN;
         vrf-target target:$AS_LOCAL:$RT_ID_ELAN;
+    }
+}
+```
+
+## junos/services/evpn-type5.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
+ *    In this JVD, Type-5 is ALWAYS paired with a matching EVPN-ELAN
+ *    MAC-VRF (`evpn-elan-mac-vrf-irb.conf`) on the same `irb.<N>`,
+ *    so the EVI advertises both RT-2 (MAC+IP from learned hosts via
+ *    the MAC-VRF) and RT-5 (the IRB subnet, silent-host /32s, and
+ *    any VRF static/learned prefixes via this VRF). "Pure" RT-5
+ *    (VRF only, no MAC-VRF) is not deployed here.
+ *  - The VRF's `interface irb.<N>` ties this VRF to the matching
+ *    L2 service (MAC-VRF on EVO, virtual-switch on Junos) whose
+ *    `l3-interface` / `routing-interface` is the same `irb.<N>`.
+ *  - `advertise direct-nexthop encapsulation mpls` — emit Type-5
+ *    routes with the local PE as direct next-hop, MPLS-encapsulated
+ *    over the SR-MPLS underlay (no VXLAN here — this is a
+ *    metro-MPLS deployment).
+ *  - vrf-table-label — per-VRF aggregate label so the egress PE
+ *    can do an L3 lookup on the inner header (standard IRB pattern).
+ *  - vrf-import / vrf-export point at the per-VRF policies in
+ *    junos/policy/l3vpn-export-import.conf — same shape as the
+ *    PE-CE-eBGP L3VPN, just a different RT to keep the two
+ *    families separate.
+ *
+ * Pair with:
+ *  - evo/services/evpn-type5.conf  (EVO end of the same VRF)
+ *  - For the L2 / IRB side that owns irb.<N>:
+ *      evo/services/evpn-elan-mac-vrf-irb.conf  (EVO mate)
+ *      Junos virtual-switch + bridge-domains + routing-interface
+ *      (no dedicated snip yet — see deployed pattern in
+ *       service_provider/.../conf/mse1_mx304.conf).
+ *  - junos/apply-groups/gr-l3vpn.conf
+ *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
+ *                     (the import/export policies are named
+ *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $ROUTER_ID        e.g. 1.1.0.10
+ *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
+ *   $RD               e.g. 63200:13000
+ */
+routing-instances {
+    apply-groups GR-L3VPN;
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation mpls;
+                }
+            }
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-import PS-$INSTANCE_NAME-IMPORT;
+        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-table-label;
     }
 }
 ```
@@ -3654,77 +3871,6 @@ routing-instances {
         vrf-import ${INSTANCE_NAME}-IMPORT;
         vrf-export ${INSTANCE_NAME}-EXPORT;
         vrf-table-label;
-    }
-}
-```
-
-## junos/services/ldp-vpls.conf
-
-```
-/*
- * Topic:   BGP-VPLS via virtual-switch  (closest Junos analogue to LDP-VPLS)
- * Seen on:
- *   Junos: ma5_mx204 mse1_mx304 mse2_mx304  (all use BGP-VPLS, not LDP-VPLS)
- *   EVO:   an3_acx7100-48l
- *
- * Highlights:
- *  - The JVD does NOT validate LDP-VPLS on Junos PEs (no `vpls-id`
- *    + `neighbor` static config exists in any conf/*.conf). The
- *    closest validated pattern is BGP-VPLS via instance-type
- *    virtual-switch with a vlan-aware bridge-domain — shown below.
- *    See evo/services/ldp-vpls.conf for the actual LDP-VPLS pattern
- *    (only used on an3 in this JVD).
- *  - BGP-VPLS NLRI exchange replaces LDP targeted-session signalling;
- *    site-id / site-range / label-block-size on each PE compute
- *    PE-to-PE pseudowire labels (RFC 4761).
- *  - virtual-switch (vs. plain `instance-type vpls`) lets one
- *    routing-instance hold multiple bridge-domains, each with its
- *    own VLAN — useful for vlan-aware service multiplexing on MX.
- *  - bridge-options no-normalization — the AC keeps its customer
- *    VLAN tag rather than being re-tagged at the BD boundary
- *    (vlan-aware passthrough mode).
- *
- * Pair with:
- *  - evo/services/ldp-vpls.conf  (the actual LDP-VPLS pattern)
- *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
- *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
- *
- * Variables (example values from ma5_mx204 / vpls_group_108_800):
- *   $INSTANCE_NAME      e.g. vpls_group_108_800
- *                       (the vrf-export policy is named after the instance)
- *   $L2VPN_SITE         e.g. r19
- *   $SITE_ID            e.g. 3
- *   $BD_NAME            e.g. vlan800
- *   $VLAN_BD            e.g. 800
- *   $AC_INTF            e.g. xe-0/1/4.800
- *   $RD                 e.g. 64535:81000
- *   $RT                 e.g. 64535:1183000
- */
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type virtual-switch;
-        protocols {
-            vpls {
-                site $L2VPN_SITE {
-                    site-identifier $SITE_ID;
-                }
-                site-range 10;
-                label-block-size 8;
-                no-tunnel-services;
-            }
-        }
-        bridge-domains {
-            $BD_NAME {
-                vlan-id $VLAN_BD;
-                interface $AC_INTF;
-                bridge-options {
-                    no-normalization;
-                }
-            }
-        }
-        route-distinguisher $RD;
-        vrf-export $INSTANCE_NAME;
-        vrf-target target:$RT;
     }
 }
 ```
@@ -4108,21 +4254,37 @@ deployment).
 
 # Configuration Form Tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier (`minimum` vs `as-deployed`). It is bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
 
 For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
 
 ---
 
+## What the tiers mean
+
+| Tier | Use when | What's included |
+|---|---|---|
+| **`minimum`** | Brownfield change. PE already has working IGP/SR underlay AND BGP overlay (with `family evpn` and/or `family inet-vpn`). You just want the new service. | Service routing-instance + AC interface unit + per-VRF policy (L3VPN only). **Nothing else.** |
+| **`with-overlay`** | Brownfield-ish. PE has working IGP/SR underlay but you want to (re)assert the BGP overlay activation for the right address-family. | `minimum` + `transport/bgp-overlay.conf`. |
+| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + policy + BGP overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. |
+
+> **Greenfield / bootstrap requests** (e.g. "build a new ACX7024 turn-up", "bootstrap a new MX304 PE end-to-end") are always treated as **`as-deployed`** regardless of the user's tier choice.
+
+If the user picks `minimum` and the AI cannot tell whether the overlay activation for the needed address-family is already on the PE, it should call that out in the `Notes:` section ("assumed `family evpn signaling` already configured under `protocols bgp group …`").
+
+---
+
 ## EVPN-VPWS
 
-**minimum**
+**minimum** (just the service)
 - `services/evpn-vpws.conf`
-- `interfaces/lag-esi-multihoming.conf` (AC unit, multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (AC unit, single-homed)
-- `transport/bgp-overlay.conf` (`family evpn signaling`)
-- `transport/isis-srmpls-tilfa.conf` (label transport)
+- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
-**as-deployed** (= minimum +)
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- `transport/isis-srmpls-tilfa.conf`
 - `transport/mpls-segment-routing.conf`
 - `apply-groups/gr-edge-intf-mh.conf` (or `gr-edge-intf.conf` if SH)
 - `apply-groups/gr-core-intf.conf`
@@ -4142,15 +4304,17 @@ For each service kind, the AI includes ONLY the snips listed for the chosen tier
 
 ## L3VPN-VRF
 
-**minimum**
+**minimum** (just the service + per-VRF policy)
 - `services/l3vpn-vrf.conf`
-- `policy/communities.conf` (just the per-VRF target community, not topology tags or BGP-CT colors)
 - `policy/l3vpn-export-import.conf`
-- `transport/bgp-overlay.conf` (`family inet-vpn unicast`)
-- `transport/isis-srmpls-tilfa.conf`
+- `policy/communities.conf` (only the per-VRF target community — NOT topology tags or BGP-CT colors)
 - `interfaces/edge-vlan-normalization.conf` (PE-CE AC unit)
 
-**as-deployed** (= minimum +)
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family inet-vpn unicast`)
+
+**as-deployed** (= with-overlay +)
+- `transport/isis-srmpls-tilfa.conf`
 - `transport/mpls-segment-routing.conf`
 - `apply-groups/gr-l3vpn.conf`
 - `apply-groups/gr-edge-intf.conf` (or `-mh.conf` if multi-homed CE)
@@ -4168,13 +4332,15 @@ For each service kind, the AI includes ONLY the snips listed for the chosen tier
 
 ## EVPN-ELAN (mac-vrf, mac-vrf-irb, or port-based)
 
-**minimum**
+**minimum** (just the service)
 - `services/evpn-elan-mac-vrf.conf` (or `-irb.conf`, or `evpn-port-based.conf`, whichever flavor was requested)
-- `interfaces/lag-esi-multihoming.conf` (AC unit) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
-- `transport/bgp-overlay.conf` (`family evpn signaling`)
-- `transport/isis-srmpls-tilfa.conf`
+- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
-**as-deployed** (= minimum +)
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- `transport/isis-srmpls-tilfa.conf`
 - `transport/mpls-segment-routing.conf`
 - `apply-groups/gr-edge-intf-mh.conf`
 - `apply-groups/gr-core-intf.conf`
@@ -4192,15 +4358,48 @@ For each service kind, the AI includes ONLY the snips listed for the chosen tier
 
 ---
 
+## EVPN Type-5 / IP-prefix VRFs
+
+In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the same `irb.<N>`: the MAC-VRF advertises RT-2 (MAC+IP from learned hosts), and the VRF with `protocols evpn ip-prefix-routes` advertises RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes). "Pure" RT-5 (VRF only, no MAC-VRF) is not a deployed pattern here. Therefore EVERY tier below includes BOTH the L2 (ELAN-IRB) and L3 (Type-5 VRF) snips. The two instances must reference the same `irb.<N>`.
+
+**minimum** (both halves of the service + per-VRF policy)
+- `services/evpn-elan-mac-vrf-irb.conf`  (the L2 / RT-2 half — MAC-VRF with `l3-interface irb.<N>`)
+- `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
+- `policy/l3vpn-export-import.conf`
+- `policy/communities.conf` (only the per-VRF target community)
+- `interfaces/edge-vlan-normalization.conf` (the AC interface that lands in the MAC-VRF's bridge-domain)
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- `transport/isis-srmpls-tilfa.conf`
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-l3vpn.conf`
+- `apply-groups/gr-edge-intf-mh.conf`
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `firewall/policers.conf`
+- `policy/communities.conf` (full set)
+
+---
+
 ## L2CIRCUIT (including hot-standby)
 
-**minimum**
+**minimum** (just the service)
 - `services/l2circuit-hot-standby.conf`
 - `interfaces/edge-vlan-normalization.conf`
-- `transport/bgp-overlay.conf`
-- `transport/isis-srmpls-tilfa.conf`
 
-**as-deployed** (= minimum +)
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf`
+
+**as-deployed** (= with-overlay +)
+- `transport/isis-srmpls-tilfa.conf`
 - `transport/mpls-segment-routing.conf`
 - `apply-groups/gr-edge-intf.conf`
 - `apply-groups/gr-core-intf.conf`
@@ -4218,19 +4417,45 @@ For each service kind, the AI includes ONLY the snips listed for the chosen tier
 
 ---
 
-## L2VPN (Kompella) and LDP-VPLS
+## L2VPN family (Kompella L2VPN, BGP-VPLS, LDP-VPLS)
 
-Same shape as the others: `services/<topic>.conf` + matching transport snips for **minimum**; full apply-group baseline + CoS + OAM + BGP-CT for **as-deployed**.
+Three distinct services, all using the BGP `family l2vpn signaling`
+overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
+(LDP-VPLS). Pick the right snip:
+
+- **Kompella L2VPN** (point-to-point pseudowire, RFC 4761):
+  - `services/l2vpn-kompella.conf` (Junos and EVO).
+  - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
+    with both `site-identifier` and `remote-site-id`.
+- **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
+  - `junos/services/bgp-vpls.conf` (Junos PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
+- **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
+  - `evo/services/ldp-vpls.conf` (EVO PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
+  - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
+    NOT deployed in this JVD.
+
+Tiers (apply to whichever of the three the user asked for):
+
+- **minimum** = `services/<topic>.conf` + AC interface snip
+- **with-overlay** = + `transport/bgp-overlay.conf` (verify
+  `family l2vpn signaling` for Kompella L2VPN and BGP-VPLS;
+  LDP-VPLS does not need this — it relies on LDP targeted sessions)
+- **as-deployed** = + transport underlay + full apply-group baseline
+  + CoS + OAM + BGP-CT
 
 ---
 
 ## Bootstrap / greenfield turn-up
 
-Treat as **as-deployed** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
+Treat as **`as-deployed`** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
 
 ---
 
-Always acknowledge the chosen tier in the `Inputs Used` block (`form: minimum` or `form: as-deployed`).
+Always acknowledge the chosen tier in the `Inputs Used` block (`form: minimum` / `form: with-overlay` / `form: as-deployed`).
 
 ## byoai/DEFAULTS.md
 
@@ -4334,7 +4559,7 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum"
+# form: as-deployed            # or "minimum" or "with-overlay"
 # devices:
 #   pe1: { name: <hostname>, os: <junos|evo>,
 #          loopback4: <addr>, loopback6: <addr> }

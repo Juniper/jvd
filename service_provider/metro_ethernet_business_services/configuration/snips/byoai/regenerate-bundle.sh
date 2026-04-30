@@ -50,3 +50,7 @@ awk '/^```$/{f=!f; next} f' byoai/SYSTEM_PROMPT.md > "$PROMPT_OUT"
 plines=$(wc -l < "$PROMPT_OUT")
 psize=$(du -h "$PROMPT_OUT" | cut -f1)
 echo "regenerated: $PROMPT_OUT ($plines lines, $psize)"
+
+# Regenerate the MANIFEST.json (used by AIs with web fetch to pull
+# only the snips they need on demand).
+byoai/make-manifest.py
