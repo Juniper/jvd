@@ -6,67 +6,109 @@ This `snips/` directory contains **focused, copy-pasteable configuration excerpt
 
 ![Metro EBS Topology](../../images/metro-ebs-topology.png)
 
-> Refer to the topology when reading any snippet — the **role** in each filename (e.g., `an1`, `ag1-1`, `cr1`, `ma3`, `mse1`) maps directly to a device shown above.
+> Refer to the topology when reading any snippet — the **role** referenced in each snippet header (e.g., `an1`, `ag1-1`, `cr1`, `ma3`, `mse1`) maps directly to a device shown above.
 
-## Naming Convention
-
-```
-<topic>__<role>-<platform>.conf
-```
-
-- **`<topic>`** — what the snippet does (e.g., `evpn-vpws`, `isis-srmpls-tilfa`, `schedulers`).
-- **`<role>`** — the device role from the topology (`an1`, `ag1-1`, `cr1`, `mse1`, `ma3`, etc.).
-- **`<platform>`** — the Junos hardware platform (e.g., `mx204`, `acx7100-32c`, `ptx10001-36mr`).
-
-The double underscore (`__`) separates the topic from its source so you can quickly grep or sort:
+## Layout
 
 ```
-ls services/evpn-vpws*    # all EVPN-VPWS variants across platforms
-ls services/*__an1-mx204* # all snippets sourced from AN1
+snips/
+  junos/        ← Junos OS examples (MX204, MX304, MX10003, ACX5448/710)
+  evo/          ← Junos Evolved examples (ACX7024, ACX7100-32C/48L, ACX7509, PTX10001-36MR)
 ```
 
-When the same pattern is implemented differently across platforms, multiple variants live side-by-side (e.g., MX vs ACX EVPN multihoming knobs).
+Each subtree mirrors the same category folders (`apply-groups/`, `transport/`, `services/`, `cos/`, `policy/`, `firewall/`, `oam/`, `interfaces/`) and the same set of topics. Open the file under `junos/` or `evo/` to see the OS-specific syntax for that topic.
 
-## Folder Layout
-
-| Folder | What's in it |
+| Sub-folder | What's in it |
 |---|---|
-| `apply-groups/` | Reusable templated config blocks (`GR-EDGE-INTF`, `GR-CORE-INTF`, `GR-ISIS-BCP`, etc.) applied via `apply-groups`. The foundation for keeping per-device configs DRY. |
-| `transport/` | Underlay: ISIS with SR-MPLS and TI-LFA, MPLS/segment-routing, BGP overlay sessions (inet-vpn, l2vpn, evpn, inet6-vpn). |
-| `services/` | MEF service overlays: EVPN-VPWS, EVPN-ELAN (mac-vrf), EVPN-FXC, EVPN-ETREE, floating pseudowires with Anycast-SID, BGP-VPLS, L2VPN, L2Circuit, L3VPN. |
-| `cos/` | Class-of-service: forwarding-classes, schedulers, scheduler-maps, classifiers, rewrite-rules. |
-| `policy/` | Routing policies and communities — route-targets per service, BGP-CT color-aware policies. |
-| `firewall/` | Filters and policers (rate-limiting and marking templates). |
-| `interfaces/` | Representative interface patterns: edge flexible-vlan with bridge family, LAG with ESI for active/active multihoming, core-facing ISIS+MPLS interface. |
+| `apply-groups/` | Reusable templated config blocks (`GR-EDGE-INTF`, `GR-CORE-INTF`, `GR-ISIS-BCP`, `GR-L3VPN`, `GR-FATPW-*`, etc.) applied via `apply-groups`. The foundation for keeping per-device configs DRY. |
+| `transport/` | Underlay: ISIS with SR-MPLS and TI-LFA, MPLS / segment-routing, BGP overlay sessions (inet-vpn, l2vpn, evpn, route-target). |
+| `services/` | MEF service overlays: EVPN-VPWS, EVPN-ELAN (mac-vrf, with-IRB, port-based), L2VPN-Kompella, LDP/BGP-VPLS, L2Circuit (incl. hot-standby), L3VPN. |
+| `cos/` | Class-of-service: forwarding-classes, schedulers, scheduler-maps. |
+| `policy/` | Routing policies and communities — per-VRF route-targets, BGP-CT color communities, topology tags. |
+| `firewall/` | Filters and policers (rate-limiting templates). |
+| `oam/` | Ethernet OAM — CFM maintenance domains, Y.1731 performance-monitoring, SLA iterator profiles. |
+| `interfaces/` | Edge flexible-vlan with bridge / vlan-ccc, LAG with ESI for active/active multihoming, edge VLAN normalization (input/output-vlan-map), core-facing ISIS+MPLS interface. |
 
-## Current Snippets
+## Snippet Headers — `Seen on:` and `Pair with:`
 
-Extracted from [`../conf/an1_mx204.conf`](../conf/an1_mx204.conf):
+Every snippet starts with a C-style comment header containing two cross-reference fields:
 
-| File | What it shows |
+- **`Seen on:`** — every validated device in `../conf/` that contains this exact pattern, split by OS family. Example:
+  ```
+   * Seen on:
+   *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 mse1_mx304
+   *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+  ```
+  This means you can open `services/evpn-vpws.conf` and immediately see *every* device in the JVD that participates in EVPN-VPWS, on both OS families. Useful for "what's the service between an1 and ma1-1?" questions.
+
+- **`Pair with:`** — other snippets in this folder that work together to deliver the same end-to-end service (e.g., a `services/evpn-vpws.conf` snippet pairs with `transport/bgp-overlay.conf` for `family evpn signaling` and with `interfaces/lag-esi-multihoming.conf` for the AC).
+
+When a topic is validated on only one OS family in this JVD (e.g., L2Circuit hot-standby is only on `an3_acx7100-48l`), the counterpart snippet in the other tree is clearly marked as a **reference shape** with a note that it is not deployed on that OS family in this JVD.
+
+## Templated values — `$VAR` placeholders
+
+Identifiers that vary per deployment (loopback addresses, RD/RT tails, instance names, attachment-circuit interfaces, VPWS service-IDs, etc.) appear as `$VAR` placeholders in the body of every snippet — matching the convention used elsewhere in Juniper's JVD documentation. Values that are JVD-wide constants (apply-group names, forwarding-class names, scheduler-map names, admin-group numbers, SRGB range, AS numbers) are left literal because they ARE the abstraction the JVD documents.
+
+Each snippet header includes a `Variables:` section listing the placeholders it uses, with example values from the device the snippet was extracted from. See [`_variables.md`](_variables.md) for the full glossary.
+
+The leading `/* ... */` header block is treated as documentation — placeholder text inside the header survives rendering verbatim, so the doc remains readable in both source and rendered form.
+
+To render a snippet with concrete values:
+
+```bash
+~/git-scripts/snips_render.py services/evpn-vpws.conf vars.json > rendered.conf
+```
+
+To list every placeholder a snippet uses:
+
+```bash
+~/git-scripts/snips_render.py --extract services/evpn-vpws.conf
+```
+
+## Topic Index
+
+The same topic file exists under both `junos/` and `evo/`:
+
+| Topic | What it shows |
 |---|---|
-| `apply-groups/gr-edge-intf__an1-mx204.conf` | Customer-facing interface baseline (MTU, flex-vlan, optics alarms) |
-| `apply-groups/gr-edge-intf-mh__an1-mx204.conf` | Multi-homed edge variant (no hold-time) |
-| `apply-groups/gr-core-intf__an1-mx204.conf` | Core-facing baseline (jumbo MTU, mpls max-labels 14) |
-| `apply-groups/gr-isis-bcp__an1-mx204.conf` | ISIS best-current-practice timers |
-| `apply-groups/gr-bgp-bcp__an1-mx204.conf` | BGP best-current-practice timers |
-| `transport/isis-srmpls-tilfa__an1-mx204.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
-| `transport/mpls-segment-routing__an1-mx204.conf` | SRGB, admin-groups, ipv6-tunneling |
-| `transport/bgp-overlay__an1-mx204.conf` | iBGP to RR with all overlay AFs (inet/inet6 LU, inet-vpn, inet6-vpn, l2vpn, evpn, route-target) |
-| `services/evpn-vpws__an1-mx204.conf` | MEF E-Line via EVPN-VPWS routing-instance |
-| `services/evpn-elan-mac-vrf__an1-mx204.conf` | MEF E-LAN via EVPN mac-vrf routing-instance |
-| `cos/forwarding-classes__an1-mx204.conf` | 6-class queue model |
-| `cos/schedulers__an1-mx204.conf` | Schedulers + scheduler-map for the 6-class model |
-| `firewall/policers__an1-mx204.conf` | 5/50 Mbps rate-limit policers and family-any filter |
-| `interfaces/lag-esi-multihoming__an1-mx204.conf` | Edge LAG with per-unit ESI (VPWS + ELAN attachment-circuits) |
-| `interfaces/core-isis-mpls__an1-mx204.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
+| `apply-groups/gr-edge-intf.conf` | Customer-facing interface baseline (MTU, flex-vlan, optics alarms) |
+| `apply-groups/gr-edge-intf-mh.conf` | Multi-homed edge variant (no port-level damping) |
+| `apply-groups/gr-core-intf.conf` | Core-facing baseline (jumbo MTU, mpls maximum-labels 14) |
+| `apply-groups/gr-isis-bcp.conf` | ISIS BCP timers (SPF backoff, lsp-interval, overload-on-boot) |
+| `apply-groups/gr-bgp-bcp.conf` | BGP BCP (precision-timers, hold-time 10, error-tolerance, tcp-mss) |
+| `apply-groups/gr-fatpw-lb.conf` | FAT-PW load-balance-label-capability under forwarding-options |
+| `apply-groups/gr-fatpw-label.conf` | Per-instance FAT flow-label config (wildcard L2VPN/EVPN/VPLS naming) |
+| `apply-groups/gr-l3vpn.conf` | L3VPN VRF baseline (multipath, protect core, vrf-table-label) |
+| `apply-groups/gr-l2ckt-hs.conf` | L2Circuit hot-standby knobs (reference shape on Junos) |
+| `apply-groups/gr-isis-bfd.conf` | 50ms BFD on every ISIS interface (reference shape on Junos) |
+| `apply-groups/gr-lag-member.conf` | LAG-member templates: edge SH/MH and core variants |
+| `transport/isis-srmpls-tilfa.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
+| `transport/mpls-segment-routing.conf` | SRGB, admin-groups, ipv6-tunneling |
+| `transport/bgp-overlay.conf` | iBGP to RR with overlay AFs (inet/inet6 LU, inet-vpn, l2vpn, evpn, RT) |
+| `services/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
+| `services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) / virtual-switch (Junos) |
+| `services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (reference shape on Junos) |
+| `services/evpn-port-based.conf` | Port-based EVPN-VPWS (EPL) and EVPN-ELAN (vlan-bundle) |
+| `services/l2vpn-kompella.conf` | BGP-signalled (Kompella, RFC 4761) L2VPN, port-based |
+| `services/ldp-vpls.conf` | LDP-VPLS via virtual-switch (EVO) / BGP-VPLS analogue (Junos) |
+| `services/l2circuit-hot-standby.conf` | L2Circuit PW with backup-neighbor hot-standby |
+| `services/l3vpn-vrf.conf` | L3VPN VRF with PE-CE eBGP and as-override |
+| `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |
+| `cos/schedulers.conf` | Schedulers + scheduler-map for the 6-class model |
+| `policy/communities.conf` | Topology tags + BGP-CT color communities + L3VPN per-service RTs |
+| `policy/l3vpn-export-import.conf` | Per-VRF export/import policies (route-target tagging) |
+| `firewall/policers.conf` | 5/50 Mbps rate-limit policer templates |
+| `oam/oam-cfm-perf-mon.conf` | Y.1731 performance-monitoring with HW-assisted timestamping |
+| `interfaces/lag-esi-multihoming.conf` | Edge LAG with per-unit ESI (EVPN-VPWS / EVPN-ELAN ACs) |
+| `interfaces/edge-vlan-normalization.conf` | Edge port with input/output vlan-map push/pop |
+| `interfaces/core-isis-mpls.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
 
 ## Scope
 
 Snippets are **excerpts**, not standalone configs. They:
 
-- Preserve their original Junos hierarchy (e.g., a `services/evpn-vpws__an1-mx204.conf` snippet contains the `routing-instances { … }` wrapper so it's syntactically valid in context).
-- Are **not** edited or generalized — they are real, validated config from the full device files. This guarantees the patterns shown here actually work in the validated topology.
+- Preserve their original Junos hierarchy (e.g., a `services/evpn-vpws.conf` snippet contains the `routing-instances { … }` wrapper so it's syntactically valid in context).
+- Are extracted from real, validated config in [`../conf/`](../conf/). When a topic isn't validated on the other OS family in this JVD, the counterpart file is clearly marked as a **reference shape** rather than copied/pasted production config.
 - Are **not exhaustive** — only the most pedagogically valuable patterns are extracted. The full configurations remain in [`../conf/`](../conf/) and [`../set/`](../set/) for complete reference.
 
 ## Pairing with Documentation
