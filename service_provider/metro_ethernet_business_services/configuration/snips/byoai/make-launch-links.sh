@@ -13,7 +13,7 @@
 #
 set -euo pipefail
 
-PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"
+PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"
 
 MSG="Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. After fetching, follow its instructions to greet me. URL: ${PROMPT_URL}"
 

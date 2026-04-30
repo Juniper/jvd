@@ -24,7 +24,7 @@ REPO_ROOT_PARTS = (
     "snips",
 )
 RAW_BASE = (
-    "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/"
+    "https://raw.githubusercontent.com/Juniper/jvd/main/"
     + "/".join(REPO_ROOT_PARTS)
 )
 

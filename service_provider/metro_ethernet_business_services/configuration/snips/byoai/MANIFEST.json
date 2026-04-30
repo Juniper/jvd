@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
-  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
   "snip_count": 64,
   "snips": [
     {
@@ -15,7 +15,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 1364,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-bgp-bcp.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-bgp-bcp.conf"
     },
     {
       "path": "evo/apply-groups/gr-core-intf.conf",
@@ -28,7 +28,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 1940,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-core-intf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-core-intf.conf"
     },
     {
       "path": "evo/apply-groups/gr-edge-intf-mh.conf",
@@ -42,7 +42,7 @@
         "ma1-2_acx7024"
       ],
       "size_bytes": 1290,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf-mh.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf-mh.conf"
     },
     {
       "path": "evo/apply-groups/gr-edge-intf.conf",
@@ -55,7 +55,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 2117,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf.conf"
     },
     {
       "path": "evo/apply-groups/gr-fatpw-label.conf",
@@ -74,7 +74,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2980,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-label.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-label.conf"
     },
     {
       "path": "evo/apply-groups/gr-fatpw-lb.conf",
@@ -93,7 +93,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 836,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-lb.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-lb.conf"
     },
     {
       "path": "evo/apply-groups/gr-isis-bcp.conf",
@@ -106,7 +106,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 1684,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bcp.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bcp.conf"
     },
     {
       "path": "evo/apply-groups/gr-isis-bfd.conf",
@@ -116,7 +116,7 @@
       "topic": "",
       "seen_on": [],
       "size_bytes": 1409,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bfd.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bfd.conf"
     },
     {
       "path": "evo/apply-groups/gr-l2ckt-hs.conf",
@@ -128,7 +128,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1123,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l2ckt-hs.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l2ckt-hs.conf"
     },
     {
       "path": "evo/apply-groups/gr-l3vpn.conf",
@@ -146,7 +146,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1122,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l3vpn.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l3vpn.conf"
     },
     {
       "path": "evo/apply-groups/gr-lag-member.conf",
@@ -156,7 +156,7 @@
       "topic": "",
       "seen_on": [],
       "size_bytes": 2276,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-lag-member.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-lag-member.conf"
     },
     {
       "path": "evo/cos/forwarding-classes.conf",
@@ -169,7 +169,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 3462,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/forwarding-classes.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/forwarding-classes.conf"
     },
     {
       "path": "evo/cos/schedulers.conf",
@@ -182,7 +182,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 2256,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/schedulers.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/schedulers.conf"
     },
     {
       "path": "evo/firewall/policers.conf",
@@ -195,7 +195,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 1529,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/policers.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/policers.conf"
     },
     {
       "path": "evo/interfaces/core-isis-mpls.conf",
@@ -208,7 +208,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 2242,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
     },
     {
       "path": "evo/interfaces/edge-vlan-normalization.conf",
@@ -220,7 +220,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 2206,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf"
     },
     {
       "path": "evo/interfaces/lag-esi-multihoming.conf",
@@ -240,7 +240,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2493,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/lag-esi-multihoming.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/lag-esi-multihoming.conf"
     },
     {
       "path": "evo/oam/oam-cfm-perf-mon.conf",
@@ -257,7 +257,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2944,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/oam/oam-cfm-perf-mon.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/oam/oam-cfm-perf-mon.conf"
     },
     {
       "path": "evo/policy/communities.conf",
@@ -267,7 +267,7 @@
       "topic": "Communities \u2014 transport-class colors and L3VPN service tags",
       "seen_on": [],
       "size_bytes": 2434,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/communities.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/communities.conf"
     },
     {
       "path": "evo/policy/l3vpn-export-import.conf",
@@ -285,7 +285,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2204,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/l3vpn-export-import.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/l3vpn-export-import.conf"
     },
     {
       "path": "evo/services/evpn-elan-mac-vrf-irb.conf",
@@ -300,7 +300,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1918,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf-irb.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf-irb.conf"
     },
     {
       "path": "evo/services/evpn-elan-mac-vrf.conf",
@@ -316,7 +316,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2260,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf.conf"
     },
     {
       "path": "evo/services/evpn-port-based.conf",
@@ -332,7 +332,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2322,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
     },
     {
       "path": "evo/services/evpn-type5.conf",
@@ -348,7 +348,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2576,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5.conf"
     },
     {
       "path": "evo/services/evpn-vpws.conf",
@@ -370,7 +370,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1886,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-vpws.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-vpws.conf"
     },
     {
       "path": "evo/services/l2circuit-hot-standby.conf",
@@ -382,7 +382,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1874,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hot-standby.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hot-standby.conf"
     },
     {
       "path": "evo/services/l2vpn-kompella.conf",
@@ -395,7 +395,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1611,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2vpn-kompella.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2vpn-kompella.conf"
     },
     {
       "path": "evo/services/l3vpn-vrf.conf",
@@ -413,7 +413,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2110,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-vrf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-vrf.conf"
     },
     {
       "path": "evo/services/ldp-vpls.conf",
@@ -425,7 +425,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1460,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/ldp-vpls.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/ldp-vpls.conf"
     },
     {
       "path": "evo/transport/bgp-overlay.conf",
@@ -444,7 +444,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 3610,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/bgp-overlay.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/bgp-overlay.conf"
     },
     {
       "path": "evo/transport/isis-srmpls-tilfa.conf",
@@ -465,7 +465,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 3482,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/isis-srmpls-tilfa.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/isis-srmpls-tilfa.conf"
     },
     {
       "path": "evo/transport/mpls-segment-routing.conf",
@@ -486,7 +486,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 1269,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/mpls-segment-routing.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/mpls-segment-routing.conf"
     },
     {
       "path": "junos/apply-groups/gr-bgp-bcp.conf",
@@ -498,7 +498,7 @@
         "an1_mx204"
       ],
       "size_bytes": 939,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-bgp-bcp.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-bgp-bcp.conf"
     },
     {
       "path": "junos/apply-groups/gr-core-intf.conf",
@@ -510,7 +510,7 @@
         "an1_mx204"
       ],
       "size_bytes": 1567,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-core-intf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-core-intf.conf"
     },
     {
       "path": "junos/apply-groups/gr-edge-intf-mh.conf",
@@ -522,7 +522,7 @@
         "an1_mx204"
       ],
       "size_bytes": 941,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf-mh.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf-mh.conf"
     },
     {
       "path": "junos/apply-groups/gr-edge-intf.conf",
@@ -534,7 +534,7 @@
         "an1_mx204"
       ],
       "size_bytes": 1705,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf.conf"
     },
     {
       "path": "junos/apply-groups/gr-fatpw-label.conf",
@@ -553,7 +553,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1954,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-label.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-label.conf"
     },
     {
       "path": "junos/apply-groups/gr-fatpw-lb.conf",
@@ -572,7 +572,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1222,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-lb.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-lb.conf"
     },
     {
       "path": "junos/apply-groups/gr-isis-bcp.conf",
@@ -584,7 +584,7 @@
         "an1_mx204"
       ],
       "size_bytes": 1195,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bcp.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bcp.conf"
     },
     {
       "path": "junos/apply-groups/gr-isis-bfd.conf",
@@ -596,7 +596,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 2428,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bfd.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bfd.conf"
     },
     {
       "path": "junos/apply-groups/gr-l2ckt-hs.conf",
@@ -608,7 +608,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1577,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l2ckt-hs.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l2ckt-hs.conf"
     },
     {
       "path": "junos/apply-groups/gr-l3vpn.conf",
@@ -626,7 +626,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1686,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l3vpn.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l3vpn.conf"
     },
     {
       "path": "junos/apply-groups/gr-lag-member.conf",
@@ -639,7 +639,7 @@
         "ma1-1_acx7024"
       ],
       "size_bytes": 2544,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-lag-member.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-lag-member.conf"
     },
     {
       "path": "junos/cos/forwarding-classes.conf",
@@ -659,7 +659,7 @@
         "mse2_mx304"
       ],
       "size_bytes": 1030,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/forwarding-classes.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/forwarding-classes.conf"
     },
     {
       "path": "junos/cos/schedulers.conf",
@@ -679,7 +679,7 @@
         "mse2_mx304"
       ],
       "size_bytes": 2472,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/schedulers.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/schedulers.conf"
     },
     {
       "path": "junos/firewall/policers.conf",
@@ -701,7 +701,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1211,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/policers.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/policers.conf"
     },
     {
       "path": "junos/interfaces/core-isis-mpls.conf",
@@ -711,7 +711,7 @@
       "topic": "Core-facing LAG (ISIS + MPLS underlay attachment)",
       "seen_on": [],
       "size_bytes": 1266,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/core-isis-mpls.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/core-isis-mpls.conf"
     },
     {
       "path": "junos/interfaces/edge-vlan-normalization.conf",
@@ -733,7 +733,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2605,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/edge-vlan-normalization.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/edge-vlan-normalization.conf"
     },
     {
       "path": "junos/interfaces/lag-esi-multihoming.conf",
@@ -753,7 +753,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2359,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/lag-esi-multihoming.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/lag-esi-multihoming.conf"
     },
     {
       "path": "junos/oam/oam-cfm-perf-mon.conf",
@@ -770,7 +770,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 3205,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/oam/oam-cfm-perf-mon.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/oam/oam-cfm-perf-mon.conf"
     },
     {
       "path": "junos/policy/communities.conf",
@@ -788,7 +788,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2613,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/communities.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/communities.conf"
     },
     {
       "path": "junos/policy/l3vpn-export-import.conf",
@@ -806,7 +806,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2829,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
     },
     {
       "path": "junos/services/bgp-vpls.conf",
@@ -820,7 +820,7 @@
         "mse2_mx304"
       ],
       "size_bytes": 2663,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/bgp-vpls.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/bgp-vpls.conf"
     },
     {
       "path": "junos/services/evpn-elan-mac-vrf-irb.conf",
@@ -835,7 +835,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2259,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf-irb.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf-irb.conf"
     },
     {
       "path": "junos/services/evpn-elan-mac-vrf.conf",
@@ -851,7 +851,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1626,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf.conf"
     },
     {
       "path": "junos/services/evpn-port-based.conf",
@@ -867,7 +867,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2517,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
     },
     {
       "path": "junos/services/evpn-type5.conf",
@@ -883,7 +883,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2866,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5.conf"
     },
     {
       "path": "junos/services/evpn-vpws.conf",
@@ -905,7 +905,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1677,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-vpws.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-vpws.conf"
     },
     {
       "path": "junos/services/l2circuit-hot-standby.conf",
@@ -917,7 +917,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1773,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-hot-standby.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-hot-standby.conf"
     },
     {
       "path": "junos/services/l2vpn-kompella.conf",
@@ -930,7 +930,7 @@
         "an3_acx7100-48l"
       ],
       "size_bytes": 1911,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2vpn-kompella.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2vpn-kompella.conf"
     },
     {
       "path": "junos/services/l3vpn-vrf.conf",
@@ -948,7 +948,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 2437,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-vrf.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-vrf.conf"
     },
     {
       "path": "junos/transport/bgp-overlay.conf",
@@ -972,7 +972,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 3233,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/bgp-overlay.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/bgp-overlay.conf"
     },
     {
       "path": "junos/transport/isis-srmpls-tilfa.conf",
@@ -1003,7 +1003,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 4085,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/isis-srmpls-tilfa.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/isis-srmpls-tilfa.conf"
     },
     {
       "path": "junos/transport/mpls-segment-routing.conf",
@@ -1034,7 +1034,7 @@
         "meg2_acx7509"
       ],
       "size_bytes": 1130,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/mpls-segment-routing.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/mpls-segment-routing.conf"
     }
   ],
   "reference_files": [
@@ -1042,25 +1042,25 @@
       "path": "_variables.md",
       "kind": "glossary",
       "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/_variables.md"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/_variables.md"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
       "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
       "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/DEFAULTS.md"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/DEFAULTS.md"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
       "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/OUTPUT_FORMAT.md"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/OUTPUT_FORMAT.md"
     }
   ]
 }
