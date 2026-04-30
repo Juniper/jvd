@@ -161,8 +161,8 @@ FIRST USER TURN — pick exactly one of two responses:
         - `Generate N EVPN-VPWS services`           (MEF E-Line)
         - `Generate N L3VPN VRFs`
         - `Generate N EVPN-ELAN instances`          (MEF E-LAN, mac-vrf)
-        - `Generate N EVPN-ELAN with IRB`           (integrated routing/bridging)
-        - `Generate N EVPN Type-5 / IP-prefix VRFs`  (RT-2 ELAN-IRB + RT-5 VRF on same irb.<N>; JVD default)
+        - `Generate N EVPN-ELAN with IRB`           (Type-2 only; L2 + anycast GW)
+        - `Generate N EVPN-ELAN with L3 (Type-2 + Type-5)`  (adds VRF + ip-prefix-routes on same irb.<N>; JVD default)
         - `Generate N L2Circuit hot-standby pseudowires`
         - `Generate N Kompella L2VPN pseudowires`   (instance-type l2vpn, RFC 4761 P2P)
         - `Generate N BGP-VPLS instances`           (virtual-switch + site/site-identifier; Junos PEs)
