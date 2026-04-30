@@ -106,19 +106,19 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ## EVPN Type-5 / IP-prefix VRFs
 
-An L3VPN VRF whose `protocols evpn ip-prefix-routes` advertises Type-5 routes. The VRF's `interface irb.<N>` ties it to a matching EVPN-ELAN MAC-VRF whose `l3-interface irb.<N>` is the same. Use this when prefixes need to reach destinations via EVPN (silent hosts, summary prefixes) rather than via Type-2 MAC+IP alone.
+In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the same `irb.<N>`: the MAC-VRF advertises RT-2 (MAC+IP from learned hosts), and the VRF with `protocols evpn ip-prefix-routes` advertises RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes). "Pure" RT-5 (VRF only, no MAC-VRF) is not a deployed pattern here. Therefore EVERY tier below includes BOTH the L2 (ELAN-IRB) and L3 (Type-5 VRF) snips. The two instances must reference the same `irb.<N>`.
 
-**minimum** (just the Type-5 VRF + per-VRF policy)
-- `services/evpn-type5.conf`
+**minimum** (both halves of the service + per-VRF policy)
+- `services/evpn-elan-mac-vrf-irb.conf`  (the L2 / RT-2 half — MAC-VRF with `l3-interface irb.<N>`)
+- `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
-- The user MUST also have (or generate, in `as-deployed`) the matching ELAN-IRB on the same `irb.<N>`. Always call this out in the `Notes:` section. If the user picks `as-deployed`, also include `services/evpn-elan-mac-vrf-irb.conf` for the EVO end.
+- `interfaces/edge-vlan-normalization.conf` (the AC interface that lands in the MAC-VRF's bridge-domain)
 
 **with-overlay** (= minimum +)
 - `transport/bgp-overlay.conf` (verify `family evpn signaling`)
 
 **as-deployed** (= with-overlay +)
-- `services/evpn-elan-mac-vrf-irb.conf` (the L2 mate on the same IRB)
 - `transport/isis-srmpls-tilfa.conf`
 - `transport/mpls-segment-routing.conf`
 - `apply-groups/gr-l3vpn.conf`
