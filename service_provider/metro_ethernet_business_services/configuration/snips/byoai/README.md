@@ -135,7 +135,7 @@ Best for one-off generation in a web chat UI (claude.ai, chatgpt.com, your enter
 
 **Load order matters: system prompt first, then the corpus.** The system prompt tells the AI how to behave (and how to detect a missing corpus); loading the corpus first will cause some models to start using it before they've seen the rules.
 
-1. Start a new chat with your AI of choice. Paste the contents of [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt (or first user message in UIs that don't expose a system prompt).
+1. Start a new chat with your AI of choice. **Paste only the fenced ` ``` ` block from inside [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md)** — not the whole `.md` file — into the system-prompt slot (or as your first user message in UIs that don't expose one). The block opens with an `ADOPT IMMEDIATELY` directive so the AI treats it as instructions rather than as a document to review.
 
 2. Attach the bundled snip corpus: **[`jvd-mebs-snips.md`](jvd-mebs-snips.md)** (already in this folder). If your chat UI doesn't accept attachments, open the file and paste its contents inline.
 
