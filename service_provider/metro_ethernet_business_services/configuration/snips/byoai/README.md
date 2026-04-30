@@ -8,14 +8,26 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 ## Two interaction modes
 
-Every generation starts with the AI asking which mode you want:
+Every generation starts with the AI asking three quick choices: **mode**, **devices**, and **configuration form**.
 
-- **`interview`** — the AI batches a few targeted questions to capture exact values (loopbacks, RDs, ACs, etc.). Best when you're generating config for an existing network where the values are pre-assigned.
-- **`auto`** — the AI fills every variable from a deterministic table of *JVD lab defaults* (RFC documentation prefixes, private AS numbers, devices chosen from the snip library's `Seen on:` headers). Best for demos, lab builds, training material, and "give me a working example" workflows.
+- **Mode**
+  - `interview` — the AI batches a few targeted questions to capture exact values (loopbacks, RDs, ACs, starting VLAN/service-id, etc.). Best when you're generating config for an existing network where the values are pre-assigned.
+  - `auto` — the AI fills every variable from a deterministic table of *JVD lab defaults* (RFC documentation prefixes, private AS numbers, devices chosen from the snip library's `Seen on:` headers). Best for demos, lab builds, training material, "give me a working example" workflows.
+
+- **Devices** — `EVO`, `JUNOS`, `MIXED`, or your own hostnames (drawn from any snip's `Seen on:` header).
+
+- **Configuration form**
+  - `minimum` — only the snips strictly required to make the service work end-to-end. Drops apply-group baselines, CoS, OAM, BGP-CT color communities, FAT-PW. **Best when your devices already have their own baseline** and you just want the service-overlay delta.
+  - `as-deployed` — every snip the JVD validates: the apply-group baselines, CoS, OAM, BGP-CT, FAT-PW, the lot. **Mirrors what the JVD actually ships.**
 
 In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
 
-Short-circuits in interview mode: replying `all defaults`, `use defaults`, or `skip` at any point makes the AI fall back to auto-fill for everything still unanswered and generate immediately.
+If the user's intent is a countable service ("Generate L3VPN VRFs", "Generate EVPN-VPWS services"):
+
+- In `auto` mode the count defaults to **1** unless the intent stated otherwise (e.g., "Generate 3 EVPN-VPWS services" → count = 3).
+- In `interview` mode the AI follows up with a single batched question covering count + per-service starting values (starting service-id, starting VLAN, starting AC unit) + per-PE starting values (loopbacks, RD/RT AS) + L3VPN-specific (PE-CE eBGP AS, customer prefix base). Reply with values, or `all defaults` / `skip` to accept everything.
+
+Short-circuits: replying `all defaults`, `use defaults`, or `skip` at any point makes the AI fall back to auto-fill for everything still unanswered and generate immediately.
 
 ## What "auto" means — the lab-default rules
 
@@ -35,7 +47,7 @@ When you pick auto mode, the AI uses values from IETF documentation ranges and r
 | Maintenance domain | `MD_64512` matching RD AS | matches snip examples |
 | Apply-group / forwarding-class / scheduler-map names | kept literal | JVD-wide constants |
 
-Full rule table — including how counts are seeded (VRF id from 2001, VPWS service-id from 4001, VLAN from 2001 skipping reserved IDs), how MEPs are numbered, and the device-selection logic — lives in [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) (Part 3).
+Full rule table — including how counts are seeded (VRF id from 2001, VPWS service-id from 4001, VLAN from 2001 skipping reserved IDs), how MEPs are numbered, and the device-selection logic — lives in [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) (Part 4).
 
 ## Device selection in auto mode
 
