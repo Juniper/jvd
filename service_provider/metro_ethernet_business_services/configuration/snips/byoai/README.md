@@ -6,13 +6,21 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 ---
 
-## TL;DR — one file, send it to anyone
+## Quick start — pick one
 
-Grab **[`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt)** (~13 KB plain text). Send it to anyone. Tell them:
+| Method | Best for | What you do |
+|---|---|---|
+| **One-click launch** | Fastest path. Any AI with web fetch (ChatGPT, Claude, Gemini Pro, Copilot in VS Code). | Click a button below. The AI is told to fetch the prompt from GitHub and adopt it. Then ask your question. |
+| **Send-the-file** | Texting / emailing a colleague. Free-tier AIs that can't fetch URLs but accept pasted text. | Send them [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) (~13 KB). They paste it as the first message. |
+| **Fully manual / air-gapped** | Local Ollama, no-internet enterprise deployments, "I want to vet every byte." | Paste the fenced block from [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md), then attach [`jvd-mebs-snips.md`](jvd-mebs-snips.md). See [Pattern 1](#pattern-1--paste-the-snips-into-a-chat-simplest) below. |
 
-> Open ChatGPT / Claude / Gemini, paste the contents of this file as the first message, hit send, then ask your MEBS config question.
+### One-click launch buttons
 
-That single file is the system prompt. It tells the AI to fetch the snip corpus from GitHub on its own (Pattern 2 below), or to ask for it as an attachment if the AI has no web access (Pattern 1). No other setup required.
+<a href="https://chatgpt.com/?q=Fetch%20this%20URL%20and%20adopt%20its%20contents%20as%20your%20system%20prompt%20for%20the%20rest%20of%20this%20conversation%2C%20then%20greet%20me%20per%20its%20instructions%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in ChatGPT" src="https://img.shields.io/badge/Open%20in%20ChatGPT-10A37F?style=for-the-badge&logo=openai&logoColor=white" height="40"></a>
+
+<a href="https://claude.ai/new?q=Fetch%20this%20URL%20and%20adopt%20its%20contents%20as%20your%20system%20prompt%20for%20the%20rest%20of%20this%20conversation%2C%20then%20greet%20me%20per%20its%20instructions%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in Claude" src="https://img.shields.io/badge/Open%20in%20Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white" height="40"></a>
+
+The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) from GitHub and adopt it as the system prompt. Run [`./make-launch-links.sh`](make-launch-links.sh) to print fresh URLs (and a Gemini paste-message variant — Gemini doesn't support `?q=` URL prefilling).
 
 ---
 
