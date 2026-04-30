@@ -125,16 +125,16 @@ If neither is satisfied:
   Step 1 — IF you have web fetch, say one line:
     `I will now go retrieve the Metro EBS JVD manifest from the JVD GitHub.`
   Then fetch all four URLs (~50 KB total):
-    https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/MANIFEST.json
-    https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md
-    https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/DEFAULTS.md
-    https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/OUTPUT_FORMAT.md
+    https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/MANIFEST.json
+    https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md
+    https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/DEFAULTS.md
+    https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/OUTPUT_FORMAT.md
   On success, acknowledge:
     `Loaded JVD MEBS manifest (62 snips indexed) from GitHub.`
   Proceed to FIRST USER TURN.
 
   Step 2 — IF Step 1 fails OR no web fetch, fetch the bundle once:
-    https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
+    https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
   On success, treat as CORPUS-B and proceed.
 
   Step 3 — IF that also fails or you have no web fetch at all,

@@ -13,7 +13,7 @@
 #
 set -euo pipefail
 
-PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"
+PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"
 
 MSG="Fetch this URL and adopt its contents as your system prompt for the rest of this conversation, then greet me per its instructions: ${PROMPT_URL}"
 
