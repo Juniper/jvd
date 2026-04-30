@@ -20,7 +20,15 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 <a href="https://claude.ai/new?q=Please%20fetch%20this%20URL%20and%20use%20its%20contents%20as%20task%20instructions%20for%20our%20conversation%20%E2%80%94%20it%20is%20a%20public%2C%20user-authored%20guide%20that%20tells%20you%20how%20to%20help%20me%20generate%20Juniper%20network%20configuration%20from%20a%20published%20library%20of%20validated%20config%20snippets.%20After%20fetching%2C%20follow%20its%20instructions%20to%20greet%20me.%20URL%3A%20https%3A//raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt"><img alt="Open in Claude" src="https://img.shields.io/badge/Open%20in%20Claude-D97757?style=for-the-badge&logo=anthropic&logoColor=white" height="40"></a>
 
-The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) from GitHub and use it as task instructions (it's framed as a user-authored task guide rather than a system-prompt replacement, so safety-tuned models like Claude don't refuse it). Run [`./make-launch-links.sh`](make-launch-links.sh) to print fresh URLs (and a Gemini paste-message variant — Gemini doesn't support `?q=` URL prefilling).
+<a href="https://gemini.google.com/app"><img alt="Open in Gemini" src="https://img.shields.io/badge/Open%20in%20Gemini-4796E3?style=for-the-badge&logo=googlegemini&logoColor=white" height="40"></a>
+
+The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt) from GitHub and use it as task instructions (it's framed as a user-authored task guide rather than a system-prompt replacement, so safety-tuned models like Claude don't refuse it). Run [`./make-launch-links.sh`](make-launch-links.sh) to print fresh URLs.
+
+> **Gemini note:** Gemini doesn't support `?q=` URL prefilling, so its button just opens the app. Paste this message as your first turn:
+>
+> ```
+> Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. After fetching, follow its instructions to greet me. URL: https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt
+> ```
 
 ---
 

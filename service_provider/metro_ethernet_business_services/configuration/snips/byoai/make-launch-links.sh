@@ -21,5 +21,5 @@ ENC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]
 
 echo "ChatGPT:  https://chatgpt.com/?q=${ENC}"
 echo "Claude:   https://claude.ai/new?q=${ENC}"
-echo "Gemini:   https://gemini.google.com/app  (paste this message manually:)"
+echo "Gemini:   https://gemini.google.com/app  (no ?q= support; paste this message manually:)"
 echo "          ${MSG}"
