@@ -1,0 +1,38 @@
+name: BYOAI bundle freshness
+
+# Ensures jvd-mebs-snips.md and jvd-mebs-byoai-prompt.txt are
+# regenerated whenever any source file under the MEBS snips/
+# tree (or the byoai/ companion files) changes.
+#
+# Fails the PR if the committed bundle does not match what
+# regenerate-bundle.sh would produce right now.
+
+on:
+  pull_request:
+    paths:
+      - 'service_provider/metro_ethernet_business_services/configuration/snips/**'
+  push:
+    branches: [main]
+    paths:
+      - 'service_provider/metro_ethernet_business_services/configuration/snips/**'
+
+jobs:
+  check-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate bundle
+        working-directory: service_provider/metro_ethernet_business_services/configuration/snips/byoai
+        run: ./regenerate-bundle.sh
+
+      - name: Verify bundle is up to date
+        run: |
+          if ! git diff --exit-code -- \
+              'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md' \
+              'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt'; then
+            echo ""
+            echo "::error::BYOAI bundle is stale. Run regenerate-bundle.sh from the byoai/ folder and commit the result."
+            exit 1
+          fi
+          echo "Bundle is up to date."
