@@ -89,8 +89,9 @@ The same topic file exists under both `junos/` and `evo/`:
 | `services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) / virtual-switch (Junos) |
 | `services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (reference shape on Junos) |
 | `services/evpn-port-based.conf` | Port-based EVPN-VPWS (EPL) and EVPN-ELAN (vlan-bundle) |
-| `services/l2vpn-kompella.conf` | BGP-signalled (Kompella, RFC 4761) L2VPN, port-based |
-| `services/ldp-vpls.conf` | LDP-VPLS via virtual-switch (EVO) / BGP-VPLS analogue (Junos) |
+| `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
+| `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
+| `evo/services/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
 | `services/l2circuit-hot-standby.conf` | L2Circuit PW with backup-neighbor hot-standby |
 | `services/l3vpn-vrf.conf` | L3VPN VRF with PE-CE eBGP and as-override |
 | `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |

@@ -186,8 +186,9 @@ FIRST USER TURN — pick exactly one of two responses:
         - `Generate N EVPN-ELAN with IRB`           (integrated routing/bridging)
         - `Generate N EVPN Type-5 / IP-prefix VRFs`  (RT-2 ELAN-IRB + RT-5 VRF on same irb.<N>; JVD default)
         - `Generate N L2Circuit hot-standby pseudowires`
-        - `Generate N BGP-VPLS instances`           (Kompella L2VPN)
-        - `Generate N LDP-VPLS instances`           (Junos: BGP-VPLS analogue)
+        - `Generate N Kompella L2VPN pseudowires`   (instance-type l2vpn, RFC 4761 P2P)
+        - `Generate N BGP-VPLS instances`           (virtual-switch + site/site-identifier; Junos PEs)
+        - `Generate N LDP-VPLS instances`           (virtual-switch + vpls-id + neighbor; EVO only in this JVD)
         - `Generate N port-based EVPN services`     (port-mode VPWS / ELAN)
 
         **Add a feature to a device**

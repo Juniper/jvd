@@ -1811,7 +1811,7 @@ routing-instances {
  * (see KB-VPLS-TEST in the source file for that variant).
  *
  * Pair with:
- *  - junos/services/ldp-vpls.conf
+ *  - junos/services/bgp-vpls.conf  (BGP-VPLS sibling pattern, Junos only)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME    e.g. KB-VPLS-EPL
@@ -3302,6 +3302,80 @@ policy-options {
 }
 ```
 
+## junos/services/bgp-vpls.conf
+
+```
+/*
+ * Topic:   BGP-VPLS (Kompella VPLS, RFC 4761) via virtual-switch
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (none — EVO PEs in this JVD use LDP-VPLS instead;
+ *           see evo/services/ldp-vpls.conf)
+ *
+ * Highlights:
+ *  - instance-type virtual-switch with `protocols vpls` carrying
+ *    `site $NAME { site-identifier $ID; }` — this site/site-id
+ *    pair is what makes it BGP-VPLS rather than LDP-VPLS.
+ *  - BGP NLRI exchange (family l2vpn signaling) replaces LDP
+ *    targeted-session signalling; site-id / site-range /
+ *    label-block-size on each PE compute the PE-to-PE pseudowire
+ *    label blocks (RFC 4761 §3 math).
+ *  - virtual-switch (vs. plain `instance-type vpls`) lets one
+ *    routing-instance hold multiple bridge-domains, each with its
+ *    own VLAN — useful for vlan-aware service multiplexing on MX.
+ *  - bridge-options no-normalization — the AC keeps its customer
+ *    VLAN tag rather than being re-tagged at the BD boundary
+ *    (vlan-aware passthrough mode).
+ *  - The JVD does NOT deploy LDP-VPLS on Junos PEs (no `vpls-id`
+ *    + `neighbor` static config exists in any Junos conf/*.conf),
+ *    nor does it deploy LDP-VPLS with BGP auto-discovery (no
+ *    `l2vpn-id` form). For pure LDP-VPLS see the EVO snip.
+ *
+ * Pair with:
+ *  - evo/services/ldp-vpls.conf  (LDP-VPLS sibling pattern, EVO only)
+ *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
+ *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *
+ * Variables (example values from ma5_mx204 / vpls_group_108_800):
+ *   $INSTANCE_NAME      e.g. vpls_group_108_800
+ *                       (the vrf-export policy is named after the instance)
+ *   $L2VPN_SITE         e.g. r19
+ *   $SITE_ID            e.g. 3
+ *   $BD_NAME            e.g. vlan800
+ *   $VLAN_BD            e.g. 800
+ *   $AC_INTF            e.g. xe-0/1/4.800
+ *   $RD                 e.g. 64535:81000
+ *   $RT                 e.g. 64535:1183000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $L2VPN_SITE {
+                    site-identifier $SITE_ID;
+                }
+                site-range 10;
+                label-block-size 8;
+                no-tunnel-services;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_INTF;
+                bridge-options {
+                    no-normalization;
+                }
+            }
+        }
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
 ## junos/services/evpn-elan-mac-vrf-irb.conf
 
 ```
@@ -3797,77 +3871,6 @@ routing-instances {
         vrf-import ${INSTANCE_NAME}-IMPORT;
         vrf-export ${INSTANCE_NAME}-EXPORT;
         vrf-table-label;
-    }
-}
-```
-
-## junos/services/ldp-vpls.conf
-
-```
-/*
- * Topic:   BGP-VPLS via virtual-switch  (closest Junos analogue to LDP-VPLS)
- * Seen on:
- *   Junos: ma5_mx204 mse1_mx304 mse2_mx304  (all use BGP-VPLS, not LDP-VPLS)
- *   EVO:   an3_acx7100-48l
- *
- * Highlights:
- *  - The JVD does NOT validate LDP-VPLS on Junos PEs (no `vpls-id`
- *    + `neighbor` static config exists in any conf/*.conf). The
- *    closest validated pattern is BGP-VPLS via instance-type
- *    virtual-switch with a vlan-aware bridge-domain — shown below.
- *    See evo/services/ldp-vpls.conf for the actual LDP-VPLS pattern
- *    (only used on an3 in this JVD).
- *  - BGP-VPLS NLRI exchange replaces LDP targeted-session signalling;
- *    site-id / site-range / label-block-size on each PE compute
- *    PE-to-PE pseudowire labels (RFC 4761).
- *  - virtual-switch (vs. plain `instance-type vpls`) lets one
- *    routing-instance hold multiple bridge-domains, each with its
- *    own VLAN — useful for vlan-aware service multiplexing on MX.
- *  - bridge-options no-normalization — the AC keeps its customer
- *    VLAN tag rather than being re-tagged at the BD boundary
- *    (vlan-aware passthrough mode).
- *
- * Pair with:
- *  - evo/services/ldp-vpls.conf  (the actual LDP-VPLS pattern)
- *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
- *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
- *
- * Variables (example values from ma5_mx204 / vpls_group_108_800):
- *   $INSTANCE_NAME      e.g. vpls_group_108_800
- *                       (the vrf-export policy is named after the instance)
- *   $L2VPN_SITE         e.g. r19
- *   $SITE_ID            e.g. 3
- *   $BD_NAME            e.g. vlan800
- *   $VLAN_BD            e.g. 800
- *   $AC_INTF            e.g. xe-0/1/4.800
- *   $RD                 e.g. 64535:81000
- *   $RT                 e.g. 64535:1183000
- */
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type virtual-switch;
-        protocols {
-            vpls {
-                site $L2VPN_SITE {
-                    site-identifier $SITE_ID;
-                }
-                site-range 10;
-                label-block-size 8;
-                no-tunnel-services;
-            }
-        }
-        bridge-domains {
-            $BD_NAME {
-                vlan-id $VLAN_BD;
-                interface $AC_INTF;
-                bridge-options {
-                    no-normalization;
-                }
-            }
-        }
-        route-distinguisher $RD;
-        vrf-export $INSTANCE_NAME;
-        vrf-target target:$RT;
     }
 }
 ```
@@ -4414,13 +4417,35 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 
 ---
 
-## L2VPN (Kompella) and LDP-VPLS
+## L2VPN family (Kompella L2VPN, BGP-VPLS, LDP-VPLS)
 
-Same shape as the others:
+Three distinct services, all using the BGP `family l2vpn signaling`
+overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
+(LDP-VPLS). Pick the right snip:
+
+- **Kompella L2VPN** (point-to-point pseudowire, RFC 4761):
+  - `services/l2vpn-kompella.conf` (Junos and EVO).
+  - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
+    with both `site-identifier` and `remote-site-id`.
+- **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
+  - `junos/services/bgp-vpls.conf` (Junos PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
+- **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
+  - `evo/services/ldp-vpls.conf` (EVO PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
+  - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
+    NOT deployed in this JVD.
+
+Tiers (apply to whichever of the three the user asked for):
 
 - **minimum** = `services/<topic>.conf` + AC interface snip
-- **with-overlay** = + `transport/bgp-overlay.conf` (verify `family l2vpn signaling` for Kompella)
-- **as-deployed** = + transport underlay + full apply-group baseline + CoS + OAM + BGP-CT
+- **with-overlay** = + `transport/bgp-overlay.conf` (verify
+  `family l2vpn signaling` for Kompella L2VPN and BGP-VPLS;
+  LDP-VPLS does not need this — it relies on LDP targeted sessions)
+- **as-deployed** = + transport underlay + full apply-group baseline
+  + CoS + OAM + BGP-CT
 
 ---
 

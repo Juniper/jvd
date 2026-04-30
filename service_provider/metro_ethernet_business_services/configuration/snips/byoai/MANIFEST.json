@@ -424,7 +424,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 1420,
+      "size_bytes": 1460,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/ldp-vpls.conf"
     },
     {
@@ -809,6 +809,20 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
     },
     {
+      "path": "junos/services/bgp-vpls.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "bgp-vpls",
+      "topic": "BGP-VPLS (Kompella VPLS, RFC 4761) via virtual-switch",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2663,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/bgp-vpls.conf"
+    },
+    {
       "path": "junos/services/evpn-elan-mac-vrf-irb.conf",
       "os": "junos",
       "category": "services",
@@ -935,21 +949,6 @@
       ],
       "size_bytes": 2437,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-vrf.conf"
-    },
-    {
-      "path": "junos/services/ldp-vpls.conf",
-      "os": "junos",
-      "category": "services",
-      "name": "ldp-vpls",
-      "topic": "BGP-VPLS via virtual-switch  (closest Junos analogue to LDP-VPLS)",
-      "seen_on": [
-        "ma5_mx204",
-        "mse1_mx304",
-        "mse2_mx304",
-        "an3_acx7100-48l"
-      ],
-      "size_bytes": 2502,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/ldp-vpls.conf"
     },
     {
       "path": "junos/transport/bgp-overlay.conf",

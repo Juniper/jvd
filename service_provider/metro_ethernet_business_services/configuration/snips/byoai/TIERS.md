@@ -163,13 +163,35 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 
 ---
 
-## L2VPN (Kompella) and LDP-VPLS
+## L2VPN family (Kompella L2VPN, BGP-VPLS, LDP-VPLS)
 
-Same shape as the others:
+Three distinct services, all using the BGP `family l2vpn signaling`
+overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
+(LDP-VPLS). Pick the right snip:
+
+- **Kompella L2VPN** (point-to-point pseudowire, RFC 4761):
+  - `services/l2vpn-kompella.conf` (Junos and EVO).
+  - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
+    with both `site-identifier` and `remote-site-id`.
+- **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
+  - `junos/services/bgp-vpls.conf` (Junos PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
+- **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
+  - `evo/services/ldp-vpls.conf` (EVO PEs only in this JVD).
+  - Identifier: `instance-type virtual-switch` + `protocols vpls`
+    with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
+  - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
+    NOT deployed in this JVD.
+
+Tiers (apply to whichever of the three the user asked for):
 
 - **minimum** = `services/<topic>.conf` + AC interface snip
-- **with-overlay** = + `transport/bgp-overlay.conf` (verify `family l2vpn signaling` for Kompella)
-- **as-deployed** = + transport underlay + full apply-group baseline + CoS + OAM + BGP-CT
+- **with-overlay** = + `transport/bgp-overlay.conf` (verify
+  `family l2vpn signaling` for Kompella L2VPN and BGP-VPLS;
+  LDP-VPLS does not need this — it relies on LDP targeted sessions)
+- **as-deployed** = + transport underlay + full apply-group baseline
+  + CoS + OAM + BGP-CT
 
 ---
 
