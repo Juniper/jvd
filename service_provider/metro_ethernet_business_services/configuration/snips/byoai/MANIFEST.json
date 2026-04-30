@@ -1,0 +1,1035 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
+  "snip_count": 62,
+  "snips": [
+    {
+      "path": "evo/apply-groups/gr-bgp-bcp.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-bgp-bcp",
+      "topic": "BGP best-current-practice timers (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 1364,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-bgp-bcp.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-core-intf.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-core-intf",
+      "topic": "Core-facing interface baseline (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 1940,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-core-intf.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-edge-intf-mh.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-edge-intf-mh",
+      "topic": "Customer-facing interface baseline \u2014 multihomed variant (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024"
+      ],
+      "size_bytes": 1290,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf-mh.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-edge-intf.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-edge-intf",
+      "topic": "Customer-facing interface baseline (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 2117,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-edge-intf.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-fatpw-label.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-fatpw-label",
+      "topic": "",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2980,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-label.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-fatpw-lb.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-fatpw-lb",
+      "topic": "",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 836,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-fatpw-lb.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-isis-bcp.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-isis-bcp",
+      "topic": "ISIS best-current-practice timers (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 1684,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bcp.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-isis-bfd.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-isis-bfd",
+      "topic": "",
+      "seen_on": [],
+      "size_bytes": 1409,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-isis-bfd.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-l2ckt-hs.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-l2ckt-hs",
+      "topic": "",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1123,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l2ckt-hs.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-l3vpn.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-l3vpn",
+      "topic": "",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1122,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-l3vpn.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-lag-member.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-lag-member",
+      "topic": "",
+      "seen_on": [],
+      "size_bytes": 2276,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/apply-groups/gr-lag-member.conf"
+    },
+    {
+      "path": "evo/cos/forwarding-classes.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "6-class forwarding-classes (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 3462,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "evo/cos/schedulers.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "schedulers",
+      "topic": "Schedulers and scheduler-map for the 6-class model (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 2256,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/cos/schedulers.conf"
+    },
+    {
+      "path": "evo/firewall/policers.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "policers",
+      "topic": "Rate-limit policers (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 1529,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/policers.conf"
+    },
+    {
+      "path": "evo/interfaces/core-isis-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "core-isis-mpls",
+      "topic": "Core-facing LAG carrying inet/iso/inet6/mpls (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 2242,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
+    },
+    {
+      "path": "evo/interfaces/edge-vlan-normalization.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "edge-vlan-normalization",
+      "topic": "Edge port with VLAN normalization (push/pop) for L2 services",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2206,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf"
+    },
+    {
+      "path": "evo/interfaces/lag-esi-multihoming.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "lag-esi-multihoming",
+      "topic": "Edge LAG with per-unit ESI for EVPN multihoming (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2493,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/lag-esi-multihoming.conf"
+    },
+    {
+      "path": "evo/oam/oam-cfm-perf-mon.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "oam-cfm-perf-mon",
+      "topic": "Ethernet OAM CFM with hardware-assisted SLA performance monitoring",
+      "seen_on": [
+        "an4_acx710",
+        "ma5_mx204",
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2944,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/oam/oam-cfm-perf-mon.conf"
+    },
+    {
+      "path": "evo/policy/communities.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "communities",
+      "topic": "Communities \u2014 transport-class colors and L3VPN service tags",
+      "seen_on": [],
+      "size_bytes": 2434,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/communities.conf"
+    },
+    {
+      "path": "evo/policy/l3vpn-export-import.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "l3vpn-export-import",
+      "topic": "L3VPN per-VRF export/import policies",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2204,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/l3vpn-export-import.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-mac-vrf-irb.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-mac-vrf-irb",
+      "topic": "EVPN-ELAN with mac-vrf and IRB integration",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1918,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf-irb.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-mac-vrf.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-mac-vrf",
+      "topic": "EVPN-ELAN via mac-vrf routing-instance (MEF E-LAN) \u2014 EVO",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2260,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf.conf"
+    },
+    {
+      "path": "evo/services/evpn-port-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-port-based",
+      "topic": "Port-based EVPN-VPWS and port-based EVPN-ELAN",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2322,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws",
+      "topic": "EVPN-VPWS routing-instance (MEF E-Line) \u2014 EVO",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "mse1_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1886,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-vpws.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-hot-standby.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hot-standby",
+      "topic": "L2Circuit pseudowire with backup-neighbor hot-standby",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1874,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hot-standby.conf"
+    },
+    {
+      "path": "evo/services/l2vpn-kompella.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2vpn-kompella",
+      "topic": "BGP-signalled L2VPN (Kompella) routing-instance, port-based",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1611,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2vpn-kompella.conf"
+    },
+    {
+      "path": "evo/services/l3vpn-vrf.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l3vpn-vrf",
+      "topic": "L3VPN routing-instance (vrf) with PE-CE BGP",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2110,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-vrf.conf"
+    },
+    {
+      "path": "evo/services/ldp-vpls.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "ldp-vpls",
+      "topic": "LDP-VPLS (virtual-switch with vpls-id)",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1420,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/ldp-vpls.conf"
+    },
+    {
+      "path": "evo/transport/bgp-overlay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-overlay",
+      "topic": "iBGP overlay sessions to RR (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 3610,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/bgp-overlay.conf"
+    },
+    {
+      "path": "evo/transport/isis-srmpls-tilfa.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "isis-srmpls-tilfa",
+      "topic": "ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 3482,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/isis-srmpls-tilfa.conf"
+    },
+    {
+      "path": "evo/transport/mpls-segment-routing.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "mpls-segment-routing",
+      "topic": "MPLS / segment-routing chassis-wide knobs (EVO)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 1269,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/mpls-segment-routing.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-bgp-bcp.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-bgp-bcp",
+      "topic": "",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 939,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-bgp-bcp.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-core-intf.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-core-intf",
+      "topic": "",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 1567,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-core-intf.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-edge-intf-mh.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-edge-intf-mh",
+      "topic": "",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 941,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf-mh.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-edge-intf.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-edge-intf",
+      "topic": "",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 1705,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-edge-intf.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-fatpw-label.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-fatpw-label",
+      "topic": "Per-instance FAT-PW flow-label knob (Junos)",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1954,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-label.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-fatpw-lb.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-fatpw-lb",
+      "topic": "FAT-PW load-balancing capability (Junos)",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1222,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-fatpw-lb.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-isis-bcp.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-isis-bcp",
+      "topic": "",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 1195,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bcp.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-isis-bfd.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-isis-bfd",
+      "topic": "ISIS BFD apply-group (50 ms \u00d7 3, no-adaptation)",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2428,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-isis-bfd.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-l2ckt-hs.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-l2ckt-hs",
+      "topic": "L2Circuit hot-standby apply-group",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1577,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l2ckt-hs.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-l3vpn.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-l3vpn",
+      "topic": "L3VPN VRF apply-group baseline (Junos)",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1686,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-l3vpn.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-lag-member.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-lag-member",
+      "topic": "LAG-member templates: edge SH/MH and core (Junos)",
+      "seen_on": [
+        "ma5_mx204",
+        "ma1-1_acx7024"
+      ],
+      "size_bytes": 2544,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/apply-groups/gr-lag-member.conf"
+    },
+    {
+      "path": "junos/cos/forwarding-classes.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "CoS forwarding-classes (queue model)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1030,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "junos/cos/schedulers.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "schedulers",
+      "topic": "CoS schedulers and scheduler-map",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2472,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/cos/schedulers.conf"
+    },
+    {
+      "path": "junos/firewall/policers.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "policers",
+      "topic": "Firewall policers and rate-limit filter",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1211,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/policers.conf"
+    },
+    {
+      "path": "junos/interfaces/core-isis-mpls.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "core-isis-mpls",
+      "topic": "Core-facing LAG (ISIS + MPLS underlay attachment)",
+      "seen_on": [],
+      "size_bytes": 1266,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/core-isis-mpls.conf"
+    },
+    {
+      "path": "junos/interfaces/edge-vlan-normalization.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "edge-vlan-normalization",
+      "topic": "Edge port with VLAN normalization (push/pop)  (Junos)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2605,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/edge-vlan-normalization.conf"
+    },
+    {
+      "path": "junos/interfaces/lag-esi-multihoming.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "lag-esi-multihoming",
+      "topic": "Edge LAG with EVPN ESI multihoming (active/active)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2359,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/lag-esi-multihoming.conf"
+    },
+    {
+      "path": "junos/oam/oam-cfm-perf-mon.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "oam-cfm-perf-mon",
+      "topic": "Y.1731 performance-monitoring (CFM) with HW timestamping",
+      "seen_on": [
+        "an4_acx710",
+        "ma5_mx204",
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 3205,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/oam/oam-cfm-perf-mon.conf"
+    },
+    {
+      "path": "junos/policy/communities.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "communities",
+      "topic": "BGP communities \u2014 fabric tags, BGP-CT colors, L3VPN RTs (Junos)",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2613,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/communities.conf"
+    },
+    {
+      "path": "junos/policy/l3vpn-export-import.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "l3vpn-export-import",
+      "topic": "Per-VRF L3VPN export / import policies (Junos)",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2829,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-mac-vrf-irb.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-mac-vrf-irb",
+      "topic": "EVPN-ELAN with integrated IRB (Junos)",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2259,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf-irb.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-mac-vrf.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-mac-vrf",
+      "topic": "EVPN-ELAN (mac-vrf) routing-instance (MEF E-LAN)",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1626,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf.conf"
+    },
+    {
+      "path": "junos/services/evpn-port-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-port-based",
+      "topic": "Port-based EVPN-VPWS / EVPN-ELAN  (Junos)",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2517,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
+    },
+    {
+      "path": "junos/services/evpn-vpws.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-vpws",
+      "topic": "EVPN-VPWS routing-instance (MEF E-Line)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "mse1_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1677,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-vpws.conf"
+    },
+    {
+      "path": "junos/services/l2circuit-hot-standby.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l2circuit-hot-standby",
+      "topic": "L2Circuit with backup-neighbor (hot-standby pseudowire)",
+      "seen_on": [
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1773,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-hot-standby.conf"
+    },
+    {
+      "path": "junos/services/l2vpn-kompella.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l2vpn-kompella",
+      "topic": "BGP-signalled (Kompella) L2VPN, port-based (Junos)",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1911,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2vpn-kompella.conf"
+    },
+    {
+      "path": "junos/services/l3vpn-vrf.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l3vpn-vrf",
+      "topic": "L3VPN VRF with PE-CE eBGP and as-override (Junos)",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2437,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-vrf.conf"
+    },
+    {
+      "path": "junos/services/ldp-vpls.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "ldp-vpls",
+      "topic": "BGP-VPLS via virtual-switch  (closest Junos analogue to LDP-VPLS)",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2502,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/ldp-vpls.conf"
+    },
+    {
+      "path": "junos/transport/bgp-overlay.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-overlay",
+      "topic": "iBGP overlay session to route reflectors (multi-AF)",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 3233,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/bgp-overlay.conf"
+    },
+    {
+      "path": "junos/transport/isis-srmpls-tilfa.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "isis-srmpls-tilfa",
+      "topic": "ISIS underlay with SR-MPLS, TI-LFA, and Flex-Algo",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "ag1-1_acx7100-32c",
+        "ag1-2_acx7100-32c",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 4085,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/isis-srmpls-tilfa.conf"
+    },
+    {
+      "path": "junos/transport/mpls-segment-routing.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mpls-segment-routing",
+      "topic": "MPLS / Segment Routing global config",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "ag1-1_acx7100-32c",
+        "ag1-2_acx7100-32c",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1130,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/mpls-segment-routing.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
