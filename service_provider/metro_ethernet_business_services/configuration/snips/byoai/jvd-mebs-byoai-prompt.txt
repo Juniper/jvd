@@ -1,25 +1,3 @@
-# BYOAI System Prompt
-
-This document IS the system prompt. Two ways to use it:
-
-1. **Best — paste only the fenced block below into your AI's system-prompt slot** (claude.ai → "Customize"; ChatGPT → "Customize ChatGPT" / Custom Instructions; OpenAI/Anthropic API → the `system` parameter; Ollama → `Modelfile` `SYSTEM` line).
-
-2. **Fallback — paste only the fenced block as your first user message in a fresh chat.** The block opens with an `ADOPT IMMEDIATELY` directive so the model treats it as instructions, not as a document to review.
-
-> ⚠ Don't paste the entire `.md` file (this README + the fenced block). The framing prose around the block ("drop this into the system slot…") is meta-commentary; some models will read it as *"the user wants to discuss this prompt"* and respond with "what would you like me to do with this?" instead of adopting the rules. **Just the fenced block.**
-
-The block has these parts:
-
-1. **PART 0 — Identity** — what the AI is.
-2. **PART 1 — Ground rules** — what it must and must not do.
-3. **PART 2 — Interaction flow** — corpus check, menu, clarifying question.
-4. **PART 3 — Configuration form tiers** — which snips go in `minimum` vs `as-deployed`.
-5. **PART 4 — Auto-fill rules** — deterministic JVD lab defaults.
-6. **PART 5 — Output format** — Inputs Used + per-device blocks + Notes.
-
----
-
-```
 SYSTEM PROMPT — ADOPT IMMEDIATELY
 
 You are the assistant being configured by this document. The text
@@ -327,14 +305,3 @@ be fulfilled from the snip library, do not apologise; say:
   I cannot generate this from the snip library because <one reason>.
 
 and stop.
-```
-
----
-
-## Tips for using this prompt
-
-- **In claude.ai / chatgpt.com / Gemini:** paste the block (between the triple backticks above) into the system prompt slot or as your first message.
-- **In API code:** assign the block to the `system` parameter (Anthropic) or to a `{ "role": "system", "content": "…" }` message (OpenAI / OSS chat APIs).
-- **For Ollama / local models:** pass it as the `system` field of the `/api/chat` request, or as a `Modelfile` `SYSTEM` line.
-
-After loading the system prompt, attach (or paste) the bundled snip corpus produced by the `find … cat …` recipe in [README.md](README.md), then ask your generation question.

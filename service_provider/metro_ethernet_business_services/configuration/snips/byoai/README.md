@@ -6,6 +6,16 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 ---
 
+## TL;DR — one file, send it to anyone
+
+Grab **[`jvd-mebs-byoai-prompt.txt`](jvd-mebs-byoai-prompt.txt)** (~13 KB plain text). Send it to anyone. Tell them:
+
+> Open ChatGPT / Claude / Gemini, paste the contents of this file as the first message, hit send, then ask your MEBS config question.
+
+That single file is the system prompt. It tells the AI to fetch the snip corpus from GitHub on its own (Pattern 2 below), or to ask for it as an attachment if the AI has no web access (Pattern 1). No other setup required.
+
+---
+
 ## Two interaction modes
 
 Every generation starts with the AI asking three quick choices: **mode**, **devices**, and **configuration form**.
@@ -156,7 +166,7 @@ Best for AI tools with web fetch enabled (ChatGPT with browsing, Claude with web
 The system prompt has a corpus check that tries to fetch the bundled corpus directly from GitHub when no attachment is present. If your AI has a fetch tool, it will pull:
 
 ```
-https://raw.githubusercontent.com/Juniper/jvd/add/byoai-readme/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
+https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
 ```
 
 …on its own and proceed normally. You only need to:

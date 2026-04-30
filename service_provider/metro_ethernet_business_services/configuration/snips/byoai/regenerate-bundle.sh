@@ -26,8 +26,27 @@ OUT="byoai/jvd-mebs-snips.md"
   echo "## _variables.md"
   echo
   cat _variables.md
+  echo
+  echo "## byoai/TIERS.md"
+  echo
+  cat byoai/TIERS.md
+  echo
+  echo "## byoai/DEFAULTS.md"
+  echo
+  cat byoai/DEFAULTS.md
+  echo
+  echo "## byoai/OUTPUT_FORMAT.md"
+  echo
+  cat byoai/OUTPUT_FORMAT.md
 } > "$OUT"
 
 lines=$(wc -l < "$OUT")
 size=$(du -h "$OUT" | cut -f1)
 echo "regenerated: $OUT ($lines lines, $size)"
+
+# Also extract the fenced system-prompt block to a standalone shareable file.
+PROMPT_OUT="byoai/jvd-mebs-byoai-prompt.txt"
+awk '/^```$/{f=!f; next} f' byoai/SYSTEM_PROMPT.md > "$PROMPT_OUT"
+plines=$(wc -l < "$PROMPT_OUT")
+psize=$(du -h "$PROMPT_OUT" | cut -f1)
+echo "regenerated: $PROMPT_OUT ($plines lines, $psize)"

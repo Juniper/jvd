@@ -4103,3 +4103,289 @@ verbatim while the body is fully rendered:
 The example values mirror the source device the snip was extracted
 from (so the snip remains a faithful documentation of a working
 deployment).
+
+## byoai/TIERS.md
+
+# Configuration Form Tiers
+
+This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier (`minimum` vs `as-deployed`). It is bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
+
+For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
+
+---
+
+## EVPN-VPWS
+
+**minimum**
+- `services/evpn-vpws.conf`
+- `interfaces/lag-esi-multihoming.conf` (AC unit, multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (AC unit, single-homed)
+- `transport/bgp-overlay.conf` (`family evpn signaling`)
+- `transport/isis-srmpls-tilfa.conf` (label transport)
+
+**as-deployed** (= minimum +)
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-edge-intf-mh.conf` (or `gr-edge-intf.conf` if SH)
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `apply-groups/gr-fatpw-lb.conf`
+- `apply-groups/gr-fatpw-label.conf`
+- `policy/communities.conf` (BGP-CT color communities)
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `oam/oam-cfm-perf-mon.conf`
+- `firewall/policers.conf`
+
+---
+
+## L3VPN-VRF
+
+**minimum**
+- `services/l3vpn-vrf.conf`
+- `policy/communities.conf` (just the per-VRF target community, not topology tags or BGP-CT colors)
+- `policy/l3vpn-export-import.conf`
+- `transport/bgp-overlay.conf` (`family inet-vpn unicast`)
+- `transport/isis-srmpls-tilfa.conf`
+- `interfaces/edge-vlan-normalization.conf` (PE-CE AC unit)
+
+**as-deployed** (= minimum +)
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-l3vpn.conf`
+- `apply-groups/gr-edge-intf.conf` (or `-mh.conf` if multi-homed CE)
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `firewall/policers.conf`
+- `policy/communities.conf` (full set incl. BGP-CT colors)
+
+---
+
+## EVPN-ELAN (mac-vrf, mac-vrf-irb, or port-based)
+
+**minimum**
+- `services/evpn-elan-mac-vrf.conf` (or `-irb.conf`, or `evpn-port-based.conf`, whichever flavor was requested)
+- `interfaces/lag-esi-multihoming.conf` (AC unit) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
+- `transport/bgp-overlay.conf` (`family evpn signaling`)
+- `transport/isis-srmpls-tilfa.conf`
+
+**as-deployed** (= minimum +)
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-edge-intf-mh.conf`
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `apply-groups/gr-fatpw-lb.conf`
+- `apply-groups/gr-fatpw-label.conf`
+- `policy/communities.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `oam/oam-cfm-perf-mon.conf`
+- `firewall/policers.conf`
+
+---
+
+## L2CIRCUIT (including hot-standby)
+
+**minimum**
+- `services/l2circuit-hot-standby.conf`
+- `interfaces/edge-vlan-normalization.conf`
+- `transport/bgp-overlay.conf`
+- `transport/isis-srmpls-tilfa.conf`
+
+**as-deployed** (= minimum +)
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-edge-intf.conf`
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-l2ckt-hs.conf`
+- `apply-groups/gr-fatpw-lb.conf`
+- `apply-groups/gr-fatpw-label.conf`
+- `policy/communities.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `oam/oam-cfm-perf-mon.conf`
+- `firewall/policers.conf`
+
+---
+
+## L2VPN (Kompella) and LDP-VPLS
+
+Same shape as the others: `services/<topic>.conf` + matching transport snips for **minimum**; full apply-group baseline + CoS + OAM + BGP-CT for **as-deployed**.
+
+---
+
+## Bootstrap / greenfield turn-up
+
+Treat as **as-deployed** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
+
+---
+
+Always acknowledge the chosen tier in the `Inputs Used` block (`form: minimum` or `form: as-deployed`).
+
+## byoai/DEFAULTS.md
+
+# Auto-fill Defaults
+
+This file is part of the [BYOAI](README.md) corpus. It defines the deterministic JVD lab-default values the AI uses when the user picks `auto` mode (or short-circuits with `all defaults` / `skip`). Bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
+
+Every value comes from an IETF documentation range or a private/reserved range so the output is visibly safe to share.
+
+## Address space
+
+| Item | Value | Source |
+|---|---|---|
+| PE loopback v4 | `192.0.2.<pe-id>/32` | RFC 5737 (TEST-NET-1) |
+| PE loopback v6 | `2001:db8:0::<pe-id>/128` | RFC 3849 |
+| PE-PE core links | `198.51.100.<2*link-id>/31` | RFC 5737 (TEST-NET-2) |
+| PE-CE links | `198.51.100.<128 + 2*site-id>/31` | RFC 5737 (TEST-NET-2) |
+| Customer prefixes | `203.0.113.<seq>.0/24`, carve `/28` per VRF site | RFC 5737 (TEST-NET-3) |
+
+## Autonomous systems
+
+| Item | Value |
+|---|---|
+| PE iBGP AS | `65000` (RFC 6996 private 2-byte) |
+| RD / RT namespace AS | `64512` (deliberately distinct from BGP AS so RD/RT are visibly different) |
+| CE eBGP AS | `65001 + (vrf-id mod 1000)` |
+
+## Routing / transport
+
+- IGP: ISIS L2-only, area `49.0001`
+- Route-Reflector: first PE in the device list
+- SRGB: literal — keep as in `transport/mpls-segment-routing.conf`
+- Admin groups: literal — keep as in `transport/mpls-segment-routing.conf`
+- Flex-algo: `128` (gold), `129` (bronze) — literal
+
+## L3VPN VRF (vrf-id N, sequential from 2001 unless overridden)
+
+- Instance name: `METRO_BGPv4_L3VPN_<N>`
+- Route distinguisher: `64512:<N>`
+- Route target: `target:64512:<N>`
+- RT community name: `METRO_BGPv4_L3VPN_<N>` (matches JVD snip pattern)
+- AC interface unit: `<N>`
+
+## EVPN-VPWS service (svc-id S, sequential from 4001)
+
+- Instance name: `EVPN_VPWS_<S>`
+- VPWS service-id: `<S>`
+- AC interface unit: `<S>`
+- ESI: `00:11:22:33:44:55:66:<Sh>:<Sm>:<Sl>` where `<Sh>:<Sm>:<Sl>` are the three bytes of `(S - 4001 + 1)`. Clearly synthetic.
+
+## EVPN-ELAN service (vlan V, sequential from 2001; skip 1, 1002–1005, 4094)
+
+- Instance name: `EVPN_ELAN_<V>`
+- EVI / VNI: `<V>`
+- AC interface unit: `<V>`
+
+## L2Circuit
+
+- `virtual-circuit-id`: `<V>`
+- AC interface unit: `<V>`
+
+## OAM (Y.1731 CFM)
+
+- Maintenance domain: `MD_64512`
+- Level: `5`
+- MA name: `<V>` or `<S>`
+- MEP local: `1000 + (PE index in the service)`
+- MEP remote: `1000 + (other PE index)`
+- SLA iterator profile: `2WD-P3` (literal — JVD constant)
+
+## CoS / firewall
+
+- `scheduler-map`: `5G_SCHEDULER` on every edge LAG (literal — JVD constant)
+- Default UNI policer: `50mbps_policer` (literal — JVD constant)
+- Forwarding-classes: 6-class model (literal — JVD constant)
+
+## Device selection
+
+- If the user names devices → use them verbatim and infer the OS family from the model code in the hostname.
+- Else if `EVO`: `ma3_acx7100-48l` + `meg1_acx7100-32c`
+- Else if `JUNOS`: `mse1_mx304` + `ma4_mx204`
+- Else if `MIXED`: `mse1_mx304` (Junos) + `ma3_acx7100-48l` (EVO)
+- Else: ask before continuing.
+
+Valid device names are those that appear in any snip's `Seen on:` header. If the user supplies a name not in `Seen on:`, accept it but warn in the Notes that the generated config is by-pattern, not validated against that specific device.
+
+## Scale
+
+No hard cap on counts. If the user asks for >500 of any entity, emit a one-line "this will be a lot of output" warning in the Notes but still produce the full config.
+
+## byoai/OUTPUT_FORMAT.md
+
+# Output Format
+
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
+
+## 1. `Inputs used:` block (always first)
+
+Every generation begins with a YAML comment block listing **every** value picked or accepted:
+
+```yaml
+# Inputs used:
+# mode: auto                   # or "interview"
+# form: as-deployed            # or "minimum"
+# devices:
+#   pe1: { name: <hostname>, os: <junos|evo>,
+#          loopback4: <addr>, loopback6: <addr> }
+#   pe2: { ... }
+# services:
+#   - { kind: <l3vpn|evpn-vpws|evpn-elan|l2circuit>,
+#       count: <int>,
+#       start_id: <int>,
+#       start_vlan: <int>,
+#       start_ac_unit: <int>,
+#       rt: <target:...>,        # for l3vpn
+#       esi_base: <hex>,         # for evpn-vpws / evpn-elan multihomed
+#       prefixes: [ ... ] }      # for l3vpn
+# snips_used:
+#   - junos/services/l3vpn-vrf.conf
+#   - evo/services/l3vpn-vrf.conf
+#   - ...
+```
+
+This block makes every generation reproducible — the user can paste it back to regenerate the same output.
+
+## 2. One fenced `text` block per device
+
+Each device block starts with a `# device:` label and groups its snips with `/* snips/<path> */` section comments:
+
+```text
+# device: <hostname>
+/* snips/<path-to-snip>.conf */
+<rendered config block>
+
+/* snips/<path-to-next-snip>.conf */
+<rendered config block>
+```
+
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
+
+## 3. `Notes:` section (always last)
+
+Bullets covering:
+
+- Snips intentionally omitted (and why).
+- Inputs defaulted because the user did not provide them.
+- Cross-PE consistency the user must verify (RTs, ESIs, pseudowire-id, MAC-VRF names).
+- Anything that is by-pattern rather than validated on that exact device (e.g., user-supplied hostname not in any snip's `Seen on:` list).
+
+## Refusal
+
+If the request cannot be fulfilled from the snip library, do not apologise. Say exactly:
+
+```
+I cannot generate this from the snip library because <one reason>.
+```
+
+…and stop.
