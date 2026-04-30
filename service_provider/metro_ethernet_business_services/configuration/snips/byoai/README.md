@@ -6,6 +6,52 @@ This folder contains the prompts, ground rules and example workflows that turn t
 
 ---
 
+## Two interaction modes
+
+Every generation starts with the AI asking which mode you want:
+
+- **`interview`** — the AI batches a few targeted questions to capture exact values (loopbacks, RDs, ACs, etc.). Best when you're generating config for an existing network where the values are pre-assigned.
+- **`auto`** — the AI fills every variable from a deterministic table of *JVD lab defaults* (RFC documentation prefixes, private AS numbers, devices chosen from the snip library's `Seen on:` headers). Best for demos, lab builds, training material, and "give me a working example" workflows.
+
+In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
+
+Short-circuits in interview mode: replying `all defaults`, `use defaults`, or `skip` at any point makes the AI fall back to auto-fill for everything still unanswered and generate immediately.
+
+## What "auto" means — the lab-default rules
+
+When you pick auto mode, the AI uses values from IETF documentation ranges and reserved private namespaces so the output is *visibly safe to share* and won't collide with anyone's real network:
+
+| Domain | Pool / Value | Source |
+|---|---|---|
+| PE loopback v4 | `192.0.2.0/24` (TEST-NET-1) | RFC 5737 |
+| PE loopback v6 | `2001:db8::/32` | RFC 3849 |
+| PE-PE core links | `198.51.100.0/24` (TEST-NET-2), /31 per link | RFC 5737 |
+| PE-CE links | `198.51.100.128/25` carved as /31s | RFC 5737 |
+| Customer prefixes inside L3VPN | `203.0.113.0/24` (TEST-NET-3), /28 per VRF site | RFC 5737 |
+| BGP AS (PE iBGP) | `65000` | RFC 6996 private 2-byte |
+| RD / RT namespace AS | `64512` (deliberately distinct from BGP AS) | RFC 6996 private |
+| CE eBGP AS | `65001` and up, per-VRF | RFC 6996 private |
+| ESI | `00:11:22:33:44:55:66:NN:NN:NN` (last 3 bytes encode service-id) | clearly synthetic |
+| Maintenance domain | `MD_64512` matching RD AS | matches snip examples |
+| Apply-group / forwarding-class / scheduler-map names | kept literal | JVD-wide constants |
+
+Full rule table — including how counts are seeded (VRF id from 2001, VPWS service-id from 4001, VLAN from 2001 skipping reserved IDs), how MEPs are numbered, and the device-selection logic — lives in [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) (Part 3).
+
+## Device selection in auto mode
+
+The AI needs to know which devices to target. Three shortcuts:
+
+| You say | AI uses |
+|---|---|
+| `EVO` | `ma3_acx7100-48l` + `meg1_acx7100-32c` |
+| `JUNOS` | `mse1_mx304` + `ma4_mx204` |
+| `MIXED` | `mse1_mx304` (Junos) + `ma3_acx7100-48l` (EVO) |
+| explicit hostnames | uses them verbatim, infers OS from the model code |
+
+Or you can list any devices that appear in the snips' `Seen on:` headers.
+
+---
+
 ## Why BYOAI
 
 The [`snips/`](../) library was deliberately structured to be **machine-friendly grounding material**:
@@ -75,36 +121,40 @@ Any modern frontier LLM works. The snip library is small enough (~62 files, ~150
 
 Best for one-off generation in a web chat UI (claude.ai, chatgpt.com, your enterprise portal).
 
-1. From the repo root, bundle the snip library into a single text file:
+**Load order matters: system prompt first, then the corpus.** The system prompt tells the AI how to behave (and how to detect a missing corpus); loading the corpus first will cause some models to start using it before they've seen the rules.
 
-   ```bash
-   cd service_provider/metro_ethernet_business_services/configuration/snips
-   { echo "# JVD MEBS snippet library"; \
-     echo; \
-     for f in $(find junos evo -name '*.conf' | sort); do \
-       echo "## $f"; echo; echo '```'; cat "$f"; echo '```'; echo; \
-     done; \
-     echo "## _variables.md"; echo; cat _variables.md; \
-   } > /tmp/jvd-mebs-snips.md
-   ```
+1. Start a new chat with your AI of choice. Paste the contents of [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt (or first user message in UIs that don't expose a system prompt).
 
-2. Start a new chat with your AI of choice. Paste the contents of [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt (or first user message in UIs that don't expose a system prompt).
+2. Attach the bundled snip corpus: **[`jvd-mebs-snips.md`](jvd-mebs-snips.md)** (already in this folder). If your chat UI doesn't accept attachments, open the file and paste its contents inline.
 
-3. Attach `/tmp/jvd-mebs-snips.md` (or paste it inline if the UI doesn't accept attachments).
+3. Ask your generation question (see [Example prompts](#example-prompts) below). The system prompt includes a corpus-loaded check — if you forget step 2 the AI will tell you on its first reply.
 
-4. Ask your generation question (see [Example prompts](#example-prompts) below).
+> **Keeping the bundle current.** [`jvd-mebs-snips.md`](jvd-mebs-snips.md) is generated from the source files under [`../junos/`](../junos/), [`../evo/`](../evo/), and [`../_variables.md`](../_variables.md). After any change to those files, regenerate it with:
+>
+> ```bash
+> ./regenerate-bundle.sh
+> ```
+>
+> (run from this `byoai/` folder).
 
-### Pattern 2 — Point the AI at the GitHub repo
+### Pattern 2 — Let the AI fetch the corpus from GitHub
 
-Best for AI tools with web/file fetch (Claude with web search, ChatGPT, agents in VS Code / Cursor with the GitHub MCP server).
+Best for AI tools with web fetch enabled (ChatGPT with browsing, Claude with web search, Gemini, agents in VS Code / Cursor with the GitHub MCP server).
 
-Tell the model:
+The system prompt has a corpus check that tries to fetch the bundled corpus directly from GitHub when no attachment is present. If your AI has a fetch tool, it will pull:
 
-> Use only the files under
-> `https://github.com/Juniper/jvd/tree/main/service_provider/metro_ethernet_business_services/configuration/snips`
-> as your source of truth for Junos / EVO syntax. Read `_variables.md` first for the variable-naming convention, then load topic files as needed. Do not invent Junos hierarchy that doesn't appear in those files.
+```
+https://raw.githubusercontent.com/Juniper/jvd/add/byoai-readme/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
+```
 
-Then provide the [system prompt](SYSTEM_PROMPT.md) and your input.
+…on its own and proceed normally. You only need to:
+
+1. Paste [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt.
+2. Send your generation request.
+
+The AI will acknowledge the fetch ("Loaded jvd-mebs-snips.md from the JVD repo on GitHub.") and continue.
+
+If your AI has no fetch tool (free-tier ChatGPT, local Ollama, Claude without web search, API calls without tools), it will fall back to asking you to attach the file — in which case use Pattern 1.
 
 ### Pattern 3 — Render directly with the snip renderer (no AI required)
 
@@ -127,33 +177,37 @@ Use the AI for **selection + parameter inference from natural language**; use th
 
 ## Example prompts
 
-### Generate a new L3VPN service end-to-end
+### Auto mode — "give me a working example"
 
-> I have an existing JVD MEBS network. Add a new L3VPN service with these inputs:
->
-> - Instance name: `METRO_BGPv4_L3VPN_3007`
-> - PEs: `mse1_mx304` (Junos) and `ma3_acx7100-48l` (EVO)
-> - Route distinguisher: `63536:3007` on each PE
-> - Route target: `target:63536:3007`
-> - Customer prefixes (public): `10.30.7.0/24`, `10.30.8.0/24`
-> - PE-CE attachment: `xe-0/1/4.3007` (mse1) and `et-0/0/2.3007` (ma3)
-> - PE-CE eBGP peer AS: `64537`
->
-> Produce, per PE:
-> 1. The community + per-VRF export/import policies (`policy/communities.conf` + `policy/l3vpn-export-import.conf`).
-> 2. The VRF (`services/l3vpn-vrf.conf`) including PE-CE eBGP.
-> 3. The attachment-circuit unit (`interfaces/edge-vlan-normalization.conf`).
-> 4. Any apply-group references that should be added.
->
-> Use only patterns that appear in the snips. Output one fenced block per file, labelled with the device name.
+> Generate 3 EVPN-VPWS services and 2 L3VPN VRFs between an EVO and a Junos PE.
 
-### Add CoS to a brownfield device
+The AI's first reply asks for mode + device choice. You answer:
 
-> Take the EVO 6-class CoS pattern from `evo/cos/forwarding-classes.conf` + `evo/cos/schedulers.conf` and produce the configuration to attach `5G_SCHEDULER` to `ae0`, `ae1`, `ae2` on a new ACX7100-48L access node, plus the matching DSCP/EXP/802.1p classifiers.
+> auto, mixed
+
+…and the AI generates the full config for both PEs, with an `Inputs used:` block at the top and a `Notes:` section at the end.
+
+### Interview mode — brownfield change
+
+> I have an existing JVD MEBS network. Add a new L3VPN service.
+
+The AI's first reply asks mode + devices. You answer `interview, JUNOS`. It then batches:
+
+> Need these to proceed (defaults shown — reply with values, or "all defaults" to accept):
+> 1. Instance name (default: METRO_BGPv4_L3VPN_2001)
+> 2. RD on mse1 / ma4 (default: 64512:2001 on both)
+> 3. RT (default: target:64512:2001)
+> 4. AC interface unit on each PE (default: 2001 on both)
+> 5. PE-CE eBGP peer AS (default: 65001)
+> 6. Customer prefix(es) inside the VRF (default: 203.0.113.0/28)
+
+### Reproduce a previous generation
+
+Paste back the `# Inputs used:` block from a prior output as your prompt. The AI regenerates byte-for-byte the same config.
 
 ### Audit / explain mode
 
-> Read the snips under `services/`. Which services share an attachment-circuit pattern that uses `vlan-ccc` encapsulation, and which use `vlan-bridge`? Cite the exact snip filenames.
+> Read the snips under services/. Which services share an attachment-circuit pattern that uses vlan-ccc encapsulation, and which use vlan-bridge? Cite snip filenames.
 
 ---
 
@@ -171,7 +225,9 @@ Use the AI for **selection + parameter inference from natural language**; use th
 | File | Purpose |
 |---|---|
 | `README.md` | This file. |
-| `SYSTEM_PROMPT.md` | Drop-in system prompt that defines the AI's role, ground rules, and output format. Works with any LLM. |
+| `SYSTEM_PROMPT.md` | Drop-in system prompt that defines the AI's role, ground rules, auto-fill rules, and output format. Works with any LLM. |
+| `jvd-mebs-snips.md` | Pre-bundled snip corpus — attach this to your AI chat after pasting the system prompt. |
+| `regenerate-bundle.sh` | Re-creates `jvd-mebs-snips.md` from the current `../junos/`, `../evo/`, and `../_variables.md`. Run after any snip edit. |
 
 ---
 
