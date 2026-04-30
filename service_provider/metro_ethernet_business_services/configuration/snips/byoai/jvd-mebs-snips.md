@@ -1489,6 +1489,75 @@ routing-instances {
 }
 ```
 
+## evo/services/evpn-type5.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Same L3VPN VRF shape as evo/services/l3vpn-vrf.conf, but
+ *    instead of PE-CE eBGP this VRF runs `protocols evpn
+ *    ip-prefix-routes` to advertise EVPN Type-5 (IP-prefix) routes.
+ *  - Use this when prefixes need to reach a destination via EVPN
+ *    rather than via VPN-IPv4/v6 — e.g., the IRB anycast gateway is
+ *    on this PE and there are silent hosts or summary prefixes that
+ *    aren't learned by Type-2 MAC+IP advertisements alone.
+ *  - The VRF's `interface irb.<N>` ties this VRF to the matching
+ *    EVPN-ELAN MAC-VRF (`evo/services/evpn-elan-mac-vrf-irb.conf`)
+ *    whose `l3-interface` is the same `irb.<N>`.
+ *  - `advertise direct-nexthop encapsulation mpls` — emit Type-5
+ *    routes with the local PE as direct next-hop, MPLS-encapsulated
+ *    over the SR-MPLS underlay.
+ *  - vrf-table-label — per-VRF aggregate label so the egress PE
+ *    can do an L3 lookup on the inner header.
+ *  - vrf-import / vrf-export point at the per-VRF policies in
+ *    evo/policy/l3vpn-export-import.conf.
+ *
+ * Pair with:
+ *  - junos/services/evpn-type5.conf  (Junos end of the same VRF)
+ *  - evo/services/evpn-elan-mac-vrf-irb.conf  (the L2 / IRB side
+ *    that owns irb.<N> — this is the bridge-domain whose MACs and
+ *    silent-host IPs the Type-5 route exposes to remote PEs)
+ *  - evo/apply-groups/gr-l3vpn.conf
+ *  - evo/policy/l3vpn-export-import.conf
+ *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
+ *                     (the import/export policies are named
+ *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $ROUTER_ID        e.g. 1.1.0.2
+ *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
+ *   $RD               e.g. 63000:13000
+ */
+routing-instances {
+    apply-groups GR-L3VPN;
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation mpls;
+                }
+            }
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-import PS-$INSTANCE_NAME-IMPORT;
+        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-table-label;
+    }
+}
+```
+
 ## evo/services/evpn-vpws.conf
 
 ```
@@ -3427,6 +3496,80 @@ routing-instances {
 }
 ```
 
+## junos/services/evpn-type5.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Same L3VPN VRF shape as junos/services/l3vpn-vrf.conf, but
+ *    instead of PE-CE eBGP this VRF runs `protocols evpn
+ *    ip-prefix-routes` to advertise EVPN Type-5 (IP-prefix) routes.
+ *  - Use this when prefixes need to reach a destination via EVPN
+ *    rather than via VPN-IPv4/v6 — e.g., the IRB anycast gateway is
+ *    on this PE and there are silent hosts or summary prefixes that
+ *    aren't learned by Type-2 MAC+IP advertisements alone.
+ *  - The VRF's `interface irb.<N>` ties this VRF to the matching
+ *    L2 service (MAC-VRF on EVO, virtual-switch on Junos) whose
+ *    `l3-interface` / `routing-interface` is the same `irb.<N>`.
+ *  - `advertise direct-nexthop encapsulation mpls` — emit Type-5
+ *    routes with the local PE as direct next-hop, MPLS-encapsulated
+ *    over the SR-MPLS underlay (no VXLAN here — this is a
+ *    metro-MPLS deployment).
+ *  - vrf-table-label — per-VRF aggregate label so the egress PE
+ *    can do an L3 lookup on the inner header (standard IRB pattern).
+ *  - vrf-import / vrf-export point at the per-VRF policies in
+ *    junos/policy/l3vpn-export-import.conf — same shape as the
+ *    PE-CE-eBGP L3VPN, just a different RT to keep the two
+ *    families separate.
+ *
+ * Pair with:
+ *  - evo/services/evpn-type5.conf  (EVO end of the same VRF)
+ *  - For the L2 / IRB side that owns irb.<N>:
+ *      evo/services/evpn-elan-mac-vrf-irb.conf  (EVO mate)
+ *      Junos virtual-switch + bridge-domains + routing-interface
+ *      (no dedicated snip yet — see deployed pattern in
+ *       service_provider/.../conf/mse1_mx304.conf).
+ *  - junos/apply-groups/gr-l3vpn.conf
+ *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
+ *                     (the import/export policies are named
+ *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $ROUTER_ID        e.g. 1.1.0.10
+ *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
+ *   $RD               e.g. 63200:13000
+ */
+routing-instances {
+    apply-groups GR-L3VPN;
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        protocols {
+            evpn {
+                ip-prefix-routes {
+                    advertise direct-nexthop;
+                    encapsulation mpls;
+                }
+            }
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-import PS-$INSTANCE_NAME-IMPORT;
+        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-table-label;
+    }
+}
+```
+
 ## junos/services/evpn-vpws.conf
 
 ```
@@ -4212,6 +4355,37 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ---
 
+## EVPN Type-5 / IP-prefix VRFs
+
+An L3VPN VRF whose `protocols evpn ip-prefix-routes` advertises Type-5 routes. The VRF's `interface irb.<N>` ties it to a matching EVPN-ELAN MAC-VRF whose `l3-interface irb.<N>` is the same. Use this when prefixes need to reach destinations via EVPN (silent hosts, summary prefixes) rather than via Type-2 MAC+IP alone.
+
+**minimum** (just the Type-5 VRF + per-VRF policy)
+- `services/evpn-type5.conf`
+- `policy/l3vpn-export-import.conf`
+- `policy/communities.conf` (only the per-VRF target community)
+- The user MUST also have (or generate, in `as-deployed`) the matching ELAN-IRB on the same `irb.<N>`. Always call this out in the `Notes:` section. If the user picks `as-deployed`, also include `services/evpn-elan-mac-vrf-irb.conf` for the EVO end.
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- `services/evpn-elan-mac-vrf-irb.conf` (the L2 mate on the same IRB)
+- `transport/isis-srmpls-tilfa.conf`
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-l3vpn.conf`
+- `apply-groups/gr-edge-intf-mh.conf`
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `firewall/policers.conf`
+- `policy/communities.conf` (full set)
+
+---
+
 ## L2CIRCUIT (including hot-standby)
 
 **minimum** (just the service)
@@ -4253,12 +4427,6 @@ Same shape as the others:
 ## Bootstrap / greenfield turn-up
 
 Treat as **`as-deployed`** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
-
----
-
-## Not yet available
-
-- **EVPN Type-5 / IP-prefix routes** (EVPN with IP-prefix advertisement so prefixes from outside the bridge-domain are reachable through the EVI). Would be a sibling of `evpn-elan-mac-vrf-irb`. Snip pair (`junos/services/evpn-type5.conf`, `evo/services/evpn-type5.conf`) not yet authored. If a user asks for this, refuse per `OUTPUT_FORMAT.md`'s standard refusal phrasing and point them at this section.
 
 ---
 

@@ -85,14 +85,6 @@ Or you can list any devices that appear in the snips' `Seen on:` headers.
 
 ---
 
-## Not yet available
-
-These services aren't in the snip library yet. Asking the AI for them will get a polite refusal pointing here.
-
-- **EVPN Type-5 / IP-prefix routes** — EVPN with IP-prefix advertisement so prefixes from outside the bridge-domain are reachable through the EVI. On EVO this is the IRB participating in both MAC-VRF and an L3 VRF; on Junos this is `instance-type evpn` with `ip-prefix-routes`. Snip pair (`junos/services/evpn-type5.conf`, `evo/services/evpn-type5.conf`) is not yet authored.
-
----
-
 ## Why BYOAI
 
 The [`snips/`](../) library was deliberately structured to be **machine-friendly grounding material**:

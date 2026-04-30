@@ -104,6 +104,37 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ---
 
+## EVPN Type-5 / IP-prefix VRFs
+
+An L3VPN VRF whose `protocols evpn ip-prefix-routes` advertises Type-5 routes. The VRF's `interface irb.<N>` ties it to a matching EVPN-ELAN MAC-VRF whose `l3-interface irb.<N>` is the same. Use this when prefixes need to reach destinations via EVPN (silent hosts, summary prefixes) rather than via Type-2 MAC+IP alone.
+
+**minimum** (just the Type-5 VRF + per-VRF policy)
+- `services/evpn-type5.conf`
+- `policy/l3vpn-export-import.conf`
+- `policy/communities.conf` (only the per-VRF target community)
+- The user MUST also have (or generate, in `as-deployed`) the matching ELAN-IRB on the same `irb.<N>`. Always call this out in the `Notes:` section. If the user picks `as-deployed`, also include `services/evpn-elan-mac-vrf-irb.conf` for the EVO end.
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- `services/evpn-elan-mac-vrf-irb.conf` (the L2 mate on the same IRB)
+- `transport/isis-srmpls-tilfa.conf`
+- `transport/mpls-segment-routing.conf`
+- `apply-groups/gr-l3vpn.conf`
+- `apply-groups/gr-edge-intf-mh.conf`
+- `apply-groups/gr-core-intf.conf`
+- `apply-groups/gr-isis-bcp.conf`
+- `apply-groups/gr-bgp-bcp.conf`
+- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-lag-member.conf`
+- `cos/forwarding-classes.conf`
+- `cos/schedulers.conf`
+- `firewall/policers.conf`
+- `policy/communities.conf` (full set)
+
+---
+
 ## L2CIRCUIT (including hot-standby)
 
 **minimum** (just the service)
@@ -145,12 +176,6 @@ Same shape as the others:
 ## Bootstrap / greenfield turn-up
 
 Treat as **`as-deployed`** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
-
----
-
-## Not yet available
-
-- **EVPN Type-5 / IP-prefix routes** (EVPN with IP-prefix advertisement so prefixes from outside the bridge-domain are reachable through the EVI). Would be a sibling of `evpn-elan-mac-vrf-irb`. Snip pair (`junos/services/evpn-type5.conf`, `evo/services/evpn-type5.conf`) not yet authored. If a user asks for this, refuse per `OUTPUT_FORMAT.md`'s standard refusal phrasing and point them at this section.
 
 ---
 

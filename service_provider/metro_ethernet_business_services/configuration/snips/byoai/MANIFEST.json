@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 62,
+  "snip_count": 64,
   "snips": [
     {
       "path": "evo/apply-groups/gr-bgp-bcp.conf",
@@ -333,6 +333,22 @@
       ],
       "size_bytes": 2322,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-type5.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-type5",
+      "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2574,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5.conf"
     },
     {
       "path": "evo/services/evpn-vpws.conf",
@@ -838,6 +854,22 @@
       ],
       "size_bytes": 2517,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
+    },
+    {
+      "path": "junos/services/evpn-type5.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-type5",
+      "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2866,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/add/byoai-manifest/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5.conf"
     },
     {
       "path": "junos/services/evpn-vpws.conf",
