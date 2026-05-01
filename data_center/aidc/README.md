@@ -26,18 +26,3 @@ A typical Juniper AI cluster uses a **rail-optimized stripe architecture** on th
 | [`aiml_multitenancy_backend/`](aiml_multitenancy_backend/) | Backend (GPU) | EVPN/VXLAN GPU Backend Fabric for Multitenancy (GPUaaS) |
 
 Frontend and storage fabric JVDs will be added as separate sibling folders following the same `aiml_<topic>_<fabric>/` naming pattern.
-
-## Repo conventions for this folder
-
-```
-aidc/
-├── README.md                              ← this file
-├── images/                                ← cross-JVD diagrams
-└── <jvd>/
-    ├── README.md                          ← per-JVD overview, devices, links
-    ├── images/                            ← per-JVD diagrams
-    └── configuration/conf/                ← Junos hierarchical configs (*.conf)
-        └── <role><n>_<platform>.conf     ← e.g. spine1_qfx5240-64od.conf
-```
-
-Configuration files use the Junos hierarchical (curly-brace) format, named `<role><n>_<platform>.conf` so they sort by role and self-document the device model.
