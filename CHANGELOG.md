@@ -7,8 +7,7 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 ## 2026-05-11
 
 A new Service Provider JVD landed end-to-end this week, along with a
-companion templated snip library and a permanent improvement to the
-JVD authoring tooling.
+companion templated snip library.
 
 ### New content
 
@@ -36,21 +35,6 @@ JVD authoring tooling.
   per-Flex-Algo IS-IS + SRv6 locator instantiation, multi-AFI BGP
   overlay (RR + RR-client + ASBR shapes), and inter-AS Option C with
   locator summarization.
-
-### Header convention for snips
-
-Every snip in the SRv6 Core Edge library uses the standard fixed
-5-section header (`Topic` / `Seen on` / `Highlights` / `Pair with` /
-`Variables`). Junos Evolved snips additionally carry a
-`Variant: Evolved-OS (EVO)` line and a leading `Highlights` bullet
-that calls out either "Body is byte-identical to the Junos sibling"
-or any platform-specific delta (e.g. PTX `et-options { 802.3ad ... }`
-in place of MX `gigether-options { 802.3ad ... }`, default
-`inactive: mtu` on EVO core IFLs, the additional `<GR-EBGP-*>` wildcard
-under `GR-BGP` on EVO BR routers, and inter-AS multihop / per-neighbor
-`local-address` syntax). Patterns that exist on both OS families now
-get a full standalone file under each tree — never a pointer-stub —
-so customers can consume one tree at a time without cross-referencing.
 
 ### What this means for you
 
@@ -99,6 +83,17 @@ so customers can consume one tree at a time without cross-referencing.
 | **Total** | **64** | **1,176,770** |
 
 </details>
+
+---
+
+## 2026-05-01
+
+A large round of repository-wide improvements landed this week, focused on
+making JVDs easier to navigate, easier to consume per-device, and easier to
+adapt into customer designs.
+
+### New content
+
 - **MEBS snip library** — A templated snip library for
   [`service_provider/metro_ethernet_business_services`](service_provider/metro_ethernet_business_services/configuration/snips/)
   covering 8 categories (interfaces, policy, services, firewall, cos,
