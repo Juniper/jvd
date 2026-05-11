@@ -52,22 +52,6 @@ under `GR-BGP` on EVO BR routers, and inter-AS multihop / per-neighbor
 get a full standalone file under each tree — never a pointer-stub —
 so customers can consume one tree at a time without cross-referencing.
 
-### Tooling improvements (internal)
-
-- The `jvd-organize-folder` skill picked up a new Phase A.5 sanitization
-  step covering 14 patterns (encrypted passwords, type-9 secrets, SSH
-  keys, RADIUS/TACACS shared secrets, DNS/NTP/syslog hosts, contact /
-  location, default SNMP communities, license keys, internal trap
-  targets, internal `*.juniper.net` / `jnpr.net` domain references,
-  local lab user accounts, custom login classes, and lab static routes
-  inside `groups apply-groups`). New configs added to the repo are now
-  sanitized in-place before commit.
-- The `jvd-extract-snips` skill picked up a `Dual-OS coverage` rule
-  (Hard Rule #6): a snip file is created under an OS tree if and only
-  if the pattern actually appears on a device of that OS family in the
-  source `.conf` files; when the pattern exists on both, both files
-  must contain the full standalone body.
-
 ### What this means for you
 
 - Pull the latest `main` to pick up the new SRv6 Core Edge JVD and its
@@ -82,14 +66,39 @@ so customers can consume one tree at a time without cross-referencing.
 
 ---
 
-## 2026-05-01
+### By the numbers
 
-A large round of repository-wide improvements landed this week, focused on
-making JVDs easier to navigate, easier to consume per-device, and easier to
-adapt into customer designs.
+<details>
+<summary>Per-JVD / per-area changes</summary>
 
-### New content
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| service_provider/srv6_core_edge | 64 | 0 | 0 | 0 | 1 |
+| **TOTAL** | **64** | **0** | **0** | **0** | **1** |
 
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| service_provider | 1,176,770 | 0 | +1,176,770 |
+| **Total** | **1,176,770** | **0** | **+1,176,770** |
+
+</details>
+
+<details>
+<summary>SRv6 Core Edge content breakdown</summary>
+
+| Area | Files | Lines added |
+| --- | ---: | ---: |
+| Sanitized device configs (`configuration/conf/`) | 13 | 1,173,097 |
+| Snip library (`configuration/snips/`) | 48 | 3,511 |
+| README + reference architecture diagrams | 3 | 162 |
+| **Total** | **64** | **1,176,770** |
+
+</details>
 - **MEBS snip library** — A templated snip library for
   [`service_provider/metro_ethernet_business_services`](service_provider/metro_ethernet_business_services/configuration/snips/)
   covering 8 categories (interfaces, policy, services, firewall, cos,
