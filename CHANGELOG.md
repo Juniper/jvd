@@ -4,6 +4,88 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-11
+
+A new Service Provider JVD landed end-to-end this week, along with a
+companion templated snip library.
+
+### New content
+
+- **SRv6 Core Edge JVD** — A new Service Provider JVD under
+  [`service_provider/srv6_core_edge/`](service_provider/srv6_core_edge/)
+  validating an SRv6 µSID core with Flex-Algo (FA-0 IGP / FA-128 delay /
+  FA-129 TE), L3VPN-over-SRv6, EVPN-VPWS-over-SRv6, dual-CR route
+  reflectors, inter-AS Option C between Border Routers, and end-to-end
+  TI-LFA. Hardware mix: MX480 (edge / MSE), MX10004 + MX2010 (core RRs),
+  MX304 + PTX10002-36QDD (border), MX240 (CPE). Includes the standard
+  README + reference architecture diagrams + 13 sanitized per-device
+  hierarchical configs under
+  [`configuration/conf/`](service_provider/srv6_core_edge/configuration/conf/).
+- **SRv6 Core Edge snip library** — A templated snip library for the
+  new JVD at
+  [`service_provider/srv6_core_edge/configuration/snips/`](service_provider/srv6_core_edge/configuration/snips/)
+  covering 6 categories (apply-groups, transport, services, interfaces,
+  policy, oam) — 19 snips with paired Junos and Junos Evolved coverage,
+  plus a [`README.md`](service_provider/srv6_core_edge/configuration/snips/README.md)
+  category index and a
+  [`_variables.md`](service_provider/srv6_core_edge/configuration/snips/_variables.md)
+  glossary listing every `$VARIABLE` placeholder with example values.
+  Notable patterns include the wildcard `<GR-*>` apply-groups
+  (`gr-isis-ipv6`, `gr-srv6`, `gr-bgp`, `gr-l3vpn`, `gr-core-intf-ipv6`),
+  per-Flex-Algo IS-IS + SRv6 locator instantiation, multi-AFI BGP
+  overlay (RR + RR-client + ASBR shapes), and inter-AS Option C with
+  locator summarization.
+
+### What this means for you
+
+- Pull the latest `main` to pick up the new SRv6 Core Edge JVD and its
+  snip library.
+- If you're building a customer design with SRv6 µSID + Flex-Algo +
+  L3VPN-SRv6 / EVPN-VPWS-SRv6, start from
+  [`configuration/snips/`](service_provider/srv6_core_edge/configuration/snips/)
+  rather than copying full per-device configs.
+- All committed device configs are sanitized — encrypted credentials,
+  SSH keys, AAA secrets, and lab-only management routes have been
+  removed. Substitute your own values before deploying.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| service_provider/srv6_core_edge | 64 | 0 | 0 | 0 | 1 |
+| **TOTAL** | **64** | **0** | **0** | **0** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| service_provider | 1,176,770 | 0 | +1,176,770 |
+| **Total** | **1,176,770** | **0** | **+1,176,770** |
+
+</details>
+
+<details>
+<summary>SRv6 Core Edge content breakdown</summary>
+
+| Area | Files | Lines added |
+| --- | ---: | ---: |
+| Sanitized device configs (`configuration/conf/`) | 13 | 1,173,097 |
+| Snip library (`configuration/snips/`) | 48 | 3,511 |
+| README + reference architecture diagrams | 3 | 162 |
+| **Total** | **64** | **1,176,770** |
+
+</details>
+
+---
+
 ## 2026-05-01
 
 A large round of repository-wide improvements landed this week, focused on
