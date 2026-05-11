@@ -4,6 +4,84 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-11
+
+A new Service Provider JVD landed end-to-end this week, along with a
+companion templated snip library and a permanent improvement to the
+JVD authoring tooling.
+
+### New content
+
+- **SRv6 Core Edge JVD** — A new Service Provider JVD under
+  [`service_provider/srv6_core_edge/`](service_provider/srv6_core_edge/)
+  validating an SRv6 µSID core with Flex-Algo (FA-0 IGP / FA-128 delay /
+  FA-129 TE), L3VPN-over-SRv6, EVPN-VPWS-over-SRv6, dual-CR route
+  reflectors, inter-AS Option C between Border Routers, and end-to-end
+  TI-LFA. Hardware mix: MX480 (edge / MSE), MX10004 + MX2010 (core RRs),
+  MX304 + PTX10002-36QDD (border), MX240 (CPE). Includes the standard
+  README + reference architecture diagrams + 13 sanitized per-device
+  hierarchical configs under
+  [`configuration/conf/`](service_provider/srv6_core_edge/configuration/conf/).
+- **SRv6 Core Edge snip library** — A templated snip library for the
+  new JVD at
+  [`service_provider/srv6_core_edge/configuration/snips/`](service_provider/srv6_core_edge/configuration/snips/)
+  covering 6 categories (apply-groups, transport, services, interfaces,
+  policy, oam) — 19 snips with paired Junos and Junos Evolved coverage,
+  plus a [`README.md`](service_provider/srv6_core_edge/configuration/snips/README.md)
+  category index and a
+  [`_variables.md`](service_provider/srv6_core_edge/configuration/snips/_variables.md)
+  glossary listing every `$VARIABLE` placeholder with example values.
+  Notable patterns include the wildcard `<GR-*>` apply-groups
+  (`gr-isis-ipv6`, `gr-srv6`, `gr-bgp`, `gr-l3vpn`, `gr-core-intf-ipv6`),
+  per-Flex-Algo IS-IS + SRv6 locator instantiation, multi-AFI BGP
+  overlay (RR + RR-client + ASBR shapes), and inter-AS Option C with
+  locator summarization.
+
+### Header convention for snips
+
+Every snip in the SRv6 Core Edge library uses the standard fixed
+5-section header (`Topic` / `Seen on` / `Highlights` / `Pair with` /
+`Variables`). Junos Evolved snips additionally carry a
+`Variant: Evolved-OS (EVO)` line and a leading `Highlights` bullet
+that calls out either "Body is byte-identical to the Junos sibling"
+or any platform-specific delta (e.g. PTX `et-options { 802.3ad ... }`
+in place of MX `gigether-options { 802.3ad ... }`, default
+`inactive: mtu` on EVO core IFLs, the additional `<GR-EBGP-*>` wildcard
+under `GR-BGP` on EVO BR routers, and inter-AS multihop / per-neighbor
+`local-address` syntax). Patterns that exist on both OS families now
+get a full standalone file under each tree — never a pointer-stub —
+so customers can consume one tree at a time without cross-referencing.
+
+### Tooling improvements (internal)
+
+- The `jvd-organize-folder` skill picked up a new Phase A.5 sanitization
+  step covering 14 patterns (encrypted passwords, type-9 secrets, SSH
+  keys, RADIUS/TACACS shared secrets, DNS/NTP/syslog hosts, contact /
+  location, default SNMP communities, license keys, internal trap
+  targets, internal `*.juniper.net` / `jnpr.net` domain references,
+  local lab user accounts, custom login classes, and lab static routes
+  inside `groups apply-groups`). New configs added to the repo are now
+  sanitized in-place before commit.
+- The `jvd-extract-snips` skill picked up a `Dual-OS coverage` rule
+  (Hard Rule #6): a snip file is created under an OS tree if and only
+  if the pattern actually appears on a device of that OS family in the
+  source `.conf` files; when the pattern exists on both, both files
+  must contain the full standalone body.
+
+### What this means for you
+
+- Pull the latest `main` to pick up the new SRv6 Core Edge JVD and its
+  snip library.
+- If you're building a customer design with SRv6 µSID + Flex-Algo +
+  L3VPN-SRv6 / EVPN-VPWS-SRv6, start from
+  [`configuration/snips/`](service_provider/srv6_core_edge/configuration/snips/)
+  rather than copying full per-device configs.
+- All committed device configs are sanitized — encrypted credentials,
+  SSH keys, AAA secrets, and lab-only management routes have been
+  removed. Substitute your own values before deploying.
+
+---
+
 ## 2026-05-01
 
 A large round of repository-wide improvements landed this week, focused on
