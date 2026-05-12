@@ -129,16 +129,17 @@ def normalize_api_model(model):
     return _norm_model(mm.group(1), mm.group(2), mm.group(3))
 
 def extract_platforms_from_api(folder_id: str):
-    """Tier-0: union of DUT models across all API IDs mapped for this folder.
+    """Tier-0: union of models + OS values across all API IDs for this folder.
 
-    Returns (platforms_list, ok_flag). ok_flag is True only if at least one
-    mapped API ID returned a non-empty platformDetailsList — so an empty
-    cache hit doesn't masquerade as a successful Tier-0 result.
+    Returns (platforms_list, os_list, ok_flag). ok_flag is True only if at
+    least one mapped API ID returned a non-empty platformDetailsList — so
+    an empty cache hit doesn't masquerade as a successful Tier-0 result.
     """
     ids = ID_MAP.get(folder_id) or []
     if not ids:
-        return [], False
+        return [], [], False
     found = set()
+    found_os = set()
     saw_any_data = False
     for jid in ids:
         payload = CACHE.get(jid)
@@ -155,9 +156,18 @@ def extract_platforms_from_api(folder_id: str):
                 norm = normalize_api_model(d.get("model", ""))
                 if norm:
                     found.add(norm)
+                    # API `os` field looks like "JUNOS 23.2R2" or
+                    # "JUNOS EVO 23.2R2". Bucket into our two chip values.
+                    os_str = (d.get("os") or "").upper()
+                    if "EVO" in os_str or "EVOLVED" in os_str:
+                        found_os.add("Junos EVO")
+                    elif "JUNOS" in os_str:
+                        found_os.add("Junos")
     if not saw_any_data:
-        return [], False
-    return _dedupe_and_sort(found), True
+        return [], [], False
+    # Sort OS so "Junos" comes before "Junos EVO" for stable output.
+    os_list = sorted(found_os)
+    return _dedupe_and_sort(found), os_list, True
 
 # (relative-area-root, display-area-name)
 AREAS = [
@@ -297,7 +307,7 @@ def discover():
             readme = sub / "README.md"
             text = readme.read_text(encoding="utf-8", errors="replace") if readme.is_file() else ""
             # Tier 0: Juniper validated-platforms API (cached).
-            platforms, ok = extract_platforms_from_api(jvd_id)
+            platforms, api_os, ok = extract_platforms_from_api(jvd_id)
             platform_source = "api" if ok else ""
             if not ok:
                 # Tier 1: README scan.
@@ -309,12 +319,14 @@ def discover():
                 platforms = extract_platforms_from_configs(sub)
                 if platforms:
                     platform_source = "configs"
+            # OS: prefer API data when Tier 0 hit; otherwise scan README.
+            os_list = api_os if (ok and api_os) else extract_os(text)
             entries.append({
                 "id": jvd_id,
                 "area": area_name,
                 "repoPath": repo_path,
                 "platforms": platforms,
-                "os": extract_os(text),
+                "os": os_list,
                 "_has_readme": bool(text),
                 "_platform_source": platform_source,
             })
