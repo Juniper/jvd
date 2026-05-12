@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Verify snip library is up to date
+        run: node scripts/generate-snips.mjs --check
+
       - name: Build
         run: bun run build
 

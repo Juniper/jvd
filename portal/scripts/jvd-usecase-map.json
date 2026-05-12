@@ -1,0 +1,7 @@
+{
+  "_comment": "Use-case tags applied to every snip from a given JVD folder. Tags are free-form strings; the snip browser groups by them in 'Use case' browse mode. Add new entries here as JVDs gain snip libraries — at minimum include the area name (Service Provider, Data Center, etc) so the JVD shows up under that bucket.",
+
+  "broadband_edge": ["Service Provider", "BNG", "Subscriber Mgmt", "Metro"],
+  "metro_ethernet_business_services": ["Service Provider", "Metro", "Business Services", "MEF"],
+  "srv6_core_edge": ["Service Provider", "SRv6", "Core/Edge"]
+}
