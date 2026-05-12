@@ -419,7 +419,7 @@ export default function JvdPortal() {
         </div>
         <div className="border-t border-border">
           <div className="mx-auto max-w-7xl px-6 py-6 text-xs text-muted-foreground">
-            © {new Date().getFullYear()} JVD Portal. Not affiliated with Juniper Networks.
+            © {new Date().getFullYear()} Juniper Networks, Inc.
           </div>
         </div>
       </footer>
