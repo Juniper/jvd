@@ -1,0 +1,38 @@
+name: JVD content issue
+description: Report a problem with a specific JVD's configs, README, diagrams, or validation guidance.
+title: "[jvd] <jvd folder name>: "
+labels: ["jvd-content"]
+assignees:
+  - KB-x
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for issues with the JVD material itself —
+        wrong config, broken topology, missing platform, README typo,
+        etc. For problems with the portal site, use the **JVD Portal**
+        template instead.
+  - type: input
+    id: jvd
+    attributes:
+      label: Which JVD?
+      description: Folder path under the repo, e.g. `data_center/aidc/aiml_multitenancy_backend`.
+      placeholder: data_center/<area>/<jvd>
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the problem?
+      placeholder: e.g. The leaf-to-spine config in leaf_01.conf has a duplicate underlay BGP neighbor stanza.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested fix (optional)
+  - type: input
+    id: contact
+    attributes:
+      label: Your role (optional)
+      description: Helps us prioritize. e.g. customer SE, partner, internal Juniper.

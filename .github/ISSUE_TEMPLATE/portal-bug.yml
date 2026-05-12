@@ -1,0 +1,38 @@
+name: JVD Portal — bug or request
+description: Report a problem with the JVD Portal site or request a feature.
+title: "[portal] "
+labels: ["portal"]
+assignees:
+  - KB-x
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the JVD Portal at
+        <https://juniper.github.io/jvd/portal/>.
+        For issues with a specific JVD's content (configs, READMEs,
+        diagrams), please use the **JVD content issue** template instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What were you doing and what went wrong?
+      placeholder: e.g. Filtering by PTX10001-36MR returns no results, but I expected the SRv6 JVD to appear.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: false
+  - type: input
+    id: browser
+    attributes:
+      label: Browser / OS
+      placeholder: e.g. Safari 18 on macOS 15
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot (optional)
+      description: Drag & drop an image here if it helps.
