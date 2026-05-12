@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Juniper Validated Designs documentation
+    url: https://www.juniper.net/documentation/validated-designs/
+    about: Browse the published JVD documentation on juniper.net.
+  - name: Juniper Networks support
+    url: https://support.juniper.net/
+    about: For product support, licensing, or account issues, please use Juniper's official support channels — not this repo.

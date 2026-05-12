@@ -1,0 +1,27 @@
+name: Question
+description: Ask a question about a JVD or the portal.
+title: "[question] "
+labels: ["question"]
+assignees:
+  - KB-x
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For Juniper product support (licensing, RMA, account issues),
+        please use <https://support.juniper.net/> instead — this repo
+        is for the validated-design content and the portal that
+        catalogs it.
+
+        _Goes to Kevin Brown (@KB-x) for triage._
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (optional)
+      description: Any background that helps us answer — your goal, the JVD you're looking at, etc.
