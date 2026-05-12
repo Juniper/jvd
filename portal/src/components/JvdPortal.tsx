@@ -414,12 +414,27 @@ export default function JvdPortal() {
           />
           <FooterCol
             title="Connect"
-            links={[{ label: "Juniper.net", href: "https://www.juniper.net" }]}
+            links={[
+              { label: "Juniper.net", href: "https://www.juniper.net" },
+              { label: "Report a problem", href: "https://github.com/Juniper/jvd/issues/new/choose" },
+            ]}
           />
         </div>
         <div className="border-t border-border">
-          <div className="mx-auto max-w-7xl px-6 py-6 text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Juniper Networks, Inc.
+          <div className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <span>© {new Date().getFullYear()} Juniper Networks, Inc.</span>
+            <span>
+              Built and maintained by the Juniper Validated Design team.{" "}
+              <a
+                href="https://github.com/Juniper/jvd/issues/new/choose"
+                target="_blank"
+                rel="noreferrer"
+                className="underline hover:text-foreground"
+              >
+                Report a problem
+              </a>
+              .
+            </span>
           </div>
         </div>
       </footer>
