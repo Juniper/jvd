@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
+import SnipLibrary from "@/components/SnipLibrary";
+import { snipBundle } from "@/lib/snips";
 
 type Jvd = {
   id: string;
@@ -28,9 +30,12 @@ const OS_OPTIONS = ["Junos", "Junos EVO"];
 const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
+  { label: "Snips", href: "#snips" },
   { label: "Generator", href: "#generator" },
   { label: "About", href: "#about" },
 ];
+
+const SNIP_JVD_IDS = new Set(snipBundle.jvds.map((j) => j.id));
 
 const REPO_BASE = "https://github.com/Juniper/jvd/tree/main/";
 
@@ -246,15 +251,25 @@ export default function JvdPortal() {
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((j) => {
               const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
+              const hasSnips = SNIP_JVD_IDS.has(j.id);
               return (
                 <article
                   key={j.id}
                   className="group flex flex-col rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary/50"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
                       {j.area}
                     </span>
+                    {hasSnips && (
+                      <a
+                        href={`#snips?jvd=${j.id}`}
+                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                        title="This JVD has a snip library — click to browse"
+                      >
+                        <Layers className="h-3 w-3" /> Snips
+                      </a>
+                    )}
                   </div>
                   <h3 className="mt-4 text-base font-semibold leading-snug">{j.name}</h3>
                   <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
@@ -302,6 +317,9 @@ export default function JvdPortal() {
           )}
         </div>
       </section>
+
+      {/* Snip Library */}
+      <SnipLibrary />
 
       {/* Generator */}
       <section id="generator" className="border-b border-border">

@@ -88,3 +88,19 @@
 .marquee-pause:hover .marquee-track {
   animation-play-state: paused;
 }
+
+/* Shiki-rendered snip bodies. Override the inline background to match
+ * our surface, keep the code monospace and comfortable to read.
+ */
+.snip-body pre.shiki {
+  background-color: var(--color-background) !important;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  font-size: 12px;
+  line-height: 1.55;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  overflow-x: auto;
+}
+.snip-body pre.shiki code {
+  font-family: inherit;
+}

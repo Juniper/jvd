@@ -1,0 +1,14 @@
+{
+  "_comment": "Maps snip categories (the directory name under snips/{junos,evo}/) to a Technology family for the 'Technology' browse mode. Subfamily is derived per-snip in generate-snips.mjs from filename keywords.",
+
+  "transport": "Transport",
+  "services": "Service Overlay",
+  "interfaces": "Interfaces",
+  "policy": "Policy & Routing",
+  "cos": "QoS / CoS",
+  "firewall": "Firewall",
+  "apply-groups": "Apply-groups",
+  "oam": "OAM",
+  "subscriber-management": "Subscriber & BNG",
+  "bootstrap": "Chassis"
+}
