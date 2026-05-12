@@ -12,6 +12,8 @@ body:
         please use <https://support.juniper.net/> instead — this repo
         is for the validated-design content and the portal that
         catalogs it.
+
+        _Goes to Kevin Brown (@KB-x) for triage._
   - type: textarea
     id: question
     attributes:

@@ -12,6 +12,8 @@ body:
         wrong config, broken topology, missing platform, README typo,
         etc. For problems with the portal site, use the **JVD Portal**
         template instead.
+
+        _Goes to Kevin Brown (@KB-x) for triage._
   - type: input
     id: jvd
     attributes:

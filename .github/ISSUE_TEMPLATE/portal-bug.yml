@@ -12,6 +12,8 @@ body:
         <https://juniper.github.io/jvd/portal/>.
         For issues with a specific JVD's content (configs, READMEs,
         diagrams), please use the **JVD content issue** template instead.
+
+        _Goes to Kevin Brown (@KB-x) for triage._
   - type: textarea
     id: what-happened
     attributes:
