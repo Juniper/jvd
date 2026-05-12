@@ -14,6 +14,15 @@ type Jvd = {
 };
 
 const AREAS = ["Data Center", "Enterprise WAN", "Optical", "Security", "Service Provider", "Automation"];
+
+const AREA_DOC_LINKS: Record<string, string> = {
+  "Data Center": "https://www.juniper.net/documentation/validated-designs/us/en/data-center/",
+  "Enterprise WAN": "https://www.juniper.net/documentation/validated-designs/us/en/enterprise-wan/",
+  "Optical": "https://www.juniper.net/documentation/validated-designs/us/en/service-provider-edge/",
+  "Security": "https://www.juniper.net/documentation/validated-designs/us/en/security/",
+  "Service Provider": "https://www.juniper.net/documentation/validated-designs/us/en/service-provider-edge/",
+  "Automation": "https://www.juniper.net/documentation/validated-designs/",
+};
 const PLATFORMS = ["MX", "QFX", "PTX", "ACX", "SRX", "EX"];
 const OS_OPTIONS = ["Junos", "Junos EVO"];
 const NAV = [
@@ -104,14 +113,6 @@ export default function JvdPortal() {
     });
     return counts;
   }, [data]);
-
-  const handleAreaBadge = (a: string) => {
-    setAreaF(a);
-    // smooth scroll handled by html, anchor jump:
-    if (typeof window !== "undefined") {
-      window.location.hash = "#catalog";
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -344,13 +345,13 @@ export default function JvdPortal() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-semibold tracking-tight">About</h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              Juniper Validated Designs are end-to-end, production-tested reference architectures
+              Juniper Validated Designs are end-to-end, extensively-tested reference architectures
               built and verified by Juniper engineering. Each JVD bundles topology, configuration,
               and validation guidance so teams can deploy with confidence and reduce risk on
               critical network rollouts.
             </p>
             <a
-              href="https://www.juniper.net/documentation/validated-designs/index.html"
+              href="https://www.juniper.net/documentation/validated-designs/"
               target="_blank"
               rel="noreferrer"
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
@@ -361,16 +362,18 @@ export default function JvdPortal() {
 
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {AREAS.filter((a) => (areaCounts[a] ?? 0) > 0).map((a) => (
-              <button
+              <a
                 key={a}
-                onClick={() => handleAreaBadge(a)}
+                href={AREA_DOC_LINKS[a]}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-lg border border-border bg-surface p-4 text-left transition-colors hover:border-primary/60"
               >
                 <div className="text-2xl font-semibold tracking-tight text-primary">
                   {areaCounts[a]}
                 </div>
                 <div className="mt-1 text-xs text-muted-foreground">{a}</div>
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -394,7 +397,7 @@ export default function JvdPortal() {
               { label: "GitHub Repo", href: "https://github.com/Juniper/jvd" },
               {
                 label: "JVD Docs",
-                href: "https://www.juniper.net/documentation/validated-designs/index.html",
+                href: "https://www.juniper.net/documentation/validated-designs/",
               },
               { label: "Apstra", href: "https://www.juniper.net/us/en/products/network-automation/apstra.html" },
             ]}
