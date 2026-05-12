@@ -4,6 +4,50 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-12
+
+The JVD Portal — a public web catalog for browsing every Juniper
+Validated Design in this repository — is live at
+<https://juniper.github.io/jvd/portal/>.
+
+### New content
+
+- **JVD Portal** — A new public website at
+  <https://juniper.github.io/jvd/portal/> that catalogs all the
+  Juniper Validated Designs in this repository. Browse and filter by
+  area (Data Center, Enterprise WAN, Optical, Security, Service
+  Provider, Automation), platform family, and Junos vs Junos EVO. Each
+  card links straight back to the JVD's folder on GitHub for the full
+  README, reference diagrams, and per-device configurations. The
+  portal is a static site sourced from
+  [`portal/`](portal/) and republished automatically whenever that
+  directory changes on `main`.
+
+### What this means for you
+
+- Visit <https://juniper.github.io/jvd/portal/> to browse the full JVD
+  catalog in one place.
+- Use the area / platform / OS filters to narrow down to designs
+  relevant to your network.
+- Bookmark either the portal card or the linked GitHub folder — both
+  stay in sync with this repository.
+- If a JVD looks miscategorized or missing, open an issue or PR
+  against [`portal/src/data/jvds.json`](portal/src/data/jvds.json).
+
+<details>
+<summary>By the numbers</summary>
+
+| Area | Files added |
+| --- | ---: |
+| `portal/` (web app, configs, assets) | 65 |
+| `portal/scripts/` (catalog tooling) | 4 |
+| `.github/workflows/` (deploy pipeline) | 1 |
+| **Total** | **70** |
+
+</details>
+
+---
+
 ## 2026-05-11
 
 A new Service Provider JVD landed end-to-end this week, along with a
