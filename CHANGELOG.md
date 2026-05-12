@@ -22,13 +22,28 @@ Validated Design in this repository — is live at
   portal is a static site sourced from
   [`portal/`](portal/) and republished automatically whenever that
   directory changes on `main`.
+- **Catalog generator with Juniper API integration** — The portal's
+  catalog is now produced by
+  [`portal/scripts/generate-catalog.sh`](portal/scripts/generate-catalog.sh),
+  which pulls each JVD's authoritative validated-platforms list
+  directly from Juniper's documentation API
+  (`getAllPlatformNReleaseDetails4JvdId`) where a JVD ID is mapped in
+  [`portal/scripts/jvd-id-map.json`](portal/scripts/jvd-id-map.json),
+  and falls back to scanning the JVD's README and per-device configs
+  otherwise. Responses are cached locally in
+  [`portal/scripts/jvd-platforms-cache.json`](portal/scripts/jvd-platforms-cache.json)
+  so portal builds stay fully offline. Run with `--refresh` to pull
+  the latest API data and `--check` to verify the catalog is up to
+  date. Currently 19 of 20 JVDs are sourced from the API.
 
 ### What this means for you
 
 - Visit <https://juniper.github.io/jvd/portal/> to browse the full JVD
   catalog in one place.
 - Use the area / platform / OS filters to narrow down to designs
-  relevant to your network.
+  relevant to your network. Platform and OS chips reflect the same
+  validated platform lists published in each JVD's official Juniper
+  documentation, so what you filter on is what was actually tested.
 - Bookmark either the portal card or the linked GitHub folder — both
   stay in sync with this repository.
 - If a JVD looks miscategorized or missing, open an issue or PR
@@ -40,7 +55,7 @@ Validated Design in this repository — is live at
 | Area | Files added |
 | --- | ---: |
 | `portal/` (web app, configs, assets) | 65 |
-| `portal/scripts/` (catalog tooling) | 4 |
+| `portal/scripts/` (catalog tooling — generator, ID map, API cache) | 4 |
 | `.github/workflows/` (deploy pipeline) | 1 |
 | **Total** | **70** |
 
