@@ -8,7 +8,10 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 The JVD Portal — a public web catalog for browsing every Juniper
 Validated Design in this repository — is live at
-<https://juniper.github.io/jvd/portal/>.
+<https://juniper.github.io/jvd/portal/>. Same-day updates extended the
+portal with a browsable Snip Library and a Bring-Your-Own-AI launcher
+that pre-loads any of the published snip libraries into Claude or
+ChatGPT.
 
 ### New content
 
@@ -35,6 +38,37 @@ Validated Design in this repository — is live at
   so portal builds stay fully offline. Run with `--refresh` to pull
   the latest API data and `--check` to verify the catalog is up to
   date. Currently 19 of 20 JVDs are sourced from the API.
+- **Snip Library browser** — A new top-level portal section
+  (<https://juniper.github.io/jvd/portal/#snips>) that catalogs every
+  reusable configuration snip from every JVD's snip library — 158
+  snips across the Broadband Edge, Metro Ethernet Business Services,
+  and SRv6 Core/Edge JVDs at launch, both Junos and Junos EVO. Browse
+  by **JVD**, by **Technology** (Transport, Service Overlay,
+  Subscriber & BNG, QoS, Firewall, Apply-groups, OAM, Chassis,
+  Interfaces, Policy & Routing), or by **Use Case** (BNG, Metro,
+  Subscriber Mgmt, Business Services, MEF, SRv6, Core/Edge, …). Each
+  snip detail view shows source provenance, the devices it was seen
+  on, highlights, the variable glossary, cross-linked "Pair with"
+  references to related snips, and the full Junos config with syntax
+  highlighting and a copy-to-clipboard button (which auto-prepends a
+  `Source:` comment so the snip's origin travels with it). Catalog
+  cards for snip-equipped JVDs gain a "Snips" badge that deep-links
+  into the browser pre-filtered to that JVD. The library auto-grows:
+  any new JVD that drops conformant snips under
+  `configuration/snips/{junos,evo}/` is picked up on the next portal
+  build.
+- **Bring Your Own AI (BYOAI) — Config Generator** — A new section
+  (<https://juniper.github.io/jvd/portal/#byoai>) that launches Claude
+  or ChatGPT with the JVD's published BYOAI prompt pre-loaded as task
+  instructions. Pick a BYOAI-equipped JVD from the dropdown, click
+  the Claude or ChatGPT tile, and the assistant opens with a
+  conversation-driven workflow that walks you through a templated
+  config build against that JVD's validated snip library. Today's
+  picker covers Metro Ethernet Business Services; the section grows
+  automatically as more JVDs ship a `configuration/snips/byoai/`
+  bundle. (Gemini is currently omitted because its web app does not
+  accept pre-filled prompts via URL — the same BYOAI prompt works on
+  Gemini if pasted manually.)
 
 ### What this means for you
 
@@ -46,18 +80,40 @@ Validated Design in this repository — is live at
   documentation, so what you filter on is what was actually tested.
 - Bookmark either the portal card or the linked GitHub folder — both
   stay in sync with this repository.
+- Use the **Snip Library** at
+  <https://juniper.github.io/jvd/portal/#snips> when you need a
+  validated building block — a BGP overlay configuration, an EVPN-VPWS
+  service definition, a CoS scheduler-map — without reading an entire
+  JVD top-to-bottom. Search across topic / variable / body, switch
+  browse modes (JVD / Technology / Use Case), and the "View on
+  GitHub" link gets you to the source-of-truth file in one click.
+- Use **BYOAI** at <https://juniper.github.io/jvd/portal/#byoai> to
+  start a config-generation conversation with Claude or ChatGPT
+  pre-loaded with a JVD's snip library and behavioral rules — pick
+  the JVD, click your AI of choice, and walk through the build.
 - If a JVD looks miscategorized or missing, open an issue or PR
   against [`portal/src/data/jvds.json`](portal/src/data/jvds.json).
 
 <details>
 <summary>By the numbers</summary>
 
-| Area | Files added |
+| Area | Files added / changed |
 | --- | ---: |
-| `portal/` (web app, configs, assets) | 65 |
-| `portal/scripts/` (catalog tooling — generator, ID map, API cache) | 4 |
-| `.github/workflows/` (deploy pipeline) | 1 |
-| **Total** | **70** |
+| `portal/` (web app, configs, assets) | 67 |
+| `portal/scripts/` (catalog + snip generators, BYOAI map, API cache) | 7 |
+| `portal/src/components/` (Snip Library + BYOAI sections) | 2 new |
+| `portal/src/data/snips.json` (158-snip generated bundle) | 1 new |
+| `.github/workflows/` (deploy pipeline + snip-library CI guard) | 1 |
+| **Approximate total** | **~78** |
+
+| Snip Library at launch | |
+| --- | ---: |
+| Reusable snips indexed | 158 |
+| JVDs with snip libraries | 3 |
+| Junos snips | 85 |
+| Junos EVO snips | 73 |
+| Technology families | 10 |
+| Use-case tags | 8 |
 
 </details>
 
