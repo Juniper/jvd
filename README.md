@@ -55,7 +55,7 @@ paired across Junos and Junos EVO.
 | [Optical](optical/) | DCI-over-IPoDWDM and other optical-transport designs. |
 | [Security](security/) | Scale-out firewall + NAT and scale-out IPsec designs. |
 | [Service Provider](service_provider/) | Broadband Edge, Metro Ethernet Business Services, Metro-as-a-Service, SRv6 Core/Edge, Port Fan-Out, and Low-Latency Queueing. |
-| [Portal](portal/) | Source for the JVD Portal web catalog (Vite + React + TypeScript). |
+| [Portal](portal/) | Source for the JVD Portal web catalog. |
 
 ---
 
