@@ -51,6 +51,8 @@ function parseHash(): UrlState {
 }
 
 function writeHash(state: UrlState) {
+  if (typeof window === "undefined") return;
+
   const params = new URLSearchParams();
   if (state.mode !== "jvd") params.set("mode", state.mode);
   if (state.q) params.set("q", state.q);
@@ -58,8 +60,18 @@ function writeHash(state: UrlState) {
   if (state.jvd) params.set("jvd", state.jvd);
   if (state.id) params.set("id", state.id);
   const qs = params.toString();
+
+  const currentHash = window.location.hash || "";
+  const inSnipSection = currentHash.startsWith("#snips");
+
+  // Don't hijack the URL: only write a #snips hash when the user is already
+  // viewing the Snip Library section (or has snip-specific state worth
+  // persisting, like a selected snip or active filters). Otherwise leave
+  // whatever hash the rest of the page is using (#home, #catalog, etc.) alone.
+  if (!inSnipSection && !qs) return;
+
   const next = qs ? `#snips?${qs}` : "#snips";
-  if (typeof window !== "undefined" && window.location.hash !== next) {
+  if (currentHash !== next) {
     window.history.replaceState(null, "", next);
   }
 }
