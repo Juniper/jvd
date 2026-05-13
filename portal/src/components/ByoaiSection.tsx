@@ -1,0 +1,259 @@
+import { useMemo, useState } from "react";
+import { Sparkles, ExternalLink, Github, Info } from "lucide-react";
+import jvds from "@/data/jvds.json";
+import { snipBundle } from "@/lib/snips";
+
+/**
+ * Bring Your Own AI (BYOAI) — launches Claude or ChatGPT with a bootstrap
+ * message that points the assistant at the JVD's published BYOAI prompt
+ * (a public raw.githubusercontent.com URL). The AI fetches the prompt and
+ * adopts it as task instructions for a JVD-specific config-generation
+ * conversation.
+ *
+ * Auto-discovered: any JVD that ships configuration/snips/byoai/<slug>-byoai-prompt.txt
+ * is included in the picker on the next portal build (see generate-snips.mjs).
+ */
+
+type JvdEntry = {
+  id: string;
+  name: string;
+  area: string;
+};
+
+function buildBootstrapMessage(promptUrl: string): string {
+  return (
+    "Please fetch this URL and use its contents as task instructions for our " +
+    "conversation — it is a public, user-authored guide that tells you how to " +
+    "help me generate Juniper network configuration from a published library " +
+    "of validated config snippets. After fetching, follow its instructions to " +
+    `greet me. URL: ${promptUrl}`
+  );
+}
+
+function buildClaudeUrl(promptUrl: string): string {
+  const msg = buildBootstrapMessage(promptUrl);
+  return `https://claude.ai/new?q=${encodeURIComponent(msg)}`;
+}
+
+function buildChatGptUrl(promptUrl: string): string {
+  const msg = buildBootstrapMessage(promptUrl);
+  return `https://chatgpt.com/?q=${encodeURIComponent(msg)}`;
+}
+
+export default function ByoaiSection() {
+  const allJvds = jvds as JvdEntry[];
+  const byoaiJvds = snipBundle.byoaiJvds || [];
+
+  // Build picker items: only show JVDs that have a byoai prompt file
+  const pickerItems = useMemo(() => {
+    return byoaiJvds
+      .map((b) => {
+        const meta = allJvds.find((j) => j.id === b.jvd);
+        return {
+          id: b.jvd,
+          label: meta?.name ?? b.jvd,
+          area: meta?.area ?? "",
+          promptUrl: b.promptUrl,
+        };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [byoaiJvds, allJvds]);
+
+  const [selectedId, setSelectedId] = useState<string>(pickerItems[0]?.id ?? "");
+  const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
+
+  const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl) : "#";
+  const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl) : "#";
+
+  return (
+    <section id="byoai" className="border-b border-border">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        {/* Header */}
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <h2 className="text-3xl font-semibold tracking-tight">Bring Your Own AI</h2>
+              <span className="ml-1 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
+                Available now
+              </span>
+            </div>
+            <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+              Generate Junos and Junos EVO configuration with the AI you already use. Pick a JVD,
+              launch Claude or ChatGPT, and the assistant will fetch that JVD&apos;s validated snip
+              library and walk you through a conversation-driven config build.
+            </p>
+          </div>
+        </div>
+
+        {/* Picker + tiles */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(18rem,22rem)_1fr]">
+          {/* Left: JVD picker */}
+          <div className="rounded-lg border border-border bg-surface p-6">
+            <label
+              htmlFor="byoai-jvd"
+              className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground"
+            >
+              Step 1 — Choose JVD
+            </label>
+            {pickerItems.length === 0 ? (
+              <div className="mt-3 rounded-md border border-dashed border-border p-4 text-xs text-muted-foreground">
+                No JVDs are BYOAI-equipped yet. Add a{" "}
+                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[11px]">
+                  configuration/snips/byoai/&lt;slug&gt;-byoai-prompt.txt
+                </code>{" "}
+                file to a JVD to enable.
+              </div>
+            ) : (
+              <>
+                <select
+                  id="byoai-jvd"
+                  value={selectedId}
+                  onChange={(e) => setSelectedId(e.target.value)}
+                  className="mt-3 h-10 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                >
+                  {pickerItems.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+                {selected && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
+                    <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-medium text-primary">
+                      {selected.area}
+                    </span>
+                    <a
+                      href={`https://github.com/Juniper/jvd/blob/main/${selected.promptUrl
+                        .replace("https://raw.githubusercontent.com/Juniper/jvd/main/", "")
+                        .replace(/\?.*$/, "")}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 hover:text-primary"
+                    >
+                      <Github className="h-3 w-3" /> View prompt source
+                    </a>
+                  </div>
+                )}
+              </>
+            )}
+
+            <div className="mt-6 flex items-start gap-2 rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+              <span>
+                Both providers accept a query-param to pre-fill the chat. The assistant fetches the
+                public BYOAI prompt at launch and adopts it as task instructions.
+              </span>
+            </div>
+          </div>
+
+          {/* Right: AI tiles */}
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Step 2 — Launch your AI
+            </span>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              <AiTile
+                name="Claude"
+                description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
+                href={claudeUrl}
+                disabled={!selected}
+                logo={<ClaudeLogo />}
+                accentClass="hover:border-[#cc785c]/60"
+              />
+              <AiTile
+                name="ChatGPT"
+                description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
+                href={chatGptUrl}
+                disabled={!selected}
+                logo={<ChatGptLogo />}
+                accentClass="hover:border-[#10a37f]/60"
+              />
+            </div>
+
+            <div className="mt-4 text-[11px] text-muted-foreground">
+              <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
+              currently support pre-filled prompts via URL; it&apos;s omitted here. The same BYOAI
+              prompt works on Gemini if pasted manually.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AiTile({
+  name,
+  description,
+  href,
+  disabled,
+  logo,
+  accentClass,
+}: {
+  name: string;
+  description: string;
+  href: string;
+  disabled: boolean;
+  logo: React.ReactNode;
+  accentClass: string;
+}) {
+  const inner = (
+    <div
+      className={
+        "group flex h-full flex-col rounded-lg border border-border bg-surface p-6 transition-colors " +
+        (disabled ? "opacity-50" : `cursor-pointer ${accentClass}`)
+      }
+    >
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-background">
+          {logo}
+        </div>
+        <div className="text-base font-semibold">{name}</div>
+        <div className="ml-auto text-muted-foreground transition-colors group-hover:text-primary">
+          <ExternalLink className="h-4 w-4" />
+        </div>
+      </div>
+      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{description}</p>
+      <div className="mt-4 flex-1" />
+      <div
+        className={
+          "inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-xs font-medium transition-colors " +
+          (disabled ? "" : "group-hover:border-primary/60 group-hover:text-primary")
+        }
+      >
+        Launch in {name}
+      </div>
+    </div>
+  );
+
+  if (disabled) return inner;
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className="block h-full">
+      {inner}
+    </a>
+  );
+}
+
+// Inline SVG logos — official-ish marks. Kept minimal and monochrome-friendly.
+function ClaudeLogo() {
+  return (
+    <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden="true">
+      <path
+        fill="#cc785c"
+        d="M9 8h3.7l3.5 9.4L19.7 8H23l-5.4 14h-3.2L9 8zm14.5 0h3.5L21.6 22h-3.5l5.4-14z"
+      />
+    </svg>
+  );
+}
+
+function ChatGptLogo() {
+  return (
+    <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden="true">
+      <path
+        fill="#10a37f"
+        d="M28.5 13.4a7.4 7.4 0 0 0-.6-6 7.5 7.5 0 0 0-8.1-3.6A7.5 7.5 0 0 0 6.5 6a7.4 7.4 0 0 0-5 3.6 7.5 7.5 0 0 0 .9 8.8 7.4 7.4 0 0 0 .6 6 7.5 7.5 0 0 0 8.1 3.6 7.4 7.4 0 0 0 5.6 2.5 7.5 7.5 0 0 0 7.1-5.2 7.4 7.4 0 0 0 5-3.6 7.5 7.5 0 0 0-.9-8.8zM17.7 27.5a5.5 5.5 0 0 1-3.5-1.3l.2-.1 5.9-3.4a1 1 0 0 0 .5-.8v-8.3l2.5 1.4v6.9a5.6 5.6 0 0 1-5.6 5.6zM5.7 22.4a5.5 5.5 0 0 1-.7-3.8l.2.1 5.9 3.4a1 1 0 0 0 1 0l7.2-4.2v2.9l-7.3 4.2a5.6 5.6 0 0 1-7.6-2zM4.2 11a5.5 5.5 0 0 1 2.9-2.4v6.9a1 1 0 0 0 .5.9l7.2 4.1-2.5 1.5L6.4 18.6a5.6 5.6 0 0 1-2.2-7.6zm21.5 5l-7.2-4.2 2.5-1.4 5.9 3.4a5.5 5.5 0 0 1-.8 9.9V16a1 1 0 0 0-.4-.8zm2.5-3.7l-.2-.1-5.9-3.4a1 1 0 0 0-1 0l-7.2 4.2v-3l7.2-4.1a5.5 5.5 0 0 1 8.1 5.7zM12.5 17l-2.5-1.4V8.6a5.6 5.6 0 0 1 9.2-4.3l-.2.1-5.9 3.4a1 1 0 0 0-.5.9zm1.4-3l3.2-1.9 3.2 1.9v3.6L17 19.6l-3.2-1.9z"
+      />
+    </svg>
+  );
+}

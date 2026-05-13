@@ -3,6 +3,7 @@ import jvds from "@/data/jvds.json";
 import { ArrowRight, Github, ExternalLink, Network, Layers } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
+import ByoaiSection from "@/components/ByoaiSection";
 import { snipBundle } from "@/lib/snips";
 
 type Jvd = {
@@ -31,6 +32,7 @@ const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
   { label: "Snips", href: "#snips" },
+  { label: "BYOAI", href: "#byoai" },
   { label: "Generator", href: "#generator" },
   { label: "About", href: "#about" },
 ];
@@ -106,7 +108,7 @@ export default function JvdPortal() {
 
   const stats = [
     { label: "Validated Designs", value: "60+" },
-    { label: "Areas", value: "5" },
+    { label: "Reusable Config Snips", value: `${snipBundle.counts.total}+` },
     { label: "Platforms Validated", value: "25+" },
   ];
 
@@ -227,7 +229,7 @@ export default function JvdPortal() {
               <p className="mt-2 text-sm text-muted-foreground">
                 Browse the {data.length} validated designs in this GitHub catalog. Visit{" "}
                 <a
-                  href="https://www.juniper.net/documentation/product/us/en/juniper-validated-designs"
+                  href="https://www.juniper.net/documentation/validated-designs/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-primary hover:underline"
@@ -320,6 +322,9 @@ export default function JvdPortal() {
 
       {/* Snip Library */}
       <SnipLibrary />
+
+      {/* BYOAI */}
+      <ByoaiSection />
 
       {/* Generator */}
       <section id="generator" className="border-b border-border">

@@ -23,6 +23,7 @@
 #        - portal/scripts/       (ours)
 #        - portal/vite.config.ts (handled separately to preserve `base`)
 #        - portal/src/components/SnipLibrary.tsx, portal/src/components/snips/ (ours)
+#        - portal/src/components/ByoaiSection.tsx (ours)
 #        - portal/src/lib/snips.ts (ours)
 #        - portal/src/data/snips.json (build-generated, ours)
 #   4. Patches vite.config.ts to ensure `base: '/jvd/portal/'` is present.
@@ -103,6 +104,7 @@ rsync -a --delete \
   --exclude='scripts' \
   --exclude='vite.config.ts' \
   --exclude='src/components/SnipLibrary.tsx' \
+  --exclude='src/components/ByoaiSection.tsx' \
   --exclude='src/components/snips' \
   --exclude='src/lib/snips.ts' \
   --exclude='src/data/snips.json' \
