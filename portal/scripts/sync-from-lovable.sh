@@ -108,6 +108,7 @@ rsync -a --delete \
   --exclude='src/components/snips' \
   --exclude='src/lib/snips.ts' \
   --exclude='src/data/snips.json' \
+  --exclude='public/byoai' \
   "$TMP_DIR/source/" "$PORTAL_DIR/"
 
 # ---------------------------------------------------------------------------

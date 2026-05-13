@@ -6,9 +6,9 @@ import { snipBundle } from "@/lib/snips";
 /**
  * Bring Your Own AI (BYOAI) — launches Claude or ChatGPT with a bootstrap
  * message that points the assistant at the JVD's published BYOAI prompt
- * (a public raw.githubusercontent.com URL). The AI fetches the prompt and
- * adopts it as task instructions for a JVD-specific config-generation
- * conversation.
+ * (a public URL, served by GitHub Pages with CDN caching). The AI fetches
+ * the prompt and adopts it as task instructions for a JVD-specific
+ * config-generation conversation.
  *
  * Auto-discovered: any JVD that ships configuration/snips/byoai/<slug>-byoai-prompt.txt
  * is included in the picker on the next portal build (see generate-snips.mjs).
@@ -54,6 +54,7 @@ export default function ByoaiSection() {
           label: meta?.name ?? b.jvd,
           area: meta?.area ?? "",
           promptUrl: b.promptUrl,
+          promptPath: b.promptPath,
         };
       })
       .sort((a, b) => a.label.localeCompare(b.label));
@@ -124,9 +125,7 @@ export default function ByoaiSection() {
                       {selected.area}
                     </span>
                     <a
-                      href={`https://github.com/Juniper/jvd/blob/main/${selected.promptUrl
-                        .replace("https://raw.githubusercontent.com/Juniper/jvd/main/", "")
-                        .replace(/\?.*$/, "")}`}
+                      href={`https://github.com/Juniper/jvd/blob/main/${selected.promptPath}`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 hover:text-primary"

@@ -53,7 +53,14 @@ export type SnipBundle = {
   jvds: SnipJvdSummary[];
   snips: SnipRecord[];
   variableGlossaries: { jvd: string; markdown: string }[];
-  byoaiJvds: { jvd: string; promptPath: string; promptUrl: string }[];
+  byoaiJvds: {
+    jvd: string;
+    promptPath: string;
+    /** Pages-mirrored URL (preferred — CDN-cached, low-latency). */
+    promptUrl: string;
+    /** raw.githubusercontent.com URL (source-of-truth fallback). */
+    rawUrl?: string;
+  }[];
   parseWarnings: { file: string; warning: string }[];
 };
 
