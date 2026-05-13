@@ -388,21 +388,63 @@ async function main() {
 
   // Detect BYOAI-equipped JVDs. A JVD is BYOAI-equipped if it has
   // configuration/snips/byoai/<slug>-byoai-prompt.txt — the bootstrap
-  // prompt the AI launch URL points at.
+  // prompt the AI launch URL points at. We also mirror the prompt
+  // (and any sibling files the prompt references — *.txt and *.md
+  // alongside it) into portal/public/byoai/<jvd>/ so they ship via
+  // the GitHub Pages CDN, which has stronger caching headers and
+  // lower latency than raw.githubusercontent.com.
   const byoaiJvds = [];
   const promptFiles = await walk(REPO_ROOT, (p) =>
     /\/configuration\/snips\/byoai\/[^/]+-byoai-prompt\.txt$/.test(p.split(path.sep).join("/")),
   );
+  const PUBLIC_BYOAI_ROOT = path.join(PORTAL_DIR, "public", "byoai");
+  // Pages base path mirrors vite.config.ts `base: "/jvd/portal/"`,
+  // and Pages serves it under https://juniper.github.io/jvd/portal/
+  const PAGES_BYOAI_BASE = "https://juniper.github.io/jvd/portal/byoai";
+
+  // Wipe the mirror clean each run so deletions in source propagate.
+  await fs.rm(PUBLIC_BYOAI_ROOT, { recursive: true, force: true });
+
   for (const pf of promptFiles) {
     const rel = path.relative(REPO_ROOT, pf).split(path.sep).join("/");
     const parts = rel.split("/");
     const cfg = parts.indexOf("configuration");
     if (cfg <= 0) continue;
     const jvd = parts[cfg - 1];
+    const sourceDir = path.dirname(pf);
+    const promptFile = path.basename(pf);
+
+    // Mirror every .txt and .md file living next to the prompt (these are
+    // the docs the prompt itself references — snips bundle, MENU.md, etc).
+    // Skip executables (make-*.sh, *.py) — not user-facing.
+    const mirrorEntries = await fs.readdir(sourceDir, { withFileTypes: true });
+    const mirrorTargetDir = path.join(PUBLIC_BYOAI_ROOT, jvd);
+    await fs.mkdir(mirrorTargetDir, { recursive: true });
+    for (const ent of mirrorEntries) {
+      if (!ent.isFile()) continue;
+      if (!/\.(txt|md|json)$/i.test(ent.name)) continue;
+      const srcPath = path.join(sourceDir, ent.name);
+      const dstPath = path.join(mirrorTargetDir, ent.name);
+      // Rewrite raw.githubusercontent.com URLs that point INTO this
+      // BYOAI folder so the AI's follow-on fetches also hit the Pages
+      // CDN copy. Source files (raw.gh path → JVD config repo) are
+      // left untouched; we only rewrite URLs that target THIS folder.
+      const rawPrefix = `https://raw.githubusercontent.com/Juniper/jvd/main/${parts.slice(0, cfg + 1).join("/")}/snips/byoai/`;
+      const pagesPrefix = `${PAGES_BYOAI_BASE}/${jvd}/`;
+      let content = await fs.readFile(srcPath, "utf8");
+      if (content.includes(rawPrefix)) {
+        content = content.split(rawPrefix).join(pagesPrefix);
+      }
+      await fs.writeFile(dstPath, content);
+    }
+
     byoaiJvds.push({
       jvd,
       promptPath: rel,
-      promptUrl: `https://raw.githubusercontent.com/Juniper/jvd/main/${rel}`,
+      // Pages-mirrored URL (preferred): served from CDN with strong caching.
+      promptUrl: `${PAGES_BYOAI_BASE}/${jvd}/${promptFile}`,
+      // Raw GitHub URL (kept as fallback / source-of-truth pointer).
+      rawUrl: `https://raw.githubusercontent.com/Juniper/jvd/main/${rel}`,
     });
   }
   byoaiJvds.sort((a, b) => a.jvd.localeCompare(b.jvd));
