@@ -1,6 +1,12 @@
 # Juniper Validated Designs (JVD)
 
-Help you design and deploy optimal networking solutions.
+Tested and documented blueprints that take HPE Juniper Networks solution architectures from design to deployment with confidence—from branch and campus to data center, security, enterprise WAN, and service provider networks.
+
+> **Browse the JVD Portal:** <https://juniper.github.io/jvd/portal/>
+>
+> A searchable catalog of every JVD in this repository — filter by
+> area, platform, and Junos version, jump straight to the matching
+> reference design, snip library, or BYOAI config generator.
 
 ## Why JVD
 
@@ -16,7 +22,7 @@ Products, features, and topologies outlined in Juniper Validated Designs are bas
 
 Juniper Validated Designs have been validated at scale to help ensure faster, more reliable deployments.
 
-Official documentation: https://www.juniper.net/documentation/validated-designs/
+Official documentation: <https://www.juniper.net/documentation/validated-designs/>
 
 ---
 
@@ -35,13 +41,46 @@ Official documentation: https://www.juniper.net/documentation/validated-designs/
 
 ## Repository Sections
 
-- [Automation](Automation/)
-- [Data Center](Data%20Center/)
-- [Enterprise WAN](Enterprise%20WAN/)
-- [Optical](Optical/)
-- [Security](Security/)
-- [Service Provider](Service%20Provider/)
+Each section groups the JVDs for that domain. Every JVD folder follows
+a common layout — a `README.md` with the hardware table and config
+index, a `configuration/` tree (`conf/`, `set/`, and where relevant
+`apstra/`), and — for JVDs with a snip library — a `snips/` tree
+paired across Junos and Junos EVO.
 
+| Section | What's inside |
+| --- | --- |
+| [Automation](automation/) | Shared automation scripts and reference configurations (ACX upgrade, AGS core, ANS, software image upload). |
+| [Data Center](data_center/) | Automated Data Center (ADC) and AI Data Center (AIDC) validated designs. |
+| [Enterprise WAN](enterprise_wan/) | Core/edge WAN designs, advanced core/edge, and the EWAN finance reference. |
+| [Optical](optical/) | DCI-over-IPoDWDM and other optical-transport designs. |
+| [Security](security/) | Scale-out firewall + NAT and scale-out IPsec designs. |
+| [Service Provider](service_provider/) | Broadband Edge, Metro Ethernet Business Services, Metro-as-a-Service, SRv6 Core/Edge, Port Fan-Out, and Low-Latency Queueing. |
+| [Portal](portal/) | Source for the JVD Portal web catalog (Vite + React + TypeScript). |
 
+---
+
+## Snip Libraries and BYOAI
+
+Several JVDs ship a paired Junos / Junos EVO **snip library** —
+templated, variable-driven config fragments with structured headers
+(`Topic`, `Seen on`, `Pair with`, `Variables`) that can be assembled
+into a complete device config.
+
+- Browse the snips in the portal:
+  <https://juniper.github.io/jvd/portal/#snips>
+- Launch the **BYOAI** config generator (drives any modern AI against
+  the snip library to produce a full, customer-specific config) from
+  the portal: <https://juniper.github.io/jvd/portal/#byoai>
+
+---
+
+## Get help or report a problem
+
+- **Open an issue** — use one of the templates so it routes correctly:
+  - [Report a portal bug](https://github.com/Juniper/jvd/issues/new?template=portal-bug.yml)
+  - [Report a JVD content issue](https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml)
+  - [Ask a question](https://github.com/Juniper/jvd/issues/new?template=question.yml)
+- **See what's new** — read the [CHANGELOG](CHANGELOG.md) for the
+  rolling list of additions across JVDs, snips, the portal, and BYOAI.
 
 
