@@ -53,6 +53,7 @@ export type SnipBundle = {
   jvds: SnipJvdSummary[];
   snips: SnipRecord[];
   variableGlossaries: { jvd: string; markdown: string }[];
+  byoaiJvds: { jvd: string; promptPath: string; promptUrl: string }[];
   parseWarnings: { file: string; warning: string }[];
 };
 

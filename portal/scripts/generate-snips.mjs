@@ -386,6 +386,27 @@ async function main() {
     });
   }
 
+  // Detect BYOAI-equipped JVDs. A JVD is BYOAI-equipped if it has
+  // configuration/snips/byoai/<slug>-byoai-prompt.txt — the bootstrap
+  // prompt the AI launch URL points at.
+  const byoaiJvds = [];
+  const promptFiles = await walk(REPO_ROOT, (p) =>
+    /\/configuration\/snips\/byoai\/[^/]+-byoai-prompt\.txt$/.test(p.split(path.sep).join("/")),
+  );
+  for (const pf of promptFiles) {
+    const rel = path.relative(REPO_ROOT, pf).split(path.sep).join("/");
+    const parts = rel.split("/");
+    const cfg = parts.indexOf("configuration");
+    if (cfg <= 0) continue;
+    const jvd = parts[cfg - 1];
+    byoaiJvds.push({
+      jvd,
+      promptPath: rel,
+      promptUrl: `https://raw.githubusercontent.com/Juniper/jvd/main/${rel}`,
+    });
+  }
+  byoaiJvds.sort((a, b) => a.jvd.localeCompare(b.jvd));
+
   // Pass 1: parse + collect, build cross-ref index
   const records = [];
   const indexByJvdRel = new Map(); // "<jvd>::<os>/<cat>/<name>.conf" -> id
@@ -483,6 +504,7 @@ async function main() {
     jvds: jvdsSummary,
     snips: records,
     variableGlossaries: variableGlossaries.sort((a, b) => a.jvd.localeCompare(b.jvd)),
+    byoaiJvds,
     parseWarnings: allWarnings,
   };
 
