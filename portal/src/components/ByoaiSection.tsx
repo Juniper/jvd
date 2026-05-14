@@ -155,6 +155,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="Claude"
                 description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
+                tip="Tip: pick Haiku 4.5 for the fastest experience."
                 href={claudeUrl}
                 disabled={!selected}
                 logo={<ClaudeLogo />}
@@ -163,6 +164,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="ChatGPT"
                 description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
+                tip="Tip: use Instant mode for the fastest experience."
                 href={chatGptUrl}
                 disabled={!selected}
                 logo={<ChatGptLogo />}
@@ -185,6 +187,7 @@ export default function ByoaiSection() {
 function AiTile({
   name,
   description,
+  tip,
   href,
   disabled,
   logo,
@@ -192,6 +195,7 @@ function AiTile({
 }: {
   name: string;
   description: string;
+  tip?: string;
   href: string;
   disabled: boolean;
   logo: React.ReactNode;
@@ -214,6 +218,9 @@ function AiTile({
         </div>
       </div>
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{description}</p>
+      {tip && (
+        <p className="mt-2 text-[11px] italic leading-relaxed text-primary/80">{tip}</p>
+      )}
       <div className="mt-4 flex-1" />
       <div
         className={
