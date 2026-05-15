@@ -1,0 +1,22 @@
+name: Markdown link check
+
+on:
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '.lycheeignore'
+      - '.github/workflows/link-check.yml'
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check internal markdown links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # --offline = check internal/relative links only; skip all external HTTP(S).
+          # External links (e.g. juniper.net docs) are noisy to gate on; we keep
+          # this check fast and deterministic by scoping to in-repo paths.
+          args: --offline --no-progress --include-fragments './**/*.md'
+          fail: true
