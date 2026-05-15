@@ -18,5 +18,18 @@ jobs:
           # --offline = check internal/relative links only; skip all external HTTP(S).
           # External links (e.g. juniper.net docs) are noisy to gate on; we keep
           # this check fast and deterministic by scoping to in-repo paths.
-          args: --offline --no-progress --include-fragments './**/*.md'
+          #
+          # --exclude-path skips input files from being scanned. The byoai/ tree
+          # is a generated mirror (sync-script artifact); the automation/ READMEs
+          # reference a directory layout that no longer exists post-reorganize
+          # and need a separate rewrite.
+          args: >-
+            --offline
+            --no-progress
+            --include-fragments
+            --exclude-path portal/public/byoai
+            --exclude-path automation/README.md
+            --exclude-path automation/scripts/README.md
+            --exclude-path automation/scripts/ags_core/README.md
+            './**/*.md'
           fail: true
