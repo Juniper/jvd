@@ -1,0 +1,44 @@
+# Configuration for GitHub's auto-generated release notes.
+# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+#
+# Categories group merged PRs by LABEL (not by conventional-commit
+# title prefix). Apply the matching label to each PR — this can be
+# done manually or via a workflow that reads the PR title.
+
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+      - dependencies
+  categories:
+    - title: ✨ Features
+      labels:
+        - feat
+        - feature
+        - enhancement
+    - title: 🐛 Bug Fixes
+      labels:
+        - fix
+        - bug
+    - title: ⚡ Performance
+      labels:
+        - perf
+        - performance
+    - title: 📝 Documentation
+      labels:
+        - docs
+        - documentation
+    - title: ♻️ Refactor
+      labels:
+        - refactor
+    - title: 🧹 Chores & Tooling
+      labels:
+        - chore
+        - ci
+        - build
+    - title: 🔒 Security
+      labels:
+        - security
+    - title: Other Changes
+      labels:
+        - "*"
