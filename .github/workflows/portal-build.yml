@@ -1,0 +1,21 @@
+name: Portal build
+
+on:
+  pull_request:
+    paths:
+      - 'portal/**'
+      - '.github/workflows/portal-build.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: portal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-13T17:59:26.759Z",
+  "generatedAt": "2026-05-15T20:07:31.828Z",
   "counts": {
-    "total": 158,
+    "total": 181,
     "junos": 85,
-    "evo": 73,
-    "jvds": 3
+    "evo": 96,
+    "jvds": 4
   },
   "categories": [
     "apply-groups",
@@ -34,6 +34,7 @@
     "BNG",
     "Business Services",
     "Core/Edge",
+    "Data Center",
     "MEF",
     "Metro",
     "SRv6",
@@ -41,6 +42,17 @@
     "Subscriber Mgmt"
   ],
   "jvds": [
+    {
+      "id": "aiml_multitenancy_backend",
+      "label": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "repoPath": "data_center/aidc/aiml_multitenancy_backend",
+      "counts": {
+        "junos": 0,
+        "evo": 23,
+        "total": 23
+      }
+    },
     {
       "id": "broadband_edge",
       "label": "Broadband Edge",
@@ -76,6 +88,1413 @@
     }
   ],
   "snips": [
+    {
+      "id": "aiml_multitenancy_backend/evo/bootstrap/chassis-buffer-monitor",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "bootstrap",
+      "name": "chassis-buffer-monitor",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/chassis-buffer-monitor.conf",
+      "topic": "FPC traffic-manager buffer-monitor for AI/RoCE fabric visibility",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Enables per-FPC buffer-occupancy telemetry on QFX5240 — required to observe PFC pause headroom and ECN marking thresholds in real time",
+        "Necessary for RoCEv2 lossless fabric tuning; pairs with the CoS shared-buffer / lossless-headroom partition definitions",
+        "Single-FPC pizza-box; replicate the `fpc N` block per slot on chassis"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/rdma-rocev2-lossless.conf  (the buffer partitions being monitored)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "chassis {\n    fpc 0 {\n        traffic-manager {\n            buffer-monitor-enable;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    fpc </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        traffic-manager {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-monitor-enable;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 100,
+      "lineCount": 7,
+      "techFamily": "Chassis",
+      "subfamily": "Chassis",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/bootstrap/security-grpc-cert",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "bootstrap",
+      "name": "security-grpc-cert",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/security-grpc-cert.conf",
+      "topic": "Local TLS certificate for the gRPC extension-service listener",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Holds the `aos_grpc` cert/key pair referenced by the gRPC SSL stanza",
+        "The actual key material is masked as \"secret\" ## SECRET-DATA — the template only carries the structure; supply real PEM at deploy time",
+        "Cert name is fixed (`aos_grpc`) because the system extension-service block references it by literal name"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/system-grpc-netconf.conf  (consumer of this certificate)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$GRPC_CERT_PEM",
+          "example": "(PEM-encoded cert+key blob, masked at runtime)"
+        }
+      ],
+      "body": "security {\n    certificates {\n        local {\n            aos_grpc {\n                \"$GRPC_CERT_PEM\"; ## SECRET-DATA\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">security {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    certificates {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            aos_grpc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                \"$GRPC_CERT_PEM\"; ## SECRET-DATA</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 149,
+      "lineCount": 9,
+      "techFamily": "Chassis",
+      "subfamily": "Bootstrap",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/bootstrap/system-grpc-netconf",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "bootstrap",
+      "name": "system-grpc-netconf",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/system-grpc-netconf.conf",
+      "topic": "System base — netconf/SSH, gRPC extension-service over TLS, mgmt instance",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "gRPC request-response listener on port 32767 with TLS, anchored to the dedicated mgmt_junos routing-instance — keeps Apstra / streaming telemetry off the in-band fabric",
+        "`management-instance` puts the management ethernet in mgmt_junos so OOB and in-band have separate route tables (no leakage)",
+        "ddos-protection `resolve aggregate disable-fpc` prevents PFC pause storms from reaching the RE during heavy GPU-fabric incast",
+        "Pairs with security/certificates for the `aos_grpc` local-cert"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/security-grpc-cert.conf  (provides the local-certificate)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HOSTNAME",
+          "example": "GPU-R1-L1"
+        },
+        {
+          "name": "$GRPC_PORT",
+          "example": "32767"
+        }
+      ],
+      "body": "system {\n    host-name $HOSTNAME;\n    services {\n        netconf {\n            ssh;\n        }\n        extension-service {\n            request-response {\n                grpc {\n                    ssl {\n                        port $GRPC_PORT;\n                        local-certificate aos_grpc;\n                    }\n                    routing-instance mgmt_junos;\n                }\n            }\n        }\n    }\n    management-instance;\n    ddos-protection {\n        protocols {\n            resolve {\n                aggregate {\n                    disable-fpc;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">system {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    host-name $HOSTNAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    services {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        netconf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ssh;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        extension-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            request-response {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                grpc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ssl {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        port $GRPC_PORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-certificate aos_grpc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    routing-instance mgmt_junos;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    management-instance;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ddos-protection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            resolve {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    disable-fpc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 613,
+      "lineCount": 29,
+      "techFamily": "Chassis",
+      "subfamily": "Bootstrap",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/cos/rdma-rocev2-lossless",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "cos",
+      "name": "rdma-rocev2-lossless",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/cos/rdma-rocev2-lossless.conf",
+      "topic": "RoCEv2 lossless CoS — DSCP classifier, PFC, ECN, lossless buffers, schedulers",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Two forwarding-classes carry the GPU traffic: NO-LOSS  (queue 4, lossless, PFC priority 3, ECN-marked via WRED) CNP      (queue 3, strict-high, 5% rate cap — for RoCEv2 Congestion Notification Packets so they bypass the very congestion they're reporting)",
+        "DSCP classifier `mydscp` maps DSCP 011010 (CS3 = 26) -> NO-LOSS and DSCP 110000 (CS6 = 48) -> CNP, matching standard RoCEv2 marking",
+        "Drop profile dp1 starts marking ECN at 55% buffer fill, 100% at 90% — the classic RoCEv2 ECN profile recommended by NVIDIA / DCQCN",
+        "shared-buffer ingress: 66% lossless + 24% lossless-headroom (the PFC pause headroom) + 10% lossy. egress: 66% lossless + 10% lossy. The headroom is sized for cable length + PFC reaction time on a single-tier fabric; revisit for multi-tier or longer cabling.",
+        "dedicated-buffer ingress 15% / egress 30% — per-port reservation that isolates one congested port from starving its neighbors",
+        "`pfc-watchdog` auto-restores a queue stuck in PFC-paused state",
+        "The `interfaces et-* unit *` wildcard applies the classifier and scheduler-map to every et-* port automatically — no per-port repetition"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/chassis-buffer-monitor.conf  (telemetry for these buffers)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "class-of-service {\n    classifiers {\n        dscp mydscp {\n            forwarding-class CNP {\n                loss-priority low code-points 110000;\n            }\n            forwarding-class NO-LOSS {\n                loss-priority low code-points 011010;\n            }\n        }\n    }\n    drop-profiles {\n        dp1 {\n            interpolate {\n                fill-level [ 55 90 ];\n                drop-probability [ 0 100 ];\n            }\n        }\n    }\n    shared-buffer {\n        ingress {\n            buffer-partition lossless {\n                percent 66;\n                dynamic-threshold 10;\n            }\n            buffer-partition lossless-headroom {\n                percent 24;\n            }\n            buffer-partition lossy {\n                percent 10;\n            }\n        }\n        egress {\n            buffer-partition lossless {\n                percent 66;\n            }\n            buffer-partition lossy {\n                percent 10;\n            }\n        }\n    }\n    dedicated-buffer {\n        ingress {\n            percent 15;\n        }\n        egress {\n            percent 30;\n        }\n    }\n    forwarding-classes {\n        class CNP queue-num 3;\n        class NO-LOSS queue-num 4 no-loss pfc-priority 3;\n    }\n    congestion-notification-profile {\n        cnp {\n            pfc-watchdog;\n            input {\n                dscp {\n                    code-point 011010 {\n                        pfc;\n                    }\n                }\n            }\n            output {\n                ieee-802.1 {\n                    code-point 011 {\n                        flow-control-queue 4;\n                    }\n                }\n            }\n        }\n    }\n    interfaces {\n        et-* {\n            congestion-notification-profile cnp;\n            scheduler-map sm1;\n            unit * {\n                classifiers {\n                    dscp mydscp;\n                }\n            }\n        }\n    }\n    scheduler-maps {\n        sm1 {\n            forwarding-class CNP scheduler s2-cnp;\n            forwarding-class NO-LOSS scheduler s1;\n        }\n    }\n    schedulers {\n        s1 {\n            drop-profile-map loss-priority any protocol any drop-profile dp1;\n            explicit-congestion-notification;\n        }\n        s2-cnp {\n            transmit-rate percent 5;\n            priority strict-high;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dscp mydscp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CNP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">110000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class NO-LOSS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">011010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    drop-profiles {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dp1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interpolate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                fill-level [ </span><span style=\"color:#79C0FF\">55</span><span style=\"color:#79C0FF\"> 90</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                drop-probability [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 100</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    shared-buffer {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-partition lossless {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                percent </span><span style=\"color:#79C0FF\">66</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                dynamic-threshold </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-partition lossless-headroom {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                percent </span><span style=\"color:#79C0FF\">24</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-partition lossy {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-partition lossless {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                percent </span><span style=\"color:#79C0FF\">66</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-partition lossy {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    dedicated-buffer {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            percent </span><span style=\"color:#79C0FF\">15</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-classes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class CNP queue-num </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class NO-LOSS queue-num </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\"> no-loss pfc-priority </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    congestion-notification-profile {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        cnp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pfc-watchdog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                dscp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    code-point </span><span style=\"color:#79C0FF\">011010</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        pfc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    code-point </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-control-queue </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        et-* {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            congestion-notification-profile cnp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            scheduler-map sm1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            unit * {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    dscp mydscp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        sm1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CNP scheduler s2-cnp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class NO-LOSS scheduler s1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        s1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            drop-profile-map loss-priority any protocol any drop-profile dp1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            explicit-congestion-notification;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        s2-cnp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 2354,
+      "lineCount": 100,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Cos",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/interfaces/fabric-p2p-400g-breakout",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "fabric-p2p-400g-breakout",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/fabric-p2p-400g-breakout.conf",
+      "topic": "400G breakout to 2x sub-ports for fabric P2P /31 links (MTU 9216/9170)",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Two-step pattern: parent port declares `number-of-sub-ports 2` + `speed 400g`, then each `:N` sub-port carries the actual L3 config",
+        "Physical MTU 9216 / IP MTU 9170 — leaves 46B headroom for VXLAN + underlay encap so encapsulated 9000B tenant frames don't fragment",
+        "/31 numbering on every spine<->leaf link; underlay is pure IPv4 eBGP unnumbered-style with explicit local-address per session",
+        "No `family inet6` on fabric links (IPv6 is tenant-side only)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes these /31s as BGP local-addresses)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PHY_PORT",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$PEER_HOST",
+          "example": "spine1"
+        },
+        {
+          "name": "$PEER_PORT_A",
+          "example": "et-0/0/0:0"
+        },
+        {
+          "name": "$PEER_PORT_B",
+          "example": "et-0/0/0:1"
+        },
+        {
+          "name": "$LOCAL_V4_A",
+          "example": "10.0.2.177/31"
+        },
+        {
+          "name": "$LOCAL_V4_B",
+          "example": "10.0.2.131/31"
+        }
+      ],
+      "body": "interfaces {\n    $PHY_PORT {\n        description \"Breakout $PHY_PORT\";\n        number-of-sub-ports 2;\n        speed 400g;\n    }\n    ${PHY_PORT}:0 {\n        description facing_$PEER_HOST:$PEER_PORT_A;\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4_A;\n            }\n        }\n    }\n    ${PHY_PORT}:1 {\n        description facing_$PEER_HOST:$PEER_PORT_B;\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4_B;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHY_PORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description \"Breakout $PHY_PORT\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        number-of-sub-ports </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        speed 400g;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ${PHY_PORT}:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description facing_$PEER_HOST:$PEER_PORT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mtu </span><span style=\"color:#79C0FF\">9216</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9170</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOCAL_V4_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ${PHY_PORT}:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description facing_$PEER_HOST:$PEER_PORT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mtu </span><span style=\"color:#79C0FF\">9216</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9170</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOCAL_V4_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 581,
+      "lineCount": 27,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/interfaces/irb-tenant-gateway",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "irb-tenant-gateway",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/irb-tenant-gateway.conf",
+      "topic": "IRB anycast gateway per tenant — MTU 9000, shared virtual MAC",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "One IRB unit per tenant subnet; the SAME virtual MAC (00:1c:73:00:00:01) is configured on every leaf so any leaf can answer ARP for the tenant gateway (anycast-gateway pattern, no VRRP needed)",
+        "IRB MTU 9000 (jumbo) sized for AI/ML payloads; underlying physical interfaces use MTU 9216 to leave headroom for VXLAN encapsulation",
+        "Each unit's family inet address is the tenant subnet's gateway IP",
+        "Unit numbers are globally meaningful — pick a per-tenant unit-number convention and stick to it across the fabric"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix-routes.conf  (VRFs that bind these IRB units)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/loopback-leaf.conf  (companion lo0 units per VRF)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$IRB_UNIT",
+          "example": "2"
+        },
+        {
+          "name": "$TENANT_GW_V4",
+          "example": "10.200.0.1/24"
+        },
+        {
+          "name": "$ANYCAST_MAC",
+          "example": "00:1c:73:00:00:01"
+        }
+      ],
+      "body": "interfaces {\n    irb {\n        mtu 9216;\n        unit $IRB_UNIT {\n            family inet {\n                mtu 9000;\n                address $TENANT_GW_V4;\n            }\n            mac $ANYCAST_MAC;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mtu </span><span style=\"color:#79C0FF\">9216</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $IRB_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $TENANT_GW_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mac $ANYCAST_MAC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 218,
+      "lineCount": 12,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/interfaces/loopback-leaf",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "loopback-leaf",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/loopback-leaf.conf",
+      "topic": "Leaf loopback — primary unit (underlay/overlay) + per-VRF units",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "unit 0 is the device's underlay router-id and the EVPN overlay eBGP local-address — single loopback drives both planes",
+        "Each tenant VRF gets its own lo0.N unit, bound into the VRF's interface list so the EVPN type-5 (ip-prefix-routes) RIB has a next-hop anchor",
+        "Dual-stack v4 + v6 on every unit; v6 ULA range fdf6:ed70:1fac:f2d2::/64",
+        "The unit-number-to-VRF mapping must match the IRB unit-number convention (see irb-tenant-gateway snip)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/irb-tenant-gateway.conf  (per-tenant IRB units)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix-routes.conf  (VRFs reference these lo0.N units)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/bgp-ebgp-evpn-overlay.conf  (uses lo0.0 as local-address)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LO0_V4",
+          "example": "10.0.1.9/32"
+        },
+        {
+          "name": "$LO0_V6",
+          "example": "fdf6:ed70:1fac:f2d2::1007/128"
+        },
+        {
+          "name": "$TENANT_UNIT",
+          "example": "2"
+        },
+        {
+          "name": "$TENANT_LO_V4",
+          "example": "192.168.11.4/32"
+        },
+        {
+          "name": "$TENANT_LO_V6",
+          "example": "fdf6:ed70:1fac:f2d2::1010/128"
+        }
+      ],
+      "body": "interfaces {\n    lo0 {\n        unit 0 {\n            family inet {\n                address $LO0_V4;\n            }\n            family inet6 {\n                address $LO0_V6;\n            }\n        }\n        unit $TENANT_UNIT {\n            family inet {\n                address $TENANT_LO_V4;\n            }\n            family inet6 {\n                address $TENANT_LO_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LO0_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LO0_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $TENANT_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $TENANT_LO_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $TENANT_LO_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 401,
+      "lineCount": 20,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/interfaces/loopback-spine",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "loopback-spine",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/loopback-spine.conf",
+      "topic": "Spine loopback — single unit serving both underlay router-id and EVPN overlay",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Spines have NO tenant VRFs (pure underlay + EVPN route-relay), so a single lo0.0 covers both the underlay router-id and the eBGP-EVPN overlay local-address",
+        "Dual-stack v4 + v6 (v6 ULA fdf6:ed70:1fac:f2d2::/64) — v6 is reserved for future overlay AFs; underlay BGP today is v4-only"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/bgp-ebgp-evpn-overlay.conf  (uses lo0.0 as local-address)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/routing-options-ecmp-frr.conf  (router-id derived from lo0.0)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LO0_V4",
+          "example": "10.0.0.8/32"
+        },
+        {
+          "name": "$LO0_V6",
+          "example": "fdf6:ed70:1fac:f2d2::1000/128"
+        }
+      ],
+      "body": "interfaces {\n    lo0 {\n        unit 0 {\n            family inet {\n                address $LO0_V4;\n            }\n            family inet6 {\n                address $LO0_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LO0_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LO0_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 204,
+      "lineCount": 12,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/interfaces/tenant-gpu-server-link",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "tenant-gpu-server-link",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/tenant-gpu-server-link.conf",
+      "topic": "Per-tenant GPU-server-facing 400G sub-port with dual-stack /31",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Each GPU host attaches via 400G breakout sub-ports; each sub-port is bound to exactly ONE tenant VRF (clean per-tenant isolation, no sub-interfaces / VLANs needed)",
+        "Description carries the tenant tag (`VRF tenant-N to <host>`) so Apstra / operators can audit tenant-to-port mapping by `show interfaces`",
+        "Dual-stack: family inet with /31 + family inet6 (RAs handle v6 GUA via the router-advertisement snip)",
+        "MTU 9216 phy / 9170 inet — same as fabric P2P so VXLAN-encapsulated 9000B host frames pass without fragmentation across the entire path"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix-routes.conf  (the VRF that owns this interface)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/router-advertisement.conf  (IPv6 GUA delivery)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/12:0"
+        },
+        {
+          "name": "$TENANT_NAME",
+          "example": "tenant-1"
+        },
+        {
+          "name": "$GPU_HOST",
+          "example": "H100-01"
+        },
+        {
+          "name": "$LOCAL_V4",
+          "example": "10.200.0.11/31"
+        }
+      ],
+      "body": "interfaces {\n    $AC_INTF {\n        description \"VRF $TENANT_NAME to $GPU_HOST\";\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4;\n            }\n            family inet6;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description \"VRF $TENANT_NAME to $GPU_HOST\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mtu </span><span style=\"color:#79C0FF\">9216</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9170</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 260,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/oam/l2-learning-telemetry",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "oam",
+      "name": "l2-learning-telemetry",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/l2-learning-telemetry.conf",
+      "topic": "L2-learning telemetry — stream remote MAC entries via gRPC",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Enables export of remotely-learned MAC entries (i.e. EVPN-imported MACs from other leafs) via the streaming-telemetry channel",
+        "Without this, only locally-learned MACs are visible in the gRPC MAC-table feed, which makes EVPN MAC-mobility debugging blind",
+        "Leaf-only — spines don't terminate EVPN MAC entries in this design"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/system-grpc-netconf.conf  (the gRPC channel that carries this telemetry)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "protocols {\n    l2-learning {\n        telemetry {\n            enable-remote-entries;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2-learning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        telemetry {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            enable-remote-entries;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 102,
+      "lineCount": 7,
+      "techFamily": "OAM",
+      "subfamily": "Telemetry / OAM",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/oam/lldp-interface-all",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "oam",
+      "name": "lldp-interface-all",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/lldp-interface-all.conf",
+      "topic": "LLDP enabled on all interfaces with descriptive port-id reporting",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "`port-id-subtype interface-name` makes the advertised LLDP port-id match the actual Junos interface name (e.g. `et-0/0/0:0`) instead of an opaque ifIndex — much friendlier for Apstra / NMS topology discovery",
+        "`port-description-type interface-description` propagates the local interface description over LLDP, so neighbor `show lldp neighbors` surfaces things like \"facing_spine1:et-0/0/0:0\"",
+        "`neighbour-port-info-display port-id` (note British spelling) makes `show lldp neighbors` show the remote port-id instead of the remote description — useful when remote descriptions are stale",
+        "`interface all` covers every physical port; no need to enumerate"
+      ],
+      "pairWith": [],
+      "variables": [],
+      "body": "protocols {\n    lldp {\n        port-id-subtype interface-name;\n        port-description-type interface-description;\n        neighbour-port-info-display port-id;\n        interface all;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        port-id-subtype interface-name;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        port-description-type interface-description;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbour-port-info-display port-id;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 191,
+      "lineCount": 8,
+      "techFamily": "OAM",
+      "subfamily": "Oam",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/oam/rstp-disable",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "oam",
+      "name": "rstp-disable",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/rstp-disable.conf",
+      "topic": "RSTP disabled on spine — pure L3 device, no L2 loop protection needed",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Spines in this AI/ML CLOS are pure L3 (no IRB, no bridge-domain, no VLAN tagging) — RSTP would just emit BPDUs no one needs",
+        "Explicitly disabling (vs leaving default) silences the BPDU TX on every port and avoids wasted CPU on STP timers",
+        "Leafs do NOT include this stanza — they have IRBs and the default RSTP behavior is benign there since IRB ports aren't trunked"
+      ],
+      "pairWith": [],
+      "variables": [],
+      "body": "protocols {\n    rstp {\n        disable;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    rstp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        disable;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 47,
+      "lineCount": 5,
+      "techFamily": "OAM",
+      "subfamily": "Oam",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/policy/allpodnetworks-direct-redistribution",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "allpodnetworks-direct-redistribution",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/allpodnetworks-direct-redistribution.conf",
+      "topic": "AllPodNetworks — direct-route redistribution into BGP with community tagging",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Redistributes locally-attached IPv4 + IPv6 direct routes into BGP and stamps them with the appropriate \"default direct\" community so downstream pods can identify their origin",
+        "Implicit-deny term at the bottom (term -100 reject) — prevents accidental leakage of any other route family",
+        "The companion `BGP-AOS-Policy` umbrella policy chains this one first, then accepts everything else from `protocol bgp` (spine) or only EVPN-derived /32-/32 + /128-/128 host routes (leaf)",
+        "Leafs use the same skeleton but extend it with per-tenant variants (see evo/policy/tenant-community-export.conf)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/community-definitions.conf  (DEFAULT_DIRECT_V4 / V6)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/tenant-community-export.conf  (per-tenant variants)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes BGP-AOS-Policy)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "/* --- SPINE variant (simpler — accepts all bgp-learned routes downstream) --- */\npolicy-options {\n    policy-statement AllPodNetworks {\n        term AllPodNetworks-10 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V4;\n                accept;\n            }\n        }\n        term AllPodNetworks-20 {\n            from {\n                family inet6;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V6;\n                accept;\n            }\n        }\n        term AllPodNetworks-100 {\n            then reject;\n        }\n    }\n    policy-statement BGP-AOS-Policy {\n        term BGP-AOS-Policy-10 {\n            from policy AllPodNetworks;\n            then accept;\n        }\n        term BGP-AOS-Policy-20 {\n            from protocol bgp;\n            then accept;\n        }\n        term BGP-AOS-Policy-100 {\n            then reject;\n        }\n    }\n}\n\n/* --- LEAF variant (only re-advertises host routes derived from EVPN) --- */\npolicy-options {\n    policy-statement AllPodNetworks {\n        term AllPodNetworks-10 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V4;\n                accept;\n            }\n        }\n        term AllPodNetworks-20 {\n            from {\n                family inet6;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V6;\n                accept;\n            }\n        }\n        term AllPodNetworks-100 {\n            then reject;\n        }\n    }\n    policy-statement BGP-AOS-Policy {\n        term BGP-AOS-Policy-10 {\n            from policy AllPodNetworks;\n            then accept;\n        }\n        term BGP-AOS-Policy-50 {\n            from {\n                protocol evpn;\n                route-filter 0.0.0.0/0 prefix-length-range /32-/32;\n            }\n            then accept;\n        }\n        term BGP-AOS-Policy-60 {\n            from {\n                protocol evpn;\n                route-filter 0::0/0 prefix-length-range /128-/128;\n            }\n            then accept;\n        }\n        term BGP-AOS-Policy-100 {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- SPINE variant (simpler — accepts all bgp-learned routes downstream) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement AllPodNetworks {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add DEFAULT_DIRECT_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add DEFAULT_DIRECT_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement BGP-AOS-Policy {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> policy AllPodNetworks;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- LEAF variant (only re-advertises host routes derived </span><span style=\"color:#79C0FF\">from</span><span style=\"color:#E6EDF3\"> EVPN) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement AllPodNetworks {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add DEFAULT_DIRECT_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add DEFAULT_DIRECT_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement BGP-AOS-Policy {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> policy AllPodNetworks;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> prefix-length-range /</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">60</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">::</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> prefix-length-range /</span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 2344,
+      "lineCount": 93,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/policy/clos-loop-prevention",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "clos-loop-prevention",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/clos-loop-prevention.conf",
+      "topic": "eBGP CLOS loop-prevention — spine tags outbound, leaf rejects tagged inbound",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Standard 3-stage CLOS loop-prevention without relying on AS-path filtering",
+        "Spine stamps FROM_SPINE_*_TIER community on all routes sent to leafs",
+        "Leaf rejects any route carrying that stamp when exporting back to spines",
+        "Two parallel planes: one for fabric (inet unicast) and one for EVPN overlay",
+        "There's also a separate EVPN_EXPORT policy (leaf-only) that's a simple \"accept all\" stub — chained after LEAF_TO_SPINE_EVPN_OUT in the leaf's EVPN export so future filtering can be added without restructuring",
+        "Deploy the SPINE variant on spines, the LEAF variant on leafs — both sides reference the same community values"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/community-definitions.conf  (FROM_SPINE_EVPN_TIER / FROM_SPINE_FABRIC_TIER)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumer of LEAF_TO_SPINE_FABRIC_OUT / SPINE_TO_LEAF_FABRIC_OUT)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/bgp-ebgp-evpn-overlay.conf   (consumer of LEAF_TO_SPINE_EVPN_OUT / SPINE_TO_LEAF_EVPN_OUT)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "/* --- SPINE variant (deploy on spine-role devices) --- */\npolicy-options {\n    policy-statement SPINE_TO_LEAF_FABRIC_OUT {\n        term SPINE_TO_LEAF_FABRIC_OUT-10 {\n            then {\n                community add FROM_SPINE_FABRIC_TIER;\n                accept;\n            }\n        }\n    }\n    policy-statement SPINE_TO_LEAF_EVPN_OUT {\n        term SPINE_TO_LEAF_EVPN_OUT-10 {\n            then {\n                community add FROM_SPINE_EVPN_TIER;\n                accept;\n            }\n        }\n    }\n}\n\n/* --- LEAF variant (deploy on leaf-role devices) --- */\npolicy-options {\n    policy-statement LEAF_TO_SPINE_FABRIC_OUT {\n        term LEAF_TO_SPINE_FABRIC_OUT-10 {\n            from {\n                protocol bgp;\n                community FROM_SPINE_FABRIC_TIER;\n            }\n            then reject;\n        }\n        term LEAF_TO_SPINE_FABRIC_OUT-20 {\n            then accept;\n        }\n    }\n    policy-statement LEAF_TO_SPINE_EVPN_OUT {\n        term LEAF_TO_SPINE_EVPN_OUT-10 {\n            from {\n                protocol bgp;\n                community FROM_SPINE_EVPN_TIER;\n            }\n            then reject;\n        }\n        term LEAF_TO_SPINE_EVPN_OUT-20 {\n            then accept;\n        }\n    }\n    policy-statement EVPN_EXPORT {\n        term EVPN_EXPORT-4095 {\n            then accept;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- SPINE variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> spine-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement SPINE_TO_LEAF_FABRIC_OUT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term SPINE_TO_LEAF_FABRIC_OUT-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add FROM_SPINE_FABRIC_TIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement SPINE_TO_LEAF_EVPN_OUT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term SPINE_TO_LEAF_EVPN_OUT-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add FROM_SPINE_EVPN_TIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- LEAF variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> leaf-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement LEAF_TO_SPINE_FABRIC_OUT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LEAF_TO_SPINE_FABRIC_OUT-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community FROM_SPINE_FABRIC_TIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LEAF_TO_SPINE_FABRIC_OUT-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement LEAF_TO_SPINE_EVPN_OUT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LEAF_TO_SPINE_EVPN_OUT-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community FROM_SPINE_EVPN_TIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LEAF_TO_SPINE_EVPN_OUT-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement EVPN_EXPORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term EVPN_EXPORT-</span><span style=\"color:#79C0FF\">4095</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1330,
+      "lineCount": 52,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/policy/community-definitions",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "community-definitions",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/community-definitions.conf",
+      "topic": "BGP community definitions — tier markers, default redistribution, per-tenant",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "FROM_SPINE_*_TIER (0:14, 0:15) = CLOS loop-prevention markers stamped by spines and rejected by leafs (see clos-loop-prevention snip)",
+        "DEFAULT_DIRECT_V4/V6 = identifies locally-redistributed direct routes; the high-order tag (1:* on spines, 5:* on leafs) encodes the tier, the low-order tag is the family selector + a fabric ID",
+        "TENANT-N_COMMUNITY_V4/V6 = per-tenant VRF marker carried on EVPN type-5 routes; pairs with the per-tenant export policies",
+        "NON-TENANT_COMMUNITY_V4/V6 = shared / infrastructure routes that need cross-tenant visibility",
+        "Tier prefix differs by role: spines use `1:20007` / `1:20008`, leafs use `5:20007` / `5:20008` for the same DEFAULT_DIRECT_V4/V6",
+        "All other communities are identical between leaf and spine — keep only the tier-specific DEFAULT_DIRECT lines per role"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/clos-loop-prevention.conf  (consumer of FROM_SPINE_*_TIER)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/allpodnetworks-direct-redistribution.conf  (consumer of DEFAULT_DIRECT_V4/V6)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/tenant-community-export.conf  (consumer of TENANT-N_*)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LOCAL_TIER_TAG",
+          "example": "5  (leaf) or 1 (spine)"
+        },
+        {
+          "name": "$TENANT_INDEX",
+          "example": "21002:26000  (per-tenant low-order tag)"
+        }
+      ],
+      "body": "policy-options {\n    /* Tier markers — identical on every device in the fabric */\n    community FROM_SPINE_EVPN_TIER members 0:14;\n    community FROM_SPINE_FABRIC_TIER members 0:15;\n\n    /* Direct-route redistribution — high-order tag differs per role */\n    community DEFAULT_DIRECT_V4 members [ ${LOCAL_TIER_TAG}:20007 21001:26000 ];\n    community DEFAULT_DIRECT_V6 members [ ${LOCAL_TIER_TAG}:20008 21001:26000 ];\n\n    /* Per-tenant + non-tenant markers — leaf-only in this JVD */\n    community NON-TENANT_COMMUNITY_V4 members [ 5:20007 21010:26000 ];\n    community NON-TENANT_COMMUNITY_V6 members [ 5:20008 21010:26000 ];\n    community TENANT-1_COMMUNITY_V4 members [ 5:20007 21002:26000 ];\n    community TENANT-1_COMMUNITY_V6 members [ 5:20008 21002:26000 ];\n    community TENANT-2_COMMUNITY_V4 members [ 5:20007 21003:26000 ];\n    community TENANT-2_COMMUNITY_V6 members [ 5:20008 21003:26000 ];\n    community TENANT-3_COMMUNITY_V4 members [ 5:20007 21004:26000 ];\n    community TENANT-3_COMMUNITY_V6 members [ 5:20008 21004:26000 ];\n    community TENANT-4_COMMUNITY_V4 members [ 5:20007 21005:26000 ];\n    community TENANT-4_COMMUNITY_V6 members [ 5:20008 21005:26000 ];\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* Tier markers — identical </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> every device in the fabric */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community FROM_SPINE_EVPN_TIER members </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">14</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community FROM_SPINE_FABRIC_TIER members </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">15</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* Direct-route redistribution — high-order tag differs per role */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community DEFAULT_DIRECT_V4 members [ ${LOCAL_TIER_TAG}:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21001</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community DEFAULT_DIRECT_V6 members [ ${LOCAL_TIER_TAG}:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21001</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* Per-tenant + non-tenant markers — leaf-only in this JVD */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community NON-TENANT_COMMUNITY_V4 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21010</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community NON-TENANT_COMMUNITY_V6 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21010</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-1_COMMUNITY_V4 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21002</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-1_COMMUNITY_V6 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21002</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-2_COMMUNITY_V4 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21003</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-2_COMMUNITY_V6 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21003</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-3_COMMUNITY_V4 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21004</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-3_COMMUNITY_V6 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21004</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-4_COMMUNITY_V4 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20007</span><span style=\"color:#79C0FF\"> 21005</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community TENANT-4_COMMUNITY_V6 members [ </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20008</span><span style=\"color:#79C0FF\"> 21005</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">26000</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1185,
+      "lineCount": 21,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/policy/pfe-load-balance",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "pfe-load-balance",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/pfe-load-balance.conf",
+      "topic": "PFE per-packet load-balance policy (referenced by forwarding-table export)",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Tells the FIB to install per-packet load-balance next-hops — the actual hashing/DLB behavior is governed by forwarding-options",
+        "Without this policy, ECMP routes default to per-prefix load-balance (only one of the available next-hops is used per prefix)",
+        "Required by the DLB flowlet engine to even see all the parallel paths it can shift flows between"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/routing-options-ecmp-frr.conf  (forwarding-table export PFE-LB)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/ecmp-dlb-flowlet.conf  (the actual hashing behavior)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "policy-options {\n    policy-statement PFE-LB {\n        then {\n            load-balance per-packet;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement PFE-LB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 116,
+      "lineCount": 7,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/policy/tenant-community-export",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "tenant-community-export",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/tenant-community-export.conf",
+      "topic": "Per-tenant export policies — AllPodNetworks-tenant-N + BGP-AOS-Policy-tenant-N",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "One pair of policies per tenant VRF — they're referenced by the VRF's `evpn ip-prefix-routes export` statement (NOT by the global BGP underlay group)",
+        "Each tenant gets a unique community pair (V4/V6) — listed below as `non-tenant`, `tenant-1`, `tenant-2`, `tenant-3`, `tenant-4`. Add new tenants by cloning the block and incrementing the index.",
+        "The structure is identical across tenants — only the tenant tag in the policy name + the community name change. A future jinja template should fold these into a single per-tenant generator.",
+        "The `non-tenant` variant exists for shared / infrastructure routes that need to be visible across tenants (e.g. a shared storage VRF leaked into tenant-N via auto-export)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/community-definitions.conf  (TENANT-N_COMMUNITY_V4/V6, NON-TENANT_COMMUNITY_V4/V6)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix-routes.conf  (consumer of these per-tenant export policies)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$TENANT_TAG",
+          "example": "tenant-1   (or \"non-tenant\")"
+        },
+        {
+          "name": "$TENANT_COMMUNITY_V4",
+          "example": "TENANT-1_COMMUNITY_V4"
+        },
+        {
+          "name": "$TENANT_COMMUNITY_V6",
+          "example": "TENANT-1_COMMUNITY_V6"
+        }
+      ],
+      "body": "policy-options {\n    policy-statement AllPodNetworks-$TENANT_TAG {\n        term AllPodNetworks-${TENANT_TAG}-10 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add $TENANT_COMMUNITY_V4;\n                accept;\n            }\n        }\n        term AllPodNetworks-${TENANT_TAG}-20 {\n            from {\n                family inet6;\n                protocol direct;\n            }\n            then {\n                community add $TENANT_COMMUNITY_V6;\n                accept;\n            }\n        }\n        term AllPodNetworks-${TENANT_TAG}-100 {\n            then reject;\n        }\n    }\n    policy-statement BGP-AOS-Policy-$TENANT_TAG {\n        term BGP-AOS-Policy-${TENANT_TAG}-10 {\n            from policy AllPodNetworks-$TENANT_TAG;\n            then accept;\n        }\n        term BGP-AOS-Policy-${TENANT_TAG}-50 {\n            from {\n                protocol evpn;\n                route-filter 0.0.0.0/0 prefix-length-range /32-/32;\n            }\n            then {\n                community add $TENANT_COMMUNITY_V4;\n                accept;\n            }\n        }\n        term BGP-AOS-Policy-${TENANT_TAG}-60 {\n            from {\n                protocol evpn;\n                route-filter 0::0/0 prefix-length-range /128-/128;\n            }\n            then {\n                community add $TENANT_COMMUNITY_V6;\n                accept;\n            }\n        }\n        term BGP-AOS-Policy-${TENANT_TAG}-100 {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement AllPodNetworks-$TENANT_TAG {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $TENANT_COMMUNITY_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $TENANT_COMMUNITY_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term AllPodNetworks-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement BGP-AOS-Policy-$TENANT_TAG {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> policy AllPodNetworks-$TENANT_TAG;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> prefix-length-range /</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $TENANT_COMMUNITY_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">60</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">::</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> prefix-length-range /</span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $TENANT_COMMUNITY_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term BGP-AOS-Policy-${TENANT_TAG}-</span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1548,
+      "lineCount": 56,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/services/evpn-vrf-ip-prefix-routes",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "evpn-vrf-ip-prefix-routes",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/services/evpn-vrf-ip-prefix-routes.conf",
+      "topic": "Per-tenant VRF with EVPN type-5 ip-prefix-routes (VXLAN encap)",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Pure L3 VXLAN-EVPN multi-tenancy — each tenant is a `vrf` with EVPN ip-prefix-routes (type-5) advertising the tenant's IPv4 + IPv6 reachability, encapsulated in VXLAN over the underlay",
+        "`advertise direct-nexthop` puts the originating leaf's lo0.0 in the EVPN route's NH (instead of an anycast VTEP) — pairs with multihop+no-nexthop-change on the spine BGP-EVPN group so the NH survives the relay",
+        "Per-tenant VNI: 20001/20002/20003/20004 = tenant-1..4. Pick a convention that maps cleanly to your downstream automation.",
+        "RD = `${LO0_V4}:${VNI}` — one tag per VRF per device, ensures EVPN type-5 RDs are globally unique without coordination",
+        "vrf-target = `target:${VNI}:1` — single RT per VRF, used as both import and export",
+        "Per-tenant rib `inet6.0 multipath` enables ECMP for v6, plus global multipath + auto-export for shared / non-tenant route leaks",
+        "The interface list MUST include each AC sub-port for that tenant plus the matching lo0.N unit (router-id anchor for EVPN)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/tenant-community-export.conf  (BGP-AOS-Policy-tenant-N)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/tenant-gpu-server-link.conf  (the AC sub-ports listed here)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/loopback-leaf.conf  (the lo0.N units listed here)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/irb-tenant-gateway.conf  (companion anycast-gateway IRBs)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/bgp-ebgp-evpn-overlay.conf  (carries these type-5 routes)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$TENANT_NAME",
+          "example": "tenant-1"
+        },
+        {
+          "name": "$VNI",
+          "example": "20001"
+        },
+        {
+          "name": "$LO0_V4",
+          "example": "10.0.1.9"
+        },
+        {
+          "name": "$LO_UNIT",
+          "example": "2"
+        },
+        {
+          "name": "$AC_INTF_A",
+          "example": "et-0/0/12:0"
+        },
+        {
+          "name": "$AC_INTF_B",
+          "example": "et-0/0/16:0"
+        },
+        {
+          "name": "$TENANT_EXPORT_POLICY",
+          "example": "BGP-AOS-Policy-tenant-1"
+        }
+      ],
+      "body": "routing-instances {\n    $TENANT_NAME {\n        instance-type vrf;\n        routing-options {\n            rib ${TENANT_NAME}.inet6.0 {\n                multipath;\n            }\n            graceful-restart;\n            multipath;\n            auto-export;\n        }\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation vxlan;\n                    vni $VNI;\n                    export $TENANT_EXPORT_POLICY;\n                }\n            }\n        }\n        interface ${AC_INTF_A}.0;\n        interface ${AC_INTF_B}.0;\n        interface lo0.$LO_UNIT;\n        route-distinguisher ${LO0_V4}:${VNI};\n        vrf-target target:${VNI}:1;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $TENANT_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib ${TENANT_NAME}.inet6.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation vxlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VNI;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> $TENANT_EXPORT_POLICY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface ${AC_INTF_A}.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface ${AC_INTF_B}.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.$LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher ${LO0_V4}:${VNI};</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:${VNI}:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 734,
+      "lineCount": 28,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/transport/bgp-ebgp-evpn-overlay",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "bgp-ebgp-evpn-overlay",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/bgp-ebgp-evpn-overlay.conf",
+      "topic": "eBGP EVPN overlay — loopback-to-loopback, multihop, signaling loops 2",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "eBGP EVPN overlay rides on top of the inet-unicast underlay; sessions are loopback-to-loopback (lo0.0) so they survive any single fabric link failure",
+        "`multihop ttl 1` + `no-nexthop-change` is the classic 3-stage CLOS pattern — spine relays EVPN routes between leafs without rewriting the BGP next-hop, so leaf<->leaf VTEP encapsulation works as if it were iBGP (despite being eBGP per-hop)",
+        "`family evpn signaling loops 2` allows the route to traverse two eBGP hops with the same AS in the path (needed because spines have distinct ASes but the EVPN MAC originator AS will appear twice)",
+        "BFD 3s for overlay (looser than 1s underlay — overlay is more tolerant since underlay BFD already catches link failures faster)",
+        "Spine variant has NO `EVPN_EXPORT` policy in the chain — just the loop-prevention community-stamping policy",
+        "Deploy LEAF or SPINE variant per role"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (companion underlay; this snip carries the shared bgp-level knobs)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/clos-loop-prevention.conf  (LEAF_TO_SPINE_EVPN_OUT / SPINE_TO_LEAF_EVPN_OUT)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/loopback-leaf.conf  /  evo/interfaces/loopback-spine.conf",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix-routes.conf  (consumer of EVPN type-5 routes)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PEER_NAME",
+          "example": "spine1   (or gpu-r1-l1 from the spine side)"
+        },
+        {
+          "name": "$PEER_LO_V4",
+          "example": "10.0.0.8"
+        },
+        {
+          "name": "$LOCAL_LO_V4",
+          "example": "10.0.1.9"
+        },
+        {
+          "name": "$PEER_AS",
+          "example": "108"
+        }
+      ],
+      "body": "/* --- LEAF variant (deploy on leaf-role devices) --- */\nprotocols {\n    bgp {\n        group l3clos-l-evpn {\n            type external;\n            multihop {\n                ttl 1;\n                no-nexthop-change;\n            }\n            family evpn {\n                signaling {\n                    loops 2;\n                }\n            }\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval 3000;\n                multiplier 3;\n            }\n            neighbor $PEER_LO_V4 {\n                description facing_${PEER_NAME}-evpn-overlay;\n                local-address $LOCAL_LO_V4;\n                family evpn {\n                    signaling;\n                }\n                export ( LEAF_TO_SPINE_EVPN_OUT && EVPN_EXPORT );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n        log-updown;\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n        multipath;\n    }\n}\n\n/* --- SPINE variant (deploy on spine-role devices) --- */\nprotocols {\n    bgp {\n        group l3clos-s-evpn {\n            type external;\n            multihop {\n                ttl 1;\n                no-nexthop-change;\n            }\n            family evpn {\n                signaling {\n                    loops 2;\n                }\n            }\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval 3000;\n                multiplier 3;\n            }\n            neighbor $PEER_LO_V4 {\n                description facing_${PEER_NAME}-evpn-overlay;\n                local-address $LOCAL_LO_V4;\n                family evpn {\n                    signaling;\n                }\n                export ( SPINE_TO_LEAF_EVPN_OUT );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n        log-updown;\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n        multipath;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- LEAF variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> leaf-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-l-evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-nexthop-change;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">3000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_LO_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description facing_${PEER_NAME}-evpn-overlay;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_LO_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( LEAF_TO_SPINE_EVPN_OUT &#x26;&#x26; EVPN_EXPORT );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        log-updown;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        graceful-restart {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dont-help-shared-fate-bfd-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- SPINE variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> spine-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-s-evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-nexthop-change;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">3000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_LO_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description facing_${PEER_NAME}-evpn-overlay;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_LO_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( SPINE_TO_LEAF_EVPN_OUT );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        log-updown;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        graceful-restart {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dont-help-shared-fate-bfd-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 2057,
+      "lineCount": 79,
+      "techFamily": "Transport",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/transport/bgp-ebgp-fabric-underlay",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "bgp-ebgp-fabric-underlay",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/bgp-ebgp-fabric-underlay.conf",
+      "topic": "eBGP fabric underlay — leaf<->spine /31 sessions, multipath, BFD 1s",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Pure eBGP underlay — every device has a unique AS (leaf 208-211, spine 108-111). `multipath multiple-as` enables ECMP across the parallel paths to different spine ASes",
+        "One session PER /31 link (not per peer device) — gives the DLB flowlet engine maximum path diversity",
+        "BFD 1000ms x 3 — fast enough to trip before BGP holdtime, slow enough that PFC pause storms don't false-positive a peer down",
+        "`vpn-apply-export` is a no-op for inet underlay but kept here to match the EVPN-overlay group's structure (operational consistency)",
+        "Export chain: `LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy` (leaf) or `SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy` (spine) — the loop-prevention policy comes first, then the per-pod redistribution",
+        "Deploy the LEAF or SPINE variant per role",
+        "bgp-level knobs (`log-updown`, `graceful-restart dont-help-shared-fate-bfd-down`, `multipath`) are NOT repeated here — they live in the companion bgp-ebgp-evpn-overlay snip and apply to all BGP groups on the device. Always reassemble both snips."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/bgp-ebgp-evpn-overlay.conf  (companion overlay + shared bgp-level knobs)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/clos-loop-prevention.conf  (LEAF_TO_SPINE_*  / SPINE_TO_LEAF_*)",
+          "id": null
+        },
+        {
+          "raw": "evo/policy/allpodnetworks-direct-redistribution.conf  (BGP-AOS-Policy)",
+          "id": null
+        },
+        {
+          "raw": "evo/interfaces/fabric-p2p-400g-breakout.conf  (the /31 links)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PEER_NAME",
+          "example": "spine1   (or gpu-r1-l1 from the spine side)"
+        },
+        {
+          "name": "$PEER_V4",
+          "example": "10.0.2.130"
+        },
+        {
+          "name": "$LOCAL_V4",
+          "example": "10.0.2.131"
+        },
+        {
+          "name": "$PEER_AS",
+          "example": "108"
+        }
+      ],
+      "body": "/* --- LEAF variant (deploy on leaf-role devices) --- */\nprotocols {\n    bgp {\n        group l3clos-l {\n            type external;\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $PEER_V4 {\n                description facing_$PEER_NAME;\n                local-address $LOCAL_V4;\n                family inet {\n                    unicast;\n                }\n                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n    }\n}\n\n/* --- SPINE variant (deploy on spine-role devices) --- */\nprotocols {\n    bgp {\n        group l3clos-s {\n            type external;\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $PEER_V4 {\n                description facing_$PEER_NAME;\n                local-address $LOCAL_V4;\n                family inet {\n                    unicast;\n                }\n                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- LEAF variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> leaf-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-l {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">1000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description facing_$PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( LEAF_TO_SPINE_FABRIC_OUT &#x26;&#x26; BGP-AOS-Policy );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- SPINE variant (deploy </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> spine-role devices) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-s {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">1000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description facing_$PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( SPINE_TO_LEAF_FABRIC_OUT &#x26;&#x26; BGP-AOS-Policy );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1366,
+      "lineCount": 51,
+      "techFamily": "Transport",
+      "subfamily": "BGP Underlay",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/transport/ecmp-dlb-flowlet",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "ecmp-dlb-flowlet",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/ecmp-dlb-flowlet.conf",
+      "topic": "ECMP DLB (Dynamic Load Balancing) flowlet — AI fabric load spreading",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "Flowlet-based DLB replaces classic 5-tuple ECMP — critical for AI/ML traffic where a few elephant RDMA flows would otherwise polarize one ECMP path and starve the others",
+        "`inactivity-interval 128` (microseconds) defines the gap that splits one flowlet from the next; reassignment triggers when path-quality delta exceeds 6 with probability threshold 3",
+        "Layer-3 + Layer-4 hashing on inet (port-aware, gives more entropy than L3-only hashing on a small number of GPU<->GPU flows)",
+        "sampling-rate 1000000 throttles the per-link quality probe rate",
+        "`flowset-table-size 2048` sizes the per-port DLB hardware table"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/routing-options-ecmp-frr.conf  (forwarding-table export PFE-LB)",
+          "id": null
+        }
+      ],
+      "variables": [],
+      "body": "forwarding-options {\n    /* Load balancing policy label: AI-Core-Team-DLB */\n    hash-key {\n        family inet {\n            layer-3;\n            layer-4;\n        }\n    }\n    enhanced-hash-key {\n        ecmp-dlb {\n            flowlet {\n                inactivity-interval 128;\n                flowset-table-size 2048;\n                reassignment {\n                    prob-threshold 3;\n                    quality-delta 6;\n                }\n            }\n            ether-type {\n                ipv4;\n                ipv6;\n            }\n            sampling-rate 1000000;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* Load balancing policy label: AI-Core-Team-DLB */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            layer-</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            layer-</span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    enhanced-hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-dlb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            flowlet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                inactivity-interval </span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flowset-table-size </span><span style=\"color:#79C0FF\">2048</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                reassignment {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    prob-threshold </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    quality-delta </span><span style=\"color:#79C0FF\">6</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ether-type {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ipv4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ipv6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            sampling-rate </span><span style=\"color:#79C0FF\">1000000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 592,
+      "lineCount": 26,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/transport/router-advertisement",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "router-advertisement",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/router-advertisement.conf",
+      "topic": "IPv6 Router Advertisement on tenant GPU-server-facing interfaces",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "GPU hosts need IPv6 SLAAC for tenant traffic — the IRB anycast MAC handles v4 ARP, RAs handle v6 GUA delivery",
+        "Aggressive 10-30s RA cadence (vs default 200-600s) — ensures hosts pick up the gateway quickly after PXE/reboot",
+        "Apply this snip ONLY on the GPU-server-facing sub-ports — never on fabric P2P /31s (those don't have v6, and unsolicited RAs there would create spurious neighbor adjacencies)",
+        "Repeat the `interface $AC_INTF.0 { ... }` block once per tenant-server sub-port"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/tenant-gpu-server-link.conf  (the interfaces being advertised on)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/12:0"
+        }
+      ],
+      "body": "protocols {\n    router-advertisement {\n        interface ${AC_INTF}.0 {\n            max-advertisement-interval 30;\n            min-advertisement-interval 10;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    router-advertisement {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface ${AC_INTF}.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            max-advertisement-interval </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            min-advertisement-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 175,
+      "lineCount": 8,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "aiml_multitenancy_backend/evo/transport/routing-options-ecmp-frr",
+      "jvd": "aiml_multitenancy_backend",
+      "jvdLabel": "AI/ML Multitenancy Backend",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "routing-options-ecmp-frr",
+      "path": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/routing-options-ecmp-frr.conf",
+      "topic": "Routing-options — router-id, AS, ECMP fast-reroute, chained-composite-NH",
+      "seenOn": {
+        "junos": [
+          "(none)"
+        ],
+        "evo": [
+          "leaf1_qfx5240-64od",
+          "leaf2_qfx5240-64od",
+          "leaf3_qfx5240-64od",
+          "leaf4_qfx5240-64od",
+          "spine1_qfx5240-64od",
+          "spine2_qfx5240-64od",
+          "spine3_qfx5240-64od",
+          "spine4_qfx5240-64od"
+        ]
+      },
+      "highlights": [
+        "`ecmp-fast-reroute` enables sub-second restoration on link failure by pre-computing backup next-hops in the FIB",
+        "`chained-composite-next-hop ingress evpn` is required on LEAF nodes so EVPN type-5 ip-prefix-routes resolve to a chained NH (inner VXLAN encap + outer IP NH) without RIB explosion. SPINE devices omit this block since they don't terminate EVPN encap.",
+        "`export PFE-LB` pushes per-packet load-balance into the FIB — pairs with the DLB flowlet config in forwarding-options",
+        "`graceful-restart` at the global level enables GR for all protocols"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/pfe-load-balance.conf  (PFE-LB policy referenced here)",
+          "id": null
+        },
+        {
+          "raw": "evo/transport/ecmp-dlb-flowlet.conf  (companion forwarding-options block)",
+          "id": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$ROUTER_ID",
+          "example": "10.0.1.9   (lo0.0 v4 address)"
+        },
+        {
+          "name": "$LOCAL_AS",
+          "example": "208        (leaf) or 108 (spine)"
+        }
+      ],
+      "body": "/* --- LEAF variant (includes chained-composite-next-hop for EVPN) --- */\nrouting-options {\n    router-id $ROUTER_ID;\n    autonomous-system $LOCAL_AS;\n    graceful-restart;\n    forwarding-table {\n        export PFE-LB;\n        ecmp-fast-reroute;\n        chained-composite-next-hop {\n            ingress {\n                evpn;\n            }\n        }\n    }\n}\n\n/* --- SPINE variant (no chained-composite-next-hop — pure relay) --- */\nrouting-options {\n    router-id $ROUTER_ID;\n    autonomous-system $LOCAL_AS;\n    graceful-restart;\n    forwarding-table {\n        export PFE-LB;\n        ecmp-fast-reroute;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- LEAF variant (includes chained-composite-next-hop for EVPN) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    autonomous-system $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> PFE-LB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-fast-reroute;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chained-composite-next-hop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- SPINE variant (no chained-composite-next-hop — pure relay) --- */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    autonomous-system $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> PFE-LB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-fast-reroute;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 614,
+      "lineCount": 26,
+      "techFamily": "Transport",
+      "subfamily": "Routing Options",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
     {
       "id": "broadband_edge/evo/interfaces/ae-vlan-bridge-an",
       "jvd": "broadband_edge",
@@ -11777,6 +13196,10 @@
     }
   ],
   "variableGlossaries": [
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "markdown": "# Snip variable glossary\n\nThis file documents every `$VARIABLE` used in the templated snips under\n`evo/`. Variables are alphabetical; the **Used in** column lists which\nsnip categories reference each one.\n\n| Variable | Meaning | Typical example | Used in |\n|---|---|---|---|\n| `$AC_INTF` | Attachment-circuit (GPU-server-facing) sub-port | `et-0/0/12:0` | interfaces/, transport/ |\n| `$AC_INTF_A` | First AC sub-port bound to a tenant VRF | `et-0/0/12:0` | services/ |\n| `$AC_INTF_B` | Second AC sub-port bound to the same tenant VRF | `et-0/0/16:0` | services/ |\n| `$ANYCAST_MAC` | Shared virtual MAC for IRB anycast gateway (same across all leafs) | `00:1c:73:00:00:01` | interfaces/ |\n| `$GPU_HOST` | GPU server hostname carried in the AC interface description | `H100-01` | interfaces/ |\n| `$GRPC_CERT_PEM` | PEM-encoded TLS cert/key for the gRPC listener (masked SECRET-DATA) | *(redacted)* | bootstrap/ |\n| `$GRPC_PORT` | TCP port for the gRPC extension-service SSL listener | `32767` | bootstrap/ |\n| `$HOSTNAME` | Device hostname | `GPU-R1-L1` | bootstrap/ |\n| `$IRB_UNIT` | IRB logical unit number for a tenant subnet | `2` | interfaces/ |\n| `$LO0_V4` | Primary loopback IPv4 (router-id + EVPN overlay local-address) | `10.0.1.9/32` (leaf), `10.0.0.8/32` (spine) | interfaces/, services/ |\n| `$LO0_V6` | Primary loopback IPv6 | `fdf6:ed70:1fac:f2d2::1007/128` | interfaces/ |\n| `$LOCAL_AS` | Per-device BGP autonomous system number | `208` (leaf), `108` (spine) | transport/ |\n| `$LOCAL_LO_V4` | Local loopback v4 used as eBGP-EVPN local-address | `10.0.1.9` | transport/ |\n| `$LOCAL_TIER_TAG` | Community high-order tag identifying the device's tier | `5` (leaf), `1` (spine) | policy/ |\n| `$LOCAL_V4` | Local /31 v4 on a fabric or AC interface (full prefix) | `10.0.2.131/31` | interfaces/, transport/ |\n| `$LOCAL_V4_A` | First /31 v4 on a fabric breakout sub-port | `10.0.2.177/31` | interfaces/ |\n| `$LOCAL_V4_B` | Second /31 v4 on a fabric breakout sub-port | `10.0.2.131/31` | interfaces/ |\n| `$LO_UNIT` | Per-tenant lo0 unit number bound to a VRF | `2` | services/ |\n| `$PEER_AS` | Remote eBGP peer autonomous system number | `108` (leaf->spine), `208` (spine->leaf) | transport/ |\n| `$PEER_HOST` | Remote device shortname (used in interface description) | `spine1` | interfaces/ |\n| `$PEER_LO_V4` | Remote loopback v4 (eBGP-EVPN overlay neighbor) | `10.0.0.8` | transport/ |\n| `$PEER_NAME` | Remote device shortname (used in BGP neighbor description) | `spine1`, `gpu-r1-l1` | transport/ |\n| `$PEER_PORT_A` | Remote interface name for first sub-port (description) | `et-0/0/0:0` | interfaces/ |\n| `$PEER_PORT_B` | Remote interface name for second sub-port (description) | `et-0/0/0:1` | interfaces/ |\n| `$PEER_V4` | Remote /31 v4 (eBGP fabric underlay neighbor) | `10.0.2.130` | transport/ |\n| `$PHY_PORT` | Parent physical port for breakout config | `et-0/0/0` | interfaces/ |\n| `$ROUTER_ID` | Device router-id (matches lo0.0 v4 address) | `10.0.1.9` | transport/ |\n| `$TENANT_COMMUNITY_V4` | Per-tenant IPv4 BGP community name | `TENANT-1_COMMUNITY_V4` | policy/ |\n| `$TENANT_COMMUNITY_V6` | Per-tenant IPv6 BGP community name | `TENANT-1_COMMUNITY_V6` | policy/ |\n| `$TENANT_EXPORT_POLICY` | Per-tenant EVPN ip-prefix-routes export policy name | `BGP-AOS-Policy-tenant-1` | services/ |\n| `$TENANT_GW_V4` | Tenant subnet's gateway IPv4 address (anycast on IRB) | `10.200.0.1/24` | interfaces/ |\n| `$TENANT_LO_V4` | Per-tenant lo0 IPv4 (router-id anchor for the VRF) | `192.168.11.4/32` | interfaces/ |\n| `$TENANT_LO_V6` | Per-tenant lo0 IPv6 | `fdf6:ed70:1fac:f2d2::1010/128` | interfaces/ |\n| `$TENANT_NAME` | Tenant VRF / routing-instance name | `tenant-1` | interfaces/, services/ |\n| `$TENANT_TAG` | Tenant tag suffix used in per-tenant policy names | `tenant-1`, `non-tenant` | policy/ |\n| `$TENANT_UNIT` | lo0 unit number for a tenant VRF | `2` | interfaces/ |\n| `$VNI` | VXLAN network identifier for the tenant's EVPN type-5 routes | `20001` | services/ |\n\n## Notes on the variable design\n\n- **Tenant-axis variables** (`$TENANT_*`) all share the same suffix\n  convention (`tenant-1` … `tenant-N` plus `non-tenant`). When generating\n  configs from these snips for a new tenant, increment the suffix and\n  pick a fresh `$VNI` / `$LO_UNIT` / `$IRB_UNIT` triplet.\n- **Role-axis variables** (`$LOCAL_AS`, `$LOCAL_TIER_TAG`,\n  `$ROUTER_ID`) determine whether a device is a leaf or spine. The\n  combined snips (`bgp-ebgp-fabric-underlay`, `bgp-ebgp-evpn-overlay`,\n  `routing-options-ecmp-frr`, `clos-loop-prevention`,\n  `allpodnetworks-direct-redistribution`, `community-definitions`)\n  carry both LEAF and SPINE variants — pick one variant per role.\n- **Link-axis variables** (`$LOCAL_V4*`, `$PEER_V4`, `$PEER_LO_V4`,\n  `$PEER_AS`, `$PEER_NAME`) repeat once per fabric link; the snips show\n  a single neighbor block that should be cloned per link.\n"
+    },
     {
       "jvd": "broadband_edge",
       "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers\nthat vary between deployments are written as `$VAR`. Render with the\nsame `snips_render.py` tool used elsewhere in the JVD repo.\n\nConstants left as literals on purpose:\n- Apply-group / policy / community names (PS-ISIS-EXPORT, PS-PPLB,\n  PS-RADIUS-COMM, etc.) — they ARE the abstraction.\n- Forwarding-class names, scheduler-map names — JVD-wide.\n- Pool / dynamic-profile names (`pppv4-pool`, `auto-stacked-pwht`,\n  `prod-dhcp-base`, …) — wired by the BNG runtime by name.\n- All `$junos-*` placeholders inside dynamic-profiles — runtime-resolved\n  by smg-service, NOT user-templatable.\n\n## Identity / topology\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$ROUTER_ID` | Device router-id (== lo0.0 IPv4) | `192.168.0.7` | transport/* |\n| `$LOCAL_AS` | iBGP / overlay AS | `65001` | transport/* |\n| `$LOOPBACK_V4` | This PE's lo0.0 IPv4 | `192.168.0.7` | transport/*, policy/* |\n| `$LOOPBACK_V6` | This PE's lo0.0 IPv6 | `2001:db8::192:168:0:7` | policy/* |\n| `$NODE_SID_V4` | ISIS-SR IPv4 node-segment index (1000+lastoctet in this JVD) | `1007` | policy/isis-export-prefix-segment.conf |\n| `$NODE_SID_V6` | ISIS-SR IPv6 node-segment index (4000+lastoctet) | `4007` | policy/isis-export-prefix-segment.conf |\n| `$SRGB_START` / `$SRGB_END` | MPLS SRGB label range | `800000` / `890000` | transport/mpls-segment-routing.conf |\n\n## Neighbours / route reflectors\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$RR_AGN1_V4` / `$RR_AGN2_V4` | Fabric (AGN) RR loopbacks | `192.168.0.5` / `192.168.0.6` | transport/bgp-overlay-* |\n| `$RR_CR_V4` | Core (CR) RR loopback | `192.168.0.11` | transport/bgp-overlay-pe-bng.conf |\n| `$AN1_V4`..`$AN5_V4` | Access-node loopbacks (RR clients) | `192.168.0.0`..`192.168.0.4` | transport/bgp-overlay-rr-fabric.conf |\n| `$BNG1_V4`..`$BNG4_V4` | BNG loopbacks (RR clients) | `192.168.0.7`..`192.168.0.10` | transport/bgp-overlay-rr-* |\n| `$AGN1_V4` / `$AGN2_V4` | Aggregation-node loopbacks (cr1 view) | `192.168.0.5` / `192.168.0.6` | transport/bgp-overlay-rr-core.conf |\n| `$CR_V4` | Core RR loopback (AGN view) | `192.168.0.11` | transport/bgp-overlay-rr-fabric.conf |\n| `$CE_PEER_V4` / `$CE_PEER_V6` | Internet eBGP peer addresses | `10.11.110.2` / `2001:db8::11:11:110:2` | services/l3vpn-internet.conf |\n| `$CE_AS_V4` / `$CE_AS_V6` | Internet eBGP peer AS numbers | `200` / `300` | services/l3vpn-internet.conf |\n\n## Interfaces (underlay)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$CORE_INTF` | Core-facing IS-IS unit | `et-0/0/2.0` | transport/isis-srmpls-tilfa.conf |\n| `$CORE_PHYS` | Core-facing physical interface | `et-0/0/2` | interfaces/core-isis-mpls.conf |\n| `$CORE_DESC` | JVD-style link description | `R7-BNG1-To-R6-AGN2` | interfaces/core-isis-mpls.conf |\n| `$CORE_V4` / `$CORE_V6` | Underlay link addresses | `10.10.67.2/24` / `2001:db8::10:10:67:1:2/120` | interfaces/core-isis-mpls.conf |\n| `$ISIS_LEVEL` | ISIS level on this interface | `1` (or `2` on cr1's L2 links) | transport/isis-srmpls-tilfa.conf |\n| `$L2_KNOB` | `level 2` mode | `disable` (or `wide-metrics-only` on cr1) | transport/isis-srmpls-tilfa.conf |\n| `$EXPORT_POLICY` | ISIS export policy reference | `PS-ISIS-EXPORT` (or `[ PS-ISIS-EXPORT stop_leak ]` on cr1) | transport/isis-srmpls-tilfa.conf |\n| `$V6_VRF_RIB` | VRF v6 rib leaked into inet6.0 | `PPPOE_SUBS_1.inet6.0` | transport/routing-options-pe.conf |\n\n## Interfaces (subscriber & access)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PS_DEV` | Pseudowire-headend ifd | `ps0`, `ps11` | interfaces/ps-pseudowire-* |\n| `$PS_AC` | psN.0 attachment-circuit unit | `ps1.0`, `ps11.0`, `ps31.0` | services/evpn-vpws-*-bng.conf |\n| `$ANCHOR_LT` | logical-tunnel anchor | `lt-0/0/0` | interfaces/ps-pseudowire-* |\n| `$DYN_PROFILE` | Dynamic-profile invoked by auto-configure | `auto-stacked-pwht`, `auto-stacked-pwht_dhcp` | interfaces/ps-pseudowire-* |\n| `$ESI_VALUE` | Per-ps ESI for EVPN multihoming | `00:10:12:12:12:12:12:00:00:31` | interfaces/ps-pseudowire-* |\n| `$DF_PREFERENCE` | df-election-type preference value | `1000` (preferred) / `995` (backup) | interfaces/ps-pseudowire-* |\n| `$STATIC_MAC` | Override MAC on ps interface (DHCP) | `aa:aa:aa:bb:bb:bb` | interfaces/ps-pseudowire-dhcp-ipoe.conf |\n| `$MTU` | ps interface MTU | `2022` | interfaces/ps-pseudowire-* |\n| `$AC_INTF` | AN-side EVPN-VPWS attachment-circuit unit | `ae1.1041` | services/evpn-vpws-an.conf |\n| `$AC1` / `$AC2` | FXC bundle members on the AN | `ae0.1061` / `ae0.1062` | services/evpn-vpws-fxc-an.conf |\n| `$LAG`, `$LAG_FXC`, `$LAG_PERSUB` | Aggregated-Ethernet device names | `ae0`, `ae1` | interfaces/ae-vlan-bridge-* |\n| `$LAG_VLAN_UNIT` / `$LAG_VLAN_ID` | per-subscriber VLAN unit/id | `1031` / `1031` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$CPE_PORT` | sw1/sw2 CPE-facing breakout port | `xe-0/0/0:3` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$BD_NAME` | sw1/sw2 bridge-domain name | `bd_group_1031` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$FXC_VLAN_UNIT` | AN FXC LAG unit/vlan | `1061` | interfaces/ae-vlan-bridge-an.conf |\n| `$PERSUB_VLAN_UNIT` | AN per-subscriber LAG unit/vlan | `1031` | interfaces/ae-vlan-bridge-an.conf |\n| `$FXC_ESI` | Shared LAG-level ESI for FXC | `00:15:15:15:00:00:00:15:15:15` | interfaces/ae-vlan-bridge-an.conf, services/evpn-vpws-fxc-an.conf |\n| `$PERSUB_ESI_VALUE` | Per-unit ESI for per-subscriber EVPN-VPWS | `00:10:11:11:11:11:11:00:00:31` | interfaces/ae-vlan-bridge-an.conf |\n| `$LACP_SYSID_FXC` / `$LACP_SYSID_PERSUB` | LACP system-id overrides on AN LAGs | `00:00:00:00:01:01` / `00:00:00:00:02:02` | interfaces/ae-vlan-bridge-an.conf |\n\n## Services (EVPN-VPWS / L3VPN)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$INSTANCE_NAME` | routing-instance name | `METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1` | services/evpn-vpws-* |\n| `$VRF_NAME` | L3VPN routing-instance name | `PPPOE_SUBS_1`, `dhcp-subs` | services/l3vpn-* |\n| `$RD_LOOPBACK_V4` | Loopback used as RD-prefix | `192.168.107.107` (BNG-side), `100.100.100.100` (AN-side) | services/* |\n| `$RD_ID` | RD tail integer | `1031` | services/* |\n| `$RT_AS` / `$RT_ID` | Route-target AS:ID pair | `60000`:`1031` | services/evpn-vpws-* |\n| `$VPWS_LOCAL_ID` / `$VPWS_REMOTE_ID` | EVPN-VPWS service-id pair | `21` / `1` | services/evpn-vpws-* |\n| `$SVC_LOCAL` / `$SVC_REMOTE` | FXC group service-id pair | `5001` / `6001` | services/evpn-vpws-fxc-an.conf |\n| `$LO_UNIT` | VRF loopback unit | `lo0.1`, `lo0.7`, `lo0.11`, `lo0.313` | services/l3vpn-* |\n| `$VRF_IMPORT_POL` / `$VRF_EXPORT_POL` | Per-VRF import/export policy refs | `PS-PPPOE-SUBS-1-VRF-IMPORT` / `-EXPORT` | services/l3vpn-* |\n| `$V4_AGGREGATE` / `$V6_AGGREGATE` | Subscriber-pool aggregate prefixes | `10.25.0.0/16` / `fc00:25:140::/48` | services/l3vpn-pppoe-subs.conf |\n| `$V4_POOL` / `$V6_POOL` | DHCP pool names | `dhcp_v4_pool` / `dhcp_v6_pool` | services/l3vpn-dhcp-subs.conf |\n| `$V4_NETWORK` | DHCP v4 pool network | `10.42.0.0/16` | services/l3vpn-dhcp-subs.conf |\n| `$V4_RANGE_LOW` / `$V4_RANGE_HIGH` | DHCP v4 lease range | `10.42.0.2` / `10.42.255.254` | services/l3vpn-dhcp-subs.conf |\n| `$V4_GATEWAY` | DHCP server-identifier + router option | `10.42.0.1` | services/l3vpn-dhcp-subs.conf |\n| `$V6_PREFIX` | DHCPv6 pool prefix | `fc00:125:140::/64` | services/l3vpn-dhcp-subs.conf |\n| `$V6_RANGE_LOW` / `$V6_RANGE_HIGH` | DHCPv6 range | `fc00:125:140::2/128` / `fc00:125:140::ffff/128` | services/l3vpn-dhcp-subs.conf |\n| `$LEASE_TIME` | dhcp-attributes maximum-lease-time (s) | `600` | services/l3vpn-dhcp-subs.conf |\n| `$V6_RIB` | rib for IPv6 aggregate inside VRF | `PPPOE_SUBS_1.inet6.0` | services/l3vpn-pppoe-subs.conf |\n| `$V4_POOL_NETWORK` / `$V6_POOL_PREFIX` | PPPoE pool prefixes | `10.25.0.0/16` / `fc00:25:140::/48` | services/l3vpn-pppoe-subs.conf, subscriber-management/address-assignment-pools.conf |\n| `$AUTH_PROFILE` | RADIUS access-profile reference | `vlan-auth-access1` | interfaces/ps-pseudowire-*, services/l3vpn-dhcp-subs.conf |\n| `$RADIUS_INTF` | RADIUS-VRF interface on cr1 | `et-0/0/20:0.0` | services/l3vpn-radius.conf |\n| `$CE_INTF` | VRF_Internet eBGP interface | `et-0/0/26:1.0` | services/l3vpn-internet.conf |\n\n## Chassis / boot / subscriber-management\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PS_DEVICE_COUNT` | chassis pseudowire-service device-count | `100` | bootstrap/chassis-bng.conf |\n| `$TS_FPC` / `$TS_PIC` / `$TS_BW` | tunnel-services FPC/PIC/bandwidth | `0` / `0` / `100g` | bootstrap/chassis-bng.conf |\n| `$NAS_ID` | RADIUS NAS-Identifier | `R7-BNG1` | subscriber-management/access-profile-radius.conf |\n| `$RADIUS_SERVER_V4` | RADIUS server address | `10.189.189.2` | subscriber-management/* |\n| `$RADIUS_PORT` | RADIUS server UDP port | `1812` | subscriber-management/radius-server.conf |\n| `$RADIUS_SECRET` / `$RADIUS_SECRET_AUTH` / `$RADIUS_SECRET_ACCT` | Encrypted RADIUS secrets | `$9$...` (Junos type-9) | subscriber-management/* |\n| `$RADIUS_SOURCE_V4` | RADIUS source-address (in RADIUS VRF) | `192.168.17.17` | subscriber-management/* |\n| `$AUTOCONF_BW` / `$AUTOCONF_BURST` | ddos-protection autoconf rate-limits | `20000` / `20000` | subscriber-management/system-services-subscriber-mgmt.conf |\n| `$PPPOE_PADSE_BW` / `$PPPOE_PADSE_BURST` | ddos-protection PPPoE PADSE rate-limits | `2000` / `100` | subscriber-management/system-services-subscriber-mgmt.conf |\n| `$USER_PASS` | dynamic-profile RADIUS password | `joshua` | interfaces/ps-pseudowire-*, services/l3vpn-dhcp-subs.conf, subscriber-management/dp-auto-stacked-* |\n| `$USER_PREFIX` | dynamic-profile username prefix | `pwht_pppoe`, `pwht_dhcp` | (same as `$USER_PASS`) |\n| `$DOMAIN_NAME` | dynamic-profile username domain | `jnpr.net` | (same as `$USER_PASS`) |\n| `$RA_MIN` / `$RA_MAX` | router-advertisement intervals | `30` / `60` | subscriber-management/dp-auto-stacked-pwht-dhcp.conf |\n| `$VRF_LO_UNIT` | dhcp-subs VRF loopback unit | `lo0.313` | subscriber-management/dp-prod-dhcp-base.conf, dp-autosense-ipdemux.conf |\n\n## Policy\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PL_AN_REGION_LIST` | Prefix-list of AN+BNG client loopbacks | `192.168.0.0..0.4 192.168.0.7 192.168.0.8` | policy/bgp-rr-export.conf |\n| `$PL_CORE_LIST` | Prefix-list of CORE loopbacks (per RR view) | `192.168.0.7 .8 .11` (AGN view); `192.168.0.9 .10` (cr1 view) | policy/bgp-rr-export.conf |\n"

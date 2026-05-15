@@ -1,6 +1,6 @@
 # Configuration Snippets (snips)
 
-This `snips/` directory contains **focused, copy-pasteable configuration excerpts** extracted from the full validated device configurations in [`../conf/`](../conf/) and [`../set/`](../set/). Each file isolates a single concept (a service overlay, a routing protocol, a CoS profile, etc.) so it can be referenced, shared, or adapted without wading through a multi-thousand-line device config.
+This `snips/` directory contains **focused, copy-pasteable configuration excerpts** extracted from the full validated device configurations in [`../conf/`](../conf/). Each file isolates a single concept (a service overlay, a routing protocol, a CoS profile, etc.) so it can be referenced, shared, or adapted without wading through a multi-thousand-line device config.
 
 ## Topology
 
@@ -110,7 +110,7 @@ Snippets are **excerpts**, not standalone configs. They:
 
 - Preserve their original Junos hierarchy (e.g., a `services/evpn-vpws.conf` snippet contains the `routing-instances { … }` wrapper so it's syntactically valid in context).
 - Are extracted from real, validated config in [`../conf/`](../conf/). When a topic isn't validated on the other OS family in this JVD, the counterpart file is clearly marked as a **reference shape** rather than copied/pasted production config.
-- Are **not exhaustive** — only the most pedagogically valuable patterns are extracted. The full configurations remain in [`../conf/`](../conf/) and [`../set/`](../set/) for complete reference.
+- Are **not exhaustive** — only the most pedagogically valuable patterns are extracted. The full configurations remain in [`../conf/`](../conf/) for complete reference.
 
 ## Bring Your Own AI (BYOAI)
 
