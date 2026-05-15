@@ -1,7 +1,7 @@
 # Snip variable glossary
 
 This file documents every `$VARIABLE` used in the templated snips under
-`junos/`. Variables are alphabetical; the **Used in** column lists which
+`evo/`. Variables are alphabetical; the **Used in** column lists which
 snip categories reference each one.
 
 | Variable | Meaning | Typical example | Used in |
