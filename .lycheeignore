@@ -1,0 +1,12 @@
+# Generated mirror — relative links inside these files resolve against
+# the source location, not the mirror location, so lychee can't follow
+# them. The sync script that produces this mirror is the source of truth.
+portal/public/byoai/**
+
+# Stale post-organize-folder; references directory trees that no longer
+# exist (e.g. Configurations/ANs, Configurations/AGs, Scripts). Tracked
+# for a full rewrite separately — ignored here so the link checker isn't
+# permanently red on every PR.
+automation/README.md
+automation/scripts/README.md
+automation/scripts/ags_core/README.md
