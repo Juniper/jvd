@@ -5,10 +5,12 @@ on:
     branches: [main]
     paths:
       - 'portal/**'
+      - '**/configuration/snips/**'
       - '.github/workflows/portal-deploy.yml'
   pull_request:
     paths:
       - 'portal/**'
+      - '**/configuration/snips/**'
       - '.github/workflows/portal-deploy.yml'
   workflow_dispatch:
 
