@@ -4,6 +4,120 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-15
+
+A new AI/ML Data Center JVD lands its first reusable configuration
+template library — 23 Junos EVO templates covering the QFX5240 leaf
+and PTX10008 spine roles for an EVPN-VXLAN multitenancy fabric. The
+repository also gains automated checks on every pull request, and the
+JVD Portal now picks up new template libraries automatically as soon
+as they merge.
+
+### New content
+
+- **AI/ML Multitenancy Backend template library** — 23 reusable Junos
+  EVO templates for the
+  [`aiml_multitenancy_backend`](data_center/aidc/aiml_multitenancy_backend/)
+  JVD, organized under
+  [`configuration/snips/evo/`](data_center/aidc/aiml_multitenancy_backend/configuration/snips/)
+  by function: `bootstrap/` (chassis buffer monitoring, gRPC
+  certificates, NETCONF), `cos/` (RDMA RoCEv2 lossless queueing),
+  `interfaces/` (400G fabric breakouts, IRB tenant gateways, leaf and
+  spine loopbacks, GPU-server links), `oam/` (L2 telemetry, LLDP,
+  RSTP), `policy/` (CLOS loop prevention, PFE load-balance, tenant
+  community export, route redistribution), `services/` (EVPN VRF IP
+  prefix routes), and `transport/` (eBGP underlay and EVPN overlay,
+  ECMP DLB flowlet, FRR, router advertisement). Each template carries
+  a five-section header (Topic / Variant / Seen on / Highlights /
+  Pair-with / Variables) and the JVD's
+  [`_variables.md`](data_center/aidc/aiml_multitenancy_backend/configuration/snips/_variables.md)
+  glossary defines every parameter that appears across the set. A
+  per-library
+  [`README.md`](data_center/aidc/aiml_multitenancy_backend/configuration/snips/README.md)
+  walks through the categories, the QFX5240 / PTX10008 device split,
+  and how the templates fit into the broader fabric design.
+
+### Repository improvements
+
+- **Pull-request template** — A new
+  [`.github/pull_request_template.md`](.github/pull_request_template.md)
+  standardizes contributions with What's New / Why / Details /
+  Testing sections, and a release-notes config keeps changelog drafts
+  consistent.
+- **Automated checks on every pull request** — Two new GitHub Actions
+  workflows now gate merges into `main`. A
+  [portal build check](.github/workflows/portal-build.yml)
+  catches TypeScript, Vite, and import breakage before it can land
+  and silently break the live portal deploy. A
+  [markdown link checker](.github/workflows/link-check.yml) (lychee
+  in offline mode) flags dangling relative links — easy to introduce
+  when JVD folders or template libraries get reshuffled. The
+  [portal deploy workflow](.github/workflows/portal-deploy.yml) was
+  also widened so that any change under a JVD's
+  `configuration/snips/` directory now triggers both the portal's
+  template-bundle freshness check on PR and the live redeploy on
+  merge to `main` — so new template libraries appear on the portal
+  the same day they merge.
+
+### What this means for you
+
+- If you're building an AI/ML EVPN-VXLAN fabric on QFX5240 leaves and
+  PTX10008 spines, start from the new
+  [aiml_multitenancy_backend template library](data_center/aidc/aiml_multitenancy_backend/configuration/snips/).
+  Each `evo/<category>/*.conf` is parameterized with `$VARIABLES`;
+  the per-library `README.md` and `_variables.md` together give you a
+  ready-to-fill template set.
+- Browse the new templates online at the
+  [JVD Portal Snip Library](https://juniper.github.io/jvd/portal/#snips),
+  filtered to the AI/ML Multitenancy Backend JVD.
+- Contributors: pull requests now run an automated portal build and
+  link check. Use the new PR template, and the checks will tell you
+  before merge whether your change breaks anything.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-area changes</summary>
+
+| Area / JVD | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `data_center/aidc/aiml_multitenancy_backend` | 25 | 0 | 0 | 0 | 1 |
+| `service_provider/metro_ethernet_business_services` | 0 | 0 | 0 | 1 | 1 |
+| `portal/` (template bundle regen) | 0 | 0 | 0 | 1 | 0 |
+| `.github/` (PR template + workflows) | 4 | 0 | 0 | 1 | 0 |
+| **TOTAL** | **29** | **0** | **0** | **3** | **2** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| `data_center/` | 1,535 | 0 | +1,535 |
+| `service_provider/` | 2 | 2 | 0 |
+| `portal/` | 1,448 | 25 | +1,423 |
+| `.github/` | 146 | 1 | +145 |
+| **Total** | **3,131** | **28** | **+3,103** |
+
+</details>
+
+<details>
+<summary>aiml_multitenancy_backend content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| EVO templates (`configuration/snips/evo/`) | 23 | ~1,300 |
+| Variables glossary (`_variables.md`) | 1 | ~45 |
+| Snip-library `README.md` | 1 | ~190 |
+| **Total** | **25** | **1,535** |
+
+</details>
+
+---
+
 ## 2026-05-12
 
 The JVD Portal — a public web catalog for browsing every Juniper
