@@ -4,6 +4,98 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-21
+
+The Enterprise WAN for Finance & Stock Exchange JVD gains a full
+config-snippet library — 38 templates (22 Junos + 16 EVO) covering
+NG-MVPN multicast, EVPN active/standby, RSVP-TE P2MP tunnels,
+TWAMP monitoring, and low-latency QoS across 9 device roles.
+
+### New content
+
+- **Enterprise WAN Finance template library** — 38 reusable templates
+  for the [`ewan_finance`](enterprise_wan/ewan_finance/) JVD,
+  organized under
+  [`configuration/snips/`](enterprise_wan/ewan_finance/configuration/snips/)
+  with dual Junos and EVO trees across 9 categories:
+  `bootstrap/` (chassis, aggregated-devices, tunnel-services),
+  `interfaces/` (ESI LAG, IRB gateway, flexible-vlan, loopback,
+  VLAN bridge-domain),
+  `transport/` (iBGP inet-mvpn mesh, MPLS P2MP LSP, OSPF-TE
+  node-protection, RSVP signaling),
+  `policy/` (protocol redistribution, route-filter MED),
+  `cos/` (4-class EXP with strict-high LLQ for stock-exchange traffic),
+  `firewall/` (multicast forwarding-cache filter with CoS marking),
+  `oam/` (LLDP, TWAMP server, TWAMP client),
+  `services/` (NG-MVPN SPT-only with hot-root-standby, EVPN
+  virtual-switch ESI, L3VPN VRF, virtual-router with PIM),
+  and `multicast/` (forwarding-options resolve/mismatch rate tuning).
+  Each template carries the standard five-section header and a
+  [`_variables.md`](enterprise_wan/ewan_finance/configuration/snips/_variables.md)
+  glossary defines all ~80 parameters. A
+  [`README.md`](enterprise_wan/ewan_finance/configuration/snips/README.md)
+  documents the MX/ACX/PTX platform split, sibling pairs, and key
+  design patterns.
+
+- **New snip category: `multicast/`** — Introduced for multicast
+  forwarding-options tuning (resolve-rate, mismatch-rate). More
+  multicast patterns will land here as additional JVDs are templated.
+
+### What this means for you
+
+- If you're deploying NG-MVPN for finance or stock-exchange multicast
+  on MX/PTX/ACX platforms, start from the new
+  [ewan_finance template library](enterprise_wan/ewan_finance/configuration/snips/).
+  The 13 Junos↔EVO sibling pairs let you reference whichever OS you're
+  running without cross-tree lookups.
+- The MVPN instance template
+  (`junos/services/mvpn-instance.conf`) captures the full hot-root-standby
+  SPT-only pattern — a complex config that's easy to get wrong from scratch.
+- Browse the new templates at the
+  [JVD Portal Snip Library](https://juniper.github.io/jvd/portal/#snips),
+  filtered to the Enterprise WAN Finance JVD.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-area changes</summary>
+
+| Area / JVD | Added | Modified | READMEs |
+| --- | ---: | ---: | ---: |
+| `enterprise_wan/ewan_finance` | 40 | 0 | 1 |
+| **TOTAL** | **40** | **0** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added by area</summary>
+
+| Area | Lines added | Net |
+| --- | ---: | ---: |
+| Junos templates (`junos/`) | 1,147 | +1,147 |
+| EVO templates (`evo/`) | 765 | +765 |
+| Documentation (`_variables.md` + `README.md`) | 347 | +347 |
+| **Total** | **2,259** | **+2,259** |
+
+</details>
+
+<details>
+<summary>ewan_finance content breakdown</summary>
+
+| Content | Files | Lines |
+| --- | ---: | ---: |
+| Junos templates (9 categories) | 22 | ~1,147 |
+| EVO templates (7 categories) | 16 | ~765 |
+| Variables glossary (`_variables.md`) | 1 | ~180 |
+| Snip-library `README.md` | 1 | ~167 |
+| **Total** | **40** | **2,259** |
+
+</details>
+
+---
+
 ## 2026-05-15
 
 A new AI/ML Data Center JVD lands its first reusable configuration
