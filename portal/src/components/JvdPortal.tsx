@@ -108,7 +108,7 @@ export default function JvdPortal() {
 
   const stats = [
     { label: "Validated Designs", value: "60+" },
-    { label: "Reusable Config Templates", value: `${snipBundle.counts.total}+` },
+    { label: "Reusable Config Templates", value: `${Math.floor(snipBundle.counts.total / 50) * 50}+` },
     { label: "Platforms Validated", value: "25+" },
   ];
 
