@@ -6,10 +6,11 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-05-21
 
-The Enterprise WAN for Finance & Stock Exchange JVD gains a full
-config-snippet library — 38 templates (22 Junos + 16 EVO) covering
-NG-MVPN multicast, EVPN active/standby, RSVP-TE P2MP tunnels,
-TWAMP monitoring, and low-latency QoS across 9 device roles.
+Two Enterprise WAN JVDs gain full config-snippet libraries this week:
+the Finance & Stock Exchange design (38 templates) covering NG-MVPN,
+EVPN active/standby, and TWAMP monitoring; and the Advanced Core & Edge
+design (50 templates) covering Segment Routing, LDP/SR coexistence,
+EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
 
 ### New content
 
@@ -37,9 +38,34 @@ TWAMP monitoring, and low-latency QoS across 9 device roles.
   documents the MX/ACX/PTX platform split, sibling pairs, and key
   design patterns.
 
-- **New snip category: `multicast/`** — Introduced for multicast
-  forwarding-options tuning (resolve-rate, mismatch-rate). More
-  multicast patterns will land here as additional JVDs are templated.
+- **Enterprise WAN Advanced Core & Edge template library** — 50 reusable
+  templates for the
+  [`ewan_adv_core_edge`](enterprise_wan/ewan_adv_core_edge/) JVD,
+  organized under
+  [`configuration/snips/`](enterprise_wan/ewan_adv_core_edge/configuration/snips/)
+  with dual Junos and EVO trees across 9 categories:
+  `bootstrap/` (chassis network-services enhanced-ip),
+  `interfaces/` (LAG flexible-services, CCC VPWS mux, IRB gateway,
+  physical-uplink MPLS, loopback),
+  `transport/` (iBGP EVPN, OSPF SR+LFA, MPLS LSP, RSVP-TE,
+  LDP/SR coexistence, SR Mapping Server, forwarding-options hash),
+  `policy/` (per-packet load-balance),
+  `cos/` (DSCP/EXP/802.1p classifiers, forwarding-class map,
+  EXP rewrite rules),
+  `firewall/` (IPv4 stateless filter),
+  `oam/` (CFM maintenance-domain, CFM SLA iterator),
+  `services/` (EVPN VPWS simple + FXC, EVPN ELAN simple + bridged,
+  EVPN VRF IP-prefix, MAC-VRF ELAN),
+  and `ddos-mitigation/` (BGP flowspec routes).
+  A [`_variables.md`](enterprise_wan/ewan_adv_core_edge/configuration/snips/_variables.md)
+  glossary and
+  [`README.md`](enterprise_wan/ewan_adv_core_edge/configuration/snips/README.md)
+  document the platform split and sibling pairs.
+
+- **New snip categories: `multicast/` and `ddos-mitigation/`** —
+  `multicast/` covers forwarding-options tuning (resolve-rate,
+  mismatch-rate); `ddos-mitigation/` covers BGP flowspec route
+  injection for volumetric attack mitigation.
 
 ### What this means for you
 
@@ -48,12 +74,16 @@ TWAMP monitoring, and low-latency QoS across 9 device roles.
   [ewan_finance template library](enterprise_wan/ewan_finance/configuration/snips/).
   The 13 Junos↔EVO sibling pairs let you reference whichever OS you're
   running without cross-tree lookups.
+- For advanced MPLS/SR WAN designs with EVPN services (VPWS, ELAN,
+  VRF), the [ewan_adv_core_edge template library](enterprise_wan/ewan_adv_core_edge/configuration/snips/)
+  gives you 24 Junos↔EVO sibling pairs plus CFM SLA monitoring and
+  DDoS flowspec patterns.
 - The MVPN instance template
   (`junos/services/mvpn-instance.conf`) captures the full hot-root-standby
   SPT-only pattern — a complex config that's easy to get wrong from scratch.
 - Browse the new templates at the
   [JVD Portal Snip Library](https://juniper.github.io/jvd/portal/#snips),
-  filtered to the Enterprise WAN Finance JVD.
+  filtered by Enterprise WAN JVD.
 
 ---
 
@@ -65,7 +95,8 @@ TWAMP monitoring, and low-latency QoS across 9 device roles.
 | Area / JVD | Added | Modified | READMEs |
 | --- | ---: | ---: | ---: |
 | `enterprise_wan/ewan_finance` | 40 | 0 | 1 |
-| **TOTAL** | **40** | **0** | **1** |
+| `enterprise_wan/ewan_adv_core_edge` | 50 | 0 | 1 |
+| **TOTAL** | **90** | **0** | **2** |
 
 </details>
 
@@ -74,10 +105,10 @@ TWAMP monitoring, and low-latency QoS across 9 device roles.
 
 | Area | Lines added | Net |
 | --- | ---: | ---: |
-| Junos templates (`junos/`) | 1,147 | +1,147 |
-| EVO templates (`evo/`) | 765 | +765 |
-| Documentation (`_variables.md` + `README.md`) | 347 | +347 |
-| **Total** | **2,259** | **+2,259** |
+| Junos templates (`junos/`) | 2,351 | +2,351 |
+| EVO templates (`evo/`) | 1,828 | +1,828 |
+| Documentation (`_variables.md` + `README.md`) | 507 | +507 |
+| **Total** | **4,686** | **+4,686** |
 
 </details>
 
@@ -91,6 +122,19 @@ TWAMP monitoring, and low-latency QoS across 9 device roles.
 | Variables glossary (`_variables.md`) | 1 | ~180 |
 | Snip-library `README.md` | 1 | ~167 |
 | **Total** | **40** | **2,259** |
+
+</details>
+
+<details>
+<summary>ewan_adv_core_edge content breakdown</summary>
+
+| Content | Files | Lines |
+| --- | ---: | ---: |
+| Junos templates (9 categories) | 25 | ~1,204 |
+| EVO templates (9 categories) | 24 | ~1,063 |
+| Variables glossary (`_variables.md`) | 1 | ~160 |
+| Snip-library `README.md` | 1 | ~160 |
+| **Total** | **50** | **2,427** |
 
 </details>
 
