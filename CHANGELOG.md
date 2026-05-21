@@ -6,11 +6,14 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-05-21
 
-Two Enterprise WAN JVDs gain full config-snippet libraries this week:
-the Finance & Stock Exchange design (38 templates) covering NG-MVPN,
-EVPN active/standby, and TWAMP monitoring; and the Advanced Core & Edge
-design (50 templates) covering Segment Routing, LDP/SR coexistence,
-EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
+Three JVDs gain full config-snippet libraries this week: the 3-Stage
+EVPN/VXLAN Data Center design (53 templates) covering Apstra-generated
+eBGP CLOS underlay/overlay, ERB multi-tenancy, ESI LAG, and MAC-VRF;
+the Enterprise WAN Finance & Stock Exchange design (38 templates)
+covering NG-MVPN, EVPN active/standby, and TWAMP monitoring; and the
+Advanced Core & Edge design (50 templates) covering Segment Routing,
+LDP/SR coexistence, EVPN VPWS/ELAN/VRF services, CFM SLA monitoring,
+and DDoS flowspec.
 
 ### New content
 
@@ -62,6 +65,29 @@ EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
   [`README.md`](enterprise_wan/ewan_adv_core_edge/configuration/snips/README.md)
   document the platform split and sibling pairs.
 
+- **3-Stage EVPN/VXLAN Data Center template library** — 53 reusable
+  templates for the
+  [`3stage_dc`](data_center/adc/3stage_dc/) JVD,
+  organized under
+  [`configuration/snips/`](data_center/adc/3stage_dc/configuration/snips/)
+  with dual Junos and EVO trees across 6 categories:
+  `bootstrap/` (chassis port-speed, Apstra gRPC certificate),
+  `interfaces/` (fabric uplinks, loopback, IRB anycast gateway,
+  ESI LAG, trunk access ports, VLAN-VXLAN domain, external VLAN),
+  `transport/` (eBGP underlay, eBGP EVPN overlay, ECMP/CCN,
+  EVPN-VXLAN shared-tunnels),
+  `policy/` (AOS export, loop-prevention filters, community
+  definitions, route-filter-lists, external import/export),
+  `services/` (VRF with EVPN ip-prefix-routes + DHCP relay,
+  MAC-VRF vlan-aware),
+  and `oam/` (LLDP, sFlow, RSTP, L2-learning telemetry, RA).
+  All configs are Juniper Apstra-generated. A
+  [`_variables.md`](data_center/adc/3stage_dc/configuration/snips/_variables.md)
+  glossary and
+  [`README.md`](data_center/adc/3stage_dc/configuration/snips/README.md)
+  document the QFX5120/QFX5220/QFX5130 platform split, OS differences,
+  and deployment ordering.
+
 - **New snip categories: `multicast/` and `ddos-mitigation/`** —
   `multicast/` covers forwarding-options tuning (resolve-rate,
   mismatch-rate); `ddos-mitigation/` covers BGP flowspec route
@@ -81,9 +107,13 @@ EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
 - The MVPN instance template
   (`junos/services/mvpn-instance.conf`) captures the full hot-root-standby
   SPT-only pattern — a complex config that's easy to get wrong from scratch.
+- For EVPN/VXLAN data center fabrics managed by Apstra, the
+  [3stage_dc template library](data_center/adc/3stage_dc/configuration/snips/)
+  documents all generated patterns across 5 QFX platforms — useful as
+  quick-reference or for understanding what Apstra produces.
 - Browse the new templates at the
   [JVD Portal Snip Library](https://juniper.github.io/jvd/portal/#snips),
-  filtered by Enterprise WAN JVD.
+  filtered by Data Center or Enterprise WAN.
 
 ---
 
@@ -94,9 +124,11 @@ EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
 
 | Area / JVD | Added | Modified | READMEs |
 | --- | ---: | ---: | ---: |
+| `data_center/adc/3stage_dc` | 55 | 0 | 1 |
 | `enterprise_wan/ewan_finance` | 40 | 0 | 1 |
 | `enterprise_wan/ewan_adv_core_edge` | 50 | 0 | 1 |
-| **TOTAL** | **90** | **0** | **2** |
+| `portal/src/data` | 0 | 1 | 0 |
+| **TOTAL** | **145** | **1** | **3** |
 
 </details>
 
@@ -105,10 +137,10 @@ EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
 
 | Area | Lines added | Net |
 | --- | ---: | ---: |
-| Junos templates (`junos/`) | 2,351 | +2,351 |
-| EVO templates (`evo/`) | 1,828 | +1,828 |
-| Documentation (`_variables.md` + `README.md`) | 507 | +507 |
-| **Total** | **4,686** | **+4,686** |
+| Junos templates (`junos/`) | 3,637 | +3,637 |
+| EVO templates (`evo/`) | 2,859 | +2,859 |
+| Documentation (`_variables.md` + `README.md`) | 675 | +675 |
+| **Total** | **7,171** | **+7,171** |
 
 </details>
 
@@ -135,6 +167,19 @@ EVPN VPWS/ELAN/VRF services, CFM SLA monitoring, and DDoS flowspec.
 | Variables glossary (`_variables.md`) | 1 | ~160 |
 | Snip-library `README.md` | 1 | ~160 |
 | **Total** | **50** | **2,427** |
+
+</details>
+
+<details>
+<summary>3stage_dc content breakdown</summary>
+
+| Content | Files | Lines |
+| --- | ---: | ---: |
+| Junos templates (6 categories) | 29 | ~1,286 |
+| EVO templates (6 categories) | 24 | ~1,031 |
+| Variables glossary (`_variables.md`) | 1 | ~100 |
+| Snip-library `README.md` | 1 | ~68 |
+| **Total** | **55** | **2,485** |
 
 </details>
 
