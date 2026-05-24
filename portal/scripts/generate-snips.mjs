@@ -153,7 +153,19 @@ function parseSnip(text) {
       const so = trimmed.match(/^(Junos|EVO)\s*:\s*(.*)$/i);
       if (so) {
         const bucket = so[1].toLowerCase() === "evo" ? "evo" : "junos";
-        for (const tok of so[2].split(/\s+/).filter(Boolean)) seenOn[bucket].push(tok);
+        // Stop at the first token that begins a parenthetical note like
+        // "(none in this JVD ...)" or "(and all other EVO PEs ...)". Only
+        // tokens before the note are real device names. Authors sometimes
+        // use these notes to indicate "no devices on this OS" or
+        // "+ implicit others"; either way the prose should not become chips.
+        // Also skip bare prose tokens like "—" used as a placeholder for
+        // "not applicable".
+        for (const tok of so[2].split(/\s+/).filter(Boolean)) {
+          if (tok.startsWith("(")) break;
+          // A real device token must start with a letter or digit.
+          if (!/^[A-Za-z0-9]/.test(tok)) continue;
+          seenOn[bucket].push(tok);
+        }
       }
       continue;
     }
