@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T16:01:52.845Z",
+  "generatedAt": "2026-05-27T22:11:23.222Z",
   "counts": {
     "total": 320,
     "junos": 160,
@@ -14670,10 +14670,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-bgp-bcp.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-bgp-bcp"
-        },
-        {
           "raw": "evo/transport/bgp-overlay.conf",
           "id": "metro_ethernet_business_services/evo/transport/bgp-overlay"
         }
@@ -14719,10 +14715,6 @@
         "hold-time up 2000 down 0 — short up-damp on core links (give IGP a moment to come back) but no down-damp (let BFD/IGP withdraw)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-core-intf.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-core-intf"
-        },
         {
           "raw": "evo/transport/isis-srmpls-tilfa.conf",
           "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa"
@@ -14773,10 +14765,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-edge-intf-mh"
-        },
-        {
           "raw": "evo/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming"
         }
@@ -14823,10 +14811,6 @@
         "Optics low-light alarms tied to link-down for fast convergence."
       ],
       "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-edge-intf.conf (Junos counterpart)",
-          "id": null
-        },
         {
           "raw": "evo/apply-groups/gr-edge-intf-mh.conf (multihomed variant)",
           "id": null
@@ -14877,12 +14861,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-fatpw-label.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-FATPW-LABEL {\n        /* EVPN-VPWS will use static label EVPN-ELAN will use both */\n        routing-instances {\n            <l2vpn_*> {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <vpls_*> {\n                protocols {\n                    vpls {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <evpn_group_80_*> {\n                protocols {\n                    evpn {\n                        flow-label;\n                        flow-label-static;\n                    }\n                }\n            }\n            <evpn_group_10_*> {\n                protocols {\n                    evpn {\n                        flow-label-transmit-static;\n                        flow-label-receive-static;\n                    }\n                }\n            }\n            <EVPN_VPWS_PORT_*> {\n                protocols {\n                    evpn {\n                        flow-label-transmit-static;\n                        flow-label-receive-static;\n                    }\n                }\n            }\n            L2VPN_PORT_BASED {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <EVPN_ELAN_PORT_*> {\n                protocols {\n                    evpn {\n                        flow-label;\n                        flow-label-static;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-FATPW-LABEL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* EVPN-VPWS will use static label EVPN-ELAN will use both */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;l2vpn_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;vpls_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;evpn_group_80_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;evpn_group_10_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;EVPN_VPWS_PORT_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            L2VPN_PORT_BASED {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;EVPN_ELAN_PORT_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -14924,12 +14903,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-fatpw-lb.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-lb"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-FATPW-LB {\n        forwarding-options {\n            load-balance-label-capability;\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-FATPW-LB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance-label-capability;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -14970,10 +14944,10 @@
       ],
       "pairWith": [],
       "variables": [],
-      "body": "et* lets ISIS hellos use the full\n *    jumbo MTU (verifies path MTU before the protocol commits).\n *  - lsp-interval 10 (ms) — fast LSP flooding on point-to-point links.\n *  - SPF: delay 50 ms / holddown 2000 ms / rapid-runs 5 → fast\n *    initial reaction with a backoff window, the textbook BCP.\n *  - overload bit timeout 300s + advertise-high-metrics → router\n *    comes up \"drained\" so traffic doesn't shift onto it before BGP\n *    converges.\n *\n * Pair with:\n *  - junos/apply-groups/gr-isis-bcp.conf\n *  - evo/transport/isis-srmpls-tilfa.conf\n *\n * Variables: none. Apply-groups in this JVD are entirely\n *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry\n *            only network-wide constants — there are no per-PE\n *            values to parameterise.\n */\ngroups {\n    GR-ISIS-BCP {\n        protocols {\n            isis {\n                interface <ae*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                interface <et-*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                spf-options {\n                    delay 50;\n                    holddown 2000;\n                    rapid-runs 5;\n                }\n                overload {\n                    timeout 300;\n                    advertise-high-metrics;\n                }\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">et* lets ISIS hellos use the full</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    jumbo MTU (verifies path MTU before the protocol commits).</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> (ms) — fast LSP flooding </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> point-to-point links.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - SPF: delay </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\"> ms / holddown </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\"> ms / rapid-runs </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\"> → fast</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    initial reaction with a backoff window, the textbook BCP.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - overload bit timeout 300s + advertise-high-metrics → router</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    comes up \"drained\" so traffic doesn't shift onto it before BGP</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    converges.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> * Pair with:</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - junos/apply-groups/gr-isis-bcp.conf</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - evo/transport/isis-srmpls-tilfa.conf</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> * Variables: none. Apply-groups in this JVD are entirely</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            wildcard-driven (e.g. &#x3C;ae*>, &#x3C;METRO_*>) and carry</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            only network-wide constants — there are no per-PE</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            values to parameterise.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-ISIS-BCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            isis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;et-*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    delay </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    holddown </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    rapid-runs </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                overload {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    timeout </span><span style=\"color:#79C0FF\">300</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise-high-metrics;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1419,
-      "lineCount": 43,
+      "body": "et* lets ISIS hellos use the full\n *    jumbo MTU (verifies path MTU before the protocol commits).\n *  - lsp-interval 10 (ms) — fast LSP flooding on point-to-point links.\n *  - SPF: delay 50 ms / holddown 2000 ms / rapid-runs 5 → fast\n *    initial reaction with a backoff window, the textbook BCP.\n *  - overload bit timeout 300s + advertise-high-metrics → router\n *    comes up \"drained\" so traffic doesn't shift onto it before BGP\n *    converges.\n *\n * Pair with:\n *  - evo/transport/isis-srmpls-tilfa.conf\n *\n * Variables: none. Apply-groups in this JVD are entirely\n *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry\n *            only network-wide constants — there are no per-PE\n *            values to parameterise.\n */\ngroups {\n    GR-ISIS-BCP {\n        protocols {\n            isis {\n                interface <ae*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                interface <et-*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                spf-options {\n                    delay 50;\n                    holddown 2000;\n                    rapid-runs 5;\n                }\n                overload {\n                    timeout 300;\n                    advertise-high-metrics;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">et* lets ISIS hellos use the full</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    jumbo MTU (verifies path MTU before the protocol commits).</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> (ms) — fast LSP flooding </span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\"> point-to-point links.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - SPF: delay </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\"> ms / holddown </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\"> ms / rapid-runs </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\"> → fast</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    initial reaction with a backoff window, the textbook BCP.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - overload bit timeout 300s + advertise-high-metrics → router</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    comes up \"drained\" so traffic doesn't shift onto it before BGP</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *    converges.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> * Pair with:</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *  - evo/transport/isis-srmpls-tilfa.conf</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> * Variables: none. Apply-groups in this JVD are entirely</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            wildcard-driven (e.g. &#x3C;ae*>, &#x3C;METRO_*>) and carry</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            only network-wide constants — there are no per-PE</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> *            values to parameterise.</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\"> */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-ISIS-BCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            isis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;et-*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    delay </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    holddown </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    rapid-runs </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                overload {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    timeout </span><span style=\"color:#79C0FF\">300</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise-high-metrics;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1377,
+      "lineCount": 42,
       "techFamily": "Apply-groups",
       "subfamily": "IS-IS",
       "usecases": [
@@ -15000,12 +14974,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-isis-bfd.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-isis-bfd"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-ISIS-BFD {\n        protocols {\n            isis {\n                interface <ae*> {\n                    family inet {\n                        bfd-liveness-detection {\n                            minimum-interval 50;\n                            multiplier 3;\n                            no-adaptation;\n                        }\n                    }\n                }\n                interface <et*> {\n                    family inet {\n                        bfd-liveness-detection {\n                            minimum-interval 50;\n                            multiplier 3;\n                            no-adaptation;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-ISIS-BFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            isis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            minimum-interval </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            no-adaptation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;et*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            minimum-interval </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            no-adaptation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -15039,12 +15008,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-l2ckt-hs.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-l2ckt-hs"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-L2CKT-HS {\n        protocols {\n            l2circuit {\n                neighbor <*> {\n                    interface <*> {\n                        pseudowire-status-tlv {\n                            hot-standby-vc-on;\n                        }\n                        switchover-delay 0;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-L2CKT-HS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        pseudowire-status-tlv {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            hot-standby-vc-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        switchover-delay </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -15085,12 +15049,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-l3vpn.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-l3vpn"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-L3VPN {\n        routing-instances {\n            <METRO_*> {\n                instance-type vrf;\n                routing-options {\n                    multipath {\n                        vpn-unequal-cost;\n                    }\n                    protect core;\n                }\n                vrf-table-label;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-L3VPN {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;METRO_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        vpn-unequal-cost;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -15122,12 +15081,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/apply-groups/gr-lag-member.conf",
-          "id": "metro_ethernet_business_services/junos/apply-groups/gr-lag-member"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-EDGE-INTF-LAG-MEMBER {\n        interfaces {\n            <*> {\n                traps;\n                hold-time up 180000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n    GR-EDGE-INTF-LAG-MEMBER-MH {\n        interfaces {\n            <*> {\n                traps;\n                hold-time up 180000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n    GR-CORE-INTF-LAG-MEMBER {\n        interfaces {\n            <*> {\n                description \"********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********\";\n                traps;\n                hold-time up 2000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-LAG-MEMBER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">180000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-LAG-MEMBER-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">180000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-CORE-INTF-LAG-MEMBER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description \"********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -15168,10 +15122,6 @@
         "DSCP / EXP / 802.1p classifiers produce the same forwarding-class on both OS families (key for transparent CoS across multi-vendor pseudowires)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/cos/forwarding-classes.conf",
-          "id": "metro_ethernet_business_services/junos/cos/forwarding-classes"
-        },
         {
           "raw": "evo/cos/schedulers.conf",
           "id": "metro_ethernet_business_services/evo/cos/schedulers"
@@ -15218,10 +15168,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/cos/schedulers.conf",
-          "id": "metro_ethernet_business_services/junos/cos/schedulers"
-        },
-        {
           "raw": "evo/cos/forwarding-classes.conf",
           "id": "metro_ethernet_business_services/evo/cos/forwarding-classes"
         }
@@ -15266,10 +15212,6 @@
         "Note: ma1-1_acx7024 in this JVD does NOT carry a generic \"any\" filter; policers are referenced directly per-unit via `unit X { filter { input 50MB_filter; } }` where 50MB_filter lives on filter-equipped peers (e.g. an3_acx7100-48l). On EVO devices that need a filter, build it as a family-any filter referencing these policers — same pattern as Junos."
       ],
       "pairWith": [
-        {
-          "raw": "junos/firewall/policers.conf",
-          "id": "metro_ethernet_business_services/junos/firewall/policers"
-        },
         {
           "raw": "evo/interfaces/edge-vlan-normalization.conf  (per-unit input filter ref)",
           "id": null
@@ -15316,10 +15258,6 @@
         "lo0.0 below carries the loopback address used by ISIS/iBGP."
       ],
       "pairWith": [
-        {
-          "raw": "junos/interfaces/core-isis-mpls.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/core-isis-mpls"
-        },
         {
           "raw": "evo/apply-groups/gr-core-intf.conf",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-core-intf"
@@ -15400,12 +15338,7 @@
         "Per-unit ingress filter (50MB_filter from firewall snippet) for rate-limiting at the UNI.",
         "unit 3000 is the L2Circuit attachment shown in evo/services/l2circuit-hot-standby.conf Edge baseline knobs (description, MTU, flex-vlan tagging, encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$AC_PHYS",
@@ -15460,10 +15393,6 @@
         "apply-groups GR-EDGE-INTF-MH (no port-level hold-time → EVPN DF election handles convergence)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/interfaces/lag-esi-multihoming.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming"
-        },
         {
           "raw": "evo/services/evpn-vpws.conf",
           "id": "metro_ethernet_business_services/evo/services/evpn-vpws"
@@ -15526,12 +15455,7 @@
         "One maintenance-domain (level 5) holds many maintenance-associations (one per service / VLAN unit). Continuity-check 1s with loss-threshold 10 + hold-interval 1 detects PW liveness.",
         "One representative maintenance-association is shown; the source file repeats this template for each service-bound subinterface. Apply on a per-unit basis: each MEP binds to a vlan-ccc subinterface (e.g., et-0/0/0.2800) that is also the L2Circuit attachment-circuit."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/oam/oam-cfm-perf-mon.conf",
-          "id": "metro_ethernet_business_services/junos/oam/oam-cfm-perf-mon"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$MD_NAME",
@@ -15584,12 +15508,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "junos/policy/communities.conf",
-          "id": "metro_ethernet_business_services/junos/policy/communities"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "policy-options {\n    community CM-ACCESS-FABRIC members 63535:2;\n    community CM-INET-BACKUP members target:63536:99999;\n    community CM-INET-DEFAULT members target:63536:11111;\n    community CM-INET-PRIMARY members target:63536:00000;\n    community CM-L3VPN-PUB members target:63536:22222;\n    community CM-LOOPBACK members 63535:10000;\n    community CM-METRO-FABRIC members 63535:1;\n    community CM-METRO-RING members 63536:20;\n    community CM-NO-ADVERTISE members no-advertise;\n    community CM-REGION-EDGE members 63536:30;\n    community CM-REGIONAL-BORDER members 63535:3;\n    community CM-SERVICE-EDGE members 63536:10;\n    community CM-TC-MAP2BRONZE members color:0:6000;\n    community CM-TC-MAP2GOLD members color:0:4000;\n    community METRO_BGPv4_L3VPN_2101 members target:63535:2101;\n    community METRO_BGPv4_L3VPN_2102 members target:63535:2102;\n    /* ... per-VRF community continues for every METRO_BGPv4_L3VPN_NNNN ... */\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-ACCESS-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-BACKUP members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">99999</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-DEFAULT members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-PRIMARY members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-L3VPN-PUB members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">22222</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-LOOPBACK members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-RING members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-NO-ADVERTISE members no-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGION-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGIONAL-BORDER members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-SERVICE-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_2101 members target:</span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_2102 members target:</span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* ... per-VRF community continues for every METRO_BGPv4_L3VPN_NNNN ... */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -15635,12 +15554,7 @@
         "EXPORT also tags any \"public\" customer ranges with CM-L3VPN-PUB so they can be selectively redistributed for Internet breakout",
         "IMPORT accepts both the per-service RT and a default-route community CM-INET-DEFAULT (Internet default leaked into the VRF) The pattern repeats for every METRO_BGPv4_L3VPN_NNNN VRF; this single example is enough to understand the per-service template."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/policy/l3vpn-export-import.conf",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -15702,8 +15616,12 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-elan-mac-vrf-irb.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-elan-mac-vrf-irb"
+          "raw": "evo/services/evpn-type5.conf  (IRB co-occurrence)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-vpws.conf  (IRB co-occurrence)",
+          "id": null
         }
       ],
       "variables": [
@@ -15787,10 +15705,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-elan-mac-vrf.conf  (Junos MX virtual-switch flavour)",
-          "id": null
-        },
-        {
           "raw": "evo/transport/bgp-overlay.conf (family evpn signaling)",
           "id": null
         },
@@ -15873,12 +15787,7 @@
         "EVPN_VPWS_PORT_BASED: instance-type evpn-vpws + vpws-service-id local/remote pair (signalled via EVPN Type-1)",
         "EVPN_ELAN_PORT_BASED: instance-type mac-vrf with service-type vlan-bundle (multiple customer VLANs share one bridge-domain / one mac-vrf)"
       ],
-      "pairWith": [
-        {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$AC_INTF_VPWS",
@@ -15970,10 +15879,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-type5.conf  (Junos end of the same VRF)",
-          "id": null
-        },
-        {
           "raw": "evo/services/evpn-elan-mac-vrf-irb.conf  (the L2 / IRB side",
           "id": null
         },
@@ -15987,6 +15892,10 @@
         },
         {
           "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-vpws.conf  (IRB co-occurrence)",
           "id": null
         }
       ],
@@ -16057,15 +15966,19 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-vpws.conf (remote single-homed end)",
-          "id": null
-        },
-        {
           "raw": "evo/interfaces/lag-esi-multihoming.conf (the AC interface)",
           "id": null
         },
         {
           "raw": "evo/transport/bgp-overlay.conf (family evpn signaling)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-type5.conf  (IRB co-occurrence)",
+          "id": null
+        },
+        {
+          "raw": "evo/services/evpn-elan-mac-vrf-irb.conf  (IRB co-occurrence)",
           "id": null
         }
       ],
@@ -16153,10 +16066,6 @@
         {
           "raw": "evo/policy/communities.conf (CM-TC-MAP2GOLD definition)",
           "id": null
-        },
-        {
-          "raw": "junos/services/l2circuit-hot-standby.conf",
-          "id": "metro_ethernet_business_services/junos/services/l2circuit-hot-standby"
         }
       ],
       "variables": [
@@ -16223,16 +16132,8 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/bgp-overlay.conf (family l2vpn signaling)",
-          "id": null
-        },
-        {
           "raw": "evo/apply-groups/gr-fatpw-label.conf (matches L2VPN_PORT_BASED)",
           "id": null
-        },
-        {
-          "raw": "junos/services/l2vpn-kompella.conf",
-          "id": "metro_ethernet_business_services/junos/services/l2vpn-kompella"
         }
       ],
       "variables": [
@@ -16314,14 +16215,6 @@
         {
           "raw": "evo/policy/l3vpn-export-import.conf",
           "id": "metro_ethernet_business_services/evo/policy/l3vpn-export-import"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf (family inet-vpn)",
-          "id": null
-        },
-        {
-          "raw": "junos/services/l3vpn-vrf.conf",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-vrf"
         }
       ],
       "variables": [
@@ -16391,12 +16284,7 @@
         "no-tunnel-services for ACX/MX hardware that does not require a tunnel PIC for VPLS",
         "Single VLAN (EPL-v0) bridges the attachment-circuit et-0/0/53.0 to all remote PEs in the VPLS domain For BGP-VPLS, replace `vpls-id`/`neighbor` with `site` / `route-target` (see KB-VPLS-TEST in the source file for that variant)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/services/bgp-vpls.conf  (BGP-VPLS sibling pattern, Junos only)",
-          "id": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -16467,10 +16355,6 @@
         "vpn-apply-export + advertise-from-main-vpn-tables — required so per-VRF export policies see VPN routes correctly when this box is also a service PE."
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay"
-        },
         {
           "raw": "evo/apply-groups/gr-bgp-bcp.conf",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-bgp-bcp"
@@ -16549,10 +16433,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/junos/transport/isis-srmpls-tilfa"
-        },
-        {
           "raw": "evo/transport/mpls-segment-routing.conf",
           "id": "metro_ethernet_business_services/evo/transport/mpls-segment-routing"
         },
@@ -16628,10 +16508,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/mpls-segment-routing.conf",
-          "id": "metro_ethernet_business_services/junos/transport/mpls-segment-routing"
-        },
-        {
           "raw": "evo/transport/isis-srmpls-tilfa.conf",
           "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa"
         }
@@ -16669,12 +16545,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-bgp-bcp.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-bgp-bcp"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-BGP-BCP {\n        protocols {\n            bgp {\n                path-selection external-router-id;\n                precision-timers;\n                hold-time 10;\n                bgp-error-tolerance;\n                tcp-mss 4096;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-BGP-BCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                path-selection external-router-id;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                precision-timers;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bgp-error-tolerance;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                tcp-mss </span><span style=\"color:#79C0FF\">4096</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -16708,12 +16579,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-core-intf.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-core-intf"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-CORE-INTF {\n        interfaces {\n            <*> {\n                description \"********GR-CORE-INTF-SETTINGS-APPLIED ********\";\n                traps;\n                mtu 9192;\n                hold-time up 2000 down 0;\n                unit <*> {\n                    traps;\n                    family inet {\n                        mtu 9106;\n                    }\n                    family iso {\n                        mtu 9106;\n                    }\n                    family mpls {\n                        mtu 9170;\n                        maximum-labels 14;\n                    }\n                }\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        hold-time up 2;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-CORE-INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description \"********GR-CORE-INTF-SETTINGS-APPLIED ********\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9192</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        mtu </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        mtu </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        mtu </span><span style=\"color:#79C0FF\">9170</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        maximum-labels </span><span style=\"color:#79C0FF\">14</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -16747,12 +16613,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-edge-intf-mh"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                encapsulation flexible-ethernet-services;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -16786,12 +16647,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-edge-intf"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        accept-data;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">180000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        accept-data;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            \"&#x3C;[egx][te]-*>\" {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -16838,10 +16694,6 @@
         "Apply this group at the device level alongside GR-FATPW-LB."
       ],
       "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-fatpw-label.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-fatpw-label"
-        },
         {
           "raw": "junos/apply-groups/gr-fatpw-lb.conf",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-lb"
@@ -16898,10 +16750,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/apply-groups/gr-fatpw-lb.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-fatpw-lb"
-        },
-        {
           "raw": "junos/apply-groups/gr-fatpw-label.conf",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label"
         }
@@ -16939,12 +16787,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-isis-bcp.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-isis-bcp"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "groups {\n    GR-ISIS-BCP {\n        protocols {\n            isis {\n                interface <ae*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                interface <et-*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                spf-options {\n                    delay 50;\n                    holddown 2000;\n                    rapid-runs 5;\n                }\n                overload {\n                    timeout 300;\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-ISIS-BCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            isis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface &#x3C;et-*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    max-hello-size </span><span style=\"color:#79C0FF\">9106</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lsp-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    delay </span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    holddown </span><span style=\"color:#79C0FF\">2000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    rapid-runs </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                overload {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    timeout </span><span style=\"color:#79C0FF\">300</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -16981,10 +16824,6 @@
         "On EVO (an3) the BFD timers are factored into a reusable"
       ],
       "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-isis-bfd.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-isis-bfd"
-        },
         {
           "raw": "junos/transport/isis-srmpls-tilfa.conf  (inline BFD example)",
           "id": null
@@ -17027,10 +16866,6 @@
         "This file is included for symmetry with evo/apply-groups/gr-l2ckt-hs.conf and to flag that the hot-standby pattern is NOT validated on Junos PEs in this JVD — use it as a reference template if you adopt L2Circuit hot-standby on a Junos box."
       ],
       "pairWith": [
-        {
-          "raw": "evo/apply-groups/gr-l2ckt-hs.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-l2ckt-hs"
-        },
         {
           "raw": "junos/services/l2circuit-hot-standby.conf",
           "id": "metro_ethernet_business_services/junos/services/l2circuit-hot-standby"
@@ -17084,10 +16919,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/apply-groups/gr-l3vpn.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-l3vpn"
-        },
-        {
           "raw": "junos/services/l3vpn-vrf.conf",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-vrf"
         },
@@ -17138,10 +16969,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/apply-groups/gr-lag-member.conf",
-          "id": "metro_ethernet_business_services/evo/apply-groups/gr-lag-member"
-        },
-        {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming"
         },
@@ -17191,12 +17018,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/cos/forwarding-classes.conf",
-          "id": "metro_ethernet_business_services/evo/cos/forwarding-classes"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "class-of-service {\n    forwarding-classes {\n        class BEST-EFFORT queue-num 0;\n        class BUSINESS queue-num 5;\n        class CONTROL queue-num 4;\n        class MEDIUM queue-num 1;\n        class REALTIME queue-num 2;\n        class SIG-OAM queue-num 3;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-classes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BEST-EFFORT queue-num </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BUSINESS queue-num </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class CONTROL queue-num </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class MEDIUM queue-num </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class REALTIME queue-num </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class SIG-OAM queue-num </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -17238,12 +17060,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/cos/schedulers.conf",
-          "id": "metro_ethernet_business_services/evo/cos/schedulers"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            transmit-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        5G_SCHEDULER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS scheduler BUSINESS-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL scheduler CONTROL-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM scheduler MEDIUM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME scheduler REALTIME-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM scheduler SIG-OAM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BEST-EFFORT-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BUSINESS-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        CONTROL-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        MEDIUM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        REALTIME-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        SIG-OAM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -17288,12 +17105,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/firewall/policers.conf",
-          "id": "metro_ethernet_business_services/evo/firewall/policers"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "firewall {\n    family any {\n        filter 50MB_filter {\n            interface-specific;\n            term t1 {\n                then policer 50mbps_policer;\n            }\n        }\n    }\n    policer 50mbps_policer {\n        if-exceeding {\n            bandwidth-limit 50m;\n            burst-size-limit 10m;\n        }\n        then discard;\n    }\n    policer 5mbps_policer {\n        if-exceeding {\n            bandwidth-limit 5m;\n            burst-size-limit 1m;\n        }\n        then discard;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">firewall {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    family any {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        filter 50MB_filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface-specific;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            term t1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                then policer 50mbps_policer;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policer 50mbps_policer {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        if-exceeding {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bandwidth-limit 50m;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            burst-size-limit 10m;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policer 5mbps_policer {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        if-exceeding {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bandwidth-limit 5m;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            burst-size-limit 1m;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -17325,12 +17137,7 @@
         "evo": []
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/core-isis-mpls.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$CORE_PHYS",
@@ -17399,10 +17206,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization"
-        },
-        {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming"
         },
@@ -17462,12 +17265,7 @@
         ]
       },
       "highlights": [],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/lag-esi-multihoming.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$AC_PHYS",
@@ -17522,12 +17320,7 @@
         "sla-iterator-profile 2WD-P3: two-way-delay measurements at 1 s cycle / 2 s iteration, weighting delay and delay-variation equally — feeds Bin-and-percentile stats for SLA reporting.",
         "One maintenance-domain MD_63535 at level 5 with one maintenance-association per attachment-circuit unit. Each MEP has remote-mep entries pointing at the far-end MEPs on the peer PEs (1002 and 1006 here)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/oam/oam-cfm-perf-mon.conf",
-          "id": "metro_ethernet_business_services/evo/oam/oam-cfm-perf-mon"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$MD_NAME",
@@ -17601,10 +17394,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/policy/communities.conf",
-          "id": "metro_ethernet_business_services/evo/policy/communities"
-        },
-        {
           "raw": "junos/policy/l3vpn-export-import.conf",
           "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import"
         },
@@ -17659,10 +17448,6 @@
         "Each VRF has its own pair of policies; the per-VPN RT community name matches the routing-instance name (DRY pattern)."
       ],
       "pairWith": [
-        {
-          "raw": "evo/policy/l3vpn-export-import.conf",
-          "id": "metro_ethernet_business_services/evo/policy/l3vpn-export-import"
-        },
         {
           "raw": "junos/policy/communities.conf",
           "id": "metro_ethernet_business_services/junos/policy/communities"
@@ -17731,10 +17516,6 @@
         "The JVD does NOT deploy LDP-VPLS on Junos PEs (no `vpls-id` + `neighbor` static config exists in any Junos conf/*.conf), nor does it deploy LDP-VPLS with BGP auto-discovery (no `l2vpn-id` form). For pure LDP-VPLS see the EVO snip."
       ],
       "pairWith": [
-        {
-          "raw": "evo/services/ldp-vpls.conf  (LDP-VPLS sibling pattern, EVO only)",
-          "id": null
-        },
         {
           "raw": "junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)",
           "id": null
@@ -17819,16 +17600,16 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-elan-mac-vrf-irb.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf-irb"
-        },
-        {
           "raw": "junos/services/evpn-elan-mac-vrf.conf",
           "id": "metro_ethernet_business_services/junos/services/evpn-elan-mac-vrf"
         },
         {
           "raw": "junos/services/l3vpn-vrf.conf",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-vrf"
+        },
+        {
+          "raw": "junos/services/evpn-type5.conf  (IRB co-occurrence)",
+          "id": null
         }
       ],
       "variables": [
@@ -17895,14 +17676,14 @@
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-mac-vrf.conf",
       "topic": "EVPN-ELAN (mac-vrf) routing-instance (MEF E-LAN)",
       "seenOn": {
-        "junos": [],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "junos": [
+          "an1_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": []
       },
       "highlights": [
         "instance-type evpn (mac-vrf style for EVPN-ELAN)",
@@ -17920,10 +17701,6 @@
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming"
-        },
-        {
-          "raw": "evo/services/evpn-elan-mac-vrf.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf"
         }
       ],
       "variables": [
@@ -17993,10 +17770,6 @@
         "Junos syntax for the same pair is shown below as a reference. The JVD does NOT validate this on MX — Junos PEs in the JVD use VLAN-tagged (vlan-ccc) ACs everywhere."
       ],
       "pairWith": [
-        {
-          "raw": "evo/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-port-based"
-        },
         {
           "raw": "junos/services/evpn-vpws.conf  (vlan-tagged variant, validated)",
           "id": null
@@ -18089,10 +17862,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-type5.conf  (EVO end of the same VRF)",
-          "id": null
-        },
-        {
           "raw": "For the L2 / IRB side that owns irb.<N>:",
           "id": null
         },
@@ -18106,6 +17875,10 @@
         },
         {
           "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
+          "id": null
+        },
+        {
+          "raw": "junos/services/evpn-elan-mac-vrf-irb.conf  (IRB co-occurrence)",
           "id": null
         }
       ],
@@ -18183,10 +17956,6 @@
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming"
-        },
-        {
-          "raw": "evo/services/evpn-vpws.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-vpws"
         }
       ],
       "variables": [
@@ -18261,10 +18030,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/l2circuit-hot-standby.conf",
-          "id": "metro_ethernet_business_services/evo/services/l2circuit-hot-standby"
-        },
-        {
           "raw": "junos/apply-groups/gr-l2ckt-hs.conf  (reference apply-group shape)",
           "id": null
         }
@@ -18328,10 +18093,6 @@
         "The matching attachment-circuit is xe-0/1/2.0 (a port-mode unit, not vlan-tagged)."
       ],
       "pairWith": [
-        {
-          "raw": "evo/services/l2vpn-kompella.conf  (remote PE end)",
-          "id": null
-        },
         {
           "raw": "junos/apply-groups/gr-fatpw-label.conf  (FAT-PW for L2VPN)",
           "id": null
@@ -18412,10 +18173,6 @@
         "vrf-import / vrf-export point at the per-VRF policies in junos/policy/l3vpn-export-import.conf."
       ],
       "pairWith": [
-        {
-          "raw": "evo/services/l3vpn-vrf.conf  (EVO end of the same VRF)",
-          "id": null
-        },
         {
           "raw": "junos/apply-groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-l3vpn"
@@ -18510,12 +18267,7 @@
         "graceful-restart + multipath",
         "BCP knobs inherited from apply-groups GR-BGP-BCP"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/bgp-overlay.conf",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$LOOPBACK_V4",
@@ -18590,12 +18342,7 @@
         "BFD on family inet (100ms x 3) for sub-50ms link-failure detection",
         "Inherits BCP knobs from apply-groups GR-ISIS-BCP"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$CORE_INTF_1",
@@ -18671,12 +18418,7 @@
         "icmp-tunneling for traceroute through MPLS",
         "ipv6-tunneling enables 6PE over the SR-MPLS underlay"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/mpls-segment-routing.conf",
-          "id": "metro_ethernet_business_services/evo/transport/mpls-segment-routing"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "body": "protocols {\n    mpls {\n        admin-groups {\n            blue 1;\n            green 2;\n            red 3;\n        }\n        no-propagate-ttl;\n        icmp-tunneling;\n        label-range {\n            srgb-label-range 16000 24000;\n        }\n        ipv6-tunneling;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        admin-groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            blue </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            green </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            red </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-propagate-ttl;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        icmp-tunneling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        label-range {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            srgb-label-range </span><span style=\"color:#79C0FF\">16000</span><span style=\"color:#79C0FF\"> 24000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ipv6-tunneling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
