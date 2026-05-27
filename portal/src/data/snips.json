@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T22:11:23.222Z",
+  "generatedAt": "2026-05-27T22:21:03.512Z",
   "counts": {
     "total": 320,
     "junos": 160,
@@ -15618,10 +15618,6 @@
         {
           "raw": "evo/services/evpn-type5.conf  (IRB co-occurrence)",
           "id": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws.conf  (IRB co-occurrence)",
-          "id": null
         }
       ],
       "variables": [
@@ -15893,10 +15889,6 @@
         {
           "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
           "id": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws.conf  (IRB co-occurrence)",
-          "id": null
         }
       ],
       "variables": [
@@ -15971,14 +15963,6 @@
         },
         {
           "raw": "evo/transport/bgp-overlay.conf (family evpn signaling)",
-          "id": null
-        },
-        {
-          "raw": "evo/services/evpn-type5.conf  (IRB co-occurrence)",
-          "id": null
-        },
-        {
-          "raw": "evo/services/evpn-elan-mac-vrf-irb.conf  (IRB co-occurrence)",
           "id": null
         }
       ],
