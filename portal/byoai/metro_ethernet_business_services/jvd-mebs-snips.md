@@ -1291,7 +1291,6 @@ policy-options {
  *
  * Pair with:
  *  - evo/services/evpn-type5.conf  (IRB co-occurrence)
- *  - evo/services/evpn-vpws.conf  (IRB co-occurrence)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME   e.g. evpn_group_60_4000
@@ -1503,7 +1502,6 @@ routing-instances {
  *  - evo/apply-groups/gr-l3vpn.conf
  *  - evo/policy/l3vpn-export-import.conf
  *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
- *  - evo/services/evpn-vpws.conf  (IRB co-occurrence)
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
@@ -1560,8 +1558,6 @@ routing-instances {
  * Pair with:
  *  - evo/interfaces/lag-esi-multihoming.conf (the AC interface)
  *  - evo/transport/bgp-overlay.conf (family evpn signaling)
- *  - evo/services/evpn-type5.conf  (IRB co-occurrence)
- *  - evo/services/evpn-elan-mac-vrf-irb.conf  (IRB co-occurrence)
  *
  * Variables (example values from ma1-1_acx7024):
  *   $INSTANCE_NAME       e.g. evpn_group_30_2400
