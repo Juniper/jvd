@@ -57,7 +57,7 @@ This solution is extended by the [Metro as a Service (MaaS) JVD](https://www.jun
   [PDF Test Brief](https://www.juniper.net/documentation/us/en/software/jvd/test-report-brief-metro-ebs-mef-03-02.pdf)
 
 - **GitHub Configurations:**  
-  [Metro as a Service Configs](https://github.com/Juniper/jvd/tree/main/Service%20Provider/Metro%20as%20a%20Service)
+  [Metro as a Service](../metro_as_a_service/)
 
 ---
 
