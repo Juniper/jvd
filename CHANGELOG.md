@@ -55,6 +55,13 @@ was also refreshed for accuracy.
   config, and a missing closing brace on one class-of-service
   block was repaired.
 
+- **JVD Portal snip browser** — the new MaaS library is wired
+  into the [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
+  on the JVD Portal. Browse by JVD, technology, or use case
+  (Service Provider / Metro / Business Services / MEF); each
+  snip page renders the body with syntax highlighting and
+  resolves `Pair with` links to other MaaS snips.
+
 ### What this means for you
 
 - If you're deploying Metro Ethernet services on Juniper MX or
@@ -86,7 +93,8 @@ was also refreshed for accuracy.
 | --- | ---: | ---: |
 | `service_provider/metro_as_a_service/configuration/snips` | 114 | 0 |
 | `service_provider/metro_as_a_service/configuration/conf` | 0 | 10 |
-| **TOTAL** | **114** | **10** |
+| `portal` (snip browser wiring) | 0 | 4 |
+| **TOTAL** | **114** | **14** |
 
 </details>
 
