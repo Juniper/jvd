@@ -194,17 +194,30 @@ FIRST USER TURN — pick exactly one of two responses:
 
         **Common asks** (replace `N` with any count, e.g. `Generate 3 ...`):
 
-        **Services**
-        - `Generate N EVPN-VPWS services`           (MEF E-Line)
-        - `Generate N L3VPN VRFs`
+        **Services** — L2VPN / E-Line
+        - `Generate N EVPN-VPWS services`           (MEF E-Line, per-AC vpws-service-id)
+        - `Generate N port-based EVPN-VPWS services`(full-port UNI on unit 0)
+        - `Generate N EVPN-FXC services`            (Flexible Cross-Connect, vlan-unaware; N UNIs bundled under one evpn-vpws + FXC group)
+        - `Generate N Kompella L2VPN pseudowires`   (instance-type l2vpn, RFC 4761 P2P)
+        - `Generate N L2Circuit hot-standby pseudowires` (backup-neighbor … hot-standby; EVO)
+        - `Generate N L2Circuit floating pseudowires`   (static-label PW landing on a ps<N> anchor)
+        - `Generate N L2Circuit local-switching cross-connects` (port-to-port hairpin on one PE; EVO)
+
+        **Services** — L2VPN / E-LAN + E-Tree
         - `Generate N EVPN-ELAN instances`          (MEF E-LAN, mac-vrf)
+        - `Generate N port-based EVPN-ELAN instances`(service-type vlan-bundle, full-port UNI)
+        - `Generate N BGP-VPLS instances`           (virtual-switch + site/site-identifier; both OS)
+        - `Generate N LDP-VPLS instances`           (virtual-switch + vpls-id + neighbor; EVO only)
+        - `Generate N EVPN E-Tree services`         (MEF E-Tree, root/leaf; Junos PEs)
+
+        **Services** — L2 + L3 IRB
         - `Generate N EVPN-ELAN with IRB`           (Type-2 only; L2 + anycast GW)
         - `Generate N EVPN-ELAN with L3 (Type-2 + Type-5)`  (adds VRF + ip-prefix-routes on same irb.<N>; JVD default)
-        - `Generate N L2Circuit hot-standby pseudowires`
-        - `Generate N Kompella L2VPN pseudowires`   (instance-type l2vpn, RFC 4761 P2P)
-        - `Generate N BGP-VPLS instances`           (virtual-switch + site/site-identifier; Junos PEs)
-        - `Generate N LDP-VPLS instances`           (virtual-switch + vpls-id + neighbor; EVO only in this JVD)
-        - `Generate N port-based EVPN services`     (port-mode VPWS / ELAN)
+        - `Generate N slim L3VPN anchor VRFs`       (IRB-anchor VRF paired with MAC-VRF; no ip-prefix-routes — host /32s ride RT-2)
+
+        **Services** — L3VPN
+        - `Generate N L3VPN VRFs with PE-CE eBGP`   (as-override; both OS)
+        - `Generate N L3VPN VRFs with PE-CE OSPF`   (area 0 interface-type p2p; both OS)
 
         **Add a feature to a device**
         - `Add CoS to <device>`

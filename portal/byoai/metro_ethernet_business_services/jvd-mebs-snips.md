@@ -7,7 +7,7 @@
  * Topic:   BGP best-current-practice timers (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos PEs)
- *   EVO:   ma1-1_acx7024 (and other EVO PEs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Identical to junos/apply-groups/gr-bgp-bcp.conf.
@@ -51,7 +51,7 @@ groups {
  * Topic:   Core-facing interface baseline (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos PEs)
- *   EVO:   ma1-1_acx7024 (and other EVO PEs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Identical structure to junos/apply-groups/gr-core-intf.conf.
@@ -66,6 +66,7 @@ groups {
  * Pair with:
  *  - evo/transport/isis-srmpls-tilfa.conf
  *  - evo/transport/mpls-segment-routing.conf
+ *  - evo/interfaces/core-isis-mpls.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -114,18 +115,24 @@ groups {
  * Topic:   Customer-facing interface baseline — multihomed variant (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos ANs that multihome to AGs)
- *   EVO:   ma1-1_acx7024 ma1-2_acx7024 (and other EVO MH ANs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - Same as GR-EDGE-INTF but WITHOUT hold-time. Multihomed bundles
- *    rely on EVPN ESI / EVPN-MH convergence (fast DF election +
- *    aliasing) for sub-second failover, so port-level damping would
- *    only delay convergence.
+ *  - Same as GR-EDGE-INTF but WITHOUT a port-restoration delay
+ *    (`hold-time up`). Multihomed bundles rely on EVPN ESI / EVPN-MH
+ *    convergence (fast DF election + aliasing) for sub-second
+ *    failover, so port-level damping on the bring-up direction would
+ *    only delay convergence. `hold-time down 0` stays to keep
+ *    failure detection immediate.
+ *  - LACP `hold-time up 180` (vs 2 sec in GR-EDGE-INTF) lets the ESI
+ *    peer aggregate before this PE starts forwarding, avoiding
+ *    micro-loops during bundle bring-up.
  *  - Pair this group with a parent ae* unit that has esi { all-active }
  *    — see evo/interfaces/lag-esi-multihoming.conf
  *
  * Pair with:
  *  - evo/interfaces/lag-esi-multihoming.conf
+ *  - evo/apply-groups/gr-edge-intf.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -140,7 +147,25 @@ groups {
                 traps;
                 flexible-vlan-tagging;
                 mtu 9102;
+                hold-time down 0;
                 encapsulation flexible-ethernet-services;
+            }
+            <ae*> {
+                aggregated-ether-options {
+                    lacp {
+                        hold-time up 180;
+                    }
+                }
+            }
+            "<[egx][te]-*>" {
+                optics-options {
+                    alarm low-light-alarm {
+                        link-down;
+                    }
+                    warning low-light-warning {
+                        syslog;
+                    }
+                }
             }
         }
     }
@@ -154,7 +179,7 @@ groups {
  * Topic:   Customer-facing interface baseline (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos ANs)
- *   EVO:   ma1-1_acx7024 (and other EVO ANs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Identical structure to junos/apply-groups/gr-edge-intf.conf
@@ -171,6 +196,7 @@ groups {
  * Pair with:
  *  - evo/apply-groups/gr-edge-intf-mh.conf (multihomed variant)
  *  - evo/apply-groups/gr-lag-member.conf
+ *  - evo/interfaces/edge-vlan-normalization.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -343,7 +369,7 @@ groups {
  * Topic:   ISIS best-current-practice timers (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos PEs)
- *   EVO:   ma1-1_acx7024 (and other EVO PEs)
+ *   EVO:   an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509 ag1-1_acx7100-32c ag1-2_acx7100-32c
  *
  * Highlights:
  *  - Identical to junos/apply-groups/gr-isis-bcp.conf.
@@ -354,7 +380,8 @@ groups {
  *    initial reaction with a backoff window, the textbook BCP.
  *  - overload bit timeout 300s + advertise-high-metrics → router
  *    comes up "drained" so traffic doesn't shift onto it before BGP
- *    converges.
+ *    converges. Omitted on ag1-1/ag1-2 aggregation switches (they
+ *    don't run BGP and have no reason to drain).
  *
  * Pair with:
  *  - evo/transport/isis-srmpls-tilfa.conf
@@ -397,8 +424,8 @@ groups {
 /*
  * Apply-group: GR-ISIS-BFD
  * Seen on:
- *   Junos: (all Junos)
- *   EVO:   (all EVO)
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
  *
  * Aggressive BFD overlay applied to every ISIS interface. Used in
  * combination with GR-ISIS-BCP via:
@@ -450,7 +477,7 @@ groups {
  * Apply-group: GR-L2CKT-HS
  * Seen on:
  *   Junos: (none in JVD)
- *   EVO:   an3_acx7100-48l
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Adds hot-standby (active/standby) protection knobs to every L2Circuit
  * pseudowire. Combined with backup-neighbor under each PW, this delivers
@@ -612,7 +639,7 @@ groups {
  * Topic:   6-class forwarding-classes (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos PEs)
- *   EVO:   ma1-1_acx7024 (and other EVO PEs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Identical 6-class queue model as junos/cos/forwarding-classes.conf
@@ -715,7 +742,7 @@ class-of-service {
  * Topic:   Schedulers and scheduler-map for the 6-class model (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos PEs)
- *   EVO:   ma1-1_acx7024 (and other EVO PEs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Same scheduler shape as junos/cos/schedulers.conf — REALTIME is
@@ -790,7 +817,7 @@ class-of-service {
  * Topic:   Rate-limit policers (EVO)
  * Seen on:
  *   Junos: an1_mx204 (and other Junos ANs)
- *   EVO:   ma1-1_acx7024 (and other EVO ANs)
+ *   EVO:   an3_acx7100-48l an4_acx710 ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Same 5 Mbps and 50 Mbps templates as junos/firewall/policers.conf —
@@ -932,6 +959,11 @@ interfaces {
  * encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF.
  *
  * Pair with:
+ *  - evo/apply-groups/gr-edge-intf.conf
+ *  - evo/firewall/policers.conf
+ *  - evo/services/l2circuit-floating-pw.conf
+ *  - evo/services/l2circuit-lsw.conf
+ *  - evo/services/l2circuit-hot-standby.conf
  *
  * Variables (example values from an3_acx7100-48l):
  *   $AC_PHYS    e.g. et-0/0/0   (the parent port; the per-unit
@@ -988,7 +1020,7 @@ interfaces {
  * Topic:   Edge LAG with per-unit ESI for EVPN multihoming (EVO)
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024
  *
  * Highlights:
  *  - All-active EVPN multihoming via ESI-LAG: ae12 with LACP
@@ -1011,6 +1043,7 @@ interfaces {
  * Pair with:
  *  - evo/services/evpn-vpws.conf
  *  - evo/apply-groups/gr-edge-intf-mh.conf
+ *  - evo/services/evpn-elan-mac-vrf.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $AC_PHYS         e.g. ae12
@@ -1207,7 +1240,7 @@ policy-options {
  * Topic:   L3VPN per-VRF export/import policies
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   EVO:   an3_acx7100-48l
  *
  * Highlights:
  *  - One PS-…-EXPORT and one PS-…-IMPORT per L3VPN VRF — applied via
@@ -1223,6 +1256,10 @@ policy-options {
  * single example is enough to understand the per-service template.
  *
  * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/services/evpn-type5.conf
+ *  - evo/services/l3vpn-bgp.conf
+ *  - evo/services/l3vpn-ospf.conf
  *
  * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_2101
@@ -1266,14 +1303,88 @@ policy-options {
 }
 ```
 
+## evo/services/bgp-vpls.conf
+
+```
+/*
+ * Topic:   BGP-VPLS (RFC 4761 Kompella-signaled VPLS) on EVO ACX
+ * Seen on:
+ *   Junos: (cross-OS peer in junos/services/bgp-vpls.conf)
+ *   EVO:   ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type virtual-switch` + `protocols vpls site <r-name>
+ *    { site-identifier <N>; }` is the Kompella-VPLS signature
+ *    (site identifiers are how PEs compute the VPLS full-mesh).
+ *  - `service-type single` — single broadcast domain (one VLAN);
+ *    `site-range 10; label-block-size 8;` reserve a contiguous
+ *    label block for the site so all 8 remote sites share one
+ *    per-site PW set.
+ *  - `vlans { <BD_NAME> { interface <AC>; } }` is the EVO/ACX
+ *    bridge-domain shape (no per-BD `vlan-id` because the
+ *    parent interface unit carries the customer VLAN; the BD
+ *    inherits it via `flexible-vlan-tagging`).
+ *  - `no-tunnel-services` keeps the VPLS encapsulation/
+ *    de-encapsulation in software/silicon directly (no
+ *    tunnel-services PIC required).
+ *  - `vrf-export $INSTANCE_NAME; vrf-target target:$AS_LOCAL:$RT_ID;`
+ *    — the export policy lives in evo/policy/communities.conf
+ *    (added the per-EVI export community).
+ *
+ * Pair with:
+ *  - evo/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *  - evo/policy/communities.conf
+ *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
+ *      / flexible-vlan-tagging — supplies the AC interface plumbing)
+ *  - junos/services/bgp-vpls.conf  (cross-OS peer)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from ma1-2_acx7024 / vpls_group_103_600):
+ *   $INSTANCE_NAME    e.g. vpls_group_103_600
+ *   $L2VPN_SITE       e.g. r18
+ *   $SITE_ID          e.g. 5
+ *   $RD               e.g. 63535:2193200
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 1093200
+ *   $BD_NAME          e.g. vlan600
+ *   $AC_INTF          e.g. et-0/0/14.600
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $L2VPN_SITE {
+                    site-identifier $SITE_ID;
+                }
+                service-type single;
+                site-range 10;
+                label-block-size 8;
+                no-tunnel-services;
+            }
+        }
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+        vlans {
+            $BD_NAME {
+                interface $AC_INTF;
+            }
+        }
+    }
+}
+```
+
 ## evo/services/evpn-elan-mac-vrf-irb.conf
 
 ```
 /*
  * Topic:   EVPN-ELAN with mac-vrf and IRB integration
  * Seen on:
- *   Junos: —
- *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Same MEF E-LAN role as evpn-elan-mac-vrf__an1-mx204.conf, but using
  * the newer mac-vrf instance-type with vlan-based service-type and an
@@ -1291,6 +1402,18 @@ policy-options {
  *
  * Pair with:
  *  - evo/services/evpn-type5.conf  (IRB co-occurrence)
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf  (cross-OS
+ *      MX counterpart on the same VLAN/IRB)
+ *
+ * JVD service mapping:
+ *   50 instances total (high 50 / med 0 / low 0)
+ *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
+ *   Example: evpn_group_60_4000 (RD 1.1.0.2:14000, RT target:61535:14000)
+ *     an3_acx7100-48l  et-0/0/50.2000
+ *     meg1_acx7100-32c  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     meg2_acx7509  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     mse1_mx304  xe-0/0/3:1.3000
+ *     (+1 more endpoints)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME   e.g. evpn_group_60_4000
@@ -1334,7 +1457,7 @@ routing-instances {
 /*
  * Topic:   EVPN-ELAN via mac-vrf routing-instance (MEF E-LAN) — EVO
  * Seen on:
- *   Junos: (none — Junos MX in this JVD use instance-type virtual-switch
+ *   Junos: (none)
  *           with `protocols evpn`; see junos/services/evpn-elan-mac-vrf.conf
  *           for the closest Junos analogue and notes on the difference)
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
@@ -1355,6 +1478,16 @@ routing-instances {
  * Pair with:
  *  - evo/transport/bgp-overlay.conf (family evpn signaling)
  *  - evo/interfaces/lag-esi-multihoming.conf
+ *
+ * JVD service mapping:
+ *   375 instances total (high 175 / med 200 / low 0)
+ *   On devices: meg1_acx7100-32c (375), meg2_acx7509 (375), an3_acx7100-48l (350), an1_mx204 (100), an2_acx5448 (100), ma1-1_acx7024 (100), +5 more
+ *   Example: evpn_group_60_4000 (RD 1.1.0.2:14000, RT target:61535:14000)
+ *     an3_acx7100-48l  et-0/0/50.2000
+ *     meg1_acx7100-32c  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     meg2_acx7509  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     mse1_mx304  xe-0/0/3:1.3000
+ *     (+1 more endpoints)
  *
  * Variables (example values from ma1-1_acx7024):
  *   $INSTANCE_NAME   e.g. evpn_group_90_700
@@ -1391,78 +1524,185 @@ routing-instances {
 }
 ```
 
-## evo/services/evpn-port-based.conf
+## evo/services/evpn-fxc.conf
 
 ```
 /*
- * Topic:   Port-based EVPN-VPWS and port-based EVPN-ELAN
+ * Topic:   EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC
+ *          UNIs aggregated into a single EVPN-VPWS service-id (EVO)
  * Seen on:
- *   Junos: —
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
- *              EVPN_VPWS_PORT_BASED, EVPN_ELAN_PORT_BASED }
+ *   Junos: (cross-OS peer in junos/services/evpn-fxc.conf)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - Both instances attach a single physical port (et-0/0/7.0,
- *    et-0/0/11.0) — useful for true Ethernet Private Line (EPL) /
- *    Ethernet Private LAN (EP-LAN) services where the customer owns
- *    the entire UNI (no VLAN tagging at the SP edge).
- *
- *  - EVPN_VPWS_PORT_BASED:
- *      instance-type evpn-vpws + vpws-service-id local/remote pair
- *      (signalled via EVPN Type-1)
- *
- *  - EVPN_ELAN_PORT_BASED:
- *      instance-type mac-vrf with service-type vlan-bundle
- *      (multiple customer VLANs share one bridge-domain / one mac-vrf)
- *
- * Pair with evo/apply-groups/gr-fatpw-label.conf for the
- * matching flow-label knobs on these naming patterns.
+ *  - Identical body shape to junos/services/evpn-fxc.conf; the EVO
+ *    side rides under the same `evpn-vpws` + FXC group {} +
+ *    service-id pair, just on the ACX/EVO PE.
+ *  - service-id local/remote integers are swapped relative to the
+ *    Junos PE (the pair forms one bidirectional EVPN-VPWS PW).
  *
  * Pair with:
+ *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - evo/policy/communities.conf
+ *  - evo/policy/l3vpn-export-import.conf  (vrf-export policy
+ *      shape — points at a per-EVI policy of the same name)
+ *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
+ *      / flexible-vlan-tagging on the FXC ACs)
+ *  - junos/services/evpn-fxc.conf  (cross-OS peer)
  *
- * Variables (example values from an3_acx7100-48l):
- *   $AC_INTF_VPWS         e.g. et-0/0/7.0
- *   $AC_INTF_ELAN         e.g. et-0/0/11.0
- *   $BD_NAME              e.g. v-2
- *   $LOOPBACK_V4          e.g. 1.1.0.2
- *   $RD_ID_VPWS           e.g. 5500
- *   $RT_ID_VPWS           e.g. 5500
- *   $RD_ID_ELAN           e.g. 5565
- *   $RT_ID_ELAN           e.g. 6565
- *   $AS_LOCAL             e.g. 63535
- *   $VPWS_SVC_ID_LOCAL    e.g. 1
- *   $VPWS_SVC_ID_REMOTE   e.g. 2
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from an3_acx7100-48l / evpn_group_40_1):
+ *   $INSTANCE_NAME    e.g. evpn_group_40_1
+ *   $AC_INTF          e.g. et-0/0/0
+ *   $UNIT_A           e.g. 800
+ *   $UNIT_B           e.g. 1800
+ *   $UNIT_C           e.g. 2300
+ *   $SVC_ID_LOCAL     e.g. 1
+ *   $SVC_ID_REMOTE    e.g. 2
+ *   $LOOPBACK_V4      e.g. 1.1.0.2
+ *   $RD_ID            e.g. 401
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 401
  */
 routing-instances {
-    EVPN_VPWS_PORT_BASED {
+    $INSTANCE_NAME {
         instance-type evpn-vpws;
         protocols {
             evpn {
-                interface $AC_INTF_VPWS {
-                    vpws-service-id {
-                        local $VPWS_SVC_ID_LOCAL;
-                        remote $VPWS_SVC_ID_REMOTE;
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT_A;
+                    interface $AC_INTF.$UNIT_B;
+                    interface $AC_INTF.$UNIT_C;
+                    service-id {
+                        local $SVC_ID_LOCAL;
+                        remote $SVC_ID_REMOTE;
                     }
                 }
             }
         }
-        interface $AC_INTF_VPWS;
-        route-distinguisher $LOOPBACK_V4:$RD_ID_VPWS;
-        vrf-target target:$AS_LOCAL:$RT_ID_VPWS;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
     }
-    EVPN_ELAN_PORT_BASED {
+}
+```
+
+## evo/services/evpn-port-based.conf
+
+```
+/*
+ * Topic:   Port-based EVPN-ELAN (mac-vrf + service-type vlan-bundle,
+ *          EVO ACX)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024
+ *          meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type mac-vrf` + `service-type vlan-bundle` + a
+ *    single `vlans { $BD_NAME { interface $AC; } }` block. The
+ *    `vlan-bundle` service-type pools multiple customer VLANs
+ *    on one UNI under one MAC-VRF (the EP-LAN / EPL-bundle case);
+ *    no per-VLAN `vlan-id` is set on the BD because the parent
+ *    interface unit carries the customer tags.
+ *  - `protocols { evpn; }` is the minimal EVPN block (encapsulation
+ *    + transport defaults come from `apply-groups GR-EDGE-EVPN` or
+ *    the global PE template).
+ *  - Useful for Ethernet Private LAN where the customer owns the
+ *    UNI and several VLANs ride the same broadcast domain.
+ *  - Port-based EVPN-VPWS variants live in evo/services/evpn-vpws.conf
+ *    (per-port unit 0 + per-instance vpws-service-id).
+ *
+ * Pair with:
+ *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - evo/policy/communities.conf
+ *  - junos/services/evpn-port-based.conf  (cross-OS counterpart;
+ *      Junos uses `instance-type evpn + vlan-id none +
+ *      no-normalization` instead of mac-vrf)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from an3_acx7100-48l / EVPN_ELAN_PORT_BASED):
+ *   $INSTANCE_NAME    e.g. EVPN_ELAN_PORT_BASED (or evpn_group_80_1000)
+ *   $BD_NAME          e.g. v-2 (or BD_evpn_group_80_1000)
+ *   $AC_INTF          e.g. et-0/0/11.0 (or et-0/0/50.1000)
+ *   $LOOPBACK_V4      e.g. 1.1.0.2
+ *   $RD_ID            e.g. 5565
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 6565
+ */
+routing-instances {
+    $INSTANCE_NAME {
         instance-type mac-vrf;
         protocols {
             evpn;
         }
         service-type vlan-bundle;
-        route-distinguisher $LOOPBACK_V4:$RD_ID_ELAN;
-        vrf-target target:$AS_LOCAL:$RT_ID_ELAN;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
         vlans {
             $BD_NAME {
-                interface $AC_INTF_ELAN;
+                interface $AC_INTF;
             }
         }
+    }
+}
+```
+
+## evo/services/evpn-type5-anchor.conf
+
+```
+/*
+ * Topic:   Slim L3VPN IRB-anchor VRF (EVO ACX) — paired with EVPN-ELAN
+ *          MAC-VRF; no explicit `protocols evpn ip-prefix-routes` block
+ * Seen on:
+ *   Junos: (cross-OS peer in junos/services/evpn-type5-anchor.conf)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - EVO mirror of junos/services/evpn-type5-anchor.conf. Same
+ *    role: the L3 half of EVPN-IRB without an explicit RT-5
+ *    ip-prefix-routes block (host routes come via RT-2 MAC+IP
+ *    from the paired MAC-VRF).
+ *  - On the EVO AN role (`an3`) the body carries the multipath
+ *    knob inline (`multipath { vpn-unequal-cost; }`) since EVO
+ *    here doesn't pull from a Junos-style apply-group. The MEG
+ *    PEs omit multipath.
+ *  - Compat-graph family `service.evpn-type5` covers both this
+ *    slim variant and the explicit `evpn-type5.conf` variant.
+ *
+ * Pair with:
+ *  - evo/services/evpn-elan-mac-vrf-irb.conf
+ *  - junos/services/evpn-type5-anchor.conf  (cross-OS peer)
+ *  - evo/policy/l3vpn-export-import.conf
+ *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4050):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4050
+ *   $ROUTER_ID        e.g. 1.1.0.2
+ *   $IRB_UNIT         e.g. 4050   (selects irb.<unit>)
+ *   $RD               e.g. 64400:15000
+ *   $AS_LOCAL         e.g. 51535
+ *   $RT_ID            e.g. 15000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+        vrf-table-label;
     }
 }
 ```
@@ -1473,7 +1713,7 @@ routing-instances {
 /*
  * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)
  * Seen on:
- *   Junos: mse1_mx304 mse2_mx304
+ *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -1502,6 +1742,15 @@ routing-instances {
  *  - evo/apply-groups/gr-l3vpn.conf
  *  - evo/policy/l3vpn-export-import.conf
  *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *
+ * JVD service mapping:
+ *   175 instances total (high 50 / med 100 / low 25)
+ *   On devices: an3_acx7100-48l (175), mse1_mx304 (175), mse2_mx304 (175), ma3_acx7100-48l (100), meg1_acx7100-32c (75), meg2_acx7509 (75)
+ *   Example: METRO_L3VPN_2001 (RD 63535:2001, RT —)
+ *     an3_acx7100-48l  et-0/0/4.2001
+ *     ma3_acx7100-48l  et-0/0/5.2001
+ *     mse1_mx304  et-0/0/5.2001
+ *     mse2_mx304  xe-0/0/15:0.2001
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
@@ -1541,8 +1790,8 @@ routing-instances {
 /*
  * Topic:   EVPN-VPWS routing-instance (MEF E-Line) — EVO
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 mse1_mx304
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l an4_acx710 ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Same syntax as junos/services/evpn-vpws.conf — instance-type
@@ -1558,6 +1807,13 @@ routing-instances {
  * Pair with:
  *  - evo/interfaces/lag-esi-multihoming.conf (the AC interface)
  *  - evo/transport/bgp-overlay.conf (family evpn signaling)
+ *
+ * JVD service mapping:
+ *   2161 instances total (high 1661 / med 500 / low 0)
+ *   On devices: an3_acx7100-48l (2101), meg1_acx7100-32c (1050), meg2_acx7509 (1050), mse1_mx304 (500), ma1-1_acx7024 (451), ma1-2_acx7024 (450), +4 more
+ *   Example: EVPN_VPWS_PORT_BASED (RD 1.1.0.2:5500, RT target:63535:5500)
+ *     an3_acx7100-48l  et-0/0/7.0
+ *     ma1-1_acx7024  et-0/0/6.0
  *
  * Variables (example values from ma1-1_acx7024):
  *   $INSTANCE_NAME       e.g. evpn_group_30_2400
@@ -1589,14 +1845,83 @@ routing-instances {
 }
 ```
 
+## evo/services/l2circuit-floating-pw.conf
+
+```
+/*
+ * Topic:   Static targeted-LDP L2Circuit pseudowire on a customer-facing
+ *          attachment circuit (EVO)
+ * Seen on:
+ *   Junos: (none — Junos endpoint of the same PW lives behind a
+ *           pseudowire-subscriber interface; see
+ *           junos/services/l2circuit-floating-pw.conf)
+ *   EVO:   (none in this JVD — the EVO ACX ends of these floating
+ *           pseudowires terminate as plain static l2circuit on a
+ *           vlan-ccc UNI; the `ps<N>` head-end body is Junos-only.
+ *           This snip is kept as a reference template for designs
+ *           where the EVO side terminates inside a ps-subscriber
+ *           anchor; ma1-2_acx7024 is the JVD's tail PE today.)
+ *
+ * Highlights:
+ *  - Single-neighbor L2Circuit PW (NO backup-neighbor — this is the
+ *    "static stitched / floating-PW" pattern, not the hot-standby
+ *    pattern in evo/services/l2circuit-hot-standby.conf).
+ *  - `static { incoming-label / outgoing-label }` pins the PW label
+ *    pair manually rather than relying on tLDP signalling — this is
+ *    what makes the PW "static" and lets it stitch into a remote
+ *    pseudowire-subscriber interface on the MX side, where Junos
+ *    bridges the PW into an EVPN-ELAN instance (floating-PW pattern).
+ *  - encapsulation-type ethernet-vlan: customer VLAN tag carried
+ *    across the PW (EVPL flavour).
+ *  - community CM-TC-MAP2GOLD lets the PW follow a specific BGP-CT
+ *    colour underlay (see evo/policy/communities.conf).
+ *  - No control-word, no flow-label — this PW is sized for low-rate
+ *    business services and rides BGP-CT colour selection instead of
+ *    FAT-PW ECMP.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf  (CM-TC-MAP2GOLD definition)
+ *  - evo/interfaces/edge-vlan-normalization.conf  (vlan-ccc AC shape)
+ *  - junos/services/l2circuit-floating-pw.conf  (cross-OS PW peer
+ *      on the MX, where the PW lands on a ps<N>.0 pseudowire-subscriber
+ *      interface and is stitched into an EVPN-ELAN routing-instance)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from ma1-2_acx7024):
+ *   $REMOTE_PE_V4    e.g. 1.1.10.10
+ *   $AC_INTF         e.g. et-0/0/14
+ *   $UNIT            e.g. 301
+ *   $LABEL_IN        e.g. 1000001
+ *   $LABEL_OUT       e.g. 1000001
+ *   $VC_ID           e.g. 1001
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_INTF.$UNIT {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                community CM-TC-MAP2GOLD;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}
+```
+
 ## evo/services/l2circuit-hot-standby.conf
 
 ```
 /*
  * Topic:   L2Circuit pseudowire with backup-neighbor hot-standby
  * Seen on:
- *   Junos: (none in JVD)
- *   EVO:   an3_acx7100-48l
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Static (LDP-signalled) L2Circuit PWs to a primary neighbor
@@ -1611,9 +1936,15 @@ routing-instances {
  *    follow a specific BGP-CT colour underlay
  *
  * Pair with:
+ *  - evo/policy/communities.conf
  *  - evo/apply-groups/gr-l2ckt-hs.conf (hot-standby knobs)
  *  - evo/apply-groups/gr-fatpw-lb.conf (forwarding-options)
  *  - evo/policy/communities.conf (CM-TC-MAP2GOLD definition)
+ *  - evo/interfaces/edge-vlan-normalization.conf  (the vlan-ccc
+ *      AC unit this PW terminates on, e.g. et-0/0/0.3000)
+ *
+ * JVD service mapping:
+ *   (no instances found in topology registry)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $REMOTE_PE_V4    e.g. 1.1.0.6
@@ -1645,13 +1976,66 @@ protocols {
 }
 ```
 
+## evo/services/l2circuit-lsw.conf
+
+```
+/*
+ * Topic:   L2Circuit local-switching (port-to-port cross-connect on
+ *          a single PE; MEF E-Access hand-off pattern) (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `l2circuit local-switching { interface AC1 { end-interface AC2 } }`
+ *    cross-connects two ATTACHMENT-CIRCUIT units on the SAME PE —
+ *    no PW signalling, no neighbor, no MPLS underlay involved. The
+ *    PE simply forwards frames between the two ACs at the L2 layer.
+ *  - Used in MEF E-Access scenarios where one customer-facing port
+ *    hands off to an upstream partner-network port on the same PE
+ *    (the PE acts as a stitching point inside the metro).
+ *  - `ignore-mtu-mismatch` lets the two ACs run with different MTU
+ *    configs without rejecting the cross-connect at commit.
+ *  - Both AC units are VLAN-tagged CCC interfaces (encapsulation
+ *    vlan-ccc; see evo/interfaces/edge-vlan-norm.conf for the AC
+ *    shape).
+ *  - Scale here is "one local-switching interface block per service"
+ *    (e.g. et-0/0/5.3000 <-> et-0/0/51.4010 is one E-Access flow).
+ *
+ * Pair with:
+ *  - evo/interfaces/edge-vlan-normalization.conf  (vlan-ccc AC unit
+ *      shape on both sides of the cross-connect)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from ma3_acx7100-48l):
+ *   $AC_INTF_1    e.g. et-0/0/5
+ *   $UNIT_1       e.g. 3000
+ *   $AC_INTF_2    e.g. et-0/0/51
+ *   $UNIT_2       e.g. 4010
+ */
+protocols {
+    l2circuit {
+        local-switching {
+            interface $AC_INTF_1.$UNIT_1 {
+                end-interface {
+                    interface $AC_INTF_2.$UNIT_2;
+                }
+                ignore-mtu-mismatch;
+            }
+        }
+    }
+}
+```
+
 ## evo/services/l2vpn-kompella.conf
 
 ```
 /*
  * Topic:   BGP-signalled L2VPN (Kompella) routing-instance, port-based
  * Seen on:
- *   Junos: ma5_mx204
+ *   Junos: (none)
  *   EVO:   an3_acx7100-48l
  *
  * Highlights:
@@ -1665,6 +2049,13 @@ protocols {
  * Pair with:
  *  - evo/apply-groups/gr-fatpw-label.conf (matches L2VPN_PORT_BASED)
  *
+ * JVD service mapping:
+ *   201 instances total (high 102 / med 99 / low 0)
+ *   On devices: an3_acx7100-48l (201), ma5_mx204 (201)
+ *   Example: L2VPN_PORT_BASED (RD 63535:6500, RT target:63535:6500)
+ *     an3_acx7100-48l  et-0/0/8.0
+ *     ma5_mx204  xe-0/1/2.0
+ *
  * Variables (example values from an3_acx7100-48l):
  *   $L2VPN_SITE              e.g. r2
  *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
@@ -1674,7 +2065,7 @@ protocols {
  *   $RT                      e.g. 63535:6500
  */
 routing-instances {
-    L2VPN_PORT_BASED {
+    $INSTANCE_NAME {
         instance-type l2vpn;
         protocols {
             l2vpn {
@@ -1695,40 +2086,44 @@ routing-instances {
 }
 ```
 
-## evo/services/l3vpn-vrf.conf
+## evo/services/l3vpn-bgp.conf
 
 ```
 /*
- * Topic:   L3VPN routing-instance (vrf) with PE-CE BGP
+ * Topic:   L3VPN VRF with PE-CE eBGP and as-override (EVO ACX)
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: (cross-OS peer in junos/services/l3vpn-bgp.conf)
+ *   EVO:   ma3_acx7100-48l
  *
  * Highlights:
- *  - instance-type vrf
- *  - PE-CE BGP session: eBGP (peer-as 64514 vs local 63535) with
- *    as-override so customer routes don't see the provider AS twice
- *  - Per-VRF route-distinguisher (63535:2101) keeps overlapping customer
- *    prefixes unique inside the BGP-VPN tables
- *  - Per-direction policies (PS-…-IMPORT / -EXPORT) — see
- *    evo/policy/l3vpn-export-import.conf for the policy text
- *  - vrf-table-label provided by apply-group GR-L3VPN
- *    (see evo/apply-groups/gr-l3vpn.conf)
+ *  - EVO-side mirror of junos/services/l3vpn-bgp.conf. Same shape:
+ *    `instance-type vrf` + `protocols bgp group v4Ixia` with
+ *    `peer-as <CUST_ASN>` and `as-override`.
+ *  - On EVO the `routing-options router-id;` is the only
+ *    routing-options child; no `auto-export` in the deployed body
+ *    (EVO ACX deployments here use per-VRF RT-import policies
+ *    rather than the MX shared-service auto-export pattern).
+ *  - `vrf-import / vrf-export` point at the per-VRF policies in
+ *    evo/policy/l3vpn-export-import.conf.
  *
  * Pair with:
- *  - evo/apply-groups/gr-l3vpn.conf
  *  - evo/policy/l3vpn-export-import.conf
+ *  - evo/policy/communities.conf
+ *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - evo/services/l3vpn-ospf.conf  (sibling PE-CE peering shape)
+ *  - junos/services/l3vpn-bgp.conf  (cross-OS peer)
  *
- * Variables (example values from an3_acx7100-48l / instance METRO_BGPv4_L3VPN_2101):
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from ma3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_2101
- *                     (the import/export policies are named
- *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
- *   $ROUTER_ID        e.g. 1.1.0.2
- *   $AC_INTF          e.g. et-0/0/4.2101
- *   $CE_PEER_V4       e.g. 13.2.0.2
- *   $PE_LOCAL_V4      e.g. 13.2.0.1
+ *   $ROUTER_ID        e.g. 1.1.0.15
+ *   $AC_INTF          e.g. et-0/0/5.2101
+ *   $CE_PEER_V4       e.g. 115.2.0.2
+ *   $PE_LOCAL_V4      e.g. 115.2.0.1
  *   $AS_CUST          e.g. 64514
- *   $RD               e.g. 63535:2101
+ *   $RD               e.g. 63536:2101
  */
 routing-instances {
     $INSTANCE_NAME {
@@ -1752,8 +2147,72 @@ routing-instances {
         }
         interface $AC_INTF;
         route-distinguisher $RD;
-        vrf-import PS-${INSTANCE_NAME}-IMPORT;
-        vrf-export PS-${INSTANCE_NAME}-EXPORT;
+        vrf-import ${INSTANCE_NAME}-IMPORT;
+        vrf-export ${INSTANCE_NAME}-EXPORT;
+        vrf-table-label;
+    }
+}
+```
+
+## evo/services/l3vpn-ospf.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with PE-CE OSPF (EVO ACX)
+ * Seen on:
+ *   Junos: (cross-OS peer in junos/services/l3vpn-ospf.conf)
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - EVO-side mirror of junos/services/l3vpn-ospf.conf. Same
+ *    shape: `instance-type vrf` + `protocols ospf area 0.0.0.0
+ *    interface <AC> { interface-type p2p; }`.
+ *  - `routing-options router-id; auto-export;` — auto-export is
+ *    present on the EVO ANs and MEGs (deployed body verified).
+ *  - `vrf-import / vrf-export` point at the per-VRF policies in
+ *    evo/policy/l3vpn-export-import.conf. The EVO ANs use a
+ *    `PS-` prefix on the policy names (e.g.
+ *    `PS-METRO_L3VPN_2001-IMPORT`) — this is the per-service
+ *    namespace convention on the AN/MEG roles.
+ *
+ * Pair with:
+ *  - evo/policy/l3vpn-export-import.conf
+ *  - evo/policy/communities.conf
+ *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - evo/services/l3vpn-bgp.conf  (sibling PE-CE peering shape)
+ *  - junos/services/l3vpn-ospf.conf  (cross-OS peer)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_2001):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_2001
+ *   $ROUTER_ID        e.g. 1.1.0.2
+ *   $AC_INTF          e.g. et-0/0/4.2001
+ *   $RD               e.g. 63535:2001
+ *   $IMPORT_POL       e.g. PS-METRO_L3VPN_2001-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_L3VPN_2001-EXPORT
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+            auto-export;
+        }
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface $AC_INTF {
+                        interface-type p2p;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -1765,7 +2224,7 @@ routing-instances {
 /*
  * Topic:   LDP-VPLS (virtual-switch with vpls-id)
  * Seen on:
- *   Junos: (none in JVD)
+ *   Junos: (none)
  *   EVO:   an3_acx7100-48l
  *
  * Highlights:
@@ -1782,6 +2241,12 @@ routing-instances {
  * (see KB-VPLS-TEST in the source file for that variant).
  *
  * Pair with:
+ *
+ * JVD service mapping:
+ *   302 instances total (high 1 / med 301 / low 0)
+ *   On devices: an3_acx7100-48l (302), ma5_mx204 (200), meg1_acx7100-32c (200), ma1-2_acx7024 (100), meg2_acx7509 (99)
+ *   Example: KB-VPLS-EPL (RD —, RT —)
+ *     an3_acx7100-48l  et-0/0/53.0
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME    e.g. KB-VPLS-EPL
@@ -1816,7 +2281,7 @@ routing-instances {
  * Topic:   iBGP overlay sessions to RR (EVO)
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
- *   EVO:   ma1-1_acx7024 (and all other EVO PEs)
+ *   EVO:   an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Two iBGP groups: one for inet/inet6 labeled-unicast (transport
@@ -1836,6 +2301,9 @@ routing-instances {
  *
  * Pair with:
  *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/services/evpn-elan-mac-vrf.conf
+ *  - evo/services/evpn-type5.conf
+ *  - evo/services/evpn-vpws.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $LOOPBACK_V4         e.g. 1.1.0.17
@@ -1936,7 +2404,7 @@ protocols {
  * Topic:   ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo (EVO)
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
- *   EVO:   ma1-1_acx7024 (and all other EVO PEs in the JVD)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - source-packet-routing (SR-MPLS) with per-router node-segment IDs
@@ -1957,6 +2425,8 @@ protocols {
  * Pair with:
  *  - evo/transport/mpls-segment-routing.conf
  *  - evo/apply-groups/gr-isis-bcp.conf
+ *  - evo/apply-groups/gr-core-intf.conf
+ *  - evo/interfaces/core-isis-mpls.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $CORE_INTF     e.g. ae83.0   (repeat the per-interface block
@@ -2042,7 +2512,7 @@ protocols {
  * Topic:   MPLS / segment-routing chassis-wide knobs (EVO)
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
- *   EVO:   ma1-1_acx7024 (and all other EVO PEs)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l an4_acx710 cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - admin-groups blue/green/red define link colours used by ISIS ASLA
@@ -2056,6 +2526,7 @@ protocols {
  *
  * Pair with:
  *  - evo/transport/isis-srmpls-tilfa.conf
+ *  - evo/apply-groups/gr-core-intf.conf
  *
  * Variables: none. All values here (admin-group numbers, SRGB range)
  * are JVD-wide constants — same on every PE.
@@ -2083,7 +2554,7 @@ protocols {
 /*
  * Apply-group: GR-BGP-BCP
  * Seen on:
- *   Junos: an1_mx204 (and other Junos PEs)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (EVO PEs use GR-BGP-BCP too)
  *
  * Best-current-practice BGP knobs:
@@ -2120,7 +2591,7 @@ groups {
 /*
  * Apply-group: GR-CORE-INTF
  * Seen on:
- *   Junos: an1_mx204 (and other Junos PEs)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (EVO PEs use GR-CORE-INTF too)
  *
  * Templated baseline for core/underlay-facing interfaces:
@@ -2177,7 +2648,7 @@ groups {
 /*
  * Apply-group: GR-EDGE-INTF-MH
  * Seen on:
- *   Junos: an1_mx204 (and other Junos ANs)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (EVO uses GR-EDGE-INTF-MH too — see evo/apply-groups/)
  *
  * Variant of GR-EDGE-INTF for multi-homed edge interfaces (no
@@ -2211,7 +2682,7 @@ groups {
 /*
  * Apply-group: GR-EDGE-INTF
  * Seen on:
- *   Junos: an1_mx204 (and other Junos ANs)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (EVO uses GR-EDGE-INTF too — see evo/apply-groups/)
  *
  * Templated baseline for customer-facing (edge) interfaces.
@@ -2287,6 +2758,7 @@ groups {
  * Pair with:
  *  - junos/apply-groups/gr-fatpw-lb.conf
  *  - junos/services/l2vpn-kompella.conf
+ *  - junos/services/bgp-vpls.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -2331,7 +2803,7 @@ groups {
 /*
  * Topic:   FAT-PW load-balancing capability (Junos)
  * Seen on:
- *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -2368,7 +2840,7 @@ groups {
 /*
  * Apply-group: GR-ISIS-BCP
  * Seen on:
- *   Junos: an1_mx204 (and other Junos PEs)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (EVO PEs use GR-ISIS-BCP too)
  *
  * Best-current-practice ISIS knobs applied to the protocols { isis }
@@ -2546,8 +3018,10 @@ groups {
  *    can do egress L3 lookup (required for IRB / firewall/NAT in VRF).
  *
  * Pair with:
- *  - junos/services/l3vpn-vrf.conf
+ *  - junos/services/l3vpn-bgp.conf
+ *  - junos/services/l3vpn-ospf.conf
  *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/services/evpn-type5.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -2578,7 +3052,7 @@ groups {
 /*
  * Topic:   LAG-member templates: edge SH/MH and core (Junos)
  * Seen on:
- *   Junos: ma5_mx204 (and other Junos PEs with LAG)
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ma1-1_acx7024 (and all other EVO PEs with LAG)
  *
  * Highlights:
@@ -2699,7 +3173,7 @@ class-of-service {
 /*
  * Topic:   CoS schedulers and scheduler-map
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (all EVO devices)
  *
  * 6-class scheduler model used by the 5G_SCHEDULER scheduler-map:
@@ -2718,6 +3192,7 @@ class-of-service {
  *   set class-of-service interfaces <name> scheduler-map 5G_SCHEDULER
  *
  * Pair with:
+ *  - junos/cos/forwarding-classes.conf
  *
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
@@ -2837,6 +3312,8 @@ firewall {
  * (see apply-groups/gr-core-intf).
  *
  * Pair with:
+ *  - junos/apply-groups/gr-core-intf.conf
+ *  - junos/apply-groups/gr-lag-member.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_PHYS         e.g. ae71
@@ -2876,8 +3353,8 @@ interfaces {
 /*
  * Topic:   Edge port with VLAN normalization (push/pop)  (Junos)
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *   Junos: an1_mx204 an2_acx5448
+ *   EVO:   (none)
  *
  * Highlights:
  *  - Same vlan-map push/pop pattern as
@@ -2948,13 +3425,60 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ethernet-bridge.conf
+
+```
+/*
+ * Topic:   Flexible-Ethernet-Services UNI with per-unit
+ *          encapsulation vlan-bridge (Junos MX EVPN-ELAN access)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none — EVO ACX uses
+ *          evo/interfaces/edge-vlan-normalization.conf for
+ *          equivalent vlan-ccc edge handling)
+ *
+ * Highlights:
+ *  - Parent physical (or aggregated) interface configured for
+ *    flexible-vlan-tagging + encapsulation flexible-ethernet-services
+ *    so each unit can carry a different encapsulation flavour.
+ *  - Per-unit `encapsulation vlan-bridge` + `vlan-id <N>` exposes
+ *    the unit as a `family bridge` UNI, ready to be referenced from
+ *    a routing-instance of type virtual-switch (EVPN-ELAN).
+ *  - apply-groups GR-EDGE-INTF supplies the common knobs
+ *    (mtu, no-auto-negotiation, gigether-options, etc.) shared
+ *    across all edge interfaces.
+ *
+ * Pair with:
+ *  - junos/apply-groups/gr-edge-intf.conf  (GR-EDGE-INTF baseline
+ *      knobs — description, MTU, optics-alarms, etc.)
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf  (the
+ *      routing-instance that consumes these bridge units as UNIs)
+ *
+ * Variables (example values from mse1_mx304 xe-0/0/3:1):
+ *   $UNI_INTF     e.g. xe-0/0/3:1
+ *   $UNIT         e.g. 3000
+ *   $VLAN         e.g. 3000
+ */
+interfaces {
+    $UNI_INTF {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
 ## junos/interfaces/lag-esi-multihoming.conf
 
 ```
 /*
  * Topic:   Edge LAG with EVPN ESI multihoming (active/active)
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
  *
  * One aggregated-ethernet bundle (ae11) carrying multiple service units
@@ -2974,6 +3498,12 @@ interfaces {
  * apply-groups GR-EDGE-INTF-MH (see apply-groups/gr-edge-intf-mh).
  *
  * Pair with:
+ *  - junos/apply-groups/gr-edge-intf-mh.conf
+ *  - junos/apply-groups/gr-lag-member.conf
+ *  - junos/interfaces/edge-vlan-normalization.conf
+ *  - junos/services/evpn-elan-mac-vrf.conf
+ *  - junos/services/evpn-port-based.conf
+ *  - junos/services/evpn-vpws.conf
  *
  * Variables (example values from an1_mx204):
  *   $AC_PHYS         e.g. ae11   (the multihomed AE)
@@ -3018,6 +3548,72 @@ interfaces {
             vlan-id 701;
             esi {
                 00:70:11:11:11:11:11:00:00:02;
+                all-active;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/pseudowire-subscriber.conf
+
+```
+/*
+ * Topic:   Pseudowire-subscriber logical interface (`ps<N>`) for
+ *          floating L2Circuit PWs stitched into EVPN (Junos MX)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none — pseudowire-subscriber is an MX-only concept)
+ *
+ * Highlights:
+ *  - `ps<N>` is a logical pseudowire-subscriber interface that
+ *    terminates the access-side L2Circuit PW *internal to the MX*
+ *    (no hardware port consumed). Each `ps<N>` is anchored to a
+ *    tunneling lt-* PIC via the `anchor-point` knob — the lt-PIC
+ *    is what loops traffic between the PW and the bridge-domain.
+ *  - flexible-vlan-tagging + encapsulation flexible-ethernet-services
+ *    on the parent ps interface lets each unit carry a different
+ *    VLAN / encapsulation flavour.
+ *  - unit 0 with `encapsulation ethernet-ccc` is the actual PW
+ *    landing point (the L2Circuit body in
+ *    junos/services/l2circuit-floating-pw.conf references
+ *    `interface ps<N>.0`).
+ *  - Per-customer units (e.g. unit 300, 301, …) use
+ *    `encapsulation vlan-bridge` + per-unit ESI for all-active
+ *    multihoming, and are bound as UNIs of an EVPN-ELAN
+ *    routing-instance (junos/services/evpn-elan-virtual-switch-irb.conf)
+ *    so the access PW is stitched into the EVPN core service on
+ *    the same box.
+ *
+ * Pair with:
+ *  - junos/services/l2circuit-floating-pw.conf  (the access PW that
+ *      lands on ps<N>.0)
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf  (the EVPN
+ *      service the bridge units are attached to)
+ *
+ * Variables (example values from mse1_mx304):
+ *   $PS_INTF        e.g. ps0
+ *   $ANCHOR_PIC     e.g. lt-0/0/0
+ *   $UNIT_CCC       e.g. 0
+ *   $UNIT_BRIDGE    e.g. 300
+ *   $VLAN_BRIDGE    e.g. 300
+ *   $ESI            e.g. 00:11:11:11:11:11:11:20:02:01
+ */
+interfaces {
+    $PS_INTF {
+        anchor-point {
+            $ANCHOR_PIC;
+        }
+        vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        unit $UNIT_CCC {
+            encapsulation ethernet-ccc;
+        }
+        unit $UNIT_BRIDGE {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN_BRIDGE;
+            esi {
+                $ESI;
                 all-active;
             }
         }
@@ -3118,7 +3714,7 @@ protocols {
 /*
  * Topic:   BGP communities — fabric tags, BGP-CT colors, L3VPN RTs (Junos)
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304 (and other Junos PEs)
+ *   Junos: ma4_mx204
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -3144,7 +3740,11 @@ protocols {
  *
  * Pair with:
  *  - junos/policy/l3vpn-export-import.conf
- *  - junos/services/l3vpn-vrf.conf
+ *  - junos/services/l3vpn-bgp.conf
+ *  - junos/services/l3vpn-ospf.conf
+ *  - junos/services/l2circuit-hot-standby.conf
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf
+ *  - junos/services/evpn-port-based.conf
  *
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
@@ -3176,7 +3776,7 @@ policy-options {
 /*
  * Topic:   Per-VRF L3VPN export / import policies (Junos)
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   Junos: ma4_mx204
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -3201,7 +3801,11 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy/communities.conf
- *  - junos/services/l3vpn-vrf.conf
+ *  - junos/services/l3vpn-bgp.conf
+ *  - junos/services/l3vpn-ospf.conf
+ *  - junos/apply-groups/gr-l3vpn.conf
+ *  - junos/services/evpn-type5.conf
+ *  - junos/services/evpn-port-based.conf
  *
  * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_1001
@@ -3255,8 +3859,8 @@ policy-options {
 /*
  * Topic:   BGP-VPLS (Kompella VPLS, RFC 4761) via virtual-switch
  * Seen on:
- *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
- *   EVO:   (none — EVO PEs in this JVD use LDP-VPLS instead;
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
  *           see evo/services/ldp-vpls.conf)
  *
  * Highlights:
@@ -3281,6 +3885,14 @@ policy-options {
  * Pair with:
  *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
  *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *
+ * JVD service mapping:
+ *   300 instances total (high 100 / med 200 / low 0)
+ *   On devices: ma5_mx204 (300), an3_acx7100-48l (200), meg1_acx7100-32c (200), ma1-2_acx7024 (100)
+ *   Example: vpls_group_102_400 (RD 63535:1093000, RT target:63535:1093000)
+ *     an3_acx7100-48l  et-0/0/0.400
+ *     ma5_mx204  xe-0/1/4.400
+ *     meg1_acx7100-32c  et-0/0/26:0.400
  *
  * Variables (example values from ma5_mx204 / vpls_group_108_800):
  *   $INSTANCE_NAME      e.g. vpls_group_108_800
@@ -3350,8 +3962,23 @@ routing-instances {
  *
  * Pair with:
  *  - junos/services/evpn-elan-mac-vrf.conf
- *  - junos/services/l3vpn-vrf.conf
- *  - junos/services/evpn-type5.conf  (IRB co-occurrence)
+ *  - junos/services/l3vpn-bgp.conf
+ *  - junos/services/l3vpn-ospf.conf
+ *  (NOTE: this snip is a REFERENCE TEMPLATE only — MX in this
+ *   JVD uses junos/services/evpn-elan-virtual-switch-irb.conf
+ *   with junos/services/evpn-type5.conf for the deployed IRB pair.
+ *   No deployed Junos device actually pairs mac-vrf-irb with
+ *   evpn-type5 here.)
+ *
+ * JVD service mapping:
+ *   50 instances total (high 50 / med 0 / low 0)
+ *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
+ *   Example: evpn_group_60_4000 (RD 1.1.0.2:14000, RT target:61535:14000)
+ *     an3_acx7100-48l  et-0/0/50.2000
+ *     meg1_acx7100-32c  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     meg2_acx7509  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
+ *     mse1_mx304  xe-0/0/3:1.3000
+ *     (+1 more endpoints)
  *
  * Variables (illustrative — not deployed on Junos in this JVD):
  *   $INSTANCE_NAME   e.g. evpn_group_60_4000
@@ -3396,8 +4023,8 @@ routing-instances {
 /*
  * Topic:   EVPN-ELAN (mac-vrf) routing-instance (MEF E-LAN)
  * Seen on:
- *   Junos: an1_mx204 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
- *   EVO:   (none — EVO uses mac-vrf; see evo/services/evpn-elan-mac-vrf.conf)
+ *   Junos: an1_mx204
+ *   EVO:   (none)
  *
  * Highlights:
  *  - instance-type evpn (mac-vrf style for EVPN-ELAN)
@@ -3413,6 +4040,17 @@ routing-instances {
  * Pair with:
  *  - junos/transport/bgp-overlay.conf (family evpn signaling)
  *  - junos/interfaces/lag-esi-multihoming.conf
+ *  - junos/interfaces/edge-vlan-normalization.conf
+ *  - junos/services/evpn-elan-mac-vrf-irb.conf
+ *
+ * JVD service mapping:
+ *   1050 instances total (high 50 / med 501 / low 499)
+ *   On devices: ma4_mx204 (1000), ma5_mx204 (1000), mse1_mx304 (1000), mse2_mx304 (1000), an3_acx7100-48l (51), meg1_acx7100-32c (51), +5 more
+ *   Example: evpn_group_80_1 (RD 1.1.0.16:8001, RT target:63536:8001)
+ *     ma4_mx204  xe-0/1/4.2000
+ *     ma5_mx204  xe-0/1/4.2000
+ *     mse1_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
+ *     mse2_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
  *
  * Variables (example values from an1_mx204):
  *   $INSTANCE_NAME   e.g. evpn_group_90_700
@@ -3442,74 +4080,364 @@ routing-instances {
 }
 ```
 
-## junos/services/evpn-port-based.conf
+## junos/services/evpn-elan-virtual-switch-irb.conf
 
 ```
 /*
- * Topic:   Port-based EVPN-VPWS / EVPN-ELAN  (Junos)
+ * Topic:   EVPN-ELAN with `instance-type virtual-switch` + bridge-domains
+ *          + IRB (the L2 / IRB-anchor half of the EVPN Type-5 IRB pair,
+ *          Junos MX)
  * Seen on:
- *   Junos: (none in this JVD — port-based EVPN attachments are
- *           EVO-only here; reference template only)
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none — EVO ACX uses mac-vrf + l3-interface irb instead;
+ *           see evo/services/evpn-elan-mac-vrf-irb.conf)
  *
  * Highlights:
- *  - "Port-based" attachment means a non-tagged unit (unit 0,
- *    encapsulation ethernet-ccc) is the AC, and the routing-instance
- *    binds to the whole port — typical for EPL services where the
- *    customer-facing port carries one and only one service.
- *  - EVO uses `service-type vlan-bundle` on a mac-vrf for the EVPN-ELAN
- *    flavour (untagged frames + a bundle of VLANs go into one EVI),
- *    plus a plain EVPN-VPWS instance with vpws-service-id pair on
- *    the unit-0 AC for the EVPL flavour.
- *  - Junos syntax for the same pair is shown below as a reference.
- *    The JVD does NOT validate this on MX — Junos PEs in the JVD
- *    use VLAN-tagged (vlan-ccc) ACs everywhere.
+ *  - This is the MX-side equivalent of the EVO `mac-vrf` + `l3-interface
+ *    irb.<N>` pattern: on the MX, the EVPN-ELAN body uses the legacy
+ *    `instance-type virtual-switch` with an inner `bridge-domains`
+ *    block, and the IRB hand-off to L3 is done via
+ *    `routing-interface irb.<N>` on the bridge-domain.
+ *  - Paired with junos/services/evpn-type5.conf on the SAME `irb.<N>`:
+ *    this snip carries MAC+IP (RT-2) and any silent-host /32s for the
+ *    bridge-domain; the Type-5 VRF carries the IRB subnet (RT-5) and
+ *    upstream prefixes.
+ *  - `default-gateway do-not-advertise` — the IRB is the L3 default
+ *    gateway, but the MAC-VRF / virtual-switch must NOT re-advertise
+ *    it as a RT-2 (the matching MAC-VRF on EVO peers does the same).
+ *  - `no-control-word` matches the remote PE behaviour.
+ *  - encapsulation MPLS over SR-MPLS underlay (no VXLAN; metro-MPLS
+ *    deployment).
+ *  - Scale: one virtual-switch instance per VLAN/IRB pair (e.g.
+ *    evpn_group_60_4000 → vlan-id 3000 → irb.4000).
  *
  * Pair with:
- *  - junos/services/evpn-vpws.conf  (vlan-tagged variant, validated)
+ *  - junos/services/evpn-type5.conf  (L3 RT-5 half on the same
+ *      irb.<N>; this pair = the JVD's MX EVPN-IRB design)
+ *  - junos/services/l2circuit-floating-pw.conf  (the floating-PW
+ *      pattern lands its ps<N>.0 into this virtual-switch instance)
+ *  - junos/interfaces/ethernet-bridge.conf  (the family-bridge UNI
+ *      bound here via `interface $AC_INTF.$UNIT`)
+ *  - junos/interfaces/pseudowire-subscriber.conf  (the ps<N>
+ *      pseudowire-subscriber UNI bound here from PWHT)
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - junos/policy/communities.conf
+ *  - evo/services/evpn-elan-mac-vrf-irb.conf  (cross-OS EVO
+ *      counterpart on the same VLAN/IRB; mac-vrf flavour)
  *
- * Variables (illustrative — not deployed on Junos in this JVD):
- *   $AC_INTF_VPWS         e.g. xe-0/1/2.0
- *   $AC_INTF_ELAN         e.g. xe-0/1/3.0
- *   $LOOPBACK_V4          e.g. 1.1.0.10
- *   $RD_ID_VPWS           e.g. 5500
- *   $RT_ID_VPWS           e.g. 5500
- *   $RD_ID_ELAN           e.g. 5600
- *   $RT_ID_ELAN           e.g. 5600
- *   $AS_LOCAL             e.g. 63535
- *   $VPWS_SVC_ID_LOCAL    e.g. 1
- *   $VPWS_SVC_ID_REMOTE   e.g. 2
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / evpn_group_60_4000):
+ *   $INSTANCE_NAME    e.g. evpn_group_60_4000
+ *   $BD_NAME          e.g. BD_evpn_group_60_4000
+ *   $AC_INTF          e.g. xe-0/0/3:1
+ *   $UNIT             e.g. 3000   (the AC unit and the BD vlan-id)
+ *   $VLAN             e.g. 3000
+ *   $IRB_UNIT         e.g. 4000
+ *   $LOOPBACK_V4      e.g. 1.1.0.10
+ *   $RD_ID            e.g. 14000
+ *   $AS_LOCAL         e.g. 61535
+ *   $RT_ID            e.g. 14000
  */
 routing-instances {
-    /* Reference shape — not deployed on Junos PEs in this JVD. */
-    EVPN_VPWS_PORT_BASED {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            evpn {
+                encapsulation mpls;
+                default-gateway do-not-advertise;
+                no-control-word;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN;
+                interface $AC_INTF.$UNIT;
+                routing-interface irb.$IRB_UNIT;
+            }
+        }
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+    }
+}
+```
+
+## junos/services/evpn-etree.conf
+
+```
+/*
+ * Topic:   EVPN E-Tree (root/leaf) E-LAN service (Junos MX)
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (none in this JVD — EVO-side E-Tree, when used, lives
+ *           under mac-vrf with leaf/root role on the AC)
+ *
+ * Highlights:
+ *  - `instance-type evpn` with a single-VLAN body and the
+ *    `evpn-etree` knob inside `protocols evpn` — that knob
+ *    enables MEF 6.2 E-Tree (rooted-multipoint) semantics on
+ *    top of the standard EVPN-ELAN service.
+ *  - Root/leaf role is per-AC, configured on the customer-facing
+ *    interface (not in this body); roots can talk to roots and
+ *    leaves, leaves cannot talk to other leaves.
+ *  - Per-instance scale: 1000 instances per PE on the MX, all
+ *    sharing the same ESI-bearing AE bundle on the access side.
+ *  - `vlan-id $VLAN` — single-VLAN-per-instance (not vlan-id none),
+ *    which distinguishes this from the port-based / mac-vrf
+ *    vlan-bundle shape.
+ *
+ * Pair with:
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - junos/interfaces/lag-esi-multihoming.conf  (per-AE ESI for
+ *      all-active multihoming of root/leaf ACs)
+ *  - junos/interfaces/ethernet-bridge.conf  (vlan-bridge UNI
+ *      that the E-Tree EVI binds via `interface <ae>.<unit>;`)
+ *  - junos/policy/communities.conf  (per-EVI export communities)
+ *  - junos/policy/l3vpn-export-import.conf  (per-EVI export
+ *      policy shape)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / evpn_group_80_1):
+ *   $INSTANCE_NAME    e.g. evpn_group_80_1
+ *   $AC_INTF          e.g. ae10
+ *   $UNIT             e.g. 2000   (matches $VLAN)
+ *   $VLAN             e.g. 2000
+ *   $LOOPBACK_V4      e.g. 1.1.0.10
+ *   $RD_ID            e.g. 8001
+ *   $AS_LOCAL         e.g. 63536
+ *   $RT_ID            e.g. 8001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn {
+                interface $AC_INTF.$UNIT;
+                evpn-etree;
+            }
+        }
+        vlan-id $VLAN;
+        interface $AC_INTF.$UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+    }
+}
+```
+
+## junos/services/evpn-fxc.conf
+
+```
+/*
+ * Topic:   EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC
+ *          UNIs aggregated into a single EVPN-VPWS service-id (MX)
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma1-1_acx7024 ma1-2_acx7024
+ *          ma3_acx7100-48l mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type evpn-vpws` with the FXC knob
+ *    `flexible-cross-connect-vlan-unaware` and a single
+ *    `group fxc { ... }` block. Every `interface <ifd.unit>` line
+ *    inside the group is a UNI bundled into the same service-id;
+ *    the bundle is VLAN-unaware so the customer 802.1Q tags are
+ *    preserved end-to-end.
+ *  - `service-id { local <N>; remote <M>; }` defines the EVPN
+ *    pseudowire endpoint pair — the local/remote integers are
+ *    swapped on the peer PE.
+ *  - Multiple AC UNIs (10+ per group on the SE PE) lets one
+ *    VPWS instance carry many customer VLANs without a per-VLAN
+ *    service definition (the classic E-Line "bulk" optimization).
+ *  - No `vlan-id`, no `vrf-table-label`, no `interface` at the
+ *    instance level (UNIs live entirely inside the FXC group).
+ *
+ * Pair with:
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - junos/policy/communities.conf
+ *  - junos/policy/l3vpn-export-import.conf  (vrf-export policy
+ *      shape — points at a per-EVI policy of the same name)
+ *  - junos/apply-groups/gr-edge-intf.conf  (parent UNI family
+ *      / flexible-vlan-tagging on the FXC ACs)
+ *  - evo/services/evpn-fxc.conf  (cross-OS peer)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / evpn_group_40_1):
+ *   $INSTANCE_NAME    e.g. evpn_group_40_1
+ *   $AC_INTF          e.g. et-0/0/4   (or aeNN for multihomed UNIs)
+ *   $UNIT_A           e.g. 1800
+ *   $UNIT_B           e.g. 2300
+ *   $UNIT_C           e.g. 800        (additional UNIs follow same
+ *                                      pattern, one `interface` line
+ *                                      each)
+ *   $SVC_ID_LOCAL     e.g. 2
+ *   $SVC_ID_REMOTE    e.g. 1
+ *   $LOOPBACK_V4      e.g. 1.1.0.10
+ *   $RD_ID            e.g. 401
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 401
+ */
+routing-instances {
+    $INSTANCE_NAME {
         instance-type evpn-vpws;
         protocols {
             evpn {
-                interface $AC_INTF_VPWS {
-                    vpws-service-id {
-                        local $VPWS_SVC_ID_LOCAL;
-                        remote $VPWS_SVC_ID_REMOTE;
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT_A;
+                    interface $AC_INTF.$UNIT_B;
+                    interface $AC_INTF.$UNIT_C;
+                    service-id {
+                        local $SVC_ID_LOCAL;
+                        remote $SVC_ID_REMOTE;
                     }
                 }
             }
         }
-        interface $AC_INTF_VPWS;
-        route-distinguisher $LOOPBACK_V4:$RD_ID_VPWS;
-        vrf-target target:$AS_LOCAL:$RT_ID_VPWS;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
     }
-    EVPN_ELAN_PORT_BASED {
-        instance-type mac-vrf;
+}
+```
+
+## junos/services/evpn-port-based.conf
+
+```
+/*
+ * Topic:   Legacy `instance-type evpn` port-based EVPN-ELAN (Junos)
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448
+ *   EVO:   (none — EVO uses mac-vrf + service-type vlan-bundle, see
+ *           evo/services/evpn-port-based.conf)
+ *
+ * Highlights:
+ *  - The "classic" Junos EVPN routing-instance shape — single
+ *    `instance-type evpn` with `vlan-id none` + `no-normalization`.
+ *    Each instance is one EVI bound to ONE attachment-circuit unit
+ *    on the access node (ae11.<vlan>), no internal bridge-domains
+ *    block.
+ *  - `vlan-id none` + `no-normalization` together implement
+ *    "port-based" forwarding: frames are passed transparently with
+ *    their customer VLAN tag(s) intact between PEs of the same EVI.
+ *  - Each EVI carries one VLAN (e.g. 700, 701, 702 …) — scale here
+ *    is "one instance per CE-VLAN" not "one instance per service".
+ *  - Encapsulation MPLS over the SR-MPLS underlay; `no-control-word`
+ *    matches the remote PE behaviour. Per-VRF colour selection is
+ *    done via vrf-export referencing a `community add map2gold`
+ *    policy (transport-class steering downstream).
+ *  - This is the AN-side counterpart to the EVO port-based
+ *    `mac-vrf` + `service-type vlan-bundle` pattern. The two PEs
+ *    of an AA-multihoming pair (AN1 MX204, AN2 ACX5448) carry the
+ *    same set of EVIs over the same ESI-bearing AE.
+ *
+ * Pair with:
+ *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)
+ *  - junos/policy/communities.conf  (map2gold colour community)
+ *  - junos/policy/l3vpn-export-import.conf  (per-VRF export policy
+ *      shape; this snip's vrf-export points at a per-EVI policy
+ *      of the same name)
+ *  - junos/services/evpn-vpws.conf  (sibling per-port EVPN service
+ *      type — VPWS P2P co-deploys with ELAN E-LAN on the same PE)
+ *  - evo/services/evpn-port-based.conf  (cross-OS EVO counterpart;
+ *      mac-vrf + service-type vlan-bundle equivalent)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from an1_mx204 / evpn_group_90_700):
+ *   $INSTANCE_NAME    e.g. evpn_group_90_700
+ *   $AC_INTF          e.g. ae11
+ *   $VLAN_UNIT        e.g. 700   (selects ae11.<unit>)
+ *   $LOOPBACK_V4      e.g. 1.1.0.0
+ *   $RD_ID            e.g. 7000
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 7000
+ *   $VRF_EXPORT_POL   e.g. evpn_group_90_700
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
         protocols {
             evpn {
                 encapsulation mpls;
                 no-control-word;
             }
         }
-        service-type vlan-bundle;
-        interface $AC_INTF_ELAN;
-        route-distinguisher $LOOPBACK_V4:$RD_ID_ELAN;
-        vrf-target target:$AS_LOCAL:$RT_ID_ELAN;
+        vlan-id none;
+        no-normalization;
+        interface $AC_INTF.$VLAN_UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $VRF_EXPORT_POL;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+    }
+}
+```
+
+## junos/services/evpn-type5-anchor.conf
+
+```
+/*
+ * Topic:   Slim L3VPN IRB-anchor VRF (paired with EVPN-ELAN
+ *          MAC-VRF; no explicit `protocols evpn ip-prefix-routes`
+ *          block — RT-2 MAC+IP is sufficient for this EVI)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Same role as `evpn-type5.conf` (the L3 half of the EVPN-IRB
+ *    pattern, owning the IRB and the VRF) but written in the
+ *    "slim" form: no `protocols evpn ip-prefix-routes { ... }`
+ *    block. In this JVD's METRO_L3VPN_4050 EVI the host /32s
+ *    and IRB subnet are advertised as RT-2 MAC+IP routes from
+ *    the paired MAC-VRF, so no RT-5 prefix routes are needed —
+ *    the VRF only needs to terminate the IRB and do egress L3
+ *    lookups for ingress-replicated/MAC-routed traffic.
+ *  - `vrf-table-label` + `vrf-import / vrf-export` are the only
+ *    VPN-RT plumbing; routing-options is just `router-id` (the
+ *    `multipath { vpn-unequal-cost; }` knob comes from
+ *    apply-group `GR-L3VPN` on Junos PEs via inherited group
+ *    inheritance).
+ *  - Compat-graph family `service.evpn-type5` covers both this
+ *    slim variant and the explicit `evpn-type5.conf` variant
+ *    (the regex matches `evpn-type5*`).
+ *
+ * Pair with:
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf  (Junos L2 peer)
+ *  - evo/services/evpn-elan-mac-vrf-irb.conf            (EVO L2 peer)
+ *  - junos/services/evpn-type5.conf                     (full RT-5 variant)
+ *  - junos/apply-groups/gr-l3vpn.conf                   (multipath + vrf-table-label inheritance)
+ *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/transport/bgp-overlay.conf                   (family evpn signaling)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / METRO_L3VPN_4050):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_4050
+ *   $ROUTER_ID        e.g. 1.1.0.10
+ *   $IRB_UNIT         e.g. 4050   (selects irb.<unit>)
+ *   $RD               e.g. 64400:15000
+ *   $AS_LOCAL         e.g. 51535
+ *   $RT_ID            e.g. 15000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $RD;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+        vrf-table-label;
     }
 }
 ```
@@ -3521,7 +4449,7 @@ routing-instances {
  * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   EVO:   (none)
  *
  * Highlights:
  *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
@@ -3546,14 +4474,24 @@ routing-instances {
  *    families separate.
  *
  * Pair with:
- *  - For the L2 / IRB side that owns irb.<N>:
- *      Junos virtual-switch + bridge-domains + routing-interface
- *      (no dedicated snip yet — see deployed pattern in
- *       service_provider/.../conf/mse1_mx304.conf).
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf
+ *      (the L2 / IRB side that owns the same irb.<N> — MX uses
+ *       instance-type virtual-switch with bridge-domains, NOT
+ *       mac-vrf; cross-OS counterpart of the EVO
+ *       evpn-elan-mac-vrf-irb.conf pattern)
  *  - junos/apply-groups/gr-l3vpn.conf
  *  - junos/policy/l3vpn-export-import.conf
  *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
- *  - junos/services/evpn-elan-mac-vrf-irb.conf  (IRB co-occurrence)
+ *
+ * JVD service mapping:
+ *   75 instances total (high 50 / med 0 / low 25)
+ *   On devices: an3_acx7100-48l (75), meg1_acx7100-32c (75), meg2_acx7509 (75), mse1_mx304 (75), mse2_mx304 (75)
+ *   Example: METRO_L3VPN_4000 (RD 63000:13000, RT target:61535:13000)
+ *     an3_acx7100-48l
+ *     meg1_acx7100-32c
+ *     meg2_acx7509
+ *     mse1_mx304
+ *     (+1 more endpoints)
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
@@ -3593,8 +4531,8 @@ routing-instances {
 /*
  * Topic:   EVPN-VPWS routing-instance (MEF E-Line)
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 mse1_mx304
- *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: an1_mx204 an2_acx5448
+ *   EVO:   (none)
  *
  * Highlights:
  *  - instance-type evpn-vpws
@@ -3608,6 +4546,18 @@ routing-instances {
  * Pair with:
  *  - junos/transport/bgp-overlay.conf (family evpn signaling)
  *  - junos/interfaces/lag-esi-multihoming.conf
+ *  - junos/interfaces/edge-vlan-normalization.conf
+ *  - junos/services/evpn-port-based.conf
+ *
+ * JVD service mapping:
+ *   900 instances total (high 400 / med 500 / low 0)
+ *   On devices: an3_acx7100-48l (900), mse1_mx304 (500), an1_mx204 (400), an2_acx5448 (400), ma1-1_acx7024 (400), ma1-2_acx7024 (400)
+ *   Example: evpn_group_30_2400 (RD 1.1.0.0:2400, RT target:63535:2400)
+ *     an1_mx204  ae11.2400 00:10:11:11:11:11:01:00:00:00 A-A
+ *     an2_acx5448  ae11.2400 00:10:11:11:11:11:01:00:00:00 A-A
+ *     an3_acx7100-48l  ae11.2400 00:10:11:11:11:11:01:00:00:00 A-A
+ *     ma1-1_acx7024  ae12.2400 00:10:11:11:50:12:03:00:00:00 A-A
+ *     (+1 more endpoints)
  *
  * Variables (example values from an1_mx204):
  *   $INSTANCE_NAME       e.g. evpn_group_30_2400
@@ -3639,15 +4589,88 @@ routing-instances {
 }
 ```
 
+## junos/services/l2circuit-floating-pw.conf
+
+```
+/*
+ * Topic:   Static targeted-LDP L2Circuit pseudowire landing on a
+ *          pseudowire-subscriber interface (Junos, floating-PW pattern)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none — the EVO endpoint of the same PW is a customer-facing
+ *           AC; see evo/services/l2circuit-floating-pw.conf)
+ *
+ * Highlights:
+ *  - MSE side of the static stitched / floating-PW pattern. The
+ *    L2Circuit PW does NOT terminate on a hardware AC; it lands on
+ *    a pseudowire-subscriber interface (`ps<N>.0`) which is then
+ *    bridged into an EVPN-ELAN routing-instance — letting the MX
+ *    "float" the PW into an EVPN service without dedicating a
+ *    physical port to the customer.
+ *  - One PW per ps<N>.0 interface; the matching EVPN-ELAN side is
+ *    documented under junos/services/evpn-elan-virtual-switch-irb.conf
+ *    (or the dedicated floating-PW EVPN snip in your MaaS library).
+ *  - `static { incoming-label / outgoing-label }` pins the PW label
+ *    pair — required because the EVO end is also pinned and there is
+ *    no tLDP signalling between the two sides.
+ *  - encapsulation-type ethernet-vlan: the customer VLAN tag is
+ *    carried transparently across the PW.
+ *  - Underlay colour selection is done via BGP-CT (community on the
+ *    transport route), not on the L2Circuit body itself.
+ *
+ * Pair with:
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf  (the EVPN-ELAN
+ *      service the floating PW is stitched into on the MX — the
+ *      ps<N>.0 interface that lands this PW is also bridged into
+ *      this virtual-switch instance)
+ *  - junos/interfaces/pseudowire-subscriber.conf  (the ps<N>
+ *      logical interface this PW terminates on, via ps<N>.0 with
+ *      encapsulation ethernet-ccc)
+ *  - evo/services/l2circuit-floating-pw.conf  (cross-OS PW peer
+ *      on the EVO access node, where the PW lands on the customer-
+ *      facing AC unit)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304):
+ *   $REMOTE_PE_V4    e.g. 1.1.0.18
+ *   $PS_INTF         e.g. ps0
+ *   $LABEL_IN        e.g. 1000001
+ *   $LABEL_OUT       e.g. 1000001
+ *   $VC_ID           e.g. 1001
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $PS_INTF.0 {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                community map2gold;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}
+```
+
 ## junos/services/l2circuit-hot-standby.conf
 
 ```
 /*
  * Topic:   L2Circuit with backup-neighbor (hot-standby pseudowire)
  * Seen on:
- *   Junos: (none in this JVD — Junos PEs use static-pseudowire
- *           L2Circuit without backup-neighbor; reference template only)
- *   EVO:   an3_acx7100-48l
+ *   Junos: (none in this JVD — Junos PEs mse1_mx304 / mse2_mx304
+ *           carry L2Circuit but use the static-label "floating-pw"
+ *           flavour via pseudowire-subscriber anchors, not
+ *           backup-neighbor hot-standby; see
+ *           junos/services/l2circuit-floating-pw.conf. This snip is
+ *           kept as a reference template / cross-OS peer to
+ *           evo/services/l2circuit-hot-standby.conf.)
+ *   EVO:   (none)
  *
  * Highlights:
  *  - Junos PEs (mse1_mx304, mse2_mx304) DO carry L2Circuit, but use
@@ -3662,7 +4685,11 @@ routing-instances {
  *    evo/services/l2circuit-hot-standby.conf.
  *
  * Pair with:
+ *  - junos/policy/communities.conf
  *  - junos/apply-groups/gr-l2ckt-hs.conf  (reference apply-group shape)
+ *
+ * JVD service mapping:
+ *   (no instances found in topology registry)
  *
  * Variables (illustrative — not deployed on Junos in this JVD):
  *   $REMOTE_PE_V4    e.g. 1.1.0.18
@@ -3695,7 +4722,7 @@ protocols {
  * Topic:   BGP-signalled (Kompella) L2VPN, port-based (Junos)
  * Seen on:
  *   Junos: ma5_mx204
- *   EVO:   an3_acx7100-48l
+ *   EVO:   (none)
  *
  * Highlights:
  *  - instance-type l2vpn — Kompella-style, BGP-signalled pseudowire
@@ -3711,8 +4738,16 @@ protocols {
  *    not vlan-tagged).
  *
  * Pair with:
+ *  - junos/apply-groups/gr-fatpw-label.conf
  *  - junos/apply-groups/gr-fatpw-label.conf  (FAT-PW for L2VPN)
  *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *
+ * JVD service mapping:
+ *   201 instances total (high 102 / med 99 / low 0)
+ *   On devices: an3_acx7100-48l (201), ma5_mx204 (201)
+ *   Example: L2VPN_PORT_BASED (RD 63535:6500, RT target:63535:6500)
+ *     an3_acx7100-48l  et-0/0/8.0
+ *     ma5_mx204  xe-0/1/2.0
  *
  * Variables (example values from ma5_mx204):
  *   $L2VPN_SITE              e.g. r19
@@ -3745,51 +4780,59 @@ routing-instances {
 }
 ```
 
-## junos/services/l3vpn-vrf.conf
+## junos/services/l3vpn-bgp.conf
 
 ```
 /*
- * Topic:   L3VPN VRF with PE-CE eBGP and as-override (Junos)
+ * Topic:   L3VPN VRF with PE-CE eBGP and as-override (Junos MX)
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (cross-OS peer in evo/services/l3vpn-bgp.conf)
  *
  * Highlights:
- *  - Identical instance shape to evo/services/l3vpn-vrf.conf — the
- *    GR-L3VPN apply-group fills in instance-type vrf, multipath
- *    vpn-unequal-cost, protect core, vrf-table-label so each VRF
- *    only needs to set router-id, peer, RD, RT and AC interface.
- *  - PE-CE eBGP under group v4Ixia: family inet any, peer-as 64514
- *    (the customer ASN), `as-override` so the PE rewrites the
- *    customer's own ASN out of AS_PATH on the return direction
+ *  - `instance-type vrf` carrying customer routes; PE-CE eBGP
+ *    under `protocols bgp group v4Ixia` with `family inet { any; }`,
+ *    `peer-as <CUST_ASN>`, and `as-override` so the customer's
+ *    own ASN is rewritten out of AS_PATH on the return direction
  *    (textbook "hub-and-spoke per-customer ASN" workaround).
- *  - route-distinguisher 63536:41001 — RD scopes routes per-PE/VRF
- *    so an L3VPN prefix can appear with multiple RDs across MH PEs.
- *  - vrf-import / vrf-export point at the per-VRF policies in
- *    junos/policy/l3vpn-export-import.conf.
+ *  - `routing-options router-id $ROUTER_ID; auto-export;` —
+ *    auto-export pulls routes from sibling VRFs that share RT
+ *    import targets (used by the MEBS "shared service" pattern).
+ *  - `route-distinguisher 63536:<RD_ID>;` — ASN-based RD scopes
+ *    routes per-PE/VRF so an L3VPN prefix can appear with
+ *    multiple RDs across multihomed PEs.
+ *  - `vrf-import / vrf-export` point at the per-VRF policies in
+ *    junos/policy/l3vpn-export-import.conf (named
+ *    `${INSTANCE_NAME}-IMPORT` / `-EXPORT`).
+ *  - `vrf-table-label` enables one MPLS label per VRF (the common
+ *    deployment vs per-prefix labels).
  *
  * Pair with:
- *  - junos/apply-groups/gr-l3vpn.conf
  *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/policy/communities.conf
  *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - junos/services/l3vpn-ospf.conf  (sibling PE-CE peering shape;
+ *      same VRF infra, OSPF instead of BGP)
+ *  - evo/services/l3vpn-bgp.conf  (cross-OS peer)
  *
- * Variables (example values from ma4_mx204 / instance METRO_BGPv4_L3VPN_1001):
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / METRO_BGPv4_L3VPN_1001):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_1001
- *                     (the import/export policies are named
- *                      ${INSTANCE_NAME}-IMPORT / -EXPORT)
- *   $ROUTER_ID        e.g. 1.1.0.16
- *   $AC_INTF          e.g. xe-0/1/4.1001
- *   $CE_PEER_V4       e.g. 17.2.0.2
- *   $PE_LOCAL_V4      e.g. 17.2.0.1
+ *   $ROUTER_ID        e.g. 1.1.0.10
+ *   $AC_INTF          e.g. et-0/0/5.1001
+ *   $CE_PEER_V4       e.g. 19.2.0.2
+ *   $PE_LOCAL_V4      e.g. 19.2.0.1
  *   $AS_CUST          e.g. 64514
- *   $RD               e.g. 63536:41001
+ *   $RD               e.g. 63536:11001
  */
 routing-instances {
-    apply-groups GR-L3VPN;
     $INSTANCE_NAME {
         instance-type vrf;
         routing-options {
             router-id $ROUTER_ID;
+            auto-export;
         }
         protocols {
             bgp {
@@ -3814,13 +4857,78 @@ routing-instances {
 }
 ```
 
+## junos/services/l3vpn-ospf.conf
+
+```
+/*
+ * Topic:   L3VPN VRF with PE-CE OSPF (Junos MX)
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (cross-OS peer in evo/services/l3vpn-ospf.conf)
+ *
+ * Highlights:
+ *  - `instance-type vrf` carrying customer routes; PE-CE OSPF
+ *    under `protocols ospf area 0.0.0.0 interface <AC>` with
+ *    `interface-type p2p` (no DR/BDR election on the PE-CE link).
+ *  - `routing-options router-id $ROUTER_ID; auto-export;` —
+ *    same shared-service infra as the BGP-peering sibling.
+ *  - Customer's OSPF LSAs are translated to BGP-VPN routes via
+ *    Junos's automatic per-instance OSPF↔BGP redistribution
+ *    (no explicit policy needed for type-3 / external translation
+ *    once `auto-export` is set in a shared-RT context).
+ *  - `vrf-import / vrf-export` point at the per-VRF policies in
+ *    junos/policy/l3vpn-export-import.conf (named
+ *    `${INSTANCE_NAME}-IMPORT` / `-EXPORT`).
+ *
+ * Pair with:
+ *  - junos/policy/l3vpn-export-import.conf
+ *  - junos/policy/communities.conf
+ *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - junos/services/l3vpn-bgp.conf  (sibling PE-CE peering shape;
+ *      same VRF infra, BGP instead of OSPF)
+ *  - evo/services/l3vpn-ospf.conf  (cross-OS peer)
+ *
+ * JVD service mapping:
+ *   (filled in by snips_topology_map.py after registry refresh)
+ *
+ * Variables (example values from mse1_mx304 / METRO_L3VPN_1):
+ *   $INSTANCE_NAME    e.g. METRO_L3VPN_1
+ *   $ROUTER_ID        e.g. 1.1.0.10
+ *   $AC_INTF          e.g. et-0/0/5.1
+ *   $RD               e.g. 63536:11
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+            auto-export;
+        }
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface $AC_INTF {
+                        interface-type p2p;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-import ${INSTANCE_NAME}-IMPORT;
+        vrf-export ${INSTANCE_NAME}-EXPORT;
+        vrf-table-label;
+    }
+}
+```
+
 ## junos/transport/bgp-overlay.conf
 
 ```
 /*
  * Topic:   iBGP overlay session to route reflectors (multi-AF)
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -3840,6 +4948,16 @@ routing-instances {
  *  - BCP knobs inherited from apply-groups GR-BGP-BCP
  *
  * Pair with:
+ *  - junos/apply-groups/gr-bgp-bcp.conf
+ *  - junos/services/bgp-vpls.conf
+ *  - junos/services/evpn-elan-mac-vrf.conf
+ *  - junos/services/evpn-elan-virtual-switch-irb.conf
+ *  - junos/services/evpn-port-based.conf
+ *  - junos/services/evpn-type5.conf
+ *  - junos/services/evpn-vpws.conf
+ *  - junos/services/l2vpn-kompella.conf
+ *  - junos/services/l3vpn-bgp.conf
+ *  - junos/services/l3vpn-ospf.conf
  *
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4   e.g. 1.1.0.0
@@ -3924,7 +5042,7 @@ protocols {
 /*
  * Topic:   ISIS underlay with SR-MPLS, TI-LFA, and Flex-Algo
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -3939,6 +5057,8 @@ protocols {
  *  - Inherits BCP knobs from apply-groups GR-ISIS-BCP
  *
  * Pair with:
+ *  - junos/apply-groups/gr-isis-bcp.conf
+ *  - junos/apply-groups/gr-isis-bfd.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_INTF_1   e.g. ae71.0   (one stanza per core neighbour;
