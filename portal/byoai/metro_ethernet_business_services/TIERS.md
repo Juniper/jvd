@@ -76,10 +76,12 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ---
 
-## EVPN-ELAN (mac-vrf, mac-vrf-irb, or port-based)
+## EVPN-ELAN (mac-vrf, mac-vrf-irb, vlan-based, or port-based)
 
 **minimum** (just the service)
-- `services/evpn-elan-mac-vrf.conf` (or `-irb.conf`, or `evpn-port-based.conf`, whichever flavor was requested)
+- `evo/services/evpn-elan-mac-vrf.conf` (EVO) **or**
+  `junos/services/evpn-elan-vlan-based.conf` (Junos MX) — or the
+  `-irb.conf` / `evpn-port-based.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
 **with-overlay** (= minimum +)
@@ -109,7 +111,9 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the same `irb.<N>`: the MAC-VRF advertises RT-2 (MAC+IP from learned hosts), and the VRF with `protocols evpn ip-prefix-routes` advertises RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes). "Pure" RT-5 (VRF only, no MAC-VRF) is not a deployed pattern here. Therefore EVERY tier below includes BOTH the L2 (ELAN-IRB) and L3 (Type-5 VRF) snips. The two instances must reference the same `irb.<N>`.
 
 **minimum** (both halves of the service + per-VRF policy)
-- `services/evpn-elan-mac-vrf-irb.conf`  (the L2 / RT-2 half — MAC-VRF with `l3-interface irb.<N>`)
+- L2 / RT-2 half (one of):
+    - `evo/services/evpn-elan-mac-vrf-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
+    - `junos/services/evpn-elan-virtual-switch-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
 - `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
