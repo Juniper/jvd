@@ -104,7 +104,7 @@ Snip headers also list:
 | [`scheduler-map.conf`](junos/cos/scheduler-map.conf) | Class-of-service: scheduler map (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree) |
 | [`schedulers.conf`](junos/cos/schedulers.conf) | Class-of-service: schedulers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree) |
 | [`schedulers-legacy-acx.conf`](junos/cos/schedulers-legacy-acx.conf) | Class-of-service: schedulers legacy acx (MEF E-LAN / EVP-LAN, E-Line / EVPL) |
-| [`schedulers-v2.conf`](junos/cos/schedulers-v2.conf) | Class-of-service: schedulers (MEF E-LAN / EVP-LAN, E-Line / EVPL) |
+| [`schedulers-an1.conf`](junos/cos/schedulers-an1.conf) | Class-of-service: schedulers (AN1 variant — shaping-rate + low-priority SC-HIGH) |
 
 ### Routing policy
 
