@@ -9,16 +9,34 @@ covers it).
 
 Replace `N` with any count (e.g. `Generate 3 EVPN-VPWS services`).
 
-- `Generate N EVPN-VPWS services` — MEF E-Line
-- `Generate N L3VPN VRFs`
-- `Generate N EVPN-ELAN instances` — MEF E-LAN, mac-vrf
-- `Generate N EVPN-ELAN with IRB` — Type-2 only; L2 + anycast GW
-- `Generate N EVPN-ELAN with L3 (Type-2 + Type-5)` — adds VRF + ip-prefix-routes on same `irb.<N>`; JVD default
-- `Generate N L2Circuit hot-standby pseudowires`
+### L2VPN / E-Line
+
+- `Generate N EVPN-VPWS services` — MEF E-Line, per-AC `vpws-service-id`
+- `Generate N port-based EVPN-VPWS services` — full-port UNI on unit 0
+- `Generate N EVPN-FXC services` — Flexible Cross-Connect, vlan-unaware; N UNIs bundled under one `evpn-vpws` + FXC group
 - `Generate N Kompella L2VPN pseudowires` — `instance-type l2vpn`, RFC 4761 P2P
-- `Generate N BGP-VPLS instances` — `virtual-switch` + `site`/`site-identifier`; Junos PEs
+- `Generate N L2Circuit hot-standby pseudowires` — `backup-neighbor … hot-standby` (EVO)
+- `Generate N L2Circuit floating pseudowires` — static-label PW landing on a `ps<N>` pseudowire-subscriber anchor (Junos head-end + EVO vlan-ccc tail)
+- `Generate N L2Circuit local-switching cross-connects` — port-to-port hairpin on a single PE (EVO; MEF E-Access hand-off)
+
+### L2VPN / E-LAN + E-Tree
+
+- `Generate N EVPN-ELAN instances` — MEF E-LAN, mac-vrf
+- `Generate N port-based EVPN-ELAN instances` — `service-type vlan-bundle`, single full-port UNI
+- `Generate N BGP-VPLS instances` — `virtual-switch` + `site` / `site-identifier`; both OS
 - `Generate N LDP-VPLS instances` — `virtual-switch` + `vpls-id` + `neighbor`; EVO only in this JVD
-- `Generate N port-based EVPN services` — port-mode VPWS / ELAN
+- `Generate N EVPN E-Tree services` — MEF E-Tree (root/leaf isolation); Junos PEs
+
+### L2 + L3 IRB
+
+- `Generate N EVPN-ELAN with IRB` — Type-2 only; L2 + anycast GW (EVO mac-vrf, Junos virtual-switch)
+- `Generate N EVPN-ELAN with L3 (Type-2 + Type-5)` — adds VRF + `ip-prefix-routes` on the same `irb.<N>`; JVD default
+- `Generate N slim L3VPN anchor VRFs` — IRB-anchor VRF paired with a MAC-VRF, no explicit `ip-prefix-routes` block (host /32s ride RT-2)
+
+### L3VPN
+
+- `Generate N L3VPN VRFs with PE-CE eBGP` — `as-override`; both OS
+- `Generate N L3VPN VRFs with PE-CE OSPF` — area 0 `interface-type p2p`; both OS
 
 ## Add a feature to a device
 

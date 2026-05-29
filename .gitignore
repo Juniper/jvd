@@ -1,2 +1,7 @@
 .DS_Store
 **/.DS_Store
+
+# Internal audit-tooling output — lives under ~/git-reports/audit/<jvd>/
+**/_audit_findings.json
+**/_taxonomy.*.json
+**/_topology_registry.json

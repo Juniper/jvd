@@ -4,6 +4,130 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-29
+
+The Metro Ethernet Business Services (MEBS) snip library gets a
+refresh: eight new service templates fill out the L2VPN / L3VPN
+catalog, the generic `l3vpn-vrf` snip is split into two
+protocol-specific templates so that VRFs are now categorized
+by their PE-CE protocol, and the BYOAI assistant's
+"what can I generate" menu has been rewritten to match the
+library's actual coverage.
+
+### New content
+
+- **New MEBS service templates** under
+  [`service_provider/metro_ethernet_business_services/configuration/snips/`](service_provider/metro_ethernet_business_services/configuration/snips/):
+  - **EVPN-FXC** (Flexible Cross-Connect) for both
+    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf)
+    and
+    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-fxc.conf)
+    — bundle multiple UNIs under one `evpn-vpws` instance with
+    an FXC collector group.
+  - **EVPN E-Tree** for
+    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-etree.conf)
+    — MEF E-Tree (root / leaf) on a Junos mac-vrf with
+    `etree-ac-role` on each UNI.
+  - **Slim L3VPN IRB-anchor VRF** for
+    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf)
+    and
+    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf)
+    — a Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF
+    for L2+L3 IRB services (host /32s ride RT-2, no
+    `ip-prefix-routes` block).
+  - **L2Circuit floating pseudowires** for
+    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf)
+    and
+    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-floating-pw.conf)
+    — static-label PW landing on a `ps<N>` pseudowire-subscriber
+    anchor.
+  - **L2Circuit local-switching** for
+    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-lsw.conf)
+    — port-to-port hairpin on one PE via
+    `end-interface`.
+  - **EVO BGP-VPLS** at
+    [`evo/services/bgp-vpls.conf`](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/bgp-vpls.conf)
+    — completes the BGP-VPLS cross-OS pair (the Junos template
+    already shipped).
+  - **Junos EVPN-ELAN virtual-switch IRB** at
+    [`junos/services/evpn-elan-virtual-switch-irb.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf)
+    — the legacy `virtual-switch` shape with IRB, alongside the
+    existing mac-vrf variant.
+
+- **L3VPN split by PE-CE protocol** — the generic `l3vpn-vrf`
+  template is replaced by two protocol-specific templates,
+  shipped for both Junos and EVO:
+  - [`l3vpn-bgp.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-bgp.conf)
+    — L3VPN VRF with PE-CE eBGP (`as-override`,
+    BGP routing-options).
+  - [`l3vpn-ospf.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-ospf.conf)
+    — L3VPN VRF with PE-CE OSPF (area 0,
+    `interface-type p2p`).
+
+- **Two new MEBS interface templates**:
+  - [`junos/interfaces/pseudowire-subscriber.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/pseudowire-subscriber.conf)
+    — the `ps<N>` anchor used by floating-pw services.
+  - [`junos/interfaces/ethernet-bridge.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ethernet-bridge.conf)
+    — `encapsulation ethernet-bridge` UNI shape.
+
+- **BYOAI menu refreshed** — the
+  [MEBS BYOAI](service_provider/metro_ethernet_business_services/configuration/snips/byoai/)
+  assistant's
+  [`MENU.md`](service_provider/metro_ethernet_business_services/configuration/snips/byoai/MENU.md)
+  and system-prompt greeting are reorganized into four
+  groups — **L2VPN / E-Line**, **L2VPN / E-LAN + E-Tree**,
+  **L2 + L3 IRB**, and **L3VPN** — listing exactly the
+  services the new template set can build (17 generation
+  flows in total). The downloadable snip bundle
+  (`jvd-mebs-snips.md`) and assistant prompt
+  (`jvd-mebs-byoai-prompt.txt`) have been regenerated to match.
+
+- **Pair-with cross-references updated** across roughly fifteen
+  existing MEBS snips so the same-device dependency graph stays
+  consistent with the new and renamed service templates
+  (e.g. `apply-group` GR-EDGE-INTF parents for FXC and BGP-VPLS;
+  ethernet-bridge UNI for EVPN E-Tree; the bgp / ospf split
+  picked up by every snip that previously referenced
+  `l3vpn-vrf`).
+
+- **JVD Portal Snip Library** rebuilt to surface the refreshed
+  MEBS catalog —
+  [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
+  now lists 446 snips across the eight published JVDs, with
+  the new MEBS templates browsable by JVD, technology, and
+  MEF use case.
+
+### What this means for you
+
+- If you're building a Metro Ethernet service against MEBS,
+  the [services tree](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/)
+  is now a one-snip-per-shape catalog: pick `evpn-vpws` /
+  `evpn-fxc` / `evpn-etree` / `l3vpn-bgp` / `l3vpn-ospf` /
+  `l2circuit-floating-pw` etc. directly, instead of forking
+  a generic VRF or VPWS template and rewriting it.
+- Every new template carries the same five-section header
+  (`Topic`, `Seen on`, `Highlights`, `Pair with`,
+  `JVD service mapping`, `Variables`), so the deployment
+  workflow is unchanged — `Pair with` still tells you which
+  `interfaces/`, `apply-groups/`, `firewall/`, `cos/`, and
+  `policy/` snips must coexist on the same device.
+- The MEBS BYOAI assistant now offers exactly the generation
+  flows the library can actually produce — no more asking
+  the assistant for a service shape only to find the
+  underlying template doesn't exist.
+
+### By the numbers
+
+| Area | Files changed |
+| --- | --- |
+| MEBS service snips (Junos + EVO) | +15 new, ~10 refreshed, 2 removed |
+| MEBS interface snips (Junos) | +2 new |
+| MEBS apply-group / cos / firewall / policy / transport snips | ~25 Pair-with header touch-ups |
+| BYOAI bundle (MENU + system prompt + snip bundle + manifest) | 5 files refreshed |
+| Portal snip data | 446 snips indexed across 8 JVDs |
+
+---
+
 ## 2026-05-28
 
 The Metro-as-a-Service (MaaS) JVD gains its first reusable
