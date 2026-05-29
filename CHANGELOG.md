@@ -4,6 +4,142 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-28
+
+The Metro-as-a-Service (MaaS) JVD gains its first reusable
+configuration-snippet library — 112 templates covering the full
+MEF service portfolio (E-Line, E-LAN, E-Tree, E-Access) across
+both Junos (MX, ACX5448, ACX710) and Junos EVO (ACX7024,
+ACX7100, ACX7509) platforms, organized into a parallel
+`junos/` and `evo/` tree by category. A small set of source
+configurations under [`metro_as_a_service/configuration/conf/`](service_provider/metro_as_a_service/configuration/conf/)
+was also refreshed for accuracy.
+
+### New content
+
+- **MaaS Configuration Snip Library** — 112 reusable templates for the
+  [`metro_as_a_service`](service_provider/metro_as_a_service/) JVD,
+  organized under
+  [`configuration/snips/`](service_provider/metro_as_a_service/configuration/snips/)
+  with dual Junos and EVO trees across 6 categories:
+  `services/` (EVPN E-LAN incl. port-based / vlan-bundle / type-5,
+  EVPN E-Tree, EVPN VPWS incl. LSW and port-based, EVPN FXC
+  vlan-aware / vlan-unaware, BGP-VPLS, L2VPN Kompella,
+  static l2circuit incl. floating-pw / hot-standby, bridge-domain),
+  `interfaces/` (vlan-bridge incl. ESI / QinQ / E-Tree leaf/root,
+  vlan-ccc with vlan-map ESI, ethernet-bridge, ethernet-ccc,
+  IRB L3, pseudowire subscriber, physical-mtu),
+  `firewall/` (color-aware and color-blind filters for families
+  ccc, bridge, and ethernet-switching, with L2CP and per-CoS
+  variants),
+  `cos/` (forwarding-classes, ieee-802.1p / MPLS-EXP classifiers,
+  rewrite-rules, schedulers and scheduler-map, CoS-binding
+  templates for both ieee-802.1p and MPLS encaps),
+  `policy/` (L3VPN RT, VPN RT export), and
+  `apply-groups/` (MEF forwarding-profile).
+  Every template carries the standard five-section header
+  (`Topic`, `Seen on`, `Highlights`, `Pair with`, `JVD service
+  mapping`, `Variables`) and a
+  [`_variables.md`](service_provider/metro_as_a_service/configuration/snips/_variables.md)
+  glossary defines all 49 `$VARIABLE` placeholders. A
+  [`README.md`](service_provider/metro_as_a_service/configuration/snips/README.md)
+  documents the OS / category layout, deployment workflow, and
+  the same-device `Pair with` dependency model.
+
+- **Source configuration updates** — ten files under
+  [`configuration/conf/`](service_provider/metro_as_a_service/configuration/conf/)
+  were updated for accuracy: a CoS code-point value was
+  corrected on `FC-HIGH` in eight service captures, a `family
+  ccc` wrapper was restored on one firewall filter, a missing
+  CoS `scheduler-map` binding was added to one VPWS edge
+  config, and a missing closing brace on one class-of-service
+  block was repaired.
+
+- **JVD Portal snip browser** — the new MaaS library is wired
+  into the [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
+  on the JVD Portal. Browse by JVD, technology, or use case
+  (Service Provider / Metro / Business Services / MEF); each
+  snip page renders the body with syntax highlighting and
+  resolves `Pair with` links to other MaaS snips.
+
+### What this means for you
+
+- If you're deploying Metro Ethernet services on Juniper MX or
+  ACX platforms, start from the new
+  [MaaS snip library](service_provider/metro_as_a_service/configuration/snips/).
+  Each `services/` template lists exactly which `interfaces/`,
+  `firewall/`, and `cos/` snips must coexist on the same device,
+  so you can assemble a working configuration without
+  cross-referencing the full source captures.
+- Junos and EVO templates live in sibling paths under
+  `junos/` and `evo/`, making it easy to compare the two OSes
+  for the same service shape (e.g. EVPN-FXC, l2circuit, EVPN
+  E-LAN) and pick the right one for your platform.
+- The library covers six MEF service families end-to-end —
+  E-Line (EPL, EVPL), E-LAN (EP-LAN, EVP-LAN), E-Tree
+  (EP-Tree, EVP-Tree), and E-Access — including less-common
+  patterns like EVPN E-LAN Type-5, EVPN E-Tree, L2VPN
+  Kompella, and pseudowire-headend-termination via
+  `l2circuit-floating-pw`.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-area changes</summary>
+
+| Area / JVD | Added | Modified |
+| --- | ---: | ---: |
+| `service_provider/metro_as_a_service/configuration/snips` | 114 | 0 |
+| `service_provider/metro_as_a_service/configuration/conf` | 0 | 10 |
+| `portal` (snip browser wiring) | 0 | 4 |
+| **TOTAL** | **114** | **14** |
+
+</details>
+
+<details>
+<summary>Net lines added</summary>
+
+| Area | Lines added |
+| --- | ---: |
+| Junos templates (`junos/`) | 3,132 |
+| EVO templates (`evo/`) | 3,417 |
+| Documentation (`_variables.md` + `README.md`) | 282 |
+| **Total** | **6,831** |
+
+</details>
+
+<details>
+<summary>MaaS snip-library content breakdown</summary>
+
+| Content | Files | Lines |
+| --- | ---: | ---: |
+| Junos templates (6 categories) | 50 | 3,132 |
+| EVO templates (6 categories) | 62 | 3,417 |
+| Variables glossary (`_variables.md`) | 1 | 59 |
+| Snip-library `README.md` | 1 | 223 |
+| **Total** | **114** | **6,831** |
+
+</details>
+
+<details>
+<summary>MaaS snips by OS and category</summary>
+
+| Category | Junos | EVO |
+| --- | ---: | ---: |
+| `services` | 12 | 20 |
+| `interfaces` | 16 | 25 |
+| `firewall` | 10 | 6 |
+| `cos` | 9 | 7 |
+| `policy` | 2 | 3 |
+| `apply-groups` | 1 | 1 |
+| **Total** | **50** | **62** |
+
+</details>
+
+---
+
 ## 2026-05-21
 
 Three JVDs gain full config-snippet libraries this week: the 3-Stage
