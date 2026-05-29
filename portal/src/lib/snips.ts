@@ -26,6 +26,7 @@ export type SnipRecord = {
   highlights: string[];
   pairWith: SnipPairRef[];
   variables: SnipVariable[];
+  jvdServiceMapping: string[];
   body: string;
   bodyHtml: string;
   bytes: number;
