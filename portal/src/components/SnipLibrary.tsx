@@ -456,6 +456,14 @@ function SnipDetail({
           </Section>
         )}
 
+        {snip.jvdServiceMapping && snip.jvdServiceMapping.length > 0 && (
+          <Section title="JVD service mapping">
+            <pre className="overflow-x-auto whitespace-pre rounded-md border border-border bg-surface px-3 py-2 font-mono text-xs leading-relaxed text-foreground/85">
+{snip.jvdServiceMapping.join("\n")}
+            </pre>
+          </Section>
+        )}
+
         {snip.variables.length > 0 && (
           <Section title="Variables">
             <div className="overflow-hidden rounded-md border border-border">

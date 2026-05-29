@@ -122,16 +122,24 @@ function parseSnip(text) {
   const highlights = [];
   const pairWith = [];
   const variables = [];
+  const jvdServiceMapping = [];
 
   for (const line of rawLines) {
     const trimmed = line.trim();
-    if (!trimmed) continue;
+    if (!trimmed) {
+      // Preserve blank lines inside the JVD service mapping block so the
+      // rendered text keeps its visual grouping.
+      if (section === "jvd-service-mapping" && jvdServiceMapping.length) {
+        jvdServiceMapping.push("");
+      }
+      continue;
+    }
 
     // Section headers (case-insensitive on the keyword).
     // "Apply-group" is accepted as a synonym for "Topic" — apply-group snips
     // are routinely headed with "Apply-group: GR-NAME" since the group name
     // IS the topic.
-    const sec = trimmed.match(/^(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables)\b\s*:?\s*(.*)$/i);
+    const sec = trimmed.match(/^(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping)\b\s*:?\s*(.*)$/i);
     if (sec) {
       const key = sec[1].toLowerCase();
       if (key === "topic" || key === "apply-group" || key === "apply-groups") {
@@ -145,6 +153,8 @@ function parseSnip(text) {
         section = "pair-with";
       } else if (key === "variables") {
         section = "variables";
+      } else if (key === "jvd service mapping") {
+        section = "jvd-service-mapping";
       }
       continue;
     }
@@ -193,13 +203,28 @@ function parseSnip(text) {
       }
       continue;
     }
+
+    if (section === "jvd-service-mapping") {
+      // Preserve leading indentation relative to the section so the rendered
+      // block keeps its visual structure (instance line vs. role bullets).
+      // `line` here has had " * " already stripped, so leading spaces are the
+      // author's intentional indent.
+      jvdServiceMapping.push(line.replace(/\s+$/, ""));
+      continue;
+    }
+  }
+
+  // Trim a trailing blank line that may have been pushed into the mapping
+  // block by the blank-line preservation rule above.
+  while (jvdServiceMapping.length && jvdServiceMapping[jvdServiceMapping.length - 1] === "") {
+    jvdServiceMapping.pop();
   }
 
   if (!topic) warnings.push("missing-topic");
 
   return {
     warnings,
-    header: { topic, seenOn, highlights, pairWith, variables },
+    header: { topic, seenOn, highlights, pairWith, variables, jvdServiceMapping },
     body,
   };
 }
@@ -500,6 +525,7 @@ async function main() {
       highlights: header?.highlights || [],
       pairWith: [], // filled in pass 2
       variables: header?.variables || [],
+      jvdServiceMapping: header?.jvdServiceMapping || [],
       body,
       bodyHtml: "", // filled below
       bytes: Buffer.byteLength(body, "utf8"),
