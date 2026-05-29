@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T05:11:40.203Z",
+  "generatedAt": "2026-05-29T18:16:43.163Z",
   "counts": {
     "total": 432,
     "junos": 210,
@@ -19174,6 +19174,10 @@
         {
           "raw": "junos/cos/schedulers.conf",
           "id": "metro_as_a_service/junos/cos/schedulers"
+        },
+        {
+          "raw": "junos/cos/schedulers-an1.conf  (AN1 only)",
+          "id": null
         }
       ],
       "variables": [],
@@ -19231,6 +19235,10 @@
         {
           "raw": "junos/cos/schedulers.conf",
           "id": "metro_as_a_service/junos/cos/schedulers"
+        },
+        {
+          "raw": "junos/cos/schedulers-an1.conf  (AN1 only)",
+          "id": null
         }
       ],
       "variables": [],
@@ -19359,6 +19367,55 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/junos/cos/schedulers-an1",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "cos",
+      "name": "schedulers-an1",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/cos/schedulers-an1.conf",
+      "topic": "Class-of-service: schedulers (AN1 variant — shaping-rate + low-priority SC-HIGH)",
+      "seenOn": {
+        "junos": [
+          "AN1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Per-queue scheduler shaping / buffer / priority"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/cos/scheduler-map.conf",
+          "id": "metro_as_a_service/junos/cos/scheduler-map"
+        },
+        {
+          "raw": "junos/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-ieee8021p"
+        },
+        {
+          "raw": "junos/cos/cos-binding-mpls.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-mpls"
+        }
+      ],
+      "variables": [],
+      "body": "schedulers {\n    SC-SIGNALING {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority high;\n    }\n    SC-LLQ {\n        shaping-rate percent 40;\n        buffer-size percent 10;\n        priority strict-high;\n    }\n    SC-REALTIME {\n        shaping-rate percent 30;\n        buffer-size percent 20;\n        priority medium-high;\n    }\n    SC-HIGH {\n        transmit-rate percent 40;\n        buffer-size percent 20;\n        priority low;\n    }\n    SC-CONTROL {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority high;\n    }\n    SC-MEDIUM {\n        transmit-rate percent 30;\n        buffer-size percent 10;\n        priority low;\n    }\n    SC-LOW {\n        transmit-rate percent 20;\n        buffer-size percent 10;\n        priority low;\n    }\n    SC-BEST-EFFORT {\n        transmit-rate {\n            remainder;\n        }\n        buffer-size {\n            remainder;\n        }\n        priority low;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-SIGNALING {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LLQ {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority medium-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-HIGH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LOW {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 953,
+      "lineCount": 46,
+      "techFamily": "QoS / CoS",
+      "subfamily": "CoS",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/junos/cos/schedulers-legacy-acx",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -19383,42 +19440,6 @@
       "body": "schedulers {\n    SC-SIGNALING {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority low;\n    }\n    SC-LLQ {\n        shaping-rate percent 40;\n        buffer-size percent 10;\n        priority strict-high;\n    }\n    SC-REALTIME {\n        shaping-rate percent 30;\n        buffer-size percent 20;\n        priority low;\n    }\n    SC-HIGH {\n        transmit-rate percent 40;\n        buffer-size percent 30;\n        priority low;\n    }\n    SC-CONTROL {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority low;\n    }\n    SC-MEDIUM {\n        transmit-rate percent 30;\n        buffer-size percent 20;\n        priority low;\n    }\n    SC-LOW {\n        transmit-rate percent 20;\n        buffer-size percent 10;\n        priority low;\n    }\n    SC-BEST-EFFORT {\n        transmit-rate {\n            remainder;\n        }\n        buffer-size {\n            remainder;\n        }\n        priority low;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-SIGNALING {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LLQ {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-HIGH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LOW {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 943,
-      "lineCount": 46,
-      "techFamily": "QoS / CoS",
-      "subfamily": "CoS",
-      "usecases": [
-        "Service Provider",
-        "Metro",
-        "Business Services",
-        "MEF"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "metro_as_a_service/junos/cos/schedulers-v2",
-      "jvd": "metro_as_a_service",
-      "jvdLabel": "Metro as a Service",
-      "area": "Service Provider",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "cos",
-      "name": "schedulers-v2",
-      "path": "service_provider/metro_as_a_service/configuration/snips/junos/cos/schedulers-v2.conf",
-      "topic": "Class-of-service: schedulers (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
-      "seenOn": {
-        "junos": [
-          "AN1"
-        ],
-        "evo": []
-      },
-      "highlights": [
-        "Per-queue scheduler shaping / buffer / priority"
-      ],
-      "pairWith": [],
-      "variables": [],
-      "body": "schedulers {\n    SC-SIGNALING {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority high;\n    }\n    SC-LLQ {\n        shaping-rate percent 40;\n        buffer-size percent 10;\n        priority strict-high;\n    }\n    SC-REALTIME {\n        shaping-rate percent 30;\n        buffer-size percent 20;\n        priority medium-high;\n    }\n    SC-HIGH {\n        transmit-rate percent 40;\n        buffer-size percent 20;\n        priority low;\n    }\n    SC-CONTROL {\n        shaping-rate percent 5;\n        buffer-size percent 5;\n        priority high;\n    }\n    SC-MEDIUM {\n        transmit-rate percent 30;\n        buffer-size percent 10;\n        priority low;\n    }\n    SC-LOW {\n        transmit-rate percent 20;\n        buffer-size percent 10;\n        priority low;\n    }\n    SC-BEST-EFFORT {\n        transmit-rate {\n            remainder;\n        }\n        buffer-size {\n            remainder;\n        }\n        priority low;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-SIGNALING {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LLQ {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority medium-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-HIGH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        shaping-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-LOW {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size percent </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    SC-BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 953,
       "lineCount": 46,
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
