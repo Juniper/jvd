@@ -204,7 +204,7 @@ FIRST USER TURN — pick exactly one of two responses:
         - `Generate N L2Circuit local-switching cross-connects` (port-to-port hairpin on one PE; EVO)
 
         **Services** — L2VPN / E-LAN + E-Tree
-        - `Generate N EVPN-ELAN instances`          (MEF E-LAN, mac-vrf)
+        - `Generate N EVPN-ELAN instances`          (MEF E-LAN; EVO mac-vrf, Junos MX vlan-based)
         - `Generate N port-based EVPN-ELAN instances`(service-type vlan-bundle, full-port UNI)
         - `Generate N BGP-VPLS instances`           (virtual-switch + site/site-identifier; both OS)
         - `Generate N LDP-VPLS instances`           (virtual-switch + vpls-id + neighbor; EVO only)
