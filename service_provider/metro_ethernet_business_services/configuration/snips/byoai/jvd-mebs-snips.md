@@ -1458,7 +1458,7 @@ routing-instances {
  * Topic:   EVPN-ELAN via mac-vrf routing-instance (MEF E-LAN) — EVO
  * Seen on:
  *   Junos: (none)
- *           with `protocols evpn`; see junos/services/evpn-elan-mac-vrf.conf
+ *           with `protocols evpn`; see junos/services/evpn-elan-vlan-based.conf
  *           for the closest Junos analogue and notes on the difference)
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
  *
@@ -3375,7 +3375,7 @@ interfaces {
  * Pair with:
  *  - junos/interfaces/lag-esi-multihoming.conf
  *  - junos/services/evpn-vpws.conf  (vlan-ccc units)
- *  - junos/services/evpn-elan-mac-vrf.conf  (vlan-bridge units)
+ *  - junos/services/evpn-elan-vlan-based.conf  (vlan-bridge units)
  *
  * Variables (example values from an1_mx204):
  *   $AC_PHYS    e.g. ae11   (the parent AE; the per-unit blocks
@@ -3501,7 +3501,7 @@ interfaces {
  *  - junos/apply-groups/gr-edge-intf-mh.conf
  *  - junos/apply-groups/gr-lag-member.conf
  *  - junos/interfaces/edge-vlan-normalization.conf
- *  - junos/services/evpn-elan-mac-vrf.conf
+ *  - junos/services/evpn-elan-vlan-based.conf
  *  - junos/services/evpn-port-based.conf
  *  - junos/services/evpn-vpws.conf
  *
@@ -3934,152 +3934,6 @@ routing-instances {
 }
 ```
 
-## junos/services/evpn-elan-mac-vrf-irb.conf
-
-```
-/*
- * Topic:   EVPN-ELAN with integrated IRB (Junos)
- * Seen on:
- *   Junos: (none in this JVD — the MX PEs in this validated set
- *           keep EVPN-ELAN bridging and L3 in separate instances;
- *           reference template only)
- *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
- *
- * Highlights:
- *  - EVO uses `instance-type mac-vrf` with `l3-interface irb.X` to
- *    integrate L2 (EVPN-ELAN) and L3 (anycast IRB) in one instance.
- *    See evo/services/evpn-elan-mac-vrf-irb.conf for the validated
- *    pattern.
- *  - On Junos MX the historically equivalent pattern is
- *    `instance-type virtual-switch` with `protocols evpn` and a
- *    bridge-domain whose `routing-interface irb.X` is in a separate
- *    L3VPN VRF — this is what the JVD's MX PEs do today (split
- *    instance model).
- *  - Reference shape below shows how a Junos MX could be migrated
- *    to a single mac-vrf-with-IRB instance type to match EVO. The
- *    JVD does not validate this on MX — keep the split model unless
- *    you have a reason to converge.
- *
- * Pair with:
- *  - junos/services/evpn-elan-mac-vrf.conf
- *  - junos/services/l3vpn-bgp.conf
- *  - junos/services/l3vpn-ospf.conf
- *  (NOTE: this snip is a REFERENCE TEMPLATE only — MX in this
- *   JVD uses junos/services/evpn-elan-virtual-switch-irb.conf
- *   with junos/services/evpn-type5.conf for the deployed IRB pair.
- *   No deployed Junos device actually pairs mac-vrf-irb with
- *   evpn-type5 here.)
- *
- * JVD service mapping:
- *   50 instances total (high 50 / med 0 / low 0)
- *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
- *   Example: evpn_group_60_4000 (RD 1.1.0.2:14000, RT target:61535:14000)
- *     an3_acx7100-48l  et-0/0/50.2000
- *     meg1_acx7100-32c  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
- *     meg2_acx7509  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A
- *     mse1_mx304  xe-0/0/3:1.3000
- *     (+1 more endpoints)
- *
- * Variables (illustrative — not deployed on Junos in this JVD):
- *   $INSTANCE_NAME   e.g. evpn_group_60_4000
- *   $BD_NAME         e.g. BD_evpn_group_60_4000
- *   $AC_INTF         e.g. ae12.4000
- *   $IRB_UNIT        e.g. irb.4000
- *   $VLAN_BD         e.g. 4000
- *   $LOOPBACK_V4     e.g. 1.1.0.10
- *   $RD_ID           e.g. 4000
- *   $RT_ID           e.g. 4000
- *   $AS_LOCAL        e.g. 63535
- */
-routing-instances {
-    /* Reference shape — not deployed on Junos PEs in this JVD. */
-    $INSTANCE_NAME {
-        instance-type mac-vrf;
-        protocols {
-            evpn {
-                encapsulation mpls;
-                no-control-word;
-            }
-        }
-        service-type vlan-based;
-        interface $AC_INTF;
-        l3-interface $IRB_UNIT;
-        route-distinguisher $LOOPBACK_V4:$RD_ID;
-        vrf-target target:$AS_LOCAL:$RT_ID;
-        vlans {
-            $BD_NAME {
-                vlan-id $VLAN_BD;
-                interface $AC_INTF;
-                l3-interface $IRB_UNIT;
-            }
-        }
-    }
-}
-```
-
-## junos/services/evpn-elan-mac-vrf.conf
-
-```
-/*
- * Topic:   EVPN-ELAN (mac-vrf) routing-instance (MEF E-LAN)
- * Seen on:
- *   Junos: an1_mx204
- *   EVO:   (none)
- *
- * Highlights:
- *  - instance-type evpn (mac-vrf style for EVPN-ELAN)
- *  - encapsulation mpls (SR-MPLS underlay)
- *  - vlan-id none + no-normalization → port-based bridging, no VLAN
- *    rewrite at egress; attachment-circuit drives the bridge domain
- *  - no-control-word: matches the remote PE behaviour
- *  - vrf-export references a per-service policy that adds the
- *    correct route-target community
- *  - Attachment-circuit (ae11.700) has esi/all-active in interfaces
- *    snippet for active/active multihoming
- *
- * Pair with:
- *  - junos/transport/bgp-overlay.conf (family evpn signaling)
- *  - junos/interfaces/lag-esi-multihoming.conf
- *  - junos/interfaces/edge-vlan-normalization.conf
- *  - junos/services/evpn-elan-mac-vrf-irb.conf
- *
- * JVD service mapping:
- *   1050 instances total (high 50 / med 501 / low 499)
- *   On devices: ma4_mx204 (1000), ma5_mx204 (1000), mse1_mx304 (1000), mse2_mx304 (1000), an3_acx7100-48l (51), meg1_acx7100-32c (51), +5 more
- *   Example: evpn_group_80_1 (RD 1.1.0.16:8001, RT target:63536:8001)
- *     ma4_mx204  xe-0/1/4.2000
- *     ma5_mx204  xe-0/1/4.2000
- *     mse1_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
- *     mse2_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
- *
- * Variables (example values from an1_mx204):
- *   $INSTANCE_NAME   e.g. evpn_group_90_700
- *                    (the vrf-export policy is named after the instance)
- *   $AC_INTF         e.g. ae11.700
- *   $LOOPBACK_V4     e.g. 1.1.0.0
- *   $RD_ID           e.g. 7000
- *   $RT_ID           e.g. 7000
- *   $AS_LOCAL        e.g. 63535
- */
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type evpn;
-        protocols {
-            evpn {
-                encapsulation mpls;
-                no-control-word;
-            }
-        }
-        vlan-id none;
-        no-normalization;
-        interface $AC_INTF;
-        route-distinguisher $LOOPBACK_V4:$RD_ID;
-        vrf-export $INSTANCE_NAME;
-        vrf-target target:$AS_LOCAL:$RT_ID;
-    }
-}
-```
-
 ## junos/services/evpn-elan-virtual-switch-irb.conf
 
 ```
@@ -4158,6 +4012,74 @@ routing-instances {
             }
         }
         route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+    }
+}
+```
+
+## junos/services/evpn-elan-vlan-based.conf
+
+```
+/*
+ * Topic:   EVPN-ELAN (vlan-based) routing-instance (MEF E-LAN, Junos MX)
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   (none — EVO uses instance-type mac-vrf;
+ *           see evo/services/evpn-elan-mac-vrf.conf)
+ *
+ * Highlights:
+ *  - instance-type evpn (Junos MX vlan-based EVPN-ELAN; the
+ *    instance-type mac-vrf shape is EVO-only in this JVD)
+ *  - encapsulation mpls (SR-MPLS underlay)
+ *  - vlan-id none + no-normalization → port-based bridging, no VLAN
+ *    rewrite at egress; attachment-circuit drives the bridge domain
+ *  - no-control-word: matches the remote PE behaviour
+ *  - vrf-export references a per-service policy that adds the
+ *    correct route-target community
+ *  - Attachment-circuit (ae11.700) has esi/all-active in interfaces
+ *    snippet for active/active multihoming
+ *  - For vlan-aware or vlan-bundle service-types on MX, use
+ *    instance-type virtual-switch instead (see
+ *    junos/services/evpn-elan-virtual-switch-irb.conf for the
+ *    virtual-switch + IRB shape).
+ *
+ * Pair with:
+ *  - junos/transport/bgp-overlay.conf (family evpn signaling)
+ *  - junos/interfaces/lag-esi-multihoming.conf
+ *  - junos/interfaces/edge-vlan-normalization.conf
+ *
+ * JVD service mapping:
+ *   1050 instances total (high 50 / med 501 / low 499)
+ *   On devices: ma4_mx204 (1000), ma5_mx204 (1000), mse1_mx304 (1000), mse2_mx304 (1000), an3_acx7100-48l (51), meg1_acx7100-32c (51), +5 more
+ *   Example: evpn_group_80_1 (RD 1.1.0.16:8001, RT target:63536:8001)
+ *     ma4_mx204  xe-0/1/4.2000
+ *     ma5_mx204  xe-0/1/4.2000
+ *     mse1_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
+ *     mse2_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A
+ *
+ * Variables (example values from an1_mx204):
+ *   $INSTANCE_NAME   e.g. evpn_group_90_700
+ *                    (the vrf-export policy is named after the instance)
+ *   $AC_INTF         e.g. ae11.700
+ *   $LOOPBACK_V4     e.g. 1.1.0.0
+ *   $RD_ID           e.g. 7000
+ *   $RT_ID           e.g. 7000
+ *   $AS_LOCAL        e.g. 63535
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn {
+                encapsulation mpls;
+                no-control-word;
+            }
+        }
+        vlan-id none;
+        no-normalization;
+        interface $AC_INTF;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
         vrf-target target:$AS_LOCAL:$RT_ID;
     }
 }
@@ -4453,12 +4375,16 @@ routing-instances {
  *
  * Highlights:
  *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
- *    In this JVD, Type-5 is ALWAYS paired with a matching EVPN-ELAN
- *    MAC-VRF (`evpn-elan-mac-vrf-irb.conf`) on the same `irb.<N>`,
- *    so the EVI advertises both RT-2 (MAC+IP from learned hosts via
- *    the MAC-VRF) and RT-5 (the IRB subnet, silent-host /32s, and
+ *    In this JVD, Type-5 is ALWAYS paired with a matching L2 EVPN
+ *    instance on the same `irb.<N>` — on MX that L2 partner is
+ *    `instance-type virtual-switch` (see
+ *    junos/services/evpn-elan-virtual-switch-irb.conf), and on EVO
+ *    it is `instance-type mac-vrf` with `l3-interface irb.<N>`
+ *    (see evo/services/evpn-elan-mac-vrf-irb.conf). The EVI then
+ *    advertises both RT-2 (MAC+IP from learned hosts via the L2
+ *    instance) and RT-5 (the IRB subnet, silent-host /32s, and
  *    any VRF static/learned prefixes via this VRF). "Pure" RT-5
- *    (VRF only, no MAC-VRF) is not deployed here.
+ *    (VRF only, no L2 instance) is not deployed here.
  *  - The VRF's `interface irb.<N>` ties this VRF to the matching
  *    L2 service (MAC-VRF on EVO, virtual-switch on Junos) whose
  *    `l3-interface` / `routing-interface` is the same `irb.<N>`.
@@ -4950,7 +4876,7 @@ routing-instances {
  * Pair with:
  *  - junos/apply-groups/gr-bgp-bcp.conf
  *  - junos/services/bgp-vpls.conf
- *  - junos/services/evpn-elan-mac-vrf.conf
+ *  - junos/services/evpn-elan-vlan-based.conf
  *  - junos/services/evpn-elan-virtual-switch-irb.conf
  *  - junos/services/evpn-port-based.conf
  *  - junos/services/evpn-type5.conf
@@ -5386,10 +5312,12 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ---
 
-## EVPN-ELAN (mac-vrf, mac-vrf-irb, or port-based)
+## EVPN-ELAN (mac-vrf, mac-vrf-irb, vlan-based, or port-based)
 
 **minimum** (just the service)
-- `services/evpn-elan-mac-vrf.conf` (or `-irb.conf`, or `evpn-port-based.conf`, whichever flavor was requested)
+- `evo/services/evpn-elan-mac-vrf.conf` (EVO) **or**
+  `junos/services/evpn-elan-vlan-based.conf` (Junos MX) — or the
+  `-irb.conf` / `evpn-port-based.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
 **with-overlay** (= minimum +)
@@ -5419,7 +5347,9 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the same `irb.<N>`: the MAC-VRF advertises RT-2 (MAC+IP from learned hosts), and the VRF with `protocols evpn ip-prefix-routes` advertises RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes). "Pure" RT-5 (VRF only, no MAC-VRF) is not a deployed pattern here. Therefore EVERY tier below includes BOTH the L2 (ELAN-IRB) and L3 (Type-5 VRF) snips. The two instances must reference the same `irb.<N>`.
 
 **minimum** (both halves of the service + per-VRF policy)
-- `services/evpn-elan-mac-vrf-irb.conf`  (the L2 / RT-2 half — MAC-VRF with `l3-interface irb.<N>`)
+- L2 / RT-2 half (one of):
+    - `evo/services/evpn-elan-mac-vrf-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
+    - `junos/services/evpn-elan-virtual-switch-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
 - `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
