@@ -86,8 +86,10 @@ The same topic file exists under both `junos/` and `evo/`:
 | `transport/mpls-segment-routing.conf` | SRGB, admin-groups, ipv6-tunneling |
 | `transport/bgp-overlay.conf` | iBGP to RR with overlay AFs (inet/inet6 LU, inet-vpn, l2vpn, evpn, RT) |
 | `services/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
-| `services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) / virtual-switch (Junos) |
-| `services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (reference shape on Junos) |
+| `evo/services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) |
+| `junos/services/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based (Junos MX) |
+| `evo/services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
+| `junos/services/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
 | `services/evpn-port-based.conf` | Port-based EVPN-VPWS (EPL) and EVPN-ELAN (vlan-bundle) |
 | `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
 | `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |

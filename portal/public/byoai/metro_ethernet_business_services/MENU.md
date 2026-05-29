@@ -21,7 +21,7 @@ Replace `N` with any count (e.g. `Generate 3 EVPN-VPWS services`).
 
 ### L2VPN / E-LAN + E-Tree
 
-- `Generate N EVPN-ELAN instances` — MEF E-LAN, mac-vrf
+- `Generate N EVPN-ELAN instances` — MEF E-LAN (EVO `mac-vrf`, Junos MX `instance-type evpn` vlan-based)
 - `Generate N port-based EVPN-ELAN instances` — `service-type vlan-bundle`, single full-port UNI
 - `Generate N BGP-VPLS instances` — `virtual-switch` + `site` / `site-identifier`; both OS
 - `Generate N LDP-VPLS instances` — `virtual-switch` + `vpls-id` + `neighbor`; EVO only in this JVD

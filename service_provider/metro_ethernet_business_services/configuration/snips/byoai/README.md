@@ -110,7 +110,7 @@ Because the heavy lifting — *which features go together, how they're spelled o
 
 Practical examples:
 
-- "Generate a complete EVPN-VPWS service config for `mse1_mx304` and `meg1_acx7100-32c` with VPWS service-id 4001, attachment-circuit `xe-0/1/4.4001` on the MX side and `et-0/0/0.4001` on the ACX side, both inside MAC-VRF instance `EVPN_VPWS_4001`."
+- "Generate a complete EVPN-VPWS service config for `mse1_mx304` and `meg1_acx7100-32c` with VPWS service-id 4001, attachment-circuit `xe-0/1/4.4001` on the MX side and `et-0/0/0.4001` on the ACX side, both inside EVPN-VPWS instance `EVPN_VPWS_4001`."
 - "I need 12 new L3VPN VRFs numbered METRO_BGPv4_L3VPN_3001…3012, each with RD `63536:3NNN` and route-target `target:63536:3NNN`. Produce the per-VRF policy, the VRF stanza, and the BGP overlay activation."
 - "Take an1_mx204's existing edge LAG `ae0` and add three new ESI-multihomed customer units 510, 520, 530 in EVPN-ELAN MAC-VRFs 510/520/530."
 - "Build an apply-group-driven baseline for a brand-new ACX7024 access node joining the metro: ISIS BCP, BGP BCP, edge interface template, FAT-PW, CoS classifiers, OAM CFM."
