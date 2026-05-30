@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T22:48:22.703Z",
+  "generatedAt": "2026-05-30T23:29:10.804Z",
   "counts": {
     "total": 442,
     "junos": 216,
@@ -167,6 +167,11 @@
           "raw": "evo/interfaces/fabric-uplink.conf  (ports configured here carry the fabric links)",
           "id": "3stage_dc/evo/interfaces/fabric-uplink",
           "note": "ports configured here carry the fabric links"
+        },
+        {
+          "raw": "evo/bootstrap/grpc-certificate.conf           (grpc-certificate)",
+          "id": "3stage_dc/evo/bootstrap/grpc-certificate",
+          "note": "grpc-certificate"
         }
       ],
       "variables": [
@@ -292,6 +297,11 @@
           "raw": "evo/oam/ipv6-router-advertisement.conf  (RA on external units)",
           "id": "3stage_dc/evo/oam/ipv6-router-advertisement",
           "note": "RA on external units"
+        },
+        {
+          "raw": "evo/oam/rstp-bridge.conf                      (rstp-bridge)",
+          "id": "3stage_dc/evo/oam/rstp-bridge",
+          "note": "rstp-bridge"
         }
       ],
       "variables": [
@@ -838,6 +848,11 @@
           "raw": "evo/transport/bgp-underlay-fabric.conf  (fabric BGP applies this)",
           "id": "3stage_dc/evo/transport/bgp-underlay-fabric",
           "note": "fabric BGP applies this"
+        },
+        {
+          "raw": "evo/services/vrf-evpn-ip-prefix.conf          (vrf-evpn-ip-prefix)",
+          "id": "3stage_dc/evo/services/vrf-evpn-ip-prefix",
+          "note": "vrf-evpn-ip-prefix"
         }
       ],
       "variables": [
@@ -1425,6 +1440,21 @@
           "raw": "evo/interfaces/irb-gateway.conf            (IRB interfaces bound here)",
           "id": "3stage_dc/evo/interfaces/irb-gateway",
           "note": "IRB interfaces bound here"
+        },
+        {
+          "raw": "evo/interfaces/external-vlan-tagged.conf      (external-vlan-tagged)",
+          "id": "3stage_dc/evo/interfaces/external-vlan-tagged",
+          "note": "external-vlan-tagged"
+        },
+        {
+          "raw": "evo/interfaces/loopback-multi-unit.conf       (loopback-multi-unit)",
+          "id": "3stage_dc/evo/interfaces/loopback-multi-unit",
+          "note": "loopback-multi-unit"
+        },
+        {
+          "raw": "evo/oam/ipv6-router-advertisement.conf        (ipv6-router-advertisement)",
+          "id": "3stage_dc/evo/oam/ipv6-router-advertisement",
+          "note": "ipv6-router-advertisement"
         }
       ],
       "variables": [
@@ -1461,15 +1491,34 @@
           "example": "10.200.0.4"
         },
         {
+          "name": "$EXT_NEIGHBOR_V6",
+          "example": "2001:db8:dc1:10:200::5"
+        },
+        {
+          "name": "$EXT_LOCAL_V6",
+          "example": "2001:db8:dc1:10:200::4"
+        },
+        {
           "name": "$EXT_PEER_AS",
           "example": "65000"
+        },
+        {
+          "name": "$EXT_PEER_NAME",
+          "example": "external_router"
         },
         {
           "name": "$WAN_INTERFACE",
           "example": "et-0/0/8:0.399"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  3 instances total (high 3 / med 0 / low 0)",
+        "  On devices: esi-leaf1_qfx5120-48y (3), esi-leaf2_qfx5120-48y (3), server-leaf1_qfx5120-48y (3)",
+        "  Example: blue (RD 192.168.255.4:3, RT target:20002:1)",
+        "    esi-leaf1_qfx5120-48y",
+        "    esi-leaf2_qfx5120-48y",
+        "    server-leaf1_qfx5120-48y"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        instance-type vrf;\n        routing-options {\n            rib $VRF_NAME.inet6.0 {\n                multipath;\n            }\n            graceful-restart;\n            multipath;\n            auto-export;\n        }\n        protocols {\n            bgp {\n                group l3rtr {\n                    type external;\n                    multihop {\n                        ttl 1;\n                    }\n                    family inet {\n                        unicast {\n                            loops 2;\n                        }\n                    }\n                    family inet6 {\n                        unicast {\n                            loops 2;\n                        }\n                    }\n                    multipath {\n                        multiple-as;\n                    }\n                    neighbor $EXT_NEIGHBOR_V6 {\n                        description facing_$EXT_PEER_NAME;\n                        multihop {\n                            ttl 2;\n                        }\n                        local-address $EXT_LOCAL_V6;\n                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );\n                        family inet6 {\n                            unicast;\n                        }\n                        export ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );\n                        peer-as $EXT_PEER_AS;\n                    }\n                    neighbor $EXT_NEIGHBOR_V4 {\n                        description facing_$EXT_PEER_NAME;\n                        multihop {\n                            ttl 2;\n                        }\n                        local-address $EXT_LOCAL_V4;\n                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );\n                        family inet {\n                            unicast;\n                        }\n                        export ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );\n                        peer-as $EXT_PEER_AS;\n                    }\n                }\n                graceful-restart {\n                    dont-help-shared-fate-bfd-down;\n                }\n            }\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation vxlan;\n                    vni $VNI;\n                    export BGP-AOS-Policy-$VRF_NAME;\n                }\n            }\n        }\n        forwarding-options {\n            dhcp-relay {\n                forward-only;\n                server-group {\n                    $VRF_NAME {\n                        $DHCP_SERVER;\n                    }\n                }\n                group $VRF_NAME {\n                    active-server-group $VRF_NAME;\n                    relay-option-82 {\n                        server-id-override;\n                    }\n                }\n            }\n        }\n        interface $WAN_INTERFACE;\n        interface lo0.$LO_UNIT;\n        route-distinguisher $RD;\n        vrf-target $VRF_TARGET;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib $VRF_NAME.inet6.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group l3rtr {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        unicast {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        unicast {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $EXT_NEIGHBOR_V6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        description facing_$EXT_PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            ttl </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $EXT_LOCAL_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                        export</span><span style=\"color:#E6EDF3\"> ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $EXT_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $EXT_NEIGHBOR_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        description facing_$EXT_PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            ttl </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $EXT_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                        export</span><span style=\"color:#E6EDF3\"> ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $EXT_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                graceful-restart {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    dont-help-shared-fate-bfd-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation vxlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VNI;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> BGP-AOS-Policy-$VRF_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dhcp-relay {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                forward-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                server-group {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $DHCP_SERVER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    active-server-group $VRF_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    relay-option-</span><span style=\"color:#79C0FF\">82</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        server-id-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $WAN_INTERFACE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.$LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 2983,
@@ -1614,6 +1663,11 @@
           "raw": "evo/interfaces/fabric-uplink.conf            (physical links these sessions run over)",
           "id": "3stage_dc/evo/interfaces/fabric-uplink",
           "note": "physical links these sessions run over"
+        },
+        {
+          "raw": "evo/transport/forwarding-table-ecmp.conf      (forwarding-table-ecmp)",
+          "id": "3stage_dc/evo/transport/forwarding-table-ecmp",
+          "note": "forwarding-table-ecmp"
         }
       ],
       "variables": [
@@ -1752,6 +1806,11 @@
           "raw": "junos/interfaces/fabric-uplink.conf   (uplink ports using the 100g speed)",
           "id": "3stage_dc/junos/interfaces/fabric-uplink",
           "note": "uplink ports using the 100g speed"
+        },
+        {
+          "raw": "junos/bootstrap/grpc-certificate.conf         (grpc-certificate)",
+          "id": "3stage_dc/junos/bootstrap/grpc-certificate",
+          "note": "grpc-certificate"
         }
       ],
       "variables": [
@@ -1872,6 +1931,11 @@
           "raw": "junos/services/vrf-evpn-ip-prefix.conf     (VRF references these interface units)",
           "id": "3stage_dc/junos/services/vrf-evpn-ip-prefix",
           "note": "VRF references these interface units"
+        },
+        {
+          "raw": "junos/oam/ipv6-router-advertisement.conf      (ipv6-router-advertisement)",
+          "id": "3stage_dc/junos/oam/ipv6-router-advertisement",
+          "note": "ipv6-router-advertisement"
         }
       ],
       "variables": [
@@ -2012,6 +2076,16 @@
           "raw": "junos/oam/ipv6-router-advertisement.conf (IPv6 RA on each IRB unit)",
           "id": "3stage_dc/junos/oam/ipv6-router-advertisement",
           "note": "IPv6 RA on each IRB unit"
+        },
+        {
+          "raw": "junos/interfaces/external-vlan-tagged.conf    (external-vlan-tagged)",
+          "id": "3stage_dc/junos/interfaces/external-vlan-tagged",
+          "note": "external-vlan-tagged"
+        },
+        {
+          "raw": "junos/services/mac-vrf-evpn-vxlan.conf        (mac-vrf-evpn-vxlan)",
+          "id": "3stage_dc/junos/services/mac-vrf-evpn-vxlan",
+          "note": "mac-vrf-evpn-vxlan"
         }
       ],
       "variables": [
@@ -2083,6 +2157,21 @@
           "raw": "junos/interfaces/vlan-vxlan-domain.conf   (VLAN definitions referenced by trunk)",
           "id": "3stage_dc/junos/interfaces/vlan-vxlan-domain",
           "note": "VLAN definitions referenced by trunk"
+        },
+        {
+          "raw": "junos/interfaces/trunk-access-port.conf       (trunk-access-port)",
+          "id": "3stage_dc/junos/interfaces/trunk-access-port",
+          "note": "trunk-access-port"
+        },
+        {
+          "raw": "junos/oam/rstp-bridge.conf                    (rstp-bridge)",
+          "id": "3stage_dc/junos/oam/rstp-bridge",
+          "note": "rstp-bridge"
+        },
+        {
+          "raw": "junos/services/mac-vrf-evpn-vxlan.conf        (mac-vrf-evpn-vxlan)",
+          "id": "3stage_dc/junos/services/mac-vrf-evpn-vxlan",
+          "note": "mac-vrf-evpn-vxlan"
         }
       ],
       "variables": [
@@ -2305,6 +2394,16 @@
           "raw": "junos/interfaces/trunk-access-port.conf (access ports carry these VLANs)",
           "id": "3stage_dc/junos/interfaces/trunk-access-port",
           "note": "access ports carry these VLANs"
+        },
+        {
+          "raw": "junos/interfaces/lag-esi-access.conf          (lag-esi-access)",
+          "id": "3stage_dc/junos/interfaces/lag-esi-access",
+          "note": "lag-esi-access"
+        },
+        {
+          "raw": "junos/transport/evpn-vxlan-shared-tunnels.conf (evpn-vxlan-shared-tunnels)",
+          "id": "3stage_dc/junos/transport/evpn-vxlan-shared-tunnels",
+          "note": "evpn-vxlan-shared-tunnels"
         }
       ],
       "variables": [
@@ -2377,6 +2476,11 @@
           "raw": "junos/services/vrf-evpn-ip-prefix.conf      (VRF binds these interfaces)",
           "id": "3stage_dc/junos/services/vrf-evpn-ip-prefix",
           "note": "VRF binds these interfaces"
+        },
+        {
+          "raw": "junos/interfaces/irb-gateway.conf             (irb-gateway)",
+          "id": "3stage_dc/junos/interfaces/irb-gateway",
+          "note": "irb-gateway"
         }
       ],
       "variables": [
@@ -2640,6 +2744,11 @@
           "raw": "junos/transport/bgp-underlay-fabric.conf  (fabric BGP applies this as export)",
           "id": "3stage_dc/junos/transport/bgp-underlay-fabric",
           "note": "fabric BGP applies this as export"
+        },
+        {
+          "raw": "junos/services/vrf-evpn-ip-prefix.conf        (vrf-evpn-ip-prefix)",
+          "id": "3stage_dc/junos/services/vrf-evpn-ip-prefix",
+          "note": "vrf-evpn-ip-prefix"
         }
       ],
       "variables": [
@@ -3041,11 +3150,6 @@
           "raw": "junos/transport/forwarding-table-ecmp.conf  (references this policy)",
           "id": "3stage_dc/junos/transport/forwarding-table-ecmp",
           "note": "references this policy"
-        },
-        {
-          "raw": "evo/transport/forwarding-table-ecmp.conf    (references this policy)",
-          "id": "3stage_dc/evo/transport/forwarding-table-ecmp",
-          "note": "references this policy"
         }
       ],
       "variables": [],
@@ -3301,7 +3405,14 @@
           "example": "9"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1 instances total (high 1 / med 0 / low 0)",
+        "  On devices: esi-leaf1_qfx5120-48y (1), esi-leaf2_qfx5120-48y (1), server-leaf1_qfx5120-48y (1)",
+        "  Example: evpn-1 (RD 192.168.255.4:65534, RT target:10400:1)",
+        "    esi-leaf1_qfx5120-48y  xe-0/0/0.0",
+        "    esi-leaf2_qfx5120-48y  xe-0/0/0.0",
+        "    server-leaf1_qfx5120-48y  xe-0/0/0.0"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation vxlan;\n                default-gateway do-not-advertise;\n                duplicate-mac-detection {\n                    auto-recovery-time $AUTO_RECOVERY_TIME;\n                }\n                extended-vni-list all;\n                vni-options {\n                    vni $VNI {\n                        vrf-target $VNI_TARGET;\n                    }\n                    /* ... repeat per VNI ... */\n                }\n            }\n        }\n        vtep-source-interface $VTEP_SOURCE;\n        service-type vlan-aware;\n        interface $ACCESS_INTERFACE;\n        /* ... repeat per access interface ... */\n        route-distinguisher $RD;\n        vrf-target $GLOBAL_VRF_TARGET;\n        vlans {\n            $VLAN_NAME {\n                description $VLAN_DESC;\n                vlan-id $VLAN_ID;\n                l3-interface irb.$IRB_UNIT;\n                vxlan {\n                    vni $VXLAN_VNI;\n                }\n            }\n            /* ... repeat per VLAN ... */\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation vxlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                duplicate-mac-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    auto-recovery-time $AUTO_RECOVERY_TIME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                extended-vni-list all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vni-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VNI {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        vrf-target $VNI_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    /* ... repeat per VNI ... */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vtep-source-interface $VTEP_SOURCE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ACCESS_INTERFACE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* ... repeat per access interface ... */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $GLOBAL_VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description $VLAN_DESC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vxlan {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VXLAN_VNI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            /* ... repeat per VLAN ... */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1125,
@@ -3364,6 +3475,21 @@
           "raw": "junos/interfaces/irb-gateway.conf            (IRB interfaces bound here)",
           "id": "3stage_dc/junos/interfaces/irb-gateway",
           "note": "IRB interfaces bound here"
+        },
+        {
+          "raw": "junos/interfaces/external-vlan-tagged.conf    (external-vlan-tagged)",
+          "id": "3stage_dc/junos/interfaces/external-vlan-tagged",
+          "note": "external-vlan-tagged"
+        },
+        {
+          "raw": "junos/interfaces/loopback-multi-unit.conf     (loopback-multi-unit)",
+          "id": "3stage_dc/junos/interfaces/loopback-multi-unit",
+          "note": "loopback-multi-unit"
+        },
+        {
+          "raw": "junos/oam/ipv6-router-advertisement.conf      (ipv6-router-advertisement)",
+          "id": "3stage_dc/junos/oam/ipv6-router-advertisement",
+          "note": "ipv6-router-advertisement"
         }
       ],
       "variables": [
@@ -3420,7 +3546,14 @@
           "example": "et-0/0/8:0.399"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  3 instances total (high 3 / med 0 / low 0)",
+        "  On devices: esi-leaf1_qfx5120-48y (3), esi-leaf2_qfx5120-48y (3), server-leaf1_qfx5120-48y (3)",
+        "  Example: blue (RD 192.168.255.4:3, RT target:20002:1)",
+        "    esi-leaf1_qfx5120-48y",
+        "    esi-leaf2_qfx5120-48y",
+        "    server-leaf1_qfx5120-48y"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        instance-type vrf;\n        routing-options {\n            rib $VRF_NAME.inet6.0 {\n                multipath;\n            }\n            graceful-restart;\n            multipath;\n            auto-export;\n        }\n        protocols {\n            /* Border-leaf only: eBGP to external router */\n            bgp {\n                group l3rtr {\n                    type external;\n                    multihop {\n                        ttl 1;\n                    }\n                    family inet {\n                        unicast {\n                            loops 2;\n                        }\n                    }\n                    family inet6 {\n                        unicast {\n                            loops 2;\n                        }\n                    }\n                    multipath {\n                        multiple-as;\n                    }\n                    neighbor $EXT_NEIGHBOR_V6 {\n                        description facing_$EXT_PEER_NAME;\n                        multihop {\n                            ttl 2;\n                        }\n                        local-address $EXT_LOCAL_V6;\n                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );\n                        family inet6 {\n                            unicast;\n                        }\n                        export ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );\n                        peer-as $EXT_PEER_AS;\n                    }\n                    neighbor $EXT_NEIGHBOR_V4 {\n                        description facing_$EXT_PEER_NAME;\n                        multihop {\n                            ttl 2;\n                        }\n                        local-address $EXT_LOCAL_V4;\n                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );\n                        family inet {\n                            unicast;\n                        }\n                        export ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );\n                        peer-as $EXT_PEER_AS;\n                    }\n                }\n                graceful-restart {\n                    dont-help-shared-fate-bfd-down;\n                }\n            }\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation vxlan;\n                    vni $VNI;\n                    export BGP-AOS-Policy-$VRF_NAME;\n                }\n            }\n        }\n        forwarding-options {\n            dhcp-relay {\n                forward-only;\n                server-group {\n                    $VRF_NAME {\n                        $DHCP_SERVER;\n                    }\n                }\n                group $VRF_NAME {\n                    active-server-group $VRF_NAME;\n                    relay-option-82 {\n                        server-id-override;\n                    }\n                }\n            }\n        }\n        interface $WAN_INTERFACE;\n        interface lo0.$LO_UNIT;\n        route-distinguisher $RD;\n        vrf-target $VRF_TARGET;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib $VRF_NAME.inet6.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            /* Border-leaf only: eBGP to external router */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group l3rtr {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        unicast {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        unicast {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $EXT_NEIGHBOR_V6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        description facing_$EXT_PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            ttl </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $EXT_LOCAL_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                        export</span><span style=\"color:#E6EDF3\"> ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $EXT_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $EXT_NEIGHBOR_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        description facing_$EXT_PEER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            ttl </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $EXT_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        import ( RoutesFromExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                        export</span><span style=\"color:#E6EDF3\"> ( RoutesToExt-$VRF_NAME-$EXT_PEER_NAME );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $EXT_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                graceful-restart {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    dont-help-shared-fate-bfd-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation vxlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VNI;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> BGP-AOS-Policy-$VRF_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dhcp-relay {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                forward-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                server-group {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $DHCP_SERVER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    active-server-group $VRF_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    relay-option-</span><span style=\"color:#79C0FF\">82</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        server-id-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $WAN_INTERFACE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.$LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 3043,
@@ -3567,6 +3700,11 @@
           "raw": "junos/interfaces/fabric-uplink.conf            (physical links)",
           "id": "3stage_dc/junos/interfaces/fabric-uplink",
           "note": "physical links"
+        },
+        {
+          "raw": "junos/transport/forwarding-table-ecmp.conf    (forwarding-table-ecmp)",
+          "id": "3stage_dc/junos/transport/forwarding-table-ecmp",
+          "note": "forwarding-table-ecmp"
         }
       ],
       "variables": [
