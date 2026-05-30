@@ -48,10 +48,18 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ---
 
-## L3VPN-VRF
+## L3VPN (PE-CE eBGP or PE-CE OSPF)
+
+Two PE-CE protocol variants — pick the snip that matches what the
+user asked for (default to eBGP if unspecified):
+
+- **L3VPN with PE-CE eBGP** (`as-override`):
+  - `services/l3vpn-bgp.conf` (Junos and EVO)
+- **L3VPN with PE-CE OSPF** (area 0, `interface-type p2p`):
+  - `services/l3vpn-ospf.conf` (Junos and EVO)
 
 **minimum** (just the service + per-VRF policy)
-- `services/l3vpn-vrf.conf`
+- `services/l3vpn-bgp.conf` **or** `services/l3vpn-ospf.conf`
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community — NOT topology tags or BGP-CT colors)
 - `interfaces/edge-vlan-normalization.conf` (PE-CE AC unit)
@@ -196,6 +204,102 @@ Tiers (apply to whichever of the three the user asked for):
   LDP-VPLS does not need this — it relies on LDP targeted sessions)
 - **as-deployed** = + transport underlay + full apply-group baseline
   + CoS + OAM + BGP-CT
+
+---
+
+## EVPN-FXC (Flexible Cross-Connect)
+
+EVPN-FXC bundles multiple VLAN-tagged UNIs under a single
+`evpn-vpws` routing-instance via an FXC collector group. Use this
+when the customer hands off many service-delimited VLANs on the
+same port and you want one PW per VLAN without one routing-instance
+per VLAN.
+
+**minimum** (just the service)
+- `services/evpn-fxc.conf` (Junos and EVO — `instance-type evpn-vpws` with `flexible-cross-connect`)
+- `junos/interfaces/edge-vlan-normalization.conf` (the per-VLAN AC units that join the FXC group)
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- same baseline as EVPN-VPWS above (transport + apply-groups + CoS + OAM + FAT-PW)
+
+---
+
+## EVPN E-Tree
+
+MEF E-Tree (root / leaf isolation) on a Junos `mac-vrf` with
+`etree-ac-role` on each UNI. Junos-only in this JVD.
+
+**minimum** (just the service)
+- `junos/services/evpn-etree.conf`
+- `junos/interfaces/ethernet-bridge.conf` (E-Tree leaf/root UNI)
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- same baseline as EVPN-ELAN above
+
+---
+
+## L2Circuit floating pseudowire
+
+Static-label L2Circuit pseudowire landing on a `ps<N>`
+pseudowire-subscriber anchor (decouples the PW from a physical AC).
+
+**minimum** (just the service)
+- `services/l2circuit-floating-pw.conf` (Junos and EVO)
+- `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (L2Circuit relies on targeted LDP, not BGP — overlay is informational)
+
+**as-deployed** (= with-overlay +)
+- same baseline as L2CIRCUIT above
+
+---
+
+## L2Circuit local-switching (cross-connect on one PE)
+
+Port-to-port hairpin on a single PE via `end-interface`. EVO-only
+in this JVD.
+
+**minimum** (just the service)
+- `evo/services/l2circuit-lsw.conf`
+- `interfaces/edge-vlan-normalization.conf` (both AC units that get cross-connected)
+
+**with-overlay** — not applicable (no MP signaling required)
+
+**as-deployed** (= minimum +)
+- transport underlay + edge apply-groups + CoS + OAM + firewall policers
+
+---
+
+## Slim L3VPN IRB-anchor VRF (host /32s ride RT-2)
+
+A Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF for
+L2 + L3 IRB services. No explicit `ip-prefix-routes` block —
+host /32s are advertised via the MAC-VRF's RT-2. Use this instead
+of `services/evpn-type5.conf` when you do not need the VRF to
+originate RT-5 prefix routes (only the IRB subnet matters and it
+is carried by RT-2).
+
+**minimum** (both halves of the service + per-VRF policy)
+- L2 / RT-2 half (one of):
+    - `evo/services/evpn-elan-mac-vrf-irb.conf` (EVO)
+    - `junos/services/evpn-elan-virtual-switch-irb.conf` (Junos MX)
+- `services/evpn-type5-anchor.conf` (the slim anchor VRF — Junos and EVO)
+- `policy/l3vpn-export-import.conf`
+- `policy/communities.conf` (only the per-VRF target community)
+- `interfaces/edge-vlan-normalization.conf`
+
+**with-overlay** (= minimum +)
+- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+
+**as-deployed** (= with-overlay +)
+- same baseline as EVPN Type-5 above
 
 ---
 
