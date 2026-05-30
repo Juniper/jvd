@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T22:39:05.680Z",
+  "generatedAt": "2026-05-30T22:48:22.703Z",
   "counts": {
     "total": 442,
     "junos": 216,
@@ -11420,11 +11420,6 @@
           "raw": "evo/services/evpn-vpws-fxc-an.conf",
           "id": "broadband_edge/evo/services/evpn-vpws-fxc-an",
           "note": null
-        },
-        {
-          "raw": "junos/interfaces/ae-vlan-bridge-fxc-sw.conf",
-          "id": "broadband_edge/junos/interfaces/ae-vlan-bridge-fxc-sw",
-          "note": null
         }
       ],
       "variables": [
@@ -11514,11 +11509,6 @@
         {
           "raw": "evo/transport/mpls-segment-routing.conf",
           "id": "broadband_edge/evo/transport/mpls-segment-routing",
-          "note": null
-        },
-        {
-          "raw": "junos/interfaces/core-isis-mpls.conf",
-          "id": "broadband_edge/junos/interfaces/core-isis-mpls",
           "note": null
         }
       ],
@@ -11654,11 +11644,6 @@
           "note": null
         },
         {
-          "raw": "junos/policy/communities.conf",
-          "id": "broadband_edge/junos/policy/communities",
-          "note": null
-        },
-        {
           "raw": "evo/services/l3vpn-internet.conf",
           "id": "broadband_edge/evo/services/l3vpn-internet",
           "note": null
@@ -11723,11 +11708,6 @@
         {
           "raw": "evo/transport/mpls-segment-routing.conf",
           "id": "broadband_edge/evo/transport/mpls-segment-routing",
-          "note": null
-        },
-        {
-          "raw": "junos/policy/isis-export-prefix-segment.conf",
-          "id": "broadband_edge/junos/policy/isis-export-prefix-segment",
           "note": null
         }
       ],
@@ -11801,11 +11781,6 @@
           "raw": "evo/transport/routing-options-pe.conf",
           "id": "broadband_edge/evo/transport/routing-options-pe",
           "note": null
-        },
-        {
-          "raw": "junos/policy/pplb.conf",
-          "id": "broadband_edge/junos/policy/pplb",
-          "note": null
         }
       ],
       "variables": [],
@@ -11861,11 +11836,6 @@
         {
           "raw": "evo/transport/isis-srmpls-tilfa.conf",
           "id": "broadband_edge/evo/transport/isis-srmpls-tilfa",
-          "note": null
-        },
-        {
-          "raw": "junos/policy/communities.conf",
-          "id": "broadband_edge/junos/policy/communities",
           "note": null
         }
       ],
@@ -11923,23 +11893,8 @@
           "note": null
         },
         {
-          "raw": "junos/policy/vrf-radius-policies.conf",
-          "id": "broadband_edge/junos/policy/vrf-radius-policies",
-          "note": null
-        },
-        {
           "raw": "evo/policy/communities.conf",
           "id": "broadband_edge/evo/policy/communities",
-          "note": null
-        },
-        {
-          "raw": "junos/policy/communities.conf",
-          "id": "broadband_edge/junos/policy/communities",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-radius.conf",
-          "id": "broadband_edge/junos/services/l3vpn-radius",
           "note": null
         }
       ],
@@ -11998,16 +11953,6 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-vpws-pppoe-bng.conf",
-          "id": "broadband_edge/junos/services/evpn-vpws-pppoe-bng",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-vpws-ipoe-bng.conf",
-          "id": "broadband_edge/junos/services/evpn-vpws-ipoe-bng",
-          "note": null
-        },
-        {
           "raw": "evo/transport/routing-options-pe.conf",
           "id": "broadband_edge/evo/transport/routing-options-pe",
           "note": null
@@ -12047,7 +11992,16 @@
           "example": "1041"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  20 instances total (high 20 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (20), bng2_mx204 (20), bng3_mx10004 (20), bng4_mx480 (20), an1_acx7024 (10), an2_acx7100-48l (10), +3 more",
+        "  Example:  (RD 100.100.100.100:1041, RT target:60000:1041)",
+        "    an1_acx7024  ae1.1041 00:10:11:11:11:11:11:00:00:31 A-A",
+        "    an2_acx7100-48l  ae1.1041 00:10:11:11:11:11:11:00:00:31 A-A",
+        "    bng1_mx304  ps11.0",
+        "    bng2_mx204  ps11.0",
+        "    (+2 more endpoints)"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF {\n                    vpws-service-id {\n                        local $VPWS_LOCAL_ID;\n                        remote $VPWS_REMOTE_ID;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 474,
@@ -12099,16 +12053,6 @@
           "raw": "evo/interfaces/ae-vlan-bridge-an.conf",
           "id": "broadband_edge/evo/interfaces/ae-vlan-bridge-an",
           "note": null
-        },
-        {
-          "raw": "junos/services/evpn-vpws-fxc-bng.conf",
-          "id": "broadband_edge/junos/services/evpn-vpws-fxc-bng",
-          "note": null
-        },
-        {
-          "raw": "junos/interfaces/ae-vlan-bridge-fxc-sw.conf",
-          "id": "broadband_edge/junos/interfaces/ae-vlan-bridge-fxc-sw",
-          "note": null
         }
       ],
       "variables": [
@@ -12153,7 +12097,16 @@
           "example": "2001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  4 instances total (high 4 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (4), bng2_mx204 (4), bng3_mx10004 (4), bng4_mx480 (4), an1_acx7024 (2), an2_acx7100-48l (2), +3 more",
+        "  Example:  (RD 100.100.100.100:3001, RT target:60000:3001)",
+        "    an1_acx7024  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    an2_acx7100-48l  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    bng1_mx304  ps32.0",
+        "    bng2_mx204  ps32.0",
+        "    (+2 more endpoints)"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                label-allocation per-instance;\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    esi {\n                        $FXC_ESI;\n                    }\n                    interface $AC1;\n                    interface $AC2;\n                    service-id {\n                        local $SVC_LOCAL;\n                        remote $SVC_REMOTE;\n                    }\n                }\n            }\n        }\n        interface $AC1;\n        interface $AC2;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-allocation per-instance;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $FXC_ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 726,
@@ -12239,7 +12192,12 @@
           "example": "300"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1 instances total (high 1 / med 0 / low 0)",
+        "  On devices: cr1_ptx10004 (1)",
+        "  Example:  (RD 192.168.0.11:1, RT )",
+        "    cr1_ptx10004  et-0/0/26:1.0"
+      ],
       "body": "routing-instances {\n    VRF_Internet {\n        instance-type vrf;\n        routing-options {\n            rib VRF_Internet.inet6.0 {\n                static {\n                    route ::/0 discard;\n                }\n            }\n            static {\n                route 0.0.0.0/0 discard;\n            }\n        }\n        protocols {\n            bgp {\n                group CE1 {\n                    type external;\n                    accept-remote-nexthop;\n                    family inet {\n                        unicast;\n                    }\n                    neighbor $CE_PEER_V4 {\n                        family inet {\n                            unicast;\n                        }\n                        peer-as $CE_AS_V4;\n                    }\n                    neighbor $CE_PEER_V6 {\n                        family inet6 {\n                            unicast;\n                        }\n                        peer-as $CE_AS_V6;\n                    }\n                }\n            }\n        }\n        interface $CE_INTF;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-import VRF_Internet_import;\n        vrf-export VRF_Internet_export;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    VRF_Internet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib VRF_Internet.inet6.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    route ::/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group CE1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    accept-remote-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_PEER_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $CE_AS_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_PEER_V6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $CE_AS_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CE_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import VRF_Internet_import;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> VRF_Internet_export;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1200,
@@ -12283,16 +12241,6 @@
           "raw": "evo/policy/vrf-radius-policies.conf",
           "id": "broadband_edge/evo/policy/vrf-radius-policies",
           "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-radius.conf",
-          "id": "broadband_edge/junos/services/l3vpn-radius",
-          "note": null
-        },
-        {
-          "raw": "junos/subscriber-management/radius-server.conf",
-          "id": "broadband_edge/junos/subscriber-management/radius-server",
-          "note": null
         }
       ],
       "variables": [
@@ -12321,7 +12269,16 @@
           "example": "111"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1 instances total (high 1 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (1), bng2_mx204 (1), bng3_mx10004 (1), bng4_mx480 (1), cr1_ptx10004 (1)",
+        "  Example:  (RD 192.168.117.117:1117, RT target:11111:111)",
+        "    bng1_mx304",
+        "    bng2_mx204",
+        "    bng3_mx10004",
+        "    bng4_mx480",
+        "    (+1 more endpoints)"
+      ],
       "body": "routing-instances {\n    RADIUS {\n        instance-type vrf;\n        protocols {\n            ospf {\n                area 0.0.0.0 {\n                    interface $RADIUS_INTF;\n                }\n                export PS-REDIS-OSPF;\n            }\n        }\n        interface $RADIUS_INTF;\n        interface $LO_UNIT;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-import PS-RADIUS-VRF-IMPORT;\n        vrf-export PS-RADIUS-VRF-EXPORT;\n        vrf-target target:$RT_AS:$RT_ID;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    RADIUS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $RADIUS_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> PS-REDIS-OSPF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $RADIUS_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import PS-RADIUS-VRF-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> PS-RADIUS-VRF-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 521,
@@ -12451,11 +12408,6 @@
           "note": null
         },
         {
-          "raw": "junos/transport/bgp-overlay-pe-bng.conf",
-          "id": "broadband_edge/junos/transport/bgp-overlay-pe-bng",
-          "note": null
-        },
-        {
           "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
           "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
           "note": null
@@ -12537,11 +12489,6 @@
         {
           "raw": "evo/transport/bgp-overlay-pe-an.conf",
           "id": "broadband_edge/evo/transport/bgp-overlay-pe-an",
-          "note": null
-        },
-        {
-          "raw": "junos/transport/bgp-overlay-pe-bng.conf",
-          "id": "broadband_edge/junos/transport/bgp-overlay-pe-bng",
           "note": null
         },
         {
@@ -12661,11 +12608,6 @@
           "note": null
         },
         {
-          "raw": "junos/transport/isis-srmpls-tilfa.conf",
-          "id": "broadband_edge/junos/transport/isis-srmpls-tilfa",
-          "note": null
-        },
-        {
           "raw": "evo/policy/vrf-internet-policies.conf",
           "id": "broadband_edge/evo/policy/vrf-internet-policies",
           "note": null
@@ -12752,11 +12694,6 @@
         {
           "raw": "evo/policy/isis-export-prefix-segment.conf",
           "id": "broadband_edge/evo/policy/isis-export-prefix-segment",
-          "note": null
-        },
-        {
-          "raw": "junos/transport/mpls-segment-routing.conf",
-          "id": "broadband_edge/junos/transport/mpls-segment-routing",
           "note": null
         }
       ],
@@ -13012,18 +12949,7 @@
         "mtu 9102 matches the rest of the JVD's jumbo-frame baseline, needed because EVPN-VPWS adds MPLS encap downstream.",
         "LAG uses LACP active periodic fast — no system-id override is needed here (the system-id override lives on the AN side as part of EVPN single-active multihoming)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/ae-vlan-bridge-an.conf",
-          "id": "broadband_edge/evo/interfaces/ae-vlan-bridge-an",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws-fxc-an.conf",
-          "id": "broadband_edge/evo/services/evpn-vpws-fxc-an",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$LAG",
@@ -13096,11 +13022,6 @@
         {
           "raw": "junos/transport/mpls-segment-routing.conf",
           "id": "broadband_edge/junos/transport/mpls-segment-routing",
-          "note": null
-        },
-        {
-          "raw": "evo/interfaces/core-isis-mpls.conf",
-          "id": "broadband_edge/evo/interfaces/core-isis-mpls",
           "note": null
         }
       ],
@@ -13404,23 +13325,8 @@
           "note": null
         },
         {
-          "raw": "evo/policy/vrf-internet-policies.conf",
-          "id": "broadband_edge/evo/policy/vrf-internet-policies",
-          "note": null
-        },
-        {
           "raw": "junos/policy/vrf-radius-policies.conf",
           "id": "broadband_edge/junos/policy/vrf-radius-policies",
-          "note": null
-        },
-        {
-          "raw": "evo/policy/vrf-radius-policies.conf",
-          "id": "broadband_edge/evo/policy/vrf-radius-policies",
-          "note": null
-        },
-        {
-          "raw": "evo/policy/communities.conf",
-          "id": "broadband_edge/evo/policy/communities",
           "note": null
         }
       ],
@@ -13482,11 +13388,6 @@
         {
           "raw": "junos/transport/mpls-segment-routing.conf",
           "id": "broadband_edge/junos/transport/mpls-segment-routing",
-          "note": null
-        },
-        {
-          "raw": "evo/policy/isis-export-prefix-segment.conf",
-          "id": "broadband_edge/evo/policy/isis-export-prefix-segment",
           "note": null
         }
       ],
@@ -13560,11 +13461,6 @@
         {
           "raw": "junos/transport/routing-options-pe.conf",
           "id": "broadband_edge/junos/transport/routing-options-pe",
-          "note": null
-        },
-        {
-          "raw": "evo/policy/pplb.conf",
-          "id": "broadband_edge/evo/policy/pplb",
           "note": null
         }
       ],
@@ -13691,11 +13587,6 @@
           "note": null
         },
         {
-          "raw": "evo/policy/vrf-radius-policies.conf",
-          "id": "broadband_edge/evo/policy/vrf-radius-policies",
-          "note": null
-        },
-        {
           "raw": "junos/policy/communities.conf",
           "id": "broadband_edge/junos/policy/communities",
           "note": null
@@ -13750,11 +13641,6 @@
           "note": null
         },
         {
-          "raw": "evo/services/evpn-vpws-fxc-an.conf",
-          "id": "broadband_edge/evo/services/evpn-vpws-fxc-an",
-          "note": null
-        },
-        {
           "raw": "junos/interfaces/ps-pseudowire-dhcp-ipoe.conf",
           "id": "broadband_edge/junos/interfaces/ps-pseudowire-dhcp-ipoe",
           "note": null
@@ -13799,7 +13685,16 @@
           "example": "2001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  24 instances total (high 24 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (24), bng2_mx204 (24), bng3_mx10004 (24), bng4_mx480 (24), an1_acx7024 (12), an2_acx7100-48l (12), +3 more",
+        "  Example:  (RD 100.100.100.100:3001, RT target:60000:3001)",
+        "    an1_acx7024  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    an2_acx7100-48l  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    bng1_mx304  ps32.0",
+        "    bng2_mx204  ps32.0",
+        "    (+2 more endpoints)"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $PS_AC {\n                    vpws-service-id {\n                        local $VPWS_LOCAL_ID;\n                        remote $VPWS_REMOTE_ID;\n                    }\n                }\n            }\n        }\n        interface $PS_AC;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $PS_AC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_AC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 470,
@@ -13854,11 +13749,6 @@
           "raw": "junos/services/l3vpn-dhcp-subs.conf",
           "id": "broadband_edge/junos/services/l3vpn-dhcp-subs",
           "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws-an.conf",
-          "id": "broadband_edge/evo/services/evpn-vpws-an",
-          "note": null
         }
       ],
       "variables": [
@@ -13895,7 +13785,16 @@
           "example": "1041"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  24 instances total (high 24 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (24), bng2_mx204 (24), bng3_mx10004 (24), bng4_mx480 (24), an1_acx7024 (12), an2_acx7100-48l (12), +3 more",
+        "  Example:  (RD 100.100.100.100:3001, RT target:60000:3001)",
+        "    an1_acx7024  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    an2_acx7100-48l  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    bng1_mx304  ps32.0",
+        "    bng2_mx204  ps32.0",
+        "    (+2 more endpoints)"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $PS_AC {\n                    vpws-service-id {\n                        local $VPWS_LOCAL_ID;\n                        remote $VPWS_REMOTE_ID;\n                    }\n                }\n            }\n        }\n        interface $PS_AC;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $PS_AC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_AC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 470,
@@ -13948,11 +13847,6 @@
           "note": null
         },
         {
-          "raw": "evo/services/evpn-vpws-an.conf",
-          "id": "broadband_edge/evo/services/evpn-vpws-an",
-          "note": null
-        },
-        {
           "raw": "junos/subscriber-management/dp-auto-stacked-pwht-pppoe.conf",
           "id": "broadband_edge/junos/subscriber-management/dp-auto-stacked-pwht-pppoe",
           "note": null
@@ -13970,7 +13864,7 @@
         },
         {
           "name": "$PS_AC",
-          "example": "ps1.0"
+          "example": "ps0.0"
         },
         {
           "name": "$VPWS_LOCAL_ID",
@@ -13997,7 +13891,16 @@
           "example": "1031"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  24 instances total (high 24 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (24), bng2_mx204 (24), bng3_mx10004 (24), bng4_mx480 (24), an1_acx7024 (12), an2_acx7100-48l (12), +3 more",
+        "  Example:  (RD 100.100.100.100:3001, RT target:60000:3001)",
+        "    an1_acx7024  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    an2_acx7100-48l  ae0.1065 00:15:15:15:00:00:00:15:15:15 S-A",
+        "    bng1_mx304  ps32.0",
+        "    bng2_mx204  ps32.0",
+        "    (+2 more endpoints)"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $PS_AC {\n                    vpws-service-id {\n                        local $VPWS_LOCAL_ID;\n                        remote $VPWS_REMOTE_ID;\n                    }\n                }\n            }\n        }\n        interface $PS_AC;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $PS_AC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_AC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 470,
@@ -14157,7 +14060,15 @@
           "example": "600"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1 instances total (high 1 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (1), bng2_mx204 (1), bng3_mx10004 (1), bng4_mx480 (1)",
+        "  Example:  (RD 192.168.207.207:1046, RT )",
+        "    bng1_mx304  demux0.0",
+        "    bng2_mx204  demux0.0",
+        "    bng3_mx10004  demux0.0",
+        "    bng4_mx480  demux0.0"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        instance-type vrf;\n        routing-options {\n            rib $VRF_NAME.inet6.0 {\n                static {\n                    route fc00:126:140::/64 discard;\n                }\n                aggregate {\n                    route fc00:125:140::/64;\n                    route fc00:126:140::/64;\n                }\n            }\n            static {\n                route 10.43.0.1/32 discard;\n            }\n            aggregate {\n                route 10.42.0.0/16;\n                route 10.43.0.0/16;\n            }\n            auto-export;\n        }\n        system {\n            services {\n                dhcp-local-server {\n                    dhcpv6 {\n                        group dhcp6-ls {\n                            authentication {\n                                password $USER_PASS;\n                                username-include {\n                                    domain-name $DOMAIN_NAME;\n                                    user-prefix $USER_PREFIX;\n                                }\n                            }\n                            dynamic-profile prod-dhcp-base;\n                            overrides {\n                                delegated-pool $V6_POOL;\n                                dual-stack dhcp-ds;\n                            }\n                            interface demux0.0;\n                            interface demux0.1;\n                            interface ps11.0;\n                            interface ps12.0;\n                            interface ps13.0;\n                            interface ps14.0;\n                            interface ps15.0;\n                            interface ps16.0;\n                            interface ps17.0;\n                            interface ps18.0;\n                            interface ps19.0;\n                            interface ps20.0;\n                            interface ps32.0;\n                            interface ps36.0;\n                        }\n                        server-duid-type {\n                            duid_ll;\n                        }\n                    }\n                    pool-match-order {\n                        ip-address-first;\n                    }\n                    group dhcp-ls {\n                        overrides {\n                            client-discover-match incoming-interface;\n                            dual-stack dhcp-ds;\n                        }\n                        interface demux0.0;\n                        interface demux0.1;\n                        interface ps11.0;\n                        interface ps12.0;\n                        interface ps13.0;\n                        interface ps14.0;\n                        interface ps15.0;\n                        interface ps16.0;\n                        interface ps17.0;\n                        interface ps18.0;\n                        interface ps19.0;\n                        interface ps20.0;\n                        interface ps32.0;\n                        interface ps36.0;\n                    }\n                    dual-stack-group dhcp-ds {\n                        authentication {\n                            password $USER_PASS;\n                            username-include {\n                                domain-name $DOMAIN_NAME;\n                                user-prefix $USER_PREFIX;\n                            }\n                        }\n                        dynamic-profile prod-dhcp-base;\n                        on-demand-address-allocation;\n                        classification-key {\n                            mac-address;\n                        }\n                    }\n                    no-stale-timer-refresh;\n                    stale-timer 60;\n                }\n            }\n        }\n        access {\n            address-assignment {\n                high-utilization 80;\n                abated-utilization 70;\n                pool $V4_POOL {\n                    family inet {\n                        network $V4_NETWORK;\n                        range range1 {\n                            low $V4_RANGE_LOW;\n                            high $V4_RANGE_HIGH;\n                        }\n                        dhcp-attributes {\n                            maximum-lease-time $LEASE_TIME;\n                            server-identifier $V4_GATEWAY;\n                            router {\n                                $V4_GATEWAY;\n                            }\n                        }\n                    }\n                }\n                pool $V6_POOL {\n                    family inet6 {\n                        prefix $V6_PREFIX;\n                        range rangev6 {\n                            low $V6_RANGE_LOW;\n                            high $V6_RANGE_HIGH;\n                        }\n                        dhcp-attributes {\n                            maximum-lease-time $LEASE_TIME;\n                        }\n                    }\n                }\n            }\n        }\n        access-profile $AUTH_PROFILE;\n        interface $LO_UNIT;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-import dhcp-subs-vrf-import-pol;\n        vrf-export dhcp-subs-vrf-export-pol;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib $VRF_NAME.inet6.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    route fc00:</span><span style=\"color:#79C0FF\">126</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">140</span><span style=\"color:#E6EDF3\">::/</span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\"> discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    route fc00:</span><span style=\"color:#79C0FF\">125</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">140</span><span style=\"color:#E6EDF3\">::/</span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    route fc00:</span><span style=\"color:#79C0FF\">126</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">140</span><span style=\"color:#E6EDF3\">::/</span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">43</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\"> discard;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            aggregate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">42</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">16</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">43</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">16</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        system {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            services {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                dhcp-local-server {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    dhcpv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        group dhcp6-ls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            authentication {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                password $USER_PASS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                username-include {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                    domain-name $DOMAIN_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                    user-prefix $USER_PREFIX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            dynamic-profile prod-dhcp-base;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            overrides {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                delegated-pool $V6_POOL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                dual-stack dhcp-ds;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface demux0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface demux0.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps11.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps12.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps13.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps14.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps15.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps16.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps17.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps18.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps19.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps20.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps32.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            interface ps36.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        server-duid-type {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            duid_ll;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    pool-match-order {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        ip-address-first;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group dhcp-ls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        overrides {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            client-discover-match incoming-interface;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            dual-stack dhcp-ds;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface demux0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface demux0.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps11.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps12.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps13.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps14.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps15.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps16.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps17.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps18.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps19.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps20.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps32.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface ps36.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    dual-stack-group dhcp-ds {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        authentication {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            password $USER_PASS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            username-include {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                domain-name $DOMAIN_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                user-prefix $USER_PREFIX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        dynamic-profile prod-dhcp-base;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                        on</span><span style=\"color:#E6EDF3\">-demand-address-allocation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        classification-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            mac-address;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    no-stale-timer-refresh;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    stale-timer </span><span style=\"color:#79C0FF\">60</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        access {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            address-assignment {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                high-utilization </span><span style=\"color:#79C0FF\">80</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                abated-utilization </span><span style=\"color:#79C0FF\">70</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pool $V4_POOL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        network $V4_NETWORK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        range range1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            low $V4_RANGE_LOW;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            high $V4_RANGE_HIGH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        dhcp-attributes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            maximum-lease-time $LEASE_TIME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            server-identifier $V4_GATEWAY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            router {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                $V4_GATEWAY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pool $V6_POOL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        prefix $V6_PREFIX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        range rangev6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            low $V6_RANGE_LOW;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            high $V6_RANGE_HIGH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        dhcp-attributes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            maximum-lease-time $LEASE_TIME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        access-profile $AUTH_PROFILE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import dhcp-subs-vrf-import-pol;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> dhcp-subs-vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">-pol;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 5215,
@@ -14282,7 +14193,15 @@
           "example": "PS-PPPOE-SUBS-1-VRF-EXPORT"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1 instances total (high 1 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (1), bng2_mx204 (1), bng3_mx10004 (1), bng4_mx480 (1)",
+        "  Example:  (RD 207.207.207.207:1031, RT )",
+        "    bng1_mx304",
+        "    bng2_mx204",
+        "    bng3_mx10004",
+        "    bng4_mx480"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        instance-type vrf;\n        routing-options {\n            rib $V6_RIB {\n                aggregate {\n                    route $V6_AGGREGATE;\n                }\n            }\n            aggregate {\n                route $V4_AGGREGATE;\n            }\n            auto-export;\n        }\n        access {\n            address-assignment {\n                neighbor-discovery-router-advertisement pppv6-pool;\n                pool pppv4-pool {\n                    family inet {\n                        network $V4_POOL_NETWORK;\n                    }\n                }\n                pool pppv6-pool {\n                    family inet6 {\n                        prefix $V6_POOL_PREFIX;\n                        range ndra-range prefix-length 64;\n                    }\n                }\n            }\n        }\n        interface $LO_UNIT;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-import $VRF_IMPORT_POL;\n        vrf-export $VRF_EXPORT_POL;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rib $V6_RIB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    route $V6_AGGREGATE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            aggregate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route $V4_AGGREGATE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        access {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            address-assignment {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor-discovery-router-advertisement pppv6-pool;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pool pppv4-pool {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        network $V4_POOL_NETWORK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pool pppv6-pool {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        prefix $V6_POOL_PREFIX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        range ndra-range prefix-length </span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import $VRF_IMPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $VRF_EXPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1026,
@@ -14335,16 +14254,6 @@
           "raw": "junos/subscriber-management/radius-server.conf",
           "id": "broadband_edge/junos/subscriber-management/radius-server",
           "note": null
-        },
-        {
-          "raw": "evo/policy/vrf-radius-policies.conf",
-          "id": "broadband_edge/evo/policy/vrf-radius-policies",
-          "note": null
-        },
-        {
-          "raw": "evo/services/l3vpn-radius.conf",
-          "id": "broadband_edge/evo/services/l3vpn-radius",
-          "note": null
         }
       ],
       "variables": [
@@ -14369,7 +14278,15 @@
           "example": "PS-RADIUS-VRF-EXPORT"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  3 instances total (high 3 / med 0 / low 0)",
+        "  On devices: bng1_mx304 (3), bng2_mx204 (3), bng3_mx10004 (3), bng4_mx480 (3), cr1_ptx10004 (1)",
+        "  Example:  (RD 207.207.207.207:1031, RT )",
+        "    bng1_mx304",
+        "    bng2_mx204",
+        "    bng3_mx10004",
+        "    bng4_mx480"
+      ],
       "body": "routing-instances {\n    RADIUS {\n        instance-type vrf;\n        routing-options {\n            auto-export;\n        }\n        interface $LO_UNIT;\n        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;\n        vrf-import $VRF_IMPORT_POL;\n        vrf-export $VRF_EXPORT_POL;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    RADIUS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import $VRF_IMPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $VRF_EXPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 305,
@@ -14932,11 +14849,6 @@
           "raw": "junos/subscriber-management/access-profile-radius.conf",
           "id": "broadband_edge/junos/subscriber-management/access-profile-radius",
           "note": null
-        },
-        {
-          "raw": "evo/services/l3vpn-radius.conf",
-          "id": "broadband_edge/evo/services/l3vpn-radius",
-          "note": null
         }
       ],
       "variables": [
@@ -15106,16 +15018,6 @@
           "note": null
         },
         {
-          "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-core.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-core",
-          "note": null
-        },
-        {
           "raw": "junos/services/evpn-vpws-fxc-bng.conf",
           "id": "broadband_edge/junos/services/evpn-vpws-fxc-bng",
           "note": null
@@ -15211,11 +15113,6 @@
           "raw": "junos/interfaces/core-isis-mpls.conf",
           "id": "broadband_edge/junos/interfaces/core-isis-mpls",
           "note": null
-        },
-        {
-          "raw": "evo/transport/isis-srmpls-tilfa.conf",
-          "id": "broadband_edge/evo/transport/isis-srmpls-tilfa",
-          "note": null
         }
       ],
       "variables": [
@@ -15299,11 +15196,6 @@
         {
           "raw": "junos/policy/isis-export-prefix-segment.conf",
           "id": "broadband_edge/junos/policy/isis-export-prefix-segment",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/mpls-segment-routing.conf",
-          "id": "broadband_edge/evo/transport/mpls-segment-routing",
           "note": null
         }
       ],
