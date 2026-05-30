@@ -4,6 +4,63 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-05-30
+
+Quality sweep across three snip libraries — SRv6, Broadband Edge
+(BBE), and 3-Stage Data Center (Apstra). Every library now carries
+audited headers, corrected cross-references, and topology-derived
+service-mapping metadata.
+
+### New content
+
+- **SRv6 snip library audit** — headers standardized across all 36
+  snips, taxonomy corrected (new `bootstrap` category for chassis /
+  system / gRPC stanzas), 7 new snips added (forwarding-options,
+  class-of-service, SRv6 locator summarization), one spurious EVO
+  snip removed, and a `vrf-target` variable mismatch fixed.
+
+- **BBE snip library audit** — service-mapping headers injected into
+  all 3 service snips with topology-derived instance counts and
+  device distribution, cross-OS pair-with references cleaned up,
+  and pair-with reciprocity completed across 30+ snips.
+
+- **3-Stage DC (Apstra) snip library audit** — service-mapping
+  headers added to all 3 service snips (4 instances across
+  blue/green/red VRFs + evpn-1 MAC-VRF), cross-OS pair-with
+  violations removed, 23 missing reciprocal pair-with links
+  added across 15 snips, and missing EVO variables corrected.
+
+- **Portal snip data** regenerated — the
+  [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
+  now reflects the corrected headers and service-mapping metadata
+  for all three audited libraries (442 snips across 8 JVDs).
+
+### What this means for you
+
+- Every snip's `Pair with:` section is now reciprocal — if snip A
+  says "pair with B", snip B says "pair with A". This makes it
+  safe to navigate the dependency graph in either direction.
+- Service snips now include a `JVD service mapping` block that
+  shows exactly how many instances of the service exist in the
+  reference design, which devices host them, and what VRF /
+  MAC-VRF names are used. This gives you a quick inventory
+  before you start templating.
+- Cross-OS pair-with references (Junos ↔ EVO) that violated
+  platform compatibility rules have been removed, so the
+  portal's "Related snips" panel no longer suggests impossible
+  pairings.
+
+### By the numbers
+
+| Area | Files changed |
+| --- | --- |
+| SRv6 snips | 43 files (7 new, 36 refreshed, 1 removed) |
+| BBE snips | 32 files (headers + pair-with fixes) |
+| 3-Stage DC snips | 17 files (headers + pair-with fixes) |
+| Portal snip data | 442 snips indexed across 8 JVDs |
+
+---
+
 ## 2026-05-29
 
 The Metro Ethernet Business Services (MEBS) snip library gets a
