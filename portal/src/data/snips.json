@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-30T21:15:04.546Z",
+  "generatedAt": "2026-05-30T22:39:05.680Z",
   "counts": {
-    "total": 443,
+    "total": 442,
     "junos": 216,
-    "evo": 227,
+    "evo": 226,
     "jvds": 8
   },
   "categories": [
@@ -130,8 +130,8 @@
       "repoPath": "service_provider/srv6_core_edge",
       "counts": {
         "junos": 25,
-        "evo": 23,
-        "total": 48
+        "evo": 22,
+        "total": 47
       }
     }
   ],
@@ -29634,7 +29634,7 @@
       "pairWith": [
         {
           "raw": "evo/services/evpn-vpws-srv6.conf  (consumes the AC unit)",
-          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
+          "id": null,
           "note": "consumes the AC unit"
         },
         {
@@ -30141,104 +30141,6 @@
       "parseWarnings": []
     },
     {
-      "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
-      "jvd": "srv6_core_edge",
-      "jvdLabel": "SRv6 Core/Edge",
-      "area": "Service Provider",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "name": "evpn-vpws-srv6",
-      "path": "service_provider/srv6_core_edge/configuration/snips/evo/services/evpn-vpws-srv6.conf",
-      "topic": "EVPN-VPWS over SRv6 — per-instance pseudowire with locator",
-      "seenOn": {
-        "junos": [
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
-      },
-      "highlights": [
-        "Body is byte-identical to the Junos sibling.",
-        "`instance-type evpn-vpws` + `protocols evpn { encapsulation srv6; }` is the SRv6-data-plane EVPN-VPWS shape (RFC-9747).",
-        "`vpws-service-id { local 1; remote 2; source-packet-routing { srv6 locator $LOC; } }` advertises per-instance SIDs derived from the chosen Flex-Algo locator.",
-        "`interface aeX.<unit>` is the attachment circuit; the same AE supports many EVPN-VPWS PWs by `unit`/VLAN.",
-        "For all-active multi-homing, the AC's `unit` carries an `esi { <esi>; all-active; }` block; for single-active swap to `single-active`. (See snips/junos/interfaces/cpe-attachment.conf.)",
-        "`route-distinguisher $RD_SEED:$VPN_ID` and `vrf-target target:$LOCAL_AS:$VPN_ID` follow the same numbering scheme as L3VPN (offset 3000 in this JVD reserves the EVPN-VPWS range)."
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/services/l3vpn-srv6-vrf.conf         (peer service shape)",
-          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
-          "note": "peer service shape"
-        },
-        {
-          "raw": "evo/interfaces/cpe-attachment.conf       (ESI / AC config)",
-          "id": "srv6_core_edge/evo/interfaces/cpe-attachment",
-          "note": "ESI / AC config"
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-client.conf (carries the routes)",
-          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
-          "note": "carries the routes"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$VPWS_NAME",
-          "example": "EVPN-VPWS-AA-DYN-FA000-1"
-        },
-        {
-          "name": "$AC_IFL",
-          "example": "ae2.1001"
-        },
-        {
-          "name": "$LOC",
-          "example": "SL-FA-000"
-        },
-        {
-          "name": "$LOCAL_VPWS_ID",
-          "example": "1"
-        },
-        {
-          "name": "$REMOTE_VPWS_ID",
-          "example": "2"
-        },
-        {
-          "name": "$RD_SEED",
-          "example": "100.0.6.48"
-        },
-        {
-          "name": "$VPN_ID",
-          "example": "3001"
-        },
-        {
-          "name": "$LOCAL_AS",
-          "example": "65001"
-        }
-      ],
-      "jvdServiceMapping": [
-        "  (no instances found in topology registry)"
-      ],
-      "body": "routing-instances {\n    $VPWS_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_IFL {\n                    vpws-service-id {\n                        local $LOCAL_VPWS_ID;\n                        remote $REMOTE_VPWS_ID;\n                        source-packet-routing {\n                            srv6 locator $LOC;\n                        }\n                    }\n                }\n                encapsulation srv6;\n            }\n        }\n        interface $AC_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VPWS_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            srv6 locator $LOC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation srv6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 623,
-      "lineCount": 22,
-      "techFamily": "Service Overlay",
-      "subfamily": "SRv6",
-      "usecases": [
-        "Service Provider",
-        "SRv6",
-        "Core/Edge"
-      ],
-      "parseWarnings": []
-    },
-    {
       "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
       "jvd": "srv6_core_edge",
       "jvdLabel": "SRv6 Core/Edge",
@@ -30274,7 +30176,7 @@
       "pairWith": [
         {
           "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
+          "id": null,
           "note": null
         },
         {
@@ -30330,6 +30232,10 @@
           "example": "501"
         },
         {
+          "name": "$RT_AS",
+          "example": "65001  (route-target AS — may differ from local-as)"
+        },
+        {
           "name": "$LOCAL_AS",
           "example": "65000"
         },
@@ -30364,9 +30270,9 @@
         "    edge2_mx480  xe-1/0/2.501",
         "    (+3 more endpoints)"
       ],
-      "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 982,
+      "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$RT_AS:$VPN_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 979,
       "lineCount": 34,
       "techFamily": "Service Overlay",
       "subfamily": "SRv6",
@@ -30474,7 +30380,7 @@
         },
         {
           "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
+          "id": null,
           "note": null
         },
         {
@@ -32516,6 +32422,10 @@
           "example": "501"
         },
         {
+          "name": "$RT_AS",
+          "example": "65001  (route-target AS — may differ from local-as)"
+        },
+        {
           "name": "$LOCAL_AS",
           "example": "65000"
         },
@@ -32550,9 +32460,9 @@
         "    edge2_mx480  xe-1/0/2.501",
         "    (+3 more endpoints)"
       ],
-      "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 982,
+      "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$RT_AS:$VPN_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 979,
       "lineCount": 34,
       "techFamily": "Service Overlay",
       "subfamily": "SRv6",
