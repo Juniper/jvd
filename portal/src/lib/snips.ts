@@ -8,7 +8,7 @@ import bundle from "@/data/snips.json";
 export type SnipOs = "Junos" | "Junos EVO";
 export type SnipOsKey = "junos" | "evo";
 
-export type SnipPairRef = { raw: string; id: string | null };
+export type SnipPairRef = { raw: string; id: string | null; note?: string | null };
 export type SnipVariable = { name: string; example: string };
 
 export type SnipRecord = {
