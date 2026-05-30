@@ -55,8 +55,8 @@ snips/
 |---|---|
 | [junos/services/l3vpn-srv6-vrf.conf](junos/services/l3vpn-srv6-vrf.conf) | L3VPN VRF over SRv6 with PE-CE eBGP + µDT46-SID |
 | [junos/services/evpn-vpws-srv6.conf](junos/services/evpn-vpws-srv6.conf) | EVPN-VPWS over SRv6 (single-active or all-active) |
-| [junos/services/pe-ce-direct.conf](junos/services/pe-ce-direct.conf) | PE-CE direct sub-IFL attachment |
-| [junos/services/pe-ce-irb.conf](junos/services/pe-ce-irb.conf) | PE-CE IRB attachment (bridge-domain stitched to L3 VRF) |
+| [junos/interfaces/pe-ce-direct.conf](junos/interfaces/pe-ce-direct.conf) | PE-CE direct sub-IFL attachment |
+| [junos/interfaces/pe-ce-irb.conf](junos/interfaces/pe-ce-irb.conf) | PE-CE IRB attachment (bridge-domain stitched to L3 VRF) |
 
 ### Interfaces
 
@@ -95,4 +95,4 @@ The notable structural deltas are:
 - [evo/apply-groups/gr-bgp.conf](evo/apply-groups/gr-bgp.conf) — adds a `<GR-EBGP-*>` wildcard alongside `<GR-IBGP-*>`.
 - [evo/transport/inter-as-option-c.conf](evo/transport/inter-as-option-c.conf) — `multihop { ttl 255; no-nexthop-change; }` and per-neighbor `local-address`.
 - [evo/policy/srv6-redistribution-policy.conf](evo/policy/srv6-redistribution-policy.conf) — adds PS-IBGP-SRV6-IMP, PS-EBGP-IMP, PS-EBGP-NHS, PS-EBGP-SRV6-EXP for the inter-AS BR role.
-- [evo/services/pe-ce-direct.conf](evo/services/pe-ce-direct.conf) and [evo/interfaces/core-ae-link.conf](evo/interfaces/core-ae-link.conf) — note PTX uses `et-*` interface naming and `et-options { 802.3ad ... }` instead of MX's `xe-*` / `gigether-options { 802.3ad ... }`.
+- [evo/interfaces/pe-ce-direct.conf](evo/interfaces/pe-ce-direct.conf) and [evo/interfaces/core-ae-link.conf](evo/interfaces/core-ae-link.conf) — note PTX uses `et-*` interface naming and `et-options { 802.3ad ... }` instead of MX's `xe-*` / `gigether-options { 802.3ad ... }`.

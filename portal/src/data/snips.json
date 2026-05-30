@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-30T02:28:09.597Z",
+  "generatedAt": "2026-05-30T21:15:04.546Z",
   "counts": {
-    "total": 441,
-    "junos": 214,
+    "total": 443,
+    "junos": 216,
     "evo": 227,
     "jvds": 8
   },
@@ -129,9 +129,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/srv6_core_edge",
       "counts": {
-        "junos": 23,
+        "junos": 25,
         "evo": 23,
-        "total": 46
+        "total": 48
       }
     }
   ],
@@ -29177,18 +29177,18 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/junos/apply-groups/gr-bgp.conf       (Junos sibling, iBGP only)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
-          "note": "Junos sibling, iBGP only"
-        },
-        {
-          "raw": "snips/evo/transport/bgp-overlay-rr-client.conf",
+          "raw": "evo/transport/bgp-overlay-rr-client.conf",
           "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": null
         },
         {
-          "raw": "snips/evo/transport/inter-as-option-c.conf",
+          "raw": "evo/transport/inter-as-option-c.conf",
           "id": "srv6_core_edge/evo/transport/inter-as-option-c",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/bgp-overlay-rr.conf",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr",
           "note": null
         }
       ],
@@ -29217,9 +29217,18 @@
       "category": "apply-groups",
       "name": "gr-core-intf-ipv6",
       "path": "service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-core-intf-ipv6.conf",
-      "topic": "Wildcard apply-group: standard core IPv6 interface settings",
+      "topic": "Wildcard apply-group: standard core IPv6 interface settings.",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "br2_mx304",
+          "cr1_mx10004",
+          "cr2_mx2010",
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
+        ],
         "evo": [
           "br1_ptx10002-36qdd"
         ]
@@ -29230,18 +29239,33 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/junos/apply-groups/gr-core-intf-ipv6.conf  (sibling — full body)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
-          "note": "sibling — full body"
-        },
-        {
-          "raw": "snips/evo/transport/isis-srv6-flex-algo.conf",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf",
           "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": null
         },
         {
-          "raw": "snips/evo/transport/bfd-isis.conf",
+          "raw": "evo/transport/bfd-isis.conf",
           "id": "srv6_core_edge/evo/transport/bfd-isis",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/core-ae-link.conf",
+          "id": "srv6_core_edge/evo/interfaces/core-ae-link",
+          "note": null
+        },
+        {
+          "raw": "evo/oam/bfd-defaults.conf",
+          "id": "srv6_core_edge/evo/oam/bfd-defaults",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/pe-ce-direct.conf",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
           "note": null
         }
       ],
@@ -29314,23 +29338,33 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf  (provides family iso/inet6)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "raw": "evo/oam/twamp-light.conf",
+          "id": "srv6_core_edge/evo/oam/twamp-light",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/ti-lfa-mla.conf",
+          "id": "srv6_core_edge/evo/transport/ti-lfa-mla",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf  (provides family iso/inet6)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
           "note": "provides family iso/inet6"
         },
         {
-          "raw": "junos/apply-groups/gr-srv6.conf            (defines locator µSID flavors)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-srv6",
+          "raw": "evo/apply-groups/gr-srv6.conf            (defines locator µSID flavors)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-srv6",
           "note": "defines locator µSID flavors"
         },
         {
-          "raw": "junos/transport/isis-srv6-flex-algo.conf   (instantiates this group)",
-          "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf   (instantiates this group)",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": "instantiates this group"
         },
         {
-          "raw": "junos/transport/bfd-isis.conf              (per-AFI BFD on the same IFLs)",
-          "id": "srv6_core_edge/junos/transport/bfd-isis",
+          "raw": "evo/transport/bfd-isis.conf              (per-AFI BFD on the same IFLs)",
+          "id": "srv6_core_edge/evo/transport/bfd-isis",
           "note": "per-AFI BFD on the same IFLs"
         }
       ],
@@ -29420,12 +29454,7 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/junos/apply-groups/gr-l3vpn.conf  (sibling — full body)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-l3vpn",
-          "note": "sibling — full body"
-        },
-        {
-          "raw": "snips/evo/services/l3vpn-srv6-vrf.conf",
+          "raw": "evo/services/l3vpn-srv6-vrf.conf",
           "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
           "note": null
         }
@@ -29467,13 +29496,13 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/junos/apply-groups/gr-srv6.conf  (sibling — full body)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-srv6",
-          "note": "sibling — full body"
+          "raw": "evo/transport/isis-srv6-flex-algo.conf",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
+          "note": null
         },
         {
-          "raw": "snips/evo/transport/isis-srv6-flex-algo.conf",
-          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
           "note": null
         }
       ],
@@ -29525,13 +29554,13 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf  (BFD, LACP, MTU)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf  (BFD, LACP, MTU)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
           "note": "BFD, LACP, MTU"
         },
         {
-          "raw": "junos/transport/isis-srv6-flex-algo.conf   (lists this IFL)",
-          "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf   (lists this IFL)",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": "lists this IFL"
         }
       ],
@@ -29604,18 +29633,18 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-vpws-srv6.conf  (consumes the AC unit)",
-          "id": "srv6_core_edge/junos/services/evpn-vpws-srv6",
+          "raw": "evo/services/evpn-vpws-srv6.conf  (consumes the AC unit)",
+          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
           "note": "consumes the AC unit"
         },
         {
-          "raw": "junos/services/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
+          "raw": "evo/interfaces/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
           "note": "consumes the L3 sub-IFL"
         },
         {
-          "raw": "junos/services/pe-ce-irb.conf       (consumes the bridge AC)",
-          "id": "srv6_core_edge/junos/services/pe-ce-irb",
+          "raw": "evo/interfaces/pe-ce-irb.conf       (consumes the bridge AC)",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-irb",
           "note": "consumes the bridge AC"
         }
       ],
@@ -29676,6 +29705,187 @@
       "parseWarnings": []
     },
     {
+      "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "pe-ce-direct",
+      "path": "service_provider/srv6_core_edge/configuration/snips/evo/interfaces/pe-ce-direct.conf",
+      "topic": "PE-CE direct (sub-)interface attachment — IFL on physical",
+      "seenOn": {
+        "junos": [
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "br1_ptx10002-36qdd"
+        ]
+      },
+      "highlights": [
+        "On PTX10002 the physical IFL is typically `et-0/0/<port>` (400G/100G optics) instead of MX's `xe-`/`ae-` naming.",
+        "One sub-IFL per VRF, dot1q-tagged via `vlan-id $VLAN`; family inet + inet6 carry both AFIs across the same PE-CE link.",
+        "`family iso { mtu $JUMBO_L3_MTU; }` is omitted on PE-CE units (no IS-IS toward the customer).",
+        "The matching loopback unit (`lo0.<unit>`) gives the VRF a routable router-id and a stable inet/inet6 address for BGP `local-address`."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/cpe-attachment.conf",
+          "id": "srv6_core_edge/evo/interfaces/cpe-attachment",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/pe-ce-irb.conf",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-irb",
+          "note": null
+        },
+        {
+          "raw": "evo/services/l3vpn-srv6-vrf.conf     (consumes this IFL)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
+          "note": "consumes this IFL"
+        },
+        {
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf (suppressed by `<*>`",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
+          "note": "(suppressed by `<*>`"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PHYS_IFL",
+          "example": "xe-2/0/2"
+        },
+        {
+          "name": "$VRF_UNIT",
+          "example": "501"
+        },
+        {
+          "name": "$VLAN",
+          "example": "501"
+        },
+        {
+          "name": "$PE_CE_V4_LOCAL",
+          "example": "13.1.8.1/30"
+        },
+        {
+          "name": "$PE_CE_V6_LOCAL",
+          "example": "2013:1:8::1/126"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "195.168.8.1/32"
+        },
+        {
+          "name": "$LOOPBACK_V6",
+          "example": "2195:168:8::1/128"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  (no instances found in topology registry)"
+      ],
+      "body": "interfaces {\n    $PHYS_IFL {\n        vlan-tagging;\n        unit $VRF_UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $PE_CE_V4_LOCAL;\n            }\n            family inet6 {\n                address $PE_CE_V6_LOCAL;\n            }\n        }\n    }\n    lo0 {\n        unit $VRF_UNIT {\n            family inet {\n                address $LOOPBACK_V4;\n            }\n            family inet6 {\n                address $LOOPBACK_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V4_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V6_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 491,
+      "lineCount": 24,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "srv6_core_edge/evo/interfaces/pe-ce-irb",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "pe-ce-irb",
+      "path": "service_provider/srv6_core_edge/configuration/snips/evo/interfaces/pe-ce-irb.conf",
+      "topic": "PE-CE attachment via IRB — bridge-domain on the AC stitched",
+      "seenOn": {
+        "junos": [
+          "edge1_mx480",
+          "edge2_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "br1_ptx10002-36qdd"
+        ]
+      },
+      "highlights": [
+        "Body is byte-identical to the Junos sibling.",
+        "The customer-facing IFL uses `encapsulation flexible-ethernet-services` with the per-VLAN `unit` carrying `family bridge`; the L3 SVI lives on `irb.<unit>` and is placed in the VRF.",
+        "`bridge-domains BD-<id> { vlan-id <id>; routing-interface irb.<id>; }` binds the AC unit to the IRB.",
+        "The IRB's `family inet`/`inet6` provides the gateway address for CE hosts.",
+        "Used when a CPE bridges multiple physical ports into one VLAN that needs a single L3 gateway in the L3VPN."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/cpe-attachment.conf",
+          "id": "srv6_core_edge/evo/interfaces/cpe-attachment",
+          "note": null
+        },
+        {
+          "raw": "evo/services/l3vpn-srv6-vrf.conf     (places irb.X in VRF)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
+          "note": "places irb.X in VRF"
+        },
+        {
+          "raw": "evo/interfaces/pe-ce-direct.conf       (alternative w/o bridging)",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
+          "note": "alternative w/o bridging"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PHYS_IFL",
+          "example": "xe-2/0/3"
+        },
+        {
+          "name": "$BD_UNIT",
+          "example": "601"
+        },
+        {
+          "name": "$VLAN",
+          "example": "601"
+        },
+        {
+          "name": "$IRB_V4",
+          "example": "10.104.8.1/30"
+        },
+        {
+          "name": "$IRB_V6",
+          "example": "2010:104:8::1/126"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  (no instances found in topology registry)"
+      ],
+      "body": "interfaces {\n    $PHYS_IFL {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $BD_UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            family bridge;\n        }\n    }\n    irb {\n        unit $BD_UNIT {\n            family inet {\n                address $IRB_V4;\n            }\n            family inet6 {\n                address $IRB_V6;\n            }\n        }\n    }\n}\nbridge-domains {\n    BD-$BD_UNIT {\n        vlan-id $VLAN;\n        routing-interface irb.$BD_UNIT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    BD-$BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-interface irb.$BD_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 547,
+      "lineCount": 27,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "srv6_core_edge/evo/oam/bfd-defaults",
       "jvd": "srv6_core_edge",
       "jvdLabel": "SRv6 Core/Edge",
@@ -29709,13 +29919,13 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/bfd-isis.conf",
-          "id": "srv6_core_edge/junos/transport/bfd-isis",
+          "raw": "evo/transport/bfd-isis.conf",
+          "id": "srv6_core_edge/evo/transport/bfd-isis",
           "note": null
         },
         {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
           "note": null
         }
       ],
@@ -29777,8 +29987,8 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-isis-ipv6.conf       (consumes results",
-          "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf       (consumes results",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
           "note": "(consumes results"
         }
       ],
@@ -29822,23 +30032,28 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/junos/policy/srv6-redistribution-policy.conf  (sibling — PS-LOAD-BALANCE)",
-          "id": "srv6_core_edge/junos/policy/srv6-redistribution-policy",
-          "note": "sibling — PS-LOAD-BALANCE"
-        },
-        {
-          "raw": "snips/evo/transport/inter-as-option-c.conf",
+          "raw": "evo/transport/inter-as-option-c.conf",
           "id": "srv6_core_edge/evo/transport/inter-as-option-c",
           "note": null
         },
         {
-          "raw": "snips/evo/transport/bgp-overlay-rr-client.conf",
+          "raw": "evo/transport/bgp-overlay-rr-client.conf",
           "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": null
         },
         {
-          "raw": "snips/evo/transport/srv6-locator-summarization.conf",
+          "raw": "evo/transport/srv6-locator-summarization.conf",
           "id": "srv6_core_edge/evo/transport/srv6-locator-summarization",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/bgp-overlay-rr.conf",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/isis-srv6-flex-algo.conf",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": null
         }
       ],
@@ -29895,13 +30110,13 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/bgp-overlay-rr.conf       (applies PS-VPN-SRV6)",
-          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr",
+          "raw": "evo/transport/bgp-overlay-rr.conf       (applies PS-VPN-SRV6)",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr",
           "note": "applies PS-VPN-SRV6"
         },
         {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf        (defines per-VRF RTs)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "raw": "evo/services/l3vpn-srv6-vrf.conf        (defines per-VRF RTs)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
           "note": "defines per-VRF RTs"
         }
       ],
@@ -29958,18 +30173,18 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf         (peer service shape)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "raw": "evo/services/l3vpn-srv6-vrf.conf         (peer service shape)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
           "note": "peer service shape"
         },
         {
-          "raw": "junos/interfaces/cpe-attachment.conf       (ESI / AC config)",
-          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
+          "raw": "evo/interfaces/cpe-attachment.conf       (ESI / AC config)",
+          "id": "srv6_core_edge/evo/interfaces/cpe-attachment",
           "note": "ESI / AC config"
         },
         {
-          "raw": "junos/transport/bgp-overlay-rr-client.conf (carries the routes)",
-          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr-client",
+          "raw": "evo/transport/bgp-overlay-rr-client.conf (carries the routes)",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": "carries the routes"
         }
       ],
@@ -30007,7 +30222,9 @@
           "example": "65001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  (no instances found in topology registry)"
+      ],
       "body": "routing-instances {\n    $VPWS_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_IFL {\n                    vpws-service-id {\n                        local $LOCAL_VPWS_ID;\n                        remote $REMOTE_VPWS_ID;\n                        source-packet-routing {\n                            srv6 locator $LOC;\n                        }\n                    }\n                }\n                encapsulation srv6;\n            }\n        }\n        interface $AC_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VPWS_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            srv6 locator $LOC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation srv6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 623,
@@ -30056,28 +30273,38 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-l3vpn.conf           (provides defaults)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-l3vpn",
+          "raw": "evo/services/evpn-vpws-srv6.conf",
+          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/bgp-overlay-rr-client.conf",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-l3vpn.conf           (provides defaults)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-l3vpn",
           "note": "provides defaults"
         },
         {
-          "raw": "junos/services/pe-ce-direct.conf           (xe-*.<unit> attachment)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
+          "raw": "evo/interfaces/pe-ce-direct.conf           (xe-*.<unit> attachment)",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
           "note": "xe-*.<unit> attachment"
         },
         {
-          "raw": "junos/services/pe-ce-irb.conf              (IRB attachment)",
-          "id": "srv6_core_edge/junos/services/pe-ce-irb",
+          "raw": "evo/interfaces/pe-ce-irb.conf              (IRB attachment)",
+          "id": "srv6_core_edge/evo/interfaces/pe-ce-irb",
           "note": "IRB attachment"
         },
         {
-          "raw": "junos/policy/vpn-import-export-rt.conf     (RT-SRV6, RT scoping)",
-          "id": "srv6_core_edge/junos/policy/vpn-import-export-rt",
+          "raw": "evo/policy/vpn-import-export-rt.conf     (RT-SRV6, RT scoping)",
+          "id": "srv6_core_edge/evo/policy/vpn-import-export-rt",
           "note": "RT-SRV6, RT scoping"
         },
         {
-          "raw": "junos/transport/bgp-transport-class.conf   (color->FA binding)",
-          "id": "srv6_core_edge/junos/transport/bgp-transport-class",
+          "raw": "evo/transport/bgp-transport-class.conf   (color->FA binding)",
+          "id": "srv6_core_edge/evo/transport/bgp-transport-class",
           "note": "color->FA binding"
         }
       ],
@@ -30127,175 +30354,22 @@
           "example": "lo0.501"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  12 instances total (high 1 / med 11 / low 0)",
+        "  On devices: br1_ptx10002-36qdd (12), br2_mx304 (12), edge1_mx480 (12), edge2_mx480 (12), edge3_mx480 (12), mse1_mx480 (12), +1 more",
+        "  Example: L3VPN-DYN-FA000-1 (RD 100.0.0.36:501, RT target:65001:501)",
+        "    br1_ptx10002-36qdd  et-0/0/12:2.501",
+        "    br2_mx304  xe-0/0/3:0.501",
+        "    edge1_mx480  et-0/0/14.501",
+        "    edge2_mx480  xe-1/0/2.501",
+        "    (+3 more endpoints)"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 982,
       "lineCount": 34,
       "techFamily": "Service Overlay",
       "subfamily": "SRv6",
-      "usecases": [
-        "Service Provider",
-        "SRv6",
-        "Core/Edge"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "srv6_core_edge/evo/services/pe-ce-direct",
-      "jvd": "srv6_core_edge",
-      "jvdLabel": "SRv6 Core/Edge",
-      "area": "Service Provider",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "name": "pe-ce-direct",
-      "path": "service_provider/srv6_core_edge/configuration/snips/evo/services/pe-ce-direct.conf",
-      "topic": "PE-CE direct (sub-)interface attachment — IFL on physical",
-      "seenOn": {
-        "junos": [
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
-      },
-      "highlights": [
-        "On PTX10002 the physical IFL is typically `et-0/0/<port>` (400G/100G optics) instead of MX's `xe-`/`ae-` naming.",
-        "One sub-IFL per VRF, dot1q-tagged via `vlan-id $VLAN`; family inet + inet6 carry both AFIs across the same PE-CE link.",
-        "`family iso { mtu $JUMBO_L3_MTU; }` is omitted on PE-CE units (no IS-IS toward the customer).",
-        "The matching loopback unit (`lo0.<unit>`) gives the VRF a routable router-id and a stable inet/inet6 address for BGP `local-address`."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf     (consumes this IFL)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "consumes this IFL"
-        },
-        {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf (suppressed by `<*>`",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
-          "note": "(suppressed by `<*>`"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$PHYS_IFL",
-          "example": "xe-2/0/2"
-        },
-        {
-          "name": "$VRF_UNIT",
-          "example": "501"
-        },
-        {
-          "name": "$VLAN",
-          "example": "501"
-        },
-        {
-          "name": "$PE_CE_V4_LOCAL",
-          "example": "13.1.8.1/30"
-        },
-        {
-          "name": "$PE_CE_V6_LOCAL",
-          "example": "2013:1:8::1/126"
-        },
-        {
-          "name": "$LOOPBACK_V4",
-          "example": "195.168.8.1/32"
-        },
-        {
-          "name": "$LOOPBACK_V6",
-          "example": "2195:168:8::1/128"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $PHYS_IFL {\n        vlan-tagging;\n        unit $VRF_UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $PE_CE_V4_LOCAL;\n            }\n            family inet6 {\n                address $PE_CE_V6_LOCAL;\n            }\n        }\n    }\n    lo0 {\n        unit $VRF_UNIT {\n            family inet {\n                address $LOOPBACK_V4;\n            }\n            family inet6 {\n                address $LOOPBACK_V6;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V4_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V6_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 491,
-      "lineCount": 24,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
-      "usecases": [
-        "Service Provider",
-        "SRv6",
-        "Core/Edge"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "srv6_core_edge/evo/services/pe-ce-irb",
-      "jvd": "srv6_core_edge",
-      "jvdLabel": "SRv6 Core/Edge",
-      "area": "Service Provider",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "name": "pe-ce-irb",
-      "path": "service_provider/srv6_core_edge/configuration/snips/evo/services/pe-ce-irb.conf",
-      "topic": "PE-CE attachment via IRB — bridge-domain on the AC stitched",
-      "seenOn": {
-        "junos": [
-          "edge1_mx480",
-          "edge2_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
-      },
-      "highlights": [
-        "Body is byte-identical to the Junos sibling.",
-        "The customer-facing IFL uses `encapsulation flexible-ethernet-services` with the per-VLAN `unit` carrying `family bridge`; the L3 SVI lives on `irb.<unit>` and is placed in the VRF.",
-        "`bridge-domains BD-<id> { vlan-id <id>; routing-interface irb.<id>; }` binds the AC unit to the IRB.",
-        "The IRB's `family inet`/`inet6` provides the gateway address for CE hosts.",
-        "Used when a CPE bridges multiple physical ports into one VLAN that needs a single L3 gateway in the L3VPN."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf     (places irb.X in VRF)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "places irb.X in VRF"
-        },
-        {
-          "raw": "junos/services/pe-ce-direct.conf       (alternative w/o bridging)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
-          "note": "alternative w/o bridging"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$PHYS_IFL",
-          "example": "xe-2/0/3"
-        },
-        {
-          "name": "$BD_UNIT",
-          "example": "601"
-        },
-        {
-          "name": "$VLAN",
-          "example": "601"
-        },
-        {
-          "name": "$IRB_V4",
-          "example": "10.104.8.1/30"
-        },
-        {
-          "name": "$IRB_V6",
-          "example": "2010:104:8::1/126"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $PHYS_IFL {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $BD_UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            family bridge;\n        }\n    }\n    irb {\n        unit $BD_UNIT {\n            family inet {\n                address $IRB_V4;\n            }\n            family inet6 {\n                address $IRB_V6;\n            }\n        }\n    }\n}\nbridge-domains {\n    BD-$BD_UNIT {\n        vlan-id $VLAN;\n        routing-interface irb.$BD_UNIT;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    BD-$BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-interface irb.$BD_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 547,
-      "lineCount": 27,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
       "usecases": [
         "Service Provider",
         "SRv6",
@@ -30315,16 +30389,7 @@
       "path": "service_provider/srv6_core_edge/configuration/snips/evo/transport/bfd-isis.conf",
       "topic": "Per-IFL BFDv6 configuration for IS-IS adjacencies — fast",
       "seenOn": {
-        "junos": [
-          "cr1_mx10004",
-          "cr2_mx2010",
-          "br2_mx304",
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "br1_ptx10002-36qdd"
         ]
@@ -30337,13 +30402,18 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-isis-ipv6.conf       (provides this snippet)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
+          "raw": "evo/oam/bfd-defaults.conf",
+          "id": "srv6_core_edge/evo/oam/bfd-defaults",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf       (provides this snippet)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
           "note": "provides this snippet"
         },
         {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf  (BFD-over-LACP on AE)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf  (BFD-over-LACP on AE)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
           "note": "BFD-over-LACP on AE"
         }
       ],
@@ -30383,14 +30453,7 @@
       "path": "service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-overlay-rr-client.conf",
       "topic": "PE-side iBGP overlay configuration toward route-reflectors",
       "seenOn": {
-        "junos": [
-          "br2_mx304",
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "br1_ptx10002-36qdd"
         ]
@@ -30405,18 +30468,28 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
+          "raw": "evo/policy/srv6-redistribution-policy.conf",
+          "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
+          "note": null
+        },
+        {
+          "raw": "evo/services/evpn-vpws-srv6.conf",
+          "id": "srv6_core_edge/evo/services/evpn-vpws-srv6",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-bgp",
           "note": "TCP-AO, multipath, MSS"
         },
         {
-          "raw": "junos/transport/bgp-overlay-rr.conf       (RR-side counterpart)",
-          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr",
+          "raw": "evo/transport/bgp-overlay-rr.conf       (RR-side counterpart)",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr",
           "note": "RR-side counterpart"
         },
         {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf        (per-VRF locator overrides)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "raw": "evo/services/l3vpn-srv6-vrf.conf        (per-VRF locator overrides)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
           "note": "per-VRF locator overrides"
         }
       ],
@@ -30464,11 +30537,10 @@
       "path": "service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-overlay-rr.conf",
       "topic": "iBGP overlay route-reflector configuration — multi-AFI SRv6",
       "seenOn": {
-        "junos": [
-          "cr1_mx10004",
-          "cr2_mx2010"
-        ],
-        "evo": []
+        "junos": [],
+        "evo": [
+          "br1_ptx10002-36qdd"
+        ]
       },
       "highlights": [
         "BR1 in this JVD is not deployed as an RR; this snippet documents the EVO-equivalent shape so a PTX/EVO RR deployment can drop it in. Body is byte-identical to the Junos sibling.",
@@ -30483,23 +30555,28 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
+          "raw": "evo/policy/vpn-import-export-rt.conf",
+          "id": "srv6_core_edge/evo/policy/vpn-import-export-rt",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-bgp",
           "note": "TCP-AO, multipath, MSS"
         },
         {
-          "raw": "junos/policy/srv6-vpn-export.conf         (PS-VPN-SRV6, RT-SRV6)",
-          "id": null,
+          "raw": "evo/policy/vpn-import-export-rt.conf         (PS-VPN-SRV6, RT-SRV6)",
+          "id": "srv6_core_edge/evo/policy/vpn-import-export-rt",
           "note": "PS-VPN-SRV6, RT-SRV6"
         },
         {
-          "raw": "junos/policy/srv6-load-balance.conf       (PS-LOAD-BALANCE)",
-          "id": null,
+          "raw": "evo/policy/srv6-redistribution-policy.conf       (PS-LOAD-BALANCE)",
+          "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
           "note": "PS-LOAD-BALANCE"
         },
         {
-          "raw": "junos/transport/bgp-overlay-rr-client.conf (PE-side counterpart)",
-          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr-client",
+          "raw": "evo/transport/bgp-overlay-rr-client.conf (PE-side counterpart)",
+          "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": "PE-side counterpart"
         }
       ],
@@ -30573,13 +30650,13 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/isis-srv6-flex-algo.conf  (defines FAs 128/129)",
-          "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf  (defines FAs 128/129)",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": "defines FAs 128/129"
         },
         {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf        (consumes the TC binding)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "raw": "evo/services/l3vpn-srv6-vrf.conf        (consumes the TC binding)",
+          "id": "srv6_core_edge/evo/services/l3vpn-srv6-vrf",
           "note": "consumes the TC binding"
         }
       ],
@@ -30633,22 +30710,17 @@
       ],
       "pairWith": [
         {
-          "raw": "snips/evo/apply-groups/gr-bgp.conf            (provides EBGP defaults)",
+          "raw": "evo/apply-groups/gr-bgp.conf            (provides EBGP defaults)",
           "id": "srv6_core_edge/evo/apply-groups/gr-bgp",
           "note": "provides EBGP defaults"
         },
         {
-          "raw": "snips/junos/transport/inter-as-option-c.conf  (Junos sibling)",
-          "id": "srv6_core_edge/junos/transport/inter-as-option-c",
-          "note": "Junos sibling"
-        },
-        {
-          "raw": "snips/evo/transport/srv6-locator-summarization.conf",
+          "raw": "evo/transport/srv6-locator-summarization.conf",
           "id": "srv6_core_edge/evo/transport/srv6-locator-summarization",
           "note": null
         },
         {
-          "raw": "snips/evo/policy/srv6-redistribution-policy.conf",
+          "raw": "evo/policy/srv6-redistribution-policy.conf",
           "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
           "note": null
         }
@@ -30705,16 +30777,7 @@
       "path": "service_provider/srv6_core_edge/configuration/snips/evo/transport/isis-srv6-flex-algo.conf",
       "topic": "IS-IS L2 instantiation for SRv6 µSID transport — per-device",
       "seenOn": {
-        "junos": [
-          "br2_mx304",
-          "cr1_mx10004",
-          "cr2_mx2010",
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "br1_ptx10002-36qdd"
         ]
@@ -30733,23 +30796,43 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-isis-ipv6.conf       (per-IFL SRv6 + TI-LFA)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
+          "raw": "evo/policy/srv6-redistribution-policy.conf",
+          "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/core-ae-link.conf",
+          "id": "srv6_core_edge/evo/interfaces/core-ae-link",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/bgp-transport-class.conf",
+          "id": "srv6_core_edge/evo/transport/bgp-transport-class",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/ti-lfa-mla.conf",
+          "id": "srv6_core_edge/evo/transport/ti-lfa-mla",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf       (per-IFL SRv6 + TI-LFA)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
           "note": "per-IFL SRv6 + TI-LFA"
         },
         {
-          "raw": "junos/apply-groups/gr-srv6.conf            (locator µSID flavors)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-srv6",
+          "raw": "evo/apply-groups/gr-srv6.conf            (locator µSID flavors)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-srv6",
           "note": "locator µSID flavors"
         },
         {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf  (family iso/inet6, MTUs)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "raw": "evo/apply-groups/gr-core-intf-ipv6.conf  (family iso/inet6, MTUs)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-core-intf-ipv6",
           "note": "family iso/inet6, MTUs"
         },
         {
-          "raw": "junos/transport/srv6-locator-summarization.conf  (CR-only redistribution)",
-          "id": "srv6_core_edge/junos/transport/srv6-locator-summarization",
+          "raw": "evo/transport/srv6-locator-summarization.conf  (CR-only redistribution)",
+          "id": "srv6_core_edge/evo/transport/srv6-locator-summarization",
           "note": "CR-only redistribution"
         }
       ],
@@ -30890,18 +30973,18 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/transport/inter-as-option-c.conf        (eBGP carrying these)",
-          "id": "srv6_core_edge/junos/transport/inter-as-option-c",
+          "raw": "evo/transport/inter-as-option-c.conf        (eBGP carrying these)",
+          "id": "srv6_core_edge/evo/transport/inter-as-option-c",
           "note": "eBGP carrying these"
         },
         {
-          "raw": "junos/transport/isis-srv6-flex-algo.conf      (locator definitions)",
-          "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf      (locator definitions)",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": "locator definitions"
         },
         {
-          "raw": "junos/policy/srv6-redistribution.conf         (the policy bodies)",
-          "id": null,
+          "raw": "evo/policy/srv6-redistribution-policy.conf         (the policy bodies)",
+          "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
           "note": "the policy bodies"
         }
       ],
@@ -30968,13 +31051,13 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/apply-groups/gr-isis-ipv6.conf      (per-IFL post-convergence-lfa)",
-          "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
+          "raw": "evo/apply-groups/gr-isis-ipv6.conf      (per-IFL post-convergence-lfa)",
+          "id": "srv6_core_edge/evo/apply-groups/gr-isis-ipv6",
           "note": "per-IFL post-convergence-lfa"
         },
         {
-          "raw": "junos/transport/isis-srv6-flex-algo.conf  (instantiation)",
-          "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
+          "raw": "evo/transport/isis-srv6-flex-algo.conf  (instantiation)",
+          "id": "srv6_core_edge/evo/transport/isis-srv6-flex-algo",
           "note": "instantiation"
         }
       ],
@@ -31100,6 +31183,26 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/apply-groups/gr-isis-ipv6.conf",
+          "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/core-ae-link.conf",
+          "id": "srv6_core_edge/junos/interfaces/core-ae-link",
+          "note": null
+        },
+        {
+          "raw": "junos/oam/bfd-defaults.conf",
+          "id": "srv6_core_edge/junos/oam/bfd-defaults",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/pe-ce-direct.conf",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
+          "note": null
+        },
+        {
           "raw": "junos/transport/isis-srv6-flex-algo.conf  (consumes family inet6 + iso)",
           "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
           "note": "consumes family inet6 + iso"
@@ -31177,6 +31280,21 @@
         "`inactive: hello-authentication-key-chain KC-ISIS;` keeps the knob present but disabled — toggle when key-chain is provisioned."
       ],
       "pairWith": [
+        {
+          "raw": "junos/apply-groups/gr-bgp.conf",
+          "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
+          "note": null
+        },
+        {
+          "raw": "junos/oam/twamp-light.conf",
+          "id": "srv6_core_edge/junos/oam/twamp-light",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/ti-lfa-mla.conf",
+          "id": "srv6_core_edge/junos/transport/ti-lfa-mla",
+          "note": null
+        },
         {
           "raw": "junos/apply-groups/gr-core-intf-ipv6.conf  (provides family iso/inet6)",
           "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
@@ -31491,13 +31609,13 @@
           "note": "consumes the AC unit"
         },
         {
-          "raw": "junos/services/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
+          "raw": "junos/interfaces/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
           "note": "consumes the L3 sub-IFL"
         },
         {
-          "raw": "junos/services/pe-ce-irb.conf       (consumes the bridge AC)",
-          "id": "srv6_core_edge/junos/services/pe-ce-irb",
+          "raw": "junos/interfaces/pe-ce-irb.conf       (consumes the bridge AC)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-irb",
           "note": "consumes the bridge AC"
         }
       ],
@@ -31548,6 +31666,185 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description TO-CPE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* Plain L3VPN sub-IFL */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $L3_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $L3_VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family iso;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $L3_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* EVPN-VPWS attachment circuit */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VPWS_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            description EVPN-VPWS-AC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VPWS_VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI_BYTES;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI_MODE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* EVPN bridge AC for IRB-stitched L3VPN */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BRIDGE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $BRIDGE_VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 805,
       "lineCount": 34,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "pe-ce-direct",
+      "path": "service_provider/srv6_core_edge/configuration/snips/junos/interfaces/pe-ce-direct.conf",
+      "topic": "PE-CE direct (sub-)interface attachment — IFL on physical",
+      "seenOn": {
+        "junos": [
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "br1_ptx10002-36qdd"
+        ]
+      },
+      "highlights": [
+        "One sub-IFL per VRF, dot1q-tagged via `vlan-id $VLAN`; family inet + inet6 carry both AFIs across the same PE-CE link.",
+        "`family iso { mtu $JUMBO_L3_MTU; }` is omitted on PE-CE units (no IS-IS toward the customer).",
+        "The matching loopback unit (`lo0.<unit>`) gives the VRF a routable router-id and a stable inet/inet6 address for BGP `local-address`."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/cpe-attachment.conf",
+          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/pe-ce-irb.conf",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-irb",
+          "note": null
+        },
+        {
+          "raw": "junos/services/l3vpn-srv6-vrf.conf     (consumes this IFL)",
+          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "note": "consumes this IFL"
+        },
+        {
+          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf (suppressed by `<*>`",
+          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
+          "note": "(suppressed by `<*>`"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PHYS_IFL",
+          "example": "xe-2/0/2"
+        },
+        {
+          "name": "$VRF_UNIT",
+          "example": "501"
+        },
+        {
+          "name": "$VLAN",
+          "example": "501"
+        },
+        {
+          "name": "$PE_CE_V4_LOCAL",
+          "example": "13.1.8.1/30"
+        },
+        {
+          "name": "$PE_CE_V6_LOCAL",
+          "example": "2013:1:8::1/126"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "195.168.8.1/32"
+        },
+        {
+          "name": "$LOOPBACK_V6",
+          "example": "2195:168:8::1/128"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  (no instances found in topology registry)"
+      ],
+      "body": "interfaces {\n    $PHYS_IFL {\n        vlan-tagging;\n        unit $VRF_UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $PE_CE_V4_LOCAL;\n            }\n            family inet6 {\n                address $PE_CE_V6_LOCAL;\n            }\n        }\n    }\n    lo0 {\n        unit $VRF_UNIT {\n            family inet {\n                address $LOOPBACK_V4;\n            }\n            family inet6 {\n                address $LOOPBACK_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V4_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V6_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 491,
+      "lineCount": 24,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "srv6_core_edge/junos/interfaces/pe-ce-irb",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "pe-ce-irb",
+      "path": "service_provider/srv6_core_edge/configuration/snips/junos/interfaces/pe-ce-irb.conf",
+      "topic": "PE-CE attachment via IRB — bridge-domain on the AC stitched",
+      "seenOn": {
+        "junos": [
+          "edge1_mx480",
+          "edge2_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "br1_ptx10002-36qdd"
+        ]
+      },
+      "highlights": [
+        "The customer-facing IFL uses `encapsulation flexible-ethernet-services` with the per-VLAN `unit` carrying `family bridge`; the L3 SVI lives on `irb.<unit>` and is placed in the VRF.",
+        "`bridge-domains BD-<id> { vlan-id <id>; routing-interface irb.<id>; }` binds the AC unit to the IRB.",
+        "The IRB's `family inet`/`inet6` provides the gateway address for CE hosts.",
+        "Used when a CPE bridges multiple physical ports into one VLAN that needs a single L3 gateway in the L3VPN."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/cpe-attachment.conf",
+          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
+          "note": null
+        },
+        {
+          "raw": "junos/services/l3vpn-srv6-vrf.conf     (places irb.X in VRF)",
+          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "note": "places irb.X in VRF"
+        },
+        {
+          "raw": "junos/interfaces/pe-ce-direct.conf       (alternative w/o bridging)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
+          "note": "alternative w/o bridging"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PHYS_IFL",
+          "example": "xe-2/0/3"
+        },
+        {
+          "name": "$BD_UNIT",
+          "example": "601"
+        },
+        {
+          "name": "$VLAN",
+          "example": "601"
+        },
+        {
+          "name": "$IRB_V4",
+          "example": "10.104.8.1/30"
+        },
+        {
+          "name": "$IRB_V6",
+          "example": "2010:104:8::1/126"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  (no instances found in topology registry)"
+      ],
+      "body": "interfaces {\n    $PHYS_IFL {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $BD_UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            family bridge;\n        }\n    }\n    irb {\n        unit $BD_UNIT {\n            family inet {\n                address $IRB_V4;\n            }\n            family inet6 {\n                address $IRB_V6;\n            }\n        }\n    }\n}\nbridge-domains {\n    BD-$BD_UNIT {\n        vlan-id $VLAN;\n        routing-interface irb.$BD_UNIT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    BD-$BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-interface irb.$BD_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 547,
+      "lineCount": 27,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
@@ -31710,6 +32007,21 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/transport/bgp-overlay-rr.conf",
+          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/inter-as-option-c.conf",
+          "id": "srv6_core_edge/junos/transport/inter-as-option-c",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/srv6-locator-summarization.conf",
+          "id": "srv6_core_edge/junos/transport/srv6-locator-summarization",
+          "note": null
+        },
+        {
           "raw": "junos/transport/isis-srv6-flex-algo.conf  (forwarding-table export)",
           "id": "srv6_core_edge/junos/transport/isis-srv6-flex-algo",
           "note": "forwarding-table export"
@@ -31758,6 +32070,11 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/apply-groups/gr-l3vpn.conf",
+          "id": "srv6_core_edge/junos/apply-groups/gr-l3vpn",
+          "note": null
+        },
+        {
           "raw": "junos/transport/bgp-overlay-rr.conf       (applies PS-VPN-SRV6)",
           "id": "srv6_core_edge/junos/transport/bgp-overlay-rr",
           "note": "applies PS-VPN-SRV6"
@@ -31789,6 +32106,120 @@
       "parseWarnings": []
     },
     {
+      "id": "srv6_core_edge/junos/services/cpe-virtual-router",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "cpe-virtual-router",
+      "path": "service_provider/srv6_core_edge/configuration/snips/junos/services/cpe-virtual-router.conf",
+      "topic": "CPE-side virtual-router — eBGP toward PE(s) for L3VPN",
+      "seenOn": {
+        "junos": [
+          "cpe2_mx240",
+          "cpe4_mx240"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "`instance-type virtual-router` — lightweight L3 partitioning without VPN label/SID machinery (that lives on the PE side).",
+        "One or two eBGP groups toward upstream PEs; each group has `export EXPORT-TO-EBGP` to redistribute connected/static routes.",
+        "Dual-stack: `family inet { any; }` + `family inet6 { any; }`.",
+        "No `route-distinguisher` or `vrf-target` — this is not an MPLS/ SRv6 VRF; it's plain IP routing confined to its own table.",
+        "Appears in two flavors: • Multi-homed (cpe2): 2 BGP groups (TO-AN2, TO-AN3) toward two edge PEs. • Single-homed EVPN-T5 variant (cpe2): 1 BGP group (TO-AN3) toward one PE — the PE originates EVPN Type-5 for these prefixes (see l3vpn-evpn-t5-srv6.conf).",
+        "cpe4 peers with MSE PEs (groups TO-MSE1, TO-MSE2)."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-side VRF counterpart)",
+          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "note": "PE-side VRF counterpart"
+        },
+        {
+          "raw": "junos/services/l3vpn-evpn-t5-srv6.conf   (PE-side EVPN-T5 VRF)",
+          "id": "srv6_core_edge/junos/services/l3vpn-evpn-t5-srv6",
+          "note": "PE-side EVPN-T5 VRF"
+        },
+        {
+          "raw": "junos/interfaces/cpe-attachment.conf     (physical trunk)",
+          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
+          "note": "physical trunk"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VR_NAME",
+          "example": "VR-L3VPN-DYN-FA000-1"
+        },
+        {
+          "name": "$PE1_GROUP",
+          "example": "TO-MSE1"
+        },
+        {
+          "name": "$PE1_LOCAL_ADDR",
+          "example": "13.1.8.2"
+        },
+        {
+          "name": "$PE1_PEER_AS",
+          "example": "65000"
+        },
+        {
+          "name": "$LOCAL_AS",
+          "example": "65003"
+        },
+        {
+          "name": "$PE1_NEIGHBOR",
+          "example": "13.1.8.1"
+        },
+        {
+          "name": "$PE2_GROUP",
+          "example": "TO-MSE2  (omit for single-homed)"
+        },
+        {
+          "name": "$PE2_LOCAL_ADDR",
+          "example": "13.1.9.2"
+        },
+        {
+          "name": "$PE2_NEIGHBOR",
+          "example": "13.1.9.1"
+        },
+        {
+          "name": "$ATTACH_IFL_1",
+          "example": "xe-1/0/8.501"
+        },
+        {
+          "name": "$ATTACH_IFL_2",
+          "example": "xe-1/0/10.501"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  1012 instances on cpe2_mx240, 12 on cpe4_mx240.",
+        "  Breakdown:",
+        "    VR-L3VPN-DYN-FA{000,128,129}-1         (3 × multi-homed, 2 BGP groups)",
+        "    VR-L3VPN-IRB-DYN-FA{000,128,129}-1     (3 × IRB variant)",
+        "    VR-L3VPN-IRB-STATIC-FA{000,128,129}-1  (3 × static SID)",
+        "    VR-L3VPN-STATIC-FA{000,128,129}-1      (3 × static SID)",
+        "    VR-L3VPN-EVPN-T5-SH-DYN-FA000-{1..1000} (1000 × single-homed)",
+        "  Example: VR-L3VPN-DYN-FA000-1",
+        "    cpe2_mx240: BGP to AN2 (13.1.2.1) + AN3 (13.1.3.1)",
+        "    cpe4_mx240: BGP to MSE1 (13.1.8.1) + MSE2 (13.1.9.1)"
+      ],
+      "body": "routing-instances {\n    $VR_NAME {\n        instance-type virtual-router;\n        protocols {\n            bgp {\n                group $PE1_GROUP {\n                    local-address $PE1_LOCAL_ADDR;\n                    family inet {\n                        any;\n                    }\n                    family inet6 {\n                        any;\n                    }\n                    export EXPORT-TO-EBGP;\n                    peer-as $PE1_PEER_AS;\n                    local-as $LOCAL_AS;\n                    neighbor $PE1_NEIGHBOR;\n                }\n                /* Second group — omit for single-homed EVPN-T5 CPEs */\n                group $PE2_GROUP {\n                    local-address $PE2_LOCAL_ADDR;\n                    family inet {\n                        any;\n                    }\n                    family inet6 {\n                        any;\n                    }\n                    export EXPORT-TO-EBGP;\n                    peer-as $PE1_PEER_AS;\n                    local-as $LOCAL_AS;\n                    neighbor $PE2_NEIGHBOR;\n                }\n            }\n        }\n        interface $ATTACH_IFL_1;\n        interface $ATTACH_IFL_2;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VR_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-router;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group $PE1_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE1_LOCAL_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#79C0FF\"> EXPORT</span><span style=\"color:#E6EDF3\">-TO-EBGP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $PE1_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE1_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                /* Second group — omit for single-homed EVPN-T5 CPEs */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group $PE2_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE2_LOCAL_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#79C0FF\"> EXPORT</span><span style=\"color:#E6EDF3\">-TO-EBGP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $PE1_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE2_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1170,
+      "lineCount": 38,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "srv6_core_edge/junos/services/evpn-vpws-srv6",
       "jvd": "srv6_core_edge",
       "jvdLabel": "SRv6 Core/Edge",
@@ -31807,9 +32238,7 @@
           "mse1_mx480",
           "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "`instance-type evpn-vpws` + `protocols evpn { encapsulation srv6; }` is the SRv6-data-plane EVPN-VPWS shape (RFC-9747).",
@@ -31869,11 +32298,124 @@
           "example": "65001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  4000 instances total (high 4000 / med 0 / low 0)",
+        "  On devices: edge2_mx480 (4000), edge3_mx480 (4000), mse1_mx480 (4000), mse2_mx304 (4000), edge1_mx480 (3300)",
+        "  Example: EVPN-VPWS-AA-DYN-FA000-1 (RD 100.0.6.48:3001, RT target:65001:3001)",
+        "    edge1_mx480  ae2.1001 00:11:11:11:11:11:11:11:11:01 A-A",
+        "    edge2_mx480  ae2.1001 00:11:11:11:11:11:11:11:11:01 A-A",
+        "    edge3_mx480  ae2.1001 00:11:11:11:11:11:11:11:11:01 A-A",
+        "    mse1_mx480  ae2.1001 00:22:22:22:22:22:22:22:22:01 A-A",
+        "    (+1 more endpoints)"
+      ],
       "body": "routing-instances {\n    $VPWS_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_IFL {\n                    vpws-service-id {\n                        local $LOCAL_VPWS_ID;\n                        remote $REMOTE_VPWS_ID;\n                        source-packet-routing {\n                            srv6 locator $LOC;\n                        }\n                    }\n                }\n                encapsulation srv6;\n            }\n        }\n        interface $AC_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VPWS_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VPWS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            srv6 locator $LOC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation srv6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 623,
       "lineCount": 22,
+      "techFamily": "Service Overlay",
+      "subfamily": "SRv6",
+      "usecases": [
+        "Service Provider",
+        "SRv6",
+        "Core/Edge"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "srv6_core_edge/junos/services/l3vpn-evpn-t5-srv6",
+      "jvd": "srv6_core_edge",
+      "jvdLabel": "SRv6 Core/Edge",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "l3vpn-evpn-t5-srv6",
+      "path": "service_provider/srv6_core_edge/configuration/snips/junos/services/l3vpn-evpn-t5-srv6.conf",
+      "topic": "L3VPN EVPN Type-5 (IP-prefix routes) over SRv6 — silent-host",
+      "seenOn": {
+        "junos": [
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "`apply-groups GR-L3VPN` pulls in `instance-type vrf`, `vpn-unequal-cost` multipath, and `vrf-table-label` — same as the PE-CE BGP L3VPN (l3vpn-srv6-vrf.conf).",
+        "Uses `protocols { evpn { ip-prefix-routes { ... } } }` instead of `protocols { bgp { group TO-CE ... } }` — no PE-CE eBGP session; prefixes are advertised as EVPN Type-5 routes.",
+        "`advertise direct-nexthop` enables direct PE nexthop (no recursive resolution through underlay).",
+        "`encapsulation srv6` signals SRv6 transport to remote PEs.",
+        "`source-packet-routing { srv6 { locator $LOC { micro-dt46-sid; } } }` binds the VRF SID to a Flex-Algo locator.",
+        "The CE-facing interface carries directly-connected prefixes that the PE originates as Type-5 routes into EVPN.",
+        "\"SH\" in the instance name = \"Silent Host\" — the CE side does not run a routing protocol; it simply uses the PE as default gateway."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-CE BGP alternative)",
+          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
+          "note": "PE-CE BGP alternative"
+        },
+        {
+          "raw": "junos/services/cpe-virtual-router.conf   (CPE-side VR counterpart)",
+          "id": "srv6_core_edge/junos/services/cpe-virtual-router",
+          "note": "CPE-side VR counterpart"
+        },
+        {
+          "raw": "junos/interfaces/pe-ce-direct.conf       (CE-facing IFL)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
+          "note": "CE-facing IFL"
+        },
+        {
+          "raw": "junos/apply-groups/gr-l3vpn.conf         (provides defaults)",
+          "id": "srv6_core_edge/junos/apply-groups/gr-l3vpn",
+          "note": "provides defaults"
+        },
+        {
+          "raw": "junos/transport/bgp-overlay-rr-client.conf",
+          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr-client",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "L3VPN-EVPN-T5-SH-DYN-FA000-1"
+        },
+        {
+          "name": "$LOC",
+          "example": "SL-FA-000"
+        },
+        {
+          "name": "$ATTACH_IFL",
+          "example": "et-0/0/14.1001"
+        },
+        {
+          "name": "$LOOPBACK_IFL",
+          "example": "lo0.1001"
+        },
+        {
+          "name": "$RD_SEED",
+          "example": "100.0.6.48"
+        },
+        {
+          "name": "$VPN_ID",
+          "example": "1001"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "65001"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  1000 instances per PE (edge1/2/3), all on FA-000 locator.",
+        "  Example: L3VPN-EVPN-T5-SH-DYN-FA000-1",
+        "    edge1_mx480  et-0/0/14.1001, lo0.1001",
+        "    RD 100.0.6.48:1001, RT target:65001:1001"
+      ],
+      "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation srv6;\n                    source-packet-routing {\n                        srv6 {\n                            locator $LOC {\n                                micro-dt46-sid;\n                            }\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$RT_AS:$VPN_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation srv6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 672,
+      "lineCount": 24,
       "techFamily": "Service Overlay",
       "subfamily": "SRv6",
       "usecases": [
@@ -31917,18 +32459,28 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/services/evpn-vpws-srv6.conf",
+          "id": "srv6_core_edge/junos/services/evpn-vpws-srv6",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/bgp-overlay-rr-client.conf",
+          "id": "srv6_core_edge/junos/transport/bgp-overlay-rr-client",
+          "note": null
+        },
+        {
           "raw": "junos/apply-groups/gr-l3vpn.conf           (provides defaults)",
           "id": "srv6_core_edge/junos/apply-groups/gr-l3vpn",
           "note": "provides defaults"
         },
         {
-          "raw": "junos/services/pe-ce-direct.conf           (xe-*.<unit> attachment)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
+          "raw": "junos/interfaces/pe-ce-direct.conf           (xe-*.<unit> attachment)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-direct",
           "note": "xe-*.<unit> attachment"
         },
         {
-          "raw": "junos/services/pe-ce-irb.conf              (IRB attachment)",
-          "id": "srv6_core_edge/junos/services/pe-ce-irb",
+          "raw": "junos/interfaces/pe-ce-irb.conf              (IRB attachment)",
+          "id": "srv6_core_edge/junos/interfaces/pe-ce-irb",
           "note": "IRB attachment"
         },
         {
@@ -31988,173 +32540,22 @@
           "example": "lo0.501"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1012 instances total (high 1 / med 1011 / low 0)",
+        "  On devices: edge1_mx480 (1012), edge2_mx480 (1012), edge3_mx480 (1012), br1_ptx10002-36qdd (12), br2_mx304 (12), mse1_mx480 (12), +1 more",
+        "  Example: L3VPN-DYN-FA000-1 (RD 100.0.0.36:501, RT target:65001:501)",
+        "    br1_ptx10002-36qdd  et-0/0/12:2.501",
+        "    br2_mx304  xe-0/0/3:0.501",
+        "    edge1_mx480  et-0/0/14.501",
+        "    edge2_mx480  xe-1/0/2.501",
+        "    (+3 more endpoints)"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        apply-groups GR-L3VPN;\n        routing-options {\n            router-id $VRF_ROUTER_ID;\n            protect core;\n        }\n        protocols {\n            bgp {\n                group TO-CE {\n                    type external;\n                    local-address $PE_CE_LOCAL_V4;\n                    family inet { any; }\n                    family inet6 { any; }\n                    peer-as $CE_AS;\n                    local-as $LOCAL_AS;\n                    as-override;\n                    neighbor $PE_CE_NEIGHBOR_V4;\n                }\n                source-packet-routing {\n                    srv6 {\n                        locator $LOC {\n                            micro-dt46-sid;\n                        }\n                    }\n                }\n            }\n        }\n        interface $ATTACH_IFL;\n        interface $LOOPBACK_IFL;\n        route-distinguisher $RD_SEED:$VPN_ID;\n        vrf-target target:$LOCAL_AS:$VPN_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $VRF_ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            protect core;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TO-CE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $PE_CE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 { any; }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $PE_CE_NEIGHBOR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source-packet-routing {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    srv6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        locator $LOC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            micro-dt46-sid;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $ATTACH_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK_IFL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD_SEED:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$LOCAL_AS:$VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 982,
       "lineCount": 34,
       "techFamily": "Service Overlay",
       "subfamily": "SRv6",
-      "usecases": [
-        "Service Provider",
-        "SRv6",
-        "Core/Edge"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "srv6_core_edge/junos/services/pe-ce-direct",
-      "jvd": "srv6_core_edge",
-      "jvdLabel": "SRv6 Core/Edge",
-      "area": "Service Provider",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "services",
-      "name": "pe-ce-direct",
-      "path": "service_provider/srv6_core_edge/configuration/snips/junos/services/pe-ce-direct.conf",
-      "topic": "PE-CE direct (sub-)interface attachment — IFL on physical",
-      "seenOn": {
-        "junos": [
-          "edge1_mx480",
-          "edge2_mx480",
-          "edge3_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
-      },
-      "highlights": [
-        "One sub-IFL per VRF, dot1q-tagged via `vlan-id $VLAN`; family inet + inet6 carry both AFIs across the same PE-CE link.",
-        "`family iso { mtu $JUMBO_L3_MTU; }` is omitted on PE-CE units (no IS-IS toward the customer).",
-        "The matching loopback unit (`lo0.<unit>`) gives the VRF a routable router-id and a stable inet/inet6 address for BGP `local-address`."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf     (consumes this IFL)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "consumes this IFL"
-        },
-        {
-          "raw": "junos/apply-groups/gr-core-intf-ipv6.conf (suppressed by `<*>`",
-          "id": "srv6_core_edge/junos/apply-groups/gr-core-intf-ipv6",
-          "note": "(suppressed by `<*>`"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$PHYS_IFL",
-          "example": "xe-2/0/2"
-        },
-        {
-          "name": "$VRF_UNIT",
-          "example": "501"
-        },
-        {
-          "name": "$VLAN",
-          "example": "501"
-        },
-        {
-          "name": "$PE_CE_V4_LOCAL",
-          "example": "13.1.8.1/30"
-        },
-        {
-          "name": "$PE_CE_V6_LOCAL",
-          "example": "2013:1:8::1/126"
-        },
-        {
-          "name": "$LOOPBACK_V4",
-          "example": "195.168.8.1/32"
-        },
-        {
-          "name": "$LOOPBACK_V6",
-          "example": "2195:168:8::1/128"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $PHYS_IFL {\n        vlan-tagging;\n        unit $VRF_UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $PE_CE_V4_LOCAL;\n            }\n            family inet6 {\n                address $PE_CE_V6_LOCAL;\n            }\n        }\n    }\n    lo0 {\n        unit $VRF_UNIT {\n            family inet {\n                address $LOOPBACK_V4;\n            }\n            family inet6 {\n                address $LOOPBACK_V6;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V4_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $PE_CE_V6_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $VRF_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOOPBACK_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 491,
-      "lineCount": 24,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
-      "usecases": [
-        "Service Provider",
-        "SRv6",
-        "Core/Edge"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "srv6_core_edge/junos/services/pe-ce-irb",
-      "jvd": "srv6_core_edge",
-      "jvdLabel": "SRv6 Core/Edge",
-      "area": "Service Provider",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "services",
-      "name": "pe-ce-irb",
-      "path": "service_provider/srv6_core_edge/configuration/snips/junos/services/pe-ce-irb.conf",
-      "topic": "PE-CE attachment via IRB — bridge-domain on the AC stitched",
-      "seenOn": {
-        "junos": [
-          "edge1_mx480",
-          "edge2_mx480",
-          "mse1_mx480",
-          "mse2_mx304"
-        ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
-      },
-      "highlights": [
-        "The customer-facing IFL uses `encapsulation flexible-ethernet-services` with the per-VLAN `unit` carrying `family bridge`; the L3 SVI lives on `irb.<unit>` and is placed in the VRF.",
-        "`bridge-domains BD-<id> { vlan-id <id>; routing-interface irb.<id>; }` binds the AC unit to the IRB.",
-        "The IRB's `family inet`/`inet6` provides the gateway address for CE hosts.",
-        "Used when a CPE bridges multiple physical ports into one VLAN that needs a single L3 gateway in the L3VPN."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf     (places irb.X in VRF)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "places irb.X in VRF"
-        },
-        {
-          "raw": "junos/services/pe-ce-direct.conf       (alternative w/o bridging)",
-          "id": "srv6_core_edge/junos/services/pe-ce-direct",
-          "note": "alternative w/o bridging"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$PHYS_IFL",
-          "example": "xe-2/0/3"
-        },
-        {
-          "name": "$BD_UNIT",
-          "example": "601"
-        },
-        {
-          "name": "$VLAN",
-          "example": "601"
-        },
-        {
-          "name": "$IRB_V4",
-          "example": "10.104.8.1/30"
-        },
-        {
-          "name": "$IRB_V6",
-          "example": "2010:104:8::1/126"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $PHYS_IFL {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $BD_UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            family bridge;\n        }\n    }\n    irb {\n        unit $BD_UNIT {\n            family inet {\n                address $IRB_V4;\n            }\n            family inet6 {\n                address $IRB_V6;\n            }\n        }\n    }\n}\nbridge-domains {\n    BD-$BD_UNIT {\n        vlan-id $VLAN;\n        routing-interface irb.$BD_UNIT;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $PHYS_IFL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    BD-$BD_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-interface irb.$BD_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 547,
-      "lineCount": 27,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
       "usecases": [
         "Service Provider",
         "SRv6",
@@ -32175,18 +32576,16 @@
       "topic": "Per-IFL BFDv6 configuration for IS-IS adjacencies — fast",
       "seenOn": {
         "junos": [
+          "br2_mx304",
           "cr1_mx10004",
           "cr2_mx2010",
-          "br2_mx304",
           "edge1_mx480",
           "edge2_mx480",
           "edge3_mx480",
           "mse1_mx480",
           "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "BFD is enabled per AFI under each IS-IS interface (here `family inet6`) rather than as a global protocol — fits the JVD's IPv6-only underlay.",
@@ -32194,6 +32593,11 @@
         "On AE bundles BFD-on-LACP runs in addition (see `gr-core-intf-ipv6`): member-level BFD catches single-link failures inside the bundle."
       ],
       "pairWith": [
+        {
+          "raw": "junos/oam/bfd-defaults.conf",
+          "id": "srv6_core_edge/junos/oam/bfd-defaults",
+          "note": null
+        },
         {
           "raw": "junos/apply-groups/gr-isis-ipv6.conf       (provides this snippet)",
           "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
@@ -32243,15 +32647,15 @@
       "seenOn": {
         "junos": [
           "br2_mx304",
+          "cr1_mx10004",
+          "cr2_mx2010",
           "edge1_mx480",
           "edge2_mx480",
           "edge3_mx480",
           "mse1_mx480",
           "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "Single `group GR-IBGP-TO-RR-SRV6` with two `neighbor` blocks (one per RR) — picks up TCP-AO / multipath / tcp-mss from `apply-groups GR-BGP`.",
@@ -32261,6 +32665,11 @@
         "`source-packet-routing { srv6 { locator $LOC micro-dt46-sid; } }` is the PE-default service-SID flavor (per-VRF DT46 — supports both v4 and v6 inside the VPN). Per-VRF `routing-instances` can override (e.g. some VRFs use micro-dt6-sid only)."
       ],
       "pairWith": [
+        {
+          "raw": "junos/services/evpn-vpws-srv6.conf",
+          "id": "srv6_core_edge/junos/services/evpn-vpws-srv6",
+          "note": null
+        },
         {
           "raw": "junos/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
           "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
@@ -32322,8 +32731,14 @@
       "topic": "iBGP overlay route-reflector configuration — multi-AFI SRv6",
       "seenOn": {
         "junos": [
+          "br2_mx304",
           "cr1_mx10004",
-          "cr2_mx2010"
+          "cr2_mx2010",
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
         ],
         "evo": []
       },
@@ -32339,18 +32754,28 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/policy/vpn-import-export-rt.conf",
+          "id": "srv6_core_edge/junos/policy/vpn-import-export-rt",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/inter-as-option-c.conf",
+          "id": "srv6_core_edge/junos/transport/inter-as-option-c",
+          "note": null
+        },
+        {
           "raw": "junos/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)",
           "id": "srv6_core_edge/junos/apply-groups/gr-bgp",
           "note": "TCP-AO, multipath, MSS"
         },
         {
-          "raw": "junos/policy/srv6-vpn-export.conf         (PS-VPN-SRV6, RT-SRV6)",
-          "id": null,
+          "raw": "junos/policy/vpn-import-export-rt.conf         (PS-VPN-SRV6, RT-SRV6)",
+          "id": "srv6_core_edge/junos/policy/vpn-import-export-rt",
           "note": "PS-VPN-SRV6, RT-SRV6"
         },
         {
-          "raw": "junos/policy/srv6-load-balance.conf       (PS-LOAD-BALANCE)",
-          "id": null,
+          "raw": "junos/policy/srv6-redistribution-policy.conf       (PS-LOAD-BALANCE)",
+          "id": "srv6_core_edge/junos/policy/srv6-redistribution-policy",
           "note": "PS-LOAD-BALANCE"
         },
         {
@@ -32408,18 +32833,16 @@
       "topic": "Per-VRF transport-class definitions — maps service color",
       "seenOn": {
         "junos": [
+          "br2_mx304",
           "cr1_mx10004",
           "cr2_mx2010",
-          "br2_mx304",
           "edge1_mx480",
           "edge2_mx480",
           "edge3_mx480",
           "mse1_mx480",
           "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "Each `name TC-<n> { color <n>; }` defines a transport class keyed by BGP color community; `auto-create` lets new colors map without explicit per-color stanzas.",
@@ -32475,11 +32898,16 @@
       "topic": "Inter-AS Option C between Border Routers — eBGP between",
       "seenOn": {
         "junos": [
-          "br2_mx304"
+          "br2_mx304",
+          "cr1_mx10004",
+          "cr2_mx2010",
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "eBGP `type external` session between BR1 (region 0) and BR2 (region 1) carrying inet6 + inet6-vpn + inet-vpn + evpn families.",
@@ -32500,8 +32928,8 @@
           "note": null
         },
         {
-          "raw": "junos/policy/srv6-redistribution.conf     (controls what crosses)",
-          "id": null,
+          "raw": "junos/policy/srv6-redistribution-policy.conf     (controls what crosses)",
+          "id": "srv6_core_edge/junos/policy/srv6-redistribution-policy",
           "note": "controls what crosses"
         }
       ],
@@ -32563,9 +32991,7 @@
           "mse1_mx480",
           "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "`apply-groups GR-ISIS-IPV6` pulls the per-interface SRv6 adjacency SIDs, ASLA attributes, delay-measurement, and TI-LFA defaults.",
@@ -32578,6 +33004,26 @@
         "`net 49.<region>.0000.0000.<node>.00` follows the addressing scheme: AS/Region encoded after `49.`, node ID at the end."
       ],
       "pairWith": [
+        {
+          "raw": "junos/interfaces/core-ae-link.conf",
+          "id": "srv6_core_edge/junos/interfaces/core-ae-link",
+          "note": null
+        },
+        {
+          "raw": "junos/policy/srv6-redistribution-policy.conf",
+          "id": "srv6_core_edge/junos/policy/srv6-redistribution-policy",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/bgp-transport-class.conf",
+          "id": "srv6_core_edge/junos/transport/bgp-transport-class",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/ti-lfa-mla.conf",
+          "id": "srv6_core_edge/junos/transport/ti-lfa-mla",
+          "note": null
+        },
         {
           "raw": "junos/apply-groups/gr-isis-ipv6.conf       (per-IFL SRv6 + TI-LFA)",
           "id": "srv6_core_edge/junos/apply-groups/gr-isis-ipv6",
@@ -32722,11 +33168,14 @@
         "junos": [
           "br2_mx304",
           "cr1_mx10004",
-          "cr2_mx2010"
+          "cr2_mx2010",
+          "edge1_mx480",
+          "edge2_mx480",
+          "edge3_mx480",
+          "mse1_mx480",
+          "mse2_mx304"
         ],
-        "evo": [
-          "br1_ptx10002-36qdd"
-        ]
+        "evo": []
       },
       "highlights": [
         "At a Border Router, `protocols isis { export PS-SRV6-LOC-EXPORT; }` leaks the local domain's per-Flex-Algo locator prefixes into BGP so the far AS can resolve service nexthops via SRv6.",
@@ -32745,8 +33194,8 @@
           "note": "locator definitions"
         },
         {
-          "raw": "junos/policy/srv6-redistribution.conf         (the policy bodies)",
-          "id": null,
+          "raw": "junos/policy/srv6-redistribution-policy.conf         (the policy bodies)",
+          "id": "srv6_core_edge/junos/policy/srv6-redistribution-policy",
           "note": "the policy bodies"
         }
       ],
