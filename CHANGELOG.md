@@ -37,8 +37,7 @@ library's actual coverage.
     `ip-prefix-routes` block).
   - **L2Circuit floating pseudowires** for
     [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf)
-    and
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-floating-pw.conf)
+    and EVO
     — static-label PW landing on a `ps<N>` pseudowire-subscriber
     anchor.
   - **L2Circuit local-switching** for
