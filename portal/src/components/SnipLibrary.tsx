@@ -428,26 +428,32 @@ function SnipDetail({
 
         {snip.pairWith.length > 0 && (
           <Section title="Pair with">
-            <ul className="space-y-1 text-sm">
+            <ul className="space-y-1.5 text-sm">
               {snip.pairWith.map((p, i) => {
                 const target = p.id ? snipById.get(p.id) : null;
+                const note = p.note ? p.note.replace(/\s+/g, " ").trim() : null;
                 if (target) {
                   return (
-                    <li key={i}>
+                    <li key={i} className="break-words">
                       <button
                         onClick={() => onSelectSnip(target.id)}
                         className="text-left text-primary hover:underline"
                       >
                         {target.name}
-                        <span className="ml-2 text-[11px] text-muted-foreground">
-                          {titleize(target.category)} · {target.os}
-                        </span>
                       </button>
+                      <span className="ml-2 text-[11px] text-muted-foreground">
+                        {titleize(target.category)} · {target.os}
+                      </span>
+                      {note && (
+                        <div className="mt-0.5 pl-3 text-[12px] leading-snug text-muted-foreground">
+                          {note}
+                        </div>
+                      )}
                     </li>
                   );
                 }
                 return (
-                  <li key={i} className="text-muted-foreground">
+                  <li key={i} className="break-words text-muted-foreground">
                     <code className="font-mono text-[12px]">{p.raw}</code>
                   </li>
                 );

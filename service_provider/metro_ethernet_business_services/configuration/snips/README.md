@@ -79,8 +79,8 @@ The same topic file exists under both `junos/` and `evo/`:
 | `apply-groups/gr-fatpw-lb.conf` | FAT-PW load-balance-label-capability under forwarding-options |
 | `apply-groups/gr-fatpw-label.conf` | Per-instance FAT flow-label config (wildcard L2VPN/EVPN/VPLS naming) |
 | `apply-groups/gr-l3vpn.conf` | L3VPN VRF baseline (multipath, protect core, vrf-table-label) |
-| `apply-groups/gr-l2ckt-hs.conf` | L2Circuit hot-standby knobs (reference shape on Junos) |
-| `apply-groups/gr-isis-bfd.conf` | 50ms BFD on every ISIS interface (reference shape on Junos) |
+| `evo/apply-groups/gr-l2ckt-hs.conf` | L2Circuit hot-standby knobs (EVO only) |
+| `evo/apply-groups/gr-isis-bfd.conf` | 50ms BFD on every ISIS interface (EVO only — MX PEs configure BFD inline under `protocols isis`) |
 | `apply-groups/gr-lag-member.conf` | LAG-member templates: edge SH/MH and core variants |
 | `transport/isis-srmpls-tilfa.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
 | `transport/mpls-segment-routing.conf` | SRGB, admin-groups, ipv6-tunneling |
@@ -94,8 +94,9 @@ The same topic file exists under both `junos/` and `evo/`:
 | `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
 | `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
 | `evo/services/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
-| `services/l2circuit-hot-standby.conf` | L2Circuit PW with backup-neighbor hot-standby |
-| `services/l3vpn-vrf.conf` | L3VPN VRF with PE-CE eBGP and as-override |
+| `evo/services/l2circuit-hot-standby.conf` | L2Circuit PW with backup-neighbor hot-standby (EVO only) |
+| `services/l3vpn-bgp.conf` | L3VPN VRF with PE-CE eBGP and as-override |
+| `services/l3vpn-ospf.conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
 | `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |
 | `cos/schedulers.conf` | Schedulers + scheduler-map for the 6-class model |
 | `policy/communities.conf` | Topology tags + BGP-CT color communities + L3VPN per-service RTs |

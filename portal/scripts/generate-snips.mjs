@@ -315,12 +315,23 @@ function deriveSubfamily(name, category) {
 function resolvePairWith(rawList, ownJvd, indexByJvdRel) {
   const resolved = [];
   for (const raw of rawList) {
-    // raw looks like "evo/transport/bgp-overlay-pe-an.conf" — relative to snips/
-    const cleaned = raw.replace(/^snips\//, "").replace(/^\//, "");
-    const candidates = [
-      `${ownJvd}::${cleaned}`,
-      // future: cross-JVD lookups could be tried here
-    ];
+    // raw looks like "evo/transport/bgp-overlay-pe-an.conf" or
+    // "junos/services/evpn-type5.conf  (L3 RT-5 half on the same irb.<N>...)"
+    // — split path from optional parenthetical note so the path can
+    // still resolve to a snip id even when there's an inline reason.
+    const m = raw.match(/^([^\s(]+\.conf)\s*(?:\(([^)]*)\))?\s*(.*)$/);
+    let pathPart;
+    let note = null;
+    if (m) {
+      pathPart = m[1];
+      const paren = (m[2] || "").trim();
+      const trailing = (m[3] || "").trim();
+      note = [paren, trailing].filter(Boolean).join(" ").trim() || null;
+    } else {
+      pathPart = raw;
+    }
+    const cleaned = pathPart.replace(/^snips\//, "").replace(/^\//, "");
+    const candidates = [`${ownJvd}::${cleaned}`];
     let id = null;
     for (const c of candidates) {
       if (indexByJvdRel.has(c)) {
@@ -328,7 +339,7 @@ function resolvePairWith(rawList, ownJvd, indexByJvdRel) {
         break;
       }
     }
-    resolved.push({ raw, id });
+    resolved.push({ raw, id, note });
   }
   return resolved;
 }

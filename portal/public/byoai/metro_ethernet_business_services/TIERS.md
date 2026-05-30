@@ -36,7 +36,7 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 - `apply-groups/gr-core-intf.conf`
 - `apply-groups/gr-isis-bcp.conf`
 - `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
 - `apply-groups/gr-lag-member.conf`
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
@@ -75,7 +75,7 @@ user asked for (default to eBGP if unspecified):
 - `apply-groups/gr-core-intf.conf`
 - `apply-groups/gr-isis-bcp.conf`
 - `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
 - `apply-groups/gr-lag-member.conf`
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
@@ -102,7 +102,7 @@ user asked for (default to eBGP if unspecified):
 - `apply-groups/gr-core-intf.conf`
 - `apply-groups/gr-isis-bcp.conf`
 - `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
 - `apply-groups/gr-lag-member.conf`
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
@@ -138,7 +138,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `apply-groups/gr-core-intf.conf`
 - `apply-groups/gr-isis-bcp.conf`
 - `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf`
+- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
 - `apply-groups/gr-lag-member.conf`
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
@@ -149,9 +149,14 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 
 ## L2CIRCUIT (including hot-standby)
 
+> **OS scope:** L2Circuit hot-standby with `backup-neighbor` is
+> deployed only on EVO ACX PEs in this JVD. Junos MX PEs carry
+> static L2Circuit pseudowires via `services/l2circuit-floating-pw.conf`
+> instead — do NOT offer hot-standby as a Junos option here.
+
 **minimum** (just the service)
-- `services/l2circuit-hot-standby.conf`
-- `interfaces/edge-vlan-normalization.conf`
+- `evo/services/l2circuit-hot-standby.conf` (EVO only)
+- `evo/interfaces/edge-vlan-normalization.conf`
 
 **with-overlay** (= minimum +)
 - `transport/bgp-overlay.conf`
@@ -163,8 +168,8 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `apply-groups/gr-core-intf.conf`
 - `apply-groups/gr-isis-bcp.conf`
 - `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf`
-- `apply-groups/gr-l2ckt-hs.conf`
+- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
+- `apply-groups/gr-l2ckt-hs.conf` (EVO only)
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
 - `policy/communities.conf`
@@ -250,7 +255,9 @@ Static-label L2Circuit pseudowire landing on a `ps<N>`
 pseudowire-subscriber anchor (decouples the PW from a physical AC).
 
 **minimum** (just the service)
-- `services/l2circuit-floating-pw.conf` (Junos and EVO)
+- **L2Circuit floating pseudowire** (Junos MX `ps<N>` head; EVO ACX vlan-ccc tail):
+  - `junos/services/l2circuit-floating-pw.conf` (Junos PEs)
+  - `evo/interfaces/edge-vlan-normalization.conf` (EVO ACX tail — customer-facing AC unit)
 - `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
 
 **with-overlay** (= minimum +)
