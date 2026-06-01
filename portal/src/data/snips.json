@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01T18:41:02.338Z",
+  "generatedAt": "2026-06-01T19:26:34.548Z",
   "counts": {
     "total": 442,
     "junos": 216,
@@ -41,9 +41,11 @@
     "EVPN-ELAN",
     "EVPN-VPWS",
     "Enterprise WAN",
+    "L3VPN",
     "MEF",
     "MPLS",
     "Metro",
+    "Multicast",
     "SRv6",
     "Service Provider",
     "Subscriber Mgmt"
@@ -8983,7 +8985,10 @@
       "techFamily": "Chassis",
       "subfamily": "Chassis",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9055,7 +9060,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9095,6 +9103,11 @@
           "raw": "evo/oam/twamp-client.conf                  (TWAMP probes use these as source)",
           "id": "ewan_finance/evo/oam/twamp-client",
           "note": "TWAMP probes use these as source"
+        },
+        {
+          "raw": "evo/interfaces/vlan-bridge-domain.conf     (VLAN bridge-domains on same interface)",
+          "id": "ewan_finance/evo/interfaces/vlan-bridge-domain",
+          "note": "VLAN bridge-domains on same interface"
         }
       ],
       "variables": [
@@ -9127,7 +9140,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9192,7 +9208,10 @@
       "techFamily": "Interfaces",
       "subfamily": "LAG / LACP",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9266,7 +9285,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9299,6 +9321,11 @@
         "/24 point-to-point addressing convention for inter-router links"
       ],
       "pairWith": [
+        {
+          "raw": "evo/cos/exp-classifiers-schedulers.conf",
+          "id": "ewan_finance/evo/cos/exp-classifiers-schedulers",
+          "note": null
+        },
         {
           "raw": "evo/transport/ospf-te-protection.conf  (OSPF runs over these interfaces)",
           "id": "ewan_finance/evo/transport/ospf-te-protection",
@@ -9342,7 +9369,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9376,8 +9406,8 @@
           "note": "ae0 LAG carrying these VLANs"
         },
         {
-          "raw": "evo/interfaces/flexible-vlan-bridge.conf       (interface vlan-bridge units)",
-          "id": null,
+          "raw": "evo/interfaces/flexible-vlan-subinterface.conf  (interface vlan-bridge units)",
+          "id": "ewan_finance/evo/interfaces/flexible-vlan-subinterface",
           "note": "interface vlan-bridge units"
         }
       ],
@@ -9407,7 +9437,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9452,7 +9485,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9533,7 +9569,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9568,6 +9607,11 @@
       ],
       "pairWith": [
         {
+          "raw": "evo/policy/route-filter-med.conf",
+          "id": "ewan_finance/evo/policy/route-filter-med",
+          "note": null
+        },
+        {
           "raw": "evo/transport/ibgp-core-mesh.conf  (export policies referenced in BGP group)",
           "id": "ewan_finance/evo/transport/ibgp-core-mesh",
           "note": "export policies referenced in BGP group"
@@ -9595,7 +9639,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9666,7 +9713,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9737,7 +9787,7 @@
         },
         {
           "name": "$IXIA_PEER_AS",
-          "example": "64521"
+          "example": "64520"
         },
         {
           "name": "$IXIA_NEIGHBOR",
@@ -9753,7 +9803,7 @@
         },
         {
           "name": "$IFACE_AP1",
-          "example": "et-0/0/47.1"
+          "example": "et-0/0/42.1"
         },
         {
           "name": "$IFACE_AP2",
@@ -9761,10 +9811,16 @@
         },
         {
           "name": "$IFACE_TG",
-          "example": "et-0/0/46.1"
+          "example": "et-0/0/49.1"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  13 instances total (high 10 / med 0 / low 3)",
+        "  On devices: cr1_acx7100-48l (13), cr2_mx480 (13)",
+        "  Example: VIRTUAL-ROUTER-V1 (RD —, RT —)",
+        "    cr1_acx7100-48l  et-0/0/42.1",
+        "    cr2_mx480  xe-3/0/6.1"
+      ],
       "body": "routing-instances {\n    $VR_NAME {\n        instance-type virtual-router;\n        protocols {\n            bgp {\n                group AP {\n                    type external;\n                    export $EXPORT_POLICIES;\n                    peer-as $AP_PEER_AS;\n                    neighbor $AP_NEIGHBOR_1;\n                    neighbor $AP_NEIGHBOR_2;\n                }\n                group IXIA {\n                    type internal;\n                    peer-as $IXIA_PEER_AS;\n                    neighbor $IXIA_NEIGHBOR;\n                }\n            }\n            pim {\n                rp {\n                    static {\n                        address $RP_ADDRESS {\n                            group-ranges {\n                                $MCAST_GROUP_RANGE;\n                            }\n                        }\n                    }\n                }\n                interface $IFACE_AP1 {\n                    mode sparse;\n                }\n                interface $IFACE_AP2 {\n                    mode sparse;\n                }\n                interface $IFACE_TG {\n                    mode sparse;\n                }\n            }\n        }\n        interface $IFACE_TG;\n        interface $IFACE_AP1;\n        interface $IFACE_AP2;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VR_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-router;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group AP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> $EXPORT_POLICIES;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $AP_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $AP_NEIGHBOR_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $AP_NEIGHBOR_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group IXIA {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $IXIA_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $IXIA_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $RP_ADDRESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                $MCAST_GROUP_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_AP1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_AP2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_TG {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_TG;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_AP1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_AP2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1245,
@@ -9772,7 +9828,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9788,12 +9847,7 @@
       "path": "enterprise_wan/ewan_finance/configuration/snips/evo/transport/ibgp-core-mesh.conf",
       "topic": "iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families",
       "seenOn": {
-        "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
-          "ap1_mx304",
-          "ap2_mx10004"
-        ],
+        "junos": [],
         "evo": [
           "p1_ptx10003-80c",
           "p2_ptx10001-36mr"
@@ -9808,6 +9862,11 @@
         "All peers in a single iBGP group (full mesh, no route-reflectors)"
       ],
       "pairWith": [
+        {
+          "raw": "evo/interfaces/loopback-multi-af.conf",
+          "id": "ewan_finance/evo/interfaces/loopback-multi-af",
+          "note": null
+        },
         {
           "raw": "evo/transport/ospf-te-protection.conf   (IGP underlay for iBGP next-hops)",
           "id": "ewan_finance/evo/transport/ospf-te-protection",
@@ -9866,7 +9925,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9882,12 +9944,7 @@
       "path": "enterprise_wan/ewan_finance/configuration/snips/evo/transport/mpls-interfaces.conf",
       "topic": "MPLS protocol enablement on core and loopback interfaces",
       "seenOn": {
-        "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
-          "ap1_mx304",
-          "ap2_mx10004"
-        ],
+        "junos": [],
         "evo": [
           "p1_ptx10003-80c",
           "p2_ptx10001-36mr"
@@ -9899,6 +9956,16 @@
         "Combined with RSVP-TE for traffic-engineered label-switched paths"
       ],
       "pairWith": [
+        {
+          "raw": "evo/cos/exp-classifiers-schedulers.conf",
+          "id": "ewan_finance/evo/cos/exp-classifiers-schedulers",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/ospf-te-protection.conf",
+          "id": "ewan_finance/evo/transport/ospf-te-protection",
+          "note": null
+        },
         {
           "raw": "evo/transport/rsvp-signaling.conf       (RSVP signals LSPs over these interfaces)",
           "id": "ewan_finance/evo/transport/rsvp-signaling",
@@ -9941,7 +10008,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -9957,12 +10027,7 @@
       "path": "enterprise_wan/ewan_finance/configuration/snips/evo/transport/ospf-te-protection.conf",
       "topic": "OSPF with traffic engineering, node-link-protection, and BFD",
       "seenOn": {
-        "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
-          "ap1_mx304",
-          "ap2_mx10004"
-        ],
+        "junos": [],
         "evo": [
           "p1_ptx10003-80c",
           "p2_ptx10001-36mr"
@@ -9976,6 +10041,16 @@
         "All interfaces in area 0.0.0.0 (single-area backbone)"
       ],
       "pairWith": [
+        {
+          "raw": "evo/interfaces/loopback-multi-af.conf",
+          "id": "ewan_finance/evo/interfaces/loopback-multi-af",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/ibgp-core-mesh.conf",
+          "id": "ewan_finance/evo/transport/ibgp-core-mesh",
+          "note": null
+        },
         {
           "raw": "evo/transport/rsvp-signaling.conf       (RSVP uses OSPF-TE database for CSPF)",
           "id": "ewan_finance/evo/transport/rsvp-signaling",
@@ -10026,7 +10101,10 @@
       "techFamily": "Transport",
       "subfamily": "OSPF",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10102,7 +10180,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10199,7 +10280,10 @@
       "techFamily": "Chassis",
       "subfamily": "Chassis",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10216,15 +10300,11 @@
       "topic": "MPLS EXP-based QoS — classifiers, forwarding classes, schedulers, and rewrite rules",
       "seenOn": {
         "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
           "ap1_mx304",
-          "ap2_mx10004"
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
         ],
-        "evo": [
-          "p1_ptx10003-80c",
-          "p2_ptx10001-36mr"
-        ]
+        "evo": []
       },
       "highlights": [
         "4 forwarding classes: FC-LLQ (strict-high, queue 2) for low-latency finance traffic, FC-HIGH (queue 1), CONTROL (queue 3), BEST-EFFORT (queue 0)",
@@ -10234,6 +10314,11 @@
         "FC-LLQ uses strict-high priority for deterministic low-latency forwarding"
       ],
       "pairWith": [
+        {
+          "raw": "junos/firewall/multicast-fwd-cache-filter.conf",
+          "id": "ewan_finance/junos/firewall/multicast-fwd-cache-filter",
+          "note": null
+        },
         {
           "raw": "junos/interfaces/physical-p2p-mpls.conf  (interfaces where CoS is applied)",
           "id": "ewan_finance/junos/interfaces/physical-p2p-mpls",
@@ -10263,7 +10348,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10293,6 +10381,21 @@
         "Ensures multicast stock-exchange data gets low-latency queue treatment end-to-end"
       ],
       "pairWith": [
+        {
+          "raw": "junos/multicast/forwarding-multicast-tuning.conf",
+          "id": "ewan_finance/junos/multicast/forwarding-multicast-tuning",
+          "note": null
+        },
+        {
+          "raw": "junos/services/mvpn-instance.conf",
+          "id": "ewan_finance/junos/services/mvpn-instance",
+          "note": null
+        },
+        {
+          "raw": "junos/services/vrf-l3vpn.conf",
+          "id": "ewan_finance/junos/services/vrf-l3vpn",
+          "note": null
+        },
         {
           "raw": "junos/interfaces/irb-l3-gateway.conf      (filter applied on IRB input)",
           "id": "ewan_finance/junos/interfaces/irb-l3-gateway",
@@ -10338,7 +10441,10 @@
       "techFamily": "Firewall",
       "subfamily": "Firewall",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10409,7 +10515,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10438,6 +10547,16 @@
         "One IRB unit per MVPN instance / EVPN bridge-domain"
       ],
       "pairWith": [
+        {
+          "raw": "junos/interfaces/lag-esi-lacp.conf",
+          "id": "ewan_finance/junos/interfaces/lag-esi-lacp",
+          "note": null
+        },
+        {
+          "raw": "junos/services/vrf-l3vpn.conf",
+          "id": "ewan_finance/junos/services/vrf-l3vpn",
+          "note": null
+        },
         {
           "raw": "junos/services/evpn-virtual-switch-esi.conf  (bridge-domain routing-interface irb.N)",
           "id": "ewan_finance/junos/services/evpn-virtual-switch-esi",
@@ -10480,7 +10599,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10576,7 +10698,10 @@
       "techFamily": "Interfaces",
       "subfamily": "LAG / LACP",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10650,7 +10775,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10683,6 +10811,11 @@
         "/24 point-to-point addressing convention for inter-router links"
       ],
       "pairWith": [
+        {
+          "raw": "junos/cos/exp-classifiers-schedulers.conf",
+          "id": "ewan_finance/junos/cos/exp-classifiers-schedulers",
+          "note": null
+        },
         {
           "raw": "junos/transport/ospf-te-protection.conf  (OSPF runs over these interfaces)",
           "id": "ewan_finance/junos/transport/ospf-te-protection",
@@ -10726,7 +10859,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10786,7 +10922,10 @@
       "techFamily": "Other",
       "subfamily": "Multicast",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10831,7 +10970,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10917,7 +11059,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -10997,7 +11142,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11032,6 +11180,11 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/policy/route-filter-med.conf",
+          "id": "ewan_finance/junos/policy/route-filter-med",
+          "note": null
+        },
+        {
           "raw": "junos/transport/ibgp-core-mesh.conf  (export policies referenced in BGP group)",
           "id": "ewan_finance/junos/transport/ibgp-core-mesh",
           "note": "export policies referenced in BGP group"
@@ -11059,7 +11212,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11130,7 +11286,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11207,7 +11366,13 @@
           "example": "target:61535:1"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  13 instances total (high 13 / med 0 / low 0)",
+        "  On devices: wanedge1_mx304 (13), wanedge2_mx10004 (13)",
+        "  Example: EVPN_ESI_LAG1 (RD 10.200.50.12:1, RT target:61535:1)",
+        "    wanedge1_mx304  ae0.1 00:11:11:11:11:11:12:12:12:12 S-A",
+        "    wanedge2_mx10004  ae0.1 00:11:11:11:11:11:12:12:12:12 S-A"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type virtual-switch;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                no-control-word;\n            }\n        }\n        bridge-domains {\n            $BD_NAME {\n                vlan-id $VLAN_ID;\n                interface $AE_UNIT;\n                routing-interface $IRB_UNIT;\n            }\n        }\n        route-distinguisher $ROUTE_DISTINGUISHER;\n        vrf-target $VRF_TARGET;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                routing-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $ROUTE_DISTINGUISHER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 537,
@@ -11215,7 +11380,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11233,9 +11401,7 @@
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
-          "wanedge2_mx10004",
-          "ap1_mx304",
-          "ap2_mx10004"
+          "wanedge2_mx10004"
         ],
         "evo": []
       },
@@ -11250,6 +11416,21 @@
         "Per-VRF OSPF for CE route distribution + BGP eBGP for traffic-generator peering"
       ],
       "pairWith": [
+        {
+          "raw": "junos/bootstrap/chassis-config.conf",
+          "id": "ewan_finance/junos/bootstrap/chassis-config",
+          "note": null
+        },
+        {
+          "raw": "junos/oam/twamp-server.conf",
+          "id": "ewan_finance/junos/oam/twamp-server",
+          "note": null
+        },
+        {
+          "raw": "junos/services/evpn-virtual-switch-esi.conf",
+          "id": "ewan_finance/junos/services/evpn-virtual-switch-esi",
+          "note": null
+        },
         {
           "raw": "junos/transport/mpls-lsp-p2mp.conf               (P2MP template referenced)",
           "id": "ewan_finance/junos/transport/mpls-lsp-p2mp",
@@ -11321,7 +11502,15 @@
           "example": "target:64512:11"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  10 instances total (high 10 / med 0 / low 0)",
+        "  On devices: ap1_mx304 (10), ap2_mx10004 (10), wanedge1_mx304 (10), wanedge2_mx10004 (10)",
+        "  Example: MVPN_INSTANCE1 (RD 10.200.50.14:61, RT target:64512:11)",
+        "    ap1_mx304  et-0/0/6.1",
+        "    ap2_mx10004  et-0/0/2.1",
+        "    wanedge1_mx304",
+        "    wanedge2_mx10004"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        protocols {\n            bgp {\n                group custA_TGN {\n                    type external;\n                    local-address $CE_LOCAL_ADDRESS;\n                    export PS-ADV_DIRECT;\n                    neighbor $CE_NEIGHBOR {\n                        peer-as $CE_PEER_AS;\n                    }\n                }\n            }\n            mvpn {\n                sender-site;\n                mvpn-mode {\n                    spt-only;\n                }\n                route-target {\n                    import-target {\n                        target $MVPN_RT_IMPORT;\n                    }\n                    export-target {\n                        target $MVPN_RT_EXPORT;\n                    }\n                }\n                sender-based-rpf;\n                hot-root-standby {\n                    source-tree;\n                    min-rate {\n                        rate 3m;\n                        revert-delay 5;\n                    }\n                }\n            }\n            ospf {\n                area 0.0.0.0 {\n                    interface $LO_UNIT;\n                }\n                export PS-send-ospf;\n            }\n            pim {\n                join-prune-timeout 420;\n                rp {\n                    local {\n                        address $RP_ADDRESS;\n                        group-ranges {\n                            $MCAST_GROUP_RANGE;\n                        }\n                    }\n                }\n                interface $IRB_UNIT;\n                interface $LO_UNIT;\n            }\n        }\n        interface $IRB_UNIT;\n        interface $LO_UNIT;\n        route-distinguisher $ROUTE_DISTINGUISHER;\n        vrf-target $VRF_TARGET;\n        vrf-table-label;\n        provider-tunnel {\n            rsvp-te {\n                label-switched-path-template {\n                    default-template;\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group custA_TGN {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $CE_LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> PS-ADV_DIRECT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mvpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                sender-site;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mvpn-mode {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    spt-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-target {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    import-target {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        target $MVPN_RT_IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\">-target {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        target $MVPN_RT_EXPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                sender-based-rpf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hot-root-standby {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    source-tree;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    min-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        rate 3m;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        revert-delay </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> PS-send-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                join-prune-timeout </span><span style=\"color:#79C0FF\">420</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            $MCAST_GROUP_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LO_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $ROUTE_DISTINGUISHER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rsvp-te {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-switched-path-template {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    default-template;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1965,
@@ -11329,7 +11518,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11427,7 +11619,13 @@
           "example": "xe-3/0/6.1"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  13 instances total (high 10 / med 0 / low 3)",
+        "  On devices: cr1_acx7100-48l (13), cr2_mx480 (13)",
+        "  Example: VIRTUAL-ROUTER-V1 (RD —, RT —)",
+        "    cr1_acx7100-48l  et-0/0/42.1",
+        "    cr2_mx480  xe-3/0/6.1"
+      ],
       "body": "routing-instances {\n    $VR_NAME {\n        instance-type virtual-router;\n        protocols {\n            bgp {\n                group AP {\n                    type external;\n                    export $EXPORT_POLICIES;\n                    peer-as $AP_PEER_AS;\n                    neighbor $AP_NEIGHBOR_1;\n                    neighbor $AP_NEIGHBOR_2;\n                }\n                group IXIA {\n                    type internal;\n                    peer-as $IXIA_PEER_AS;\n                    neighbor $IXIA_NEIGHBOR;\n                }\n            }\n            pim {\n                rp {\n                    static {\n                        address $RP_ADDRESS {\n                            group-ranges {\n                                $MCAST_GROUP_RANGE;\n                            }\n                        }\n                    }\n                }\n                interface $IFACE_AP1 {\n                    mode sparse;\n                }\n                interface $IFACE_AP2 {\n                    mode sparse;\n                }\n                interface $IFACE_TG {\n                    mode sparse;\n                }\n            }\n        }\n        interface $IFACE_TG;\n        interface $IFACE_AP1;\n        interface $IFACE_AP2;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VR_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-router;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group AP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> $EXPORT_POLICIES;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $AP_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $AP_NEIGHBOR_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $AP_NEIGHBOR_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group IXIA {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $IXIA_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $IXIA_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $RP_ADDRESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                                $MCAST_GROUP_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_AP1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_AP2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $IFACE_TG {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_TG;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_AP1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFACE_AP2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1245,
@@ -11435,7 +11633,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11516,7 +11717,15 @@
           "example": "target:64512:21"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  13 instances total (high 13 / med 0 / low 0)",
+        "  On devices: ap1_mx304 (13), ap2_mx10004 (13), wanedge1_mx304 (13), wanedge2_mx10004 (13)",
+        "  Example: MVPN_INSTANCE1 (RD 10.200.50.14:61, RT target:64512:11)",
+        "    ap1_mx304  et-0/0/6.1",
+        "    ap2_mx10004  et-0/0/2.1",
+        "    wanedge1_mx304",
+        "    wanedge2_mx10004"
+      ],
       "body": "routing-instances {\n    $VRF_NAME {\n        instance-type vrf;\n        protocols {\n            bgp {\n                group TGN_AF {\n                    type external;\n                    local-address $LOCAL_ADDRESS;\n                    export $EXPORT_POLICY;\n                    neighbor $CE_NEIGHBOR {\n                        peer-as $CE_PEER_AS;\n                    }\n                }\n            }\n        }\n        interface $IRB_UNIT;\n        route-distinguisher $ROUTE_DISTINGUISHER;\n        vrf-target $VRF_TARGET;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group TGN_AF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                    export</span><span style=\"color:#E6EDF3\"> $EXPORT_POLICY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $ROUTE_DISTINGUISHER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 556,
@@ -11524,7 +11733,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "L3VPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11541,15 +11753,12 @@
       "topic": "iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families",
       "seenOn": {
         "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
           "ap1_mx304",
-          "ap2_mx10004"
+          "ap2_mx10004",
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
         ],
-        "evo": [
-          "p1_ptx10003-80c",
-          "p2_ptx10001-36mr"
-        ]
+        "evo": []
       },
       "highlights": [
         "family inet-vpn unicast + any for L3VPN route exchange",
@@ -11560,6 +11769,16 @@
         "All peers in a single iBGP group (full mesh, no route-reflectors)"
       ],
       "pairWith": [
+        {
+          "raw": "junos/interfaces/loopback-multi-af.conf",
+          "id": "ewan_finance/junos/interfaces/loopback-multi-af",
+          "note": null
+        },
+        {
+          "raw": "junos/services/vrf-l3vpn.conf",
+          "id": "ewan_finance/junos/services/vrf-l3vpn",
+          "note": null
+        },
         {
           "raw": "junos/transport/ospf-te-protection.conf   (IGP underlay for iBGP next-hops)",
           "id": "ewan_finance/junos/transport/ospf-te-protection",
@@ -11618,7 +11837,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11635,10 +11857,10 @@
       "topic": "MPLS LSPs with P2MP template and named point-to-point paths",
       "seenOn": {
         "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
           "ap1_mx304",
-          "ap2_mx10004"
+          "ap2_mx10004",
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
         ],
         "evo": []
       },
@@ -11650,6 +11872,21 @@
         "retry-timer 5 for fast LSP re-establishment after failure"
       ],
       "pairWith": [
+        {
+          "raw": "junos/cos/exp-classifiers-schedulers.conf",
+          "id": "ewan_finance/junos/cos/exp-classifiers-schedulers",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/physical-p2p-mpls.conf",
+          "id": "ewan_finance/junos/interfaces/physical-p2p-mpls",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/ibgp-core-mesh.conf",
+          "id": "ewan_finance/junos/transport/ibgp-core-mesh",
+          "note": null
+        },
         {
           "raw": "junos/transport/rsvp-signaling.conf     (RSVP signals these LSPs)",
           "id": "ewan_finance/junos/transport/rsvp-signaling",
@@ -11712,7 +11949,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11729,15 +11969,12 @@
       "topic": "OSPF with traffic engineering, node-link-protection, and BFD",
       "seenOn": {
         "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004",
           "ap1_mx304",
-          "ap2_mx10004"
+          "ap2_mx10004",
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
         ],
-        "evo": [
-          "p1_ptx10003-80c",
-          "p2_ptx10001-36mr"
-        ]
+        "evo": []
       },
       "highlights": [
         "traffic-engineering enables OSPF-TE extensions (RFC 3630) for RSVP-TE CSPF",
@@ -11747,6 +11984,16 @@
         "All interfaces in area 0.0.0.0 (single-area backbone)"
       ],
       "pairWith": [
+        {
+          "raw": "junos/interfaces/loopback-multi-af.conf",
+          "id": "ewan_finance/junos/interfaces/loopback-multi-af",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/ibgp-core-mesh.conf",
+          "id": "ewan_finance/junos/transport/ibgp-core-mesh",
+          "note": null
+        },
         {
           "raw": "junos/transport/rsvp-signaling.conf       (RSVP uses OSPF-TE database for CSPF)",
           "id": "ewan_finance/junos/transport/rsvp-signaling",
@@ -11789,7 +12036,10 @@
       "techFamily": "Transport",
       "subfamily": "OSPF",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -11857,7 +12107,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "L3VPN",
+        "Multicast",
+        "MPLS"
       ],
       "parseWarnings": []
     },

@@ -5,5 +5,6 @@
   "metro_as_a_service": ["Service Provider", "Metro", "Business Services", "MEF"],
   "metro_ethernet_business_services": ["Service Provider", "Metro", "Business Services", "MEF"],
   "srv6_core_edge": ["Service Provider", "SRv6", "Core/Edge"],
-  "ewan_adv_core_edge": ["Enterprise WAN", "EVPN-VPWS", "EVPN-ELAN", "MPLS"]
+  "ewan_adv_core_edge": ["Enterprise WAN", "EVPN-VPWS", "EVPN-ELAN", "MPLS"],
+  "ewan_finance": ["Enterprise WAN", "L3VPN", "Multicast", "MPLS"]
 }
