@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T23:29:10.804Z",
+  "generatedAt": "2026-06-01T18:41:02.338Z",
   "counts": {
     "total": 442,
     "junos": 216,
@@ -38,8 +38,11 @@
     "Business Services",
     "Core/Edge",
     "Data Center",
+    "EVPN-ELAN",
+    "EVPN-VPWS",
     "Enterprise WAN",
     "MEF",
+    "MPLS",
     "Metro",
     "SRv6",
     "Service Provider",
@@ -5349,11 +5352,6 @@
           "raw": "evo/transport/mpls-lsp.conf                  (MPLS services needing enhanced-ip)",
           "id": "ewan_adv_core_edge/evo/transport/mpls-lsp",
           "note": "MPLS services needing enhanced-ip"
-        },
-        {
-          "raw": "junos/bootstrap/chassis-network-services.conf (Junos sibling — no network-services line)",
-          "id": "ewan_adv_core_edge/junos/bootstrap/chassis-network-services",
-          "note": "Junos sibling — no network-services line"
         }
       ],
       "variables": [
@@ -5370,7 +5368,10 @@
       "techFamily": "Chassis",
       "subfamily": "Chassis",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5411,11 +5412,6 @@
           "raw": "evo/cos/rewrite-rules-exp.conf      (EXP rewrite on egress core interfaces)",
           "id": "ewan_adv_core_edge/evo/cos/rewrite-rules-exp",
           "note": "EXP rewrite on egress core interfaces"
-        },
-        {
-          "raw": "junos/cos/classifier-dscp-exp-8021p.conf  (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/cos/classifier-dscp-exp-8021p",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [],
@@ -5427,7 +5423,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5467,11 +5466,6 @@
           "raw": "evo/cos/rewrite-rules-exp.conf          (marking on egress)",
           "id": "ewan_adv_core_edge/evo/cos/rewrite-rules-exp",
           "note": "marking on egress"
-        },
-        {
-          "raw": "junos/cos/forwarding-class-map.conf     (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/cos/forwarding-class-map",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [],
@@ -5483,7 +5477,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "Cos",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5525,9 +5522,9 @@
           "note": "core interfaces these rewrites apply to"
         },
         {
-          "raw": "junos/cos/rewrite-rules-exp.conf        (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/cos/rewrite-rules-exp",
-          "note": "Junos sibling — identical config"
+          "raw": "evo/cos/forwarding-class-map.conf",
+          "id": "ewan_adv_core_edge/evo/cos/forwarding-class-map",
+          "note": null
         }
       ],
       "variables": [
@@ -5556,7 +5553,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5594,11 +5594,6 @@
           "raw": "evo/firewall/filter-ipv4-stateless.conf   (static equivalent for manual PBR)",
           "id": "ewan_adv_core_edge/evo/firewall/filter-ipv4-stateless",
           "note": "static equivalent for manual PBR"
-        },
-        {
-          "raw": "junos/ddos-mitigation/flowspec-routes.conf (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/ddos-mitigation/flowspec-routes",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [],
@@ -5610,7 +5605,10 @@
       "techFamily": "Other",
       "subfamily": "Ddos Mitigation",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5643,11 +5641,6 @@
           "raw": "evo/ddos-mitigation/flowspec-routes.conf  (dynamic version via BGP FlowSpec)",
           "id": "ewan_adv_core_edge/evo/ddos-mitigation/flowspec-routes",
           "note": "dynamic version via BGP FlowSpec"
-        },
-        {
-          "raw": "junos/firewall/filter-ipv4-stateless.conf (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/firewall/filter-ipv4-stateless",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [
@@ -5680,7 +5673,10 @@
       "techFamily": "Firewall",
       "subfamily": "Firewall",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5726,6 +5722,16 @@
           "raw": "evo/services/mac-vrf-elan.conf             (instances binding these vlan-bridge units)",
           "id": "ewan_adv_core_edge/evo/services/mac-vrf-elan",
           "note": "instances binding these vlan-bridge units"
+        },
+        {
+          "raw": "evo/oam/cfm-maintenance-domain.conf",
+          "id": "ewan_adv_core_edge/evo/oam/cfm-maintenance-domain",
+          "note": null
+        },
+        {
+          "raw": "evo/services/evpn-vpws-fxc.conf",
+          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-fxc",
+          "note": null
         }
       ],
       "variables": [
@@ -5754,7 +5760,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5814,7 +5823,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5855,6 +5867,16 @@
           "raw": "evo/services/evpn-vpws-fxc.conf      (instances referencing ae0.* units)",
           "id": "ewan_adv_core_edge/evo/services/evpn-vpws-fxc",
           "note": "instances referencing ae0.* units"
+        },
+        {
+          "raw": "evo/bootstrap/chassis-network-services.conf",
+          "id": "ewan_adv_core_edge/evo/bootstrap/chassis-network-services",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/forwarding-options-hash.conf",
+          "id": "ewan_adv_core_edge/evo/transport/forwarding-options-hash",
+          "note": null
         }
       ],
       "variables": [
@@ -5879,7 +5901,10 @@
       "techFamily": "Interfaces",
       "subfamily": "LAG / LACP",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5937,7 +5962,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -5985,6 +6013,11 @@
           "raw": "evo/transport/ldp-sr-coexistence.conf   (LDP also enabled on these interfaces)",
           "id": "ewan_adv_core_edge/evo/transport/ldp-sr-coexistence",
           "note": "LDP also enabled on these interfaces"
+        },
+        {
+          "raw": "evo/cos/rewrite-rules-exp.conf",
+          "id": "ewan_adv_core_edge/evo/cos/rewrite-rules-exp",
+          "note": null
         }
       ],
       "variables": [
@@ -6009,7 +6042,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6048,11 +6084,6 @@
           "raw": "evo/interfaces/ccc-vpws-mux.conf        (AC interfaces referenced by MEPs)",
           "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
           "note": "AC interfaces referenced by MEPs"
-        },
-        {
-          "raw": "junos/oam/cfm-maintenance-domain.conf   (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/oam/cfm-maintenance-domain",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [
@@ -6089,7 +6120,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6123,11 +6157,6 @@
           "raw": "evo/oam/cfm-maintenance-domain.conf   (MEPs these measurements run against)",
           "id": "ewan_adv_core_edge/evo/oam/cfm-maintenance-domain",
           "note": "MEPs these measurements run against"
-        },
-        {
-          "raw": "junos/oam/cfm-sla-iterator.conf       (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/oam/cfm-sla-iterator",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [
@@ -6152,7 +6181,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6193,11 +6225,6 @@
           "raw": "evo/transport/forwarding-options-hash.conf  (hash-key that pplb distributes across)",
           "id": "ewan_adv_core_edge/evo/transport/forwarding-options-hash",
           "note": "hash-key that pplb distributes across"
-        },
-        {
-          "raw": "junos/policy/per-packet-load-balance.conf   (Junos sibling — identical config)",
-          "id": "ewan_adv_core_edge/junos/policy/per-packet-load-balance",
-          "note": "Junos sibling — identical config"
         }
       ],
       "variables": [],
@@ -6209,7 +6236,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6291,7 +6321,14 @@
           "example": "target:65000:1001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1800 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1500",
+        "    wanedge2_mx10004: 1500",
+        "    wanedge3_acx7509: 1500",
+        "    wanedge4_acx7100-48l: 1500",
+        "  Examples: vfxc_group_40_1001, vfxc_group_40_1003, vfxc_group_40_1005"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF_1 {\n                    vpws-service-id {\n                        local $LOCAL_ID_1;\n                        remote $REMOTE_ID_1;\n                    }\n                }\n                interface $AC_INTF_2 {\n                    vpws-service-id {\n                        local $LOCAL_ID_2;\n                        remote $REMOTE_ID_2;\n                    }\n                }\n                flexible-cross-connect-vlan-aware;\n            }\n        }\n        interface $AC_INTF_1;\n        interface $AC_INTF_2;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 722,
@@ -6299,7 +6336,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6364,7 +6404,14 @@
           "example": "target:63535:231"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1800 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1500",
+        "    wanedge2_mx10004: 1500",
+        "    wanedge3_acx7509: 1500",
+        "    wanedge4_acx7100-48l: 1500",
+        "  Examples: vfxc_group_40_1001, vfxc_group_40_1003, vfxc_group_40_1005"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF {\n                    vpws-service-id {\n                        local $LOCAL_ID;\n                        remote $REMOTE_ID;\n                    }\n                }\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 458,
@@ -6372,7 +6419,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6439,7 +6489,14 @@
           "example": "target:60555:1851"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  350 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 350",
+        "    wanedge2_mx10004: 325",
+        "    wanedge3_acx7509: 325",
+        "    wanedge4_acx7100-48l: 350",
+        "  Examples: evpn_100, evpn_101, evpn_102"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation mpls;\n                }\n            }\n        }\n        interface $IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 458,
@@ -6447,7 +6504,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6487,6 +6547,11 @@
           "raw": "evo/interfaces/irb-gateway.conf       (IRB unit config)",
           "id": "ewan_adv_core_edge/evo/interfaces/irb-gateway",
           "note": "IRB unit config"
+        },
+        {
+          "raw": "evo/interfaces/ccc-vpws-mux.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
+          "note": null
         }
       ],
       "variables": [
@@ -6527,7 +6592,14 @@
           "example": "target:62525:2001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1925 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1200",
+        "    wanedge2_mx10004: 1200",
+        "    wanedge3_acx7509: 1200",
+        "    wanedge4_acx7100-48l: 1225",
+        "  Examples: elan_group_500_2001, elan_group_500_2003, elan_group_500_2005"
+      ],
       "body": "/* --- Variant A: vlan-bundle (simple L2, no IRB) --- */\n\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                no-control-word;\n            }\n        }\n        service-type vlan-bundle;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                interface $AC_INTF_1;\n                interface $AC_INTF_2;\n            }\n        }\n    }\n}\n\n/* --- Variant B: vlan-based (with IRB gateway) --- */\n\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                vlan-id $VLAN_ID;\n                interface $AC_INTF_1;\n                l3-interface $IRB_UNIT;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- Variant A: vlan-bundle (simple L2, no IRB) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- Variant B: vlan-based (with IRB gateway) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1051,
@@ -6535,7 +6607,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6579,6 +6654,16 @@
           "raw": "evo/transport/ospf-sr-lfa.conf           (the IGP underlay these sessions ride over)",
           "id": "ewan_adv_core_edge/evo/transport/ospf-sr-lfa",
           "note": "the IGP underlay these sessions ride over"
+        },
+        {
+          "raw": "evo/ddos-mitigation/flowspec-routes.conf",
+          "id": "ewan_adv_core_edge/evo/ddos-mitigation/flowspec-routes",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/loopback.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/loopback",
+          "note": null
         }
       ],
       "variables": [
@@ -6607,7 +6692,10 @@
       "techFamily": "Transport",
       "subfamily": "EVPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6654,6 +6742,11 @@
           "raw": "evo/transport/ldp-sr-coexistence.conf      (deep label stacks from LDP+SR stitching)",
           "id": "ewan_adv_core_edge/evo/transport/ldp-sr-coexistence",
           "note": "deep label stacks from LDP+SR stitching"
+        },
+        {
+          "raw": "evo/policy/per-packet-load-balance.conf",
+          "id": "ewan_adv_core_edge/evo/policy/per-packet-load-balance",
+          "note": null
         }
       ],
       "variables": [],
@@ -6665,7 +6758,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6706,6 +6802,21 @@
           "raw": "evo/transport/sr-mapping-server.conf  (mapping-server-entry on P routers)",
           "id": "ewan_adv_core_edge/evo/transport/sr-mapping-server",
           "note": "mapping-server-entry on P routers"
+        },
+        {
+          "raw": "evo/interfaces/physical-uplink-mpls.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/physical-uplink-mpls",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/forwarding-options-hash.conf",
+          "id": "ewan_adv_core_edge/evo/transport/forwarding-options-hash",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/mpls-lsp.conf",
+          "id": "ewan_adv_core_edge/evo/transport/mpls-lsp",
+          "note": null
         }
       ],
       "variables": [
@@ -6730,7 +6841,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6773,6 +6887,16 @@
           "raw": "evo/transport/ldp-sr-coexistence.conf   (LDP runs on same interfaces for interop)",
           "id": "ewan_adv_core_edge/evo/transport/ldp-sr-coexistence",
           "note": "LDP runs on same interfaces for interop"
+        },
+        {
+          "raw": "evo/bootstrap/chassis-network-services.conf",
+          "id": "ewan_adv_core_edge/evo/bootstrap/chassis-network-services",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/physical-uplink-mpls.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/physical-uplink-mpls",
+          "note": null
         }
       ],
       "variables": [
@@ -6813,7 +6937,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6859,6 +6986,26 @@
           "raw": "evo/transport/bgp-ibgp-evpn.conf           (iBGP sessions using this IGP's loopbacks)",
           "id": "ewan_adv_core_edge/evo/transport/bgp-ibgp-evpn",
           "note": "iBGP sessions using this IGP's loopbacks"
+        },
+        {
+          "raw": "evo/interfaces/loopback.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/loopback",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/physical-uplink-mpls.conf",
+          "id": "ewan_adv_core_edge/evo/interfaces/physical-uplink-mpls",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/forwarding-options-hash.conf",
+          "id": "ewan_adv_core_edge/evo/transport/forwarding-options-hash",
+          "note": null
+        },
+        {
+          "raw": "evo/transport/mpls-lsp.conf",
+          "id": "ewan_adv_core_edge/evo/transport/mpls-lsp",
+          "note": null
         }
       ],
       "variables": [
@@ -6895,7 +7042,10 @@
       "techFamily": "Transport",
       "subfamily": "OSPF",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -6967,7 +7117,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7014,7 +7167,10 @@
       "techFamily": "Chassis",
       "subfamily": "Chassis",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7069,7 +7225,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7124,7 +7283,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "Cos",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7167,6 +7329,11 @@
           "raw": "junos/interfaces/physical-uplink-mpls.conf (the core interfaces these rewrites apply to)",
           "id": "ewan_adv_core_edge/junos/interfaces/physical-uplink-mpls",
           "note": "the core interfaces these rewrites apply to"
+        },
+        {
+          "raw": "junos/cos/forwarding-class-map.conf",
+          "id": "ewan_adv_core_edge/junos/cos/forwarding-class-map",
+          "note": null
         }
       ],
       "variables": [
@@ -7195,7 +7362,10 @@
       "techFamily": "QoS / CoS",
       "subfamily": "CoS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7249,7 +7419,10 @@
       "techFamily": "Other",
       "subfamily": "Ddos Mitigation",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7318,7 +7491,10 @@
       "techFamily": "Firewall",
       "subfamily": "Firewall",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7366,6 +7542,21 @@
           "raw": "junos/services/evpn-elan-simple.conf         (instances binding these vlan-bridge units)",
           "id": "ewan_adv_core_edge/junos/services/evpn-elan-simple",
           "note": "instances binding these vlan-bridge units"
+        },
+        {
+          "raw": "junos/services/evpn-elan-bridged.conf        (bridged ELAN instances with IRB + VRF)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
+          "note": "bridged ELAN instances with IRB + VRF"
+        },
+        {
+          "raw": "junos/oam/cfm-maintenance-domain.conf",
+          "id": "ewan_adv_core_edge/junos/oam/cfm-maintenance-domain",
+          "note": null
+        },
+        {
+          "raw": "junos/services/evpn-vpws-fxc.conf",
+          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-fxc",
+          "note": null
         }
       ],
       "variables": [
@@ -7394,7 +7585,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7456,7 +7650,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7499,6 +7696,11 @@
           "raw": "junos/services/evpn-vpws-fxc.conf      (instances referencing ae0.* units)",
           "id": "ewan_adv_core_edge/junos/services/evpn-vpws-fxc",
           "note": "instances referencing ae0.* units"
+        },
+        {
+          "raw": "junos/transport/forwarding-options-hash.conf",
+          "id": "ewan_adv_core_edge/junos/transport/forwarding-options-hash",
+          "note": null
         }
       ],
       "variables": [
@@ -7523,7 +7725,10 @@
       "techFamily": "Interfaces",
       "subfamily": "LAG / LACP",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7582,7 +7787,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7626,6 +7834,11 @@
           "raw": "junos/transport/mpls-lsp.conf     (MPLS enablement on these interfaces)",
           "id": "ewan_adv_core_edge/junos/transport/mpls-lsp",
           "note": "MPLS enablement on these interfaces"
+        },
+        {
+          "raw": "junos/cos/rewrite-rules-exp.conf",
+          "id": "ewan_adv_core_edge/junos/cos/rewrite-rules-exp",
+          "note": null
         }
       ],
       "variables": [
@@ -7650,7 +7863,10 @@
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7729,7 +7945,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7791,7 +8010,10 @@
       "techFamily": "OAM",
       "subfamily": "Oam",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7847,7 +8069,10 @@
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7879,6 +8104,11 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/interfaces/ccc-vpws-mux.conf      (the vlan-bridge AC units on this LAG)",
+          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
+          "note": "the vlan-bridge AC units on this LAG"
+        },
+        {
           "raw": "junos/services/evpn-vrf-ip-prefix.conf  (the L3 VRF that binds to irb.$UNIT)",
           "id": "ewan_adv_core_edge/junos/services/evpn-vrf-ip-prefix",
           "note": "the L3 VRF that binds to irb.$UNIT"
@@ -7887,6 +8117,11 @@
           "raw": "junos/interfaces/irb-gateway.conf       (IRB unit with anycast or per-PE addressing)",
           "id": "ewan_adv_core_edge/junos/interfaces/irb-gateway",
           "note": "IRB unit with anycast or per-PE addressing"
+        },
+        {
+          "raw": "junos/services/evpn-elan-simple.conf",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-simple",
+          "note": null
         }
       ],
       "variables": [
@@ -7915,7 +8150,14 @@
           "example": "target:60525:1999"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  525 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 350",
+        "    wanedge2_mx10004: 325",
+        "    wanedge3_acx7509: 325",
+        "    wanedge4_acx7100-48l: 325",
+        "  Examples: elan_group_65_1_100100, elan_group_65_1_100101, elan_group_65_1_100102"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                no-normalization;\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n            }\n        }\n        vlan-id $VLAN_ID;\n        routing-interface $IRB_UNIT;\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 407,
@@ -7923,7 +8165,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-ELAN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -7986,7 +8231,14 @@
           "example": "target:62525:2001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1925 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1225",
+        "    wanedge2_mx10004: 1200",
+        "    wanedge3_acx7509: 1200",
+        "    wanedge4_acx7100-48l: 1200",
+        "  Examples: elan_group_500_2001, elan_group_500_2003, elan_group_500_2005"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        interface $AC_INTF_1;\n        interface $AC_INTF_2;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 241,
@@ -7994,7 +8246,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-ELAN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8075,7 +8330,14 @@
           "example": "target:65000:1001"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1800 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1500",
+        "    wanedge2_mx10004: 1500",
+        "    wanedge3_acx7509: 1500",
+        "    wanedge4_acx7100-48l: 1500",
+        "  Examples: vfxc_group_40_1001, vfxc_group_40_1003, vfxc_group_40_1005"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF_1 {\n                    vpws-service-id {\n                        local $LOCAL_ID_1;\n                        remote $REMOTE_ID_1;\n                    }\n                }\n                interface $AC_INTF_2 {\n                    vpws-service-id {\n                        local $LOCAL_ID_2;\n                        remote $REMOTE_ID_2;\n                    }\n                }\n                flexible-cross-connect-vlan-aware;\n            }\n        }\n        interface $AC_INTF_1;\n        interface $AC_INTF_2;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 722,
@@ -8083,7 +8345,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8147,7 +8412,14 @@
           "example": "target:63535:141"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  1800 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 1500",
+        "    wanedge2_mx10004: 1500",
+        "    wanedge3_acx7509: 1500",
+        "    wanedge4_acx7100-48l: 1500",
+        "  Examples: vfxc_group_40_1001, vfxc_group_40_1003, vfxc_group_40_1005"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF {\n                    vpws-service-id {\n                        local $LOCAL_ID;\n                        remote $REMOTE_ID;\n                    }\n                }\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target $RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 458,
@@ -8155,7 +8427,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8222,7 +8497,14 @@
           "example": "target:60303:100"
         }
       ],
-      "jvdServiceMapping": [],
+      "jvdServiceMapping": [
+        "  350 instances across 4 WAN-edge devices",
+        "    wanedge1_mx304: 350",
+        "    wanedge2_mx10004: 325",
+        "    wanedge3_acx7509: 325",
+        "    wanedge4_acx7100-48l: 350",
+        "  Examples: evpn_100, evpn_101, evpn_102"
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation mpls;\n                }\n            }\n        }\n        interface $IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 458,
@@ -8230,7 +8512,10 @@
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8275,6 +8560,16 @@
           "raw": "junos/transport/ospf-sr-lfa.conf           (the IGP underlay these sessions ride over)",
           "id": "ewan_adv_core_edge/junos/transport/ospf-sr-lfa",
           "note": "the IGP underlay these sessions ride over"
+        },
+        {
+          "raw": "junos/ddos-mitigation/flowspec-routes.conf",
+          "id": "ewan_adv_core_edge/junos/ddos-mitigation/flowspec-routes",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/loopback.conf",
+          "id": "ewan_adv_core_edge/junos/interfaces/loopback",
+          "note": null
         }
       ],
       "variables": [
@@ -8303,7 +8598,10 @@
       "techFamily": "Transport",
       "subfamily": "EVPN",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8345,6 +8643,11 @@
           "raw": "junos/transport/ospf-sr-lfa.conf             (ECMP paths this hash distributes across)",
           "id": "ewan_adv_core_edge/junos/transport/ospf-sr-lfa",
           "note": "ECMP paths this hash distributes across"
+        },
+        {
+          "raw": "junos/policy/per-packet-load-balance.conf",
+          "id": "ewan_adv_core_edge/junos/policy/per-packet-load-balance",
+          "note": null
         }
       ],
       "variables": [],
@@ -8356,7 +8659,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8400,6 +8706,11 @@
           "raw": "junos/transport/rsvp-te.conf        (RSVP signaling if used — wanedge2 only)",
           "id": "ewan_adv_core_edge/junos/transport/rsvp-te",
           "note": "RSVP signaling if used — wanedge2 only"
+        },
+        {
+          "raw": "junos/interfaces/physical-uplink-mpls.conf",
+          "id": "ewan_adv_core_edge/junos/interfaces/physical-uplink-mpls",
+          "note": null
         }
       ],
       "variables": [
@@ -8432,7 +8743,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8476,6 +8790,26 @@
           "raw": "junos/transport/bgp-ibgp-evpn.conf         (iBGP sessions using this IGP's loopbacks)",
           "id": "ewan_adv_core_edge/junos/transport/bgp-ibgp-evpn",
           "note": "iBGP sessions using this IGP's loopbacks"
+        },
+        {
+          "raw": "junos/interfaces/loopback.conf",
+          "id": "ewan_adv_core_edge/junos/interfaces/loopback",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/physical-uplink-mpls.conf",
+          "id": "ewan_adv_core_edge/junos/interfaces/physical-uplink-mpls",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/forwarding-options-hash.conf",
+          "id": "ewan_adv_core_edge/junos/transport/forwarding-options-hash",
+          "note": null
+        },
+        {
+          "raw": "junos/transport/rsvp-te.conf",
+          "id": "ewan_adv_core_edge/junos/transport/rsvp-te",
+          "note": null
         }
       ],
       "variables": [
@@ -8508,7 +8842,10 @@
       "techFamily": "Transport",
       "subfamily": "OSPF",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
@@ -8556,7 +8893,10 @@
       "techFamily": "Transport",
       "subfamily": "Transport",
       "usecases": [
-        "Enterprise WAN"
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
       ],
       "parseWarnings": []
     },
