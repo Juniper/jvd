@@ -8,11 +8,11 @@ with site-specific values when adapting snips to a new deployment.
 | Variable | Example | Used in |
 |----------|---------|---------|
 | `$CORE_INTF` | `et-0/0/1` | physical-uplink-mpls, rewrite-rules-exp |
-| `$ACCESS_INTF` | `xe-0/0/9:0` | rewrite-rules-exp, ccc-vpws-mux |
+| `$ACCESS_INTF` | `xe-0/0/9:0` | rewrite-rules-exp, vlan-ccc-esi |
 | `$LAG_INTF` | `ae0` | lag-flexible-services |
 | `$LAG_MEMBER` | `xe-0/0/9:0` | lag-flexible-services |
-| `$UNIT` | `301` | ccc-vpws-mux, irb-gateway, rewrite-rules-exp |
-| `$VLAN_ID` | `301` | ccc-vpws-mux, irb-gateway |
+| `$UNIT` | `301` | vlan-ccc-esi, irb-gateway, rewrite-rules-exp |
+| `$VLAN_ID` | `301` | vlan-ccc-esi, irb-gateway |
 | `$LOOPBACK_IPV4` | `192.168.0.1/32` | loopback |
 | `$LOOPBACK_IPV6` | `fd00::1/128` | loopback |
 | `$IRB_IPV4` | `10.0.1.1/24` | irb-gateway |
@@ -37,14 +37,14 @@ with site-specific values when adapting snips to a new deployment.
 
 | Variable | Example | Used in |
 |----------|---------|---------|
-| `$VPN_INSTANCE` | `vpws_group_14_1` | evpn-vpws-fxc, evpn-vpws-simple |
+| `$VPN_INSTANCE` | `vpws_group_14_1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |
 | `$RD` | `192.168.0.1:14001` | all services |
 | `$RT_IMPORT` | `target:65001:14001` | all services |
 | `$RT_EXPORT` | `target:65001:14001` | all services |
-| `$LOCAL_ID` | `1` | evpn-vpws-fxc, evpn-vpws-simple |
-| `$REMOTE_ID` | `2` | evpn-vpws-fxc, evpn-vpws-simple |
-| `$FXC_INTF` | `lsi.*` | evpn-vpws-fxc |
-| `$ELAN_VNI` | `5001` | evpn-elan-simple (if extended) |
+| `$LOCAL_ID` | `1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |
+| `$REMOTE_ID` | `2` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |
+| `$FXC_INTF` | `lsi.*` | evpn-fxc-vlan-aware |
+| `$ELAN_VNI` | `5001` | evpn-elan-vlan-based (if extended) |
 
 ## CoS / QoS
 
