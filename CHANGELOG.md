@@ -4,6 +4,82 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-06-01
+
+Two Enterprise WAN snip libraries audited and enriched — EWAN Advanced
+Core & Edge and EWAN Finance — bringing cross-reference metadata,
+service-mapping headers, and topology-derived use-case context to both.
+The repository now also carries an explicit Apache-2.0 license.
+
+### New content
+
+- **EWAN Advanced Core & Edge snip library audit** — headers enriched
+  across all 48 snips in
+  [`enterprise_wan/ewan_adv_core_edge/configuration/snips/`](enterprise_wan/ewan_adv_core_edge/configuration/snips/).
+  Pair-with cross-references corrected, Seen-on device lists validated
+  against source configs (MX304, MX204, ACX7100-48L running Junos),
+  and service-mapping metadata injected for EVPN-VPWS, L3VPN, and
+  SR-MPLS transport services.
+
+- **EWAN Finance snip library audit** — headers enriched across all
+  38 snips in
+  [`enterprise_wan/ewan_finance/configuration/snips/`](enterprise_wan/ewan_finance/configuration/snips/).
+  Topology-derived use-case map added covering MPLS RSVP-TE transport,
+  multicast (P2MP LSPs), L3VPN, EVPN Virtual Switch, and Virtual
+  Router services across MX304 and ACX7100-48L devices running
+  Junos EVO.
+
+- **Apache-2.0 license** — the repository now includes an explicit
+  [`LICENSE`](LICENSE) file (Apache License, Version 2.0), clarifying
+  reuse terms for all configurations and snippets.
+
+- **Portal snip data** regenerated — the
+  [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
+  reflects updated header metadata for both EWAN libraries
+  (442 snips across 8 JVDs).
+
+### What this means for you
+
+- Pull the latest `main` to get corrected cross-references in both
+  EWAN snip libraries — `Pair with:` and `Seen on:` sections now
+  accurately reflect validated device pairings.
+- If you're building an MPLS/RSVP-TE or multicast design, start from
+  the EWAN Finance snips — they cover P2MP LSPs and MVPN patterns
+  not found in other JVDs.
+- Reuse of any content is now governed by the Apache-2.0 license at
+  the repo root.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Modified | Lines added | Lines removed |
+| --- | ---: | ---: | ---: | ---: |
+| `enterprise_wan/ewan_adv_core_edge` | 0 | 34 | 107 | 9 |
+| `enterprise_wan/ewan_finance` | 0 | 20 | 80 | 15 |
+| `portal/` | 0 | 2 | 790 | 195 |
+| `LICENSE` | 1 | 0 | 190 | 0 |
+| **TOTAL** | **1** | **56** | **1,167** | **219** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN | 187 | 24 | +163 |
+| Portal | 790 | 195 | +595 |
+| License | 190 | 0 | +190 |
+| **Total** | **1,167** | **219** | **+948** |
+
+</details>
+
+---
+
 ## 2026-05-30
 
 Quality sweep across three snip libraries — SRv6, Broadband Edge
