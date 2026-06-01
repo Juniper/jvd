@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-01T19:26:34.548Z",
+  "generatedAt": "2026-06-01T21:17:03.921Z",
   "counts": {
-    "total": 442,
-    "junos": 216,
-    "evo": 226,
+    "total": 445,
+    "junos": 217,
+    "evo": 228,
     "jvds": 8
   },
   "categories": [
@@ -90,9 +90,9 @@
       "area": "Enterprise WAN",
       "repoPath": "enterprise_wan/ewan_adv_core_edge",
       "counts": {
-        "junos": 24,
-        "evo": 24,
-        "total": 48
+        "junos": 25,
+        "evo": 26,
+        "total": 51
       }
     },
     {
@@ -5683,93 +5683,6 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
-      "jvd": "ewan_adv_core_edge",
-      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
-      "area": "Enterprise WAN",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "interfaces",
-      "name": "ccc-vpws-mux",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ccc-vpws-mux.conf",
-      "topic": "VPWS and ELAN attachment-circuit units (vlan-ccc with ESI, vlan-bridge)",
-      "seenOn": {
-        "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004"
-        ],
-        "evo": [
-          "wanedge3_acx7509",
-          "wanedge4_acx7100-48l"
-        ]
-      },
-      "highlights": [
-        "Body is structurally identical to the Junos sibling",
-        "Same ESI format and all-active multi-homing semantics",
-        "EVO uses ether-options { 802.3ad } for member links (vs gigether-options on MX)",
-        "vlan-bridge units on EVO feed mac-vrf instances (not instance-type evpn)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/lag-flexible-services.conf  (the parent ae interface)",
-          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
-          "note": "the parent ae interface"
-        },
-        {
-          "raw": "evo/services/evpn-vpws-simple.conf         (instances binding these vlan-ccc units)",
-          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-simple",
-          "note": "instances binding these vlan-ccc units"
-        },
-        {
-          "raw": "evo/services/mac-vrf-elan.conf             (instances binding these vlan-bridge units)",
-          "id": "ewan_adv_core_edge/evo/services/mac-vrf-elan",
-          "note": "instances binding these vlan-bridge units"
-        },
-        {
-          "raw": "evo/oam/cfm-maintenance-domain.conf",
-          "id": "ewan_adv_core_edge/evo/oam/cfm-maintenance-domain",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws-fxc.conf",
-          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-fxc",
-          "note": null
-        }
-      ],
-      "variables": [
-        {
-          "name": "$LAG_INTF",
-          "example": "ae0"
-        },
-        {
-          "name": "$UNIT",
-          "example": "1"
-        },
-        {
-          "name": "$VLAN_ID",
-          "example": "1"
-        },
-        {
-          "name": "$ESI",
-          "example": "00:34:34:34:34:34:34:34:11:01"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "/* --- VPWS AC (vlan-ccc with ESI, multi-homed) --- */\n\ninterfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN_ID;\n            esi {\n                $ESI;\n                all-active;\n            }\n            family ccc;\n        }\n    }\n}\n\n/* --- ELAN AC (vlan-bridge, no ESI needed for bridge units) --- */\n\ninterfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN_ID;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- VPWS AC (vlan-ccc with ESI, multi-homed) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- ELAN AC (vlan-bridge, no ESI needed for bridge units) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 502,
-      "lineCount": 26,
-      "techFamily": "Interfaces",
-      "subfamily": "Interfaces",
-      "usecases": [
-        "Enterprise WAN",
-        "EVPN-VPWS",
-        "EVPN-ELAN",
-        "MPLS"
-      ],
-      "parseWarnings": []
-    },
-    {
       "id": "ewan_adv_core_edge/evo/interfaces/irb-gateway",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
@@ -5797,8 +5710,8 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/mac-vrf-elan.conf         (mac-vrf with l3-interface irb.$UNIT)",
-          "id": "ewan_adv_core_edge/evo/services/mac-vrf-elan",
+          "raw": "evo/services/evpn-elan-vlan-based-irb.conf (mac-vrf with l3-interface irb.$UNIT)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-based-irb",
           "note": "mac-vrf with l3-interface irb.$UNIT"
         },
         {
@@ -5861,14 +5774,34 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/interfaces/ccc-vpws-mux.conf    (per-unit VPWS/ELAN AC config on this LAG)",
-          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
-          "note": "per-unit VPWS/ELAN AC config on this LAG"
+          "raw": "evo/interfaces/vlan-ccc-esi.conf    (per-unit VPWS AC config on this LAG)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-ccc-esi",
+          "note": "per-unit VPWS AC config on this LAG"
         },
         {
-          "raw": "evo/services/evpn-vpws-fxc.conf      (instances referencing ae0.* units)",
-          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-fxc",
-          "note": "instances referencing ae0.* units"
+          "raw": "evo/interfaces/vlan-bridge.conf     (per-unit ELAN AC config on this LAG)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-bridge",
+          "note": "per-unit ELAN AC config on this LAG"
+        },
+        {
+          "raw": "evo/services/evpn-vpws-vlan-based.conf     (VPWS instances binding vlan-ccc units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-vlan-based",
+          "note": "VPWS instances binding vlan-ccc units"
+        },
+        {
+          "raw": "evo/services/evpn-fxc-vlan-aware.conf      (FXC instances referencing ae0.* units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-fxc-vlan-aware",
+          "note": "FXC instances referencing ae0.* units"
+        },
+        {
+          "raw": "evo/services/evpn-elan-vlan-bundle.conf    (ELAN instances binding vlan-bridge units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-bundle",
+          "note": "ELAN instances binding vlan-bridge units"
+        },
+        {
+          "raw": "evo/services/evpn-elan-vlan-based-irb.conf (ELAN+IRB instances binding vlan-bridge units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-based-irb",
+          "note": "ELAN+IRB instances binding vlan-bridge units"
         },
         {
           "raw": "evo/bootstrap/chassis-network-services.conf",
@@ -6052,6 +5985,162 @@
       "parseWarnings": []
     },
     {
+      "id": "ewan_adv_core_edge/evo/interfaces/vlan-bridge",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/vlan-bridge.conf",
+      "topic": "ELAN attachment-circuit (vlan-bridge encapsulation)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-bridge carries L2 multipoint ELAN traffic",
+        "No ESI needed — bridging semantics don't require per-unit multi-homing (the parent LAG ESI handles it at the bundle level)",
+        "No family statement — bridging is implied by the encapsulation",
+        "Scale: ~1000 vlan-bridge units per ae0 in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        },
+        {
+          "raw": "evo/services/evpn-elan-vlan-bundle.conf    (ELAN instances binding these units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-bundle",
+          "note": "ELAN instances binding these units"
+        },
+        {
+          "raw": "evo/services/evpn-elan-vlan-based-irb.conf (ELAN+IRB instances binding these units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-based-irb",
+          "note": "ELAN+IRB instances binding these units"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LAG_INTF",
+          "example": "ae0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2001"
+        },
+        {
+          "name": "$VLAN_ID",
+          "example": "2001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 136,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_adv_core_edge/evo/interfaces/vlan-ccc-esi",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-esi",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/vlan-ccc-esi.conf",
+      "topic": "VPWS attachment-circuit (vlan-ccc with ESI all-active multi-homing)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc carries point-to-point VPWS traffic",
+        "ESI with all-active enables per-flow multi-homing across PE pairs",
+        "ESI is a 10-byte identifier — must be identical on both multi-homed PEs",
+        "family ccc is required for circuit cross-connect semantics",
+        "Scale: ~1500 vlan-ccc units per ae0 in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        },
+        {
+          "raw": "evo/services/evpn-vpws-vlan-based.conf     (instances binding these vlan-ccc units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-vpws-vlan-based",
+          "note": "instances binding these vlan-ccc units"
+        },
+        {
+          "raw": "evo/services/evpn-fxc-vlan-aware.conf      (FXC instances binding these units)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-fxc-vlan-aware",
+          "note": "FXC instances binding these units"
+        },
+        {
+          "raw": "evo/oam/cfm-maintenance-domain.conf",
+          "id": "ewan_adv_core_edge/evo/oam/cfm-maintenance-domain",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LAG_INTF",
+          "example": "ae0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1"
+        },
+        {
+          "name": "$VLAN_ID",
+          "example": "1"
+        },
+        {
+          "name": "$ESI",
+          "example": "00:34:34:34:34:34:34:34:11:01"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN_ID;\n            esi {\n                $ESI;\n                all-active;\n            }\n            family ccc;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 239,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "ewan_adv_core_edge/evo/oam/cfm-maintenance-domain",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
@@ -6083,8 +6172,8 @@
           "note": "performance measurement on these MEPs"
         },
         {
-          "raw": "evo/interfaces/ccc-vpws-mux.conf        (AC interfaces referenced by MEPs)",
-          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
+          "raw": "evo/interfaces/vlan-ccc-esi.conf        (AC interfaces referenced by MEPs)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-ccc-esi",
           "note": "AC interfaces referenced by MEPs"
         }
       ],
@@ -6246,16 +6335,198 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/evo/services/evpn-vpws-fxc",
+      "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-based-irb",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "services",
-      "name": "evpn-vpws-fxc",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-vpws-fxc.conf",
-      "topic": "EVPN-VPWS with Flexible Cross-Connect (multi-AC VLAN-aware)",
+      "name": "evpn-elan-vlan-based-irb",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-elan-vlan-based-irb.conf",
+      "topic": "EVPN-ELAN vlan-based with IRB gateway (L2+L3 integrated)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "EVO uses instance-type mac-vrf with service-type vlan-based",
+        "Each VLAN gets explicit vlan-id + l3-interface for IRB routing",
+        "encapsulation mpls explicitly sets EVPN/MPLS data-plane",
+        "default-gateway do-not-advertise suppresses Type-5 default from this instance",
+        "no-control-word is explicit on EVO",
+        "The IRB interface is associated with a VRF instance for ip-prefix-route advertisement",
+        "Scale: ~600 vlan-based ELAN instances per WAN edge in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-vrf-ip-prefix.conf  (the L3 VRF binding irb.$UNIT)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-vrf-ip-prefix",
+          "note": "the L3 VRF binding irb.$UNIT"
+        },
+        {
+          "raw": "evo/interfaces/irb-gateway.conf       (IRB unit config)",
+          "id": "ewan_adv_core_edge/evo/interfaces/irb-gateway",
+          "note": "IRB unit config"
+        },
+        {
+          "raw": "evo/interfaces/vlan-bridge.conf       (the vlan-bridge AC units)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-bridge",
+          "note": "the vlan-bridge AC units"
+        },
+        {
+          "raw": "evo/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "elan_group_95_476"
+        },
+        {
+          "name": "$AC_INTF_1",
+          "example": "ae0.476"
+        },
+        {
+          "name": "$VLAN_NAME",
+          "example": "svbased_476"
+        },
+        {
+          "name": "$VLAN_ID",
+          "example": "476"
+        },
+        {
+          "name": "$IRB_UNIT",
+          "example": "irb.476"
+        },
+        {
+          "name": "$RD",
+          "example": "44.44.44.44:476"
+        },
+        {
+          "name": "$RT",
+          "example": "target:62525:476"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  1225 instances across 2 EVO WAN-edge devices",
+        "    wanedge3_acx7509: 600",
+        "    wanedge4_acx7100-48l: 625",
+        "  Examples: elan_group_95_476, elan_group_95_478, elan_group_95_480"
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                vlan-id $VLAN_ID;\n                interface $AC_INTF_1;\n                l3-interface $IRB_UNIT;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 528,
+      "lineCount": 22,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN-ELAN",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-bundle",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "evpn-elan-vlan-bundle",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-elan-vlan-bundle.conf",
+      "topic": "EVPN-ELAN vlan-bundle (L2 multipoint, no IRB)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "EVO uses instance-type mac-vrf (Junos MX uses instance-type evpn)",
+        "service-type vlan-bundle: multiple ACs grouped under a single vlans stanza",
+        "Pure L2 switching — no IRB, no per-VLAN L3 gateway",
+        "no-control-word is explicit on EVO",
+        "Scale: ~600 vlan-bundle ELAN instances per WAN edge in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/vlan-bridge.conf       (the vlan-bridge AC units)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-bridge",
+          "note": "the vlan-bridge AC units"
+        },
+        {
+          "raw": "evo/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "elan_group_500_2001"
+        },
+        {
+          "name": "$AC_INTF_1",
+          "example": "ae0.2001"
+        },
+        {
+          "name": "$AC_INTF_2",
+          "example": "ae0.2002"
+        },
+        {
+          "name": "$VLAN_NAME",
+          "example": "mvbundle_2001"
+        },
+        {
+          "name": "$RD",
+          "example": "44.44.44.44:2001"
+        },
+        {
+          "name": "$RT",
+          "example": "target:62525:2001"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  1200 instances across 2 EVO WAN-edge devices",
+        "    wanedge3_acx7509: 600",
+        "    wanedge4_acx7100-48l: 600",
+        "  Examples: elan_group_500_2001, elan_group_500_2003, elan_group_500_2005"
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                no-control-word;\n            }\n        }\n        service-type vlan-bundle;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                interface $AC_INTF_1;\n                interface $AC_INTF_2;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 407,
+      "lineCount": 19,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN-ELAN",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_adv_core_edge/evo/services/evpn-fxc-vlan-aware",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-aware",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-fxc-vlan-aware.conf",
+      "topic": "EVPN FXC vlan-aware (Flexible Cross-Connect, multi-AC)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -6267,7 +6538,6 @@
         ]
       },
       "highlights": [
-        "Body is structurally identical to the Junos sibling (only local/remote IDs differ per-site)",
         "Multi-homed VPWS carrying 2+ VLANs per instance via flexible-cross-connect-vlan-aware",
         "Each AC interface gets its own vpws-service-id pair (local/remote must be swapped on the far end)",
         "All ACs share a single RD and RT; the service-id disambiguates circuits within the instance",
@@ -6280,8 +6550,8 @@
           "note": "the ae0 bundle carrying these ACs"
         },
         {
-          "raw": "evo/interfaces/ccc-vpws-mux.conf           (per-AC unit config on ae0)",
-          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
+          "raw": "evo/interfaces/vlan-ccc-esi.conf           (per-AC unit config on ae0)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-ccc-esi",
           "note": "per-AC unit config on ae0"
         }
       ],
@@ -6336,7 +6606,7 @@
       "bytes": 722,
       "lineCount": 26,
       "techFamily": "Service Overlay",
-      "subfamily": "EVPN-VPWS",
+      "subfamily": "EVPN",
       "usecases": [
         "Enterprise WAN",
         "EVPN-VPWS",
@@ -6346,16 +6616,16 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/evo/services/evpn-vpws-simple",
+      "id": "ewan_adv_core_edge/evo/services/evpn-vpws-vlan-based",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "services",
-      "name": "evpn-vpws-simple",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-vpws-simple.conf",
-      "topic": "EVPN-VPWS point-to-point pseudowire (single AC, control-word)",
+      "name": "evpn-vpws-vlan-based",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-vpws-vlan-based.conf",
+      "topic": "EVPN-VPWS vlan-based point-to-point pseudowire (single AC, control-word)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -6367,17 +6637,21 @@
         ]
       },
       "highlights": [
-        "Body is structurally identical to the Junos sibling",
-        "Simplest VPWS: one AC interface, one vpws-service-id pair, control-word enabled",
+        "Single AC interface, one vpws-service-id pair, control-word enabled",
         "control-word ensures correct sequencing and prevents fat-pipe reordering issues",
         "local/remote IDs must be mirror-swapped on the PE peer (local 30 ↔ remote 20)",
-        "Scale: ~1000 simple VPWS instances per WAN edge in this JVD"
+        "Scale: ~1000 VPWS instances per WAN edge in this JVD"
       ],
       "pairWith": [
         {
-          "raw": "evo/interfaces/ccc-vpws-mux.conf  (the per-unit AC config on the physical/LAG interface)",
-          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
-          "note": "the per-unit AC config on the physical/LAG interface"
+          "raw": "evo/interfaces/vlan-ccc-esi.conf        (the per-unit AC config on the LAG interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/vlan-ccc-esi",
+          "note": "the per-unit AC config on the LAG interface"
+        },
+        {
+          "raw": "evo/interfaces/lag-flexible-services.conf (the parent ae interface)",
+          "id": "ewan_adv_core_edge/evo/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
         }
       ],
       "variables": [
@@ -6459,8 +6733,8 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/mac-vrf-elan.conf       (the bridge domain whose IRB feeds this VRF)",
-          "id": "ewan_adv_core_edge/evo/services/mac-vrf-elan",
+          "raw": "evo/services/evpn-elan-vlan-based-irb.conf (the bridge domain whose IRB feeds this VRF)",
+          "id": "ewan_adv_core_edge/evo/services/evpn-elan-vlan-based-irb",
           "note": "the bridge domain whose IRB feeds this VRF"
         },
         {
@@ -6505,109 +6779,6 @@
       "lineCount": 20,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
-      "usecases": [
-        "Enterprise WAN",
-        "EVPN-VPWS",
-        "EVPN-ELAN",
-        "MPLS"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "ewan_adv_core_edge/evo/services/mac-vrf-elan",
-      "jvd": "ewan_adv_core_edge",
-      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
-      "area": "Enterprise WAN",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "name": "mac-vrf-elan",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/mac-vrf-elan.conf",
-      "topic": "MAC-VRF ELAN bridge domain (L2 multipoint, with optional IRB)",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "wanedge3_acx7509",
-          "wanedge4_acx7100-48l"
-        ]
-      },
-      "highlights": [
-        "EVO equivalent of Junos instance-type evpn; uses instance-type mac-vrf instead",
-        "Two service-type modes shown: vlan-bundle (simple L2) and vlan-based (with IRB gateway)",
-        "vlan-bundle: ACs grouped under a single vlans stanza, no per-VLAN L3",
-        "vlan-based: each VLAN gets explicit vlan-id + l3-interface for IRB routing",
-        "no-control-word is explicit on EVO (Junos omits it when not needed)",
-        "default-gateway do-not-advertise suppresses Type-5 default (bridged+IRB variant only)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/services/evpn-vrf-ip-prefix.conf  (the L3 VRF binding irb.$UNIT — vlan-based only)",
-          "id": "ewan_adv_core_edge/evo/services/evpn-vrf-ip-prefix",
-          "note": "the L3 VRF binding irb.$UNIT — vlan-based only"
-        },
-        {
-          "raw": "evo/interfaces/irb-gateway.conf       (IRB unit config)",
-          "id": "ewan_adv_core_edge/evo/interfaces/irb-gateway",
-          "note": "IRB unit config"
-        },
-        {
-          "raw": "evo/interfaces/ccc-vpws-mux.conf",
-          "id": "ewan_adv_core_edge/evo/interfaces/ccc-vpws-mux",
-          "note": null
-        }
-      ],
-      "variables": [
-        {
-          "name": "$INSTANCE_NAME",
-          "example": "elan_group_500_2001 / elan_group_95_476"
-        },
-        {
-          "name": "$SERVICE_TYPE",
-          "example": "vlan-bundle / vlan-based"
-        },
-        {
-          "name": "$AC_INTF_1",
-          "example": "ae0.2001"
-        },
-        {
-          "name": "$AC_INTF_2",
-          "example": "ae0.2002"
-        },
-        {
-          "name": "$VLAN_NAME",
-          "example": "mvbundle_2001 / svbased_476"
-        },
-        {
-          "name": "$VLAN_ID",
-          "example": "476"
-        },
-        {
-          "name": "$IRB_UNIT",
-          "example": "irb.476"
-        },
-        {
-          "name": "$RD",
-          "example": "44.44.44.44:2001"
-        },
-        {
-          "name": "$RT",
-          "example": "target:62525:2001"
-        }
-      ],
-      "jvdServiceMapping": [
-        "  1925 instances across 4 WAN-edge devices",
-        "    wanedge1_mx304: 1200",
-        "    wanedge2_mx10004: 1200",
-        "    wanedge3_acx7509: 1200",
-        "    wanedge4_acx7100-48l: 1225",
-        "  Examples: elan_group_500_2001, elan_group_500_2003, elan_group_500_2005"
-      ],
-      "body": "/* --- Variant A: vlan-bundle (simple L2, no IRB) --- */\n\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                no-control-word;\n            }\n        }\n        service-type vlan-bundle;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                interface $AC_INTF_1;\n                interface $AC_INTF_2;\n            }\n        }\n    }\n}\n\n/* --- Variant B: vlan-based (with IRB gateway) --- */\n\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        route-distinguisher $RD;\n        vrf-target $RT;\n        vlans {\n            $VLAN_NAME {\n                vlan-id $VLAN_ID;\n                interface $AC_INTF_1;\n                l3-interface $IRB_UNIT;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- Variant A: vlan-bundle (simple L2, no IRB) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- Variant B: vlan-based (with IRB gateway) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target $RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1051,
-      "lineCount": 46,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
       "usecases": [
         "Enterprise WAN",
         "EVPN-VPWS",
@@ -7501,100 +7672,6 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
-      "jvd": "ewan_adv_core_edge",
-      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
-      "area": "Enterprise WAN",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "interfaces",
-      "name": "ccc-vpws-mux",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ccc-vpws-mux.conf",
-      "topic": "VPWS and ELAN attachment-circuit units (vlan-ccc with ESI, vlan-bridge)",
-      "seenOn": {
-        "junos": [
-          "wanedge1_mx304",
-          "wanedge2_mx10004"
-        ],
-        "evo": [
-          "wanedge3_acx7509",
-          "wanedge4_acx7100-48l"
-        ]
-      },
-      "highlights": [
-        "vlan-ccc units carry point-to-point VPWS traffic; vlan-bridge units carry ELAN L2 frames",
-        "ESI with all-active enables per-flow multi-homing across PE pairs sharing the same LAG",
-        "ESI is a 10-byte identifier — must be identical on both multi-homed PEs for the same AC",
-        "Units without ESI are single-homed (e.g. traffic-generator facing ports)",
-        "vlan-bridge units have no family statement — bridging is implied by the encapsulation",
-        "Scale: ~1500 vlan-ccc units + ~1000 vlan-bridge units per ae0 in this JVD"
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/lag-flexible-services.conf  (the parent ae interface)",
-          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
-          "note": "the parent ae interface"
-        },
-        {
-          "raw": "junos/services/evpn-vpws-simple.conf         (instances binding these vlan-ccc units)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-simple",
-          "note": "instances binding these vlan-ccc units"
-        },
-        {
-          "raw": "junos/services/evpn-elan-simple.conf         (instances binding these vlan-bridge units)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-simple",
-          "note": "instances binding these vlan-bridge units"
-        },
-        {
-          "raw": "junos/services/evpn-elan-bridged.conf        (bridged ELAN instances with IRB + VRF)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
-          "note": "bridged ELAN instances with IRB + VRF"
-        },
-        {
-          "raw": "junos/oam/cfm-maintenance-domain.conf",
-          "id": "ewan_adv_core_edge/junos/oam/cfm-maintenance-domain",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-vpws-fxc.conf",
-          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-fxc",
-          "note": null
-        }
-      ],
-      "variables": [
-        {
-          "name": "$LAG_INTF",
-          "example": "ae0"
-        },
-        {
-          "name": "$UNIT",
-          "example": "1"
-        },
-        {
-          "name": "$VLAN_ID",
-          "example": "1"
-        },
-        {
-          "name": "$ESI",
-          "example": "00:12:12:12:12:12:12:12:11:01"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "/* --- VPWS AC (vlan-ccc with ESI, multi-homed) --- */\n\ninterfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN_ID;\n            esi {\n                $ESI;\n                all-active;\n            }\n            family ccc;\n        }\n    }\n}\n\n/* --- ELAN AC (vlan-bridge, no ESI needed for bridge units) --- */\n\ninterfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN_ID;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">/* --- VPWS AC (vlan-ccc with ESI, multi-homed) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">/* --- ELAN AC (vlan-bridge, no ESI needed for bridge units) --- */</span></span>\n<span class=\"line\"></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 502,
-      "lineCount": 26,
-      "techFamily": "Interfaces",
-      "subfamily": "Interfaces",
-      "usecases": [
-        "Enterprise WAN",
-        "EVPN-VPWS",
-        "EVPN-ELAN",
-        "MPLS"
-      ],
-      "parseWarnings": []
-    },
-    {
       "id": "ewan_adv_core_edge/junos/interfaces/irb-gateway",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
@@ -7624,8 +7701,8 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-elan-bridged.conf  (ELAN instance referencing routing-interface irb.$UNIT)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
+          "raw": "junos/services/evpn-elan-vlan-based-irb.conf  (ELAN instance referencing routing-interface irb.$UNIT)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based-irb",
           "note": "ELAN instance referencing routing-interface irb.$UNIT"
         },
         {
@@ -7690,14 +7767,34 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf    (per-unit VPWS/ELAN AC config on this LAG)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
-          "note": "per-unit VPWS/ELAN AC config on this LAG"
+          "raw": "junos/interfaces/vlan-ccc-esi.conf    (per-unit VPWS AC config on this LAG)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-ccc-esi",
+          "note": "per-unit VPWS AC config on this LAG"
         },
         {
-          "raw": "junos/services/evpn-vpws-fxc.conf      (instances referencing ae0.* units)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-fxc",
-          "note": "instances referencing ae0.* units"
+          "raw": "junos/interfaces/vlan-bridge.conf     (per-unit ELAN AC config on this LAG)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-bridge",
+          "note": "per-unit ELAN AC config on this LAG"
+        },
+        {
+          "raw": "junos/services/evpn-vpws-vlan-based.conf     (VPWS instances binding vlan-ccc units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-vlan-based",
+          "note": "VPWS instances binding vlan-ccc units"
+        },
+        {
+          "raw": "junos/services/evpn-fxc-vlan-aware.conf      (FXC instances referencing ae0.* units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-fxc-vlan-aware",
+          "note": "FXC instances referencing ae0.* units"
+        },
+        {
+          "raw": "junos/services/evpn-elan-vlan-based.conf     (ELAN instances binding vlan-bridge units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based",
+          "note": "ELAN instances binding vlan-bridge units"
+        },
+        {
+          "raw": "junos/services/evpn-elan-vlan-based-irb.conf (ELAN+IRB instances binding vlan-bridge units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based-irb",
+          "note": "ELAN+IRB instances binding vlan-bridge units"
         },
         {
           "raw": "junos/transport/forwarding-options-hash.conf",
@@ -7873,6 +7970,162 @@
       "parseWarnings": []
     },
     {
+      "id": "ewan_adv_core_edge/junos/interfaces/vlan-bridge",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/vlan-bridge.conf",
+      "topic": "ELAN attachment-circuit (vlan-bridge encapsulation)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-bridge carries L2 multipoint ELAN traffic",
+        "No ESI needed — bridging semantics don't require per-unit multi-homing (the parent LAG ESI handles it at the bundle level)",
+        "No family statement — bridging is implied by the encapsulation",
+        "Scale: ~1000 vlan-bridge units per ae0 in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        },
+        {
+          "raw": "junos/services/evpn-elan-vlan-based.conf     (ELAN instances binding these units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based",
+          "note": "ELAN instances binding these units"
+        },
+        {
+          "raw": "junos/services/evpn-elan-vlan-based-irb.conf (ELAN+IRB instances binding these units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based-irb",
+          "note": "ELAN+IRB instances binding these units"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LAG_INTF",
+          "example": "ae0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2001"
+        },
+        {
+          "name": "$VLAN_ID",
+          "example": "2001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 136,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_adv_core_edge/junos/interfaces/vlan-ccc-esi",
+      "jvd": "ewan_adv_core_edge",
+      "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-esi",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/vlan-ccc-esi.conf",
+      "topic": "VPWS attachment-circuit (vlan-ccc with ESI all-active multi-homing)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10004"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc carries point-to-point VPWS traffic",
+        "ESI with all-active enables per-flow multi-homing across PE pairs",
+        "ESI is a 10-byte identifier — must be identical on both multi-homed PEs",
+        "family ccc is required for circuit cross-connect semantics",
+        "Scale: ~1500 vlan-ccc units per ae0 in this JVD"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        },
+        {
+          "raw": "junos/services/evpn-vpws-vlan-based.conf     (instances binding these vlan-ccc units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-vpws-vlan-based",
+          "note": "instances binding these vlan-ccc units"
+        },
+        {
+          "raw": "junos/services/evpn-fxc-vlan-aware.conf      (FXC instances binding these units)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-fxc-vlan-aware",
+          "note": "FXC instances binding these units"
+        },
+        {
+          "raw": "junos/oam/cfm-maintenance-domain.conf",
+          "id": "ewan_adv_core_edge/junos/oam/cfm-maintenance-domain",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LAG_INTF",
+          "example": "ae0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1"
+        },
+        {
+          "name": "$VLAN_ID",
+          "example": "1"
+        },
+        {
+          "name": "$ESI",
+          "example": "00:12:12:12:12:12:12:12:11:01"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $LAG_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN_ID;\n            esi {\n                $ESI;\n                all-active;\n            }\n            family ccc;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $LAG_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 239,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Enterprise WAN",
+        "EVPN-VPWS",
+        "EVPN-ELAN",
+        "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "ewan_adv_core_edge/junos/oam/cfm-maintenance-domain",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
@@ -7908,8 +8161,8 @@
           "note": "performance measurement on these MEPs"
         },
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf        (the AC interfaces referenced by MEPs)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
+          "raw": "junos/interfaces/vlan-ccc-esi.conf        (the AC interfaces referenced by MEPs)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-ccc-esi",
           "note": "the AC interfaces referenced by MEPs"
         }
       ],
@@ -8079,16 +8332,16 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
+      "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based-irb",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos",
       "osKey": "junos",
       "category": "services",
-      "name": "evpn-elan-bridged",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-bridged.conf",
-      "topic": "EVPN ELAN bridge domain with IRB gateway (L2+L3 integrated)",
+      "name": "evpn-elan-vlan-based-irb",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-vlan-based-irb.conf",
+      "topic": "EVPN-ELAN vlan-based with IRB gateway (L2+L3 integrated)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -8097,7 +8350,7 @@
         "evo": []
       },
       "highlights": [
-        "Junos-specific: uses instance-type evpn with routing-interface (EVO uses mac-vrf + l3-interface)",
+        "Junos-specific: uses instance-type evpn with routing-interface",
         "no-normalization preserves original VLAN tags through the bridge domain",
         "encapsulation mpls explicitly sets EVPN/MPLS data-plane (vs VXLAN)",
         "default-gateway do-not-advertise suppresses Type-5 default from this instance",
@@ -8106,24 +8359,24 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf      (the vlan-bridge AC units on this LAG)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
+          "raw": "junos/interfaces/vlan-bridge.conf        (the vlan-bridge AC units on this LAG)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-bridge",
           "note": "the vlan-bridge AC units on this LAG"
         },
         {
-          "raw": "junos/services/evpn-vrf-ip-prefix.conf  (the L3 VRF that binds to irb.$UNIT)",
+          "raw": "junos/interfaces/lag-flexible-services.conf (the parent ae interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
+        },
+        {
+          "raw": "junos/services/evpn-vrf-ip-prefix.conf   (the L3 VRF that binds to irb.$UNIT)",
           "id": "ewan_adv_core_edge/junos/services/evpn-vrf-ip-prefix",
           "note": "the L3 VRF that binds to irb.$UNIT"
         },
         {
-          "raw": "junos/interfaces/irb-gateway.conf       (IRB unit with anycast or per-PE addressing)",
+          "raw": "junos/interfaces/irb-gateway.conf        (IRB unit with anycast or per-PE addressing)",
           "id": "ewan_adv_core_edge/junos/interfaces/irb-gateway",
           "note": "IRB unit with anycast or per-PE addressing"
-        },
-        {
-          "raw": "junos/services/evpn-elan-simple.conf",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-simple",
-          "note": null
         }
       ],
       "variables": [
@@ -8175,16 +8428,16 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/junos/services/evpn-elan-simple",
+      "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos",
       "osKey": "junos",
       "category": "services",
-      "name": "evpn-elan-simple",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-simple.conf",
-      "topic": "EVPN ELAN bridge domain — simple L2 multipoint (no IRB)",
+      "name": "evpn-elan-vlan-based",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-vlan-based.conf",
+      "topic": "EVPN-ELAN vlan-based (L2 multipoint, no IRB)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -8197,18 +8450,18 @@
         "Minimal ELAN: just protocols { evpn; } — no encapsulation or gateway knobs needed",
         "Multiple ACs per instance for multi-homing or multi-site bridging",
         "No IRB interface — pure L2 switching across the MPLS/EVPN fabric",
-        "Scale: ~500 simple ELAN instances per WAN edge in this JVD"
+        "Scale: ~500 ELAN instances per WAN edge in this JVD"
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf   (per-unit VLAN-bridge AC config)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
-          "note": "per-unit VLAN-bridge AC config"
+          "raw": "junos/interfaces/vlan-bridge.conf         (per-unit vlan-bridge AC config)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-bridge",
+          "note": "per-unit vlan-bridge AC config"
         },
         {
-          "raw": "junos/services/evpn-elan-bridged.conf (variant with IRB for L3 gateway)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
-          "note": "variant with IRB for L3 gateway"
+          "raw": "junos/interfaces/lag-flexible-services.conf  (the parent ae interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
         }
       ],
       "variables": [
@@ -8256,16 +8509,16 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/junos/services/evpn-vpws-fxc",
+      "id": "ewan_adv_core_edge/junos/services/evpn-fxc-vlan-aware",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos",
       "osKey": "junos",
       "category": "services",
-      "name": "evpn-vpws-fxc",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-vpws-fxc.conf",
-      "topic": "EVPN-VPWS with Flexible Cross-Connect (multi-AC VLAN-aware)",
+      "name": "evpn-fxc-vlan-aware",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-fxc-vlan-aware.conf",
+      "topic": "EVPN FXC vlan-aware (Flexible Cross-Connect, multi-AC)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -8289,8 +8542,8 @@
           "note": "the ae0 bundle carrying these ACs"
         },
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf           (per-AC unit config on ae0)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
+          "raw": "junos/interfaces/vlan-ccc-esi.conf           (per-AC unit config on ae0)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-ccc-esi",
           "note": "per-AC unit config on ae0"
         }
       ],
@@ -8345,7 +8598,7 @@
       "bytes": 722,
       "lineCount": 26,
       "techFamily": "Service Overlay",
-      "subfamily": "EVPN-VPWS",
+      "subfamily": "EVPN",
       "usecases": [
         "Enterprise WAN",
         "EVPN-VPWS",
@@ -8355,16 +8608,16 @@
       "parseWarnings": []
     },
     {
-      "id": "ewan_adv_core_edge/junos/services/evpn-vpws-simple",
+      "id": "ewan_adv_core_edge/junos/services/evpn-vpws-vlan-based",
       "jvd": "ewan_adv_core_edge",
       "jvdLabel": "Enterprise WAN: Advanced Core/Edge",
       "area": "Enterprise WAN",
       "os": "Junos",
       "osKey": "junos",
       "category": "services",
-      "name": "evpn-vpws-simple",
-      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-vpws-simple.conf",
-      "topic": "EVPN-VPWS point-to-point pseudowire (single AC, control-word)",
+      "name": "evpn-vpws-vlan-based",
+      "path": "enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-vpws-vlan-based.conf",
+      "topic": "EVPN-VPWS vlan-based point-to-point pseudowire (single AC, control-word)",
       "seenOn": {
         "junos": [
           "wanedge1_mx304",
@@ -8376,16 +8629,21 @@
         ]
       },
       "highlights": [
-        "Simplest VPWS: one AC interface, one vpws-service-id pair, control-word enabled",
+        "Single AC interface, one vpws-service-id pair, control-word enabled",
         "control-word ensures correct sequencing and prevents fat-pipe reordering issues",
         "local/remote IDs must be mirror-swapped on the PE peer (local 10 ↔ remote 40)",
-        "Scale: ~1000 simple VPWS instances per WAN edge in this JVD"
+        "Scale: ~1000 VPWS instances per WAN edge in this JVD"
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ccc-vpws-mux.conf  (the per-unit AC config on the physical/LAG interface)",
-          "id": "ewan_adv_core_edge/junos/interfaces/ccc-vpws-mux",
-          "note": "the per-unit AC config on the physical/LAG interface"
+          "raw": "junos/interfaces/vlan-ccc-esi.conf        (the per-unit AC config on the LAG interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/vlan-ccc-esi",
+          "note": "the per-unit AC config on the LAG interface"
+        },
+        {
+          "raw": "junos/interfaces/lag-flexible-services.conf (the parent ae interface)",
+          "id": "ewan_adv_core_edge/junos/interfaces/lag-flexible-services",
+          "note": "the parent ae interface"
         }
       ],
       "variables": [
@@ -8467,8 +8725,8 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/services/evpn-elan-bridged.conf  (the bridge domain whose IRB feeds this VRF)",
-          "id": "ewan_adv_core_edge/junos/services/evpn-elan-bridged",
+          "raw": "junos/services/evpn-elan-vlan-based-irb.conf  (the bridge domain whose IRB feeds this VRF)",
+          "id": "ewan_adv_core_edge/junos/services/evpn-elan-vlan-based-irb",
           "note": "the bridge domain whose IRB feeds this VRF"
         },
         {
@@ -33844,7 +34102,7 @@
     },
     {
       "jvd": "ewan_adv_core_edge",
-      "markdown": "# Snip Variable Reference\n\nVariables used across the `ewan_adv_core_edge` snip library. Replace `$VARIABLE` placeholders\nwith site-specific values when adapting snips to a new deployment.\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$CORE_INTF` | `et-0/0/1` | physical-uplink-mpls, rewrite-rules-exp |\n| `$ACCESS_INTF` | `xe-0/0/9:0` | rewrite-rules-exp, ccc-vpws-mux |\n| `$LAG_INTF` | `ae0` | lag-flexible-services |\n| `$LAG_MEMBER` | `xe-0/0/9:0` | lag-flexible-services |\n| `$UNIT` | `301` | ccc-vpws-mux, irb-gateway, rewrite-rules-exp |\n| `$VLAN_ID` | `301` | ccc-vpws-mux, irb-gateway |\n| `$LOOPBACK_IPV4` | `192.168.0.1/32` | loopback |\n| `$LOOPBACK_IPV6` | `fd00::1/128` | loopback |\n| `$IRB_IPV4` | `10.0.1.1/24` | irb-gateway |\n| `$MTU` | `9192` | physical-uplink-mpls |\n\n## Transport / Routing\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$ROUTER_ID` | `192.168.0.1` | bgp-ibgp-evpn, ospf-sr-lfa |\n| `$AS_NUMBER` | `65001` | bgp-ibgp-evpn |\n| `$RR_PEER` | `192.168.0.100` | bgp-ibgp-evpn |\n| `$AREA` | `0.0.0.0` | ospf-sr-lfa |\n| `$SRGB_START` | `400000` | ospf-sr-lfa |\n| `$SRGB_SIZE` | `4096` | ospf-sr-lfa |\n| `$NODE_INDEX` | `1` | ospf-sr-lfa |\n| `$LSP_NAME` | `to-wanedge2` | mpls-lsp |\n| `$LSP_DESTINATION` | `192.168.0.2` | mpls-lsp |\n| `$BW_MBPS` | `1000m` | rsvp-te |\n\n## Services (EVPN / VPN)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VPN_INSTANCE` | `vpws_group_14_1` | evpn-vpws-fxc, evpn-vpws-simple |\n| `$RD` | `192.168.0.1:14001` | all services |\n| `$RT_IMPORT` | `target:65001:14001` | all services |\n| `$RT_EXPORT` | `target:65001:14001` | all services |\n| `$LOCAL_ID` | `1` | evpn-vpws-fxc, evpn-vpws-simple |\n| `$REMOTE_ID` | `2` | evpn-vpws-fxc, evpn-vpws-simple |\n| `$FXC_INTF` | `lsi.*` | evpn-vpws-fxc |\n| `$ELAN_VNI` | `5001` | evpn-elan-simple (if extended) |\n\n## CoS / QoS\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$REWRITE_NAME` | `EXP-REWRITE` | rewrite-rules-exp |\n| `$CLASSIFIER_NAME` | `EXP` / `8021P` | rewrite-rules-exp |\n\n## Firewall / Security\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$FILTER_NAME` | `filter_ip_dport1` | filter-ipv4-stateless |\n| `$PROTOCOL` | `tcp` | filter-ipv4-stateless |\n| `$DST_PORT` | `80` | filter-ipv4-stateless |\n| `$NEXT_HOP` | `192.168.56.2/32` | filter-ipv4-stateless |\n| `$NEXT_INTF` | `et-0/0/1` | filter-ipv4-stateless |\n\n## OAM (802.1ag CFM)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$MD_NAME` | `m-d301` | cfm-maintenance-domain |\n| `$MD_LEVEL` | `3` | cfm-maintenance-domain |\n| `$MA_NAME` | `m-a301` | cfm-maintenance-domain |\n| `$MEP_ID` | `1` | cfm-maintenance-domain |\n| `$MEP_INTF` | `xe-0/0/9:0.301` | cfm-maintenance-domain |\n| `$CC_INTERVAL` | `1s` | cfm-maintenance-domain |\n| `$PROFILE_DELAY` | `i1` | cfm-sla-iterator |\n| `$PROFILE_SLM` | `i2` | cfm-sla-iterator |\n| `$INTERVAL` | `5` | cfm-sla-iterator |\n\n## Bootstrap / Platform\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$DEVICE_COUNT` | `25` | chassis-network-services |\n"
+      "markdown": "# Snip Variable Reference\n\nVariables used across the `ewan_adv_core_edge` snip library. Replace `$VARIABLE` placeholders\nwith site-specific values when adapting snips to a new deployment.\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$CORE_INTF` | `et-0/0/1` | physical-uplink-mpls, rewrite-rules-exp |\n| `$ACCESS_INTF` | `xe-0/0/9:0` | rewrite-rules-exp, vlan-ccc-esi |\n| `$LAG_INTF` | `ae0` | lag-flexible-services |\n| `$LAG_MEMBER` | `xe-0/0/9:0` | lag-flexible-services |\n| `$UNIT` | `301` | vlan-ccc-esi, irb-gateway, rewrite-rules-exp |\n| `$VLAN_ID` | `301` | vlan-ccc-esi, irb-gateway |\n| `$LOOPBACK_IPV4` | `192.168.0.1/32` | loopback |\n| `$LOOPBACK_IPV6` | `fd00::1/128` | loopback |\n| `$IRB_IPV4` | `10.0.1.1/24` | irb-gateway |\n| `$MTU` | `9192` | physical-uplink-mpls |\n\n## Transport / Routing\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$ROUTER_ID` | `192.168.0.1` | bgp-ibgp-evpn, ospf-sr-lfa |\n| `$AS_NUMBER` | `65001` | bgp-ibgp-evpn |\n| `$RR_PEER` | `192.168.0.100` | bgp-ibgp-evpn |\n| `$AREA` | `0.0.0.0` | ospf-sr-lfa |\n| `$SRGB_START` | `400000` | ospf-sr-lfa |\n| `$SRGB_SIZE` | `4096` | ospf-sr-lfa |\n| `$NODE_INDEX` | `1` | ospf-sr-lfa |\n| `$LSP_NAME` | `to-wanedge2` | mpls-lsp |\n| `$LSP_DESTINATION` | `192.168.0.2` | mpls-lsp |\n| `$BW_MBPS` | `1000m` | rsvp-te |\n\n## Services (EVPN / VPN)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VPN_INSTANCE` | `vpws_group_14_1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$RD` | `192.168.0.1:14001` | all services |\n| `$RT_IMPORT` | `target:65001:14001` | all services |\n| `$RT_EXPORT` | `target:65001:14001` | all services |\n| `$LOCAL_ID` | `1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$REMOTE_ID` | `2` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$FXC_INTF` | `lsi.*` | evpn-fxc-vlan-aware |\n| `$ELAN_VNI` | `5001` | evpn-elan-vlan-based (if extended) |\n\n## CoS / QoS\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$REWRITE_NAME` | `EXP-REWRITE` | rewrite-rules-exp |\n| `$CLASSIFIER_NAME` | `EXP` / `8021P` | rewrite-rules-exp |\n\n## Firewall / Security\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$FILTER_NAME` | `filter_ip_dport1` | filter-ipv4-stateless |\n| `$PROTOCOL` | `tcp` | filter-ipv4-stateless |\n| `$DST_PORT` | `80` | filter-ipv4-stateless |\n| `$NEXT_HOP` | `192.168.56.2/32` | filter-ipv4-stateless |\n| `$NEXT_INTF` | `et-0/0/1` | filter-ipv4-stateless |\n\n## OAM (802.1ag CFM)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$MD_NAME` | `m-d301` | cfm-maintenance-domain |\n| `$MD_LEVEL` | `3` | cfm-maintenance-domain |\n| `$MA_NAME` | `m-a301` | cfm-maintenance-domain |\n| `$MEP_ID` | `1` | cfm-maintenance-domain |\n| `$MEP_INTF` | `xe-0/0/9:0.301` | cfm-maintenance-domain |\n| `$CC_INTERVAL` | `1s` | cfm-maintenance-domain |\n| `$PROFILE_DELAY` | `i1` | cfm-sla-iterator |\n| `$PROFILE_SLM` | `i2` | cfm-sla-iterator |\n| `$INTERVAL` | `5` | cfm-sla-iterator |\n\n## Bootstrap / Platform\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$DEVICE_COUNT` | `25` | chassis-network-services |\n"
     },
     {
       "jvd": "ewan_finance",
