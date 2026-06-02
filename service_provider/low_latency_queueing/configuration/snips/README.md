@@ -63,5 +63,4 @@ Placeholders use `<variable-name>` syntax in snip bodies.
 
 ## Files
 
-- [`_topology_registry.json`](_topology_registry.json) — device-to-snip mapping
 - [`_variables.md`](_variables.md) — template variable reference
