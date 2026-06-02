@@ -6,12 +6,22 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-06-01
 
-Two Enterprise WAN snip libraries audited and enriched — EWAN Advanced
-Core & Edge and EWAN Finance — bringing cross-reference metadata,
-service-mapping headers, and topology-derived use-case context to both.
-The repository now also carries an explicit Apache-2.0 license.
+New 70-snip library for the 5G xHaul Low-Latency Queueing JVD, plus two
+Enterprise WAN snip libraries audited and enriched — EWAN Advanced
+Core & Edge and EWAN Finance. The repository now also carries an
+explicit Apache-2.0 license.
 
 ### New content
+
+- **Low-Latency Queueing snip library** — 70 new configuration
+  snippets (39 EVO, 31 Junos) in
+  [`service_provider/low_latency_queueing/configuration/snips/`](service_provider/low_latency_queueing/configuration/snips/).
+  Covers 5G fronthaul, midhaul, and backhaul QoS across
+  ACX7509/ACX7100/ACX7024 (EVO), PTX10001-36MR (EVO), and
+  MX480/MX204/MX304 (Junos). Includes 8-class CoS model aligned to
+  O-RAN multi-priority requirements, EVPN-ELAN/VPWS/FXC services,
+  BGP-VPLS, L3VPN-IRB, per-hop behavior classifiers (DSCP, EXP,
+  802.1p), and SR-ISIS/MPLS transport.
 
 - **EWAN Advanced Core & Edge snip library audit** — headers enriched
   across all 48 snips in
@@ -35,11 +45,14 @@ The repository now also carries an explicit Apache-2.0 license.
 
 - **Portal snip data** regenerated — the
   [Snip Library browser](https://juniper.github.io/jvd/portal/#snips)
-  reflects updated header metadata for both EWAN libraries
-  (442 snips across 8 JVDs).
+  reflects the new LLQ library and updated header metadata for both
+  EWAN libraries (515 snips across 9 JVDs).
 
 ### What this means for you
 
+- If you're deploying 5G xHaul with low-latency QoS, start from the
+  LLQ snips — they provide a validated 8-class CoS model with
+  per-hop classifiers ready to adapt to your DSCP/EXP marking scheme.
 - Pull the latest `main` to get corrected cross-references in both
   EWAN snip libraries — `Pair with:` and `Seen on:` sections now
   accurately reflect validated device pairings.
@@ -58,11 +71,12 @@ The repository now also carries an explicit Apache-2.0 license.
 
 | JVD / Area | Added | Modified | Lines added | Lines removed |
 | --- | ---: | ---: | ---: | ---: |
+| `service_provider/low_latency_queueing` | 72 | 0 | 3,376 | 0 |
 | `enterprise_wan/ewan_adv_core_edge` | 0 | 34 | 107 | 9 |
 | `enterprise_wan/ewan_finance` | 0 | 20 | 80 | 15 |
-| `portal/` | 0 | 2 | 790 | 195 |
+| `portal/` | 0 | 2 | 5,542 | 635 |
 | `LICENSE` | 1 | 0 | 190 | 0 |
-| **TOTAL** | **1** | **56** | **1,167** | **219** |
+| **TOTAL** | **73** | **56** | **9,295** | **659** |
 
 </details>
 
@@ -71,10 +85,11 @@ The repository now also carries an explicit Apache-2.0 license.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
+| Service Provider (LLQ) | 3,376 | 0 | +3,376 |
 | Enterprise WAN | 187 | 24 | +163 |
-| Portal | 790 | 195 | +595 |
+| Portal | 5,542 | 635 | +4,907 |
 | License | 190 | 0 | +190 |
-| **Total** | **1,167** | **219** | **+948** |
+| **Total** | **9,295** | **659** | **+8,636** |
 
 </details>
 
