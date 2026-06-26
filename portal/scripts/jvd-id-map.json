@@ -1,22 +1,65 @@
 {
+  "3stage_dc": [
+    "JVD-DCFABRIC-3STAGE-03-01"
+  ],
+  "3stage_dc_connected_security": [
+    "JVD-3STAGE-CSEC-01-01"
+  ],
+  "5stage_evpn_vxlan": [
+    "JVD-DCFABRIC-5STAGE-01-01"
+  ],
   "_comment": "Maps each JVD folder (id) to one or more Juniper validated-platform API IDs. The generator unions DUT models across all listed IDs. Folders without an entry fall back to README/.conf scanning.",
-  "3stage_dc": ["JVD-DCFABRIC-3STAGE-03-01"],
-  "3stage_dc_connected_security": ["JVD-3STAGE-CSEC-01-01"],
-  "5stage_evpn_vxlan": ["JVD-DCFABRIC-5STAGE-01-01"],
-  "collapsed_dc_fabric": ["JVD-DCFABRIC-COLLAPSED-01-01"],
-  "collapsed_dc_fabric_with_access": ["JVD-DCFABRIC-COLLAPSEDACCESS-01-01"],
-  "evpn_vxlan_dci": ["JVD-DCI-MULTISITE-01-01"],
-  "dci_over_ipodwdm": ["JVD-Optics-Base-01-01"],
-  "aiml_multitenancy_backend": ["JVD-AICLUSTERDC-AIML-03-03"],
-  "ewan_adv_core_edge": ["JVD-EWAN-Edge-AdvSvc-01-01"],
-  "ewan_core_edge": ["JVD-EWAN-Edge-Core-01-01"],
-  "ewan_finance": ["JVD-EWAN-Finance-01-01"],
-  "scale_out_firewall_nat": ["JVD-MSE-SCALEOUT-CGNAT-SP-01-01", "JVD-MSE-SCALEOUT-CGNAT-ENT-01-01"],
-  "scale_out_ipsec": ["JVD-MSE-SCALEOUT-IPSEC-SP-01-01", "JVD-MSE-SCALEOUT-IPSEC-ENT-01-01"],
-  "broadband_edge": ["JVD-METRO-BBE-01-01"],
-  "low_latency_queueing": ["JVD-5G-FH-COS-LLQ-02-04"],
-  "metro_as_a_service": ["JVD-METRO-EBS-MEF-03-02"],
-  "metro_ethernet_business_services": ["JVD-METRO-EBS-03-03"],
-  "port_fan_out": ["JVD-Metro-Port-Fanout-04-01"],
-  "srv6_core_edge": ["JVD-SP-CORE-EDGE-SRv6-01-01"]
+  "aiml_inference_frontend": [
+    "JVD-AI-DC-Inference-Apstra-Amd"
+  ],
+  "aiml_multitenancy_backend": [
+    "JVD-AICLUSTERDC-AIML-03-03"
+  ],
+  "broadband_edge": [
+    "JVD-METRO-BBE-01-01"
+  ],
+  "collapsed_dc_fabric": [
+    "JVD-DCFABRIC-COLLAPSED-01-01"
+  ],
+  "collapsed_dc_fabric_with_access": [
+    "JVD-DCFABRIC-COLLAPSEDACCESS-01-01"
+  ],
+  "dci_over_ipodwdm": [
+    "JVD-Optics-Base-01-01"
+  ],
+  "evpn_vxlan_dci": [
+    "JVD-DCI-MULTISITE-01-01"
+  ],
+  "ewan_adv_core_edge": [
+    "JVD-EWAN-Edge-AdvSvc-01-01"
+  ],
+  "ewan_core_edge": [
+    "JVD-EWAN-Edge-Core-01-01"
+  ],
+  "ewan_finance": [
+    "JVD-EWAN-Finance-01-01"
+  ],
+  "low_latency_queueing": [
+    "JVD-5G-FH-COS-LLQ-02-04"
+  ],
+  "metro_as_a_service": [
+    "JVD-METRO-EBS-MEF-03-02"
+  ],
+  "metro_ethernet_business_services": [
+    "JVD-METRO-EBS-03-03"
+  ],
+  "port_fan_out": [
+    "JVD-Metro-Port-Fanout-04-01"
+  ],
+  "scale_out_firewall_nat": [
+    "JVD-MSE-SCALEOUT-CGNAT-SP-01-01",
+    "JVD-MSE-SCALEOUT-CGNAT-ENT-01-01"
+  ],
+  "scale_out_ipsec": [
+    "JVD-MSE-SCALEOUT-IPSEC-SP-01-01",
+    "JVD-MSE-SCALEOUT-IPSEC-ENT-01-01"
+  ],
+  "srv6_core_edge": [
+    "JVD-SP-CORE-EDGE-SRv6-01-01"
+  ]
 }
