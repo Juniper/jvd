@@ -4,6 +4,40 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-06-26
+
+README standardization across all 20 JVDs, plus the new AI Data Center
+Frontend Fabric for Inference JVD organized and onboarded.
+
+### New content
+
+- **AI Inference Frontend Fabric** — new JVD in
+  [`data_center/aidc/aiml_inference_frontend/`](data_center/aidc/aiml_inference_frontend/).
+  Validated configurations for a leaf-spine frontend fabric supporting
+  AI inference workloads with AMD Instinct MI300X GPUs, Apstra-managed
+  QFX5130-32CD leafs and QFX5220-32CD spines (additional validated
+  platforms: QFX5140-24CD8O, QFX5230-64CD, QFX5240-64OD). Includes
+  topology diagram extracted from the JVD document.
+
+### Improvements
+
+- **README standardization** — all 20 JVD READMEs updated to a
+  consistent format: one-line summary blockquotes, highlights sections,
+  validated hardware tables with direct config file links, and
+  corrected JVD documentation URLs. 14 of 20 JVDs now meet all
+  required README criteria.
+
+### What this means for you
+
+- If you're building an AI inference frontend network, the new JVD
+  provides validated leaf-spine configs with Apstra automation ready
+  to adapt to your GPU cluster topology.
+- Every JVD README now links directly to each device config file
+  and its Juniper docs page — easier to navigate whether you're
+  browsing on GitHub or cloning the repo.
+
+---
+
 ## 2026-06-01
 
 New 70-snip library for the 5G xHaul Low-Latency Queueing JVD, plus two

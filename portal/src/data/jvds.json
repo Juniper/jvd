@@ -1,22 +1,416 @@
 [
-{"id":"3stage_dc","name":"3-Stage Data Center","area":"Data Center","description":"Data center fabric with EVPN/VXLAN ERB overlay and lean spine underlay, Apstra-managed.","platforms":["ACX7100-32C","ACX7100-48L","MX304","PTX10001-36MR","QFX10002-36Q","QFX5110-48S","QFX5120-32C","QFX5120-32D","QFX5120-48Y-8C","QFX5120-48YM","QFX5130-32CD","QFX5220-128C","QFX5220-32C","QFX5700","SRX4600"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/3stage_dc"},
-{"id":"3stage_dc_connected_security","name":"3-Stage DC with Connected Security","area":"Data Center","description":"Extends the 3-stage DC fabric with SRX firewalls in MNHA, applying policy without breaking VXLAN.","platforms":["ACX7100-48L","MX304","PTX10001-36MR","QFX5120-48Y-8C","QFX5120-48YM-8C","QFX5130-32CD","QFX5220-32CD","QFX5700","SRX4600"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/3stage_dc_connected_security"},
-{"id":"5stage_evpn_vxlan","name":"5-Stage EVPN-VXLAN","area":"Data Center","description":"Web-scale data center with lean super spines above multiple PODs — Compute, Storage, and Services.","platforms":["MX304","QFX5120-32C","QFX5120-32CD","QFX5120-48YM","QFX5120-48YM-8C","QFX5120-64C","QFX5130-32CD","QFX5130-48C","QFX5210-64C","QFX5220-32CD","QFX5230-64CD"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/5stage_evpn_vxlan"},
-{"id":"collapsed_dc_fabric","name":"Collapsed DC Fabric","area":"Data Center","description":"Small data center pattern where leaf switches *are* the fabric, peering directly over EVPN/VXLAN — no spines.","platforms":["ACX7100-48L","MX304","PTX10001-36MR","QFX5120-48Y","QFX5130-32CD","QFX5700"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/collapsed_dc_fabric"},
-{"id":"collapsed_dc_fabric_with_access","name":"Collapsed DC Fabric with Access","area":"Data Center","description":"Collapsed fabric extended with EX-series access switch pairs for high-density mGig access ports.","platforms":["ACX7100-48L","MX304","PTX10001-36MR","QFX5120-48Y","QFX5120-48YM","QFX5130-32CD","QFX5700"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/collapsed_dc_fabric_with_access"},
-{"id":"evpn_vxlan_dci","name":"EVPN-VXLAN DCI","area":"Data Center","description":"Three DCI techniques for stretching EVPN/VXLAN across data centers — OTT, Type-2 stitching, and integrated.","platforms":["PTX10001-36MR","QFX5120-48YM","QFX5130-48C","QFX5700"],"os":["Junos","Junos EVO"],"repoPath":"data_center/adc/evpn_vxlan_dci"},
-{"id":"evpn_vxlan_sflow_apstra","name":"EVPN-VXLAN with sFlow & Apstra","area":"Data Center","description":"sFlow telemetry from every fabric switch into Apstra Flow for real-time, packet-sampled visibility.","platforms":["ACX7100-32C","ACX7100-48L","MX304","PTX10001-36MR","QFX5110-48S","QFX5120-32C","QFX5120-48Y","QFX5120-48YM","QFX5220-128C","QFX5220-32CD","QFX5700"],"os":["Junos EVO","Junos"],"repoPath":"data_center/adc/evpn_vxlan_sflow_apstra"},
-{"id":"aiml_multitenancy_backend","name":"AI/ML Multitenancy Backend","area":"Data Center","description":"Multi-tenant GPU-as-a-Service backend on EVPN/VXLAN — IP-VRF per tenant, rail-optimized stripes.","platforms":["QFX5130-32CD","QFX5130-32QD","QFX5230-64CD","QFX5240-64OD","QFX5240-64QD"],"os":["Junos EVO"],"repoPath":"data_center/aidc/aiml_multitenancy_backend"},
-{"id":"ewan_adv_core_edge","name":"Enterprise WAN: Advanced Core/Edge","area":"Enterprise WAN","description":"EVPN- and MPLS-backed enterprise WAN with secure cross-site connectivity and simplified data sharing.","platforms":["ACX7509","MX10004","MX304","MX480","PTX10001-36MR","PTX10003-80C"],"os":["Junos","Junos EVO"],"repoPath":"enterprise_wan/ewan_adv_core_edge"},
-{"id":"ewan_core_edge","name":"Enterprise WAN: Core/Edge","area":"Enterprise WAN","description":"Reliable enterprise WAN edge and core connecting branches, campuses, data centers, and public cloud.","platforms":["ACX7509","MX10008","MX304","MX480","PTX10003-80C","PTX10008"],"os":["Junos","Junos EVO"],"repoPath":"enterprise_wan/ewan_core_edge"},
-{"id":"ewan_finance","name":"Enterprise WAN: Finance","area":"Enterprise WAN","description":"Enterprise WAN for financial trading — heavy multicast, ultra-low latency, and resilient market data delivery.","platforms":["ACX7100-48L","MX10004","MX304","MX480","PTX10001-36MR","PTX10003"],"os":["Junos","Junos EVO"],"repoPath":"enterprise_wan/ewan_finance"},
-{"id":"dci_over_ipodwdm","name":"DCI over IPoDWDM","area":"Optical","description":"Data center interconnect over IP-over-DWDM — collapsing IP and optical layers for lower cost and complexity.","platforms":["ACX7100-48L","MX304","PTX10001-36MR"],"os":["Junos","Junos EVO"],"repoPath":"optical/dci_over_ipodwdm"},
-{"id":"scale_out_firewall_nat","name":"Scale-Out Firewall NAT","area":"Security","description":"Connected Security Distributed Services (CSDS) — horizontally scalable firewall and CGNAT capacity.","platforms":["MX304","SRX4600"],"os":["Junos"],"repoPath":"security/scale_out_firewall_nat"},
-{"id":"scale_out_ipsec","name":"Scale-Out IPsec","area":"Security","description":"Connected Security Distributed Services (CSDS) — horizontally scalable IPsec termination at carrier scale.","platforms":["MX304","SRX4600"],"os":["Junos"],"repoPath":"security/scale_out_ipsec"},
-{"id":"broadband_edge","name":"Broadband Edge","area":"Service Provider","description":"Cloud Metro fabric stitching access, aggregation, and BNG together with Scale-Out CGNAT integration.","platforms":["ACX7024","ACX7100-32C","ACX7100-48L","MX10004","MX204","MX304","MX480","PTX10004","QFX5120-32C","QFX5210-64C"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/broadband_edge"},
-{"id":"low_latency_queueing","name":"Low Latency Queueing","area":"Service Provider","description":"Low-latency CoS for Metro and 5G xHaul — LLQ, classification, remarking, and measured under-load latency.","platforms":["ACX7509","MX204","MX304","MX480","PTX10001-36MR"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/low_latency_queueing"},
-{"id":"metro_as_a_service","name":"Metro as a Service","area":"Service Provider","description":"First validated end-to-end MEF 3.0-conformant Cloud Metro architecture for Carrier Ethernet services.","platforms":["ACX5448","ACX7024","ACX710","ACX7100-32C","ACX7100-48L","ACX7509","MX10003","MX204","MX304","PTX10001-36MR","QFX5110-48S-4C"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/metro_as_a_service"},
-{"id":"metro_ethernet_business_services","name":"Metro Ethernet Business Services","area":"Service Provider","description":"Cloud Metro fabric with multi-ring core for MEF 3.0 EVPN, VPLS, L2VPN, and L3VPN services.","platforms":["ACX5448","ACX7024","ACX710","ACX7100-32C","ACX7100-48L","ACX7348","MX10004","MX204","PTX10001-36MR","PTX10004","QFX5210-64C"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/metro_ethernet_business_services"},
-{"id":"port_fan_out","name":"Port Fan-Out","area":"Service Provider","description":"Cost-effective port density via Juniper's port fan-out solution — more ports, less complexity.","platforms":["ACX7024","ACX7100-48L","MX480","MX960"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/port_fan_out"},
-{"id":"srv6_core_edge","name":"SRv6 Core/Edge","area":"Service Provider","description":"Multi-domain SRv6 µSID transport with Flex-Algo and core overlays — L3VPN and EVPN E-Line/VPWS.","platforms":["MX10004","MX2010","MX240","MX304","MX480","PTX10002-36QDD"],"os":["Junos","Junos EVO"],"repoPath":"service_provider/srv6_core_edge"}
+  {
+    "id": "3stage_dc",
+    "name": "3-Stage Data Center",
+    "area": "Data Center",
+    "description": "Data center fabric with EVPN/VXLAN ERB overlay and lean spine underlay, Apstra-managed.",
+    "platforms": [
+      "ACX7100-32C",
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX10002-36Q",
+      "QFX5110-48S",
+      "QFX5120-32C",
+      "QFX5120-32D",
+      "QFX5120-48Y-8C",
+      "QFX5120-48YM",
+      "QFX5130-32CD",
+      "QFX5220-128C",
+      "QFX5220-32C",
+      "QFX5700",
+      "SRX4600"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/3stage_dc"
+  },
+  {
+    "id": "3stage_dc_connected_security",
+    "name": "3-Stage DC with Connected Security",
+    "area": "Data Center",
+    "description": "Extends the 3-stage DC fabric with SRX firewalls in MNHA, applying policy without breaking VXLAN.",
+    "platforms": [
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX5120-48Y-8C",
+      "QFX5120-48YM-8C",
+      "QFX5130-32CD",
+      "QFX5220-32CD",
+      "QFX5700",
+      "SRX4600"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/3stage_dc_connected_security"
+  },
+  {
+    "id": "5stage_evpn_vxlan",
+    "name": "5-Stage EVPN-VXLAN",
+    "area": "Data Center",
+    "description": "Web-scale data center with lean super spines above multiple PODs \u2014 Compute, Storage, and Services.",
+    "platforms": [
+      "MX304",
+      "QFX5120-32C",
+      "QFX5120-32CD",
+      "QFX5120-48YM",
+      "QFX5120-48YM-8C",
+      "QFX5120-64C",
+      "QFX5130-32CD",
+      "QFX5130-48C",
+      "QFX5210-64C",
+      "QFX5220-32CD",
+      "QFX5230-64CD"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/5stage_evpn_vxlan"
+  },
+  {
+    "id": "collapsed_dc_fabric",
+    "name": "Collapsed DC Fabric",
+    "area": "Data Center",
+    "description": "Small data center pattern where leaf switches *are* the fabric, peering directly over EVPN/VXLAN \u2014 no spines.",
+    "platforms": [
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX5120-48Y",
+      "QFX5130-32CD",
+      "QFX5700"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/collapsed_dc_fabric"
+  },
+  {
+    "id": "collapsed_dc_fabric_with_access",
+    "name": "Collapsed DC Fabric with Access",
+    "area": "Data Center",
+    "description": "Collapsed fabric extended with EX-series access switch pairs for high-density mGig access ports.",
+    "platforms": [
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX5120-48Y",
+      "QFX5120-48YM",
+      "QFX5130-32CD",
+      "QFX5700"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/collapsed_dc_fabric_with_access"
+  },
+  {
+    "id": "evpn_vxlan_dci",
+    "name": "EVPN-VXLAN DCI",
+    "area": "Data Center",
+    "description": "Three DCI techniques for stretching EVPN/VXLAN across data centers \u2014 OTT, Type-2 stitching, and integrated.",
+    "platforms": [
+      "PTX10001-36MR",
+      "QFX5120-48YM",
+      "QFX5130-48C",
+      "QFX5700"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/evpn_vxlan_dci"
+  },
+  {
+    "id": "evpn_vxlan_sflow_apstra",
+    "name": "EVPN-VXLAN with sFlow & Apstra",
+    "area": "Data Center",
+    "description": "sFlow telemetry from every fabric switch into Apstra Flow for real-time, packet-sampled visibility.",
+    "platforms": [
+      "ACX7100-32C",
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX5110-48S",
+      "QFX5120-32C",
+      "QFX5120-48Y",
+      "QFX5120-48YM",
+      "QFX5220-128C",
+      "QFX5220-32CD",
+      "QFX5700"
+    ],
+    "os": [
+      "Junos EVO",
+      "Junos"
+    ],
+    "repoPath": "data_center/adc/evpn_vxlan_sflow_apstra"
+  },
+  {
+    "id": "aiml_multitenancy_backend",
+    "name": "AI/ML Multitenancy Backend",
+    "area": "Data Center",
+    "description": "Multi-tenant GPU-as-a-Service backend on EVPN/VXLAN \u2014 IP-VRF per tenant, rail-optimized stripes.",
+    "platforms": [
+      "QFX5130-32CD",
+      "QFX5130-32QD",
+      "QFX5230-64CD",
+      "QFX5240-64OD",
+      "QFX5240-64QD"
+    ],
+    "os": [
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/aidc/aiml_multitenancy_backend"
+  },
+  {
+    "id": "ewan_adv_core_edge",
+    "name": "Enterprise WAN: Advanced Core/Edge",
+    "area": "Enterprise WAN",
+    "description": "EVPN- and MPLS-backed enterprise WAN with secure cross-site connectivity and simplified data sharing.",
+    "platforms": [
+      "ACX7509",
+      "MX10004",
+      "MX304",
+      "MX480",
+      "PTX10001-36MR",
+      "PTX10003-80C"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "enterprise_wan/ewan_adv_core_edge"
+  },
+  {
+    "id": "ewan_core_edge",
+    "name": "Enterprise WAN: Core/Edge",
+    "area": "Enterprise WAN",
+    "description": "Reliable enterprise WAN edge and core connecting branches, campuses, data centers, and public cloud.",
+    "platforms": [
+      "ACX7509",
+      "MX10008",
+      "MX304",
+      "MX480",
+      "PTX10003-80C",
+      "PTX10008"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "enterprise_wan/ewan_core_edge"
+  },
+  {
+    "id": "ewan_finance",
+    "name": "Enterprise WAN: Finance",
+    "area": "Enterprise WAN",
+    "description": "Enterprise WAN for financial trading \u2014 heavy multicast, ultra-low latency, and resilient market data delivery.",
+    "platforms": [
+      "ACX7100-48L",
+      "MX10004",
+      "MX304",
+      "MX480",
+      "PTX10001-36MR",
+      "PTX10003"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "enterprise_wan/ewan_finance"
+  },
+  {
+    "id": "dci_over_ipodwdm",
+    "name": "DCI over IPoDWDM",
+    "area": "Optical",
+    "description": "Data center interconnect over IP-over-DWDM \u2014 collapsing IP and optical layers for lower cost and complexity.",
+    "platforms": [
+      "ACX7100-48L",
+      "MX304",
+      "PTX10001-36MR"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "optical/dci_over_ipodwdm"
+  },
+  {
+    "id": "scale_out_firewall_nat",
+    "name": "Scale-Out Firewall NAT",
+    "area": "Security",
+    "description": "Connected Security Distributed Services (CSDS) \u2014 horizontally scalable firewall and CGNAT capacity.",
+    "platforms": [
+      "MX304",
+      "SRX4600"
+    ],
+    "os": [
+      "Junos"
+    ],
+    "repoPath": "security/scale_out_firewall_nat"
+  },
+  {
+    "id": "scale_out_ipsec",
+    "name": "Scale-Out IPsec",
+    "area": "Security",
+    "description": "Connected Security Distributed Services (CSDS) \u2014 horizontally scalable IPsec termination at carrier scale.",
+    "platforms": [
+      "MX304",
+      "SRX4600"
+    ],
+    "os": [
+      "Junos"
+    ],
+    "repoPath": "security/scale_out_ipsec"
+  },
+  {
+    "id": "broadband_edge",
+    "name": "Broadband Edge",
+    "area": "Service Provider",
+    "description": "Cloud Metro fabric stitching access, aggregation, and BNG together with Scale-Out CGNAT integration.",
+    "platforms": [
+      "ACX7024",
+      "ACX7100-32C",
+      "ACX7100-48L",
+      "MX10004",
+      "MX204",
+      "MX304",
+      "MX480",
+      "PTX10004",
+      "QFX5120-32C",
+      "QFX5210-64C"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/broadband_edge"
+  },
+  {
+    "id": "low_latency_queueing",
+    "name": "Low Latency Queueing",
+    "area": "Service Provider",
+    "description": "Low-latency CoS for Metro and 5G xHaul \u2014 LLQ, classification, remarking, and measured under-load latency.",
+    "platforms": [
+      "ACX7509",
+      "MX204",
+      "MX304",
+      "MX480",
+      "PTX10001-36MR"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/low_latency_queueing"
+  },
+  {
+    "id": "metro_as_a_service",
+    "name": "Metro as a Service",
+    "area": "Service Provider",
+    "description": "First validated end-to-end MEF 3.0-conformant Cloud Metro architecture for Carrier Ethernet services.",
+    "platforms": [
+      "ACX5448",
+      "ACX7024",
+      "ACX710",
+      "ACX7100-32C",
+      "ACX7100-48L",
+      "ACX7509",
+      "MX10003",
+      "MX204",
+      "MX304",
+      "PTX10001-36MR",
+      "QFX5110-48S-4C"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/metro_as_a_service"
+  },
+  {
+    "id": "metro_ethernet_business_services",
+    "name": "Metro Ethernet Business Services",
+    "area": "Service Provider",
+    "description": "Cloud Metro fabric with multi-ring core for MEF 3.0 EVPN, VPLS, L2VPN, and L3VPN services.",
+    "platforms": [
+      "ACX5448",
+      "ACX7024",
+      "ACX710",
+      "ACX7100-32C",
+      "ACX7100-48L",
+      "ACX7348",
+      "MX10004",
+      "MX204",
+      "PTX10001-36MR",
+      "PTX10004",
+      "QFX5210-64C"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/metro_ethernet_business_services"
+  },
+  {
+    "id": "port_fan_out",
+    "name": "Port Fan-Out",
+    "area": "Service Provider",
+    "description": "Cost-effective port density via Juniper's port fan-out solution \u2014 more ports, less complexity.",
+    "platforms": [
+      "ACX7024",
+      "ACX7100-48L",
+      "MX480",
+      "MX960"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/port_fan_out"
+  },
+  {
+    "id": "srv6_core_edge",
+    "name": "SRv6 Core/Edge",
+    "area": "Service Provider",
+    "description": "Multi-domain SRv6 \u00b5SID transport with Flex-Algo and core overlays \u2014 L3VPN and EVPN E-Line/VPWS.",
+    "platforms": [
+      "MX10004",
+      "MX2010",
+      "MX240",
+      "MX304",
+      "MX480",
+      "PTX10002-36QDD"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "service_provider/srv6_core_edge"
+  },
+  {
+    "id": "aiml_inference_frontend",
+    "name": "AI Data Center Frontend Fabric for Inference",
+    "area": "Data Center",
+    "description": "Standards-based Ethernet frontend fabric for AI inference workloads with QFX switches, Apstra, and AMD MI300X GPUs.",
+    "platforms": [
+      "QFX5130-32CD",
+      "QFX5140-24CD8O",
+      "QFX5220-32CD",
+      "QFX5230-64CD",
+      "QFX5240-64OD"
+    ],
+    "os": [
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/aidc/aiml_inference_frontend"
+  }
 ]
