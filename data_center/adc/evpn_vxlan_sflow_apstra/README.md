@@ -1,8 +1,18 @@
 # EVPN-VXLAN Data Center sFlow with Juniper Apstra
 
+> Real-time packet-sampled traffic visibility via sFlow telemetry export to Juniper Apstra Flow across an EVPN/VXLAN fabric.
+
 Validated configurations for the Juniper Validated Design *"EVPN-VXLAN Data Center sFlow with Juniper Apstra."* This JVD extends the [3-stage data center design](../3stage_dc/) by adding sFlow telemetry export to **Juniper Apstra Flow**, providing real-time, packet-sampled visibility into traffic flowing through the EVPN-VXLAN fabric.
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-sflow/jvd-evpn-vxlan-datacenter-sflow.pdf>
+
+## Highlights
+
+- sFlow telemetry on every fabric switch via Apstra configlets
+- Swap-matrix approach — multiple platform variants validated per role
+- Apstra Flow collector with OpenSearch dashboards for visualization
+- Validated across Junos 23.4R2-S5, 24.2R2, and 24.4R2
+- Configurations in display-set format (`configuration/set/`)
 
 sFlow is enabled on every fabric switch via Apstra configlets. Each switch exports sampled packet headers and interface statistics over UDP to the Apstra Flow collector, which decodes the data and visualizes it through OpenSearch dashboards. The collector is reached over a dedicated revenue/WAN port (not the management interface), with the route advertised into the fabric by the default Apstra underlay policy.
 

@@ -72,13 +72,15 @@ The JVD includes **59+ tests** across **4 high-level scenarios**, validating:
 
 ## Validated Platforms
 
-Validated on platforms including:
-
-- **ACX7100-48L**
-- **MX480**
-- **MX304**
-- **MX10004**
-- **MX10008**
+| Juniper Product | Role | Config |
+|---|---|---|
+| **ACX7100-48L** | Core Router / Multicast | [`cr1_acx7100-48l.conf`](configuration/conf/cr1_acx7100-48l.conf) |
+| **MX480** | Core Router | [`cr2_mx480.conf`](configuration/conf/cr2_mx480.conf) |
+| **MX304** | WAN Edge / Access Provider | [`wanedge1_mx304.conf`](configuration/conf/wanedge1_mx304.conf), [`ap1_mx304.conf`](configuration/conf/ap1_mx304.conf) |
+| **MX10004** | WAN Edge / Access Provider | [`wanedge2_mx10004.conf`](configuration/conf/wanedge2_mx10004.conf), [`ap2_mx10004.conf`](configuration/conf/ap2_mx10004.conf) |
+| **PTX10003-80C** | P Router | [`p1_ptx10003-80c.conf`](configuration/conf/p1_ptx10003-80c.conf) |
+| **PTX10001-36MR** | P Router | [`p2_ptx10001-36mr.conf`](configuration/conf/p2_ptx10001-36mr.conf) |
+| **ACX7100-48L** | L2/L3 Edge | [`l2-l3_edge_acx7100.conf`](configuration/conf/l2-l3_edge_acx7100.conf) |
 
 ---
 

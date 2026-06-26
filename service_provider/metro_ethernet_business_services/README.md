@@ -1,5 +1,7 @@
 # Metro Ethernet Business Services – Juniper Validated Design (JVD)
 
+> Production-ready Cloud Metro architecture with MEF 3.0 EVPN, VPLS, L2VPN, and L3VPN services across a scalable Metro Fabric and multi-ring core.
+
 The Metro Ethernet Business Services (Metro EBS) JVD defines a production-ready Cloud Metro architecture composed of a scalable Metro Fabric for access and aggregation, seamlessly integrated with a resilient multi-ring core. This validated design enables x-to-anything connectivity across MEF 3.0-compliant EVPN, VPLS, L2VPN, and L3VPN services. Leveraging Juniper ACX, MX, and PTX Series platforms, the solution supports interdomain color-aware transport, TI-LFA-based resiliency, and intent-based traffic steering for high-performance, future-ready metro deployments.
 
 ---
@@ -58,6 +60,24 @@ This solution is extended by the [Metro as a Service (MaaS) JVD](https://www.jun
 
 - **GitHub Configurations:**  
   [Metro as a Service](../metro_as_a_service/)
+
+---
+
+## Validated Hardware
+
+| Juniper Product | Role | Config |
+|---|---|---|
+| **PTX10001-36MR** | Core Router | [`cr1_ptx10001-36mr.conf`](configuration/conf/cr1_ptx10001-36mr.conf), [`cr2_ptx10001-36mr.conf`](configuration/conf/cr2_ptx10001-36mr.conf) |
+| **ACX7509** | Metro Domain Router | [`mdr1_acx7509.conf`](configuration/conf/mdr1_acx7509.conf) |
+| **MX10003** | Metro Domain Router | [`mdr2_mx10003.conf`](configuration/conf/mdr2_mx10003.conf) |
+| **ACX7100-32C** | Metro Edge Gateway | [`meg1_acx7100-32c.conf`](configuration/conf/meg1_acx7100-32c.conf), [`meg2_acx7509.conf`](configuration/conf/meg2_acx7509.conf) |
+| **MX304** | Metro SE | [`mse1_mx304.conf`](configuration/conf/mse1_mx304.conf), [`mse2_mx304.conf`](configuration/conf/mse2_mx304.conf) |
+| **MX204** | Metro Aggregation / Access Node | [`ma2_mx204.conf`](configuration/conf/ma2_mx204.conf), [`ma4_mx204.conf`](configuration/conf/ma4_mx204.conf), [`ma5_mx204.conf`](configuration/conf/ma5_mx204.conf), [`an1_mx204.conf`](configuration/conf/an1_mx204.conf) |
+| **ACX7024** | Metro Aggregation | [`ma1-1_acx7024.conf`](configuration/conf/ma1-1_acx7024.conf), [`ma1-2_acx7024.conf`](configuration/conf/ma1-2_acx7024.conf) |
+| **ACX7100-48L** | Metro Aggregation / Access Node | [`ma3_acx7100-48l.conf`](configuration/conf/ma3_acx7100-48l.conf), [`an3_acx7100-48l.conf`](configuration/conf/an3_acx7100-48l.conf) |
+| **ACX5448** | Access Node | [`an2_acx5448.conf`](configuration/conf/an2_acx5448.conf) |
+| **ACX710** | Access Node | [`an4_acx710.conf`](configuration/conf/an4_acx710.conf) |
+| **ACX7100-32C** | Aggregation Gateway | [`ag1-1_acx7100-32c.conf`](configuration/conf/ag1-1_acx7100-32c.conf), [`ag1-2_acx7100-32c.conf`](configuration/conf/ag1-2_acx7100-32c.conf) |
 
 ---
 

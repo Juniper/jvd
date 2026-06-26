@@ -1,5 +1,15 @@
 # Connected Security Distributed Services (CSDS)
 
+> Scale-out IPsec with MX load balancers distributing encrypted tunnel traffic across SRX clusters.
+
+## Highlights
+
+- MX Series as stateless load balancer for SRX-based IPsec services
+- Four deployment architectures: single/dual MX × standalone/MNHA SRX
+- ECMP Consistent Hashing and TLB/Traffic Orchestrator load balancing methods
+- Validated for both Service Provider (mobile) and Enterprise IPsec scenarios
+- IKEv1/v2 with ESP encryption
+
 ## SCALEOUT – the technical architecture used by CSDS
 
 ---
@@ -101,3 +111,12 @@ Other config examples for **ECMP CHASH** and **TLB** variants are included in th
 | **IPSEC** | IP Security with IKE (v1/v2) and ESP encryption |
 
 ---
+
+## Validated Hardware
+
+| Juniper Product | Role | Config |
+|---|---|---|
+| **MX304** | Load Balancer / Traffic Orchestrator | [`mx304.conf`](configuration/conf/mx304.conf) |
+| **MX304** | IPsec Initiator Gateway | [`ipsec_initiator_gateway_mx304.conf`](configuration/conf/ipsec_initiator_gateway_mx304.conf) |
+| **SRX4600** | IPsec Endpoint (pair 1) | [`srx1a_srx4600.conf`](configuration/conf/srx1a_srx4600.conf), [`srx1b_srx4600.conf`](configuration/conf/srx1b_srx4600.conf) |
+| **SRX4600** | IPsec Endpoint (pair 2) | [`srx2a_srx4600.conf`](configuration/conf/srx2a_srx4600.conf), [`srx2b_srx4600.conf`](configuration/conf/srx2b_srx4600.conf) |

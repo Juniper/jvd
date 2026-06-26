@@ -1,8 +1,17 @@
 # Collapsed Data Center Fabric with Access Switches
 
+> Extends the collapsed fabric with EX-series access switches for high-density mGig server connectivity.
+
 Validated configurations for the Juniper Validated Design *"Collapsed Data Center Fabric with Juniper Apstra and Access Switches."* This JVD extends the [base collapsed fabric](../collapsed_dc_fabric/) with a pair of EX-series access switches, adding ~48 mGig high-availability access ports per access pair (and supporting as many access pairs as the collapsed-leaf high-availability ports allow).
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-collapsed-dc-fabric-juniper-apstra-access-switches/index.html>
+
+## Highlights
+
+- Extends collapsed fabric with EX4400 access tier
+- ~48 mGig high-availability ports per access pair
+- Scalable — supports multiple access pairs per collapsed-leaf HA port
+- Apstra-managed end-to-end (fabric + access)
 
 <img width="900" alt="Collapsed Data Center Fabric with Access Switches" src="https://github.com/user-attachments/assets/47a0a73e-5510-42ad-b40d-0b8082dbeaac" />
 

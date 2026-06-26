@@ -1,8 +1,19 @@
 # 3-Stage Data Center Connected Security
 
+> Extends the 3-stage DC fabric with SRX firewalls in Multinode HA, applying security policy without breaking VXLAN encapsulation.
+
 Validated configurations for the Juniper Validated Design *"Secure Data Center Fabric with Juniper SRX."* This JVD extends the [3-stage data center design](../3stage_dc/) by integrating Juniper **SRX firewalls in a Multinode High Availability (MNHA) cluster** into the EVPN/VXLAN fabric, so security policy can be applied without breaking VXLAN encapsulation across the fabric.
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvde-secure-data-center-fabric-srx-series-firewall/index.html>
+
+## Highlights
+
+- SRX firewalls participate in EVPN signaling and learn Type-5 routes via spine peering
+- Inter-VRF traffic inspected by SRX without ACLs on fabric switches
+- North-south perimeter security with default route injection into EVPN/VXLAN
+- Multinode High Availability (MNHA) for firewall redundancy
+- SRX4600 and SRX4700 both validated
+- Apstra-managed fabric with exported blueprint included
 
 The SRX devices participate in EVPN signaling and learn Type-5 routes by peering with the spines, which lets network and firewall teams operate independently. Two primary use cases:
 

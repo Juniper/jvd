@@ -31,9 +31,18 @@ Unlock the full potential of 5G with our Low-Latency QoS solutions, ensuring unp
   - **Fronthaul:** EVPN-VPWS (primary), EVPN-FXC, EVPN-ELAN, L3VPN
   - **Midhaul / Mobile Backhaul (MBH):** L3VPN, BGP-VPLS, L2Circuit
 
-- **Validated platforms (DUTs and extended roles)**
-  - **ACX7024** (CSR role), **ACX7100-32C** and **ACX7509** (HSR roles)
-  - Extended validation includes **MX304** as Services Aggregation Gateway (SAG) and **PTX10001-36MR** in the Core
+## Validated Platforms
+
+| Juniper Product | Role | OS | Config |
+|---|---|---|---|
+| **ACX7509** | HSR Aggregation | Junos EVO | [`ag1_1_acx7509.conf`](configuration/conf/ag1_1_acx7509.conf) |
+| **ACX7100-32C** | HSR Aggregation | Junos EVO | [`ag1_2_acx7100-32c.conf`](configuration/conf/ag1_2_acx7100-32c.conf) |
+| **MX204** | Aggregation | Junos | [`ag2_1_mx204.conf`](configuration/conf/ag2_1_mx204.conf), [`ag2_2_mx204.conf`](configuration/conf/ag2_2_mx204.conf) |
+| **MX480** | Aggregation | Junos | [`ag3_1_mx480.conf`](configuration/conf/ag3_1_mx480.conf), [`ag3_2_mx480.conf`](configuration/conf/ag3_2_mx480.conf) |
+| **ACX7100-48L** | Access Node | Junos EVO | [`an1_acx7100-48l.conf`](configuration/conf/an1_acx7100-48l.conf), [`an3_acx7100-48l.conf`](configuration/conf/an3_acx7100-48l.conf) |
+| **ACX7024** | CSR Access Node | Junos EVO | [`an4_acx7024.conf`](configuration/conf/an4_acx7024.conf) |
+| **PTX10001-36MR** | Core Router | Junos EVO | [`cr1_ptx10001-36mr.conf`](configuration/conf/cr1_ptx10001-36mr.conf), [`cr2_ptx10001-36mr.conf`](configuration/conf/cr2_ptx10001-36mr.conf) |
+| **MX304** | Services Aggregation Gateway | Junos | [`sag_mx304.conf`](configuration/conf/sag_mx304.conf) |
 
 ---
 

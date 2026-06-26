@@ -1,5 +1,7 @@
 # Enterprise WAN Advanced Core and Edge Services
 
+> MPLS-based enterprise WAN backbone delivering EVPN-VPWS, EVPN Type-5, and EVPN ELAN at scale with MACsec encryption and Ethernet OAM.
+
 Validated configurations for the **Enterprise WAN Advanced Core and Edge
 Services** Juniper Validated Design. This JVD demonstrates an MPLS-based
 enterprise WAN backbone that delivers EVPN-VPWS, EVPN Type-5 (IP-VRF),
@@ -10,6 +12,14 @@ encryption between WAN segments.
 * JVD document: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-ewan-adv-core-edge-svc-01/index.html>
 * Solution overview: <https://www.juniper.net/documentation/us/en/software/jvd/sol-overview-ewan-adv-core-edge-svc-01.pdf>
 * Test report: <https://www.juniper.net/documentation/us/en/software/jvd/test-report-brief-ewan-adv-core-edge-svc-01.pdf>
+
+## Highlights
+
+- ~1,500 EVPN-VPWS + 1,200 EVPN/MAC-VRF + 350 IP-VRF instances per edge router
+- Segment Routing and LDP coexistence via SR Mapping Server (SRMS)
+- MACsec encryption between WAN segments
+- Ethernet OAM (802.1ag CFM) for per-service SLA monitoring
+- Regressively validated across multiple Junos / Junos EVO releases
 
 The design validates advanced service scale on the WAN edge — each edge
 router carries approximately 1,500 EVPN-VPWS instances, 1,200+ EVPN /

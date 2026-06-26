@@ -1,8 +1,18 @@
 # 3-Stage EVPN/VXLAN Data Center Design
 
+> Validated EVPN/VXLAN data center fabric with Edge-Routed Bridging overlay and lean spine underlay, managed by Juniper Apstra.
+
 Validated configurations for the Juniper Validated Design *"3-Stage Data Center Design with Juniper Apstra."* This is the most common Juniper data center fabric architecture, built on EVPN/VXLAN with an **Edge-Routed Bridging (ERB)** overlay and a **lean spine** underlay.
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-3-stage-datacenterdesign-with-juniper-apstra/index.html>
+
+## Highlights
+
+- Most common Juniper DC fabric architecture — validated against multiple platforms per role
+- EVPN/VXLAN with Edge-Routed Bridging (ERB) overlay and lean spine underlay
+- ESI-LAG multihoming for server redundancy
+- 5 border-leaf platform variants validated (QFX5130, ACX7100, PTX10001, QFX5120, QFX5700)
+- Apstra-managed with full lifecycle automation
 
 The JVD validates the design against multiple Juniper switching platforms in each role, so customers can choose the platform that best matches their density, scale, and budget requirements.
 
