@@ -1,8 +1,18 @@
 # 5-Stage EVPN-VXLAN Data Center
 
+> Web-scale data center fabric with lean super spines above multiple PODs — Compute, Storage, and Services — managed by Juniper Apstra.
+
 Validated configurations for the Juniper Validated Design *"5-Stage EVPN/VXLAN Data Center Fabric (ERB)."* This design extends the [3-stage data center](../3stage_dc/) to web-scale by introducing **lean super spines** above multiple PODs, each POD itself a 3-stage EVPN/VXLAN fabric. Super spines and POD spines forward IP only and relay routes — they do not run VXLAN encapsulation.
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-dcfabric-5-stage/>
+
+## Highlights
+
+- Multi-POD fabric with Compute, Storage, and Services PODs interconnected by super spines
+- ERB overlay per POD; super spines are IP-only (no VXLAN encapsulation)
+- Validates RoCEv2 and multicast traversal across POD boundaries
+- 8 distinct platform/role combinations validated
+- Apstra-managed with full lifecycle automation
 
 The 5-stage fabric targets large data centers where compute and storage scale beyond a single POD, and where workloads such as RoCEv2 and multicast must traverse PODs deterministically. This JVD validates three POD types — **Compute**, **Storage**, and **Services** — interconnected by a pair of super spines, with an external gateway router providing north-south connectivity.
 

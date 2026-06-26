@@ -1,5 +1,15 @@
 # Metro as a Service (MaaS) — Juniper Validated Design (JVD)
 
+> Full end-to-end MEF 3.0 conformance over a Cloud Metro architecture with EVPN-FXC, EVPN-ETREE, BGP-VPLS, and floating pseudowires.
+
+## Highlights
+
+- First JVD to achieve full MEF 3.0 conformance end-to-end
+- Extends Metro EBS with EVPN-FXC, EVPN-ETREE, EVPN-ELAN Type-5, BGP-VPLS E2E, and Floating Pseudowires
+- Cloud Metro architecture with SR-MPLS transport and multi-ring core
+- Mixed ACX (access/aggregation) and MX (edge/core) hardware
+- E-Line, E-LAN, E-Tree, and E-Access MEF service layers validated
+
 Metro as a Service (MaaS) is the first Juniper Validated Design to achieve
 full end-to-end **MEF 3.0 conformance** over a **Cloud Metro architecture**.
 It extends the

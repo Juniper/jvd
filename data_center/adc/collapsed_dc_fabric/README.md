@@ -1,8 +1,18 @@
 # Collapsed Data Center Fabric
 
-Validated configurations for the Juniper Validated Design *"Collapsed Data Center Fabric with Juniper Apstra."* The collapsed-fabric (a.k.a. collapsed-spine) architecture is Juniper's recommended pattern for **small data centers** where a separate spine tier isn't justified — the leaf switches *are* the fabric, peering directly with each other over EVPN/VXLAN.
+> Simplified DC fabric for small data centers where leaf switches peer directly over EVPN/VXLAN — no separate spine tier needed.
+
+Validated configurations for the Juniper Validated Design *"Collapsed Data Center Fabric with Juniper Apstra."* The collapsed-fabric (a.k.a. collapsed-spine) architecture is Juniper’s recommended pattern for **small data centers** where a separate spine tier isn’t justified — the leaf switches *are* the fabric, peering directly with each other over EVPN/VXLAN.
 
 * JVD landing page: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-collapsed-dc-fabric-with-apstra/index.html>
+
+## Highlights
+
+- Simplest EVPN/VXLAN fabric — 2 switches, no spines
+- ERB overlay with direct leaf-to-leaf peering
+- ESI-LAG multihoming for server redundancy
+- Apstra-managed with full lifecycle automation
+- Ideal for branch offices, edge sites, and small colos
 
 <img width="678" alt="Collapsed Data Center Fabric architecture" src="https://github.com/user-attachments/assets/52e20a5a-127e-4947-97ea-0f7ded3f5431" />
 

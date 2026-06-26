@@ -1,8 +1,18 @@
 # EVPN-VXLAN Data Center Interconnect (DCI)
 
+> Three validated techniques for stretching EVPN/VXLAN fabrics across multiple data centers with MACSEC encryption.
+
 Validated configurations for the Juniper Validated Design *"EVPN-VXLAN Data Center Interconnect."* This JVD demonstrates three distinct techniques for stretching an EVPN/VXLAN fabric across multiple data centers, all built on the [3-stage data center](../3stage_dc/) and [5-stage EVPN-VXLAN](../5stage_evpn_vxlan/) baseline designs.
 
 * JVD landing page: <https://www.juniper.net/documentation/validated-designs/us/en/data-center/>
+
+## Highlights
+
+- Three DCI techniques validated: Over-the-Top (OTT), Type 2 Seamless Stitching, Type 2 + Type 5 Seamless Stitching
+- MACSEC encryption between border-leaf gateways in all scenarios
+- Interconnects between 3-stage and 5-stage EVPN/VXLAN fabrics
+- 10 platform variants across spine, leaf, border-leaf, and super-spine roles
+- Selective L2/L3 VXLAN stretching for scale-appropriate DCI
 
 The DCI design covers three interconnect techniques, each captured as a separate, fully-rendered fabric configuration set in this folder:
 

@@ -1,5 +1,7 @@
 # EVPN/VXLAN GPU Backend Fabric for Multitenancy (GPUaaS)
 
+> Validated GPU backend fabric enabling multi-tenant isolation over EVPN/VXLAN with rail-optimized stripe topology for AI/ML inference workloads.
+
 Validated configurations for the **GPU backend fabric** described in the Juniper Validated Design
 *"AI Data Center Multitenancy with EVPN/VXLAN."*
 

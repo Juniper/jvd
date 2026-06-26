@@ -1,5 +1,15 @@
 # Connected Security Distributed Services (CSDS)
 
+> Scale-out stateful firewall and CGNAT with MX load balancers distributing traffic across SRX clusters.
+
+## Highlights
+
+- MX Series as stateless load balancer for SRX-based stateful security services
+- Four deployment architectures: single/dual MX × standalone/MNHA SRX
+- ECMP Consistent Hashing and TLB/Traffic Orchestrator load balancing methods
+- Validated for both Service Provider (CGNAT) and Enterprise (Source NAT) scenarios
+- IPv4 and IPv6 support
+
 ## SCALEOUT – the technical architecture used by CSDS
 
 ---
@@ -101,4 +111,13 @@ Other config examples for **ECMP CHASH** and **TLB** variants are included in th
 | **IPSEC** | IP Security with IKE (v1/v2) and ESP encryption |
 
 ---
+
+## Validated Hardware
+
+| Juniper Product | Role | Config |
+|---|---|---|
+| **MX304** | Load Balancer / Traffic Orchestrator | [`mx1_mx304.conf`](configuration/conf/mx1_mx304.conf) |
+| **SRX4600** | Stateful Firewall + CGNAT (pair 1) | [`srx1a_srx4600.conf`](configuration/conf/srx1a_srx4600.conf), [`srx1b_srx4600.conf`](configuration/conf/srx1b_srx4600.conf) |
+| **SRX4600** | Stateful Firewall + CGNAT (pair 2) | [`srx2a_srx4600.conf`](configuration/conf/srx2a_srx4600.conf), [`srx2b_srx4600.conf`](configuration/conf/srx2b_srx4600.conf) |
+| — | Gateway emulator | [`gateway_emulator.conf`](configuration/conf/gateway_emulator.conf) |
 
