@@ -1,0 +1,145 @@
+{
+  "jvd": "metro_as_a_service",
+  "jvdLabel": "Metro as a Service",
+  "version": 1,
+  "note": "Machine-readable decision tree for the JVD Config Generator. Transcribed from configuration/snips/byoai/CATALOG.md. snip IDs are relative to the jvd (prefix with 'metro_as_a_service/' to match snips.json ids). v1 covers the E-Line CCC-family deployments; other families are placeholders (available:false).",
+  "tiers": {
+    "minimum": { "label": "Minimum", "description": "Service routing-instance + attachment-circuit interface only." },
+    "with-cos": { "label": "With CoS", "description": "Adds CoS binding + the UNI firewall filter for the chosen color mode." }
+  },
+  "cosSnips": {
+    "evo": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p", "evo/cos/rewrite-rules"],
+    "junos": ["junos/cos/classifiers", "junos/cos/cos-binding-ieee8021p", "junos/cos/rewrite-rules"]
+  },
+  "families": [
+    {
+      "id": "e-line",
+      "label": "E-Line",
+      "tagline": "Point-to-point",
+      "description": "Connects exactly two sites, like a private virtual wire (MEF EPL / EVPL).",
+      "available": true,
+      "multiplexing": [
+        {
+          "id": "evpl",
+          "label": "EVPL (VLAN-based)",
+          "description": "Specific customer VLAN(s) on the port map to the service; other VLANs can be other services.",
+          "deployments": [
+            {
+              "id": "evpn-vpws",
+              "label": "EVPN-VPWS",
+              "description": "EVPN-signalled point-to-point (modern default).",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-vpws-vlan-based"],
+                  "interface": {
+                    "single-homed": "evo/interfaces/vlan-ccc",
+                    "multihomed": "evo/interfaces/vlan-ccc-esi"
+                  },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/evpn-vpws-vlan-based"],
+                  "interface": {
+                    "single-homed": "junos/interfaces/vlan-ccc-vlan-map",
+                    "multihomed": "junos/interfaces/vlan-ccc-vlan-map-esi"
+                  },
+                  "interfaceExtras": [],
+                  "filter": {
+                    "color-blind": "junos/firewall/filter-ccc-color-blind",
+                    "color-aware": "junos/firewall/filter-ccc-color-aware"
+                  }
+                }
+              }
+            },
+            {
+              "id": "l2vpn-kompella",
+              "label": "L2VPN (Kompella)",
+              "description": "BGP-signalled L2VPN pseudowire (RFC 4761).",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/l2vpn-kompella-vlan-based"],
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/l2vpn-kompella-vlan-based"],
+                  "interface": { "single-homed": "junos/interfaces/vlan-ccc" },
+                  "interfaceExtras": [],
+                  "filter": {
+                    "color-aware": "junos/firewall/filter-ccc-color-aware",
+                    "color-blind": "junos/firewall/filter-ccc-color-blind"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "epl",
+          "label": "EPL (port-based)",
+          "description": "The whole physical port is the service (all traffic, all VLANs).",
+          "deployments": [
+            {
+              "id": "evpn-vpws",
+              "label": "EVPN-VPWS",
+              "description": "EVPN-signalled point-to-point over a full-port UNI.",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-vpws-port-based"],
+                  "interface": { "single-homed": "evo/interfaces/ethernet-ccc" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind-l2cp" }
+                }
+              }
+            },
+            {
+              "id": "l2vpn-kompella",
+              "label": "L2VPN (Kompella)",
+              "description": "BGP-signalled L2VPN pseudowire over a full-port UNI.",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/l2vpn-kompella-port-based"],
+                  "interface": { "single-homed": "evo/interfaces/ethernet-ccc" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind-l2cp" }
+                },
+                "junos": {
+                  "service": ["junos/services/l2vpn-kompella-port-based"],
+                  "interface": { "single-homed": "junos/interfaces/ethernet-ccc" },
+                  "interfaceExtras": [],
+                  "filter": { "color-aware": "junos/firewall/filter-ccc-color-aware-l2cp" }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e-lan",
+      "label": "E-LAN",
+      "tagline": "Multipoint",
+      "description": "Connects three or more sites into one shared broadcast domain (MEF EP-LAN / EVP-LAN).",
+      "available": false,
+      "multiplexing": []
+    },
+    {
+      "id": "e-tree",
+      "label": "E-Tree",
+      "tagline": "Rooted-multipoint",
+      "description": "Leaf sites talk only to root sites, never to each other (MEF EP-Tree / EVP-Tree).",
+      "available": false,
+      "multiplexing": []
+    },
+    {
+      "id": "e-access",
+      "label": "Access E-Line",
+      "tagline": "Operator hand-off",
+      "description": "Access / ENNI segment carrying a customer's VLANs (often QinQ) into the metro (MEF E-Access).",
+      "available": false,
+      "multiplexing": []
+    }
+  ]
+}

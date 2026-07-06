@@ -4,6 +4,7 @@ import { ArrowRight, Github, ExternalLink, Network, Layers } from "lucide-react"
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
+import ConfigGenerator from "@/components/ConfigGenerator";
 import { snipBundle } from "@/lib/snips";
 
 type Jvd = {
@@ -332,40 +333,18 @@ export default function JvdPortal() {
           <div className="flex items-center gap-2">
             <h2 className="text-3xl font-semibold tracking-tight">JVD Config Generator</h2>
             <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              Coming soon
+              Beta
             </span>
           </div>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            A deterministic, no-AI config builder: pick a service, choose your
+            A deterministic config builder: pick a service, choose your
             options, fill in the parameters, and download validated Junos /
             Junos EVO configuration rendered straight from the JVD snip library.
+            Metro-as-a-Service E-Line is available first — more services and
+            JVDs coming.
           </p>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {[
-              { n: 1, t: "Choose JVD", d: "Select from the catalog of validated designs." },
-              { n: 2, t: "Pick Device Role", d: "Spine, leaf, edge, core — whatever your topology calls for." },
-              { n: 3, t: "Generate Config", d: "Get a deployable Junos snippet ready for staging." },
-            ].map((s) => (
-              <div key={s.n} className="rounded-lg border border-border bg-surface p-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-semibold text-primary">
-                  {s.n}
-                </div>
-                <h3 className="mt-4 text-base font-semibold">{s.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-col items-start gap-2">
-            <button
-              disabled
-              className="inline-flex cursor-not-allowed items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-muted-foreground opacity-60"
-            >
-              Launch Generator
-            </button>
-            <span className="text-xs text-muted-foreground">Coming soon</span>
-          </div>
+          <ConfigGenerator />
         </div>
       </section>
 
