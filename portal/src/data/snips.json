@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T00:47:23.740Z",
+  "generatedAt": "2026-07-06T15:52:14.114Z",
   "counts": {
     "total": 515,
     "junos": 248,
@@ -38434,6 +38434,12 @@
     }
   ],
   "byoaiJvds": [
+    {
+      "jvd": "metro_as_a_service",
+      "promptPath": "service_provider/metro_as_a_service/configuration/snips/byoai/jvd-maas-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/metro_as_a_service/jvd-maas-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/jvd-maas-byoai-prompt.txt"
+    },
     {
       "jvd": "metro_ethernet_business_services",
       "promptPath": "service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt",

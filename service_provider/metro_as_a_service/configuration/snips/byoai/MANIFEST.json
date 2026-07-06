@@ -1,0 +1,2564 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules and byoai/CATALOG.md for the funnel map.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips",
+  "snip_count": 112,
+  "snips": [
+    {
+      "path": "evo/apply-groups/mef-forwarding-profile.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "mef-forwarding-profile",
+      "topic": "Apply-group: mef forwarding profile (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 522,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/apply-groups/mef-forwarding-profile.conf"
+    },
+    {
+      "path": "evo/cos/classifiers.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "classifiers",
+      "topic": "Class-of-service: classifiers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 4218,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/classifiers.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-ieee8021p.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-ieee8021p",
+      "topic": "Class-of-service: cos binding ieee8021p (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 873,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/cos-binding-ieee8021p.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-mpls.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-mpls",
+      "topic": "Class-of-service: cos binding mpls (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 848,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/cos-binding-mpls.conf"
+    },
+    {
+      "path": "evo/cos/forwarding-classes.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "Class-of-service: forwarding classes (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 739,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "evo/cos/rewrite-rules.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rewrite-rules",
+      "topic": "Class-of-service: rewrite rules (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 4925,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/rewrite-rules.conf"
+    },
+    {
+      "path": "evo/cos/scheduler-map.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "scheduler-map",
+      "topic": "Class-of-service: scheduler map (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 995,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/scheduler-map.conf"
+    },
+    {
+      "path": "evo/cos/schedulers.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "schedulers",
+      "topic": "Class-of-service: schedulers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1400,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/cos/schedulers.conf"
+    },
+    {
+      "path": "evo/firewall/filter-ccc-color-blind-l2cp.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind-l2cp",
+      "topic": "Firewall: filter ccc color blind l2cp (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 4298,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-ccc-color-blind-l2cp.conf"
+    },
+    {
+      "path": "evo/firewall/filter-ccc-color-blind-v2.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind-v2",
+      "topic": "Firewall: filter ccc color blind (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 3270,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-ccc-color-blind-v2.conf"
+    },
+    {
+      "path": "evo/firewall/filter-ccc-color-blind.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind",
+      "topic": "Firewall: filter ccc color blind (MEF E-Access, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3300,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-ccc-color-blind.conf"
+    },
+    {
+      "path": "evo/firewall/filter-eswitch-color-blind-l2cp.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-eswitch-color-blind-l2cp",
+      "topic": "Firewall: filter eswitch color blind l2cp (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 4325,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-eswitch-color-blind-l2cp.conf"
+    },
+    {
+      "path": "evo/firewall/filter-eswitch-color-blind-v2.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-eswitch-color-blind-v2",
+      "topic": "Firewall: filter eswitch color blind (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 2969,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-eswitch-color-blind-v2.conf"
+    },
+    {
+      "path": "evo/firewall/filter-eswitch-color-blind.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-eswitch-color-blind",
+      "topic": "Firewall: filter eswitch color blind (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3305,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/firewall/filter-eswitch-color-blind.conf"
+    },
+    {
+      "path": "evo/interfaces/ethernet-bridge-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ethernet-bridge-v2",
+      "topic": "Interface: ethernet bridge (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 721,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/ethernet-bridge-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/ethernet-bridge.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ethernet-bridge",
+      "topic": "Interface: ethernet bridge (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 701,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/ethernet-bridge.conf"
+    },
+    {
+      "path": "evo/interfaces/ethernet-ccc-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ethernet-ccc-v2",
+      "topic": "Interface: ethernet ccc (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 652,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/ethernet-ccc-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/ethernet-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ethernet-ccc",
+      "topic": "Interface: ethernet ccc (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 672,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/ethernet-ccc.conf"
+    },
+    {
+      "path": "evo/interfaces/irb-l3-vga.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "irb-l3-vga",
+      "topic": "Interface: irb l3 vga (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 642,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/irb-l3-vga.conf"
+    },
+    {
+      "path": "evo/interfaces/irb-l3.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "irb-l3",
+      "topic": "Interface: irb l3 (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 457,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/irb-l3.conf"
+    },
+    {
+      "path": "evo/interfaces/physical-mtu.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "physical-mtu",
+      "topic": "Interface: physical mtu (MEF E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1141,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/physical-mtu.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-bundle.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-bundle",
+      "topic": "Interface: vlan bridge bundle (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 899,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-bundle.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-esi-bundle.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi-bundle",
+      "topic": "Interface: vlan bridge esi bundle (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 977,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-esi-bundle.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-esi.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi",
+      "topic": "Interface: vlan bridge esi (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 983,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-esi.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-v2",
+      "topic": "Interface: vlan bridge (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 794,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-vlan-map-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-vlan-map-v2",
+      "topic": "Interface: vlan bridge vlan map (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 872,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-vlan-map-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-vlan-map.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-vlan-map",
+      "topic": "Interface: vlan bridge vlan map (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 947,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge-vlan-map.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "topic": "Interface: vlan bridge (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 798,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-bridge.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-2-units.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-2-units",
+      "topic": "Interface: vlan ccc 2 units (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1050,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-2-units.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-esi.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-esi",
+      "topic": "Interface: vlan ccc esi (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 852,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-esi.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-qinq-stacked-qinq-tpid.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-qinq-stacked-qinq-tpid",
+      "topic": "Interface: vlan ccc qinq stacked qinq tpid (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 832,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-qinq-stacked-qinq-tpid.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-v2",
+      "topic": "Interface: vlan ccc (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 854,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map-bundle-qinq-tpid.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-bundle-qinq-tpid",
+      "topic": "Interface: vlan ccc vlan map bundle qinq tpid (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1272,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-bundle-qinq-tpid.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map-esi-2-units-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi-2-units-v2",
+      "topic": "Interface: vlan ccc vlan map esi 2 units (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1104,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-esi-2-units-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map-esi-2-units.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi-2-units",
+      "topic": "Interface: vlan ccc vlan map esi 2 units (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1589,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-esi-2-units.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map-esi.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi",
+      "topic": "Interface: vlan ccc vlan map esi (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 990,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-esi.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map-v2.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-v2",
+      "topic": "Interface: vlan ccc vlan map (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        }
+      ],
+      "size_bytes": 877,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-v2.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc-vlan-map.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map",
+      "topic": "Interface: vlan ccc vlan map (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1066,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc",
+      "topic": "Interface: vlan ccc (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 694,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc.conf"
+    },
+    {
+      "path": "evo/policy/policy-l3vpn-import-export.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "policy-l3vpn-import-export",
+      "topic": "Policy: policy l3vpn import export (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1112,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/policy/policy-l3vpn-import-export.conf"
+    },
+    {
+      "path": "evo/policy/policy-vpn-rt-export-bronze.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "policy-vpn-rt-export-bronze",
+      "topic": "Policy: policy vpn rt export bronze (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 957,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/policy/policy-vpn-rt-export-bronze.conf"
+    },
+    {
+      "path": "evo/policy/policy-vpn-rt-export-gold.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "policy-vpn-rt-export-gold",
+      "topic": "Policy: policy vpn rt export gold (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/policy/policy-vpn-rt-export-gold.conf"
+    },
+    {
+      "path": "evo/services/bgp-vpls-p2p.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "bgp-vpls-p2p",
+      "topic": "Service instance: bgp vpls p2p (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1609,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/bgp-vpls-p2p.conf"
+    },
+    {
+      "path": "evo/services/bgp-vpls.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "bgp-vpls",
+      "topic": "Service instance: bgp vpls (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1732,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/bgp-vpls.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-bundle-port-based-v2.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-bundle-port-based-v2",
+      "topic": "Service instance: evpn elan bundle port based (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1317,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-bundle-port-based-v2.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-bundle-port-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-bundle-port-based",
+      "topic": "Service instance: evpn elan bundle port based (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1284,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-bundle-port-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-port-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-port-based",
+      "topic": "Service instance: evpn elan port based (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1592,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-port-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-type5-v2.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-type5-v2",
+      "topic": "Service instance: evpn elan type5 (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 2476,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-type5-v2.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-type5.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-type5",
+      "topic": "Service instance: evpn elan type5 (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 2419,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-type5.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-vlan-bundle.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-vlan-bundle",
+      "topic": "Service instance: evpn elan vlan bundle (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1435,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-vlan-bundle.conf"
+    },
+    {
+      "path": "evo/services/evpn-fxc-vlan-aware.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-aware",
+      "topic": "Service instance: evpn fxc vlan aware (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1861,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-fxc-vlan-aware.conf"
+    },
+    {
+      "path": "evo/services/evpn-fxc-vlan-unaware.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-unaware",
+      "topic": "Service instance: evpn fxc vlan unaware (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1416,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-fxc-vlan-unaware.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws-lsw.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws-lsw",
+      "topic": "Service instance: evpn vpws lsw (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1823,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-lsw.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws-port-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws-port-based",
+      "topic": "Service instance: evpn vpws port based (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1430,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-port-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws-vlan-based-v2.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws-vlan-based-v2",
+      "topic": "Service instance: evpn vpws vlan based (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1752,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-vlan-based-v2.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws-vlan-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws-vlan-based",
+      "topic": "Service instance: evpn vpws vlan based (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1559,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-vlan-based.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-floating-pw.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-floating-pw",
+      "topic": "Service instance: l2circuit floating pw (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 1155,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-floating-pw.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-hot-standby-backup.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hot-standby-backup",
+      "topic": "Service instance: l2circuit hot standby backup (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1319,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-backup.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-hot-standby-primary.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hot-standby-primary",
+      "topic": "Service instance: l2circuit hot standby primary (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1408,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-primary.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-lsw.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-lsw",
+      "topic": "Service instance: l2circuit lsw (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1065,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-lsw.conf"
+    },
+    {
+      "path": "evo/services/l2vpn-kompella-port-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2vpn-kompella-port-based",
+      "topic": "Service instance: l2vpn kompella port based (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1640,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2vpn-kompella-port-based.conf"
+    },
+    {
+      "path": "evo/services/l2vpn-kompella-vlan-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2vpn-kompella-vlan-based",
+      "topic": "Service instance: l2vpn kompella vlan based (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1517,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2vpn-kompella-vlan-based.conf"
+    },
+    {
+      "path": "junos/apply-groups/mef-testing.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "mef-testing",
+      "topic": "Apply-group: mef testing (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        }
+      ],
+      "size_bytes": 424,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/apply-groups/mef-testing.conf"
+    },
+    {
+      "path": "junos/cos/classifiers.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "classifiers",
+      "topic": "Class-of-service: classifiers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 4211,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/classifiers.conf"
+    },
+    {
+      "path": "junos/cos/cos-binding-ieee8021p.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "cos-binding-ieee8021p",
+      "topic": "Class-of-service: cos binding ieee8021p (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 925,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/cos-binding-ieee8021p.conf"
+    },
+    {
+      "path": "junos/cos/cos-binding-mpls.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "cos-binding-mpls",
+      "topic": "Class-of-service: cos binding mpls (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 900,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/cos-binding-mpls.conf"
+    },
+    {
+      "path": "junos/cos/forwarding-classes.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "Class-of-service: forwarding classes (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 732,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "junos/cos/rewrite-rules.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rewrite-rules",
+      "topic": "Class-of-service: rewrite rules (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 4918,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/rewrite-rules.conf"
+    },
+    {
+      "path": "junos/cos/scheduler-map.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "scheduler-map",
+      "topic": "Class-of-service: scheduler map (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 988,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/scheduler-map.conf"
+    },
+    {
+      "path": "junos/cos/schedulers-an1.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "schedulers-an1",
+      "topic": "Class-of-service: schedulers (AN1 variant \u2014 shaping-rate + low-priority SC-HIGH)",
+      "seen_on": [
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1360,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/schedulers-an1.conf"
+    },
+    {
+      "path": "junos/cos/schedulers-legacy-acx.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "schedulers-legacy-acx",
+      "topic": "Class-of-service: schedulers legacy acx (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        }
+      ],
+      "size_bytes": 1261,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/schedulers-legacy-acx.conf"
+    },
+    {
+      "path": "junos/cos/schedulers.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "schedulers",
+      "topic": "Class-of-service: schedulers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1348,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/cos/schedulers.conf"
+    },
+    {
+      "path": "junos/firewall/filter-bridge-color-aware-cf0.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-bridge-color-aware-cf0",
+      "topic": "Firewall: filter bridge color aware cf0 (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 3946,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-bridge-color-aware-cf0.conf"
+    },
+    {
+      "path": "junos/firewall/filter-bridge-color-aware-l2cp.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-bridge-color-aware-l2cp",
+      "topic": "Firewall: filter bridge color aware l2cp (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 4384,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-bridge-color-aware-l2cp.conf"
+    },
+    {
+      "path": "junos/firewall/filter-bridge-color-aware.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-bridge-color-aware",
+      "topic": "Firewall: filter bridge color aware (MEF E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3290,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-bridge-color-aware.conf"
+    },
+    {
+      "path": "junos/firewall/filter-bridge-color-blind.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-bridge-color-blind",
+      "topic": "Firewall: filter bridge color blind (MEF E-LAN / EVP-LAN, E-Line / EVPL, E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3330,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-bridge-color-blind.conf"
+    },
+    {
+      "path": "junos/firewall/filter-ccc-color-aware-l2cp.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ccc-color-aware-l2cp",
+      "topic": "Firewall: filter ccc color aware l2cp (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 4361,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-ccc-color-aware-l2cp.conf"
+    },
+    {
+      "path": "junos/firewall/filter-ccc-color-aware.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ccc-color-aware",
+      "topic": "Firewall: filter ccc color aware (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 2898,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-ccc-color-aware.conf"
+    },
+    {
+      "path": "junos/firewall/filter-ccc-color-blind-v2.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind-v2",
+      "topic": "Firewall: filter ccc color blind (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3193,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-ccc-color-blind-v2.conf"
+    },
+    {
+      "path": "junos/firewall/filter-ccc-color-blind-v3.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind-v3",
+      "topic": "Firewall: filter ccc color blind (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 3137,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-ccc-color-blind-v3.conf"
+    },
+    {
+      "path": "junos/firewall/filter-ccc-color-blind.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ccc-color-blind",
+      "topic": "Firewall: filter ccc color blind (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3214,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-ccc-color-blind.conf"
+    },
+    {
+      "path": "junos/firewall/filter-eswitch-color-blind.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-eswitch-color-blind",
+      "topic": "Firewall: filter eswitch color blind (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7509"
+        },
+        {
+          "label": "MA1.1",
+          "platform": "ACX7024"
+        },
+        {
+          "label": "MA1.2",
+          "platform": "ACX7024"
+        }
+      ],
+      "size_bytes": 3273,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/firewall/filter-eswitch-color-blind.conf"
+    },
+    {
+      "path": "junos/interfaces/ethernet-bridge.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ethernet-bridge",
+      "topic": "Interface: ethernet bridge (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 708,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/ethernet-bridge.conf"
+    },
+    {
+      "path": "junos/interfaces/ethernet-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ethernet-ccc",
+      "topic": "Interface: ethernet ccc (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 665,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/ethernet-ccc.conf"
+    },
+    {
+      "path": "junos/interfaces/irb-l3.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "irb-l3",
+      "topic": "Interface: irb l3 (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 393,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/irb-l3.conf"
+    },
+    {
+      "path": "junos/interfaces/pseudowire-subscriber.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "pseudowire-subscriber",
+      "topic": "Interface: pseudowire subscriber (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 832,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/pseudowire-subscriber.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-esi-etree-root.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi-etree-root",
+      "topic": "Interface: vlan bridge esi etree root (MEF E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 904,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-esi-etree-root.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-esi-v2.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi-v2",
+      "topic": "Interface: vlan bridge esi (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        }
+      ],
+      "size_bytes": 694,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-esi-v2.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-esi-v3.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi-v3",
+      "topic": "Interface: vlan bridge esi (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 872,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-esi-v3.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-esi.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-esi",
+      "topic": "Interface: vlan bridge esi (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 796,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-esi.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-etree-leaf.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-etree-leaf",
+      "topic": "Interface: vlan bridge etree leaf (MEF E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 901,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-etree-leaf.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-qinq-stacked-v2.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-qinq-stacked-v2",
+      "topic": "Interface: vlan bridge qinq stacked (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1026,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-qinq-stacked-v2.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge-qinq-stacked.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-qinq-stacked",
+      "topic": "Interface: vlan bridge qinq stacked (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 804,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-qinq-stacked.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "topic": "Interface: vlan bridge (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 790,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-ccc-v2.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-v2",
+      "topic": "Interface: vlan ccc (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 793,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-v2.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-ccc-vlan-map-esi.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi",
+      "topic": "Interface: vlan ccc vlan map esi (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        }
+      ],
+      "size_bytes": 1011,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-vlan-map-esi.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-ccc-vlan-map.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map",
+      "topic": "Interface: vlan ccc vlan map (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        }
+      ],
+      "size_bytes": 897,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-vlan-map.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc",
+      "topic": "Interface: vlan ccc (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 957,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc.conf"
+    },
+    {
+      "path": "junos/policy/policy-l3vpn-import-export.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "policy-l3vpn-import-export",
+      "topic": "Policy: policy l3vpn import export (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        },
+        {
+          "label": "MEG1",
+          "platform": "ACX7100-32C"
+        },
+        {
+          "label": "MEG2",
+          "platform": "ACX7509"
+        }
+      ],
+      "size_bytes": 1110,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/policy/policy-l3vpn-import-export.conf"
+    },
+    {
+      "path": "junos/policy/policy-vpn-rt-export-gold.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "policy-vpn-rt-export-gold",
+      "topic": "Policy: policy vpn rt export gold (MEF E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/policy/policy-vpn-rt-export-gold.conf"
+    },
+    {
+      "path": "junos/services/bgp-vpls-p2p.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "bgp-vpls-p2p",
+      "topic": "Service instance: bgp vpls p2p (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1832,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/bgp-vpls-p2p.conf"
+    },
+    {
+      "path": "junos/services/bridge-domain-lsw.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "bridge-domain-lsw",
+      "topic": "Service instance: bridge domain lsw (MEF E-Access)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 952,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/bridge-domain-lsw.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-port-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-port-based",
+      "topic": "Service instance: evpn elan port based (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        }
+      ],
+      "size_bytes": 1362,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-elan-port-based.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-type5.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-type5",
+      "topic": "Service instance: evpn elan type5 (MEF E-LAN / EVP-LAN)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 2432,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-elan-type5.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-vlan-based-floating-pw.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-vlan-based-floating-pw",
+      "topic": "Service instance: evpn elan vlan based floating pw (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 1331,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-elan-vlan-based-floating-pw.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan",
+      "topic": "Service instance: evpn elan (MEF E-LAN / EP-LAN)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1234,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-elan.conf"
+    },
+    {
+      "path": "junos/services/evpn-etree-vlan-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-etree-vlan-based",
+      "topic": "Service instance: evpn etree vlan based (MEF E-Tree / EVP-Tree)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        },
+        {
+          "label": "MA4",
+          "platform": "MX204"
+        },
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1427,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-etree-vlan-based.conf"
+    },
+    {
+      "path": "junos/services/evpn-fxc-vlan-unaware.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-fxc-vlan-unaware",
+      "topic": "Service instance: evpn fxc vlan unaware (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 1286,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-fxc-vlan-unaware.conf"
+    },
+    {
+      "path": "junos/services/evpn-vpws-vlan-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-vpws-vlan-based",
+      "topic": "Service instance: evpn vpws vlan based (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN1",
+          "platform": "MX204"
+        },
+        {
+          "label": "AN2",
+          "platform": "ACX5448"
+        },
+        {
+          "label": "AN4",
+          "platform": "ACX710"
+        }
+      ],
+      "size_bytes": 1658,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-vpws-vlan-based.conf"
+    },
+    {
+      "path": "junos/services/l2circuit-floating-pw.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l2circuit-floating-pw",
+      "topic": "Service instance: l2circuit floating pw (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MSE1",
+          "platform": "MX304"
+        },
+        {
+          "label": "MSE2",
+          "platform": "MX304"
+        }
+      ],
+      "size_bytes": 1022,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/l2circuit-floating-pw.conf"
+    },
+    {
+      "path": "junos/services/l2vpn-kompella-port-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l2vpn-kompella-port-based",
+      "topic": "Service instance: l2vpn kompella port based (MEF E-Line / EPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1562,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/l2vpn-kompella-port-based.conf"
+    },
+    {
+      "path": "junos/services/l2vpn-kompella-vlan-based.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l2vpn-kompella-vlan-based",
+      "topic": "Service instance: l2vpn kompella vlan based (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "MA5",
+          "platform": "MX204"
+        }
+      ],
+      "size_bytes": 1531,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/l2vpn-kompella-vlan-based.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/CATALOG.md",
+      "kind": "reference",
+      "topic": "Funnel map: service profile + deployment + attributes -> exact service / interface / filter snip per OS",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/CATALOG.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-tier snip lists for `minimum` / `with-cos` / `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default instance names, RDs, RTs, VLAN/unit sequences, ESI shape, device selection",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
