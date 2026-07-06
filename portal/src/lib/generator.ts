@@ -59,8 +59,9 @@ export type GenSelection = {
   deploymentId: string;
   os: GenOsKey;
   homing: string; // key into osBlock.interface
-  color: string; // key into osBlock.filter
-  cos: boolean; // true = with-cos tier, false = minimum
+  cos: boolean; // include CoS binding snips (classifiers, scheduler binding)
+  firewall: boolean; // include the UNI firewall filter
+  color: string; // key into osBlock.filter (required when firewall = true)
 };
 
 /** Walk the catalog to the OS block for a (family, mux, deployment, os). */
@@ -77,7 +78,7 @@ export function resolveOsBlock(
 /**
  * Resolve the ordered list of jvd-qualified snip IDs for a full selection.
  * Order: service(s) → attachment-circuit interface → interface extras →
- * (if CoS) UNI firewall filter → CoS binding snips.
+ * (if firewall) UNI firewall filter → (if CoS) CoS binding snips.
  */
 export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[] {
   const osb = resolveOsBlock(catalog, sel);
@@ -87,9 +88,11 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   const iface = osb.interface[sel.homing];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
-  if (sel.cos) {
+  if (sel.firewall) {
     const filter = osb.filter[sel.color];
     if (filter) rel.push(filter);
+  }
+  if (sel.cos) {
     rel.push(...(catalog.cosSnips[sel.os] ?? []));
   }
   // De-dupe while preserving order, then qualify with the jvd prefix.

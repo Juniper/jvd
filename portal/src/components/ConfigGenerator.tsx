@@ -81,6 +81,7 @@ type Selection = {
   homing?: string;
   color?: string;
   cos: boolean;
+  firewall: boolean;
 };
 
 function Chip({
@@ -126,7 +127,7 @@ export default function ConfigGenerator() {
     return m;
   }, []);
 
-  const [sel, setSel] = useState<Selection>({ cos: true });
+  const [sel, setSel] = useState<Selection>({ cos: true, firewall: true });
   const [vars, setVars] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
@@ -146,7 +147,7 @@ export default function ConfigGenerator() {
       : null;
   const attrs = osBlock ? attributeOptions(osBlock) : { homing: [], color: [] };
 
-  const attrsComplete = Boolean(sel.homing && (!sel.cos || sel.color));
+  const attrsComplete = Boolean(sel.homing && (!sel.firewall || sel.color));
   const currentStep = STEPS[Math.min(step, STEPS.length - 1)];
 
   const complete = Boolean(
@@ -155,7 +156,7 @@ export default function ConfigGenerator() {
       sel.deploymentId &&
       sel.os &&
       sel.homing &&
-      (!sel.cos || sel.color),
+      (!sel.firewall || sel.color),
   );
 
   const resolvedIds = useMemo(() => {
@@ -168,6 +169,7 @@ export default function ConfigGenerator() {
       homing: sel.homing!,
       color: sel.color ?? "",
       cos: sel.cos,
+      firewall: sel.firewall,
     });
   }, [complete, sel]);
 
@@ -184,6 +186,7 @@ export default function ConfigGenerator() {
     sel.homing,
     sel.color,
     sel.cos,
+    sel.firewall,
   ]);
   useEffect(() => {
     const seed: Record<string, string> = {};
@@ -223,9 +226,10 @@ export default function ConfigGenerator() {
         return attrsComplete
           ? [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
-              sel.cos
-                ? `With CoS · ${COLOR_LABELS[sel.color!] ?? sel.color}`
-                : "Service only",
+              sel.cos ? "CoS" : "no CoS",
+              sel.firewall
+                ? `filter (${COLOR_LABELS[sel.color!] ?? sel.color})`
+                : "no filter",
             ].join(" · ")
           : null;
       default:
@@ -236,7 +240,7 @@ export default function ConfigGenerator() {
   const crumbs = STEPS.slice(0, step).filter((id) => crumbValue(id) !== null);
 
   const reset = () => {
-    setSel({ cos: true });
+    setSel({ cos: true, firewall: true });
     setVars({});
     setStep(0);
   };
@@ -417,20 +421,40 @@ export default function ConfigGenerator() {
                 <div className="space-y-2">
                   <Chip
                     label="With CoS"
-                    sub="Classifiers, scheduler binding + UNI firewall filter"
+                    sub="Classifiers, IEEE 802.1p binding + rewrite rules"
                     active={sel.cos}
                     onClick={() => setSel((p) => ({ ...p, cos: true }))}
                   />
                   <Chip
-                    label="Service only"
-                    sub="Routing-instance + interface (minimum)"
+                    label="Without CoS"
+                    sub="Skip class-of-service"
                     active={!sel.cos}
-                    onClick={() => setSel((p) => ({ ...p, cos: false, color: undefined }))}
+                    onClick={() => setSel((p) => ({ ...p, cos: false }))}
                   />
                 </div>
               </div>
 
-              {sel.cos && (
+              <div>
+                <div className="mb-2 text-xs font-medium text-foreground">
+                  UNI firewall filter
+                </div>
+                <div className="space-y-2">
+                  <Chip
+                    label="With filter"
+                    sub="Bandwidth-profile policer at the customer UNI"
+                    active={sel.firewall}
+                    onClick={() => setSel((p) => ({ ...p, firewall: true }))}
+                  />
+                  <Chip
+                    label="Without filter"
+                    sub="No UNI policer"
+                    active={!sel.firewall}
+                    onClick={() => setSel((p) => ({ ...p, firewall: false, color: undefined }))}
+                  />
+                </div>
+              </div>
+
+              {sel.firewall && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">Color mode</div>
                   <div className="space-y-2">
@@ -540,8 +564,10 @@ export default function ConfigGenerator() {
               </pre>
               <div className="mt-2 text-[11px] text-muted-foreground">
                 {resolvedIds.length} snip{resolvedIds.length === 1 ? "" : "s"} ·{" "}
-                {sel.cos ? "with-cos" : "minimum"} tier · rendered client-side from the
-                JVD snip library
+                {[sel.cos && "CoS", sel.firewall && "firewall filter"]
+                  .filter(Boolean)
+                  .join(" + ") || "service only"}{" "}
+                · rendered client-side from the JVD snip library
               </div>
             </>
           )}
