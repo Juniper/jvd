@@ -78,6 +78,9 @@ export default function ByoaiSection() {
               <span className="ml-1 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
                 Available now
               </span>
+              <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                Beta
+              </span>
             </div>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
               Generate Junos and Junos EVO configuration with the AI you already use. Pick a JVD,
@@ -164,7 +167,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="ChatGPT"
                 description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
-                tip="Tip: use Instant mode for the fastest experience."
+                tip="Tip: use Instant mode + a Temporary Chat (avoids memory carryover between sessions)."
                 href={chatGptUrl}
                 disabled={!selected}
                 logo={<ChatGptLogo />}

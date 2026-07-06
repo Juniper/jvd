@@ -329,9 +329,16 @@ export default function JvdPortal() {
       {/* Generator */}
       <section id="generator" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <h2 className="text-3xl font-semibold tracking-tight">JVD Config Generator</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-3xl font-semibold tracking-tight">JVD Config Generator</h2>
+            <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
+              Coming soon
+            </span>
+          </div>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Pick a JVD, choose your device role, get a templated configuration.
+            A deterministic, no-AI config builder: pick a service, choose your
+            options, fill in the parameters, and download validated Junos /
+            Junos EVO configuration rendered straight from the JVD snip library.
           </p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -357,7 +364,7 @@ export default function JvdPortal() {
             >
               Launch Generator
             </button>
-            <span className="text-xs text-muted-foreground">In development</span>
+            <span className="text-xs text-muted-foreground">Coming soon</span>
           </div>
         </div>
       </section>
