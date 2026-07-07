@@ -15,6 +15,7 @@ import {
   type GenCatalog,
   type GenOsKey,
   type GenSelection,
+  type VarSpec,
   resolveOsBlock,
   resolveSnipIds,
   attributeOptions,
@@ -23,10 +24,22 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  validateSpec,
 } from "@/lib/generator";
 
 const CATALOG = maasCatalog as unknown as GenCatalog;
 const ROLES = CATALOG.variableRoles;
+const IFACE_SPEC = CATALOG.interfaceSpec;
+const VAR_SPECS = (CATALOG.varSpecs ?? {}) as Record<string, unknown>;
+
+/** The validated field spec for a bare var name (skips the `_note` key). */
+function specFor(bare: string): VarSpec | undefined {
+  const s = VAR_SPECS[bare];
+  return s && typeof s === "object" && "type" in (s as object)
+    ? (s as VarSpec)
+    : undefined;
+}
+
 
 const JVDS = [
   {
@@ -67,48 +80,19 @@ const VAR_LABELS: Record<string, string> = {
 };
 const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
 
-/** Per-variable format validation (syntax). Value must match `re` or the
- *  field shows `msg` inline. Lenient — only flags clearly-malformed input. */
-const VALIDATORS: Record<string, { re: RegExp; msg: string }> = {
-  RD: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
-  VRF_TARGET: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
-  VRF_TARGET_1: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
-  VRF_TARGET_2: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
-  COMM_RT: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
-  VLAN: { re: /^\d+$/, msg: "expected a VLAN number" },
-  VLAN_1: { re: /^\d+$/, msg: "expected a VLAN number" },
-  VLAN_2: { re: /^\d+$/, msg: "expected a VLAN number" },
-  INPUT_VID: { re: /^\d+$/, msg: "expected a VLAN number" },
-  LOCAL_VID: { re: /^\d+$/, msg: "expected a number" },
-  REMOTE_VID: { re: /^\d+$/, msg: "expected a number" },
-  UNIT: { re: /^\d+$/, msg: "expected a number" },
-  UNIT_1: { re: /^\d+$/, msg: "expected a number" },
-  UNIT_2: { re: /^\d+$/, msg: "expected a number" },
-  SITE_ID: { re: /^\d+$/, msg: "expected a number" },
-  REMOTE_SITE_ID: { re: /^\d+$/, msg: "expected a number" },
-  VC_ID: { re: /^\d+$/, msg: "expected a number" },
-  MTU: { re: /^\d+$/, msg: "expected a number" },
-  LABEL_BLOCK_SIZE: { re: /^\d+$/, msg: "expected a number" },
-  AC_INTF: {
-    re: /^[a-z]{2,3}-\d+\/\d+\/\d+(:\d+)?$|^ae\d+$/,
-    msg: "expected an interface (e.g. et-0/0/13, ae11)",
-  },
-  ESI_ID: {
-    re: /^([0-9a-fA-F]{2}:){9}[0-9a-fA-F]{2}$/,
-    msg: "expected a 10-byte ESI (00:…:01)",
-  },
-  INSTANCE_NAME: { re: /^[A-Za-z0-9_-]+$/, msg: "letters, digits, _ or - only" },
-  IP_ADDRESS: {
-    re: /^\d{1,3}(\.\d{1,3}){3}\/\d{1,2}$/,
-    msg: "expected ip/prefix (e.g. 198.51.100.1/27)",
-  },
-  ROUTER_ID: { re: /^\d{1,3}(\.\d{1,3}){3}$/, msg: "expected an IPv4 address" },
-};
-
-/** Format error for a single field value (undefined = valid or unvalidated). */
+/** Soft validation warning for a field value (undefined = valid/unvalidated).
+ *  Domain-aware: dropdown choices, numeric ranges, interface slot ranges. */
 function formatError(bare: string, value: string | undefined): string | undefined {
-  const v = VALIDATORS[bare];
-  if (v && value && !v.re.test(value)) return v.msg;
+  return validateSpec(value, specFor(bare), IFACE_SPEC);
+}
+
+/** A short hint describing the validated domain of a field (for interface /
+ *  numeric-range fields). undefined = no hint. */
+function fieldHint(bare: string): string | undefined {
+  const spec = specFor(bare);
+  if (spec?.type === "interface" && IFACE_SPEC)
+    return `${IFACE_SPEC.media.join(" / ")} · 0/0/0`;
+  if (spec?.type === "range") return `${spec.min}–${spec.max}`;
   return undefined;
 }
 
@@ -211,6 +195,14 @@ function VarField({
   hint?: string;
   error?: string;
 }) {
+  const bare = name.replace(/^\$/, "");
+  const spec = specFor(bare);
+  const inputCls = [
+    "mt-1 h-9 w-full rounded-md border bg-background px-3 font-mono text-sm text-foreground focus:outline-none",
+    error
+      ? "border-red-500/60 focus:border-red-500"
+      : "border-border focus:border-primary/60",
+  ].join(" ");
   return (
     <label className="block">
       <span className="flex items-baseline justify-between gap-2">
@@ -227,16 +219,27 @@ function VarField({
           )}
         </span>
       )}
-      <input
-        value={value ?? ""}
-        onChange={(e) => onChange(e.target.value)}
-        className={[
-          "mt-1 h-9 w-full rounded-md border bg-background px-3 font-mono text-sm text-foreground focus:outline-none",
-          error
-            ? "border-red-500/60 focus:border-red-500"
-            : "border-border focus:border-primary/60",
-        ].join(" ")}
-      />
+      {spec?.type === "enum" ? (
+        <select
+          value={value ?? ""}
+          onChange={(e) => onChange(e.target.value)}
+          className={inputCls}
+        >
+          {Array.from(new Set([value, ...spec.values].filter(Boolean))).map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+              {!spec.values.includes(opt) ? " (custom)" : ""}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          value={value ?? ""}
+          inputMode={spec?.type === "range" ? "numeric" : undefined}
+          onChange={(e) => onChange(e.target.value)}
+          className={inputCls}
+        />
+      )}
     </label>
   );
 }
@@ -812,6 +815,7 @@ export default function ConfigGenerator() {
                         <VarField
                           key={v.name}
                           name={v.name}
+                          hint={fieldHint(bare)}
                           error={formatError(bare, shared[bare])}
                           value={shared[bare]}
                           onChange={(val) => setShared((p) => ({ ...p, [bare]: val }))}
@@ -835,7 +839,7 @@ export default function ConfigGenerator() {
                         <VarField
                           key={v.name}
                           name={v.name}
-                          hint={mirror ? "(far-end remote auto-set)" : undefined}
+                          hint={mirror ? "(far-end remote auto-set)" : fieldHint(bare)}
                           error={formatError(bare, perA[bare]) ?? fieldErrors[bare]}
                           value={perA[bare]}
                           onChange={(val) => setPerA((p) => ({ ...p, [bare]: val }))}
@@ -858,7 +862,7 @@ export default function ConfigGenerator() {
                           <VarField
                             key={v.name}
                             name={v.name}
-                            hint={mirror ? "(far-end remote auto-set)" : undefined}
+                              hint={mirror ? "(far-end remote auto-set)" : fieldHint(bare)}
                             error={formatError(bare, perB[bare]) ?? fieldErrors[bare]}
                             value={perB[bare]}
                             onChange={(val) => setPerB((p) => ({ ...p, [bare]: val }))}

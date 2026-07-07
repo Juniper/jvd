@@ -20,6 +20,7 @@
       "VRF_TARGET_2",
       "VC_ID",
       "VLAN",
+      "INPUT_VID",
       "LABEL_BLOCK_SIZE",
       "SITE_RANGE",
       "COMM_RT",
@@ -31,6 +32,41 @@
     ],
     "distinctPerEndpoint": ["RD"],
     "instanceConstant": ["MTU", "LABEL_BLOCK_SIZE", "FILTER_NAME", "SITE_RANGE", "AC_INTF"]
+  },
+  "interfaceSpec": {
+    "_note": "Validated attachment-circuit interface domain for the MaaS PE platforms (ACX7024/7100, MX304). media = permitted port-type prefixes; the slot/pic/port ranges catch clearly-out-of-range typos (e.g. et-99/99/99) while staying wide enough not to false-flag valid ports. Values outside this domain still render but are flagged 'not JVD-validated'.",
+    "media": ["ge", "xe", "et", "ae"],
+    "fpcMax": 11,
+    "picMax": 3,
+    "portMax": 71,
+    "channelMax": 7,
+    "aeMax": 1023
+  },
+  "varSpecs": {
+    "_note": "Per-variable field type + validated domain. type: enum (dropdown of JVD-valid choices) | range (bounded integer) | interface (uses interfaceSpec) | rd | rt | esi | name | text. Anything not listed is a free text field. Out-of-domain values render but show a soft 'not JVD-validated' warning — never blocked.",
+    "INSTANCE_NAME": { "type": "name" },
+    "AC_INTF": { "type": "interface" },
+    "RD": { "type": "rd" },
+    "VRF_TARGET": { "type": "rt" },
+    "VRF_TARGET_1": { "type": "rt" },
+    "VRF_TARGET_2": { "type": "rt" },
+    "COMM_RT": { "type": "rt" },
+    "VPN_RT_COMM": { "type": "rt" },
+    "ESI_ID": { "type": "esi" },
+    "VLAN": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_1": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_2": { "type": "range", "min": 1, "max": 4094 },
+    "INPUT_VID": { "type": "range", "min": 1, "max": 4094 },
+    "UNIT": { "type": "range", "min": 0, "max": 16385 },
+    "UNIT_1": { "type": "range", "min": 0, "max": 16385 },
+    "UNIT_2": { "type": "range", "min": 0, "max": 16385 },
+    "LOCAL_VID": { "type": "range", "min": 1, "max": 16777215 },
+    "REMOTE_VID": { "type": "range", "min": 1, "max": 16777215 },
+    "SITE_ID": { "type": "range", "min": 1, "max": 65534 },
+    "REMOTE_SITE_ID": { "type": "range", "min": 1, "max": 65534 },
+    "VC_ID": { "type": "range", "min": 1, "max": 4294967295 },
+    "MTU": { "type": "enum", "values": ["1522", "2000", "9102", "9192", "9500"] },
+    "LABEL_BLOCK_SIZE": { "type": "enum", "values": ["2", "4", "8", "16", "32", "64"] }
   },
   "families": [
     {
@@ -53,8 +89,8 @@
                 "evo": {
                   "service": ["evo/services/evpn-vpws-vlan-based"],
                   "interface": {
-                    "single-homed": "evo/interfaces/vlan-ccc",
-                    "multihomed": "evo/interfaces/vlan-ccc-esi"
+                    "single-homed": "evo/interfaces/vlan-ccc-vlan-map",
+                    "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi"
                   },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }

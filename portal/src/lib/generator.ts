@@ -52,6 +52,8 @@ export type GenCatalog = {
   tiers: Record<string, { label: string; description: string }>;
   cosSnips: Record<GenOsKey, string[]>;
   variableRoles: VariableRoles;
+  varSpecs?: Record<string, VarSpec>;
+  interfaceSpec?: InterfaceSpec;
   families: GenFamily[];
 };
 
@@ -71,6 +73,105 @@ export type VariableRoles = {
    *  physical port, MTU, filter name. Everything else increments per instance. */
   instanceConstant?: string[];
 };
+
+/**
+ * Validated domain for a single variable. Drives the field UI (dropdown vs
+ * bounded number vs structured interface) and the soft "not JVD-validated"
+ * warning. Anything not covered here is a free text field.
+ */
+export type VarSpec =
+  | { type: "enum"; values: string[] }
+  | { type: "range"; min: number; max: number }
+  | { type: "interface" }
+  | { type: "rd" }
+  | { type: "rt" }
+  | { type: "esi" }
+  | { type: "name" }
+  | { type: "text" };
+
+/** Validated attachment-circuit interface domain for the JVD's PE platforms. */
+export type InterfaceSpec = {
+  media: string[];
+  fpcMax: number;
+  picMax: number;
+  portMax: number;
+  channelMax: number;
+  aeMax: number;
+};
+
+const RD_RT_RE = /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/;
+const ESI_RE = /^([0-9a-fA-F]{2}:){9}[0-9a-fA-F]{2}$/;
+const NAME_RE = /^[A-Za-z0-9_-]+$/;
+
+/**
+ * Validate one interface string against the platform capability table.
+ * Returns a warning message when the media type or a slot/pic/port index is
+ * outside the JVD-validated domain, else undefined. Catches e.g. et-99/99/99
+ * (port 99 > portMax) that a shape-only regex would accept.
+ */
+export function validateInterface(
+  value: string,
+  spec: InterfaceSpec,
+): string | undefined {
+  const ae = value.match(/^ae(\d+)$/);
+  if (ae) {
+    if (!spec.media.includes("ae")) return "aggregated interfaces not validated here";
+    return Number(ae[1]) > spec.aeMax
+      ? `ae index > ${spec.aeMax} — not JVD-validated`
+      : undefined;
+  }
+  const m = value.match(/^([a-z]{2,3})-(\d+)\/(\d+)\/(\d+)(?::(\d+))?$/);
+  if (!m) return `expected e.g. ${spec.media[0]}-0/0/0 or ae0`;
+  const [, media, fpc, pic, port, ch] = m;
+  if (!spec.media.includes(media))
+    return `port-type "${media}" not in ${spec.media.join("/")}`;
+  if (Number(fpc) > spec.fpcMax) return `FPC ${fpc} > ${spec.fpcMax} — not JVD-validated`;
+  if (Number(pic) > spec.picMax) return `PIC ${pic} > ${spec.picMax} — not JVD-validated`;
+  if (Number(port) > spec.portMax)
+    return `port ${port} > ${spec.portMax} — not JVD-validated`;
+  if (ch !== undefined && Number(ch) > spec.channelMax)
+    return `channel ${ch} > ${spec.channelMax} — not JVD-validated`;
+  return undefined;
+}
+
+/**
+ * Validate a value against its spec. Returns a soft warning message (the
+ * config still renders) or undefined when the value is within the validated
+ * JVD domain. Empty values are treated as valid (unfilled, not wrong).
+ */
+export function validateSpec(
+  value: string | undefined,
+  spec: VarSpec | undefined,
+  ifaceSpec: InterfaceSpec | undefined,
+): string | undefined {
+  if (!spec || value === undefined || value === "") return undefined;
+  switch (spec.type) {
+    case "enum":
+      return spec.values.includes(value)
+        ? undefined
+        : `not a validated value (${spec.values.join(", ")})`;
+    case "range": {
+      if (!/^\d+$/.test(value)) return "expected a number";
+      const n = Number(value);
+      return n < spec.min || n > spec.max
+        ? `outside validated range ${spec.min}–${spec.max}`
+        : undefined;
+    }
+    case "interface":
+      return ifaceSpec ? validateInterface(value, ifaceSpec) : undefined;
+    case "rd":
+      return RD_RT_RE.test(value) ? undefined : "expected <ip|asn>:<number>";
+    case "rt":
+      return RD_RT_RE.test(value) ? undefined : "expected <ip|asn>:<number>";
+    case "esi":
+      return ESI_RE.test(value) ? undefined : "expected a 10-byte ESI (00:…:01)";
+    case "name":
+      return NAME_RE.test(value) ? undefined : "letters, digits, _ or - only";
+    default:
+      return undefined;
+  }
+}
+
 
 export type VarKind =
   | "shared"
