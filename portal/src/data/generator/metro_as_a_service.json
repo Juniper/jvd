@@ -343,6 +343,7 @@
       "description": "Access L2Circuit pseudowire headed on an MX pair via a pseudowire-subscriber (PS) interface — anycast label/IP + virtual-ESI multihome the headend — then stitched per-VLAN into EVPN-ELAN.",
       "available": true,
       "roleBased": true,
+      "transportVars": ["PS_TRANSPORT", "VC_ID", "PW_LABEL_IN", "PW_LABEL_OUT"],
       "roles": [
         {
           "id": "access",

@@ -62,6 +62,9 @@ export type GenFamily = {
    *  instead of the symmetric PE-A / PE-B model. */
   roleBased?: boolean;
   roles?: GenRole[];
+  /** Variables that increment per transport PW (not per service) in the
+   *  two-dimensional PWHT fan-out — the PS IFD, VC-ID, PW labels. */
+  transportVars?: string[];
 };
 
 /** One endpoint role of a role-based family (e.g. PWHT Access vs Headend).
@@ -241,11 +244,15 @@ export function classifyVar(
   return { kind: "per-endpoint" };
 }
 
-/** Increment the trailing integer of a value by `by` (0 = unchanged). */
+/** Increment the trailing integer of a value by `by` (0 = unchanged),
+ *  preserving zero-padding width (so an ESI byte …:01 bumps to …:02, not …:2,
+ *  and an RD :40004 → :40005). */
 export function bumpInt(value: string, by: number): string {
   if (by === 0) return value;
   const m = value.match(/^(.*?)(\d+)$/);
-  return m ? m[1] + String(parseInt(m[2], 10) + by) : value;
+  if (!m) return value;
+  const width = m[2].length;
+  return m[1] + String(parseInt(m[2], 10) + by).padStart(width, "0");
 }
 
 /**
@@ -263,6 +270,31 @@ export function instanceValues(
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     out[k] = constant.has(k) ? v : bumpInt(v, i);
+  }
+  return out;
+}
+
+/**
+ * Two-dimensional fan-out for role-based families (PWHT): a grid of
+ * `transport` × `service` instances. `transportVars` (the PS IFD, VC-ID, PW
+ * labels) increment by the transport index `t`; every other non-constant
+ * variable increments by the global service index `i` (so each EVPN-ELAN is
+ * unique across all transport PWs); instanceConstant vars stay fixed.
+ */
+export function gridInstanceValues(
+  values: Record<string, string>,
+  roles: VariableRoles,
+  transportVars: string[],
+  t: number,
+  i: number,
+): Record<string, string> {
+  const constant = new Set(roles.instanceConstant ?? []);
+  const transport = new Set(transportVars);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    if (transport.has(k)) out[k] = bumpInt(v, t);
+    else if (constant.has(k)) out[k] = v;
+    else out[k] = bumpInt(v, i);
   }
   return out;
 }
@@ -477,6 +509,12 @@ function stripVrfExport(body: string): string {
   return body.replace(/\n?[^\S\n]*vrf-export\s+\S+;/g, "");
 }
 
+/** Remove a bare `community <name>;` binding line (e.g. an uncolored PWHT
+ *  l2circuit). Leaves `community <name> members …;` definitions untouched. */
+function stripCommunity(body: string): string {
+  return body.replace(/\n?[^\S\n]*community\s+\S+;/g, "");
+}
+
 /** Compute auto-derived variable values (e.g. POLICY_NAME = INSTANCE_NAME,
  *  VPN_RT_COMM = INSTANCE_NAME + "_RT") from the resolved base values. */
 function applyDerived(
@@ -515,6 +553,7 @@ export function renderConfig(
   opts?: {
     stripUniFilter?: boolean;
     stripVrfExport?: boolean;
+    stripCommunity?: boolean;
     derived?: Record<string, DerivedVar>;
   },
 ): RenderResult {
@@ -542,6 +581,10 @@ export function renderConfig(
     // Route-target-only mode: drop the vrf-export policy reference.
     if (opts?.stripVrfExport && snip.category === "services") {
       body = stripVrfExport(body);
+    }
+    // Uncolored PWHT: drop the l2circuit color-community binding.
+    if (opts?.stripCommunity && snip.category === "services") {
+      body = stripCommunity(body);
     }
     // Normalise interface snips under an `interfaces { … }` wrapper so they
     // merge with each other into one physical-interface stanza. Some snips

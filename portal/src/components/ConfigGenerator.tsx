@@ -27,6 +27,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  gridInstanceValues,
   validateSpec,
 } from "@/lib/generator";
 
@@ -286,6 +287,7 @@ export default function ConfigGenerator() {
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(1);
+  const [pwCount, setPwCount] = useState(1);
 
   const family = CATALOG.families.find((f) => f.id === sel.familyId);
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
@@ -648,40 +650,51 @@ export default function ConfigGenerator() {
     setPerA({});
     setPerB({});
     setCount(1);
+    setPwCount(1);
     setStep(0);
   };
 
   const download = () => {
     if (!fullText) return;
-    // Emit all N service instances: instance i increments every non-constant
-    // variable's trailing integer by i (instance 0 = the values entered). All
-    // of an endpoint's instances are merged into ONE consolidated hierarchy —
-    // a single physical interface carrying N units, MTU/filter/CoS declared
-    // once — rather than N repeated standalone stanzas.
-    const n = Math.max(1, Math.min(count, 500));
+    // Emit all service instances, merged into one consolidated hierarchy per
+    // endpoint. Symmetric families: a 1-D batch of `count` services. Role-based
+    // (PWHT): a 2-D grid of `pwCount` transport PWs × `count` services each —
+    // transport vars bump per PW, service vars bump globally so every EVPN-ELAN
+    // stays unique.
+    const S = roleBased ? 1 : Math.max(1, Math.min(count, 500));
+    const T = 1;
+    const transportVars = family?.transportVars ?? [];
+    const shift = (m: Record<string, string>, t: number, i: number) =>
+      roleBased
+        ? gridInstanceValues(m, ROLES, transportVars, t, i)
+        : instanceValues(m, ROLES, i);
     const aBodies: string[] = [];
     const bBodies: string[] = [];
-    for (let i = 0; i < n; i++) {
-      const sh = instanceValues(shared, ROLES, i);
-      const a = instanceValues(perA, ROLES, i);
-      const b = instanceValues(perB, ROLES, i);
-      if (idsA.length)
-        aBodies.push(
-          renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
-            stripUniFilter: !sel.firewall,
-            stripVrfExport: rtPolicy === "rt-only",
-            derived: CATALOG.derivedVars,
-          }).text,
-        );
-      if (twoPe && idsB.length)
-        bBodies.push(
-          renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
-            stripUniFilter: !sel.firewall,
-            stripVrfExport: rtPolicy === "rt-only",
-            derived: CATALOG.derivedVars,
-          }).text,
-        );
+    for (let t = 0; t < T; t++) {
+      for (let s = 0; s < S; s++) {
+        const i = t * S + s;
+        const sh = shift(shared, t, i);
+        const a = shift(perA, t, i);
+        const b = shift(perB, t, i);
+        if (idsA.length)
+          aBodies.push(
+            renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
+        if (twoPe && idsB.length)
+          bBodies.push(
+            renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
+      }
     }
+    const total = T * S;
     const sections: string[] = [];
     if (aBodies.length) {
       const merged = mergeJunosConfig(aBodies.join("\n"));
@@ -694,7 +707,7 @@ export default function ConfigGenerator() {
       sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, tagB)} ===== */\n${merged}`);
     }
     const text = sections.join("\n\n") + "\n";
-    const fname = `maas-${sel.familyId}-${sel.deploymentId}${n > 1 ? `-x${n}` : ""}.conf`;
+    const fname = `maas-${sel.familyId}-${sel.deploymentId ?? "pwht"}${total > 1 ? `-x${total}` : ""}.conf`;
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1100,33 +1113,41 @@ export default function ConfigGenerator() {
 
           {currentStep === "params" && (
             <div className="space-y-5">
-              <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
-                <label className="text-xs font-medium text-foreground">
-                  Number of services
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  max={500}
-                  value={count}
-                  onChange={(e) =>
-                    setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
-                  }
-                  className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
-                />
-                <span className="text-[11px] text-muted-foreground">
-                  {count > 1
-                    ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
-                    : "The values below are your service. Increase the count to generate a numbered batch."}
-                </span>
-              </div>
+              {roleBased ? (
+                <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
+                  Generating a single service (one transport PW, one VLAN).
+                  Multi-PW batch generation (N transport PWs ×
+                  VLANs-per-PW with vlan-id-list + color) is coming next.
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
+                  <label className="text-xs font-medium text-foreground">
+                    Number of services
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={500}
+                    value={count}
+                    onChange={(e) =>
+                      setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                    }
+                    className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                  />
+                  <span className="text-[11px] text-muted-foreground">
+                    {count > 1
+                      ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                      : "The values below are your service. Increase the count to generate a numbered batch."}
+                  </span>
+                </div>
+              )}
 
               {sharedFields.length > 0 && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
                     Shared{" "}
                     <span className="font-normal text-muted-foreground">
-                      — identical on both PEs
+                      {roleBased ? "— common to both roles" : "— identical on both PEs"}
                     </span>
                   </div>
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -1259,14 +1280,28 @@ export default function ConfigGenerator() {
                 </div>
               )}
               <div className="mt-2 text-[11px] text-muted-foreground">
-                {count > 1 ? `Previewing service 1 of ${count} · ` : ""}
-                {twoPe ? "2 endpoints · matched identifiers" : "single device"} ·{" "}
+                {count > 1 || (roleBased && pwCount > 1)
+                  ? `Previewing service 1${roleBased && pwCount > 1 ? " (PW 1)" : ""} · `
+                  : ""}
+                {roleBased
+                  ? `${tagA} + ${tagB}`
+                  : twoPe
+                    ? "2 endpoints · matched identifiers"
+                    : "single device"}{" "}
+                ·{" "}
                 {[sel.cos && "CoS", sel.firewall && "firewall filter"]
                   .filter(Boolean)
                   .join(" + ") || "service only"}{" "}
                 · rendered client-side from the JVD snip library
               </div>
-              {count > 1 && (
+              {roleBased && pwCount * count > 1 && (
+                <div className="mt-1 text-[11px] font-medium text-primary">
+                  Download includes all {pwCount * count} EVPN-ELANs ({pwCount}{" "}
+                  transport PW{pwCount > 1 ? "s" : ""} × {count} service
+                  {count > 1 ? "s" : ""}).
+                </div>
+              )}
+              {!roleBased && count > 1 && (
                 <div className="mt-1 text-[11px] font-medium text-primary">
                   Download includes all {count} services (#2–{count} auto-incremented).
                 </div>

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-07T17:10:19.378Z",
+  "generatedAt": "2026-07-07T18:47:11.240Z",
   "counts": {
-    "total": 515,
+    "total": 517,
     "junos": 248,
-    "evo": 267,
+    "evo": 269,
     "jvds": 9
   },
   "categories": [
@@ -124,8 +124,8 @@
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
         "junos": 50,
-        "evo": 62,
-        "total": 112
+        "evo": 64,
+        "total": 114
       }
     },
     {
@@ -22471,6 +22471,67 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-list",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-list",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-list.conf",
+      "topic": "Interface: vlan ccc list (MEF E-Line / PWHT access)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MA1.2"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list — one attachment-circuit unit carries a VLAN range"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/l2circuit-floating-pw.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-floating-pw",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/14"
+        },
+        {
+          "name": "$UNIT",
+          "example": "300"
+        },
+        {
+          "name": "$VLAN_LIST_START",
+          "example": "300"
+        },
+        {
+          "name": "$VLAN_LIST_END",
+          "example": "309"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 194,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/interfaces/vlan-ccc-qinq-stacked-qinq-tpid",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -23222,6 +23283,49 @@
       "lineCount": 11,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/policy/communities-tc-color",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "communities-tc-color",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/policy/communities-tc-color.conf",
+      "topic": "Policy: transport-class color communities (gold / bronze)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MA1.2"
+        ]
+      },
+      "highlights": [
+        "Defines the BGP-CT color-mapping communities referenced by a colored l2circuit / VRF-export (color:0:4000 gold, color:0:6000 bronze)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/l2circuit-floating-pw.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-floating-pw",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-TC-MAP2BRONZE members color:0:6000;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 122,
+      "lineCount": 4,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
       "usecases": [
         "Service Provider",
         "Metro",
@@ -28081,10 +28185,6 @@
           "example": "ae10"
         },
         {
-          "name": "$INSTANCE_NAME",
-          "example": "4004-evpn-floating-pw"
-        },
-        {
           "name": "$PS_SERVICE",
           "example": "4004"
         },
@@ -28116,9 +28216,9 @@
         "    PEs (Evo): MA1.2 (ACX7024)",
         "    PEs (Junos): MSE1 (MX304), MSE2 (MX304)"
       ],
-      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF.$UNIT;\n        interface $PS_TRANSPORT.$PS_SERVICE;\n        route-distinguisher $RD;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_TRANSPORT.$PS_SERVICE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 298,
+      "body": "routing-instances {\n    $VLAN-evpn-floating-pw {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF.$UNIT;\n        interface $PS_TRANSPORT.$PS_SERVICE;\n        route-distinguisher $RD;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VLAN-evpn-floating-pw {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_TRANSPORT.$PS_SERVICE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 306,
       "lineCount": 13,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-ELAN",
