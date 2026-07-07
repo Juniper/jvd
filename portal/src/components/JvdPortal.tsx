@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -343,6 +343,16 @@ export default function JvdPortal() {
             Metro-as-a-Service E-Line is available first — more services and
             JVDs coming.
           </p>
+
+          <div className="mt-5 flex max-w-2xl items-start gap-2 rounded-md border border-border bg-surface p-3 text-xs text-muted-foreground">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span>
+              Configurations are strictly based on what was built and validated
+              in the JVD. Some otherwise-supported service, platform, or feature
+              combinations may not appear here because they were not covered by
+              the validated design.
+            </span>
+          </div>
 
           <ConfigGenerator />
         </div>
