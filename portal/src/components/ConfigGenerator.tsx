@@ -46,6 +46,25 @@ const COLOR_LABELS: Record<string, string> = {
 };
 const OS_LABELS: Record<GenOsKey, string> = { evo: "Junos EVO", junos: "Junos" };
 
+/** Friendly names for the cryptic $VARs (the `_VID` suffix is misleading). */
+const VAR_LABELS: Record<string, string> = {
+  INSTANCE_NAME: "service instance name",
+  VRF_TARGET: "route-target",
+  RD: "route-distinguisher",
+  AC_INTF: "attachment-circuit interface",
+  UNIT: "unit",
+  VLAN: "UNI VLAN-id",
+  INPUT_VID: "normalized S-VLAN (push)",
+  LOCAL_VID: "vpws-service-id · local",
+  REMOTE_VID: "vpws-service-id · remote",
+  SITE_ID: "L2VPN site-id · local",
+  REMOTE_SITE_ID: "L2VPN site-id · remote",
+  VC_ID: "virtual-circuit-id",
+  ESI_ID: "ESI value",
+  FILTER_NAME: "UNI filter name",
+};
+const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
+
 type OsChoice = GenOsKey | "none";
 
 type StepId =
@@ -145,10 +164,11 @@ function VarField({
 }) {
   return (
     <label className="block">
-      <span className="text-[11px] font-mono text-muted-foreground">
-        {name}
-        {hint && <span className="ml-1 text-muted-foreground/70">{hint}</span>}
+      <span className="flex items-baseline justify-between gap-2">
+        <span className="text-xs font-medium text-foreground">{varLabel(name)}</span>
+        <span className="font-mono text-[10px] text-muted-foreground/70">{name}</span>
       </span>
+      {hint && <span className="block text-[10px] text-muted-foreground/70">{hint}</span>}
       <input
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
@@ -283,7 +303,12 @@ export default function ConfigGenerator() {
       if (kind === "shared") sh[bare] = v.example;
       else if (kind !== "mirrored-secondary") {
         a[bare] = v.example;
-        b[bare] = bumpB(v.example);
+        // Only vars that MUST differ (the service-id mirror, RD) get bumped on
+        // PE-B; everything else (UNI VLAN, unit, interface) defaults the same.
+        const mustDiffer =
+          kind === "mirrored-primary" ||
+          (ROLES.distinctPerEndpoint ?? []).includes(bare);
+        b[bare] = mustDiffer ? bumpB(v.example) : v.example;
       }
     }
     setShared(sh);
@@ -308,6 +333,18 @@ export default function ConfigGenerator() {
   const missing = Array.from(
     new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
   );
+
+  // Consistency warnings: per-PE values that MUST differ but are identical.
+  const consistencyWarnings: string[] = [];
+  if (twoPe) {
+    for (const bare of ROLES.distinctPerEndpoint ?? []) {
+      if (perA[bare] !== undefined && perA[bare] === perB[bare]) {
+        consistencyWarnings.push(
+          `PE-A and PE-B ${varLabel(bare)} ($${bare}) are identical — they should differ per PE.`,
+        );
+      }
+    }
+  }
 
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
     setSel((prev) => {
@@ -762,6 +799,15 @@ export default function ConfigGenerator() {
                   <span>Unfilled variables: {missing.join(", ")}.</span>
                 </div>
               )}
+              {consistencyWarnings.map((w) => (
+                <div
+                  key={w}
+                  className="mt-3 flex items-start gap-2 rounded-md border border-red-500/50 bg-red-500/10 p-2 text-[11px] font-medium text-red-600 dark:text-red-400"
+                >
+                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>{w}</span>
+                </div>
+              ))}
               {renderA && (
                 <div className="mt-3">
                   <div className="mb-1 text-[11px] font-semibold text-primary">

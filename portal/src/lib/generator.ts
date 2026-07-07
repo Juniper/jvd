@@ -65,6 +65,8 @@ export type GenCatalog = {
 export type VariableRoles = {
   shared: string[];
   mirrored: [string, string][];
+  /** Per-endpoint vars that MUST differ between PEs (e.g. RD). */
+  distinctPerEndpoint?: string[];
 };
 
 export type VarKind =
