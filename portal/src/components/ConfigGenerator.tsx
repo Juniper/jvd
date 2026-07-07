@@ -547,11 +547,14 @@ export default function ConfigGenerator() {
   const sharedFields = unionVars.filter((v) => {
     const bare = v.name.replace(/^\$/, "");
     if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
+    // The UNI filter name is only meaningful when the firewall filter is on.
+    if (bare === "FILTER_NAME" && !sel.firewall) return false;
     return classifyVar(v.name, ROLES).kind === "shared";
   });
   const perFields = unionVars.filter((v) => {
     const bare = v.name.replace(/^\$/, "");
     if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
+    if (bare === "FILTER_NAME" && !sel.firewall) return false;
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
