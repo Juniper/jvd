@@ -30,6 +30,10 @@ export type UniMode = {
 
 export type GenOsBlock = {
   service: string[];
+  /** Per-homing service override (relative snip ids). When a homing key is
+   *  present its service snips replace the default `service` list — EVPN-FXC
+   *  uses this so single-homed = VLAN-unaware and multihomed = VLAN-aware. */
+  serviceByHoming?: Record<string, string[]>;
   interface: Record<string, string>; // homing key -> snip id (relative to jvd)
   interfaceExtras: string[];
   filter: Record<string, string>; // color key -> snip id (relative to jvd)
@@ -410,7 +414,7 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   const osb = resolveOsBlock(catalog, sel);
   if (!osb) return [];
   const rel: string[] = [];
-  rel.push(...osb.service);
+  rel.push(...(osb.serviceByHoming?.[sel.homing] ?? osb.service));
   // Colored VRF export: pull the gold/bronze policy that defines the
   // `vrf-export` policy-statement the service references.
   if (sel.rtPolicy && sel.rtPolicy !== "rt-only") {
