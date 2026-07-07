@@ -25,6 +25,7 @@ export type GenDeployment = {
   id: string;
   label: string;
   description: string;
+  available?: boolean;
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 

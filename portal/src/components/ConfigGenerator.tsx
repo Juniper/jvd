@@ -370,15 +370,19 @@ export default function ConfigGenerator() {
             ))}
 
           {currentStep === "deployment" &&
-            mux?.deployments.map((d) => (
-              <Chip
-                key={d.id}
-                label={d.label}
-                sub={d.description}
-                active={sel.deploymentId === d.id}
-                onClick={() => advance({ deploymentId: d.id }, ["os", "homing", "color"])}
-              />
-            ))}
+            mux?.deployments.map((d) => {
+              const dAvailable = d.available !== false;
+              return (
+                <Chip
+                  key={d.id}
+                  label={dAvailable ? d.label : `${d.label} — coming soon`}
+                  sub={d.description}
+                  active={sel.deploymentId === d.id}
+                  disabled={!dAvailable}
+                  onClick={() => advance({ deploymentId: d.id }, ["os", "homing", "color"])}
+                />
+              );
+            })}
 
           {currentStep === "os" &&
             (["junos", "evo"] as GenOsKey[]).map((os) => (

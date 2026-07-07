@@ -73,6 +73,85 @@
                   }
                 }
               }
+            },
+            {
+              "id": "bgp-vpls-p2p",
+              "label": "BGP-VPLS (P2P)",
+              "description": "Point-to-point delivered over BGP-VPLS (RFC 4761 virtual-switch).",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/bgp-vpls-p2p"],
+                  "interface": { "single-homed": "evo/interfaces/vlan-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/bgp-vpls-p2p"],
+                  "interface": { "single-homed": "junos/interfaces/vlan-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-aware": "junos/firewall/filter-bridge-color-aware" }
+                }
+              }
+            },
+            {
+              "id": "evpn-fxc",
+              "label": "EVPN-FXC",
+              "description": "Flexible Cross-Connect — many VLAN UNIs bundled under one EVPN-VPWS.",
+              "available": false,
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-fxc-vlan-unaware"],
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc-2-units" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "l2circuit-hot-standby",
+              "label": "L2Circuit (hot-standby)",
+              "description": "LDP pseudowire with a primary + backup neighbor for fast failover.",
+              "os": {
+                "evo": {
+                  "service": [
+                    "evo/services/l2circuit-hot-standby-primary",
+                    "evo/services/l2circuit-hot-standby-backup"
+                  ],
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc-vlan-map" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "l2circuit-floating-pw",
+              "label": "L2Circuit (floating PW)",
+              "description": "Static-label pseudowire landing on a pseudowire-subscriber anchor.",
+              "os": {
+                "evo": {
+                  "service": ["evo/services/l2circuit-floating-pw"],
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "evpn-floating-pw",
+              "label": "EVPN Floating PW",
+              "description": "EVPN-ELAN landing on a floating pseudowire (ps anchor); Junos head-end.",
+              "available": false,
+              "os": {
+                "junos": {
+                  "service": [
+                    "junos/services/evpn-elan-vlan-based-floating-pw",
+                    "junos/services/l2circuit-floating-pw"
+                  ],
+                  "interface": { "single-homed": "junos/interfaces/vlan-bridge-esi" },
+                  "interfaceExtras": ["junos/interfaces/pseudowire-subscriber"],
+                  "filter": {}
+                }
+              }
             }
           ]
         },
