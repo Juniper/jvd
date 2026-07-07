@@ -444,6 +444,13 @@ export function renderConfig(
     if (opts?.stripUniFilter && snip.category === "interfaces") {
       body = stripUniFilterBinding(body);
     }
+    // Normalise interface snips under an `interfaces { … }` wrapper so they
+    // merge with each other (and with the CoS binding, which is already
+    // wrapped) into one physical-interface stanza. Some snips already carry
+    // the wrapper — don't double-wrap those.
+    if (snip.category === "interfaces" && !/^\s*interfaces\s*\{/.test(body)) {
+      body = `interfaces {\n${body}\n}`;
+    }
     const rendered = body.replace(/\s+$/, "");
     blocks.push(`/* snips/${shortPath} */\n${rendered}`);
   }
@@ -451,4 +458,98 @@ export function renderConfig(
   const text = blocks.join("\n\n") + "\n";
   const missing = Array.from(new Set(text.match(/\$\{?[A-Z_][A-Z0-9_]*\}?/g) ?? []));
   return { text, missing, usedSnipIds: used };
+}
+
+/* ------------------------------------------------------------------ *
+ * Junos config merger
+ *
+ * Folds a concatenation of rendered snip bodies into one proper Junos
+ * hierarchy: same-key stanzas merge (so N services on one physical port
+ * become a single `et-0/0/13 { … }` carrying N units + one `mtu`), and
+ * identical leaf statements de-duplicate (the physical MTU, the firewall
+ * filter definition, the CoS classifiers are emitted once). This is the
+ * deterministic equivalent of hand-consolidating the config before load.
+ * ------------------------------------------------------------------ */
+
+type JBlock = { type: "block"; key: string; children: JNode[] };
+type JLeaf = { type: "leaf"; key: string };
+type JNode = JBlock | JLeaf;
+
+/** Tokenise + parse Junos text into a node tree (blocks and leaf statements). */
+function parseJunos(text: string): JNode[] {
+  const tokens = text.match(/\{|\}|;|[^\s{};]+/g) ?? [];
+  const root: JBlock = { type: "block", key: "", children: [] };
+  const stack: JBlock[] = [root];
+  let buf: string[] = [];
+  for (const t of tokens) {
+    if (t === "{") {
+      const node: JBlock = { type: "block", key: buf.join(" "), children: [] };
+      stack[stack.length - 1].children.push(node);
+      stack.push(node);
+      buf = [];
+    } else if (t === "}") {
+      if (stack.length > 1) stack.pop();
+      buf = [];
+    } else if (t === ";") {
+      if (buf.length) stack[stack.length - 1].children.push({ type: "leaf", key: buf.join(" ") });
+      buf = [];
+    } else {
+      buf.push(t);
+    }
+  }
+  return root.children;
+}
+
+/** Merge a list of sibling nodes: same-key blocks combine their children
+ *  (recursively); identical leaves collapse to one. Order is preserved. */
+function mergeJunosNodes(nodes: JNode[]): JNode[] {
+  const order: string[] = [];
+  const byKey = new Map<string, JNode>();
+  for (const n of nodes) {
+    const existing = byKey.get(n.key);
+    if (!existing) {
+      byKey.set(
+        n.key,
+        n.type === "block"
+          ? { type: "block", key: n.key, children: [...n.children] }
+          : { type: "leaf", key: n.key },
+      );
+      order.push(n.key);
+    } else if (existing.type === "block" && n.type === "block") {
+      existing.children.push(...n.children);
+    }
+    // leaf duplicate, or leaf/block key clash: keep the first, drop the rest.
+  }
+  return order.map((k) => {
+    const n = byKey.get(k)!;
+    if (n.type === "block") n.children = mergeJunosNodes(n.children);
+    return n;
+  });
+}
+
+/** Emit a node tree back to indented Junos text (leaf statements first, then
+ *  nested blocks — order-independent for these stanzas and reads cleaner). */
+function emitJunos(nodes: JNode[], indent = ""): string {
+  const lines: string[] = [];
+  for (const n of nodes) if (n.type === "leaf") lines.push(`${indent}${n.key};`);
+  for (const n of nodes) {
+    if (n.type === "block") {
+      lines.push(`${indent}${n.key} {`);
+      lines.push(emitJunos(n.children, indent + "    "));
+      lines.push(`${indent}}`);
+    }
+  }
+  return lines.filter((l) => l !== "").join("\n");
+}
+
+/**
+ * Consolidate rendered Junos snip text into one merged hierarchy. Strips
+ * `/* … *\/` provenance comments, parses, merges same-key stanzas, and
+ * re-emits. Safe to run on a single service (collapses the split physical
+ * interface + MTU) or on an N-service batch (nests all units under one port).
+ */
+export function mergeJunosConfig(text: string): string {
+  const noComments = text.replace(/\/\*[\s\S]*?\*\//g, " ");
+  const merged = mergeJunosNodes(parseJunos(noComments));
+  return emitJunos(merged) + "\n";
 }

@@ -22,6 +22,7 @@ import {
   vlanModes,
   collectVariables,
   renderConfig,
+  mergeJunosConfig,
   classifyVar,
   endpointValues,
   instanceValues,
@@ -426,7 +427,17 @@ export default function ConfigGenerator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, twoPe, idsB, shared, perA, perB, byId]);
 
-  const fullText = [renderA?.text, renderB?.text].filter(Boolean).join("\n\n");
+  // Merged, consolidated config for display/copy (single previewed service).
+  const mergedA = useMemo(
+    () => (renderA ? mergeJunosConfig(renderA.text) : null),
+    [renderA],
+  );
+  const mergedB = useMemo(
+    () => (renderB ? mergeJunosConfig(renderB.text) : null),
+    [renderB],
+  );
+
+  const fullText = [mergedA, mergedB].filter(Boolean).join("\n\n");
   const missing = Array.from(
     new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
   );
@@ -503,30 +514,42 @@ export default function ConfigGenerator() {
   const download = () => {
     if (!fullText) return;
     // Emit all N service instances: instance i increments every non-constant
-    // variable's trailing integer by i (instance 0 = the values entered).
+    // variable's trailing integer by i (instance 0 = the values entered). All
+    // of an endpoint's instances are merged into ONE consolidated hierarchy —
+    // a single physical interface carrying N units, MTU/filter/CoS declared
+    // once — rather than N repeated standalone stanzas.
     const n = Math.max(1, Math.min(count, 500));
-    const chunks: string[] = [];
+    const aBodies: string[] = [];
+    const bBodies: string[] = [];
     for (let i = 0; i < n; i++) {
       const sh = instanceValues(shared, ROLES, i);
       const a = instanceValues(perA, ROLES, i);
       const b = instanceValues(perB, ROLES, i);
-      const ra = idsA.length
-        ? renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
+      if (idsA.length)
+        aBodies.push(
+          renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
             stripUniFilter: !sel.firewall,
-          })
-        : null;
-      const rb =
-        twoPe && idsB.length
-          ? renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
-              stripUniFilter: !sel.firewall,
-            })
-          : null;
-      const body = [ra?.text, rb?.text].filter(Boolean).join("\n\n");
-      chunks.push(
-        n > 1 ? `/* ===== service ${i + 1} of ${n} ===== */\n${body}` : body,
+          }).text,
+        );
+      if (twoPe && idsB.length)
+        bBodies.push(
+          renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
+            stripUniFilter: !sel.firewall,
+          }).text,
+        );
+    }
+    const sections: string[] = [];
+    if (aBodies.length) {
+      const merged = mergeJunosConfig(aBodies.join("\n"));
+      sections.push(
+        twoPe ? `/* ===== ${peLabel(sel.osA, "PE-A")} ===== */\n${merged}` : merged,
       );
     }
-    const text = chunks.join("\n\n") + "\n";
+    if (bBodies.length) {
+      const merged = mergeJunosConfig(bBodies.join("\n"));
+      sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, "PE-B")} ===== */\n${merged}`);
+    }
+    const text = sections.join("\n\n") + "\n";
     const fname = `maas-${sel.familyId}-${sel.deploymentId}${n > 1 ? `-x${n}` : ""}.conf`;
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -978,7 +1001,7 @@ export default function ConfigGenerator() {
                     # {peLabel(sel.osA, "PE-A")}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
-                    {renderA.text}
+                    {mergedA}
                   </pre>
                 </div>
               )}
@@ -988,7 +1011,7 @@ export default function ConfigGenerator() {
                     # {peLabel(sel.osB as GenOsKey, "PE-B")}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
-                    {renderB.text}
+                    {mergedB}
                   </pre>
                 </div>
               )}
