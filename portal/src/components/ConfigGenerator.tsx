@@ -9,21 +9,24 @@ import {
   ChevronRight,
   RotateCcw,
 } from "lucide-react";
-import { snipBundle, type SnipRecord } from "@/lib/snips";
+import { snipBundle, type SnipRecord, type SnipVariable } from "@/lib/snips";
 import maasCatalog from "@/data/generator/metro_as_a_service.json";
 import {
   type GenCatalog,
   type GenOsKey,
+  type GenSelection,
   resolveOsBlock,
   resolveSnipIds,
   attributeOptions,
   collectVariables,
   renderConfig,
+  classifyVar,
+  endpointValues,
 } from "@/lib/generator";
 
 const CATALOG = maasCatalog as unknown as GenCatalog;
+const ROLES = CATALOG.variableRoles;
 
-/** JVDs available in the generator. Only MaaS has a catalog today. */
 const JVDS = [
   {
     id: "metro_as_a_service",
@@ -43,12 +46,14 @@ const COLOR_LABELS: Record<string, string> = {
 };
 const OS_LABELS: Record<GenOsKey, string> = { evo: "Junos EVO", junos: "Junos" };
 
+type OsChoice = GenOsKey | "none";
+
 type StepId =
   | "jvd"
   | "family"
   | "mux"
   | "deployment"
-  | "os"
+  | "endpoints"
   | "attributes"
   | "params";
 
@@ -57,7 +62,7 @@ const STEP_TITLES: Record<StepId, string> = {
   family: "Service type",
   mux: "Service profile",
   deployment: "Deployment",
-  os: "Device OS",
+  endpoints: "Endpoints",
   attributes: "Service attributes",
   params: "Parameters",
 };
@@ -67,7 +72,7 @@ const STEPS: StepId[] = [
   "family",
   "mux",
   "deployment",
-  "os",
+  "endpoints",
   "attributes",
   "params",
 ];
@@ -77,12 +82,19 @@ type Selection = {
   familyId?: string;
   muxId?: string;
   deploymentId?: string;
-  os?: GenOsKey;
+  osA?: GenOsKey;
+  osB?: OsChoice;
   homing?: string;
   color?: string;
   cos: boolean;
   firewall: boolean;
 };
+
+/** Bump a trailing integer so PE-B defaults differ from PE-A. */
+function bumpB(example: string): string {
+  const m = example.match(/^(.*?)(\d+)$/);
+  return m ? m[1] + String(parseInt(m[2], 10) + 1) : example;
+}
 
 function Chip({
   label,
@@ -120,6 +132,32 @@ function Chip({
   );
 }
 
+function VarField({
+  name,
+  value,
+  onChange,
+  hint,
+}: {
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+  hint?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="text-[11px] font-mono text-muted-foreground">
+        {name}
+        {hint && <span className="ml-1 text-muted-foreground/70">{hint}</span>}
+      </span>
+      <input
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1 h-9 w-full rounded-md border border-border bg-background px-3 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+      />
+    </label>
+  );
+}
+
 export default function ConfigGenerator() {
   const byId = useMemo(() => {
     const m = new Map<string, SnipRecord>();
@@ -128,7 +166,9 @@ export default function ConfigGenerator() {
   }, []);
 
   const [sel, setSel] = useState<Selection>({ cos: true, firewall: true });
-  const [vars, setVars] = useState<Record<string, string>>({});
+  const [shared, setShared] = useState<Record<string, string>>({});
+  const [perA, setPerA] = useState<Record<string, string>>({});
+  const [perB, setPerB] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
 
@@ -136,71 +176,139 @@ export default function ConfigGenerator() {
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
   const deployment = mux?.deployments.find((d) => d.id === sel.deploymentId);
   const osOptions = deployment ? (Object.keys(deployment.os) as GenOsKey[]) : [];
-  const osBlock =
-    sel.familyId && sel.muxId && sel.deploymentId && sel.os
+
+  const twoPe = sel.osB && sel.osB !== "none";
+
+  const osBlockA =
+    sel.familyId && sel.muxId && sel.deploymentId && sel.osA
       ? resolveOsBlock(CATALOG, {
           familyId: sel.familyId,
           muxId: sel.muxId,
           deploymentId: sel.deploymentId,
-          os: sel.os,
+          os: sel.osA,
         })
       : null;
-  const attrs = osBlock ? attributeOptions(osBlock) : { homing: [], color: [] };
+  const osBlockB =
+    twoPe && sel.familyId && sel.muxId && sel.deploymentId
+      ? resolveOsBlock(CATALOG, {
+          familyId: sel.familyId,
+          muxId: sel.muxId,
+          deploymentId: sel.deploymentId,
+          os: sel.osB as GenOsKey,
+        })
+      : null;
+
+  // Attribute options = intersection of both endpoints (or just A when single).
+  const attrsA = osBlockA ? attributeOptions(osBlockA) : { homing: [], color: [] };
+  const attrsB = osBlockB ? attributeOptions(osBlockB) : null;
+  const homingOpts = attrsB
+    ? attrsA.homing.filter((h) => attrsB.homing.includes(h))
+    : attrsA.homing;
+  const colorOpts = attrsB
+    ? attrsA.color.filter((c) => attrsB.color.includes(c))
+    : attrsA.color;
 
   const attrsComplete = Boolean(sel.homing && (!sel.firewall || sel.color));
   const currentStep = STEPS[Math.min(step, STEPS.length - 1)];
-
   const complete = Boolean(
     sel.familyId &&
       sel.muxId &&
       sel.deploymentId &&
-      sel.os &&
+      sel.osA &&
       sel.homing &&
       (!sel.firewall || sel.color),
   );
 
-  const resolvedIds = useMemo(() => {
-    if (!complete) return [];
-    return resolveSnipIds(CATALOG, {
-      familyId: sel.familyId!,
-      muxId: sel.muxId!,
-      deploymentId: sel.deploymentId!,
-      os: sel.os!,
-      homing: sel.homing!,
-      color: sel.color ?? "",
-      cos: sel.cos,
-      firewall: sel.firewall,
-    });
-  }, [complete, sel]);
+  const selFor = (os: GenOsKey): GenSelection => ({
+    familyId: sel.familyId!,
+    muxId: sel.muxId!,
+    deploymentId: sel.deploymentId!,
+    os,
+    homing: sel.homing!,
+    color: sel.color ?? "",
+    cos: sel.cos,
+    firewall: sel.firewall,
+  });
 
-  const variables = useMemo(
-    () => collectVariables(resolvedIds, byId),
-    [resolvedIds, byId],
+  const idsA = useMemo(
+    () => (complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [complete, sel],
   );
+  const idsB = useMemo(
+    () => (complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [complete, sel],
+  );
+
+  // Union of variables across both endpoints.
+  const unionVars: SnipVariable[] = useMemo(() => {
+    const seen = new Set<string>();
+    const out: SnipVariable[] = [];
+    for (const v of [...collectVariables(idsA, byId), ...collectVariables(idsB, byId)]) {
+      if (!seen.has(v.name)) {
+        seen.add(v.name);
+        out.push(v);
+      }
+    }
+    return out;
+  }, [idsA, idsB, byId]);
+
+  const sharedFields = unionVars.filter(
+    (v) => classifyVar(v.name, ROLES).kind === "shared",
+  );
+  const perFields = unionVars.filter((v) => {
+    const k = classifyVar(v.name, ROLES).kind;
+    return k === "per-endpoint" || k === "mirrored-primary";
+  });
 
   const pathKey = JSON.stringify([
     sel.familyId,
     sel.muxId,
     sel.deploymentId,
-    sel.os,
+    sel.osA,
+    sel.osB,
     sel.homing,
     sel.color,
     sel.cos,
     sel.firewall,
   ]);
   useEffect(() => {
-    const seed: Record<string, string> = {};
-    for (const v of variables) seed[v.name] = v.example;
-    setVars(seed);
+    const sh: Record<string, string> = {};
+    const a: Record<string, string> = {};
+    const b: Record<string, string> = {};
+    for (const v of unionVars) {
+      const bare = v.name.replace(/^\$/, "");
+      const kind = classifyVar(v.name, ROLES).kind;
+      if (kind === "shared") sh[bare] = v.example;
+      else if (kind !== "mirrored-secondary") {
+        a[bare] = v.example;
+        b[bare] = bumpB(v.example);
+      }
+    }
+    setShared(sh);
+    setPerA(a);
+    setPerB(b);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathKey]);
 
-  const render = useMemo(() => {
-    if (!complete || resolvedIds.length === 0) return null;
-    return renderConfig(resolvedIds, vars, byId);
-  }, [complete, resolvedIds, vars, byId]);
+  const names = unionVars.map((v) => v.name);
+  const renderA = useMemo(() => {
+    if (!complete || idsA.length === 0) return null;
+    return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete, idsA, shared, perA, perB, byId]);
+  const renderB = useMemo(() => {
+    if (!complete || !twoPe || idsB.length === 0) return null;
+    return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete, twoPe, idsB, shared, perA, perB, byId]);
 
-  // Update selection, clearing downstream fields, then advance one step.
+  const fullText = [renderA?.text, renderB?.text].filter(Boolean).join("\n\n");
+  const missing = Array.from(
+    new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
+  );
+
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
     setSel((prev) => {
       const next = { ...prev, ...patch };
@@ -220,8 +328,12 @@ export default function ConfigGenerator() {
         return mux?.label ?? null;
       case "deployment":
         return deployment?.label ?? null;
-      case "os":
-        return sel.os ? OS_LABELS[sel.os] : null;
+      case "endpoints":
+        return sel.osA
+          ? twoPe
+            ? `${OS_LABELS[sel.osA]} ↔ ${OS_LABELS[sel.osB as GenOsKey]}`
+            : `${OS_LABELS[sel.osA]} (single)`
+          : null;
       case "attributes":
         return attrsComplete
           ? [
@@ -236,19 +348,20 @@ export default function ConfigGenerator() {
         return null;
     }
   };
-
   const crumbs = STEPS.slice(0, step).filter((id) => crumbValue(id) !== null);
 
   const reset = () => {
     setSel({ cos: true, firewall: true });
-    setVars({});
+    setShared({});
+    setPerA({});
+    setPerB({});
     setStep(0);
   };
 
   const download = () => {
-    if (!render) return;
-    const fname = `maas-${sel.familyId}-${sel.deploymentId}-${sel.os}.conf`;
-    const blob = new Blob([render.text], { type: "text/plain" });
+    if (!fullText) return;
+    const fname = `maas-${sel.familyId}-${sel.deploymentId}.conf`;
+    const blob = new Blob([fullText + "\n"], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -258,17 +371,19 @@ export default function ConfigGenerator() {
   };
 
   const copy = async () => {
-    if (!render) return;
-    await navigator.clipboard.writeText(render.text);
+    if (!fullText) return;
+    await navigator.clipboard.writeText(fullText + "\n");
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
+  const peLabel = (os: GenOsKey | undefined, tag: string) =>
+    os ? `${tag} · ${OS_LABELS[os]}` : tag;
+
   return (
-    <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,32rem)]">
-      {/* Left: the wizard (one step at a time) */}
+    <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
+      {/* Left: the wizard */}
       <div className="rounded-lg border border-border bg-surface p-6">
-        {/* Breadcrumb of prior choices */}
         {crumbs.length > 0 && (
           <div className="mb-4 flex flex-wrap items-center gap-1.5 text-xs">
             {crumbs.map((id, i) => (
@@ -288,7 +403,6 @@ export default function ConfigGenerator() {
           </div>
         )}
 
-        {/* Header: back + step counter + start over */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {step > 0 && (
@@ -313,7 +427,6 @@ export default function ConfigGenerator() {
           )}
         </div>
 
-        {/* Current step body */}
         <div className="mt-4 space-y-3">
           {currentStep === "jvd" &&
             JVDS.map((j) => (
@@ -328,7 +441,8 @@ export default function ConfigGenerator() {
                     "familyId",
                     "muxId",
                     "deploymentId",
-                    "os",
+                    "osA",
+                    "osB",
                     "homing",
                     "color",
                   ])
@@ -348,7 +462,8 @@ export default function ConfigGenerator() {
                   advance({ familyId: f.id }, [
                     "muxId",
                     "deploymentId",
-                    "os",
+                    "osA",
+                    "osB",
                     "homing",
                     "color",
                   ])
@@ -364,7 +479,13 @@ export default function ConfigGenerator() {
                 sub={m.description}
                 active={sel.muxId === m.id}
                 onClick={() =>
-                  advance({ muxId: m.id }, ["deploymentId", "os", "homing", "color"])
+                  advance({ muxId: m.id }, [
+                    "deploymentId",
+                    "osA",
+                    "osB",
+                    "homing",
+                    "color",
+                  ])
                 }
               />
             ))}
@@ -379,35 +500,76 @@ export default function ConfigGenerator() {
                   sub={d.description}
                   active={sel.deploymentId === d.id}
                   disabled={!dAvailable}
-                  onClick={() => advance({ deploymentId: d.id }, ["os", "homing", "color"])}
+                  onClick={() =>
+                    advance({ deploymentId: d.id }, ["osA", "osB", "homing", "color"])
+                  }
                 />
               );
             })}
 
-          {currentStep === "os" &&
-            (["junos", "evo"] as GenOsKey[]).map((os) => (
-              <Chip
-                key={os}
-                label={OS_LABELS[os]}
-                sub={
-                  osOptions.includes(os)
-                    ? os === "evo"
-                      ? "ACX 7xxx"
-                      : "MX, ACX 5xxx / 710"
-                    : "not validated for this service"
-                }
-                active={sel.os === os}
-                disabled={!osOptions.includes(os)}
-                onClick={() => advance({ os }, ["homing", "color"])}
-              />
-            ))}
+          {currentStep === "endpoints" && (
+            <div className="space-y-4">
+              <div>
+                <div className="mb-2 text-xs font-medium text-foreground">
+                  PE-A (device OS)
+                </div>
+                <div className="space-y-2">
+                  {(["junos", "evo"] as GenOsKey[]).map((os) => (
+                    <Chip
+                      key={os}
+                      label={OS_LABELS[os]}
+                      sub={osOptions.includes(os) ? undefined : "not validated for this service"}
+                      active={sel.osA === os}
+                      disabled={!osOptions.includes(os)}
+                      onClick={() => setSel((p) => ({ ...p, osA: os }))}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className="mb-2 text-xs font-medium text-foreground">
+                  PE-B (far endpoint)
+                </div>
+                <div className="space-y-2">
+                  <Chip
+                    label="Single device only"
+                    sub="Generate just PE-A (brownfield add)"
+                    active={sel.osB === "none"}
+                    onClick={() => setSel((p) => ({ ...p, osB: "none" }))}
+                  />
+                  {(["junos", "evo"] as GenOsKey[]).map((os) => (
+                    <Chip
+                      key={os}
+                      label={OS_LABELS[os]}
+                      sub={osOptions.includes(os) ? "Match identifiers automatically" : "not validated for this service"}
+                      active={sel.osB === os}
+                      disabled={!osOptions.includes(os)}
+                      onClick={() => setSel((p) => ({ ...p, osB: os }))}
+                    />
+                  ))}
+                </div>
+              </div>
+              <button
+                disabled={!sel.osA || !sel.osB}
+                onClick={() => setStep((s) => s + 1)}
+                className={[
+                  "inline-flex items-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium",
+                  sel.osA && sel.osB
+                    ? "border border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
+                    : "cursor-not-allowed border border-border text-muted-foreground opacity-60",
+                ].join(" ")}
+              >
+                Continue <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
 
-          {currentStep === "attributes" && osBlock && (
+          {currentStep === "attributes" && osBlockA && (
             <div className="space-y-4">
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
                 <div className="space-y-2">
-                  {attrs.homing.map((h) => (
+                  {homingOpts.map((h) => (
                     <Chip
                       key={h}
                       label={HOMING_LABELS[h] ?? h}
@@ -417,7 +579,6 @@ export default function ConfigGenerator() {
                   ))}
                 </div>
               </div>
-
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">
                   Class of Service
@@ -437,7 +598,6 @@ export default function ConfigGenerator() {
                   />
                 </div>
               </div>
-
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">
                   UNI firewall filter
@@ -457,12 +617,11 @@ export default function ConfigGenerator() {
                   />
                 </div>
               </div>
-
               {sel.firewall && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">Color mode</div>
                   <div className="space-y-2">
-                    {attrs.color.map((c) => (
+                    {colorOpts.map((c) => (
                       <Chip
                         key={c}
                         label={COLOR_LABELS[c] ?? c}
@@ -473,7 +632,6 @@ export default function ConfigGenerator() {
                   </div>
                 </div>
               )}
-
               <button
                 disabled={!attrsComplete}
                 onClick={() => setStep((s) => s + 1)}
@@ -490,35 +648,76 @@ export default function ConfigGenerator() {
           )}
 
           {currentStep === "params" && (
-            <div>
-              {variables.length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  No variables for this selection — the config on the right is ready.
-                </p>
-              ) : (
-                <>
-                  <p className="mb-3 text-xs text-muted-foreground">
-                    Prefilled with lab-safe example values — edit any field for your
-                    deployment. The config updates live on the right.
-                  </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {variables.map((v) => (
-                      <label key={v.name} className="block">
-                        <span className="text-[11px] font-mono text-muted-foreground">
-                          {v.name}
-                        </span>
-                        <input
-                          value={vars[v.name] ?? ""}
-                          onChange={(e) =>
-                            setVars((p) => ({ ...p, [v.name]: e.target.value }))
-                          }
-                          className="mt-1 h-9 w-full rounded-md border border-border bg-background px-3 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
-                        />
-                      </label>
-                    ))}
+            <div className="space-y-5">
+              {sharedFields.length > 0 && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    Shared{" "}
+                    <span className="font-normal text-muted-foreground">
+                      — identical on both PEs
+                    </span>
                   </div>
-                </>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {sharedFields.map((v) => {
+                      const bare = v.name.replace(/^\$/, "");
+                      return (
+                        <VarField
+                          key={v.name}
+                          name={v.name}
+                          value={shared[bare]}
+                          onChange={(val) => setShared((p) => ({ ...p, [bare]: val }))}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
               )}
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    {peLabel(sel.osA, "PE-A")}
+                  </div>
+                  <div className="space-y-3">
+                    {perFields.map((v) => {
+                      const bare = v.name.replace(/^\$/, "");
+                      const mirror = classifyVar(v.name, ROLES).kind === "mirrored-primary";
+                      return (
+                        <VarField
+                          key={v.name}
+                          name={v.name}
+                          hint={mirror ? "(far-end remote auto-set)" : undefined}
+                          value={perA[bare]}
+                          onChange={(val) => setPerA((p) => ({ ...p, [bare]: val }))}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+                {twoPe && (
+                  <div>
+                    <div className="mb-2 text-xs font-medium text-foreground">
+                      {peLabel(sel.osB as GenOsKey, "PE-B")}
+                    </div>
+                    <div className="space-y-3">
+                      {perFields.map((v) => {
+                        const bare = v.name.replace(/^\$/, "");
+                        const mirror =
+                          classifyVar(v.name, ROLES).kind === "mirrored-primary";
+                        return (
+                          <VarField
+                            key={v.name}
+                            name={v.name}
+                            hint={mirror ? "(far-end remote auto-set)" : undefined}
+                            value={perB[bare]}
+                            onChange={(val) => setPerB((p) => ({ ...p, [bare]: val }))}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -531,7 +730,7 @@ export default function ConfigGenerator() {
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               Generated config
             </span>
-            {render && (
+            {fullText && (
               <div className="flex gap-2">
                 <button
                   onClick={copy}
@@ -557,17 +756,34 @@ export default function ConfigGenerator() {
             </div>
           ) : (
             <>
-              {render && render.missing.length > 0 && (
+              {missing.length > 0 && (
                 <div className="mt-3 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-2 text-[11px] text-amber-700 dark:text-amber-400">
                   <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span>Unfilled variables: {render.missing.join(", ")}.</span>
+                  <span>Unfilled variables: {missing.join(", ")}.</span>
                 </div>
               )}
-              <pre className="mt-3 max-h-[32rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
-                {render?.text}
-              </pre>
+              {renderA && (
+                <div className="mt-3">
+                  <div className="mb-1 text-[11px] font-semibold text-primary">
+                    # {peLabel(sel.osA, "PE-A")}
+                  </div>
+                  <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
+                    {renderA.text}
+                  </pre>
+                </div>
+              )}
+              {renderB && (
+                <div className="mt-4">
+                  <div className="mb-1 text-[11px] font-semibold text-primary">
+                    # {peLabel(sel.osB as GenOsKey, "PE-B")}
+                  </div>
+                  <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
+                    {renderB.text}
+                  </pre>
+                </div>
+              )}
               <div className="mt-2 text-[11px] text-muted-foreground">
-                {resolvedIds.length} snip{resolvedIds.length === 1 ? "" : "s"} ·{" "}
+                {twoPe ? "2 endpoints · matched identifiers" : "single device"} ·{" "}
                 {[sel.cos && "CoS", sel.firewall && "firewall filter"]
                   .filter(Boolean)
                   .join(" + ") || "service only"}{" "}

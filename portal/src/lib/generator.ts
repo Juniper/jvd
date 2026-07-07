@@ -51,8 +51,65 @@ export type GenCatalog = {
   version: number;
   tiers: Record<string, { label: string; description: string }>;
   cosSnips: Record<GenOsKey, string[]>;
+  variableRoles: VariableRoles;
   families: GenFamily[];
 };
+
+/**
+ * Classifies each $VAR for two-endpoint rendering:
+ *  - shared: identical on both PEs (route-target, instance name, …)
+ *  - mirrored pairs: each PE's local value; the partner is the OTHER PE's
+ *    local value (e.g. PE-A remote-site-id = PE-B site-id)
+ *  - anything not listed = per-endpoint (each PE has its own)
+ */
+export type VariableRoles = {
+  shared: string[];
+  mirrored: [string, string][];
+};
+
+export type VarKind =
+  | "shared"
+  | "mirrored-primary"
+  | "mirrored-secondary"
+  | "per-endpoint";
+
+/** Classify a variable name (with or without leading $). */
+export function classifyVar(
+  name: string,
+  roles: VariableRoles,
+): { kind: VarKind; partner?: string } {
+  const bare = name.replace(/^\$/, "");
+  if (roles.shared.includes(bare)) return { kind: "shared" };
+  for (const [a, b] of roles.mirrored) {
+    if (bare === a) return { kind: "mirrored-primary", partner: b };
+    if (bare === b) return { kind: "mirrored-secondary", partner: a };
+  }
+  return { kind: "per-endpoint" };
+}
+
+/**
+ * Build the concrete value map for one endpoint. `shared` applies to both
+ * PEs; `own` holds this PE's per-endpoint + mirrored-primary values;
+ * `other` supplies the far PE's values so mirrored-secondary vars
+ * (REMOTE_*) resolve to the far end's local value.
+ */
+export function endpointValues(
+  varNames: string[],
+  roles: VariableRoles,
+  shared: Record<string, string>,
+  own: Record<string, string>,
+  other: Record<string, string>,
+): Record<string, string> {
+  const out: Record<string, string> = { ...shared, ...own };
+  for (const name of varNames) {
+    const bare = name.replace(/^\$/, "");
+    const c = classifyVar(bare, roles);
+    if (c.kind === "mirrored-secondary" && c.partner && other[c.partner] !== undefined) {
+      out[bare] = other[c.partner];
+    }
+  }
+  return out;
+}
 
 export type GenSelection = {
   familyId: string;

@@ -11,6 +11,24 @@
     "evo": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p", "evo/cos/rewrite-rules"],
     "junos": ["junos/cos/classifiers", "junos/cos/cos-binding-ieee8021p", "junos/cos/rewrite-rules"]
   },
+  "variableRoles": {
+    "_note": "Classifies each $VAR for two-endpoint (PE-A / PE-B) rendering. 'shared' = identical on both PEs (must match). 'mirrored' pairs = each PE's local value; the partner is auto-filled from the other PE's local value (e.g. PE-A remote-site-id = PE-B site-id). Everything not listed = per-endpoint (each PE has its own value).",
+    "shared": [
+      "INSTANCE_NAME",
+      "VRF_TARGET",
+      "VRF_TARGET_1",
+      "VRF_TARGET_2",
+      "VC_ID",
+      "LABEL_BLOCK_SIZE",
+      "SITE_RANGE",
+      "COMM_RT",
+      "VPN_RT_COMM"
+    ],
+    "mirrored": [
+      ["LOCAL_VID", "REMOTE_VID"],
+      ["SITE_ID", "REMOTE_SITE_ID"]
+    ]
+  },
   "families": [
     {
       "id": "e-line",
