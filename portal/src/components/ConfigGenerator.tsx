@@ -344,6 +344,15 @@ export default function ConfigGenerator() {
         );
       }
     }
+    // Mirrored pairs: if both PEs use the same local value, each PE ends up
+    // with local == remote, which is invalid (e.g. vpws-service-id).
+    for (const [primary, secondary] of ROLES.mirrored) {
+      if (perA[primary] !== undefined && perA[primary] === perB[primary]) {
+        consistencyWarnings.push(
+          `${varLabel(primary)} and ${varLabel(secondary)} would be identical on each PE — local and remote must differ.`,
+        );
+      }
+    }
   }
 
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
