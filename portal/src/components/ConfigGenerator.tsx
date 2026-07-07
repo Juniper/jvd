@@ -22,6 +22,7 @@ import {
   renderConfig,
   classifyVar,
   endpointValues,
+  instanceValues,
 } from "@/lib/generator";
 
 const CATALOG = maasCatalog as unknown as GenCatalog;
@@ -208,6 +209,7 @@ export default function ConfigGenerator() {
   const [perB, setPerB] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
+  const [count, setCount] = useState(1);
 
   const family = CATALOG.families.find((f) => f.id === sel.familyId);
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
@@ -413,13 +415,35 @@ export default function ConfigGenerator() {
     setShared({});
     setPerA({});
     setPerB({});
+    setCount(1);
     setStep(0);
   };
 
   const download = () => {
     if (!fullText) return;
-    const fname = `maas-${sel.familyId}-${sel.deploymentId}.conf`;
-    const blob = new Blob([fullText + "\n"], { type: "text/plain" });
+    // Emit all N service instances: instance i increments every non-constant
+    // variable's trailing integer by i (instance 0 = the values entered).
+    const n = Math.max(1, Math.min(count, 500));
+    const chunks: string[] = [];
+    for (let i = 0; i < n; i++) {
+      const sh = instanceValues(shared, ROLES, i);
+      const a = instanceValues(perA, ROLES, i);
+      const b = instanceValues(perB, ROLES, i);
+      const ra = idsA.length
+        ? renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId)
+        : null;
+      const rb =
+        twoPe && idsB.length
+          ? renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId)
+          : null;
+      const body = [ra?.text, rb?.text].filter(Boolean).join("\n\n");
+      chunks.push(
+        n > 1 ? `/* ===== service ${i + 1} of ${n} ===== */\n${body}` : body,
+      );
+    }
+    const text = chunks.join("\n\n") + "\n";
+    const fname = `maas-${sel.familyId}-${sel.deploymentId}${n > 1 ? `-x${n}` : ""}.conf`;
+    const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -707,6 +731,27 @@ export default function ConfigGenerator() {
 
           {currentStep === "params" && (
             <div className="space-y-5">
+              <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
+                <label className="text-xs font-medium text-foreground">
+                  Number of services
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={500}
+                  value={count}
+                  onChange={(e) =>
+                    setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                  }
+                  className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                />
+                <span className="text-[11px] text-muted-foreground">
+                  {count > 1
+                    ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                    : "The values below are your service. Increase the count to generate a numbered batch."}
+                </span>
+              </div>
+
               {sharedFields.length > 0 && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
@@ -843,12 +888,18 @@ export default function ConfigGenerator() {
                 </div>
               )}
               <div className="mt-2 text-[11px] text-muted-foreground">
+                {count > 1 ? `Previewing service 1 of ${count} · ` : ""}
                 {twoPe ? "2 endpoints · matched identifiers" : "single device"} ·{" "}
                 {[sel.cos && "CoS", sel.firewall && "firewall filter"]
                   .filter(Boolean)
                   .join(" + ") || "service only"}{" "}
                 · rendered client-side from the JVD snip library
               </div>
+              {count > 1 && (
+                <div className="mt-1 text-[11px] font-medium text-primary">
+                  Download includes all {count} services (#2–{count} auto-incremented).
+                </div>
+              )}
             </>
           )}
         </div>

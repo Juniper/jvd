@@ -29,7 +29,8 @@
       ["LOCAL_VID", "REMOTE_VID"],
       ["SITE_ID", "REMOTE_SITE_ID"]
     ],
-    "distinctPerEndpoint": ["RD"]
+    "distinctPerEndpoint": ["RD"],
+    "instanceConstant": ["MTU", "LABEL_BLOCK_SIZE", "FILTER_NAME", "SITE_RANGE", "AC_INTF"]
   },
   "families": [
     {

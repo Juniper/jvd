@@ -67,6 +67,9 @@ export type VariableRoles = {
   mirrored: [string, string][];
   /** Per-endpoint vars that MUST differ between PEs (e.g. RD). */
   distinctPerEndpoint?: string[];
+  /** Vars that stay the SAME across service instances (N-count) — e.g. the
+   *  physical port, MTU, filter name. Everything else increments per instance. */
+  instanceConstant?: string[];
 };
 
 export type VarKind =
@@ -87,6 +90,32 @@ export function classifyVar(
     if (bare === b) return { kind: "mirrored-secondary", partner: a };
   }
   return { kind: "per-endpoint" };
+}
+
+/** Increment the trailing integer of a value by `by` (0 = unchanged). */
+export function bumpInt(value: string, by: number): string {
+  if (by === 0) return value;
+  const m = value.match(/^(.*?)(\d+)$/);
+  return m ? m[1] + String(parseInt(m[2], 10) + by) : value;
+}
+
+/**
+ * Shift a value map to the Nth service instance: every variable's trailing
+ * integer is incremented by `i`, except those listed as instanceConstant
+ * (physical port, MTU, filter name, …). Instance 0 = unchanged (the values
+ * the user entered are the starting point for service #1).
+ */
+export function instanceValues(
+  values: Record<string, string>,
+  roles: VariableRoles,
+  i: number,
+): Record<string, string> {
+  const constant = new Set(roles.instanceConstant ?? []);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    out[k] = constant.has(k) ? v : bumpInt(v, i);
+  }
+  return out;
 }
 
 /**
