@@ -12,13 +12,14 @@
     "junos": ["junos/cos/classifiers", "junos/cos/cos-binding-ieee8021p", "junos/cos/rewrite-rules"]
   },
   "variableRoles": {
-    "_note": "Classifies each $VAR for two-endpoint (PE-A / PE-B) rendering. 'shared' = identical on both PEs (must match). 'mirrored' pairs = each PE's local value; the partner is auto-filled from the other PE's local value (e.g. PE-A remote-site-id = PE-B site-id). 'distinctPerEndpoint' = per-PE values that MUST differ (default bumped + warned if identical). Everything not listed = per-endpoint, defaults the same on both PEs.",
+    "_note": "Classifies each $VAR for two-endpoint (PE-A / PE-B) rendering. 'shared' = identical on both PEs (must match). VLAN is shared because the MaaS JVD's captured configs use matching UNI VLANs — differing VLANs would require input/output vlan-map normalization snips the JVD does not include. 'mirrored' pairs = each PE's local value; the partner is auto-filled from the other PE's local value. 'distinctPerEndpoint' = per-PE values that MUST differ for L2 services (RD) — default bumped + warned if identical. NOTE: for future L3 services (L3VPN/EVPN Type-5), same RD is valid, so this rule must be scoped per service type. Everything not listed = per-endpoint, defaults the same on both PEs.",
     "shared": [
       "INSTANCE_NAME",
       "VRF_TARGET",
       "VRF_TARGET_1",
       "VRF_TARGET_2",
       "VC_ID",
+      "VLAN",
       "LABEL_BLOCK_SIZE",
       "SITE_RANGE",
       "COMM_RT",
