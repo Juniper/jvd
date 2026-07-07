@@ -640,8 +640,8 @@ export default function ConfigGenerator() {
   const multiUni = !!deployment?.multiUni;
   const uniVars = useMemo(() => deployment?.uniVars ?? [], [deployment]);
   // For a multi-UNI (EVPN-FXC) service `count` is the number of bundled VLAN
-  // UNIs (1–10); for every other deployment it's the service-batch size.
-  const uniCount = multiUni ? Math.max(1, Math.min(count, 10)) : 1;
+  // UNIs (1–24); for every other deployment it's the service-batch size.
+  const uniCount = multiUni ? Math.max(1, Math.min(count, 24)) : 1;
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
     if (roleBased)
@@ -1225,7 +1225,7 @@ export default function ConfigGenerator() {
               {modeOpts.length > 0 && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
-                    {multiUni ? "VLAN handling (FXC type)" : "VLAN handling"}
+                    VLAN handling
                   </div>
                   <div className="space-y-2">
                     {modeOpts.map((m) => (
@@ -1397,11 +1397,11 @@ export default function ConfigGenerator() {
                   <input
                     type="number"
                     min={1}
-                    max={multiUni ? 10 : 500}
+                    max={multiUni ? 24 : 500}
                     value={count}
                     onChange={(e) =>
                       setCount(
-                        Math.max(1, Math.min(multiUni ? 10 : 500, Number(e.target.value) || 1)),
+                        Math.max(1, Math.min(multiUni ? 24 : 500, Number(e.target.value) || 1)),
                       )
                     }
                     className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
@@ -1410,7 +1410,7 @@ export default function ConfigGenerator() {
                     {multiUni
                       ? count > 1
                         ? `One EVPN-FXC service bundling ${count} VLAN UNIs. The values below are UNI #1; UNIs #2–${count} increment automatically.`
-                        : "One VLAN UNI. Increase the count to bundle more UNIs into this one FXC service (up to 10)."
+                        : "One VLAN UNI. Increase the count to bundle more UNIs into this one FXC service (up to 24)."
                       : count > 1
                         ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
                         : "The values below are your service. Increase the count to generate a numbered batch."}

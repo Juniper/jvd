@@ -214,35 +214,36 @@
               }
             },
             {
-              "id": "evpn-fxc",
-              "label": "EVPN-FXC",
-              "description": "Flexible Cross-Connect — many VLAN UNIs bundled under one EVPN-VPWS.",
+              "id": "evpn-fxc-unaware",
+              "label": "EVPN-FXC (VLAN-unaware)",
+              "description": "Flexible Cross-Connect — bundle many VLAN UNIs under one EVPN-VPWS group (shared service-id).",
+              "multiUni": true,
+              "uniVars": ["UNIT", "VLAN"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-fxc-vlan-unaware-1"],
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc-1-unit" },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/evpn-fxc-vlan-unaware-1"],
+                  "interface": { "single-homed": "junos/interfaces/vlan-ccc-1-unit" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "junos/firewall/filter-ccc-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "evpn-fxc-aware",
+              "label": "EVPN-FXC (VLAN-aware)",
+              "description": "Flexible Cross-Connect — per-UNI vpws-service-id + all-active ESI multihoming + S-VLAN normalization.",
               "multiUni": true,
               "uniVars": ["UNIT", "VLAN", "INPUT_VID", "ESI_ID"],
               "os": {
                 "evo": {
-                  "service": ["evo/services/evpn-fxc-vlan-unaware-1"],
-                  "serviceByHoming": {
-                    "single-homed": ["evo/services/evpn-fxc-vlan-unaware-1"],
-                    "multihomed": ["evo/services/evpn-fxc-vlan-aware-1"]
-                  },
-                  "interface": { "single-homed": "evo/interfaces/vlan-ccc-1-unit" },
-                  "uni": {
-                    "modes": [
-                      {
-                        "id": "vlan-unaware",
-                        "label": "VLAN-unaware",
-                        "description": "One FXC group bundles the UNIs under a single service-id (single-homed).",
-                        "interface": { "single-homed": "evo/interfaces/vlan-ccc-1-unit" }
-                      },
-                      {
-                        "id": "vlan-aware",
-                        "label": "VLAN-aware",
-                        "description": "Per-UNI vpws-service-id + all-active ESI multihoming + S-VLAN normalization.",
-                        "interface": { "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi-1-unit" }
-                      }
-                    ]
-                  },
+                  "service": ["evo/services/evpn-fxc-vlan-aware-1"],
+                  "interface": { "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi-1-unit" },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
                 }
