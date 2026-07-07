@@ -66,11 +66,18 @@ export type GenCatalog = {
   version: number;
   tiers: Record<string, { label: string; description: string }>;
   cosSnips: Record<GenOsKey, string[]>;
+  /** VRF route-export policy snips, per OS, keyed by color id (gold/bronze). */
+  routePolicySnips?: Partial<Record<GenOsKey, Record<string, string>>>;
+  /** Variables auto-derived from other variables (not shown as form fields). */
+  derivedVars?: Record<string, DerivedVar>;
   variableRoles: VariableRoles;
   varSpecs?: Record<string, VarSpec>;
   interfaceSpec?: InterfaceSpec;
   families: GenFamily[];
 };
+
+/** A variable whose value is computed from another variable's value. */
+export type DerivedVar = { from: string; prefix?: string; suffix?: string };
 
 /**
  * Classifies each $VAR for two-endpoint rendering:
@@ -265,6 +272,7 @@ export type GenSelection = {
   os: GenOsKey;
   homing: string; // key into osBlock.interface
   vlanMode?: string; // id of the chosen uni.mode (when the OS block has them)
+  rtPolicy?: string; // "rt-only" (strip vrf-export) or a color id (gold/bronze)
   cos: boolean; // include CoS binding snips (classifiers, scheduler binding)
   firewall: boolean; // include the UNI firewall filter
   color: string; // key into osBlock.filter (required when firewall = true)
@@ -310,6 +318,12 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   if (!osb) return [];
   const rel: string[] = [];
   rel.push(...osb.service);
+  // Colored VRF export: pull the gold/bronze policy that defines the
+  // `vrf-export` policy-statement the service references.
+  if (sel.rtPolicy && sel.rtPolicy !== "rt-only") {
+    const pol = catalog.routePolicySnips?.[sel.os]?.[sel.rtPolicy];
+    if (pol) rel.push(pol);
+  }
   const iface = osInterfaceMap(osb, sel.vlanMode)[sel.homing];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
@@ -405,6 +419,30 @@ function stripUniFilterBinding(body: string): string {
   );
 }
 
+/** Remove the `vrf-export <policy>;` line from a service body. Used in the
+ *  "route-target only" mode, where the RT alone drives import/export and no
+ *  export policy is defined. */
+function stripVrfExport(body: string): string {
+  return body.replace(/\n?[^\S\n]*vrf-export\s+\S+;/g, "");
+}
+
+/** Compute auto-derived variable values (e.g. POLICY_NAME = INSTANCE_NAME,
+ *  VPN_RT_COMM = INSTANCE_NAME + "_RT") from the resolved base values. */
+function applyDerived(
+  values: Record<string, string>,
+  derived?: Record<string, DerivedVar>,
+): Record<string, string> {
+  if (!derived) return values;
+  const out = { ...values };
+  for (const [key, d] of Object.entries(derived)) {
+    if (key.startsWith("_") || !d || !d.from) continue;
+    const base = values[d.from];
+    if (base !== undefined && base !== "")
+      out[key] = `${d.prefix ?? ""}${base}${d.suffix ?? ""}`;
+  }
+  return out;
+}
+
 export type RenderResult = {
   text: string;
   /** Variable names still present as $VAR after substitution. */
@@ -423,13 +461,19 @@ export function renderConfig(
   snipIds: string[],
   values: Record<string, string>,
   byId: Map<string, SnipRecord>,
-  opts?: { stripUniFilter?: boolean },
+  opts?: {
+    stripUniFilter?: boolean;
+    stripVrfExport?: boolean;
+    derived?: Record<string, DerivedVar>;
+  },
 ): RenderResult {
-  // Normalise value keys to bare names (no leading $).
+  // Normalise value keys to bare names (no leading $), then fold in any
+  // auto-derived variables (policy name, RT community, …).
   const norm: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     norm[k.startsWith("$") ? k.slice(1) : k] = v;
   }
+  const resolved = applyDerived(norm, opts?.derived);
 
   const blocks: string[] = [];
   const used: string[] = [];
@@ -438,18 +482,26 @@ export function renderConfig(
     if (!snip) continue;
     used.push(id);
     const shortPath = `${snip.osKey}/${snip.category}/${snip.name}.conf`;
-    let body = substitute(stripHeader(snip.body), norm);
+    let body = substitute(stripHeader(snip.body), resolved);
     // Drop the inline UNI filter binding on interface snips when the user
     // opted out of the firewall filter (else it dangles).
     if (opts?.stripUniFilter && snip.category === "interfaces") {
       body = stripUniFilterBinding(body);
     }
+    // Route-target-only mode: drop the vrf-export policy reference.
+    if (opts?.stripVrfExport && snip.category === "services") {
+      body = stripVrfExport(body);
+    }
     // Normalise interface snips under an `interfaces { … }` wrapper so they
-    // merge with each other (and with the CoS binding, which is already
-    // wrapped) into one physical-interface stanza. Some snips already carry
-    // the wrapper — don't double-wrap those.
+    // merge with each other into one physical-interface stanza. Some snips
+    // already carry the wrapper — don't double-wrap those.
     if (snip.category === "interfaces" && !/^\s*interfaces\s*\{/.test(body)) {
       body = `interfaces {\n${body}\n}`;
+    }
+    // CoS snips belong under `class-of-service { … }` (classifiers, rewrite
+    // rules, and the per-interface binding) — not under `[edit interfaces]`.
+    if (snip.category === "cos" && !/^\s*class-of-service\s*\{/.test(body)) {
+      body = `class-of-service {\n${body}\n}`;
     }
     const rendered = body.replace(/\s+$/, "");
     blocks.push(`/* snips/${shortPath} */\n${rendered}`);

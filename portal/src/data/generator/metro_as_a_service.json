@@ -11,6 +11,22 @@
     "evo": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p", "evo/cos/rewrite-rules"],
     "junos": ["junos/cos/classifiers", "junos/cos/cos-binding-ieee8021p", "junos/cos/rewrite-rules"]
   },
+  "routePolicySnips": {
+    "_note": "VRF route-export policy per OS, keyed by color id. The policy defines the policy-statement the service's `vrf-export` references, adding the RT community + the color-mapping community (gold/bronze). Junos has gold only; EVO has gold + bronze.",
+    "evo": {
+      "gold": "evo/policy/policy-vpn-rt-export-gold",
+      "bronze": "evo/policy/policy-vpn-rt-export-bronze"
+    },
+    "junos": {
+      "gold": "junos/policy/policy-vpn-rt-export-gold"
+    }
+  },
+  "derivedVars": {
+    "_note": "Auto-computed variables — not shown as form fields. POLICY_NAME + the RT community follow the instance name; COMM_RT mirrors the route-target so the color policy and the service agree.",
+    "POLICY_NAME": { "from": "INSTANCE_NAME" },
+    "COMM_RT": { "from": "VRF_TARGET" },
+    "VPN_RT_COMM": { "from": "INSTANCE_NAME", "suffix": "_RT" }
+  },
   "variableRoles": {
     "_note": "Classifies each $VAR for two-endpoint (PE-A / PE-B) rendering. 'shared' = identical on both PEs (must match). VLAN is shared because the MaaS JVD's captured configs use matching UNI VLANs — differing VLANs would require input/output vlan-map normalization snips the JVD does not include. 'mirrored' pairs = each PE's local value; the partner is auto-filled from the other PE's local value. 'distinctPerEndpoint' = per-PE values that MUST differ for L2 services (RD) — default bumped + warned if identical. NOTE: for future L3 services (L3VPN/EVPN Type-5), same RD is valid, so this rule must be scoped per service type. Everything not listed = per-endpoint, defaults the same on both PEs.",
     "shared": [

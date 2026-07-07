@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T21:59:27.402Z",
+  "generatedAt": "2026-07-07T13:44:23.945Z",
   "counts": {
     "total": 515,
     "junos": 248,
@@ -23307,7 +23307,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the bronze color-mapping community (color:0:6000)"
       ],
       "pairWith": [],
       "variables": [
@@ -23325,10 +23325,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2BRONZE;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2BRONZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 340,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2BRONZE;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2BRONZE members color:0:6000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2BRONZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 393,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
@@ -23358,7 +23358,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the gold color-mapping community (color:0:4000)"
       ],
       "pairWith": [],
       "variables": [
@@ -23376,10 +23376,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 338,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 389,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
@@ -27579,7 +27579,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the gold color-mapping community (color:0:4000)"
       ],
       "pairWith": [],
       "variables": [
@@ -27597,10 +27597,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 338,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 389,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [

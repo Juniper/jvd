@@ -33,6 +33,18 @@ const CATALOG = maasCatalog as unknown as GenCatalog;
 const ROLES = CATALOG.variableRoles;
 const IFACE_SPEC = CATALOG.interfaceSpec;
 const VAR_SPECS = (CATALOG.varSpecs ?? {}) as Record<string, unknown>;
+const ROUTE_POLICY = (CATALOG.routePolicySnips ?? {}) as Partial<
+  Record<GenOsKey, Record<string, string>>
+>;
+/** Variables computed automatically (never shown as editable form fields). */
+const DERIVED_VARS = new Set(
+  Object.keys(CATALOG.derivedVars ?? {}).filter((k) => !k.startsWith("_")),
+);
+/** Friendly labels for the VPN color options. */
+const COLOR_POLICY_LABELS: Record<string, string> = {
+  gold: "Gold — priority / low-latency",
+  bronze: "Bronze — TE path",
+};
 
 /** The validated field spec for a bare var name (skips the `_note` key). */
 function specFor(bare: string): VarSpec | undefined {
@@ -138,6 +150,7 @@ type Selection = {
   osB?: OsChoice;
   homing?: string;
   vlanMode?: string;
+  rtPolicy?: string;
   color?: string;
   cos: boolean;
   firewall: boolean;
@@ -304,6 +317,32 @@ export default function ConfigGenerator() {
         : modeOpts[0].id
       : undefined;
 
+  // VRF route-export: "route-target only" vs a colored export policy. Colors
+  // are the intersection of what both PEs' OS support (Junos = gold only).
+  const colorPolA = sel.osA ? Object.keys(ROUTE_POLICY[sel.osA] ?? {}) : [];
+  const colorPolB =
+    twoPe && sel.osB && sel.osB !== "none"
+      ? Object.keys(ROUTE_POLICY[sel.osB as GenOsKey] ?? {})
+      : null;
+  const colorPolOpts = colorPolB
+    ? colorPolA.filter((c) => colorPolB.includes(c))
+    : colorPolA;
+  // Only offer the choice when the deployment's service actually emits a
+  // `vrf-export` (i.e. it's RT-policy driven).
+  const serviceHasVrfExport = Boolean(
+    osBlockA?.service.some((rel) =>
+      /vrf-export/.test(byId.get(`${CATALOG.jvd}/${rel}`)?.body ?? ""),
+    ),
+  );
+  const rtPolicyApplies = serviceHasVrfExport && colorPolOpts.length > 0;
+  // Effective route policy: "rt-only" (default, strips vrf-export) or a valid
+  // color id. Falls back to rt-only when the pick isn't supported.
+  const rtPolicy = !rtPolicyApplies
+    ? "rt-only"
+    : sel.rtPolicy && colorPolOpts.includes(sel.rtPolicy)
+      ? sel.rtPolicy
+      : "rt-only";
+
   // Attribute options = intersection of both endpoints (or just A when single),
   // for the currently-selected VLAN mode.
   const attrsA = osBlockA
@@ -338,6 +377,7 @@ export default function ConfigGenerator() {
     os,
     homing: sel.homing!,
     vlanMode,
+    rtPolicy,
     color: sel.color ?? "",
     cos: sel.cos,
     firewall: sel.firewall,
@@ -368,9 +408,12 @@ export default function ConfigGenerator() {
   }, [idsA, idsB, byId]);
 
   const sharedFields = unionVars.filter(
-    (v) => classifyVar(v.name, ROLES).kind === "shared",
+    (v) =>
+      !DERIVED_VARS.has(v.name.replace(/^\$/, "")) &&
+      classifyVar(v.name, ROLES).kind === "shared",
   );
   const perFields = unionVars.filter((v) => {
+    if (DERIVED_VARS.has(v.name.replace(/^\$/, ""))) return false;
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
@@ -383,6 +426,7 @@ export default function ConfigGenerator() {
     sel.osB,
     sel.homing,
     vlanMode,
+    rtPolicy,
     sel.color,
     sel.cos,
     sel.firewall,
@@ -416,6 +460,8 @@ export default function ConfigGenerator() {
     if (!complete || idsA.length === 0) return null;
     return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId, {
       stripUniFilter: !sel.firewall,
+      stripVrfExport: rtPolicy === "rt-only",
+      derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, idsA, shared, perA, perB, byId]);
@@ -423,6 +469,8 @@ export default function ConfigGenerator() {
     if (!complete || !twoPe || idsB.length === 0) return null;
     return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId, {
       stripUniFilter: !sel.firewall,
+      stripVrfExport: rtPolicy === "rt-only",
+      derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, twoPe, idsB, shared, perA, perB, byId]);
@@ -488,6 +536,11 @@ export default function ConfigGenerator() {
           ? [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
               vlanMode ? modeOpts.find((m) => m.id === vlanMode)?.label : null,
+              rtPolicyApplies
+                ? rtPolicy === "rt-only"
+                  ? "Uncolored"
+                  : `${rtPolicy[0].toUpperCase()}${rtPolicy.slice(1)} policy`
+                : null,
               sel.cos ? "CoS" : "no CoS",
               sel.firewall
                 ? `filter (${COLOR_LABELS[sel.color!] ?? sel.color})`
@@ -529,12 +582,16 @@ export default function ConfigGenerator() {
         aBodies.push(
           renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
             stripUniFilter: !sel.firewall,
+            stripVrfExport: rtPolicy === "rt-only",
+            derived: CATALOG.derivedVars,
           }).text,
         );
       if (twoPe && idsB.length)
         bBodies.push(
           renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
             stripUniFilter: !sel.firewall,
+            stripVrfExport: rtPolicy === "rt-only",
+            derived: CATALOG.derivedVars,
           }).text,
         );
     }
@@ -784,6 +841,44 @@ export default function ConfigGenerator() {
                         onClick={() => setSel((p) => ({ ...p, vlanMode: m.id }))}
                       />
                     ))}
+                  </div>
+                </div>
+              )}
+              {rtPolicyApplies && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    VRF route-export
+                  </div>
+                  <div className="space-y-2">
+                    <Chip
+                      label="Uncolored (route-target only)"
+                      sub="vrf-target only — no color community (best-effort)"
+                      active={rtPolicy === "rt-only"}
+                      onClick={() => setSel((p) => ({ ...p, rtPolicy: "rt-only" }))}
+                    />
+                    <Chip
+                      label="Color community"
+                      sub="Export policy adds a traffic-class color community (+ RT)"
+                      active={rtPolicy !== "rt-only"}
+                      onClick={() =>
+                        setSel((p) => ({ ...p, rtPolicy: colorPolOpts[0] }))
+                      }
+                    />
+                    {rtPolicy !== "rt-only" && (
+                      <select
+                        value={rtPolicy}
+                        onChange={(e) =>
+                          setSel((p) => ({ ...p, rtPolicy: e.target.value }))
+                        }
+                        className="h-9 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      >
+                        {colorPolOpts.map((c) => (
+                          <option key={c} value={c}>
+                            {COLOR_POLICY_LABELS[c] ?? c}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
               )}
