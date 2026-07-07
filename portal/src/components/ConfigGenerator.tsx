@@ -67,6 +67,51 @@ const VAR_LABELS: Record<string, string> = {
 };
 const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
 
+/** Per-variable format validation (syntax). Value must match `re` or the
+ *  field shows `msg` inline. Lenient — only flags clearly-malformed input. */
+const VALIDATORS: Record<string, { re: RegExp; msg: string }> = {
+  RD: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
+  VRF_TARGET: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
+  VRF_TARGET_1: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
+  VRF_TARGET_2: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
+  COMM_RT: { re: /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/, msg: "expected <ip|asn>:<number>" },
+  VLAN: { re: /^\d+$/, msg: "expected a VLAN number" },
+  VLAN_1: { re: /^\d+$/, msg: "expected a VLAN number" },
+  VLAN_2: { re: /^\d+$/, msg: "expected a VLAN number" },
+  INPUT_VID: { re: /^\d+$/, msg: "expected a VLAN number" },
+  LOCAL_VID: { re: /^\d+$/, msg: "expected a number" },
+  REMOTE_VID: { re: /^\d+$/, msg: "expected a number" },
+  UNIT: { re: /^\d+$/, msg: "expected a number" },
+  UNIT_1: { re: /^\d+$/, msg: "expected a number" },
+  UNIT_2: { re: /^\d+$/, msg: "expected a number" },
+  SITE_ID: { re: /^\d+$/, msg: "expected a number" },
+  REMOTE_SITE_ID: { re: /^\d+$/, msg: "expected a number" },
+  VC_ID: { re: /^\d+$/, msg: "expected a number" },
+  MTU: { re: /^\d+$/, msg: "expected a number" },
+  LABEL_BLOCK_SIZE: { re: /^\d+$/, msg: "expected a number" },
+  AC_INTF: {
+    re: /^[a-z]{2,3}-\d+\/\d+\/\d+(:\d+)?$|^ae\d+$/,
+    msg: "expected an interface (e.g. et-0/0/13, ae11)",
+  },
+  ESI_ID: {
+    re: /^([0-9a-fA-F]{2}:){9}[0-9a-fA-F]{2}$/,
+    msg: "expected a 10-byte ESI (00:…:01)",
+  },
+  INSTANCE_NAME: { re: /^[A-Za-z0-9_-]+$/, msg: "letters, digits, _ or - only" },
+  IP_ADDRESS: {
+    re: /^\d{1,3}(\.\d{1,3}){3}\/\d{1,2}$/,
+    msg: "expected ip/prefix (e.g. 198.51.100.1/27)",
+  },
+  ROUTER_ID: { re: /^\d{1,3}(\.\d{1,3}){3}$/, msg: "expected an IPv4 address" },
+};
+
+/** Format error for a single field value (undefined = valid or unvalidated). */
+function formatError(bare: string, value: string | undefined): string | undefined {
+  const v = VALIDATORS[bare];
+  if (v && value && !v.re.test(value)) return v.msg;
+  return undefined;
+}
+
 type OsChoice = GenOsKey | "none";
 
 type StepId =
@@ -767,6 +812,7 @@ export default function ConfigGenerator() {
                         <VarField
                           key={v.name}
                           name={v.name}
+                          error={formatError(bare, shared[bare])}
                           value={shared[bare]}
                           onChange={(val) => setShared((p) => ({ ...p, [bare]: val }))}
                         />
@@ -790,7 +836,7 @@ export default function ConfigGenerator() {
                           key={v.name}
                           name={v.name}
                           hint={mirror ? "(far-end remote auto-set)" : undefined}
-                          error={fieldErrors[bare]}
+                          error={formatError(bare, perA[bare]) ?? fieldErrors[bare]}
                           value={perA[bare]}
                           onChange={(val) => setPerA((p) => ({ ...p, [bare]: val }))}
                         />
@@ -813,7 +859,7 @@ export default function ConfigGenerator() {
                             key={v.name}
                             name={v.name}
                             hint={mirror ? "(far-end remote auto-set)" : undefined}
-                            error={fieldErrors[bare]}
+                            error={formatError(bare, perB[bare]) ?? fieldErrors[bare]}
                             value={perB[bare]}
                             onChange={(val) => setPerB((p) => ({ ...p, [bare]: val }))}
                           />
