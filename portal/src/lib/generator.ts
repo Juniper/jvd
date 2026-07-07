@@ -65,6 +65,9 @@ export type GenFamily = {
   /** Variables that increment per transport PW (not per service) in the
    *  two-dimensional PWHT fan-out — the PS IFD, VC-ID, PW labels. */
   transportVars?: string[];
+  /** PWHT color: the community-definition snip + color→community-name map. */
+  colorCommDef?: string;
+  colorComms?: Record<string, string>;
 };
 
 /** One endpoint role of a role-based family (e.g. PWHT Access vs Headend).
@@ -75,6 +78,9 @@ export type GenRole = {
   os: GenOsKey;
   service: string[];
   interface: string[];
+  /** Alternate interface snip(s) used when a PW carries a VLAN range
+   *  (vlan-id-list) instead of a single VLAN. */
+  interfaceList?: string[];
   cosSnips?: string[];
   filter?: string;
 };

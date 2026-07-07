@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T18:47:11.240Z",
+  "generatedAt": "2026-07-07T19:02:31.842Z",
   "counts": {
     "total": 517,
     "junos": 248,
@@ -25020,6 +25020,10 @@
           "example": "et-0/0/12"
         },
         {
+          "name": "$COLOR_COMM",
+          "example": "CM-TC-MAP2GOLD"
+        },
+        {
           "name": "$PW_LABEL_IN",
           "example": "1000022"
         },
@@ -25047,10 +25051,10 @@
         "    PEs (Evo): MA1.2 (ACX7024)",
         "    PEs (Junos): MSE1 (MX304), MSE2 (MX304)"
       ],
-      "body": "protocols {\n    l2circuit {\n        neighbor $PW_NEIGHBOR {\n            interface $AC_INTF.$UNIT {\n                static {\n                    incoming-label $PW_LABEL_IN;\n                    outgoing-label $PW_LABEL_OUT;\n                }\n                virtual-circuit-id $VC_ID;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PW_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label $PW_LABEL_IN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label $PW_LABEL_OUT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 365,
-      "lineCount": 14,
+      "body": "protocols {\n    l2circuit {\n        neighbor $PW_NEIGHBOR {\n            interface $AC_INTF.$UNIT {\n                static {\n                    incoming-label $PW_LABEL_IN;\n                    outgoing-label $PW_LABEL_OUT;\n                }\n                virtual-circuit-id $VC_ID;\n                community $COLOR_COMM;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PW_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label $PW_LABEL_IN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label $PW_LABEL_OUT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community $COLOR_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 404,
+      "lineCount": 15,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [

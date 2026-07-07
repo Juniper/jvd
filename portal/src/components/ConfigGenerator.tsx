@@ -27,7 +27,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
-  gridInstanceValues,
+  bumpInt,
   validateSpec,
 } from "@/lib/generator";
 
@@ -47,6 +47,60 @@ const COLOR_POLICY_LABELS: Record<string, string> = {
   gold: "Gold — priority / low-latency",
   bronze: "Bronze — TE path",
 };
+
+/** PWHT color options (batch-level: one color per generated batch). */
+const PWHT_COLORS = ["uncolored", "gold", "bronze"] as const;
+const PWHT_COLOR_LABELS: Record<string, string> = {
+  uncolored: "Uncolored (best-effort)",
+  gold: "Gold — priority / low-latency",
+  bronze: "Bronze — TE path",
+};
+/** Variables the PWHT fan-out computes automatically (not user form fields). */
+const PWHT_COMPUTED = new Set([
+  "UNIT",
+  "PS_SERVICE",
+  "VLAN_LIST_START",
+  "VLAN_LIST_END",
+  "COLOR_COMM",
+]);
+
+/**
+ * Compute the value map for one PWHT role instance in the transport×service
+ * fan-out. Transport vars (PS IFD, VC-ID, PW labels) bump per PW (t); the
+ * access side carries the whole VLAN range on one unit (vlan-id-list); the
+ * headend side has one service unit + ELAN per VLAN (bumped by the global
+ * service index i). ESIs/RD increment per service.
+ */
+function pwhtInstanceValues(
+  role: "access" | "headend",
+  base: Record<string, string>,
+  transportVars: Set<string>,
+  t: number,
+  s: number,
+  S: number,
+  baseVlan: number,
+  colorComm: string,
+): Record<string, string> {
+  const rangeStart = baseVlan + t * S;
+  const vlan = rangeStart + s;
+  const i = t * S + s;
+  const out: Record<string, string> = { ...base };
+  for (const k of Object.keys(out)) if (transportVars.has(k)) out[k] = bumpInt(out[k], t);
+  if (role === "access") {
+    out.UNIT = String(rangeStart);
+    out.VLAN_LIST_START = String(rangeStart);
+    out.VLAN_LIST_END = String(rangeStart + S - 1);
+    out.VLAN = String(rangeStart);
+    if (colorComm) out.COLOR_COMM = colorComm;
+  } else {
+    out.VLAN = String(vlan);
+    out.PS_SERVICE = String(vlan);
+    out.UNIT = String(vlan);
+    for (const k of ["RD", "VESI_ID", "ESI_ID"])
+      if (base[k] !== undefined) out[k] = bumpInt(base[k], i);
+  }
+  return out;
+}
 
 /** The validated field spec for a bare var name (skips the `_note` key). */
 function specFor(bare: string): VarSpec | undefined {
@@ -164,6 +218,7 @@ type Selection = {
   homing?: string;
   vlanMode?: string;
   rtPolicy?: string;
+  pwColor?: string;
   color?: string;
   cos: boolean;
   firewall: boolean;
@@ -407,16 +462,43 @@ export default function ConfigGenerator() {
     firewall: sel.firewall,
   });
 
+  // PWHT batch color (uncolored / gold / bronze) → community name for the ACX
+  // l2circuit + whether to pull the community-definition snip.
+  const pwColor = roleBased ? sel.pwColor ?? "uncolored" : "uncolored";
+  const pwColorComm =
+    roleBased && pwColor !== "uncolored"
+      ? family?.colorComms?.[pwColor] ?? ""
+      : "";
+  const qd = (rel: string[]) => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const r of rel) {
+      const id = `${CATALOG.jvd}/${r}`;
+      if (!seen.has(id)) {
+        seen.add(id);
+        out.push(id);
+      }
+    }
+    return out;
+  };
+
   const idsA = useMemo(
     () => {
-      if (roleBased)
-        return roles[0]
-          ? resolveRoleSnipIds(CATALOG, roles[0], { cos: sel.cos, firewall: false })
-          : [];
+      if (roleBased) {
+        const r = roles[0];
+        if (!r) return [];
+        const useList = count > 1; // vlan-id-list when a PW carries >1 VLAN
+        return qd([
+          ...r.service,
+          ...(useList && r.interfaceList ? r.interfaceList : r.interface),
+          ...(pwColorComm && family?.colorCommDef ? [family.colorCommDef] : []),
+          ...(sel.cos ? r.cosSnips ?? [] : []),
+        ]);
+      }
       return complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : [];
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel, roleBased],
+    [complete, sel, roleBased, count, pwColorComm],
   );
   const idsB = useMemo(
     () => {
@@ -443,13 +525,14 @@ export default function ConfigGenerator() {
     return out;
   }, [idsA, idsB, byId]);
 
-  const sharedFields = unionVars.filter(
-    (v) =>
-      !DERIVED_VARS.has(v.name.replace(/^\$/, "")) &&
-      classifyVar(v.name, ROLES).kind === "shared",
-  );
+  const sharedFields = unionVars.filter((v) => {
+    const bare = v.name.replace(/^\$/, "");
+    if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
+    return classifyVar(v.name, ROLES).kind === "shared";
+  });
   const perFields = unionVars.filter((v) => {
-    if (DERIVED_VARS.has(v.name.replace(/^\$/, ""))) return false;
+    const bare = v.name.replace(/^\$/, "");
+    if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
@@ -479,6 +562,8 @@ export default function ConfigGenerator() {
     sel.homing,
     vlanMode,
     rtPolicy,
+    sel.pwColor,
+    count > 1,
     sel.color,
     sel.cos,
     sel.firewall,
@@ -528,24 +613,43 @@ export default function ConfigGenerator() {
   }, [pathKey]);
 
   const names = unionVars.map((v) => v.name);
+  const transportVars = useMemo(
+    () => new Set(family?.transportVars ?? []),
+    [family],
+  );
+  const baseVlan = Number(shared.VLAN) || 0;
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
+    if (roleBased)
+      return renderConfig(
+        idsA,
+        pwhtInstanceValues("access", { ...shared, ...perA }, transportVars, 0, 0, count, baseVlan, pwColorComm),
+        byId,
+        { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
+      );
     return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, idsA, shared, perA, perB, byId]);
+  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm]);
   const renderB = useMemo(() => {
     if (!complete || !twoPe || idsB.length === 0) return null;
+    if (roleBased)
+      return renderConfig(
+        idsB,
+        pwhtInstanceValues("headend", { ...shared, ...perB }, transportVars, 0, 0, count, baseVlan, ""),
+        byId,
+        { stripUniFilter: !sel.firewall },
+      );
     return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, twoPe, idsB, shared, perA, perB, byId]);
+  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm]);
 
   // Merged, consolidated config for display/copy (single previewed service).
   const mergedA = useMemo(
@@ -619,9 +723,9 @@ export default function ConfigGenerator() {
       case "attributes":
         return attrsComplete
           ? roleBased
-            ? sel.cos
-              ? "CoS"
-              : "no CoS"
+            ? [pwColor === "uncolored" ? "Uncolored" : `${pwColor[0].toUpperCase()}${pwColor.slice(1)}`, sel.cos ? "CoS" : "no CoS"]
+                .filter(Boolean)
+                .join(" · ")
             : [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
               vlanMode ? modeOpts.find((m) => m.id === vlanMode)?.label : null,
@@ -657,25 +761,49 @@ export default function ConfigGenerator() {
   const download = () => {
     if (!fullText) return;
     // Emit all service instances, merged into one consolidated hierarchy per
-    // endpoint. Symmetric families: a 1-D batch of `count` services. Role-based
-    // (PWHT): a 2-D grid of `pwCount` transport PWs × `count` services each —
-    // transport vars bump per PW, service vars bump globally so every EVPN-ELAN
-    // stays unique.
-    const S = roleBased ? 1 : Math.max(1, Math.min(count, 500));
-    const T = 1;
-    const transportVars = family?.transportVars ?? [];
-    const shift = (m: Record<string, string>, t: number, i: number) =>
-      roleBased
-        ? gridInstanceValues(m, ROLES, transportVars, t, i)
-        : instanceValues(m, ROLES, i);
+    // endpoint. Symmetric families (E-Line): a 1-D batch of `count` services.
+    // PWHT: an ASYMMETRIC fan-out — the access side renders once per transport
+    // PW (one l2circuit + one vlan-id-list unit), the headend renders once per
+    // VLAN (transport stanzas dedupe per-PW via the merger; service stanzas are
+    // per-VLAN). Two knobs: pwCount PWs × count VLANs-per-PW.
     const aBodies: string[] = [];
     const bBodies: string[] = [];
-    for (let t = 0; t < T; t++) {
-      for (let s = 0; s < S; s++) {
-        const i = t * S + s;
-        const sh = shift(shared, t, i);
-        const a = shift(perA, t, i);
-        const b = shift(perB, t, i);
+    let total = 1;
+    if (roleBased) {
+      const S = Math.max(1, Math.min(count, 500));
+      const T = Math.max(1, Math.min(pwCount, 100));
+      total = T * S;
+      const accessBase = { ...shared, ...perA };
+      const headendBase = { ...shared, ...perB };
+      for (let t = 0; t < T; t++) {
+        if (idsA.length)
+          aBodies.push(
+            renderConfig(
+              idsA,
+              pwhtInstanceValues("access", accessBase, transportVars, t, 0, S, baseVlan, pwColorComm),
+              byId,
+              { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
+            ).text,
+          );
+        for (let s = 0; s < S; s++) {
+          if (idsB.length)
+            bBodies.push(
+              renderConfig(
+                idsB,
+                pwhtInstanceValues("headend", headendBase, transportVars, t, s, S, baseVlan, ""),
+                byId,
+                { stripUniFilter: !sel.firewall },
+              ).text,
+            );
+        }
+      }
+    } else {
+      const S = Math.max(1, Math.min(count, 500));
+      total = S;
+      for (let i = 0; i < S; i++) {
+        const sh = instanceValues(shared, ROLES, i);
+        const a = instanceValues(perA, ROLES, i);
+        const b = instanceValues(perB, ROLES, i);
         if (idsA.length)
           aBodies.push(
             renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
@@ -694,7 +822,6 @@ export default function ConfigGenerator() {
           );
       }
     }
-    const total = T * S;
     const sections: string[] = [];
     if (aBodies.length) {
       const merged = mergeJunosConfig(aBodies.join("\n"));
@@ -822,6 +949,7 @@ export default function ConfigGenerator() {
                       homing: undefined,
                       vlanMode: undefined,
                       rtPolicy: undefined,
+                      pwColor: "uncolored",
                       color: undefined,
                       firewall: false,
                       cos: true,
@@ -963,6 +1091,31 @@ export default function ConfigGenerator() {
                   />
                 </div>
               </div>
+              {family?.colorComms && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    Transport color{" "}
+                    <span className="font-normal text-muted-foreground">
+                      — one per batch
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {PWHT_COLORS.map((c) => (
+                      <Chip
+                        key={c}
+                        label={PWHT_COLOR_LABELS[c]}
+                        sub={
+                          c === "uncolored"
+                            ? "No community on the l2circuit"
+                            : `community ${family.colorComms![c]} on each PW`
+                        }
+                        active={pwColor === c}
+                        onClick={() => setSel((p) => ({ ...p, pwColor: c }))}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <button
                 onClick={() => setStep((s) => s + 1)}
                 className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20"
@@ -1114,10 +1267,45 @@ export default function ConfigGenerator() {
           {currentStep === "params" && (
             <div className="space-y-5">
               {roleBased ? (
-                <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
-                  Generating a single service (one transport PW, one VLAN).
-                  Multi-PW batch generation (N transport PWs ×
-                  VLANs-per-PW with vlan-id-list + color) is coming next.
+                <div className="rounded-md border border-border bg-background p-3">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      Transport PWs
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={pwCount}
+                        onChange={(e) =>
+                          setPwCount(Math.max(1, Math.min(100, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-muted-foreground">×</span>
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      VLANs / PW
+                      <input
+                        type="number"
+                        min={1}
+                        max={500}
+                        value={count}
+                        onChange={(e) =>
+                          setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-[11px] font-medium text-primary">
+                      = {pwCount * count} EVPN-ELAN{pwCount * count > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <span className="mt-2 block text-[11px] text-muted-foreground">
+                    Values below are the starting service. Each PW gets its own
+                    PS interface, VC-ID and PW labels; VLANs increment globally
+                    ({count > 1 ? "vlan-id-list per PW" : "one vlan-id per PW"}).
+                    The download includes all {pwCount * count}.
+                  </span>
                 </div>
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">

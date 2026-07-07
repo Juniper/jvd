@@ -344,6 +344,8 @@
       "available": true,
       "roleBased": true,
       "transportVars": ["PS_TRANSPORT", "VC_ID", "PW_LABEL_IN", "PW_LABEL_OUT"],
+      "colorCommDef": "evo/policy/communities-tc-color",
+      "colorComms": { "gold": "CM-TC-MAP2GOLD", "bronze": "CM-TC-MAP2BRONZE" },
       "roles": [
         {
           "id": "access",
@@ -351,6 +353,7 @@
           "os": "evo",
           "service": ["evo/services/l2circuit-floating-pw"],
           "interface": ["evo/interfaces/vlan-ccc-v2"],
+          "interfaceList": ["evo/interfaces/vlan-ccc-list"],
           "cosSnips": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p", "evo/cos/rewrite-rules"]
         },
         {
