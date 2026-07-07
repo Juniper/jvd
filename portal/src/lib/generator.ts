@@ -58,6 +58,22 @@ export type GenFamily = {
   description: string;
   available: boolean;
   multiplexing: GenMux[];
+  /** Asymmetric role-based families (e.g. PWHT) render one config per role
+   *  instead of the symmetric PE-A / PE-B model. */
+  roleBased?: boolean;
+  roles?: GenRole[];
+};
+
+/** One endpoint role of a role-based family (e.g. PWHT Access vs Headend).
+ *  Unlike symmetric E-Line PEs, each role has its own snip bundle + OS. */
+export type GenRole = {
+  id: string;
+  label: string;
+  os: GenOsKey;
+  service: string[];
+  interface: string[];
+  cosSnips?: string[];
+  filter?: string;
 };
 
 export type GenCatalog = {
@@ -108,6 +124,8 @@ export type VarSpec =
   | { type: "rd" }
   | { type: "rt" }
   | { type: "esi" }
+  | { type: "ip" }
+  | { type: "psintf" }
   | { type: "name" }
   | { type: "text" };
 
@@ -124,6 +142,8 @@ export type InterfaceSpec = {
 const RD_RT_RE = /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/;
 const ESI_RE = /^([0-9a-fA-F]{2}:){9}[0-9a-fA-F]{2}$/;
 const NAME_RE = /^[A-Za-z0-9_-]+$/;
+const IP_RE = /^\d{1,3}(\.\d{1,3}){3}$/;
+const PS_INTF_RE = /^ps\d+$/;
 
 /**
  * Validate one interface string against the platform capability table.
@@ -187,6 +207,12 @@ export function validateSpec(
       return RD_RT_RE.test(value) ? undefined : "expected <ip|asn>:<number>";
     case "esi":
       return ESI_RE.test(value) ? undefined : "expected a 10-byte ESI (00:…:01)";
+    case "ip":
+      return IP_RE.test(value) ? undefined : "expected an IPv4 address";
+    case "psintf":
+      return PS_INTF_RE.test(value)
+        ? undefined
+        : "expected a PS interface (e.g. ps22)";
     case "name":
       return NAME_RE.test(value) ? undefined : "letters, digits, _ or - only";
     default:
@@ -292,6 +318,31 @@ export function resolveOsBlock(
 /** The VLAN-handling modes an OS block offers (empty when it has none). */
 export function vlanModes(osb: GenOsBlock): UniMode[] {
   return osb.uni?.modes ?? [];
+}
+
+/**
+ * Resolve the ordered jvd-qualified snip IDs for one role of a role-based
+ * family (e.g. PWHT Access or Headend). Order: service(s) → interface(s) →
+ * (if firewall) filter → (if CoS) CoS snips. De-duped + jvd-qualified.
+ */
+export function resolveRoleSnipIds(
+  catalog: GenCatalog,
+  role: GenRole,
+  opts: { cos: boolean; firewall: boolean },
+): string[] {
+  const rel: string[] = [...role.service, ...role.interface];
+  if (opts.firewall && role.filter) rel.push(role.filter);
+  if (opts.cos && role.cosSnips) rel.push(...role.cosSnips);
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const r of rel) {
+    const qualified = `${catalog.jvd}/${r}`;
+    if (!seen.has(qualified)) {
+      seen.add(qualified);
+      out.push(qualified);
+    }
+  }
+  return out;
 }
 
 /** The homing→snip interface map for the chosen VLAN mode (or the flat/legacy

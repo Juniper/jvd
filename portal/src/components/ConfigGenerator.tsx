@@ -18,6 +18,7 @@ import {
   type VarSpec,
   resolveOsBlock,
   resolveSnipIds,
+  resolveRoleSnipIds,
   attributeOptions,
   vlanModes,
   collectVariables,
@@ -91,6 +92,13 @@ const VAR_LABELS: Record<string, string> = {
   ESI_ID: "ESI value",
   FILTER_NAME: "UNI filter name",
   MTU: "physical MTU",
+  PS_TRANSPORT: "PS interface (IFD)",
+  PS_SERVICE: "PS service unit",
+  PS_ANCHOR: "PS anchor (LT)",
+  PW_LABEL_IN: "PW label · incoming",
+  PW_LABEL_OUT: "PW label · outgoing",
+  PW_NEIGHBOR: "PW neighbor",
+  VESI_ID: "PS virtual-ESI",
 };
 const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
 
@@ -140,6 +148,10 @@ const STEPS: StepId[] = [
   "attributes",
   "params",
 ];
+
+/** Role-based families (PWHT) skip mux/deployment/endpoint selection — the
+ *  two roles are fixed — so they use a shorter step flow. */
+const STEPS_ROLE: StepId[] = ["jvd", "family", "attributes", "params"];
 
 type Selection = {
   jvd?: string;
@@ -280,6 +292,11 @@ export default function ConfigGenerator() {
   const deployment = mux?.deployments.find((d) => d.id === sel.deploymentId);
   const osOptions = deployment ? (Object.keys(deployment.os) as GenOsKey[]) : [];
 
+  // Role-based families (PWHT) render one config per fixed role (Access /
+  // Headend) instead of the symmetric PE-A / PE-B model.
+  const roleBased = !!family?.roleBased;
+  const roles = family?.roles ?? [];
+
   const twoPe = sel.osB && sel.osB !== "none";
 
   const osBlockA =
@@ -356,19 +373,24 @@ export default function ConfigGenerator() {
     ? attrsA.color.filter((c) => attrsB.color.includes(c))
     : attrsA.color;
 
-  const attrsComplete = Boolean(
-    sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
-  );
-  const currentStep = STEPS[Math.min(step, STEPS.length - 1)];
-  const complete = Boolean(
-    sel.familyId &&
-      sel.muxId &&
-      sel.deploymentId &&
-      sel.osA &&
-      sel.homing &&
-      (modeOpts.length === 0 || vlanMode) &&
-      (!sel.firewall || sel.color),
-  );
+  const attrsComplete = roleBased
+    ? true
+    : Boolean(
+        sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
+      );
+  const steps = roleBased ? STEPS_ROLE : STEPS;
+  const currentStep = steps[Math.min(step, steps.length - 1)];
+  const complete = roleBased
+    ? Boolean(sel.familyId && roles.length >= 2)
+    : Boolean(
+        sel.familyId &&
+          sel.muxId &&
+          sel.deploymentId &&
+          sel.osA &&
+          sel.homing &&
+          (modeOpts.length === 0 || vlanMode) &&
+          (!sel.firewall || sel.color),
+      );
 
   const selFor = (os: GenOsKey): GenSelection => ({
     familyId: sel.familyId!,
@@ -384,14 +406,26 @@ export default function ConfigGenerator() {
   });
 
   const idsA = useMemo(
-    () => (complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : []),
+    () => {
+      if (roleBased)
+        return roles[0]
+          ? resolveRoleSnipIds(CATALOG, roles[0], { cos: sel.cos, firewall: false })
+          : [];
+      return complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : [];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel],
+    [complete, sel, roleBased],
   );
   const idsB = useMemo(
-    () => (complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : []),
+    () => {
+      if (roleBased)
+        return roles[1]
+          ? resolveRoleSnipIds(CATALOG, roles[1], { cos: sel.cos, firewall: false })
+          : [];
+      return complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : [];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel],
+    [complete, sel, roleBased],
   );
 
   // Union of variables across both endpoints.
@@ -417,6 +451,22 @@ export default function ConfigGenerator() {
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
+  // For role-based families, each column shows only the variables its own role
+  // actually uses (the access side has no PS/RD/vESI fields, etc.).
+  const varsInA = useMemo(
+    () => new Set(collectVariables(idsA, byId).map((v) => v.name.replace(/^\$/, ""))),
+    [idsA, byId],
+  );
+  const varsInB = useMemo(
+    () => new Set(collectVariables(idsB, byId).map((v) => v.name.replace(/^\$/, ""))),
+    [idsB, byId],
+  );
+  const perFieldsA = roleBased
+    ? perFields.filter((v) => varsInA.has(v.name.replace(/^\$/, "")))
+    : perFields;
+  const perFieldsB = roleBased
+    ? perFields.filter((v) => varsInB.has(v.name.replace(/^\$/, "")))
+    : perFields;
 
   const pathKey = JSON.stringify([
     sel.familyId,
@@ -435,18 +485,38 @@ export default function ConfigGenerator() {
     const sh: Record<string, string> = {};
     const a: Record<string, string> = {};
     const b: Record<string, string> = {};
-    for (const v of unionVars) {
-      const bare = v.name.replace(/^\$/, "");
-      const kind = classifyVar(v.name, ROLES).kind;
-      if (kind === "shared") sh[bare] = v.example;
-      else if (kind !== "mirrored-secondary") {
-        a[bare] = v.example;
-        // Only vars that MUST differ (the service-id mirror, RD) get bumped on
-        // PE-B; everything else (UNI VLAN, unit, interface) defaults the same.
-        const mustDiffer =
-          kind === "mirrored-primary" ||
-          (ROLES.distinctPerEndpoint ?? []).includes(bare);
-        b[bare] = mustDiffer ? bumpB(v.example) : v.example;
+    if (roleBased) {
+      // Asymmetric roles: each side's default comes from ITS OWN snips (access
+      // AC_INTF = et-0/0/12, headend AC_INTF = ae10; no distinct-bump/mirror).
+      const exA = new Map(
+        collectVariables(idsA, byId).map((v) => [v.name.replace(/^\$/, ""), v.example]),
+      );
+      const exB = new Map(
+        collectVariables(idsB, byId).map((v) => [v.name.replace(/^\$/, ""), v.example]),
+      );
+      for (const v of unionVars) {
+        const bare = v.name.replace(/^\$/, "");
+        if (classifyVar(v.name, ROLES).kind === "shared")
+          sh[bare] = exA.get(bare) ?? exB.get(bare) ?? v.example;
+        else {
+          a[bare] = exA.get(bare) ?? v.example;
+          b[bare] = exB.get(bare) ?? v.example;
+        }
+      }
+    } else {
+      for (const v of unionVars) {
+        const bare = v.name.replace(/^\$/, "");
+        const kind = classifyVar(v.name, ROLES).kind;
+        if (kind === "shared") sh[bare] = v.example;
+        else if (kind !== "mirrored-secondary") {
+          a[bare] = v.example;
+          // Only vars that MUST differ (the service-id mirror, RD) get bumped on
+          // PE-B; everything else (UNI VLAN, unit, interface) defaults the same.
+          const mustDiffer =
+            kind === "mirrored-primary" ||
+            (ROLES.distinctPerEndpoint ?? []).includes(bare);
+          b[bare] = mustDiffer ? bumpB(v.example) : v.example;
+        }
       }
     }
     setShared(sh);
@@ -506,6 +576,19 @@ export default function ConfigGenerator() {
     }
   }
 
+  // Shared-field consistency — PWHT uses anycast PW labels, so incoming and
+  // outgoing must match.
+  const sharedErrors: Record<string, string> = {};
+  if (
+    roleBased &&
+    shared.PW_LABEL_IN &&
+    shared.PW_LABEL_OUT &&
+    shared.PW_LABEL_IN !== shared.PW_LABEL_OUT
+  ) {
+    sharedErrors.PW_LABEL_IN = "anycast — in/out must match";
+    sharedErrors.PW_LABEL_OUT = "anycast — in/out must match";
+  }
+
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
     setSel((prev) => {
       const next = { ...prev, ...patch };
@@ -533,7 +616,11 @@ export default function ConfigGenerator() {
           : null;
       case "attributes":
         return attrsComplete
-          ? [
+          ? roleBased
+            ? sel.cos
+              ? "CoS"
+              : "no CoS"
+            : [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
               vlanMode ? modeOpts.find((m) => m.id === vlanMode)?.label : null,
               rtPolicyApplies
@@ -553,7 +640,7 @@ export default function ConfigGenerator() {
         return null;
     }
   };
-  const crumbs = STEPS.slice(0, step).filter((id) => crumbValue(id) !== null);
+  const crumbs = steps.slice(0, step).filter((id) => crumbValue(id) !== null);
 
   const reset = () => {
     setSel({ cos: true, firewall: true });
@@ -599,12 +686,12 @@ export default function ConfigGenerator() {
     if (aBodies.length) {
       const merged = mergeJunosConfig(aBodies.join("\n"));
       sections.push(
-        twoPe ? `/* ===== ${peLabel(sel.osA, "PE-A")} ===== */\n${merged}` : merged,
+        twoPe ? `/* ===== ${peLabel(sel.osA, tagA)} ===== */\n${merged}` : merged,
       );
     }
     if (bBodies.length) {
       const merged = mergeJunosConfig(bBodies.join("\n"));
-      sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, "PE-B")} ===== */\n${merged}`);
+      sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, tagB)} ===== */\n${merged}`);
     }
     const text = sections.join("\n\n") + "\n";
     const fname = `maas-${sel.familyId}-${sel.deploymentId}${n > 1 ? `-x${n}` : ""}.conf`;
@@ -626,6 +713,9 @@ export default function ConfigGenerator() {
 
   const peLabel = (os: GenOsKey | undefined, tag: string) =>
     os ? `${tag} · ${OS_LABELS[os]}` : tag;
+  // Endpoint column / section tags — role names for PWHT, PE-A/PE-B otherwise.
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
@@ -636,7 +726,7 @@ export default function ConfigGenerator() {
             {crumbs.map((id, i) => (
               <span key={id} className="flex items-center gap-1.5">
                 <button
-                  onClick={() => setStep(STEPS.indexOf(id))}
+                  onClick={() => setStep(steps.indexOf(id))}
                   className="rounded-full border border-border bg-background px-2.5 py-0.5 text-muted-foreground hover:border-primary/50 hover:text-primary"
                   title={`Back to ${STEP_TITLES[id]}`}
                 >
@@ -661,7 +751,7 @@ export default function ConfigGenerator() {
               </button>
             )}
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Step {step + 1} of {STEPS.length} · {STEP_TITLES[currentStep]}
+              Step {step + 1} of {steps.length} · {STEP_TITLES[currentStep]}
             </span>
           </div>
           {step > 0 && (
@@ -705,16 +795,36 @@ export default function ConfigGenerator() {
                 sub={`${f.tagline} · ${f.description}`}
                 active={sel.familyId === f.id}
                 disabled={!f.available}
-                onClick={() =>
-                  advance({ familyId: f.id }, [
-                    "muxId",
-                    "deploymentId",
-                    "osA",
-                    "osB",
-                    "homing",
-                    "color",
-                  ])
-                }
+                onClick={() => {
+                  if (f.roleBased && f.roles) {
+                    // Role-based (PWHT): fix the two role OSes, skip
+                    // mux/deployment/endpoints, jump straight to attributes.
+                    setSel((p) => ({
+                      ...p,
+                      familyId: f.id,
+                      muxId: undefined,
+                      deploymentId: undefined,
+                      osA: f.roles![0].os,
+                      osB: f.roles![1].os,
+                      homing: undefined,
+                      vlanMode: undefined,
+                      rtPolicy: undefined,
+                      color: undefined,
+                      firewall: false,
+                      cos: true,
+                    }));
+                    setStep((s) => s + 1);
+                  } else {
+                    advance({ familyId: f.id }, [
+                      "muxId",
+                      "deploymentId",
+                      "osA",
+                      "osB",
+                      "homing",
+                      "color",
+                    ]);
+                  }
+                }}
               />
             ))}
 
@@ -811,7 +921,45 @@ export default function ConfigGenerator() {
             </div>
           )}
 
-          {currentStep === "attributes" && osBlockA && (
+          {currentStep === "attributes" && roleBased && (
+            <div className="space-y-4">
+              <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
+                <span className="font-medium text-foreground">
+                  {roles[0]?.label} ↔ {roles[1]?.label}
+                </span>
+                <br />
+                Two fixed roles — one config each (the headend applies to both
+                anycast MX). UNI firewall filter is deferred for PWHT.
+              </div>
+              <div>
+                <div className="mb-2 text-xs font-medium text-foreground">
+                  Class of Service
+                </div>
+                <div className="space-y-2">
+                  <Chip
+                    label="With CoS"
+                    sub="Classifiers, IEEE 802.1p + MPLS binding, rewrite rules"
+                    active={sel.cos}
+                    onClick={() => setSel((p) => ({ ...p, cos: true }))}
+                  />
+                  <Chip
+                    label="Without CoS"
+                    sub="Skip class-of-service"
+                    active={!sel.cos}
+                    onClick={() => setSel((p) => ({ ...p, cos: false }))}
+                  />
+                </div>
+              </div>
+              <button
+                onClick={() => setStep((s) => s + 1)}
+                className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20"
+              >
+                Continue to parameters <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
+          {currentStep === "attributes" && !roleBased && osBlockA && (
             <div className="space-y-4">
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
@@ -989,7 +1137,7 @@ export default function ConfigGenerator() {
                           key={v.name}
                           name={v.name}
                           hint={fieldHint(bare)}
-                          error={formatError(bare, shared[bare])}
+                          error={formatError(bare, shared[bare]) ?? sharedErrors[bare]}
                           value={shared[bare]}
                           onChange={(val) => setShared((p) => ({ ...p, [bare]: val }))}
                         />
@@ -1002,10 +1150,10 @@ export default function ConfigGenerator() {
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
-                    {peLabel(sel.osA, "PE-A")}
+                    {peLabel(sel.osA, tagA)}
                   </div>
                   <div className="space-y-3">
-                    {perFields.map((v) => {
+                    {perFieldsA.map((v) => {
                       const bare = v.name.replace(/^\$/, "");
                       const mirror = classifyVar(v.name, ROLES).kind === "mirrored-primary";
                       return (
@@ -1024,10 +1172,10 @@ export default function ConfigGenerator() {
                 {twoPe && (
                   <div>
                     <div className="mb-2 text-xs font-medium text-foreground">
-                      {peLabel(sel.osB as GenOsKey, "PE-B")}
+                      {peLabel(sel.osB as GenOsKey, tagB)}
                     </div>
                     <div className="space-y-3">
-                      {perFields.map((v) => {
+                      {perFieldsB.map((v) => {
                         const bare = v.name.replace(/^\$/, "");
                         const mirror =
                           classifyVar(v.name, ROLES).kind === "mirrored-primary";
@@ -1093,7 +1241,7 @@ export default function ConfigGenerator() {
               {renderA && (
                 <div className="mt-3">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
-                    # {peLabel(sel.osA, "PE-A")}
+                    # {peLabel(sel.osA, tagA)}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
                     {mergedA}
@@ -1103,7 +1251,7 @@ export default function ConfigGenerator() {
               {renderB && (
                 <div className="mt-4">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
-                    # {peLabel(sel.osB as GenOsKey, "PE-B")}
+                    # {peLabel(sel.osB as GenOsKey, tagB)}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
                     {mergedB}

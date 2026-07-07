@@ -40,14 +40,16 @@
       "LABEL_BLOCK_SIZE",
       "SITE_RANGE",
       "COMM_RT",
-      "VPN_RT_COMM"
+      "VPN_RT_COMM",
+      "PW_LABEL_IN",
+      "PW_LABEL_OUT"
     ],
     "mirrored": [
       ["LOCAL_VID", "REMOTE_VID"],
       ["SITE_ID", "REMOTE_SITE_ID"]
     ],
     "distinctPerEndpoint": ["RD"],
-    "instanceConstant": ["MTU", "LABEL_BLOCK_SIZE", "FILTER_NAME", "SITE_RANGE", "AC_INTF"]
+    "instanceConstant": ["MTU", "LABEL_BLOCK_SIZE", "FILTER_NAME", "SITE_RANGE", "AC_INTF", "PS_TRANSPORT", "PS_ANCHOR", "PW_NEIGHBOR"]
   },
   "interfaceSpec": {
     "_note": "Validated attachment-circuit interface domain for the MaaS PE platforms (ACX7024/7100, MX304). media = permitted port-type prefixes; the slot/pic/port ranges catch clearly-out-of-range typos (e.g. et-99/99/99) while staying wide enough not to false-flag valid ports. Values outside this domain still render but are flagged 'not JVD-validated'.",
@@ -82,7 +84,13 @@
     "REMOTE_SITE_ID": { "type": "range", "min": 1, "max": 65534 },
     "VC_ID": { "type": "range", "min": 1, "max": 4294967295 },
     "MTU": { "type": "enum", "values": ["1522", "2000", "9102", "9192", "9500"] },
-    "LABEL_BLOCK_SIZE": { "type": "enum", "values": ["2", "4", "8", "16", "32", "64"] }
+    "LABEL_BLOCK_SIZE": { "type": "enum", "values": ["2", "4", "8", "16", "32", "64"] },
+    "PS_SERVICE": { "type": "range", "min": 1, "max": 16385 },
+    "PW_LABEL_IN": { "type": "range", "min": 16, "max": 1048575 },
+    "PW_LABEL_OUT": { "type": "range", "min": 16, "max": 1048575 },
+    "PW_NEIGHBOR": { "type": "ip" },
+    "VESI_ID": { "type": "esi" },
+    "PS_TRANSPORT": { "type": "psintf" }
   },
   "families": [
     {
@@ -326,6 +334,44 @@
       "tagline": "Operator hand-off",
       "description": "Access / ENNI segment carrying a customer's VLANs (often QinQ) into the metro (MEF E-Access).",
       "available": false,
+      "multiplexing": []
+    },
+    {
+      "id": "pwht",
+      "label": "PWHT",
+      "tagline": "Pseudowire Headend Termination",
+      "description": "Access L2Circuit pseudowire headed on an MX pair via a pseudowire-subscriber (PS) interface — anycast label/IP + virtual-ESI multihome the headend — then stitched per-VLAN into EVPN-ELAN.",
+      "available": true,
+      "roleBased": true,
+      "roles": [
+        {
+          "id": "access",
+          "label": "Access node (ACX)",
+          "os": "evo",
+          "service": ["evo/services/l2circuit-floating-pw"],
+          "interface": ["evo/interfaces/vlan-ccc-v2"],
+          "cosSnips": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p", "evo/cos/rewrite-rules"]
+        },
+        {
+          "id": "headend",
+          "label": "Headend (MX ×2, anycast)",
+          "os": "junos",
+          "service": [
+            "junos/services/l2circuit-floating-pw",
+            "junos/services/evpn-elan-vlan-based-floating-pw"
+          ],
+          "interface": [
+            "junos/interfaces/pseudowire-subscriber",
+            "junos/interfaces/vlan-bridge-esi-v3"
+          ],
+          "cosSnips": [
+            "junos/cos/classifiers",
+            "junos/cos/cos-binding-ieee8021p",
+            "junos/cos/cos-binding-mpls",
+            "junos/cos/rewrite-rules"
+          ]
+        }
+      ],
       "multiplexing": []
     }
   ]
