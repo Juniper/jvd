@@ -213,13 +213,13 @@
               "id": "evpn-fxc",
               "label": "EVPN-FXC",
               "description": "Flexible Cross-Connect — many VLAN UNIs bundled under one EVPN-VPWS.",
-              "available": false,
               "os": {
                 "evo": {
                   "service": ["evo/services/evpn-fxc-vlan-unaware"],
                   "interface": { "single-homed": "evo/interfaces/vlan-ccc-2-units" },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
-                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                  "cosSnips": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p-2-units", "evo/cos/rewrite-rules"],
+                  "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
                 }
               }
             },

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-07T19:02:31.842Z",
+  "generatedAt": "2026-07-07T20:34:41.530Z",
   "counts": {
-    "total": 517,
+    "total": 518,
     "junos": 248,
-    "evo": 269,
+    "evo": 270,
     "jvds": 9
   },
   "categories": [
@@ -124,8 +124,8 @@
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
         "junos": 50,
-        "evo": 64,
-        "total": 114
+        "evo": 65,
+        "total": 115
       }
     },
     {
@@ -20668,6 +20668,93 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p-2-units",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "cos",
+      "name": "cos-binding-ieee8021p-2-units",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/cos/cos-binding-ieee8021p-2-units.conf",
+      "topic": "Class-of-service: cos binding ieee8021p 2 units (MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "L2 CE-facing CoS binding (classify + rewrite IEEE 802.1p)",
+        "EVPN-FXC: binds both bundled VLAN units on the one UNI port"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/forwarding-classes.conf",
+          "id": "metro_as_a_service/evo/cos/forwarding-classes",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/scheduler-map.conf",
+          "id": "metro_as_a_service/evo/cos/scheduler-map",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/schedulers.conf",
+          "id": "metro_as_a_service/evo/cos/schedulers",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/vlan-ccc-2-units.conf",
+          "id": "metro_as_a_service/evo/interfaces/vlan-ccc-2-units",
+          "note": null
+        },
+        {
+          "raw": "evo/services/evpn-fxc-vlan-unaware.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/13"
+        },
+        {
+          "name": "$UNIT_1",
+          "example": "4007"
+        },
+        {
+          "name": "$UNIT_2",
+          "example": "4008"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        scheduler-map SM-5G-SCHEDULER;\n        unit $UNIT_1 {\n            classifiers {\n                ieee-802.1 CL-8021P;\n            }\n            rewrite-rules {\n                ieee-802.1 RR-8021P;\n            }\n        }\n        unit $UNIT_2 {\n            classifiers {\n                ieee-802.1 CL-8021P;\n            }\n            rewrite-rules {\n                ieee-802.1 RR-8021P;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        scheduler-map SM-5G-SCHEDULER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> CL-8021P;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rewrite-rules {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> RR-8021P;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> CL-8021P;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rewrite-rules {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> RR-8021P;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 452,
+      "lineCount": 21,
+      "techFamily": "QoS / CoS",
+      "subfamily": "CoS",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -22358,6 +22445,10 @@
           "example": "et-0/0/13"
         },
         {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
           "name": "$UNIT_1",
           "example": "4007"
         },
@@ -22375,9 +22466,9 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT_1 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_1;\n        family ccc {\n            filter {\n                input f_vlan_based_fam_bridge;\n            }\n        }\n    }\n    unit $UNIT_2 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_2;\n        family ccc {\n            filter {\n                input f_vlan_based_fam_bridge;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 475,
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT_1 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_1;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n    unit $UNIT_2 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_2;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 453,
       "lineCount": 22,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",

@@ -34,6 +34,10 @@ export type GenOsBlock = {
   interfaceExtras: string[];
   filter: Record<string, string>; // color key -> snip id (relative to jvd)
   uni?: { modes: UniMode[] };
+  /** Per-deployment CoS binding override (relative snip ids). When absent the
+   *  global catalog.cosSnips[os] set is used. EVPN-FXC uses this to bind CoS to
+   *  both bundled VLAN units instead of the single-unit default. */
+  cosSnips?: string[];
 };
 
 export type GenDeployment = {
@@ -421,7 +425,7 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
     if (filter) rel.push(filter);
   }
   if (sel.cos) {
-    rel.push(...(catalog.cosSnips[sel.os] ?? []));
+    rel.push(...(osb.cosSnips ?? catalog.cosSnips[sel.os] ?? []));
   }
   // De-dupe while preserving order, then qualify with the jvd prefix.
   const seen = new Set<string>();
