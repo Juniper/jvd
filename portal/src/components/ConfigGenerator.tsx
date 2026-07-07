@@ -18,6 +18,7 @@ import {
   type VarSpec,
   resolveOsBlock,
   resolveSnipIds,
+  resolveRoleSnipIds,
   attributeOptions,
   vlanModes,
   collectVariables,
@@ -26,6 +27,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  bumpInt,
   validateSpec,
 } from "@/lib/generator";
 
@@ -33,6 +35,72 @@ const CATALOG = maasCatalog as unknown as GenCatalog;
 const ROLES = CATALOG.variableRoles;
 const IFACE_SPEC = CATALOG.interfaceSpec;
 const VAR_SPECS = (CATALOG.varSpecs ?? {}) as Record<string, unknown>;
+const ROUTE_POLICY = (CATALOG.routePolicySnips ?? {}) as Partial<
+  Record<GenOsKey, Record<string, string>>
+>;
+/** Variables computed automatically (never shown as editable form fields). */
+const DERIVED_VARS = new Set(
+  Object.keys(CATALOG.derivedVars ?? {}).filter((k) => !k.startsWith("_")),
+);
+/** Friendly labels for the VPN color options. */
+const COLOR_POLICY_LABELS: Record<string, string> = {
+  gold: "Gold — priority / low-latency",
+  bronze: "Bronze — TE path",
+};
+
+/** PWHT color options (batch-level: one color per generated batch). */
+const PWHT_COLORS = ["uncolored", "gold", "bronze"] as const;
+const PWHT_COLOR_LABELS: Record<string, string> = {
+  uncolored: "Uncolored (best-effort)",
+  gold: "Gold — priority / low-latency",
+  bronze: "Bronze — TE path",
+};
+/** Variables the PWHT fan-out computes automatically (not user form fields). */
+const PWHT_COMPUTED = new Set([
+  "UNIT",
+  "PS_SERVICE",
+  "VLAN_LIST_START",
+  "VLAN_LIST_END",
+  "COLOR_COMM",
+]);
+
+/**
+ * Compute the value map for one PWHT role instance in the transport×service
+ * fan-out. Transport vars (PS IFD, VC-ID, PW labels) bump per PW (t); the
+ * access side carries the whole VLAN range on one unit (vlan-id-list); the
+ * headend side has one service unit + ELAN per VLAN (bumped by the global
+ * service index i). ESIs/RD increment per service.
+ */
+function pwhtInstanceValues(
+  role: "access" | "headend",
+  base: Record<string, string>,
+  transportVars: Set<string>,
+  t: number,
+  s: number,
+  S: number,
+  baseVlan: number,
+  colorComm: string,
+): Record<string, string> {
+  const rangeStart = baseVlan + t * S;
+  const vlan = rangeStart + s;
+  const i = t * S + s;
+  const out: Record<string, string> = { ...base };
+  for (const k of Object.keys(out)) if (transportVars.has(k)) out[k] = bumpInt(out[k], t);
+  if (role === "access") {
+    out.UNIT = String(rangeStart);
+    out.VLAN_LIST_START = String(rangeStart);
+    out.VLAN_LIST_END = String(rangeStart + S - 1);
+    out.VLAN = String(rangeStart);
+    if (colorComm) out.COLOR_COMM = colorComm;
+  } else {
+    out.VLAN = String(vlan);
+    out.PS_SERVICE = String(vlan);
+    out.UNIT = String(vlan);
+    for (const k of ["RD", "VESI_ID", "ESI_ID"])
+      if (base[k] !== undefined) out[k] = bumpInt(base[k], i);
+  }
+  return out;
+}
 
 /** The validated field spec for a bare var name (skips the `_note` key). */
 function specFor(bare: string): VarSpec | undefined {
@@ -79,6 +147,13 @@ const VAR_LABELS: Record<string, string> = {
   ESI_ID: "ESI value",
   FILTER_NAME: "UNI filter name",
   MTU: "physical MTU",
+  PS_TRANSPORT: "PS interface (IFD)",
+  PS_SERVICE: "PS service unit",
+  PS_ANCHOR: "PS anchor (LT)",
+  PW_LABEL_IN: "PW label · incoming",
+  PW_LABEL_OUT: "PW label · outgoing",
+  PW_NEIGHBOR: "PW neighbor",
+  VESI_ID: "PS virtual-ESI",
 };
 const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
 
@@ -129,6 +204,10 @@ const STEPS: StepId[] = [
   "params",
 ];
 
+/** Role-based families (PWHT) skip mux/deployment/endpoint selection — the
+ *  two roles are fixed — so they use a shorter step flow. */
+const STEPS_ROLE: StepId[] = ["jvd", "family", "attributes", "params"];
+
 type Selection = {
   jvd?: string;
   familyId?: string;
@@ -138,6 +217,8 @@ type Selection = {
   osB?: OsChoice;
   homing?: string;
   vlanMode?: string;
+  rtPolicy?: string;
+  pwColor?: string;
   color?: string;
   cos: boolean;
   firewall: boolean;
@@ -261,11 +342,17 @@ export default function ConfigGenerator() {
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(1);
+  const [pwCount, setPwCount] = useState(1);
 
   const family = CATALOG.families.find((f) => f.id === sel.familyId);
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
   const deployment = mux?.deployments.find((d) => d.id === sel.deploymentId);
   const osOptions = deployment ? (Object.keys(deployment.os) as GenOsKey[]) : [];
+
+  // Role-based families (PWHT) render one config per fixed role (Access /
+  // Headend) instead of the symmetric PE-A / PE-B model.
+  const roleBased = !!family?.roleBased;
+  const roles = family?.roles ?? [];
 
   const twoPe = sel.osB && sel.osB !== "none";
 
@@ -304,6 +391,32 @@ export default function ConfigGenerator() {
         : modeOpts[0].id
       : undefined;
 
+  // VRF route-export: "route-target only" vs a colored export policy. Colors
+  // are the intersection of what both PEs' OS support (Junos = gold only).
+  const colorPolA = sel.osA ? Object.keys(ROUTE_POLICY[sel.osA] ?? {}) : [];
+  const colorPolB =
+    twoPe && sel.osB && sel.osB !== "none"
+      ? Object.keys(ROUTE_POLICY[sel.osB as GenOsKey] ?? {})
+      : null;
+  const colorPolOpts = colorPolB
+    ? colorPolA.filter((c) => colorPolB.includes(c))
+    : colorPolA;
+  // Only offer the choice when the deployment's service actually emits a
+  // `vrf-export` (i.e. it's RT-policy driven).
+  const serviceHasVrfExport = Boolean(
+    osBlockA?.service.some((rel) =>
+      /vrf-export/.test(byId.get(`${CATALOG.jvd}/${rel}`)?.body ?? ""),
+    ),
+  );
+  const rtPolicyApplies = serviceHasVrfExport && colorPolOpts.length > 0;
+  // Effective route policy: "rt-only" (default, strips vrf-export) or a valid
+  // color id. Falls back to rt-only when the pick isn't supported.
+  const rtPolicy = !rtPolicyApplies
+    ? "rt-only"
+    : sel.rtPolicy && colorPolOpts.includes(sel.rtPolicy)
+      ? sel.rtPolicy
+      : "rt-only";
+
   // Attribute options = intersection of both endpoints (or just A when single),
   // for the currently-selected VLAN mode.
   const attrsA = osBlockA
@@ -317,19 +430,24 @@ export default function ConfigGenerator() {
     ? attrsA.color.filter((c) => attrsB.color.includes(c))
     : attrsA.color;
 
-  const attrsComplete = Boolean(
-    sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
-  );
-  const currentStep = STEPS[Math.min(step, STEPS.length - 1)];
-  const complete = Boolean(
-    sel.familyId &&
-      sel.muxId &&
-      sel.deploymentId &&
-      sel.osA &&
-      sel.homing &&
-      (modeOpts.length === 0 || vlanMode) &&
-      (!sel.firewall || sel.color),
-  );
+  const attrsComplete = roleBased
+    ? true
+    : Boolean(
+        sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
+      );
+  const steps = roleBased ? STEPS_ROLE : STEPS;
+  const currentStep = steps[Math.min(step, steps.length - 1)];
+  const complete = roleBased
+    ? Boolean(sel.familyId && roles.length >= 2)
+    : Boolean(
+        sel.familyId &&
+          sel.muxId &&
+          sel.deploymentId &&
+          sel.osA &&
+          sel.homing &&
+          (modeOpts.length === 0 || vlanMode) &&
+          (!sel.firewall || sel.color),
+      );
 
   const selFor = (os: GenOsKey): GenSelection => ({
     familyId: sel.familyId!,
@@ -338,20 +456,60 @@ export default function ConfigGenerator() {
     os,
     homing: sel.homing!,
     vlanMode,
+    rtPolicy,
     color: sel.color ?? "",
     cos: sel.cos,
     firewall: sel.firewall,
   });
 
+  // PWHT batch color (uncolored / gold / bronze) → community name for the ACX
+  // l2circuit + whether to pull the community-definition snip.
+  const pwColor = roleBased ? sel.pwColor ?? "uncolored" : "uncolored";
+  const pwColorComm =
+    roleBased && pwColor !== "uncolored"
+      ? family?.colorComms?.[pwColor] ?? ""
+      : "";
+  const qd = (rel: string[]) => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const r of rel) {
+      const id = `${CATALOG.jvd}/${r}`;
+      if (!seen.has(id)) {
+        seen.add(id);
+        out.push(id);
+      }
+    }
+    return out;
+  };
+
   const idsA = useMemo(
-    () => (complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : []),
+    () => {
+      if (roleBased) {
+        const r = roles[0];
+        if (!r) return [];
+        const useList = count > 1; // vlan-id-list when a PW carries >1 VLAN
+        return qd([
+          ...r.service,
+          ...(useList && r.interfaceList ? r.interfaceList : r.interface),
+          ...(pwColorComm && family?.colorCommDef ? [family.colorCommDef] : []),
+          ...(sel.cos ? r.cosSnips ?? [] : []),
+        ]);
+      }
+      return complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : [];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel],
+    [complete, sel, roleBased, count, pwColorComm],
   );
   const idsB = useMemo(
-    () => (complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : []),
+    () => {
+      if (roleBased)
+        return roles[1]
+          ? resolveRoleSnipIds(CATALOG, roles[1], { cos: sel.cos, firewall: false })
+          : [];
+      return complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : [];
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel],
+    [complete, sel, roleBased],
   );
 
   // Union of variables across both endpoints.
@@ -367,13 +525,33 @@ export default function ConfigGenerator() {
     return out;
   }, [idsA, idsB, byId]);
 
-  const sharedFields = unionVars.filter(
-    (v) => classifyVar(v.name, ROLES).kind === "shared",
-  );
+  const sharedFields = unionVars.filter((v) => {
+    const bare = v.name.replace(/^\$/, "");
+    if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
+    return classifyVar(v.name, ROLES).kind === "shared";
+  });
   const perFields = unionVars.filter((v) => {
+    const bare = v.name.replace(/^\$/, "");
+    if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
+  // For role-based families, each column shows only the variables its own role
+  // actually uses (the access side has no PS/RD/vESI fields, etc.).
+  const varsInA = useMemo(
+    () => new Set(collectVariables(idsA, byId).map((v) => v.name.replace(/^\$/, ""))),
+    [idsA, byId],
+  );
+  const varsInB = useMemo(
+    () => new Set(collectVariables(idsB, byId).map((v) => v.name.replace(/^\$/, ""))),
+    [idsB, byId],
+  );
+  const perFieldsA = roleBased
+    ? perFields.filter((v) => varsInA.has(v.name.replace(/^\$/, "")))
+    : perFields;
+  const perFieldsB = roleBased
+    ? perFields.filter((v) => varsInB.has(v.name.replace(/^\$/, "")))
+    : perFields;
 
   const pathKey = JSON.stringify([
     sel.familyId,
@@ -383,6 +561,9 @@ export default function ConfigGenerator() {
     sel.osB,
     sel.homing,
     vlanMode,
+    rtPolicy,
+    sel.pwColor,
+    count > 1,
     sel.color,
     sel.cos,
     sel.firewall,
@@ -391,18 +572,38 @@ export default function ConfigGenerator() {
     const sh: Record<string, string> = {};
     const a: Record<string, string> = {};
     const b: Record<string, string> = {};
-    for (const v of unionVars) {
-      const bare = v.name.replace(/^\$/, "");
-      const kind = classifyVar(v.name, ROLES).kind;
-      if (kind === "shared") sh[bare] = v.example;
-      else if (kind !== "mirrored-secondary") {
-        a[bare] = v.example;
-        // Only vars that MUST differ (the service-id mirror, RD) get bumped on
-        // PE-B; everything else (UNI VLAN, unit, interface) defaults the same.
-        const mustDiffer =
-          kind === "mirrored-primary" ||
-          (ROLES.distinctPerEndpoint ?? []).includes(bare);
-        b[bare] = mustDiffer ? bumpB(v.example) : v.example;
+    if (roleBased) {
+      // Asymmetric roles: each side's default comes from ITS OWN snips (access
+      // AC_INTF = et-0/0/12, headend AC_INTF = ae10; no distinct-bump/mirror).
+      const exA = new Map(
+        collectVariables(idsA, byId).map((v) => [v.name.replace(/^\$/, ""), v.example]),
+      );
+      const exB = new Map(
+        collectVariables(idsB, byId).map((v) => [v.name.replace(/^\$/, ""), v.example]),
+      );
+      for (const v of unionVars) {
+        const bare = v.name.replace(/^\$/, "");
+        if (classifyVar(v.name, ROLES).kind === "shared")
+          sh[bare] = exA.get(bare) ?? exB.get(bare) ?? v.example;
+        else {
+          a[bare] = exA.get(bare) ?? v.example;
+          b[bare] = exB.get(bare) ?? v.example;
+        }
+      }
+    } else {
+      for (const v of unionVars) {
+        const bare = v.name.replace(/^\$/, "");
+        const kind = classifyVar(v.name, ROLES).kind;
+        if (kind === "shared") sh[bare] = v.example;
+        else if (kind !== "mirrored-secondary") {
+          a[bare] = v.example;
+          // Only vars that MUST differ (the service-id mirror, RD) get bumped on
+          // PE-B; everything else (UNI VLAN, unit, interface) defaults the same.
+          const mustDiffer =
+            kind === "mirrored-primary" ||
+            (ROLES.distinctPerEndpoint ?? []).includes(bare);
+          b[bare] = mustDiffer ? bumpB(v.example) : v.example;
+        }
       }
     }
     setShared(sh);
@@ -412,20 +613,43 @@ export default function ConfigGenerator() {
   }, [pathKey]);
 
   const names = unionVars.map((v) => v.name);
+  const transportVars = useMemo(
+    () => new Set(family?.transportVars ?? []),
+    [family],
+  );
+  const baseVlan = Number(shared.VLAN) || 0;
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
+    if (roleBased)
+      return renderConfig(
+        idsA,
+        pwhtInstanceValues("access", { ...shared, ...perA }, transportVars, 0, 0, count, baseVlan, pwColorComm),
+        byId,
+        { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
+      );
     return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId, {
       stripUniFilter: !sel.firewall,
+      stripVrfExport: rtPolicy === "rt-only",
+      derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, idsA, shared, perA, perB, byId]);
+  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm]);
   const renderB = useMemo(() => {
     if (!complete || !twoPe || idsB.length === 0) return null;
+    if (roleBased)
+      return renderConfig(
+        idsB,
+        pwhtInstanceValues("headend", { ...shared, ...perB }, transportVars, 0, 0, count, baseVlan, ""),
+        byId,
+        { stripUniFilter: !sel.firewall },
+      );
     return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId, {
       stripUniFilter: !sel.firewall,
+      stripVrfExport: rtPolicy === "rt-only",
+      derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, twoPe, idsB, shared, perA, perB, byId]);
+  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm]);
 
   // Merged, consolidated config for display/copy (single previewed service).
   const mergedA = useMemo(
@@ -458,6 +682,19 @@ export default function ConfigGenerator() {
     }
   }
 
+  // Shared-field consistency — PWHT uses anycast PW labels, so incoming and
+  // outgoing must match.
+  const sharedErrors: Record<string, string> = {};
+  if (
+    roleBased &&
+    shared.PW_LABEL_IN &&
+    shared.PW_LABEL_OUT &&
+    shared.PW_LABEL_IN !== shared.PW_LABEL_OUT
+  ) {
+    sharedErrors.PW_LABEL_IN = "anycast — in/out must match";
+    sharedErrors.PW_LABEL_OUT = "anycast — in/out must match";
+  }
+
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
     setSel((prev) => {
       const next = { ...prev, ...patch };
@@ -485,9 +722,18 @@ export default function ConfigGenerator() {
           : null;
       case "attributes":
         return attrsComplete
-          ? [
+          ? roleBased
+            ? [pwColor === "uncolored" ? "Uncolored" : `${pwColor[0].toUpperCase()}${pwColor.slice(1)}`, sel.cos ? "CoS" : "no CoS"]
+                .filter(Boolean)
+                .join(" · ")
+            : [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
               vlanMode ? modeOpts.find((m) => m.id === vlanMode)?.label : null,
+              rtPolicyApplies
+                ? rtPolicy === "rt-only"
+                  ? "Uncolored"
+                  : `${rtPolicy[0].toUpperCase()}${rtPolicy.slice(1)} policy`
+                : null,
               sel.cos ? "CoS" : "no CoS",
               sel.firewall
                 ? `filter (${COLOR_LABELS[sel.color!] ?? sel.color})`
@@ -500,7 +746,7 @@ export default function ConfigGenerator() {
         return null;
     }
   };
-  const crumbs = STEPS.slice(0, step).filter((id) => crumbValue(id) !== null);
+  const crumbs = steps.slice(0, step).filter((id) => crumbValue(id) !== null);
 
   const reset = () => {
     setSel({ cos: true, firewall: true });
@@ -508,49 +754,87 @@ export default function ConfigGenerator() {
     setPerA({});
     setPerB({});
     setCount(1);
+    setPwCount(1);
     setStep(0);
   };
 
   const download = () => {
     if (!fullText) return;
-    // Emit all N service instances: instance i increments every non-constant
-    // variable's trailing integer by i (instance 0 = the values entered). All
-    // of an endpoint's instances are merged into ONE consolidated hierarchy —
-    // a single physical interface carrying N units, MTU/filter/CoS declared
-    // once — rather than N repeated standalone stanzas.
-    const n = Math.max(1, Math.min(count, 500));
+    // Emit all service instances, merged into one consolidated hierarchy per
+    // endpoint. Symmetric families (E-Line): a 1-D batch of `count` services.
+    // PWHT: an ASYMMETRIC fan-out — the access side renders once per transport
+    // PW (one l2circuit + one vlan-id-list unit), the headend renders once per
+    // VLAN (transport stanzas dedupe per-PW via the merger; service stanzas are
+    // per-VLAN). Two knobs: pwCount PWs × count VLANs-per-PW.
     const aBodies: string[] = [];
     const bBodies: string[] = [];
-    for (let i = 0; i < n; i++) {
-      const sh = instanceValues(shared, ROLES, i);
-      const a = instanceValues(perA, ROLES, i);
-      const b = instanceValues(perB, ROLES, i);
-      if (idsA.length)
-        aBodies.push(
-          renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
-            stripUniFilter: !sel.firewall,
-          }).text,
-        );
-      if (twoPe && idsB.length)
-        bBodies.push(
-          renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
-            stripUniFilter: !sel.firewall,
-          }).text,
-        );
+    let total = 1;
+    if (roleBased) {
+      const S = Math.max(1, Math.min(count, 500));
+      const T = Math.max(1, Math.min(pwCount, 100));
+      total = T * S;
+      const accessBase = { ...shared, ...perA };
+      const headendBase = { ...shared, ...perB };
+      for (let t = 0; t < T; t++) {
+        if (idsA.length)
+          aBodies.push(
+            renderConfig(
+              idsA,
+              pwhtInstanceValues("access", accessBase, transportVars, t, 0, S, baseVlan, pwColorComm),
+              byId,
+              { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
+            ).text,
+          );
+        for (let s = 0; s < S; s++) {
+          if (idsB.length)
+            bBodies.push(
+              renderConfig(
+                idsB,
+                pwhtInstanceValues("headend", headendBase, transportVars, t, s, S, baseVlan, ""),
+                byId,
+                { stripUniFilter: !sel.firewall },
+              ).text,
+            );
+        }
+      }
+    } else {
+      const S = Math.max(1, Math.min(count, 500));
+      total = S;
+      for (let i = 0; i < S; i++) {
+        const sh = instanceValues(shared, ROLES, i);
+        const a = instanceValues(perA, ROLES, i);
+        const b = instanceValues(perB, ROLES, i);
+        if (idsA.length)
+          aBodies.push(
+            renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
+        if (twoPe && idsB.length)
+          bBodies.push(
+            renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
+      }
     }
     const sections: string[] = [];
     if (aBodies.length) {
       const merged = mergeJunosConfig(aBodies.join("\n"));
       sections.push(
-        twoPe ? `/* ===== ${peLabel(sel.osA, "PE-A")} ===== */\n${merged}` : merged,
+        twoPe ? `/* ===== ${peLabel(sel.osA, tagA)} ===== */\n${merged}` : merged,
       );
     }
     if (bBodies.length) {
       const merged = mergeJunosConfig(bBodies.join("\n"));
-      sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, "PE-B")} ===== */\n${merged}`);
+      sections.push(`/* ===== ${peLabel(sel.osB as GenOsKey, tagB)} ===== */\n${merged}`);
     }
     const text = sections.join("\n\n") + "\n";
-    const fname = `maas-${sel.familyId}-${sel.deploymentId}${n > 1 ? `-x${n}` : ""}.conf`;
+    const fname = `maas-${sel.familyId}-${sel.deploymentId ?? "pwht"}${total > 1 ? `-x${total}` : ""}.conf`;
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -569,6 +853,9 @@ export default function ConfigGenerator() {
 
   const peLabel = (os: GenOsKey | undefined, tag: string) =>
     os ? `${tag} · ${OS_LABELS[os]}` : tag;
+  // Endpoint column / section tags — role names for PWHT, PE-A/PE-B otherwise.
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
@@ -579,7 +866,7 @@ export default function ConfigGenerator() {
             {crumbs.map((id, i) => (
               <span key={id} className="flex items-center gap-1.5">
                 <button
-                  onClick={() => setStep(STEPS.indexOf(id))}
+                  onClick={() => setStep(steps.indexOf(id))}
                   className="rounded-full border border-border bg-background px-2.5 py-0.5 text-muted-foreground hover:border-primary/50 hover:text-primary"
                   title={`Back to ${STEP_TITLES[id]}`}
                 >
@@ -604,7 +891,7 @@ export default function ConfigGenerator() {
               </button>
             )}
             <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Step {step + 1} of {STEPS.length} · {STEP_TITLES[currentStep]}
+              Step {step + 1} of {steps.length} · {STEP_TITLES[currentStep]}
             </span>
           </div>
           {step > 0 && (
@@ -648,16 +935,37 @@ export default function ConfigGenerator() {
                 sub={`${f.tagline} · ${f.description}`}
                 active={sel.familyId === f.id}
                 disabled={!f.available}
-                onClick={() =>
-                  advance({ familyId: f.id }, [
-                    "muxId",
-                    "deploymentId",
-                    "osA",
-                    "osB",
-                    "homing",
-                    "color",
-                  ])
-                }
+                onClick={() => {
+                  if (f.roleBased && f.roles) {
+                    // Role-based (PWHT): fix the two role OSes, skip
+                    // mux/deployment/endpoints, jump straight to attributes.
+                    setSel((p) => ({
+                      ...p,
+                      familyId: f.id,
+                      muxId: undefined,
+                      deploymentId: undefined,
+                      osA: f.roles![0].os,
+                      osB: f.roles![1].os,
+                      homing: undefined,
+                      vlanMode: undefined,
+                      rtPolicy: undefined,
+                      pwColor: "uncolored",
+                      color: undefined,
+                      firewall: false,
+                      cos: true,
+                    }));
+                    setStep((s) => s + 1);
+                  } else {
+                    advance({ familyId: f.id }, [
+                      "muxId",
+                      "deploymentId",
+                      "osA",
+                      "osB",
+                      "homing",
+                      "color",
+                    ]);
+                  }
+                }}
               />
             ))}
 
@@ -754,7 +1062,70 @@ export default function ConfigGenerator() {
             </div>
           )}
 
-          {currentStep === "attributes" && osBlockA && (
+          {currentStep === "attributes" && roleBased && (
+            <div className="space-y-4">
+              <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
+                <span className="font-medium text-foreground">
+                  {roles[0]?.label} ↔ {roles[1]?.label}
+                </span>
+                <br />
+                Two fixed roles — one config each (the headend applies to both
+                anycast MX). UNI firewall filter is deferred for PWHT.
+              </div>
+              <div>
+                <div className="mb-2 text-xs font-medium text-foreground">
+                  Class of Service
+                </div>
+                <div className="space-y-2">
+                  <Chip
+                    label="With CoS"
+                    sub="Classifiers, IEEE 802.1p + MPLS binding, rewrite rules"
+                    active={sel.cos}
+                    onClick={() => setSel((p) => ({ ...p, cos: true }))}
+                  />
+                  <Chip
+                    label="Without CoS"
+                    sub="Skip class-of-service"
+                    active={!sel.cos}
+                    onClick={() => setSel((p) => ({ ...p, cos: false }))}
+                  />
+                </div>
+              </div>
+              {family?.colorComms && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    Transport color{" "}
+                    <span className="font-normal text-muted-foreground">
+                      — one per batch
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {PWHT_COLORS.map((c) => (
+                      <Chip
+                        key={c}
+                        label={PWHT_COLOR_LABELS[c]}
+                        sub={
+                          c === "uncolored"
+                            ? "No community on the l2circuit"
+                            : `community ${family.colorComms![c]} on each PW`
+                        }
+                        active={pwColor === c}
+                        onClick={() => setSel((p) => ({ ...p, pwColor: c }))}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              <button
+                onClick={() => setStep((s) => s + 1)}
+                className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/20"
+              >
+                Continue to parameters <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
+          {currentStep === "attributes" && !roleBased && osBlockA && (
             <div className="space-y-4">
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
@@ -784,6 +1155,44 @@ export default function ConfigGenerator() {
                         onClick={() => setSel((p) => ({ ...p, vlanMode: m.id }))}
                       />
                     ))}
+                  </div>
+                </div>
+              )}
+              {rtPolicyApplies && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    VRF route-export
+                  </div>
+                  <div className="space-y-2">
+                    <Chip
+                      label="Uncolored (route-target only)"
+                      sub="vrf-target only — no color community (best-effort)"
+                      active={rtPolicy === "rt-only"}
+                      onClick={() => setSel((p) => ({ ...p, rtPolicy: "rt-only" }))}
+                    />
+                    <Chip
+                      label="Color community"
+                      sub="Export policy adds a traffic-class color community (+ RT)"
+                      active={rtPolicy !== "rt-only"}
+                      onClick={() =>
+                        setSel((p) => ({ ...p, rtPolicy: colorPolOpts[0] }))
+                      }
+                    />
+                    {rtPolicy !== "rt-only" && (
+                      <select
+                        value={rtPolicy}
+                        onChange={(e) =>
+                          setSel((p) => ({ ...p, rtPolicy: e.target.value }))
+                        }
+                        className="h-9 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      >
+                        {colorPolOpts.map((c) => (
+                          <option key={c} value={c}>
+                            {COLOR_POLICY_LABELS[c] ?? c}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
               )}
@@ -857,33 +1266,76 @@ export default function ConfigGenerator() {
 
           {currentStep === "params" && (
             <div className="space-y-5">
-              <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
-                <label className="text-xs font-medium text-foreground">
-                  Number of services
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  max={500}
-                  value={count}
-                  onChange={(e) =>
-                    setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
-                  }
-                  className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
-                />
-                <span className="text-[11px] text-muted-foreground">
-                  {count > 1
-                    ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
-                    : "The values below are your service. Increase the count to generate a numbered batch."}
-                </span>
-              </div>
+              {roleBased ? (
+                <div className="rounded-md border border-border bg-background p-3">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      Transport PWs
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={pwCount}
+                        onChange={(e) =>
+                          setPwCount(Math.max(1, Math.min(100, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-muted-foreground">×</span>
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      VLANs / PW
+                      <input
+                        type="number"
+                        min={1}
+                        max={500}
+                        value={count}
+                        onChange={(e) =>
+                          setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-[11px] font-medium text-primary">
+                      = {pwCount * count} EVPN-ELAN{pwCount * count > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <span className="mt-2 block text-[11px] text-muted-foreground">
+                    Values below are the starting service. Each PW gets its own
+                    PS interface, VC-ID and PW labels; VLANs increment globally
+                    ({count > 1 ? "vlan-id-list per PW" : "one vlan-id per PW"}).
+                    The download includes all {pwCount * count}.
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
+                  <label className="text-xs font-medium text-foreground">
+                    Number of services
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={500}
+                    value={count}
+                    onChange={(e) =>
+                      setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                    }
+                    className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                  />
+                  <span className="text-[11px] text-muted-foreground">
+                    {count > 1
+                      ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                      : "The values below are your service. Increase the count to generate a numbered batch."}
+                  </span>
+                </div>
+              )}
 
               {sharedFields.length > 0 && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
                     Shared{" "}
                     <span className="font-normal text-muted-foreground">
-                      — identical on both PEs
+                      {roleBased ? "— common to both roles" : "— identical on both PEs"}
                     </span>
                   </div>
                   <div className="grid gap-3 sm:grid-cols-2">
@@ -894,7 +1346,7 @@ export default function ConfigGenerator() {
                           key={v.name}
                           name={v.name}
                           hint={fieldHint(bare)}
-                          error={formatError(bare, shared[bare])}
+                          error={formatError(bare, shared[bare]) ?? sharedErrors[bare]}
                           value={shared[bare]}
                           onChange={(val) => setShared((p) => ({ ...p, [bare]: val }))}
                         />
@@ -907,10 +1359,10 @@ export default function ConfigGenerator() {
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
-                    {peLabel(sel.osA, "PE-A")}
+                    {peLabel(sel.osA, tagA)}
                   </div>
                   <div className="space-y-3">
-                    {perFields.map((v) => {
+                    {perFieldsA.map((v) => {
                       const bare = v.name.replace(/^\$/, "");
                       const mirror = classifyVar(v.name, ROLES).kind === "mirrored-primary";
                       return (
@@ -929,10 +1381,10 @@ export default function ConfigGenerator() {
                 {twoPe && (
                   <div>
                     <div className="mb-2 text-xs font-medium text-foreground">
-                      {peLabel(sel.osB as GenOsKey, "PE-B")}
+                      {peLabel(sel.osB as GenOsKey, tagB)}
                     </div>
                     <div className="space-y-3">
-                      {perFields.map((v) => {
+                      {perFieldsB.map((v) => {
                         const bare = v.name.replace(/^\$/, "");
                         const mirror =
                           classifyVar(v.name, ROLES).kind === "mirrored-primary";
@@ -998,7 +1450,7 @@ export default function ConfigGenerator() {
               {renderA && (
                 <div className="mt-3">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
-                    # {peLabel(sel.osA, "PE-A")}
+                    # {peLabel(sel.osA, tagA)}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
                     {mergedA}
@@ -1008,7 +1460,7 @@ export default function ConfigGenerator() {
               {renderB && (
                 <div className="mt-4">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
-                    # {peLabel(sel.osB as GenOsKey, "PE-B")}
+                    # {peLabel(sel.osB as GenOsKey, tagB)}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
                     {mergedB}
@@ -1016,14 +1468,28 @@ export default function ConfigGenerator() {
                 </div>
               )}
               <div className="mt-2 text-[11px] text-muted-foreground">
-                {count > 1 ? `Previewing service 1 of ${count} · ` : ""}
-                {twoPe ? "2 endpoints · matched identifiers" : "single device"} ·{" "}
+                {count > 1 || (roleBased && pwCount > 1)
+                  ? `Previewing service 1${roleBased && pwCount > 1 ? " (PW 1)" : ""} · `
+                  : ""}
+                {roleBased
+                  ? `${tagA} + ${tagB}`
+                  : twoPe
+                    ? "2 endpoints · matched identifiers"
+                    : "single device"}{" "}
+                ·{" "}
                 {[sel.cos && "CoS", sel.firewall && "firewall filter"]
                   .filter(Boolean)
                   .join(" + ") || "service only"}{" "}
                 · rendered client-side from the JVD snip library
               </div>
-              {count > 1 && (
+              {roleBased && pwCount * count > 1 && (
+                <div className="mt-1 text-[11px] font-medium text-primary">
+                  Download includes all {pwCount * count} EVPN-ELANs ({pwCount}{" "}
+                  transport PW{pwCount > 1 ? "s" : ""} × {count} service
+                  {count > 1 ? "s" : ""}).
+                </div>
+              )}
+              {!roleBased && count > 1 && (
                 <div className="mt-1 text-[11px] font-medium text-primary">
                   Download includes all {count} services (#2–{count} auto-incremented).
                 </div>

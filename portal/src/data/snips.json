@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-06T21:59:27.402Z",
+  "generatedAt": "2026-07-07T19:02:31.842Z",
   "counts": {
-    "total": 515,
+    "total": 517,
     "junos": 248,
-    "evo": 267,
+    "evo": 269,
     "jvds": 9
   },
   "categories": [
@@ -124,8 +124,8 @@
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
         "junos": 50,
-        "evo": 62,
-        "total": 112
+        "evo": 64,
+        "total": 114
       }
     },
     {
@@ -22471,6 +22471,67 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-list",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-list",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-list.conf",
+      "topic": "Interface: vlan ccc list (MEF E-Line / PWHT access)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MA1.2"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list — one attachment-circuit unit carries a VLAN range"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/l2circuit-floating-pw.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-floating-pw",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/14"
+        },
+        {
+          "name": "$UNIT",
+          "example": "300"
+        },
+        {
+          "name": "$VLAN_LIST_START",
+          "example": "300"
+        },
+        {
+          "name": "$VLAN_LIST_END",
+          "example": "309"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 194,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/interfaces/vlan-ccc-qinq-stacked-qinq-tpid",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -23231,6 +23292,49 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/policy/communities-tc-color",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "communities-tc-color",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/policy/communities-tc-color.conf",
+      "topic": "Policy: transport-class color communities (gold / bronze)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MA1.2"
+        ]
+      },
+      "highlights": [
+        "Defines the BGP-CT color-mapping communities referenced by a colored l2circuit / VRF-export (color:0:4000 gold, color:0:6000 bronze)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/l2circuit-floating-pw.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-floating-pw",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-TC-MAP2BRONZE members color:0:6000;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 122,
+      "lineCount": 4,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/policy/policy-l3vpn-import-export",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -23307,7 +23411,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the bronze color-mapping community (color:0:6000)"
       ],
       "pairWith": [],
       "variables": [
@@ -23325,10 +23429,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2BRONZE;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2BRONZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 340,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2BRONZE;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2BRONZE members color:0:6000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2BRONZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 393,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
@@ -23358,7 +23462,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the gold color-mapping community (color:0:4000)"
       ],
       "pairWith": [],
       "variables": [
@@ -23376,10 +23480,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 338,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 389,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
@@ -24916,6 +25020,22 @@
           "example": "et-0/0/12"
         },
         {
+          "name": "$COLOR_COMM",
+          "example": "CM-TC-MAP2GOLD"
+        },
+        {
+          "name": "$PW_LABEL_IN",
+          "example": "1000022"
+        },
+        {
+          "name": "$PW_LABEL_OUT",
+          "example": "1000022"
+        },
+        {
+          "name": "$PW_NEIGHBOR",
+          "example": "1.1.10.10"
+        },
+        {
           "name": "$UNIT",
           "example": "4004"
         },
@@ -24931,10 +25051,10 @@
         "    PEs (Evo): MA1.2 (ACX7024)",
         "    PEs (Junos): MSE1 (MX304), MSE2 (MX304)"
       ],
-      "body": "protocols {\n    l2circuit {\n        neighbor 1.1.10.10 {\n            interface $AC_INTF.$UNIT {\n                static {\n                    incoming-label 1000022;\n                    outgoing-label 1000022;\n                }\n                virtual-circuit-id $VC_ID;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label </span><span style=\"color:#79C0FF\">1000022</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label </span><span style=\"color:#79C0FF\">1000022</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 351,
-      "lineCount": 14,
+      "body": "protocols {\n    l2circuit {\n        neighbor $PW_NEIGHBOR {\n            interface $AC_INTF.$UNIT {\n                static {\n                    incoming-label $PW_LABEL_IN;\n                    outgoing-label $PW_LABEL_OUT;\n                }\n                virtual-circuit-id $VC_ID;\n                community $COLOR_COMM;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PW_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label $PW_LABEL_IN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label $PW_LABEL_OUT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community $COLOR_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 404,
+      "lineCount": 15,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
@@ -26547,16 +26667,20 @@
       ],
       "variables": [
         {
-          "name": "$ESI_ID",
-          "example": "00:11:11:11:44:11:11:30:02:0a"
+          "name": "$PS_ANCHOR",
+          "example": "lt-0/0/0"
         },
         {
-          "name": "$UNIT_1",
-          "example": "0"
-        },
-        {
-          "name": "$UNIT_2",
+          "name": "$PS_SERVICE",
           "example": "4004"
+        },
+        {
+          "name": "$PS_TRANSPORT",
+          "example": "ps22"
+        },
+        {
+          "name": "$VESI_ID",
+          "example": "00:11:11:11:44:11:11:30:02:0a"
         },
         {
           "name": "$VLAN",
@@ -26564,9 +26688,9 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "ps22 {\n    anchor-point {\n        lt-0/0/0;\n    }\n    vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT_1 {\n        encapsulation ethernet-ccc;\n    }\n    unit $UNIT_2 {\n        encapsulation vlan-bridge;\n        vlan-id $VLAN;\n        esi {\n            $ESI_ID;\n            all-active;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">ps22 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    anchor-point {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        lt-</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation ethernet-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $ESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 328,
+      "body": "$PS_TRANSPORT {\n    anchor-point {\n        $PS_ANCHOR;\n    }\n    vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit 0 {\n        encapsulation ethernet-ccc;\n    }\n    unit $PS_SERVICE {\n        encapsulation vlan-bridge;\n        vlan-id $VLAN;\n        esi {\n            $VESI_ID;\n            all-active;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$PS_TRANSPORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    anchor-point {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        $PS_ANCHOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation ethernet-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $PS_SERVICE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $VESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 338,
       "lineCount": 18,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
@@ -27579,7 +27703,7 @@
       },
       "highlights": [
         "Community-driven RT policy",
-        "Color-mapping community is OPTIONAL — VPN works with or without it"
+        "Defines + adds the gold color-mapping community (color:0:4000)"
       ],
       "pairWith": [],
       "variables": [
@@ -27597,10 +27721,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 338,
-      "lineCount": 15,
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term a {\n            then {\n                community add $VPN_RT_COMM;\n                community add CM-TC-MAP2GOLD;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n    community $VPN_RT_COMM members target:$COMM_RT;\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $VPN_RT_COMM;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $VPN_RT_COMM members target:$COMM_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 389,
+      "lineCount": 16,
       "techFamily": "Policy & Routing",
       "subfamily": "Policy",
       "usecases": [
@@ -28065,8 +28189,12 @@
           "example": "ae10"
         },
         {
-          "name": "$INSTANCE_NAME",
-          "example": "4004-evpn-floating-pw"
+          "name": "$PS_SERVICE",
+          "example": "4004"
+        },
+        {
+          "name": "$PS_TRANSPORT",
+          "example": "ps22"
         },
         {
           "name": "$RD",
@@ -28092,9 +28220,9 @@
         "    PEs (Evo): MA1.2 (ACX7024)",
         "    PEs (Junos): MSE1 (MX304), MSE2 (MX304)"
       ],
-      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF.$UNIT;\n        interface ps22.4004;\n        route-distinguisher $RD;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface ps22.</span><span style=\"color:#79C0FF\">4004</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 282,
+      "body": "routing-instances {\n    $VLAN-evpn-floating-pw {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF.$UNIT;\n        interface $PS_TRANSPORT.$PS_SERVICE;\n        route-distinguisher $RD;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VLAN-evpn-floating-pw {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_TRANSPORT.$PS_SERVICE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 306,
       "lineCount": 13,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-ELAN",
@@ -28524,6 +28652,22 @@
       ],
       "variables": [
         {
+          "name": "$PS_TRANSPORT",
+          "example": "ps22"
+        },
+        {
+          "name": "$PW_LABEL_IN",
+          "example": "1000022"
+        },
+        {
+          "name": "$PW_LABEL_OUT",
+          "example": "1000022"
+        },
+        {
+          "name": "$PW_NEIGHBOR",
+          "example": "10.0.0.18"
+        },
+        {
           "name": "$VC_ID",
           "example": "10120"
         }
@@ -28535,9 +28679,9 @@
         "    PEs (Evo): MA1.2 (ACX7024)",
         "    PEs (Junos): MSE1 (MX304), MSE2 (MX304)"
       ],
-      "body": "protocols {\n    l2circuit {\n        neighbor 10.0.0.18 {\n            interface ps22.0 {\n                static {\n                    incoming-label 1000022;\n                    outgoing-label 1000022;\n                }\n                virtual-circuit-id $VC_ID;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">18</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface ps22.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label </span><span style=\"color:#79C0FF\">1000022</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label </span><span style=\"color:#79C0FF\">1000022</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 343,
+      "body": "protocols {\n    l2circuit {\n        neighbor $PW_NEIGHBOR {\n            interface $PS_TRANSPORT.0 {\n                static {\n                    incoming-label $PW_LABEL_IN;\n                    outgoing-label $PW_LABEL_OUT;\n                }\n                virtual-circuit-id $VC_ID;\n                encapsulation-type ethernet-vlan;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PW_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $PS_TRANSPORT.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    incoming-label $PW_LABEL_IN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    outgoing-label $PW_LABEL_OUT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 366,
       "lineCount": 14,
       "techFamily": "Service Overlay",
       "subfamily": "Services",

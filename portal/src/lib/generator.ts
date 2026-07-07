@@ -58,6 +58,31 @@ export type GenFamily = {
   description: string;
   available: boolean;
   multiplexing: GenMux[];
+  /** Asymmetric role-based families (e.g. PWHT) render one config per role
+   *  instead of the symmetric PE-A / PE-B model. */
+  roleBased?: boolean;
+  roles?: GenRole[];
+  /** Variables that increment per transport PW (not per service) in the
+   *  two-dimensional PWHT fan-out — the PS IFD, VC-ID, PW labels. */
+  transportVars?: string[];
+  /** PWHT color: the community-definition snip + color→community-name map. */
+  colorCommDef?: string;
+  colorComms?: Record<string, string>;
+};
+
+/** One endpoint role of a role-based family (e.g. PWHT Access vs Headend).
+ *  Unlike symmetric E-Line PEs, each role has its own snip bundle + OS. */
+export type GenRole = {
+  id: string;
+  label: string;
+  os: GenOsKey;
+  service: string[];
+  interface: string[];
+  /** Alternate interface snip(s) used when a PW carries a VLAN range
+   *  (vlan-id-list) instead of a single VLAN. */
+  interfaceList?: string[];
+  cosSnips?: string[];
+  filter?: string;
 };
 
 export type GenCatalog = {
@@ -66,11 +91,18 @@ export type GenCatalog = {
   version: number;
   tiers: Record<string, { label: string; description: string }>;
   cosSnips: Record<GenOsKey, string[]>;
+  /** VRF route-export policy snips, per OS, keyed by color id (gold/bronze). */
+  routePolicySnips?: Partial<Record<GenOsKey, Record<string, string>>>;
+  /** Variables auto-derived from other variables (not shown as form fields). */
+  derivedVars?: Record<string, DerivedVar>;
   variableRoles: VariableRoles;
   varSpecs?: Record<string, VarSpec>;
   interfaceSpec?: InterfaceSpec;
   families: GenFamily[];
 };
+
+/** A variable whose value is computed from another variable's value. */
+export type DerivedVar = { from: string; prefix?: string; suffix?: string };
 
 /**
  * Classifies each $VAR for two-endpoint rendering:
@@ -101,6 +133,8 @@ export type VarSpec =
   | { type: "rd" }
   | { type: "rt" }
   | { type: "esi" }
+  | { type: "ip" }
+  | { type: "psintf" }
   | { type: "name" }
   | { type: "text" };
 
@@ -117,6 +151,8 @@ export type InterfaceSpec = {
 const RD_RT_RE = /^(\d{1,3}(\.\d{1,3}){3}|\d+):\d+$/;
 const ESI_RE = /^([0-9a-fA-F]{2}:){9}[0-9a-fA-F]{2}$/;
 const NAME_RE = /^[A-Za-z0-9_-]+$/;
+const IP_RE = /^\d{1,3}(\.\d{1,3}){3}$/;
+const PS_INTF_RE = /^ps\d+$/;
 
 /**
  * Validate one interface string against the platform capability table.
@@ -180,6 +216,12 @@ export function validateSpec(
       return RD_RT_RE.test(value) ? undefined : "expected <ip|asn>:<number>";
     case "esi":
       return ESI_RE.test(value) ? undefined : "expected a 10-byte ESI (00:…:01)";
+    case "ip":
+      return IP_RE.test(value) ? undefined : "expected an IPv4 address";
+    case "psintf":
+      return PS_INTF_RE.test(value)
+        ? undefined
+        : "expected a PS interface (e.g. ps22)";
     case "name":
       return NAME_RE.test(value) ? undefined : "letters, digits, _ or - only";
     default:
@@ -208,11 +250,15 @@ export function classifyVar(
   return { kind: "per-endpoint" };
 }
 
-/** Increment the trailing integer of a value by `by` (0 = unchanged). */
+/** Increment the trailing integer of a value by `by` (0 = unchanged),
+ *  preserving zero-padding width (so an ESI byte …:01 bumps to …:02, not …:2,
+ *  and an RD :40004 → :40005). */
 export function bumpInt(value: string, by: number): string {
   if (by === 0) return value;
   const m = value.match(/^(.*?)(\d+)$/);
-  return m ? m[1] + String(parseInt(m[2], 10) + by) : value;
+  if (!m) return value;
+  const width = m[2].length;
+  return m[1] + String(parseInt(m[2], 10) + by).padStart(width, "0");
 }
 
 /**
@@ -230,6 +276,31 @@ export function instanceValues(
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     out[k] = constant.has(k) ? v : bumpInt(v, i);
+  }
+  return out;
+}
+
+/**
+ * Two-dimensional fan-out for role-based families (PWHT): a grid of
+ * `transport` × `service` instances. `transportVars` (the PS IFD, VC-ID, PW
+ * labels) increment by the transport index `t`; every other non-constant
+ * variable increments by the global service index `i` (so each EVPN-ELAN is
+ * unique across all transport PWs); instanceConstant vars stay fixed.
+ */
+export function gridInstanceValues(
+  values: Record<string, string>,
+  roles: VariableRoles,
+  transportVars: string[],
+  t: number,
+  i: number,
+): Record<string, string> {
+  const constant = new Set(roles.instanceConstant ?? []);
+  const transport = new Set(transportVars);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    if (transport.has(k)) out[k] = bumpInt(v, t);
+    else if (constant.has(k)) out[k] = v;
+    else out[k] = bumpInt(v, i);
   }
   return out;
 }
@@ -265,6 +336,7 @@ export type GenSelection = {
   os: GenOsKey;
   homing: string; // key into osBlock.interface
   vlanMode?: string; // id of the chosen uni.mode (when the OS block has them)
+  rtPolicy?: string; // "rt-only" (strip vrf-export) or a color id (gold/bronze)
   cos: boolean; // include CoS binding snips (classifiers, scheduler binding)
   firewall: boolean; // include the UNI firewall filter
   color: string; // key into osBlock.filter (required when firewall = true)
@@ -284,6 +356,31 @@ export function resolveOsBlock(
 /** The VLAN-handling modes an OS block offers (empty when it has none). */
 export function vlanModes(osb: GenOsBlock): UniMode[] {
   return osb.uni?.modes ?? [];
+}
+
+/**
+ * Resolve the ordered jvd-qualified snip IDs for one role of a role-based
+ * family (e.g. PWHT Access or Headend). Order: service(s) → interface(s) →
+ * (if firewall) filter → (if CoS) CoS snips. De-duped + jvd-qualified.
+ */
+export function resolveRoleSnipIds(
+  catalog: GenCatalog,
+  role: GenRole,
+  opts: { cos: boolean; firewall: boolean },
+): string[] {
+  const rel: string[] = [...role.service, ...role.interface];
+  if (opts.firewall && role.filter) rel.push(role.filter);
+  if (opts.cos && role.cosSnips) rel.push(...role.cosSnips);
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const r of rel) {
+    const qualified = `${catalog.jvd}/${r}`;
+    if (!seen.has(qualified)) {
+      seen.add(qualified);
+      out.push(qualified);
+    }
+  }
+  return out;
 }
 
 /** The homing→snip interface map for the chosen VLAN mode (or the flat/legacy
@@ -310,6 +407,12 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   if (!osb) return [];
   const rel: string[] = [];
   rel.push(...osb.service);
+  // Colored VRF export: pull the gold/bronze policy that defines the
+  // `vrf-export` policy-statement the service references.
+  if (sel.rtPolicy && sel.rtPolicy !== "rt-only") {
+    const pol = catalog.routePolicySnips?.[sel.os]?.[sel.rtPolicy];
+    if (pol) rel.push(pol);
+  }
   const iface = osInterfaceMap(osb, sel.vlanMode)[sel.homing];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
@@ -405,6 +508,36 @@ function stripUniFilterBinding(body: string): string {
   );
 }
 
+/** Remove the `vrf-export <policy>;` line from a service body. Used in the
+ *  "route-target only" mode, where the RT alone drives import/export and no
+ *  export policy is defined. */
+function stripVrfExport(body: string): string {
+  return body.replace(/\n?[^\S\n]*vrf-export\s+\S+;/g, "");
+}
+
+/** Remove a bare `community <name>;` binding line (e.g. an uncolored PWHT
+ *  l2circuit). Leaves `community <name> members …;` definitions untouched. */
+function stripCommunity(body: string): string {
+  return body.replace(/\n?[^\S\n]*community\s+\S+;/g, "");
+}
+
+/** Compute auto-derived variable values (e.g. POLICY_NAME = INSTANCE_NAME,
+ *  VPN_RT_COMM = INSTANCE_NAME + "_RT") from the resolved base values. */
+function applyDerived(
+  values: Record<string, string>,
+  derived?: Record<string, DerivedVar>,
+): Record<string, string> {
+  if (!derived) return values;
+  const out = { ...values };
+  for (const [key, d] of Object.entries(derived)) {
+    if (key.startsWith("_") || !d || !d.from) continue;
+    const base = values[d.from];
+    if (base !== undefined && base !== "")
+      out[key] = `${d.prefix ?? ""}${base}${d.suffix ?? ""}`;
+  }
+  return out;
+}
+
 export type RenderResult = {
   text: string;
   /** Variable names still present as $VAR after substitution. */
@@ -423,13 +556,20 @@ export function renderConfig(
   snipIds: string[],
   values: Record<string, string>,
   byId: Map<string, SnipRecord>,
-  opts?: { stripUniFilter?: boolean },
+  opts?: {
+    stripUniFilter?: boolean;
+    stripVrfExport?: boolean;
+    stripCommunity?: boolean;
+    derived?: Record<string, DerivedVar>;
+  },
 ): RenderResult {
-  // Normalise value keys to bare names (no leading $).
+  // Normalise value keys to bare names (no leading $), then fold in any
+  // auto-derived variables (policy name, RT community, …).
   const norm: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     norm[k.startsWith("$") ? k.slice(1) : k] = v;
   }
+  const resolved = applyDerived(norm, opts?.derived);
 
   const blocks: string[] = [];
   const used: string[] = [];
@@ -438,18 +578,30 @@ export function renderConfig(
     if (!snip) continue;
     used.push(id);
     const shortPath = `${snip.osKey}/${snip.category}/${snip.name}.conf`;
-    let body = substitute(stripHeader(snip.body), norm);
+    let body = substitute(stripHeader(snip.body), resolved);
     // Drop the inline UNI filter binding on interface snips when the user
     // opted out of the firewall filter (else it dangles).
     if (opts?.stripUniFilter && snip.category === "interfaces") {
       body = stripUniFilterBinding(body);
     }
+    // Route-target-only mode: drop the vrf-export policy reference.
+    if (opts?.stripVrfExport && snip.category === "services") {
+      body = stripVrfExport(body);
+    }
+    // Uncolored PWHT: drop the l2circuit color-community binding.
+    if (opts?.stripCommunity && snip.category === "services") {
+      body = stripCommunity(body);
+    }
     // Normalise interface snips under an `interfaces { … }` wrapper so they
-    // merge with each other (and with the CoS binding, which is already
-    // wrapped) into one physical-interface stanza. Some snips already carry
-    // the wrapper — don't double-wrap those.
+    // merge with each other into one physical-interface stanza. Some snips
+    // already carry the wrapper — don't double-wrap those.
     if (snip.category === "interfaces" && !/^\s*interfaces\s*\{/.test(body)) {
       body = `interfaces {\n${body}\n}`;
+    }
+    // CoS snips belong under `class-of-service { … }` (classifiers, rewrite
+    // rules, and the per-interface binding) — not under `[edit interfaces]`.
+    if (snip.category === "cos" && !/^\s*class-of-service\s*\{/.test(body)) {
+      body = `class-of-service {\n${body}\n}`;
     }
     const rendered = body.replace(/\s+$/, "");
     blocks.push(`/* snips/${shortPath} */\n${rendered}`);
