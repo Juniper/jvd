@@ -30,10 +30,18 @@ export type UniMode = {
 
 export type GenOsBlock = {
   service: string[];
+  /** Per-homing service override (relative snip ids). When a homing key is
+   *  present its service snips replace the default `service` list — EVPN-FXC
+   *  uses this so single-homed = VLAN-unaware and multihomed = VLAN-aware. */
+  serviceByHoming?: Record<string, string[]>;
   interface: Record<string, string>; // homing key -> snip id (relative to jvd)
   interfaceExtras: string[];
   filter: Record<string, string>; // color key -> snip id (relative to jvd)
   uni?: { modes: UniMode[] };
+  /** Per-deployment CoS binding override (relative snip ids). When absent the
+   *  global catalog.cosSnips[os] set is used. EVPN-FXC uses this to bind CoS to
+   *  both bundled VLAN units instead of the single-unit default. */
+  cosSnips?: string[];
 };
 
 export type GenDeployment = {
@@ -41,6 +49,13 @@ export type GenDeployment = {
   label: string;
   description: string;
   available?: boolean;
+  /** Multi-UNI deployment (EVPN-FXC): one service bundles N VLAN UNIs on one
+   *  port. The wizard shows a "VLAN UNIs" count and fans out the single-UNI
+   *  snips, bumping only `uniVars`; the merger consolidates them. */
+  multiUni?: boolean;
+  /** Variables that increment per bundled UNI (unit, vlan, and on VLAN-aware
+   *  the S-VLAN + ESI). Everything else is constant across the bundle. */
+  uniVars?: string[];
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 
@@ -281,6 +296,138 @@ export function instanceValues(
 }
 
 /**
+ * Shift a value map to the Nth bundled UNI of a multi-UNI service (EVPN-FXC):
+ * only `uniVars` (unit, vlan, and on VLAN-aware the S-VLAN + ESI) increment by
+ * `i`; every other variable (instance name, RD, route-target, port, filter,
+ * service-id) stays constant so the N renders merge into ONE service carrying
+ * N UNIs. UNI 0 = the values the user entered.
+ */
+export function uniInstanceValues(
+  values: Record<string, string>,
+  uniVars: string[],
+  i: number,
+): Record<string, string> {
+  const bump = new Set(uniVars);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    out[k] = bump.has(k) ? bumpInt(v, i) : v;
+  }
+  return out;
+}
+
+/* ------------------------------------------------------------------ *
+ * EVPN-FXC per-UNI entry model
+ *
+ * An FXC service bundles a list of VLAN "entries" onto one port. Each entry
+ * is either a single VLAN (`vlan-id N`) or a contiguous range (`800-809`) that
+ * may push an outer S-VLAN and may be broken out per-VLAN on the far PE. This
+ * maps one entry to one-or-more concrete UNI units (interface snip + values),
+ * which the caller renders + merges into a single routing-instance.
+ * ------------------------------------------------------------------ */
+
+export type FxcEntry = {
+  /** "single" = one C-VLAN; "range" = a contiguous vlan-id-list. */
+  kind: "single" | "range";
+  /** Single-VLAN id (kind = "single"). */
+  vlan: string;
+  /** Contiguous range "A-B" (kind = "range"). */
+  range: string;
+  /** Optional outer S-VLAN push (range only). Empty = no push. */
+  svlan: string;
+  /** Range only: break the range into per-VLAN units on the far (PE-B) side. */
+  breakout: boolean;
+};
+
+/** One concrete UNI unit to render: its interface snip + the values it needs. */
+export type FxcUnitSpec = {
+  unit: string;
+  interfaceRel: string; // relative snip id (no jvd prefix)
+  values: Record<string, string>;
+};
+
+/** Expand a "A-B" range (or a single "N") to its list of VLAN ids. Capped for
+ *  safety. Returns [] on a malformed range. */
+export function expandVlanRange(range: string): number[] {
+  const m = range.match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+  if (!m) {
+    const n = parseInt(range, 10);
+    return Number.isNaN(n) ? [] : [n];
+  }
+  const a = parseInt(m[1], 10);
+  const b = parseInt(m[2], 10);
+  if (Number.isNaN(a) || Number.isNaN(b) || b < a) return [];
+  const out: number[] = [];
+  for (let v = a; v <= b && out.length < 4096; v++) out.push(v);
+  return out;
+}
+
+/**
+ * Map an EVPN-FXC entry list to the concrete UNI units for ONE PE. `mode` picks
+ * the service style; `os` selects the OS-specific interface snips; on the
+ * breakout side a range entry expands to per-VLAN units. For VLAN-aware, each
+ * entry's ESI + vpws-service-id increment per UNI (from `base`).
+ */
+export function fxcUnitSpecs(
+  mode: "unaware" | "aware",
+  os: GenOsKey,
+  isBreakoutSide: boolean,
+  entries: FxcEntry[],
+  awareMap: boolean,
+  base: Record<string, string>,
+): FxcUnitSpec[] {
+  const out: FxcUnitSpec[] = [];
+  if (mode === "aware") {
+    const rel = awareMap
+      ? "evo/interfaces/vlan-ccc-vlan-map-esi-1-unit"
+      : "evo/interfaces/vlan-ccc-esi-1-unit";
+    entries.forEach((e, i) => {
+      const unit = e.vlan;
+      const values: Record<string, string> = {
+        UNIT: unit,
+        VLAN: e.vlan,
+        ESI_ID: bumpInt(base.ESI_ID ?? "", i),
+        LOCAL_VID: bumpInt(base.LOCAL_VID ?? "", i),
+        REMOTE_VID: bumpInt(base.REMOTE_VID ?? "", i),
+      };
+      if (awareMap) values.INPUT_VID = e.svlan || base.INPUT_VID || "";
+      out.push({ unit, interfaceRel: rel, values });
+    });
+    return out;
+  }
+  // unaware
+  for (const e of entries) {
+    if (e.kind === "single") {
+      out.push({
+        unit: e.vlan,
+        interfaceRel: `${os}/interfaces/vlan-ccc-1-unit`,
+        values: { UNIT: e.vlan, VLAN: e.vlan },
+      });
+      continue;
+    }
+    const vlans = expandVlanRange(e.range);
+    const start = String(vlans[0] ?? e.range);
+    if (isBreakoutSide) {
+      for (const v of vlans) {
+        const rel = e.svlan
+          ? `${os}/interfaces/vlan-ccc-1-unit-qinq`
+          : `${os}/interfaces/vlan-ccc-1-unit`;
+        const values: Record<string, string> = { UNIT: String(v), VLAN: String(v) };
+        if (e.svlan) values.SVLAN = e.svlan;
+        out.push({ unit: String(v), interfaceRel: rel, values });
+      }
+    } else {
+      const rel = e.svlan
+        ? `${os}/interfaces/vlan-ccc-1-unit-list-push`
+        : `${os}/interfaces/vlan-ccc-1-unit-list`;
+      const values: Record<string, string> = { UNIT: start, VLAN_LIST: e.range };
+      if (e.svlan) values.SVLAN = e.svlan;
+      out.push({ unit: start, interfaceRel: rel, values });
+    }
+  }
+  return out;
+}
+
+/**
  * Two-dimensional fan-out for role-based families (PWHT): a grid of
  * `transport` × `service` instances. `transportVars` (the PS IFD, VC-ID, PW
  * labels) increment by the transport index `t`; every other non-constant
@@ -406,7 +553,7 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   const osb = resolveOsBlock(catalog, sel);
   if (!osb) return [];
   const rel: string[] = [];
-  rel.push(...osb.service);
+  rel.push(...(osb.serviceByHoming?.[sel.homing] ?? osb.service));
   // Colored VRF export: pull the gold/bronze policy that defines the
   // `vrf-export` policy-statement the service references.
   if (sel.rtPolicy && sel.rtPolicy !== "rt-only") {
@@ -421,7 +568,7 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
     if (filter) rel.push(filter);
   }
   if (sel.cos) {
-    rel.push(...(catalog.cosSnips[sel.os] ?? []));
+    rel.push(...(osb.cosSnips ?? catalog.cosSnips[sel.os] ?? []));
   }
   // De-dupe while preserving order, then qualify with the jvd prefix.
   const seen = new Set<string>();

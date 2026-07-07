@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-07T19:02:31.842Z",
+  "generatedAt": "2026-07-07T22:57:44.651Z",
   "counts": {
-    "total": 517,
-    "junos": 248,
-    "evo": 269,
+    "total": 530,
+    "junos": 253,
+    "evo": 277,
     "jvds": 9
   },
   "categories": [
@@ -123,9 +123,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
-        "junos": 50,
-        "evo": 64,
-        "total": 114
+        "junos": 55,
+        "evo": 72,
+        "total": 127
       }
     },
     {
@@ -22306,6 +22306,278 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-1-unit-list-push",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-list-push",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-1-unit-list-push.conf",
+      "topic": "Interface: vlan ccc 1 unit vlan-id-list + S-VLAN push (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list range + input-vlan-map push (normalize to one S-VLAN)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$SVLAN",
+          "example": "4090"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "800-809"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST;\n        input-vlan-map {\n            push;\n            vlan-id $SVLAN;\n        }\n        output-vlan-map pop;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $SVLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 385,
+      "lineCount": 18,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-1-unit-list",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-list",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-1-unit-list.conf",
+      "topic": "Interface: vlan ccc 1 unit vlan-id-list (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list bundles a contiguous VLAN range on one UNI"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "800-809"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 275,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-1-unit-qinq",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-qinq",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-1-unit-qinq.conf",
+      "topic": "Interface: vlan ccc 1 unit QinQ (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-tags outer/inner (S-VLAN + C-VLAN double tag) — one UNI per C-VLAN"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$SVLAN",
+          "example": "4090"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN",
+          "example": "800"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-tags outer $SVLAN inner $VLAN;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tags outer $SVLAN inner $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 286,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-1-unit",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-1-unit.conf",
+      "topic": "Interface: vlan ccc 1 unit (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "encapsulation flexible-ethernet-services",
+        "One bundled VLAN UNI of a VLAN-unaware EVPN-FXC (repeat per UNI)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "evo/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/13"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4007"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4007"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 265,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/interfaces/vlan-ccc-2-units",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -22358,6 +22630,10 @@
           "example": "et-0/0/13"
         },
         {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
           "name": "$UNIT_1",
           "example": "4007"
         },
@@ -22375,10 +22651,75 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT_1 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_1;\n        family ccc {\n            filter {\n                input f_vlan_based_fam_bridge;\n            }\n        }\n    }\n    unit $UNIT_2 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_2;\n        family ccc {\n            filter {\n                input f_vlan_based_fam_bridge;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 475,
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT_1 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_1;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n    unit $UNIT_2 {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN_2;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 453,
       "lineCount": 22,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-esi-1-unit",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-esi-1-unit",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-esi-1-unit.conf",
+      "topic": "Interface: vlan ccc esi 1 unit (MEF E-Line / EVPL) — EVPN-FXC member (aware, no vlan-map)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MEG1"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "ESI multihoming (all-active); customer VLAN matched end-to-end (no S-VLAN map)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/evpn-fxc-vlan-aware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-aware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae67"
+        },
+        {
+          "name": "$ESI_ID",
+          "example": "00:10:44:11:50:12:02:00:00:00"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan-based_fam_ccc"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4002"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4002"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN;\n        esi {\n            $ESI_ID;\n            all-active;\n        }\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $ESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 261,
+      "lineCount": 15,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
@@ -22780,6 +23121,96 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    mtu $MTU;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ethernet-switch-profile {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tag-protocol-id [ 0x8100 0x88a8 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tag-protocol-id 0x88a8;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan-based_fam_ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 585,
       "lineCount": 25,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/interfaces/vlan-ccc-vlan-map-esi-1-unit",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi-1-unit",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-esi-1-unit.conf",
+      "topic": "Interface: vlan ccc vlan map esi 1 unit (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MEG1"
+        ]
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "ESI multihoming (all-active)",
+        "One bundled VLAN UNI of a VLAN-aware EVPN-FXC (repeat per UNI)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "evo/services/evpn-fxc-vlan-aware-1.conf",
+          "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-aware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae67"
+        },
+        {
+          "name": "$ESI_ID",
+          "example": "00:10:44:11:50:12:02:00:00:00"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan-based_fam_ccc"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3400"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4002"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4002"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN;\n        input-vlan-map {\n            push;\n            vlan-id $INPUT_VID;\n        }\n        output-vlan-map pop;\n        esi {\n            $ESI_ID;\n            all-active;\n        }\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $ESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 375,
+      "lineCount": 20,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
@@ -24327,6 +24758,100 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-aware-1",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-aware-1",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-fxc-vlan-aware-1.conf",
+      "topic": "Service instance: evpn fxc vlan aware 1 (MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MEG1"
+        ]
+      },
+      "highlights": [
+        "instance-type evpn-vpws",
+        "flexible-cross-connect-vlan-aware attachment circuit (per-UNI service-id)",
+        "RT-driven import/export"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/vlan-ccc-vlan-map-esi-1-unit.conf",
+          "id": "metro_as_a_service/evo/interfaces/vlan-ccc-vlan-map-esi-1-unit",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae67"
+        },
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_vpws_fxc_aware"
+        },
+        {
+          "name": "$LOCAL_VID",
+          "example": "1"
+        },
+        {
+          "name": "$RD",
+          "example": "10.0.0.6:5501"
+        },
+        {
+          "name": "$REMOTE_VID",
+          "example": "2"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4001"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "63536:55100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF.$UNIT {\n                    vpws-service-id {\n                        local $LOCAL_VID;\n                        remote $REMOTE_VID;\n                    }\n                }\n                flexible-cross-connect-vlan-aware;\n            }\n        }\n        interface $AC_INTF.$UNIT;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 543,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-aware",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -24418,6 +24943,100 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 792,
       "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/services/evpn-fxc-vlan-unaware-1",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-unaware-1",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-fxc-vlan-unaware-1.conf",
+      "topic": "Service instance: evpn fxc vlan unaware 1 (MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "AN3"
+        ]
+      },
+      "highlights": [
+        "instance-type evpn-vpws",
+        "flexible-cross-connect-vlan-unaware group (one member per bundled UNI)",
+        "RT-driven import/export"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/vlan-ccc-1-unit.conf",
+          "id": "metro_as_a_service/evo/interfaces/vlan-ccc-1-unit",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/13"
+        },
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_4007"
+        },
+        {
+          "name": "$LOCAL_VID",
+          "example": "1"
+        },
+        {
+          "name": "$RD",
+          "example": "10.0.0.2:40001"
+        },
+        {
+          "name": "$REMOTE_VID",
+          "example": "2"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4007"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "63535:40001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT;\n                    service-id {\n                        local $LOCAL_VID;\n                        remote $REMOTE_VID;\n                    }\n                }\n            }\n        }\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 537,
+      "lineCount": 20,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
@@ -27333,6 +27952,279 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_as_a_service/junos/interfaces/vlan-ccc-1-unit-list-push",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-list-push",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-1-unit-list-push.conf",
+      "topic": "Interface: vlan ccc 1 unit vlan-id-list + S-VLAN push (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list range + input-vlan-map push (normalize to one S-VLAN)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/junos/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/3"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$SVLAN",
+          "example": "4090"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "800-809"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST;\n        input-vlan-map {\n            push;\n            vlan-id $SVLAN;\n        }\n        output-vlan-map pop;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $SVLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 385,
+      "lineCount": 18,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/interfaces/vlan-ccc-1-unit-list",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-list",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-1-unit-list.conf",
+      "topic": "Interface: vlan ccc 1 unit vlan-id-list (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-id-list bundles a contiguous VLAN range on one UNI"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/junos/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/3"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "800-809"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id-list $VLAN_LIST;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 275,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/interfaces/vlan-ccc-1-unit-qinq",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit-qinq",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-1-unit-qinq.conf",
+      "topic": "Interface: vlan ccc 1 unit QinQ (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "encapsulation vlan-ccc",
+        "vlan-tags outer/inner (S-VLAN + C-VLAN double tag) — one UNI per C-VLAN",
+        "remote-side break-out of a peer's vlan-id-list range"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/junos/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/3"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$SVLAN",
+          "example": "4090"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN",
+          "example": "800"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-tags outer $SVLAN inner $VLAN;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-tags outer $SVLAN inner $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 286,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/interfaces/vlan-ccc-1-unit",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc-1-unit",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-ccc-1-unit.conf",
+      "topic": "Interface: vlan ccc 1 unit (MEF E-Line / EVPL) — EVPN-FXC member",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "encapsulation flexible-ethernet-services",
+        "One bundled VLAN UNI of a VLAN-unaware EVPN-FXC (repeat per UNI)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/cos/classifiers.conf",
+          "id": "metro_as_a_service/junos/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/junos/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "junos/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/junos/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "junos/services/evpn-fxc-vlan-unaware-1.conf",
+          "id": "metro_as_a_service/junos/services/evpn-fxc-vlan-unaware-1",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/3"
+        },
+        {
+          "name": "$FILTER_NAME",
+          "example": "f_vlan_based_fam_bridge"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4007"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4007"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    flexible-vlan-tagging;\n    encapsulation flexible-ethernet-services;\n    unit $UNIT {\n        encapsulation vlan-ccc;\n        vlan-id $VLAN;\n        family ccc {\n            filter {\n                input $FILTER_NAME;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family ccc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input $FILTER_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 265,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_as_a_service/junos/interfaces/vlan-ccc-v2",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
@@ -28419,6 +29311,101 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn-etree;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 373,
       "lineCount": 16,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/services/evpn-fxc-vlan-unaware-1",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "evpn-fxc-vlan-unaware-1",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-fxc-vlan-unaware-1.conf",
+      "topic": "Service instance: evpn fxc vlan unaware 1 (MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "instance-type evpn-vpws",
+        "flexible-cross-connect-vlan-unaware group (one member per bundled UNI)",
+        "service-id mirrors the peer PE (local/remote swap)",
+        "RT-driven import/export"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/cos/classifiers.conf",
+          "id": "metro_as_a_service/junos/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/junos/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "junos/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/junos/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/vlan-ccc-1-unit.conf",
+          "id": "metro_as_a_service/junos/interfaces/vlan-ccc-1-unit",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/3"
+        },
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_4007"
+        },
+        {
+          "name": "$LOCAL_VID",
+          "example": "2"
+        },
+        {
+          "name": "$RD",
+          "example": "10.0.0.10:40001"
+        },
+        {
+          "name": "$REMOTE_VID",
+          "example": "1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4007"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "63535:40001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT;\n                    service-id {\n                        local $LOCAL_VID;\n                        remote $REMOTE_VID;\n                    }\n                }\n            }\n        }\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $LOCAL_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $REMOTE_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 537,
+      "lineCount": 20,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
