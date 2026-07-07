@@ -27,6 +27,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  uniInstanceValues,
   bumpInt,
   validateSpec,
 } from "@/lib/generator";
@@ -438,6 +439,16 @@ export default function ConfigGenerator() {
     ? attrsA.color.filter((c) => attrsB.color.includes(c))
     : attrsA.color;
 
+  // Multi-UNI (EVPN-FXC): the VLAN-unaware/aware mode selector already implies
+  // homing (unaware = single-homed, aware = multihomed all-active ESI), so
+  // auto-resolve homing from the chosen mode and hide the redundant selector.
+  useEffect(() => {
+    if (deployment?.multiUni && homingOpts.length >= 1 && sel.homing !== homingOpts[0]) {
+      setSel((p) => ({ ...p, homing: homingOpts[0] }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deployment, homingOpts.join(",")]);
+
   const attrsComplete = roleBased
     ? true
     : Boolean(
@@ -626,6 +637,11 @@ export default function ConfigGenerator() {
     [family],
   );
   const baseVlan = Number(shared.VLAN) || 0;
+  const multiUni = !!deployment?.multiUni;
+  const uniVars = useMemo(() => deployment?.uniVars ?? [], [deployment]);
+  // For a multi-UNI (EVPN-FXC) service `count` is the number of bundled VLAN
+  // UNIs (1–10); for every other deployment it's the service-batch size.
+  const uniCount = multiUni ? Math.max(1, Math.min(count, 10)) : 1;
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
     if (roleBased)
@@ -635,13 +651,28 @@ export default function ConfigGenerator() {
         byId,
         { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
       );
-    return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId, {
+    const baseA = endpointValues(names, ROLES, shared, perA, perB);
+    if (multiUni) {
+      const bodies: string[] = [];
+      const miss = new Set<string>();
+      for (let i = 0; i < uniCount; i++) {
+        const r = renderConfig(idsA, uniInstanceValues(baseA, uniVars, i), byId, {
+          stripUniFilter: !sel.firewall,
+          stripVrfExport: rtPolicy === "rt-only",
+          derived: CATALOG.derivedVars,
+        });
+        bodies.push(r.text);
+        r.missing.forEach((m) => miss.add(m));
+      }
+      return { text: bodies.join("\n"), missing: [...miss], usedSnipIds: [] };
+    }
+    return renderConfig(idsA, baseA, byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm]);
+  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, uniCount]);
   const renderB = useMemo(() => {
     if (!complete || !twoPe || idsB.length === 0) return null;
     if (roleBased)
@@ -651,13 +682,28 @@ export default function ConfigGenerator() {
         byId,
         { stripUniFilter: !sel.firewall },
       );
-    return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId, {
+    const baseB = endpointValues(names, ROLES, shared, perB, perA);
+    if (multiUni) {
+      const bodies: string[] = [];
+      const miss = new Set<string>();
+      for (let i = 0; i < uniCount; i++) {
+        const r = renderConfig(idsB, uniInstanceValues(baseB, uniVars, i), byId, {
+          stripUniFilter: !sel.firewall,
+          stripVrfExport: rtPolicy === "rt-only",
+          derived: CATALOG.derivedVars,
+        });
+        bodies.push(r.text);
+        r.missing.forEach((m) => miss.add(m));
+      }
+      return { text: bodies.join("\n"), missing: [...miss], usedSnipIds: [] };
+    }
+    return renderConfig(idsB, baseB, byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm]);
+  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, uniCount]);
 
   // Merged, consolidated config for display/copy (single previewed service).
   const mergedA = useMemo(
@@ -804,6 +850,32 @@ export default function ConfigGenerator() {
               ).text,
             );
         }
+      }
+    } else if (multiUni) {
+      // EVPN-FXC: ONE service bundling `uniCount` VLAN UNIs. Fan out the
+      // single-UNI snips bumping only the UNI vars; the merger consolidates
+      // them into one interface + one routing-instance carrying N UNIs.
+      const S = uniCount;
+      total = 1;
+      const baseA = endpointValues(names, ROLES, shared, perA, perB);
+      const baseB = endpointValues(names, ROLES, shared, perB, perA);
+      for (let i = 0; i < S; i++) {
+        if (idsA.length)
+          aBodies.push(
+            renderConfig(idsA, uniInstanceValues(baseA, uniVars, i), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
+        if (twoPe && idsB.length)
+          bBodies.push(
+            renderConfig(idsB, uniInstanceValues(baseB, uniVars, i), byId, {
+              stripUniFilter: !sel.firewall,
+              stripVrfExport: rtPolicy === "rt-only",
+              derived: CATALOG.derivedVars,
+            }).text,
+          );
       }
     } else {
       const S = Math.max(1, Math.min(count, 500));
@@ -1135,23 +1207,25 @@ export default function ConfigGenerator() {
 
           {currentStep === "attributes" && !roleBased && osBlockA && (
             <div className="space-y-4">
-              <div>
-                <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
-                <div className="space-y-2">
-                  {homingOpts.map((h) => (
-                    <Chip
-                      key={h}
-                      label={HOMING_LABELS[h] ?? h}
-                      active={sel.homing === h}
-                      onClick={() => setSel((p) => ({ ...p, homing: h }))}
-                    />
-                  ))}
+              {!multiUni && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
+                  <div className="space-y-2">
+                    {homingOpts.map((h) => (
+                      <Chip
+                        key={h}
+                        label={HOMING_LABELS[h] ?? h}
+                        active={sel.homing === h}
+                        onClick={() => setSel((p) => ({ ...p, homing: h }))}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               {modeOpts.length > 0 && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
-                    VLAN handling
+                    {multiUni ? "VLAN handling (FXC type)" : "VLAN handling"}
                   </div>
                   <div className="space-y-2">
                     {modeOpts.map((m) => (
@@ -1318,22 +1392,28 @@ export default function ConfigGenerator() {
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
                   <label className="text-xs font-medium text-foreground">
-                    Number of services
+                    {multiUni ? "VLAN UNIs" : "Number of services"}
                   </label>
                   <input
                     type="number"
                     min={1}
-                    max={500}
+                    max={multiUni ? 10 : 500}
                     value={count}
                     onChange={(e) =>
-                      setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                      setCount(
+                        Math.max(1, Math.min(multiUni ? 10 : 500, Number(e.target.value) || 1)),
+                      )
                     }
                     className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
                   />
                   <span className="text-[11px] text-muted-foreground">
-                    {count > 1
-                      ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
-                      : "The values below are your service. Increase the count to generate a numbered batch."}
+                    {multiUni
+                      ? count > 1
+                        ? `One EVPN-FXC service bundling ${count} VLAN UNIs. The values below are UNI #1; UNIs #2–${count} increment automatically.`
+                        : "One VLAN UNI. Increase the count to bundle more UNIs into this one FXC service (up to 10)."
+                      : count > 1
+                        ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                        : "The values below are your service. Increase the count to generate a numbered batch."}
                   </span>
                 </div>
               )}

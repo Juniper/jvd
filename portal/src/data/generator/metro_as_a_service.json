@@ -217,19 +217,33 @@
               "id": "evpn-fxc",
               "label": "EVPN-FXC",
               "description": "Flexible Cross-Connect — many VLAN UNIs bundled under one EVPN-VPWS.",
+              "multiUni": true,
+              "uniVars": ["UNIT", "VLAN", "INPUT_VID", "ESI_ID"],
               "os": {
                 "evo": {
-                  "service": ["evo/services/evpn-fxc-vlan-unaware"],
+                  "service": ["evo/services/evpn-fxc-vlan-unaware-1"],
                   "serviceByHoming": {
-                    "single-homed": ["evo/services/evpn-fxc-vlan-unaware"],
-                    "multihomed": ["evo/services/evpn-fxc-vlan-aware"]
+                    "single-homed": ["evo/services/evpn-fxc-vlan-unaware-1"],
+                    "multihomed": ["evo/services/evpn-fxc-vlan-aware-1"]
                   },
-                  "interface": {
-                    "single-homed": "evo/interfaces/vlan-ccc-2-units",
-                    "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi-2-units"
+                  "interface": { "single-homed": "evo/interfaces/vlan-ccc-1-unit" },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "vlan-unaware",
+                        "label": "VLAN-unaware",
+                        "description": "One FXC group bundles the UNIs under a single service-id (single-homed).",
+                        "interface": { "single-homed": "evo/interfaces/vlan-ccc-1-unit" }
+                      },
+                      {
+                        "id": "vlan-aware",
+                        "label": "VLAN-aware",
+                        "description": "Per-UNI vpws-service-id + all-active ESI multihoming + S-VLAN normalization.",
+                        "interface": { "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi-1-unit" }
+                      }
+                    ]
                   },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
-                  "cosSnips": ["evo/cos/classifiers", "evo/cos/cos-binding-ieee8021p-2-units", "evo/cos/rewrite-rules"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
                 }
               }

@@ -49,6 +49,13 @@ export type GenDeployment = {
   label: string;
   description: string;
   available?: boolean;
+  /** Multi-UNI deployment (EVPN-FXC): one service bundles N VLAN UNIs on one
+   *  port. The wizard shows a "VLAN UNIs" count and fans out the single-UNI
+   *  snips, bumping only `uniVars`; the merger consolidates them. */
+  multiUni?: boolean;
+  /** Variables that increment per bundled UNI (unit, vlan, and on VLAN-aware
+   *  the S-VLAN + ESI). Everything else is constant across the bundle. */
+  uniVars?: string[];
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 
@@ -284,6 +291,26 @@ export function instanceValues(
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     out[k] = constant.has(k) ? v : bumpInt(v, i);
+  }
+  return out;
+}
+
+/**
+ * Shift a value map to the Nth bundled UNI of a multi-UNI service (EVPN-FXC):
+ * only `uniVars` (unit, vlan, and on VLAN-aware the S-VLAN + ESI) increment by
+ * `i`; every other variable (instance name, RD, route-target, port, filter,
+ * service-id) stays constant so the N renders merge into ONE service carrying
+ * N UNIs. UNI 0 = the values the user entered.
+ */
+export function uniInstanceValues(
+  values: Record<string, string>,
+  uniVars: string[],
+  i: number,
+): Record<string, string> {
+  const bump = new Set(uniVars);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    out[k] = bump.has(k) ? bumpInt(v, i) : v;
   }
   return out;
 }
