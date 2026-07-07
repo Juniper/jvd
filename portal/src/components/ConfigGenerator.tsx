@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Cpu,
   Download,
@@ -8,6 +8,8 @@ import {
   ChevronLeft,
   ChevronRight,
   RotateCcw,
+  Plus,
+  X,
 } from "lucide-react";
 import { snipBundle, type SnipRecord, type SnipVariable } from "@/lib/snips";
 import maasCatalog from "@/data/generator/metro_as_a_service.json";
@@ -27,7 +29,8 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
-  uniInstanceValues,
+  fxcUnitSpecs,
+  type FxcEntry,
   bumpInt,
   validateSpec,
 } from "@/lib/generator";
@@ -63,6 +66,17 @@ const PWHT_COMPUTED = new Set([
   "VLAN_LIST_START",
   "VLAN_LIST_END",
   "COLOR_COMM",
+]);
+/** Variables the EVPN-FXC per-UNI entry list drives (not shown as form fields). */
+const FXC_ENTRY_VARS = new Set([
+  "UNIT",
+  "VLAN",
+  "VLAN_LIST",
+  "SVLAN",
+  "INPUT_VID",
+  "ESI_ID",
+  "LOCAL_VID",
+  "REMOTE_VID",
 ]);
 
 /**
@@ -352,6 +366,11 @@ export default function ConfigGenerator() {
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(1);
   const [pwCount, setPwCount] = useState(1);
+  // EVPN-FXC per-UNI VLAN entry list (+ a stable id for React keys) and the
+  // VLAN-aware map toggle (matching vlan-id vs input/output vlan-map).
+  const [fxcEntries, setFxcEntries] = useState<(FxcEntry & { id: number })[]>([]);
+  const [awareMap, setAwareMap] = useState(true);
+  const fxcIdRef = useRef(1);
 
   const family = CATALOG.families.find((f) => f.id === sel.familyId);
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
@@ -549,12 +568,15 @@ export default function ConfigGenerator() {
     if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
     // The UNI filter name is only meaningful when the firewall filter is on.
     if (bare === "FILTER_NAME" && !sel.firewall) return false;
+    // EVPN-FXC drives per-UNI VLAN/unit/ESI/service-id from the entry list.
+    if (multiUni && FXC_ENTRY_VARS.has(bare)) return false;
     return classifyVar(v.name, ROLES).kind === "shared";
   });
   const perFields = unionVars.filter((v) => {
     const bare = v.name.replace(/^\$/, "");
     if (DERIVED_VARS.has(bare) || (roleBased && PWHT_COMPUTED.has(bare))) return false;
     if (bare === "FILTER_NAME" && !sel.firewall) return false;
+    if (multiUni && FXC_ENTRY_VARS.has(bare)) return false;
     const k = classifyVar(v.name, ROLES).kind;
     return k === "per-endpoint" || k === "mirrored-primary";
   });
@@ -641,10 +663,47 @@ export default function ConfigGenerator() {
   );
   const baseVlan = Number(shared.VLAN) || 0;
   const multiUni = !!deployment?.multiUni;
-  const uniVars = useMemo(() => deployment?.uniVars ?? [], [deployment]);
-  // For a multi-UNI (EVPN-FXC) service `count` is the number of bundled VLAN
-  // UNIs (1–24); for every other deployment it's the service-batch size.
-  const uniCount = multiUni ? Math.max(1, Math.min(count, 24)) : 1;
+  const fxcMode: "unaware" | "aware" =
+    sel.deploymentId === "evpn-fxc-aware" ? "aware" : "unaware";
+  // Seed the EVPN-FXC entry list with one single-VLAN UNI whenever an FXC
+  // deployment is (re)selected.
+  useEffect(() => {
+    if (!multiUni) return;
+    fxcIdRef.current = 1;
+    setFxcEntries([
+      { id: fxcIdRef.current++, kind: "single", vlan: "1000", range: "", svlan: "", breakout: false },
+    ]);
+    setAwareMap(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sel.deploymentId, multiUni]);
+  // Render one EVPN-FXC PE from the per-UNI entry list. PE-A renders ranges
+  // collapsed (vlan-id-list); PE-B (isBreakout) can break a range into per-VLAN
+  // units. Each unit renders interface + service-member (+ filter/CoS) snips;
+  // the merger folds them into one instance + one port.
+  const fxcRender = (os: GenOsKey, isBreakout: boolean, base: Record<string, string>) => {
+    const specs = fxcUnitSpecs(fxcMode, os, isBreakout, fxcEntries, awareMap, base);
+    const serviceRel =
+      fxcMode === "aware"
+        ? "evo/services/evpn-fxc-vlan-aware-1"
+        : `${os}/services/evpn-fxc-vlan-unaware-1`;
+    const bodies: string[] = [];
+    const miss = new Set<string>();
+    for (const spec of specs) {
+      const rel = [spec.interfaceRel, serviceRel];
+      if (sel.firewall) rel.push(`${os}/firewall/filter-ccc-color-blind`);
+      if (sel.cos)
+        rel.push(`${os}/cos/classifiers`, `${os}/cos/cos-binding-ieee8021p`, `${os}/cos/rewrite-rules`);
+      const ids = rel.map((r) => `${CATALOG.jvd}/${r}`);
+      const r = renderConfig(ids, { ...base, ...spec.values }, byId, {
+        stripUniFilter: !sel.firewall,
+        stripVrfExport: rtPolicy === "rt-only",
+        derived: CATALOG.derivedVars,
+      });
+      bodies.push(r.text);
+      r.missing.forEach((m) => miss.add(m));
+    }
+    return { text: bodies.join("\n"), missing: [...miss], usedSnipIds: [] };
+  };
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
     if (roleBased)
@@ -655,27 +714,14 @@ export default function ConfigGenerator() {
         { stripUniFilter: !sel.firewall, stripCommunity: !pwColorComm },
       );
     const baseA = endpointValues(names, ROLES, shared, perA, perB);
-    if (multiUni) {
-      const bodies: string[] = [];
-      const miss = new Set<string>();
-      for (let i = 0; i < uniCount; i++) {
-        const r = renderConfig(idsA, uniInstanceValues(baseA, uniVars, i), byId, {
-          stripUniFilter: !sel.firewall,
-          stripVrfExport: rtPolicy === "rt-only",
-          derived: CATALOG.derivedVars,
-        });
-        bodies.push(r.text);
-        r.missing.forEach((m) => miss.add(m));
-      }
-      return { text: bodies.join("\n"), missing: [...miss], usedSnipIds: [] };
-    }
+    if (multiUni) return fxcRender(sel.osA as GenOsKey, false, baseA);
     return renderConfig(idsA, baseA, byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, uniCount]);
+  }, [complete, idsA, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, fxcEntries, awareMap, sel.firewall, sel.cos]);
   const renderB = useMemo(() => {
     if (!complete || !twoPe || idsB.length === 0) return null;
     if (roleBased)
@@ -686,27 +732,14 @@ export default function ConfigGenerator() {
         { stripUniFilter: !sel.firewall },
       );
     const baseB = endpointValues(names, ROLES, shared, perB, perA);
-    if (multiUni) {
-      const bodies: string[] = [];
-      const miss = new Set<string>();
-      for (let i = 0; i < uniCount; i++) {
-        const r = renderConfig(idsB, uniInstanceValues(baseB, uniVars, i), byId, {
-          stripUniFilter: !sel.firewall,
-          stripVrfExport: rtPolicy === "rt-only",
-          derived: CATALOG.derivedVars,
-        });
-        bodies.push(r.text);
-        r.missing.forEach((m) => miss.add(m));
-      }
-      return { text: bodies.join("\n"), missing: [...miss], usedSnipIds: [] };
-    }
+    if (multiUni) return fxcRender(sel.osB as GenOsKey, true, baseB);
     return renderConfig(idsB, baseB, byId, {
       stripUniFilter: !sel.firewall,
       stripVrfExport: rtPolicy === "rt-only",
       derived: CATALOG.derivedVars,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, uniCount]);
+  }, [complete, twoPe, idsB, shared, perA, perB, byId, roleBased, count, pwColorComm, multiUni, fxcEntries, awareMap, sel.firewall, sel.cos]);
 
   // Merged, consolidated config for display/copy (single previewed service).
   const mergedA = useMemo(
@@ -812,8 +845,19 @@ export default function ConfigGenerator() {
     setPerB({});
     setCount(1);
     setPwCount(1);
+    setFxcEntries([]);
     setStep(0);
   };
+
+  const fxcUpdate = (id: number, patch: Partial<FxcEntry>) =>
+    setFxcEntries((es) => es.map((e) => (e.id === id ? { ...e, ...patch } : e)));
+  const fxcAdd = () =>
+    setFxcEntries((es) => [
+      ...es,
+      { id: fxcIdRef.current++, kind: "single", vlan: "1000", range: "", svlan: "", breakout: false },
+    ]);
+  const fxcRemove = (id: number) =>
+    setFxcEntries((es) => (es.length > 1 ? es.filter((e) => e.id !== id) : es));
 
   const download = () => {
     if (!fullText) return;
@@ -855,31 +899,14 @@ export default function ConfigGenerator() {
         }
       }
     } else if (multiUni) {
-      // EVPN-FXC: ONE service bundling `uniCount` VLAN UNIs. Fan out the
-      // single-UNI snips bumping only the UNI vars; the merger consolidates
-      // them into one interface + one routing-instance carrying N UNIs.
-      const S = uniCount;
+      // EVPN-FXC: ONE service bundling the per-UNI VLAN entry list. Render each
+      // PE from its entries (PE-A collapsed, PE-B may break out ranges); the
+      // merger folds them into one instance + one port.
       total = 1;
       const baseA = endpointValues(names, ROLES, shared, perA, perB);
       const baseB = endpointValues(names, ROLES, shared, perB, perA);
-      for (let i = 0; i < S; i++) {
-        if (idsA.length)
-          aBodies.push(
-            renderConfig(idsA, uniInstanceValues(baseA, uniVars, i), byId, {
-              stripUniFilter: !sel.firewall,
-              stripVrfExport: rtPolicy === "rt-only",
-              derived: CATALOG.derivedVars,
-            }).text,
-          );
-        if (twoPe && idsB.length)
-          bBodies.push(
-            renderConfig(idsB, uniInstanceValues(baseB, uniVars, i), byId, {
-              stripUniFilter: !sel.firewall,
-              stripVrfExport: rtPolicy === "rt-only",
-              derived: CATALOG.derivedVars,
-            }).text,
-          );
-      }
+      if (idsA.length) aBodies.push(fxcRender(sel.osA as GenOsKey, false, baseA).text);
+      if (twoPe && idsB.length) bBodies.push(fxcRender(sel.osB as GenOsKey, true, baseB).text);
     } else {
       const S = Math.max(1, Math.min(count, 500));
       total = S;
@@ -1392,31 +1419,145 @@ export default function ConfigGenerator() {
                     The download includes all {pwCount * count}.
                   </span>
                 </div>
+              ) : multiUni ? (
+                <div className="space-y-3 rounded-md border border-border bg-background p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-foreground">
+                      VLAN UNIs
+                      <span className="ml-1 font-normal text-muted-foreground">
+                        {fxcMode === "aware"
+                          ? "— each an attachment circuit in the instance"
+                          : "— bundled into one FXC group"}
+                      </span>
+                    </span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {fxcEntries.length} entr{fxcEntries.length === 1 ? "y" : "ies"}
+                    </span>
+                  </div>
+                  {fxcMode === "aware" && (
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: false, label: "Matching VLAN" },
+                        { id: true, label: "VLAN-map (S-VLAN push)" },
+                      ].map((o) => (
+                        <button
+                          key={String(o.id)}
+                          onClick={() => setAwareMap(o.id)}
+                          className={[
+                            "rounded-md border px-2.5 py-1 text-[11px]",
+                            awareMap === o.id
+                              ? "border-primary/40 bg-primary/10 text-primary"
+                              : "border-border text-muted-foreground hover:bg-surface",
+                          ].join(" ")}
+                        >
+                          {o.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    {fxcEntries.map((e) => (
+                      <div
+                        key={e.id}
+                        className="flex flex-wrap items-center gap-2 rounded border border-border/60 bg-surface p-2"
+                      >
+                        {fxcMode === "unaware" && (
+                          <div className="flex overflow-hidden rounded-md border border-border">
+                            {(["single", "range"] as const).map((k) => (
+                              <button
+                                key={k}
+                                onClick={() => fxcUpdate(e.id, { kind: k })}
+                                className={[
+                                  "px-2 py-1 text-[11px] capitalize",
+                                  e.kind === k
+                                    ? "bg-primary/10 text-primary"
+                                    : "text-muted-foreground hover:bg-background",
+                                ].join(" ")}
+                              >
+                                {k}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                        {fxcMode === "aware" || e.kind === "single" ? (
+                          <input
+                            value={e.vlan}
+                            onChange={(ev) => fxcUpdate(e.id, { vlan: ev.target.value })}
+                            placeholder="VLAN-id"
+                            className="h-8 w-24 rounded-md border border-border bg-background px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                          />
+                        ) : (
+                          <input
+                            value={e.range}
+                            onChange={(ev) => fxcUpdate(e.id, { range: ev.target.value })}
+                            placeholder="800-809"
+                            className="h-8 w-28 rounded-md border border-border bg-background px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                          />
+                        )}
+                        {((fxcMode === "aware" && awareMap) ||
+                          (fxcMode === "unaware" && e.kind === "range")) && (
+                          <input
+                            value={e.svlan}
+                            onChange={(ev) => fxcUpdate(e.id, { svlan: ev.target.value })}
+                            placeholder={fxcMode === "aware" ? "S-VLAN" : "push S-VLAN (opt)"}
+                            className="h-8 w-32 rounded-md border border-border bg-background px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                          />
+                        )}
+                        {fxcMode === "unaware" && e.kind === "range" && (
+                          <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                            <input
+                              type="checkbox"
+                              checked={e.breakout}
+                              onChange={(ev) => fxcUpdate(e.id, { breakout: ev.target.checked })}
+                              className="h-3.5 w-3.5 accent-primary"
+                            />
+                            break out on far PE
+                          </label>
+                        )}
+                        <button
+                          onClick={() => fxcRemove(e.id)}
+                          disabled={fxcEntries.length <= 1}
+                          className="ml-auto text-muted-foreground hover:text-foreground disabled:opacity-30"
+                          title="Remove UNI"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    onClick={fxcAdd}
+                    className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-foreground hover:bg-surface"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Add {fxcMode === "aware" ? "VLAN" : "UNI"}
+                  </button>
+                  <span className="block text-[11px] text-muted-foreground">
+                    {fxcMode === "unaware"
+                      ? "Single = one vlan-id; Range = vlan-id-list (add a push S-VLAN for QinQ). \u201cBreak out on far PE\u201d expands the range into per-VLAN units on PE-B."
+                      : awareMap
+                        ? "Each VLAN is a multihomed AC with input/output vlan-map to its S-VLAN; ESI + vpws-service-id increment per UNI."
+                        : "Each VLAN is a multihomed AC matched end-to-end (no vlan-map); ESI + vpws-service-id increment per UNI."}
+                  </span>
+                </div>
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
                   <label className="text-xs font-medium text-foreground">
-                    {multiUni ? "VLAN UNIs" : "Number of services"}
+                    Number of services
                   </label>
                   <input
                     type="number"
                     min={1}
-                    max={multiUni ? 24 : 500}
+                    max={500}
                     value={count}
                     onChange={(e) =>
-                      setCount(
-                        Math.max(1, Math.min(multiUni ? 24 : 500, Number(e.target.value) || 1)),
-                      )
+                      setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
                     }
                     className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
                   />
                   <span className="text-[11px] text-muted-foreground">
-                    {multiUni
-                      ? count > 1
-                        ? `One EVPN-FXC service bundling ${count} VLAN UNIs. The values below are UNI #1; UNIs #2–${count} increment automatically.`
-                        : "One VLAN UNI. Increase the count to bundle more UNIs into this one FXC service (up to 24)."
-                      : count > 1
-                        ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
-                        : "The values below are your service. Increase the count to generate a numbered batch."}
+                    {count > 1
+                      ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                      : "The values below are your service. Increase the count to generate a numbered batch."}
                   </span>
                 </div>
               )}
