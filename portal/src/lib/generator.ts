@@ -391,6 +391,20 @@ function substitute(body: string, values: Record<string, string>): string {
   return out;
 }
 
+/**
+ * Remove the UNI firewall-filter binding from an interface body. The JVD
+ * interface snips carry the filter binding inline as `family <fam> { filter {
+ * input f_…; } }`; when the user opts out of the UNI filter we skip the filter
+ * definition snip, so the binding must be dropped too (else it references a
+ * filter that no longer exists). Collapses the family stanza to `family <fam>;`.
+ */
+function stripUniFilterBinding(body: string): string {
+  return body.replace(
+    /(family\s+[\w-]+)\s*\{\s*filter\s*\{[^{}]*\}\s*\}/g,
+    "$1;",
+  );
+}
+
 export type RenderResult = {
   text: string;
   /** Variable names still present as $VAR after substitution. */
@@ -409,6 +423,7 @@ export function renderConfig(
   snipIds: string[],
   values: Record<string, string>,
   byId: Map<string, SnipRecord>,
+  opts?: { stripUniFilter?: boolean },
 ): RenderResult {
   // Normalise value keys to bare names (no leading $).
   const norm: Record<string, string> = {};
@@ -423,7 +438,13 @@ export function renderConfig(
     if (!snip) continue;
     used.push(id);
     const shortPath = `${snip.osKey}/${snip.category}/${snip.name}.conf`;
-    const rendered = substitute(stripHeader(snip.body), norm).replace(/\s+$/, "");
+    let body = substitute(stripHeader(snip.body), norm);
+    // Drop the inline UNI filter binding on interface snips when the user
+    // opted out of the firewall filter (else it dangles).
+    if (opts?.stripUniFilter && snip.category === "interfaces") {
+      body = stripUniFilterBinding(body);
+    }
+    const rendered = body.replace(/\s+$/, "");
     blocks.push(`/* snips/${shortPath} */\n${rendered}`);
   }
 

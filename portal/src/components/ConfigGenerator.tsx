@@ -413,12 +413,16 @@ export default function ConfigGenerator() {
   const names = unionVars.map((v) => v.name);
   const renderA = useMemo(() => {
     if (!complete || idsA.length === 0) return null;
-    return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId);
+    return renderConfig(idsA, endpointValues(names, ROLES, shared, perA, perB), byId, {
+      stripUniFilter: !sel.firewall,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, idsA, shared, perA, perB, byId]);
   const renderB = useMemo(() => {
     if (!complete || !twoPe || idsB.length === 0) return null;
-    return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId);
+    return renderConfig(idsB, endpointValues(names, ROLES, shared, perB, perA), byId, {
+      stripUniFilter: !sel.firewall,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, twoPe, idsB, shared, perA, perB, byId]);
 
@@ -507,11 +511,15 @@ export default function ConfigGenerator() {
       const a = instanceValues(perA, ROLES, i);
       const b = instanceValues(perB, ROLES, i);
       const ra = idsA.length
-        ? renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId)
+        ? renderConfig(idsA, endpointValues(names, ROLES, sh, a, b), byId, {
+            stripUniFilter: !sel.firewall,
+          })
         : null;
       const rb =
         twoPe && idsB.length
-          ? renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId)
+          ? renderConfig(idsB, endpointValues(names, ROLES, sh, b, a), byId, {
+              stripUniFilter: !sel.firewall,
+            })
           : null;
       const body = [ra?.text, rb?.text].filter(Boolean).join("\n\n");
       chunks.push(
