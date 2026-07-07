@@ -62,6 +62,7 @@ const VAR_LABELS: Record<string, string> = {
   VC_ID: "virtual-circuit-id",
   ESI_ID: "ESI value",
   FILTER_NAME: "UNI filter name",
+  MTU: "physical MTU",
 };
 const varLabel = (name: string) => VAR_LABELS[name.replace(/^\$/, "")] ?? name;
 
@@ -156,11 +157,13 @@ function VarField({
   value,
   onChange,
   hint,
+  error,
 }: {
   name: string;
   value: string;
   onChange: (v: string) => void;
   hint?: string;
+  error?: string;
 }) {
   return (
     <label className="block">
@@ -168,11 +171,25 @@ function VarField({
         <span className="text-xs font-medium text-foreground">{varLabel(name)}</span>
         <span className="font-mono text-[10px] text-muted-foreground/70">{name}</span>
       </span>
-      {hint && <span className="block text-[10px] text-muted-foreground/70">{hint}</span>}
+      {(hint || error) && (
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="text-[10px] text-muted-foreground/70">{hint}</span>
+          {error && (
+            <span className="text-[10px] font-semibold text-red-600 dark:text-red-400">
+              {error}
+            </span>
+          )}
+        </span>
+      )}
       <input
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 h-9 w-full rounded-md border border-border bg-background px-3 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+        className={[
+          "mt-1 h-9 w-full rounded-md border bg-background px-3 font-mono text-sm text-foreground focus:outline-none",
+          error
+            ? "border-red-500/60 focus:border-red-500"
+            : "border-border focus:border-primary/60",
+        ].join(" ")}
       />
     </label>
   );
@@ -334,23 +351,18 @@ export default function ConfigGenerator() {
     new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
   );
 
-  // Consistency warnings: per-PE values that MUST differ but are identical.
-  const consistencyWarnings: string[] = [];
+  // Field-level validation: per-PE values that must differ but are identical.
+  // Keyed by bare var name so the error renders inline next to that field.
+  const fieldErrors: Record<string, string> = {};
   if (twoPe) {
     for (const bare of ROLES.distinctPerEndpoint ?? []) {
       if (perA[bare] !== undefined && perA[bare] === perB[bare]) {
-        consistencyWarnings.push(
-          `PE-A and PE-B ${varLabel(bare)} ($${bare}) are identical — they should differ per PE.`,
-        );
+        fieldErrors[bare] = `${varLabel(bare)} should differ per PE`;
       }
     }
-    // Mirrored pairs: if both PEs use the same local value, each PE ends up
-    // with local == remote, which is invalid (e.g. vpws-service-id).
-    for (const [primary, secondary] of ROLES.mirrored) {
+    for (const [primary] of ROLES.mirrored) {
       if (perA[primary] !== undefined && perA[primary] === perB[primary]) {
-        consistencyWarnings.push(
-          `${varLabel(primary)} and ${varLabel(secondary)} would be identical on each PE — local and remote must differ.`,
-        );
+        fieldErrors[primary] = `${varLabel(primary).replace(/ · local$/, "")} should be unique`;
       }
     }
   }
@@ -733,6 +745,7 @@ export default function ConfigGenerator() {
                           key={v.name}
                           name={v.name}
                           hint={mirror ? "(far-end remote auto-set)" : undefined}
+                          error={fieldErrors[bare]}
                           value={perA[bare]}
                           onChange={(val) => setPerA((p) => ({ ...p, [bare]: val }))}
                         />
@@ -755,6 +768,7 @@ export default function ConfigGenerator() {
                             key={v.name}
                             name={v.name}
                             hint={mirror ? "(far-end remote auto-set)" : undefined}
+                            error={fieldErrors[bare]}
                             value={perB[bare]}
                             onChange={(val) => setPerB((p) => ({ ...p, [bare]: val }))}
                           />
@@ -808,15 +822,6 @@ export default function ConfigGenerator() {
                   <span>Unfilled variables: {missing.join(", ")}.</span>
                 </div>
               )}
-              {consistencyWarnings.map((w) => (
-                <div
-                  key={w}
-                  className="mt-3 flex items-start gap-2 rounded-md border border-red-500/50 bg-red-500/10 p-2 text-[11px] font-medium text-red-600 dark:text-red-400"
-                >
-                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span>{w}</span>
-                </div>
-              ))}
               {renderA && (
                 <div className="mt-3">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
