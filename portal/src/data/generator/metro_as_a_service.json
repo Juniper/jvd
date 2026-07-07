@@ -89,8 +89,30 @@
                 "evo": {
                   "service": ["evo/services/evpn-vpws-vlan-based"],
                   "interface": {
-                    "single-homed": "evo/interfaces/vlan-ccc-vlan-map",
-                    "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi"
+                    "single-homed": "evo/interfaces/vlan-ccc",
+                    "multihomed": "evo/interfaces/vlan-ccc-esi"
+                  },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "single-vlan",
+                        "label": "Single VLAN",
+                        "description": "One customer VLAN, matched end-to-end (no S-VLAN translation).",
+                        "interface": {
+                          "single-homed": "evo/interfaces/vlan-ccc",
+                          "multihomed": "evo/interfaces/vlan-ccc-esi"
+                        }
+                      },
+                      {
+                        "id": "vlan-map",
+                        "label": "VLAN map (S-VLAN push/pop)",
+                        "description": "Normalize the customer VLAN to a provider S-VLAN (input push / output pop).",
+                        "interface": {
+                          "single-homed": "evo/interfaces/vlan-ccc-vlan-map",
+                          "multihomed": "evo/interfaces/vlan-ccc-vlan-map-esi"
+                        }
+                      }
+                    ]
                   },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
@@ -100,6 +122,19 @@
                   "interface": {
                     "single-homed": "junos/interfaces/vlan-ccc-vlan-map",
                     "multihomed": "junos/interfaces/vlan-ccc-vlan-map-esi"
+                  },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "vlan-map",
+                        "label": "VLAN map (S-VLAN push/pop)",
+                        "description": "Normalize the customer VLAN to a provider S-VLAN (input push / output pop).",
+                        "interface": {
+                          "single-homed": "junos/interfaces/vlan-ccc-vlan-map",
+                          "multihomed": "junos/interfaces/vlan-ccc-vlan-map-esi"
+                        }
+                      }
+                    ]
                   },
                   "interfaceExtras": [],
                   "filter": {

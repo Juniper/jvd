@@ -19,6 +19,7 @@ import {
   resolveOsBlock,
   resolveSnipIds,
   attributeOptions,
+  vlanModes,
   collectVariables,
   renderConfig,
   classifyVar,
@@ -135,6 +136,7 @@ type Selection = {
   osA?: GenOsKey;
   osB?: OsChoice;
   homing?: string;
+  vlanMode?: string;
   color?: string;
   cos: boolean;
   firewall: boolean;
@@ -285,9 +287,28 @@ export default function ConfigGenerator() {
         })
       : null;
 
-  // Attribute options = intersection of both endpoints (or just A when single).
-  const attrsA = osBlockA ? attributeOptions(osBlockA) : { homing: [], color: [] };
-  const attrsB = osBlockB ? attributeOptions(osBlockB) : null;
+  // VLAN-handling modes = intersection of both endpoints' modes (some snips
+  // only exist on one OS, so a mode is offered only when both PEs support it).
+  const modesA = osBlockA ? vlanModes(osBlockA) : [];
+  const modesB = osBlockB ? vlanModes(osBlockB) : null;
+  const modeOpts = modesB
+    ? modesA.filter((m) => modesB.some((x) => x.id === m.id))
+    : modesA;
+  // Effective (derived) VLAN mode: the user's pick if still valid, else the
+  // first available mode. Undefined when the deployment has no modes at all.
+  const vlanMode =
+    modeOpts.length > 0
+      ? modeOpts.some((m) => m.id === sel.vlanMode)
+        ? sel.vlanMode
+        : modeOpts[0].id
+      : undefined;
+
+  // Attribute options = intersection of both endpoints (or just A when single),
+  // for the currently-selected VLAN mode.
+  const attrsA = osBlockA
+    ? attributeOptions(osBlockA, vlanMode)
+    : { homing: [], color: [] };
+  const attrsB = osBlockB ? attributeOptions(osBlockB, vlanMode) : null;
   const homingOpts = attrsB
     ? attrsA.homing.filter((h) => attrsB.homing.includes(h))
     : attrsA.homing;
@@ -295,7 +316,9 @@ export default function ConfigGenerator() {
     ? attrsA.color.filter((c) => attrsB.color.includes(c))
     : attrsA.color;
 
-  const attrsComplete = Boolean(sel.homing && (!sel.firewall || sel.color));
+  const attrsComplete = Boolean(
+    sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
+  );
   const currentStep = STEPS[Math.min(step, STEPS.length - 1)];
   const complete = Boolean(
     sel.familyId &&
@@ -303,6 +326,7 @@ export default function ConfigGenerator() {
       sel.deploymentId &&
       sel.osA &&
       sel.homing &&
+      (modeOpts.length === 0 || vlanMode) &&
       (!sel.firewall || sel.color),
   );
 
@@ -312,6 +336,7 @@ export default function ConfigGenerator() {
     deploymentId: sel.deploymentId!,
     os,
     homing: sel.homing!,
+    vlanMode,
     color: sel.color ?? "",
     cos: sel.cos,
     firewall: sel.firewall,
@@ -356,6 +381,7 @@ export default function ConfigGenerator() {
     sel.osA,
     sel.osB,
     sel.homing,
+    vlanMode,
     sel.color,
     sel.cos,
     sel.firewall,
@@ -446,11 +472,14 @@ export default function ConfigGenerator() {
         return attrsComplete
           ? [
               HOMING_LABELS[sel.homing!] ?? sel.homing,
+              vlanMode ? modeOpts.find((m) => m.id === vlanMode)?.label : null,
               sel.cos ? "CoS" : "no CoS",
               sel.firewall
                 ? `filter (${COLOR_LABELS[sel.color!] ?? sel.color})`
                 : "no filter",
-            ].join(" · ")
+            ]
+              .filter(Boolean)
+              .join(" · ")
           : null;
       default:
         return null;
@@ -709,6 +738,24 @@ export default function ConfigGenerator() {
                   ))}
                 </div>
               </div>
+              {modeOpts.length > 0 && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    VLAN handling
+                  </div>
+                  <div className="space-y-2">
+                    {modeOpts.map((m) => (
+                      <Chip
+                        key={m.id}
+                        label={m.label}
+                        sub={m.description}
+                        active={vlanMode === m.id}
+                        onClick={() => setSel((p) => ({ ...p, vlanMode: m.id }))}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div>
                 <div className="mb-2 text-xs font-medium text-foreground">
                   Class of Service

@@ -14,11 +14,26 @@ import type { SnipRecord, SnipVariable } from "@/lib/snips";
 
 export type GenOsKey = "evo" | "junos";
 
+/**
+ * A UNI VLAN-handling mode (single VLAN vs VLAN-map normalization, and later
+ * QinQ / bundle variants). Each mode maps a homing key to the interface snip
+ * that implements it. When an OS block declares `uni.modes`, the wizard shows
+ * a "VLAN handling" selector and the interface is resolved from the chosen
+ * mode; otherwise the flat `interface` map is used (legacy single-mode).
+ */
+export type UniMode = {
+  id: string;
+  label: string;
+  description: string;
+  interface: Record<string, string>; // homing key -> snip id (relative to jvd)
+};
+
 export type GenOsBlock = {
   service: string[];
   interface: Record<string, string>; // homing key -> snip id (relative to jvd)
   interfaceExtras: string[];
   filter: Record<string, string>; // color key -> snip id (relative to jvd)
+  uni?: { modes: UniMode[] };
 };
 
 export type GenDeployment = {
@@ -249,6 +264,7 @@ export type GenSelection = {
   deploymentId: string;
   os: GenOsKey;
   homing: string; // key into osBlock.interface
+  vlanMode?: string; // id of the chosen uni.mode (when the OS block has them)
   cos: boolean; // include CoS binding snips (classifiers, scheduler binding)
   firewall: boolean; // include the UNI firewall filter
   color: string; // key into osBlock.filter (required when firewall = true)
@@ -265,6 +281,25 @@ export function resolveOsBlock(
   return dep?.os[sel.os] ?? null;
 }
 
+/** The VLAN-handling modes an OS block offers (empty when it has none). */
+export function vlanModes(osb: GenOsBlock): UniMode[] {
+  return osb.uni?.modes ?? [];
+}
+
+/** The homing→snip interface map for the chosen VLAN mode (or the flat/legacy
+ *  map when the block has no `uni.modes`). */
+export function osInterfaceMap(
+  osb: GenOsBlock,
+  vlanMode?: string,
+): Record<string, string> {
+  if (osb.uni) {
+    const mode =
+      osb.uni.modes.find((m) => m.id === vlanMode) ?? osb.uni.modes[0];
+    return mode?.interface ?? {};
+  }
+  return osb.interface;
+}
+
 /**
  * Resolve the ordered list of jvd-qualified snip IDs for a full selection.
  * Order: service(s) → attachment-circuit interface → interface extras →
@@ -275,7 +310,7 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   if (!osb) return [];
   const rel: string[] = [];
   rel.push(...osb.service);
-  const iface = osb.interface[sel.homing];
+  const iface = osInterfaceMap(osb, sel.vlanMode)[sel.homing];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
   if (sel.firewall) {
@@ -298,13 +333,17 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
   return out;
 }
 
-/** The homing / color attribute options that are valid for a given OS block. */
-export function attributeOptions(osb: GenOsBlock): {
+/** The homing / color attribute options that are valid for a given OS block
+ *  (homing depends on the chosen VLAN mode when the block has `uni.modes`). */
+export function attributeOptions(
+  osb: GenOsBlock,
+  vlanMode?: string,
+): {
   homing: string[];
   color: string[];
 } {
   return {
-    homing: Object.keys(osb.interface),
+    homing: Object.keys(osInterfaceMap(osb, vlanMode)),
     color: Object.keys(osb.filter),
   };
 }
