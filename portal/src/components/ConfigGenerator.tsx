@@ -376,6 +376,9 @@ export default function ConfigGenerator() {
   const mux = family?.multiplexing.find((m) => m.id === sel.muxId);
   const deployment = mux?.deployments.find((d) => d.id === sel.deploymentId);
   const osOptions = deployment ? (Object.keys(deployment.os) as GenOsKey[]) : [];
+  // EVPN-FXC = one service bundling a per-UNI VLAN entry list (declared early:
+  // the field filters below reference it).
+  const multiUni = !!deployment?.multiUni;
 
   // Role-based families (PWHT) render one config per fixed role (Access /
   // Headend) instead of the symmetric PE-A / PE-B model.
@@ -662,7 +665,6 @@ export default function ConfigGenerator() {
     [family],
   );
   const baseVlan = Number(shared.VLAN) || 0;
-  const multiUni = !!deployment?.multiUni;
   const fxcMode: "unaware" | "aware" =
     sel.deploymentId === "evpn-fxc-aware" ? "aware" : "unaware";
   // Seed the EVPN-FXC entry list with one single-VLAN UNI whenever an FXC
