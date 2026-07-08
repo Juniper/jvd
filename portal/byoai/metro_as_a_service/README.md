@@ -22,6 +22,20 @@ At each step the AI offers **only** the choices valid for your earlier picks (E-
 
 ---
 
+## Configuration mode vs Design mode
+
+The assistant runs in one of two modes (it picks based on your intent, or you can say `config mode` / `design mode`):
+
+- **Configuration mode** — the strict, hallucination-free snip funnel described above. Grounded exclusively in the validated snippet library.
+- **Design mode** — architectural Q&A and teaching (transport classes, Flex-Algo, EVPN multihoming, MEF service models, deployment trade-offs). Its primary source is the JVD's markdown **design corpus** under [`../../../documentation/`](../../../documentation/):
+  - [`solution-overview.md`](../../../documentation/solution-overview.md) — benefits and objectives.
+  - [`design-guide.md`](../../../documentation/design-guide.md) — full architecture, MEF 3.0 standards, services under test, transport, per-service config examples.
+  - [`test-report-brief.md`](../../../documentation/test-report-brief.md) — platforms, test categories, per-service testcase counts, conformance results.
+
+  Design mode can also draw on anything else in the MaaS directory (the JVD [`README`](../../../README.md) and the `configuration/` tree). When an AI has web fetch, it pulls the design corpus directly from GitHub; Design mode does **not** require the snip bundle.
+
+---
+
 ## Quick start — pick one
 
 | Method | Best for | What you do |
