@@ -21,6 +21,7 @@ import {
   resolveOsBlock,
   resolveSnipIds,
   resolveRoleSnipIds,
+  resolveEtreeSnipIds,
   attributeOptions,
   vlanModes,
   collectVariables,
@@ -370,6 +371,10 @@ export default function ConfigGenerator() {
   const [count, setCount] = useState(1);
   const [siteCount, setSiteCount] = useState(2);
   const [pwCount, setPwCount] = useState(1);
+  // E-Tree: the root is single-homed (1 root PE) or multihomed (a 2-node
+  // all-active ESI pair); `leafCount` fans out single-homed leaf PEs.
+  const [rootMultihomed, setRootMultihomed] = useState(true);
+  const [leafCount, setLeafCount] = useState(2);
   // EVPN-FXC per-UNI VLAN entry list (+ a stable id for React keys) and the
   // VLAN-aware map toggle (matching vlan-id vs input/output vlan-map).
   const [fxcEntries, setFxcEntries] = useState<(FxcEntry & { id: number })[]>([]);
@@ -388,13 +393,18 @@ export default function ConfigGenerator() {
   const multiSite = !!deployment?.multiSite;
   // BGP-VPLS: site-range + label-block-size must scale to the number of sites.
   const isVpls = !!deployment?.id?.includes("vpls");
+  // E-Tree (rooted-multipoint): one EVI split into a Root PE + N Leaf PEs.
+  const isEtree = !!deployment?.etree;
 
   // Role-based families (PWHT) render one config per fixed role (Access /
   // Headend) instead of the symmetric PE-A / PE-B model.
   const roleBased = !!family?.roleBased;
   const roles = family?.roles ?? [];
+  // Asymmetric two-pane deployments (PWHT roles, E-Tree root/leaf): each pane's
+  // fields + defaults come from its OWN snips, not a symmetric bump/mirror.
+  const asym = roleBased || isEtree;
 
-  const twoPe = sel.osB && sel.osB !== "none";
+  const twoPe = isEtree || (!!sel.osB && sel.osB !== "none");
 
   const osBlockA =
     sel.familyId && sel.muxId && sel.deploymentId && sel.osA
@@ -411,7 +421,7 @@ export default function ConfigGenerator() {
           familyId: sel.familyId,
           muxId: sel.muxId,
           deploymentId: sel.deploymentId,
-          os: sel.osB as GenOsKey,
+          os: (isEtree ? sel.osA : sel.osB) as GenOsKey,
         })
       : null;
 
@@ -483,7 +493,7 @@ export default function ConfigGenerator() {
   const attrsComplete = roleBased
     ? true
     : Boolean(
-        sel.homing && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
+        (sel.homing || isEtree) && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
       );
   const steps = roleBased ? STEPS_ROLE : STEPS;
   const currentStep = steps[Math.min(step, steps.length - 1)];
@@ -494,7 +504,7 @@ export default function ConfigGenerator() {
           sel.muxId &&
           sel.deploymentId &&
           sel.osA &&
-          sel.homing &&
+          (sel.homing || isEtree) &&
           (modeOpts.length === 0 || vlanMode) &&
           (!sel.firewall || sel.color),
       );
@@ -545,16 +555,36 @@ export default function ConfigGenerator() {
           ...(sel.cos ? r.cosSnips ?? [] : []),
         ]);
       }
+      if (isEtree)
+        return complete && sel.osA && osBlockA
+          ? resolveEtreeSnipIds(CATALOG, osBlockA, sel.osA as GenOsKey, "root", {
+              rootMultihomed,
+              rtPolicy,
+              firewall: sel.firewall,
+              color: sel.color ?? "",
+              cos: sel.cos,
+            })
+          : [];
       return complete && sel.osA ? resolveSnipIds(CATALOG, selFor(sel.osA)) : [];
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [complete, sel, roleBased, count, pwColorComm],
+    [complete, sel, roleBased, count, pwColorComm, rootMultihomed],
   );
   const idsB = useMemo(
     () => {
       if (roleBased)
         return roles[1]
           ? resolveRoleSnipIds(CATALOG, roles[1], { cos: sel.cos, firewall: false })
+          : [];
+      if (isEtree)
+        return complete && sel.osA && osBlockB
+          ? resolveEtreeSnipIds(CATALOG, osBlockB, sel.osA as GenOsKey, "leaf", {
+              rootMultihomed,
+              rtPolicy,
+              firewall: sel.firewall,
+              color: sel.color ?? "",
+              cos: sel.cos,
+            })
           : [];
       return complete && twoPe ? resolveSnipIds(CATALOG, selFor(sel.osB as GenOsKey)) : [];
     },
@@ -602,10 +632,10 @@ export default function ConfigGenerator() {
     () => new Set(collectVariables(idsB, byId).map((v) => v.name.replace(/^\$/, ""))),
     [idsB, byId],
   );
-  const perFieldsA = roleBased
+  const perFieldsA = asym
     ? perFields.filter((v) => varsInA.has(v.name.replace(/^\$/, "")))
     : perFields;
-  const perFieldsB = roleBased
+  const perFieldsB = asym
     ? perFields.filter((v) => varsInB.has(v.name.replace(/^\$/, "")))
     : perFields;
 
@@ -619,6 +649,7 @@ export default function ConfigGenerator() {
     vlanMode,
     rtPolicy,
     sel.pwColor,
+    rootMultihomed,
     count > 1,
     sel.color,
     sel.cos,
@@ -628,9 +659,10 @@ export default function ConfigGenerator() {
     const sh: Record<string, string> = {};
     const a: Record<string, string> = {};
     const b: Record<string, string> = {};
-    if (roleBased) {
-      // Asymmetric roles: each side's default comes from ITS OWN snips (access
-      // AC_INTF = et-0/0/12, headend AC_INTF = ae10; no distinct-bump/mirror).
+    if (asym) {
+      // Asymmetric panes: each side's default comes from ITS OWN snips (access
+      // AC_INTF = et-0/0/12, headend ae10; E-Tree root ae10, leaf xe-0/1/5;
+      // no distinct-bump/mirror).
       const exA = new Map(
         collectVariables(idsA, byId).map((v) => [v.name.replace(/^\$/, ""), v.example]),
       );
@@ -865,6 +897,8 @@ export default function ConfigGenerator() {
     setCount(1);
     setSiteCount(2);
     setPwCount(1);
+    setRootMultihomed(true);
+    setLeafCount(2);
     setFxcEntries([]);
     setStep(0);
   };
@@ -881,6 +915,50 @@ export default function ConfigGenerator() {
 
   const download = () => {
     if (!fullText) return;
+    // E-Tree (rooted-multipoint): ONE EVI = root PE(s) + N leaf PEs. A multihomed
+    // root is an all-active ESI PAIR (2 root PEs that SHARE one ESI — so the ESI
+    // is constant, only the route-distinguisher differs). Leaves are single-homed;
+    // `leafCount` fans them out. Every node is a separate device, merged on its
+    // own; the RD bumps per node (roots from the root pane's RD, leaves from the
+    // leaf pane's).
+    if (isEtree) {
+      const os = sel.osA as GenOsKey;
+      const roots = rootMultihomed ? 2 : 1;
+      const leaves = Math.max(1, Math.min(leafCount, 64));
+      const rootBase = endpointValues(names, ROLES, shared, perA, perB);
+      const leafBase = endpointValues(names, ROLES, shared, perB, perA);
+      const sects: string[] = [];
+      const opts = {
+        stripUniFilter: !sel.firewall,
+        stripVrfExport: rtPolicy === "rt-only",
+        derived: CATALOG.derivedVars,
+      };
+      for (let r = 0; r < roots; r++) {
+        if (!idsA.length) break;
+        // Roots share the ESI (all-active pair) — bump only the RD.
+        const vals = { ...rootBase, RD: bumpInt(rootBase.RD ?? "", r) };
+        const body = renderConfig(idsA, vals, byId, opts).text;
+        const label = roots > 1 ? `Root ${r + 1}` : "Root";
+        sects.push(`/* ===== ${label} \u00b7 ${OS_LABELS[os]} ===== */\n${mergeJunosConfig(body)}`);
+      }
+      for (let l = 0; l < leaves; l++) {
+        if (!idsB.length) break;
+        const vals = { ...leafBase, RD: bumpInt(leafBase.RD ?? "", l) };
+        const body = renderConfig(idsB, vals, byId, opts).text;
+        const label = leaves > 1 ? `Leaf ${l + 1}` : "Leaf";
+        sects.push(`/* ===== ${label} \u00b7 ${OS_LABELS[os]} ===== */\n${mergeJunosConfig(body)}`);
+      }
+      const text = sects.join("\n\n") + "\n";
+      const fname = `maas-e-tree-evpn-etree-${roots}root-${leaves}leaf.conf`;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fname;
+      a.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
     // Multipoint EVI (EVPN-ELAN / BGP-VPLS): a 2-D fan-out — `count` independent
     // instances (EVIs / VPLS domains) × `siteCount` self-contained PE sites per
     // instance. Each site is a DIFFERENT device, merged on its own (never across
@@ -1038,8 +1116,8 @@ export default function ConfigGenerator() {
     os ? `${tag} · ${OS_LABELS[os]}` : tag;
   // Endpoint column / section tags — role names for PWHT, per-site labels for
   // multipoint EVIs, PE-A/PE-B otherwise.
-  const tagA = roleBased ? roles[0]?.label ?? "Access" : multiSite ? "Site A" : "PE-A";
-  const tagB = roleBased ? roles[1]?.label ?? "Headend" : multiSite ? "Site B" : "PE-B";
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : isEtree ? "Root" : multiSite ? "Site A" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : isEtree ? "Leaf" : multiSite ? "Site B" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
@@ -1311,13 +1389,9 @@ export default function ConfigGenerator() {
 
           {currentStep === "attributes" && !roleBased && osBlockA && (
             <div className="space-y-4">
-              {!multiUni && (
+              {!multiUni && !isEtree && (
                 <div>
-                  <div className="mb-2 text-xs font-medium text-foreground">
-                    {homingOpts.includes("root") || homingOpts.includes("leaf")
-                      ? "AC role"
-                      : "Homing"}
-                  </div>
+                  <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
                   <div className="space-y-2">
                     {homingOpts.map((h) => (
                       <Chip
@@ -1327,6 +1401,25 @@ export default function ConfigGenerator() {
                         onClick={() => setSel((p) => ({ ...p, homing: h }))}
                       />
                     ))}
+                  </div>
+                </div>
+              )}
+              {isEtree && (
+                <div>
+                  <div className="mb-2 text-xs font-medium text-foreground">Root redundancy</div>
+                  <div className="space-y-2">
+                    <Chip
+                      label="Multihomed root"
+                      sub="Two root PEs sharing one all-active ESI"
+                      active={rootMultihomed}
+                      onClick={() => setRootMultihomed(true)}
+                    />
+                    <Chip
+                      label="Single-homed root"
+                      sub="One root PE (no ESI)"
+                      active={!rootMultihomed}
+                      onClick={() => setRootMultihomed(false)}
+                    />
                   </div>
                 </div>
               )}
@@ -1617,6 +1710,34 @@ export default function ConfigGenerator() {
                         : "Each VLAN is a multihomed AC matched end-to-end (no vlan-map); ESI + vpws-service-id increment per UNI."}
                   </span>
                 </div>
+              ) : isEtree ? (
+                <div className="space-y-2 rounded-md border border-border bg-background p-3">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <label className="text-xs font-medium text-foreground">
+                      Number of leaves
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={64}
+                      value={leafCount}
+                      onChange={(e) =>
+                        setLeafCount(Math.max(1, Math.min(64, Number(e.target.value) || 1)))
+                      }
+                      className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                    />
+                    <span className="text-[11px] font-medium text-primary">
+                      {rootMultihomed ? 2 : 1} root{rootMultihomed ? "s" : ""} + {leafCount} lea
+                      {leafCount === 1 ? "f" : "ves"}
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-muted-foreground">
+                    One EVPN E-Tree EVI. The preview shows a Root PE + a Leaf PE;
+                    the download emits {rootMultihomed ? "both roots (all-active ESI pair)" : "the root"}{" "}
+                    plus every leaf, each its own PE section with a unique
+                    route-distinguisher.
+                  </span>
+                </div>
               ) : multiSite ? (
                 <div className="space-y-2 rounded-md border border-border bg-background p-3">
                   <div className="flex flex-wrap items-center gap-4">
@@ -1742,7 +1863,7 @@ export default function ConfigGenerator() {
                 {twoPe && (
                   <div>
                     <div className="mb-2 text-xs font-medium text-foreground">
-                      {peLabel(sel.osB as GenOsKey, tagB)}
+                      {peLabel((isEtree ? sel.osA : sel.osB) as GenOsKey, tagB)}
                     </div>
                     <div className="space-y-3">
                       {perFieldsB.map((v) => {
@@ -1821,7 +1942,7 @@ export default function ConfigGenerator() {
               {renderB && (
                 <div className="mt-4">
                   <div className="mb-1 text-[11px] font-semibold text-primary">
-                    # {peLabel(sel.osB as GenOsKey, tagB)}
+                    # {peLabel((isEtree ? sel.osA : sel.osB) as GenOsKey, tagB)}
                   </div>
                   <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
                     {mergedB}
