@@ -107,8 +107,8 @@
     {
       "id": "e-line",
       "label": "E-Line",
-      "tagline": "Point-to-point",
-      "description": "Connects exactly two sites, like a private virtual wire (MEF EPL / EVPL).",
+      "tagline": "Point-to-Point",
+      "description": "Private line service connecting exactly two sites (MEF EPL / EVPL).",
       "available": true,
       "multiplexing": [
         {
@@ -331,8 +331,8 @@
     {
       "id": "e-lan",
       "label": "E-LAN",
-      "tagline": "Multipoint",
-      "description": "Connects three or more sites into one shared broadcast domain (MEF EP-LAN / EVP-LAN).",
+      "tagline": "Multipoint-to-Multipoint",
+      "description": "Private LAN service connecting three or more sites (MEF EP-LAN / EVP-LAN).",
       "available": true,
       "multiplexing": [
         {
@@ -409,6 +409,25 @@
                   },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/bgp-vpls"],
+                  "interface": { "single-homed": "junos/interfaces/vlan-bridge" },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "single-vlan",
+                        "label": "Single VLAN",
+                        "description": "One customer VLAN joins the VPLS domain (no S-VLAN translation).",
+                        "interface": { "single-homed": "junos/interfaces/vlan-bridge" }
+                      }
+                    ]
+                  },
+                  "interfaceExtras": [],
+                  "filter": {
+                    "color-blind": "junos/firewall/filter-bridge-color-blind",
+                    "color-aware": "junos/firewall/filter-bridge-color-aware"
+                  }
                 }
               }
             }

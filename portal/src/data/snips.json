@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-08T00:49:05.265Z",
+  "generatedAt": "2026-07-08T01:56:40.190Z",
   "counts": {
-    "total": 532,
-    "junos": 254,
+    "total": 533,
+    "junos": 255,
     "evo": 278,
     "jvds": 9
   },
@@ -123,9 +123,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
-        "junos": 56,
+        "junos": 57,
         "evo": 73,
-        "total": 129
+        "total": 130
       }
     },
     {
@@ -28828,6 +28828,116 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $SITE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range $SITE_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size $LABEL_BLOCK_SIZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan4005 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bridge-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 681,
       "lineCount": 26,
+      "techFamily": "Service Overlay",
+      "subfamily": "VPLS",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/services/bgp-vpls",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "bgp-vpls",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/services/bgp-vpls.conf",
+      "topic": "Service instance: bgp vpls (MEF E-LAN / EVP-LAN)",
+      "seenOn": {
+        "junos": [
+          "MA5"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "instance-type virtual-switch (MX bridge-domains + no-normalization)",
+        "BGP-VPLS multipoint; per-domain site-identifier + label-block-size",
+        "RT-driven import/export (colored vrf-export policy)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/cos/classifiers.conf",
+          "id": "metro_as_a_service/junos/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/junos/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "junos/firewall/filter-bridge-color-blind.conf",
+          "id": "metro_as_a_service/junos/firewall/filter-bridge-color-blind",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/vlan-bridge.conf",
+          "id": "metro_as_a_service/junos/interfaces/vlan-bridge",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/0"
+        },
+        {
+          "name": "$BD_NAME",
+          "example": "vlan4012"
+        },
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "vpls_group_103_4012"
+        },
+        {
+          "name": "$LABEL_BLOCK_SIZE",
+          "example": "8"
+        },
+        {
+          "name": "$RD",
+          "example": "10.0.0.19:44012"
+        },
+        {
+          "name": "$SITE_ID",
+          "example": "4"
+        },
+        {
+          "name": "$SITE_NAME",
+          "example": "r19"
+        },
+        {
+          "name": "$SITE_RANGE",
+          "example": "10"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4012"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4012"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "63535:1094012"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type virtual-switch;\n        protocols {\n            vpls {\n                site $SITE_NAME {\n                    site-identifier $SITE_ID;\n                }\n                site-range $SITE_RANGE;\n                label-block-size $LABEL_BLOCK_SIZE;\n                no-tunnel-services;\n            }\n        }\n        bridge-domains {\n            $BD_NAME {\n                vlan-id $VLAN;\n                interface $AC_INTF.$UNIT;\n                bridge-options {\n                    no-normalization;\n                }\n            }\n        }\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$VRF_TARGET;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $SITE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range $SITE_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size $LABEL_BLOCK_SIZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bridge-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 716,
+      "lineCount": 27,
       "techFamily": "Service Overlay",
       "subfamily": "VPLS",
       "usecases": [
