@@ -32,10 +32,39 @@ const OS_OPTIONS = ["Junos", "Junos EVO"];
 const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
-  { label: "Snips", href: "#snips" },
-  { label: "BYOAI", href: "#byoai" },
+  { label: "Explorer", href: "#snips" },
+  { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
   { label: "About", href: "#about" },
+];
+
+// The site as a journey: Discover → Explore → Design → Build. Each rung links
+// to its section so the four tools read as stages, not competing alternatives.
+const LADDER = [
+  {
+    stage: "Discover",
+    title: "JVD Catalog",
+    desc: "Find the validated design that fits your requirements.",
+    href: "#catalog",
+  },
+  {
+    stage: "Explore",
+    title: "Config Explorer",
+    desc: "Drill into the reusable, provenance-tracked config building blocks.",
+    href: "#snips",
+  },
+  {
+    stage: "Design",
+    title: "Design & Planner",
+    desc: "Ask design and scaling questions grounded in the validated JVDs.",
+    href: "#byoai",
+  },
+  {
+    stage: "Build",
+    title: "Service Config Generator",
+    desc: "Render download-ready, JVD-validated service configuration.",
+    href: "#generator",
+  },
 ];
 
 const SNIP_JVD_IDS = new Set(snipBundle.jvds.map((j) => j.id));
@@ -221,12 +250,51 @@ export default function JvdPortal() {
         </div>
       </section>
 
+      {/* Journey ladder — Discover → Explore → Design → Build */}
+      <section id="how" className="border-b border-border bg-surface/40">
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            From requirement to running config
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Four stages, one path — discover the right design, explore how it&apos;s
+            built, plan it against your requirements, then generate validated config.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-4">
+            {LADDER.map((s, i) => (
+              <a
+                key={s.href}
+                href={s.href}
+                className="group relative rounded-lg border border-border bg-background p-5 transition-colors hover:border-primary/60"
+              >
+                <div className="flex items-center gap-2 text-primary">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-primary/40 text-xs font-semibold">
+                    {i + 1}
+                  </span>
+                  <span className="text-[11px] font-semibold uppercase tracking-wider">
+                    {s.stage}
+                  </span>
+                </div>
+                <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
+                <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                  Open <ArrowRight className="h-3 w-3" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Catalog */}
       <section id="catalog" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-semibold tracking-tight">Catalog</h2>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+                Step 1 · Discover
+              </div>
+              <h2 className="mt-1 text-3xl font-semibold tracking-tight">JVD Catalog</h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 Browse the {data.length} validated designs in this GitHub catalog. Visit{" "}
                 <a
@@ -330,8 +398,11 @@ export default function JvdPortal() {
       {/* Generator */}
       <section id="generator" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-semibold tracking-tight">JVD Config Generator</h2>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+            Step 4 · Build
+          </div>
+          <div className="mt-1 flex items-center gap-2">
+            <h2 className="text-3xl font-semibold tracking-tight">Service Configuration Generator</h2>
             <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
               Beta
             </span>
@@ -340,8 +411,9 @@ export default function JvdPortal() {
             A deterministic config builder: pick a service, choose your
             options, fill in the parameters, and download validated Junos /
             Junos EVO configuration rendered straight from the JVD snip library.
-            Metro-as-a-Service E-Line is available first — more services and
-            JVDs coming.
+            Metro-as-a-Service E-Line, E-LAN and E-Tree are live — more services
+            and JVDs are being added. Scoped to validated <em>services</em>; for
+            broader design and platform questions, use the Design &amp; Planner.
           </p>
 
           <div className="mt-5 flex max-w-2xl items-start gap-2 rounded-md border border-border bg-surface p-3 text-xs text-muted-foreground">
