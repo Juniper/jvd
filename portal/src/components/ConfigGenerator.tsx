@@ -29,6 +29,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  siteInstanceValues,
   fxcUnitSpecs,
   type FxcEntry,
   bumpInt,
@@ -379,6 +380,9 @@ export default function ConfigGenerator() {
   // EVPN-FXC = one service bundling a per-UNI VLAN entry list (declared early:
   // the field filters below reference it).
   const multiUni = !!deployment?.multiUni;
+  // Multi-site EVI (EVPN-ELAN / BGP-VPLS): one shared service replicated across
+  // N self-contained PE sites. `count` doubles as the site count.
+  const multiSite = !!deployment?.multiSite;
 
   // Role-based families (PWHT) render one config per fixed role (Access /
   // Headend) instead of the symmetric PE-A / PE-B model.
@@ -863,6 +867,45 @@ export default function ConfigGenerator() {
 
   const download = () => {
     if (!fullText) return;
+    // Multipoint EVI (EVPN-ELAN / BGP-VPLS): emit `count` self-contained PE
+    // sites. Each site is a DIFFERENT device, so it is merged on its own (never
+    // across sites); only `siteVars` (route-distinguisher — unique per PE — and
+    // the local ESI) increment. Site 1 uses Site A (osA); when a second OS is
+    // picked, sites 2+ use Site B (osB) so a mixed EVO/Junos mesh renders.
+    if (multiSite) {
+      const N = Math.max(1, Math.min(count, 64));
+      const siteVars = deployment?.siteVars ?? ["RD", "ESI_ID"];
+      const originRD = perA.RD ?? perB.RD ?? "";
+      const sects: string[] = [];
+      for (let k = 0; k < N; k++) {
+        const useB = twoPe && k >= 1;
+        const ids = useB ? idsB : idsA;
+        if (!ids.length) continue;
+        const os = (useB ? sel.osB : sel.osA) as GenOsKey;
+        const base = useB
+          ? endpointValues(names, ROLES, shared, perB, perA)
+          : endpointValues(names, ROLES, shared, perA, perB);
+        const vals = siteInstanceValues(base, siteVars, k);
+        // Guarantee a clean, unique RD per PE from a single origin.
+        if (originRD) vals.RD = bumpInt(originRD, k);
+        const body = renderConfig(ids, vals, byId, {
+          stripUniFilter: !sel.firewall,
+          stripVrfExport: rtPolicy === "rt-only",
+          derived: CATALOG.derivedVars,
+        }).text;
+        sects.push(`/* ===== Site ${k + 1} \u00b7 ${OS_LABELS[os]} ===== */\n${mergeJunosConfig(body)}`);
+      }
+      const text = sects.join("\n\n") + "\n";
+      const fname = `maas-${sel.familyId}-${sel.deploymentId}-sites${N}.conf`;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fname;
+      a.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
     // Emit all service instances, merged into one consolidated hierarchy per
     // endpoint. Symmetric families (E-Line): a 1-D batch of `count` services.
     // PWHT: an ASYMMETRIC fan-out — the access side renders once per transport
@@ -965,9 +1008,10 @@ export default function ConfigGenerator() {
 
   const peLabel = (os: GenOsKey | undefined, tag: string) =>
     os ? `${tag} · ${OS_LABELS[os]}` : tag;
-  // Endpoint column / section tags — role names for PWHT, PE-A/PE-B otherwise.
-  const tagA = roleBased ? roles[0]?.label ?? "Access" : "PE-A";
-  const tagB = roleBased ? roles[1]?.label ?? "Headend" : "PE-B";
+  // Endpoint column / section tags — role names for PWHT, per-site labels for
+  // multipoint EVIs, PE-A/PE-B otherwise.
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : multiSite ? "Site A" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : multiSite ? "Site B" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
@@ -1544,22 +1588,24 @@ export default function ConfigGenerator() {
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
                   <label className="text-xs font-medium text-foreground">
-                    Number of services
+                    {multiSite ? "Number of sites" : "Number of services"}
                   </label>
                   <input
                     type="number"
                     min={1}
-                    max={500}
+                    max={multiSite ? 64 : 500}
                     value={count}
                     onChange={(e) =>
-                      setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                      setCount(Math.max(1, Math.min(multiSite ? 64 : 500, Number(e.target.value) || 1)))
                     }
                     className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
                   />
                   <span className="text-[11px] text-muted-foreground">
-                    {count > 1
-                      ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
-                      : "The values below are your service. Increase the count to generate a numbered batch."}
+                    {multiSite
+                      ? `One shared EVI across ${count > 1 ? count : "N"} self-contained PE sites — the preview shows two representative PEs; the download emits ${count > 1 ? `all ${count}` : "each"} site (unique route-distinguisher per PE).`
+                      : count > 1
+                        ? `The values below are service #1. Services #2–${count} increment automatically; the download includes all ${count}.`
+                        : "The values below are your service. Increase the count to generate a numbered batch."}
                   </span>
                 </div>
               )}
