@@ -473,7 +473,7 @@ The Test Plan is composed of a Part 1 covering *MEF 3.0 Services Attributes* and
 
 The following schematic shows the test bed used to test the conformance of MEF 3.0 Services:
 
-<img src="~/git-tmp/maas-etree-report/media/d1e64508fecd73694b17b6015f3a25095d624446.png" style="width:4.31667in;height:1.17463in" />
+<img src="images/mef-etree-banner.png" style="width:4.31667in;height:1.17463in" />
 
 Equipment is set up on the test bed with two units connected across network. A tester is attached to each unit and sends and receives frames across the services submitted for testing. Sometime tester may be attached via a switch also.
 
@@ -495,7 +495,7 @@ E-ACCESS Services
 
 ### L2Circuit Local Switching Topology
 
-<img src="~/git-tmp/maas-etree-report/media/media/image2.png" style="width:6.15278in;height:3.375in" alt="A diagram of a service endpoint Description automatically generated" />
+<img src="images/mef-etree-image2.png" style="width:6.15278in;height:3.375in" alt="A diagram of a service endpoint Description automatically generated" />
 
 Service implementation in JVD EBS topology
 
@@ -2417,7 +2417,7 @@ Service implementation in JVD EBS topology
 
 EVPN-VPWS Local Switching:
 
-<img src="~/git-tmp/maas-etree-report/media/media/image3.png" style="width:6.19444in;height:3.30556in" alt="A diagram of a service Description automatically generated" />
+<img src="images/mef-etree-image3.png" style="width:6.19444in;height:3.30556in" alt="A diagram of a service Description automatically generated" />
 
 Service implementation in JVD EBS topology
 
@@ -4339,7 +4339,7 @@ Service implementation in JVD EBS topology
 
 E-TREE
 
-<img src="~/git-tmp/maas-etree-report/media/media/image4.png" style="width:6.22222in;height:3.22222in" />
+<img src="images/mef-etree-image4.png" style="width:6.22222in;height:3.22222in" />
 
 EVPN-ETREE Service implementation in JVD EBS topology in above diagram.
 

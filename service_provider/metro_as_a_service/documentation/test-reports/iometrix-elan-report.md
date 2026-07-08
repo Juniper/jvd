@@ -331,7 +331,7 @@ The Test Plan is composed of a Part 1 covering *MEF 3.0 Services Attributes* and
 
 The following schematic shows the test bed used to test the conformance of MEF 3.0 Services:
 
-<img src="~/git-tmp/maas-elan-report/media/171796e1387e9990aab727e3b18feab2ddec012e.png" style="width:4.3125in;height:1.16667in" />
+<img src="images/mef-elan-banner.png" style="width:4.3125in;height:1.16667in" />
 
 Equipment is set up on the test bed with two units connected across network. A tester is attached to each unit and sends and receives frames across the services submitted for testing. Sometime tester may be attached via a switch also.
 
@@ -356,7 +356,7 @@ E-LAN
 
 EVPN_ELAN Service:
 
-<img src="~/git-tmp/maas-elan-report/media/media/image2.png" style="width:6.23611in;height:3.44444in" />
+<img src="images/mef-elan-image2.png" style="width:6.23611in;height:3.44444in" />
 
 EVPN-ELAN implementation in EBS topology.
 
@@ -1720,7 +1720,7 @@ EVP-LAN Service
 
 ### EVPN-ELAN-MH-VLAN-BASED
 
-<img src="~/git-tmp/maas-elan-report/media/media/image3.png" style="width:6.20833in;height:3.44444in" alt="A diagram of a network Description automatically generated" />
+<img src="images/mef-elan-image3.png" style="width:6.20833in;height:3.44444in" alt="A diagram of a network Description automatically generated" />
 
 EVPN-ELAN Multi-homing VLAN based service implementation in EBS topology.
 
@@ -2964,7 +2964,7 @@ EVP-LAN Service
 
 ### BGP-VPLS-E2E-MS
 
-<img src="~/git-tmp/maas-elan-report/media/media/image4.png" style="width:6.15278in;height:3.47222in" />
+<img src="images/mef-elan-image4.png" style="width:6.15278in;height:3.47222in" />
 
 BGP-VPLS Multi-site End-to-End service implementation in EBS topology.
 
@@ -4208,7 +4208,7 @@ EVP-LAN Service
 
 ### EVPN-ELAN-MH-VLAN-BUNDLE
 
-<img src="~/git-tmp/maas-elan-report/media/media/image5.png" style="width:6.23611in;height:3.31944in" />
+<img src="images/mef-elan-image5.png" style="width:6.23611in;height:3.31944in" />
 
 EVPN-ELAN Multi-Homing VLAN-Bundle type service implementation in EBS topology.
 
@@ -5452,7 +5452,7 @@ EVP-LAN Service
 
 ### EVPN-ELAN-TYPE_5
 
-<img src="~/git-tmp/maas-elan-report/media/media/image6.png" style="width:6.18056in;height:3.44444in" />
+<img src="images/mef-elan-image6.png" style="width:6.18056in;height:3.44444in" />
 
 EVPN-ELAN Type-5 service implementation in EBS topology.
 
