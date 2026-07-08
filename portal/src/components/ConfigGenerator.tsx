@@ -257,6 +257,42 @@ function bumpB(example: string): string {
   return m ? m[1] + String(parseInt(m[2], 10) + 1) : example;
 }
 
+/** VLAN-ids are 1–4094 (Junos hard limit). Soft-validate an EVPN-FXC entry's
+ *  VLAN / range / S-VLAN inputs (which bypass the varSpec-driven VarField
+ *  validation); returns a warning message or undefined. */
+const VLAN_MIN = 1;
+const VLAN_MAX = 4094;
+function vlanIdInRange(v: string): boolean {
+  if (!/^\d+$/.test(v)) return false;
+  const n = Number(v);
+  return n >= VLAN_MIN && n <= VLAN_MAX;
+}
+function fxcEntryVlanError(
+  e: FxcEntry,
+  mode: "unaware" | "aware",
+  awareMap: boolean,
+): string | undefined {
+  const single = mode === "aware" || e.kind === "single";
+  if (single) {
+    if (e.vlan && !vlanIdInRange(e.vlan)) return `VLAN-id must be ${VLAN_MIN}–${VLAN_MAX}`;
+  } else if (e.range) {
+    const m = e.range.match(/^\s*(\d+)\s*-\s*(\d+)\s*$/);
+    if (!m) {
+      if (!vlanIdInRange(e.range)) return `VLAN-id must be ${VLAN_MIN}–${VLAN_MAX}`;
+    } else {
+      const a = Number(m[1]);
+      const b = Number(m[2]);
+      if (a < VLAN_MIN || b > VLAN_MAX || b < a)
+        return `range must be within ${VLAN_MIN}–${VLAN_MAX}`;
+    }
+  }
+  const svlanShown =
+    (mode === "aware" && awareMap) || (mode === "unaware" && e.kind === "range");
+  if (svlanShown && e.svlan && !vlanIdInRange(e.svlan))
+    return `S-VLAN must be ${VLAN_MIN}–${VLAN_MAX}`;
+  return undefined;
+}
+
 function Chip({
   label,
   sub,
@@ -1627,10 +1663,15 @@ export default function ConfigGenerator() {
                     </div>
                   )}
                   <div className="space-y-2">
-                    {fxcEntries.map((e) => (
+                    {fxcEntries.map((e) => {
+                      const vlanErr = fxcEntryVlanError(e, fxcMode, awareMap);
+                      return (
                       <div
                         key={e.id}
-                        className="flex flex-wrap items-center gap-2 rounded border border-border/60 bg-surface p-2"
+                        className={[
+                          "flex flex-wrap items-center gap-2 rounded border bg-surface p-2",
+                          vlanErr ? "border-red-500/50" : "border-border/60",
+                        ].join(" ")}
                       >
                         {fxcMode === "unaware" && (
                           <div className="flex overflow-hidden rounded-md border border-border">
@@ -1693,8 +1734,14 @@ export default function ConfigGenerator() {
                         >
                           <X className="h-4 w-4" />
                         </button>
+                        {vlanErr && (
+                          <span className="w-full text-[10px] font-semibold text-red-600 dark:text-red-400">
+                            {vlanErr}
+                          </span>
+                        )}
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                   <button
                     onClick={fxcAdd}

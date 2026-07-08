@@ -62,9 +62,9 @@ differentiating factor characterizes requirements for supporting X-to-Anything
 connectivity models or building infrastructures that become access agnostic while
 blending with virtualized network functions and devices.
 
-_Figure 1: Metro as a Service Network Topology — see
-[`images/`](images/) and the JVD topology diagram at
-[`../images/Metro-MEF-Topology.png`](../images/Metro-MEF-Topology.png)._
+_Figure 1: Metro as a Service reference architecture._
+
+![Metro as a Service reference architecture spanning two autonomous systems](images/maas-reference-architecture.jpg)
 
 ## Crucial objectives
 

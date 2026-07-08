@@ -1,21 +1,29 @@
 # Documentation images
 
-Figures referenced by the Metro as a Service documentation. Drop the exported
-PNG/SVG figures here and update the links in the markdown to point at
-`images/<file>`.
+Figures used by the Metro as a Service documentation. Three groups:
 
-Until a dedicated export is added, the docs reference the existing JVD topology
-diagram at [`../../images/Metro-MEF-Topology.png`](../../images/Metro-MEF-Topology.png).
+## `images/` — shared curated figures (high-resolution)
 
-## Figures to add
+Used by [`solution-overview.md`](../solution-overview.md) and
+[`test-report-brief.md`](../test-report-brief.md).
 
-| Suggested filename | Source | Used by |
+| File | Figure | Used by |
 | --- | --- | --- |
-| `maas-reference-topology.png` | Design Guide — reference topology | design-guide.md, solution-overview.md |
-| `sr-mpls-flex-algo-transport.png` | Design Guide — transport classes (Gold/Bronze/Best Effort) | design-guide.md |
-| `metro-edge-gateway.png` | Design Guide — MEG border-leaf placement | design-guide.md |
-| `mef-service-types.png` | Design Guide — E-Line/E-LAN/E-Tree/E-Access EVC topologies | design-guide.md |
+| `maas-reference-architecture.jpg` | Full reference architecture — dual-AS SR-MPLS metro (fabric + multi-ring), multi-instance IS-IS, Flex-Algo/color transport, all services under test | solution-overview.md, test-report-brief.md |
+| `maas-featured-devices.png` | Featured devices — Metro Fabric + Metro Multi-Ring topology with device roles and platform legend | test-report-brief.md |
 
-> Figures cannot be extracted from the source PDFs automatically; export them from
-> the published JVD and place them here, then swap the markdown links from
-> `../images/Metro-MEF-Topology.png` to the local `images/<file>` equivalents.
+## `images/design-guide/` — design-guide figures
+
+`dg-<page>-<index>.png` — extracted inline from the source Design Guide PDF at
+their original positions and referenced from [`design-guide.md`](../design-guide.md).
+Regenerate with `pymupdf4llm` (`write_images=True`) from the published PDF.
+
+## `test-reports/images/` — test-report figures
+
+`mef-eline-*.png` — diagrams from the detailed E-Line MEF test report, referenced
+from [`test-reports/e-line.md`](../test-reports/e-line.md).
+
+---
+
+The JVD landing page also carries a topology diagram at
+[`../../images/Metro-MEF-Topology.png`](../../images/Metro-MEF-Topology.png).

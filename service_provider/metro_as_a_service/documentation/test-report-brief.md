@@ -63,6 +63,10 @@ multi-instance IS-IS with Metro fabrics.
   steering. A cascade-style resolution scheme allows Gold to fail over to Bronze
   and Bronze to fail over to Best Effort.
 
+![Metro as a Service reference architecture spanning two autonomous systems](images/maas-reference-architecture.jpg)
+
+*Figure 1. Reference architecture — dual-AS SR-MPLS metro (fabric + multi-ring) with multi-instance IS-IS, Flex-Algo/color transport, and the services under test overlaid.*
+
 ## Platforms Tested (Devices Under Test)
 
 Access platforms: ACX7024, ACX7100-48L, ACX710, ACX5448, MX204. Aggregation/spine:
@@ -71,6 +75,10 @@ in the ring. Metro Edge Gateway (border leaf): ACX7509 and ACX7100-32C. Metro
 core: PTX10001-36MR. Multi-services edge: MX304.
 
 **Table 1 — Topology Abstract (Devices Under Test)**
+
+![Featured-devices topology showing the Metro Fabric and Metro Multi-Ring with device roles and a platform legend](images/maas-featured-devices.png)
+
+*Figure 2. Featured devices — Metro Fabric (access leaf, lean spine, border-leaf MEG) and Metro Multi-Ring (MSE, MDR, MA) with the per-role platform legend.*
 
 | Platform Role | Role | Device | Release |
 | --- | --- | --- | --- |
