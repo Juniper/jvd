@@ -609,13 +609,16 @@ export default function SnipLibrary() {
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+              Step 2 · Learn
+            </div>
+            <div className="mt-1 flex items-center gap-2">
               <Layers className="h-5 w-5 text-primary" />
-              <h2 className="text-3xl font-semibold tracking-tight">Snip Library</h2>
+              <h2 className="text-3xl font-semibold tracking-tight">Config Explorer</h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Browse {snipBundle.counts.total} reusable configuration snips extracted from{" "}
-              {snipBundle.counts.jvds} JVD libraries — Junos and Junos EVO. Each snip carries its
+              Explore {snipBundle.counts.total} reusable configuration building blocks extracted from{" "}
+              {snipBundle.counts.jvds} JVD libraries — Junos and Junos EVO. Each carries its
               source provenance, variable glossary, and pair-with references back to GitHub.
             </p>
           </div>

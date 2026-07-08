@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Sparkles, Wrench, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -32,13 +32,46 @@ const OS_OPTIONS = ["Junos", "Junos EVO"];
 const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
-  { label: "Snips", href: "#snips" },
-  { label: "BYOAI", href: "#byoai" },
+  { label: "Explorer", href: "#snips" },
+  { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
   { label: "About", href: "#about" },
 ];
 
+// The site as a journey: Discover → Explore → Design → Build. Each rung links
+// to its section so the four tools read as stages, not competing alternatives.
+const LADDER = [
+  {
+    stage: "Discover",
+    title: "JVD Catalog",
+    desc: "Find the validated design that fits your requirements.",
+    href: "#catalog",
+  },
+  {
+    stage: "Learn",
+    title: "Config Explorer",
+    desc: "Drill into the reusable, provenance-tracked config building blocks.",
+    href: "#snips",
+  },
+  {
+    stage: "Design",
+    title: "Design & Planner",
+    desc: "Ask design and scaling questions grounded in the validated JVDs.",
+    href: "#byoai",
+  },
+  {
+    stage: "Build",
+    title: "Service Config Generator",
+    desc: "Render download-ready, JVD-validated service configuration.",
+    href: "#generator",
+  },
+];
+
 const SNIP_JVD_IDS = new Set(snipBundle.jvds.map((j) => j.id));
+// Which onward steps each JVD supports, so the catalog can show live pills.
+const BYOAI_JVD_IDS = new Set((snipBundle.byoaiJvds ?? []).map((b) => b.jvd));
+const BUILD_JVD_IDS = new Set(["metro_as_a_service"]);
+type StepPill = { href: string; label: string; Icon: LucideIcon };
 
 const REPO_BASE = "https://github.com/Juniper/jvd/tree/main/";
 
@@ -90,11 +123,100 @@ function MarqueeTag({ label }: { label: string }) {
   );
 }
 
+function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
+  const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
+  const steps: StepPill[] = [];
+  if (SNIP_JVD_IDS.has(j.id))
+    steps.push({ href: `#snips?jvd=${j.id}`, label: "Learn", Icon: Layers });
+  if (BYOAI_JVD_IDS.has(j.id))
+    steps.push({ href: `#byoai?jvd=${j.id}`, label: "Design", Icon: Sparkles });
+  if (BUILD_JVD_IDS.has(j.id))
+    steps.push({ href: `#generator?jvd=${j.id}`, label: "Build", Icon: Wrench });
+  return (
+    <article
+      className={
+        "group flex flex-col rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary/50 " +
+        className
+      }
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
+          {j.area}
+        </span>
+        {steps.length > 0 && (
+          <div className="flex flex-wrap items-center justify-end gap-1.5">
+            {steps.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                title={`${label} this JVD`}
+              >
+                <Icon className="h-3 w-3" /> {label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+      <h3 className="mt-4 text-base font-semibold leading-snug">{j.name}</h3>
+      <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
+        {j.description || "Reference architecture and validated configuration."}
+      </p>
+      {(families.length > 0 || j.os.length > 0) && (
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {families.map((p) => (
+            <span
+              key={p}
+              className="rounded border border-transparent bg-surface-2 px-1.5 py-0.5 text-[10px] font-medium text-foreground/80"
+            >
+              {p}
+            </span>
+          ))}
+          {j.os.map((o) => (
+            <span
+              key={o}
+              className="rounded border border-border bg-transparent px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
+            >
+              {o}
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="mt-6 flex-1" />
+      <a
+        href={`${REPO_BASE}${j.repoPath}`}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center justify-between rounded-md border border-border bg-background px-4 py-2 text-sm font-medium transition-colors group-hover:border-primary/60 group-hover:text-primary"
+      >
+        View JVD
+        <ExternalLink className="h-3.5 w-3.5" />
+      </a>
+    </article>
+  );
+}
+
 export default function JvdPortal() {
   const data = jvds as Jvd[];
   const [areaF, setAreaF] = useState<string | null>(null);
   const [platformF, setPlatformF] = useState<string | null>(null);
   const [osF, setOsF] = useState<string | null>(null);
+
+  // Deep links like "#snips?jvd=x" carry a query the browser can't anchor-scroll
+  // to (no element id matches "snips?jvd=x"), so scroll the base section into
+  // view ourselves whenever such a hash is set.
+  useEffect(() => {
+    const scrollToDeepLink = () => {
+      const h = window.location.hash;
+      const qIdx = h.indexOf("?");
+      if (qIdx < 0) return;
+      const el = document.getElementById(h.slice(1, qIdx));
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    scrollToDeepLink();
+    window.addEventListener("hashchange", scrollToDeepLink);
+    return () => window.removeEventListener("hashchange", scrollToDeepLink);
+  }, []);
 
   const filtered = useMemo(
     () =>
@@ -106,6 +228,17 @@ export default function JvdPortal() {
       }),
     [data, areaF, platformF, osF],
   );
+
+  // Shuffle once per load so the idle marquee interleaves areas/platforms
+  // instead of scrolling through them in source (grouped) order.
+  const shuffledData = useMemo(() => {
+    const a = [...data];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }, [data]);
 
   const stats = [
     { label: "Validated Designs", value: "60+" },
@@ -218,6 +351,40 @@ export default function JvdPortal() {
               ))}
             </div>
           </div>
+
+          {/* Journey ladder — Discover → Explore → Design → Build */}
+          <div id="how" className="mt-24 scroll-mt-24">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Find. Learn. Plan. Build.
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Four stages, one path. Discover the right design, learn how it&apos;s
+              built, plan it against your requirements, then generate validated config.
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-4">
+              {LADDER.map((s, i) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  className="group relative rounded-lg border border-border bg-surface p-5 transition-colors hover:border-primary/60"
+                >
+                  <div className="flex items-center gap-2 text-primary">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-primary/40 text-xs font-semibold">
+                      {i + 1}
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">
+                      {s.stage}
+                    </span>
+                  </div>
+                  <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
+                  <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                    Open <ArrowRight className="h-3 w-3" />
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -226,7 +393,10 @@ export default function JvdPortal() {
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-semibold tracking-tight">Catalog</h2>
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+                Step 1 · Discover
+              </div>
+              <h2 className="mt-1 text-3xl font-semibold tracking-tight">JVD Catalog</h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 Browse the {data.length} validated designs in this GitHub catalog. Visit{" "}
                 <a
@@ -241,7 +411,9 @@ export default function JvdPortal() {
               </p>
             </div>
             <div className="text-sm text-muted-foreground">
-              Showing {filtered.length} of {data.length}
+              {areaF || platformF || osF
+                ? `Showing ${filtered.length} of ${data.length}`
+                : `${data.length} designs · hover to pause, filter to expand`}
             </div>
           </div>
 
@@ -251,71 +423,26 @@ export default function JvdPortal() {
             <FilterRow label="OS" options={OS_OPTIONS} value={osF} onChange={setOsF} />
           </div>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((j) => {
-              const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
-              const hasSnips = SNIP_JVD_IDS.has(j.id);
-              return (
-                <article
-                  key={j.id}
-                  className="group flex flex-col rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary/50"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
-                      {j.area}
-                    </span>
-                    {hasSnips && (
-                      <a
-                        href={`#snips?jvd=${j.id}`}
-                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
-                        title="This JVD has a snip library — click to browse"
-                      >
-                        <Layers className="h-3 w-3" /> Snips
-                      </a>
-                    )}
-                  </div>
-                  <h3 className="mt-4 text-base font-semibold leading-snug">{j.name}</h3>
-                  <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
-                    {j.description || "Reference architecture and validated configuration."}
-                  </p>
-                  {(families.length > 0 || j.os.length > 0) && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {families.map((p) => (
-                        <span
-                          key={p}
-                          className="rounded border border-transparent bg-surface-2 px-1.5 py-0.5 text-[10px] font-medium text-foreground/80"
-                        >
-                          {p}
-                        </span>
-                      ))}
-                      {j.os.map((o) => (
-                        <span
-                          key={o}
-                          className="rounded border border-border bg-transparent px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
-                        >
-                          {o}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="mt-6 flex-1" />
-                  <a
-                    href={`${REPO_BASE}${j.repoPath}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-between rounded-md border border-border bg-background px-4 py-2 text-sm font-medium transition-colors group-hover:border-primary/60 group-hover:text-primary"
-                  >
-                    View JVD
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
-                </article>
-              );
-            })}
-          </div>
-
-          {filtered.length === 0 && (
-            <div className="mt-12 rounded-lg border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-              No JVDs match the selected filters.
+          {areaF || platformF || osF ? (
+            <>
+              <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {filtered.map((j) => (
+                  <JvdCard key={j.id} j={j} />
+                ))}
+              </div>
+              {filtered.length === 0 && (
+                <div className="mt-12 rounded-lg border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
+                  No JVDs match the selected filters.
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="marquee-pause mt-12 overflow-hidden">
+              <div className="marquee-track marquee-cards flex w-max">
+                {[...shuffledData, ...shuffledData].map((j, i) => (
+                  <JvdCard key={`${j.id}-${i}`} j={j} className="mr-5 w-80 shrink-0" />
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -330,8 +457,11 @@ export default function JvdPortal() {
       {/* Generator */}
       <section id="generator" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-semibold tracking-tight">JVD Config Generator</h2>
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+            Step 4 · Build
+          </div>
+          <div className="mt-1 flex items-center gap-2">
+            <h2 className="text-3xl font-semibold tracking-tight">Service Configuration Generator</h2>
             <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
               Beta
             </span>
@@ -340,8 +470,9 @@ export default function JvdPortal() {
             A deterministic config builder: pick a service, choose your
             options, fill in the parameters, and download validated Junos /
             Junos EVO configuration rendered straight from the JVD snip library.
-            Metro-as-a-Service E-Line is available first — more services and
-            JVDs coming.
+            Metro-as-a-Service E-Line, E-LAN and E-Tree are live — more services
+            and JVDs are being added. Scoped to validated <em>services</em>; for
+            broader design and platform questions, use the Design &amp; Planner.
           </p>
 
           <div className="mt-5 flex max-w-2xl items-start gap-2 rounded-md border border-border bg-surface p-3 text-xs text-muted-foreground">

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sparkles, ExternalLink, Github, Info } from "lucide-react";
 import jvds from "@/data/jvds.json";
 import { snipBundle } from "@/lib/snips";
@@ -63,6 +63,21 @@ export default function ByoaiSection() {
   const [selectedId, setSelectedId] = useState<string>(pickerItems[0]?.id ?? "");
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
 
+  // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
+  useEffect(() => {
+    const applyHash = () => {
+      const h = window.location.hash;
+      if (!h.startsWith("#byoai")) return;
+      const qIdx = h.indexOf("?");
+      if (qIdx < 0) return;
+      const jvd = new URLSearchParams(h.slice(qIdx + 1)).get("jvd");
+      if (jvd && pickerItems.some((p) => p.id === jvd)) setSelectedId(jvd);
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [pickerItems]);
+
   const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl) : "#";
   const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl) : "#";
 
@@ -72,9 +87,12 @@ export default function ByoaiSection() {
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+              Step 3 · Design
+            </div>
+            <div className="mt-1 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <h2 className="text-3xl font-semibold tracking-tight">Bring Your Own AI</h2>
+              <h2 className="text-3xl font-semibold tracking-tight">Design &amp; Planner</h2>
               <span className="ml-1 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
                 Available now
               </span>
@@ -83,9 +101,12 @@ export default function ByoaiSection() {
               </span>
             </div>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              Generate Junos and Junos EVO configuration with the AI you already use. Pick a JVD,
-              launch Claude or ChatGPT, and the assistant will fetch that JVD&apos;s validated snip
-              library and walk you through a conversation-driven config build.
+              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> —
+              plan and design with the AI you already use, grounded in the Juniper
+              Validated Designs. Pick a JVD, launch Claude or ChatGPT, and the
+              assistant works from that JVD&apos;s validated snip library — and,
+              increasingly, its full design documentation — to answer design and
+              scaling questions and walk you through a conversation-driven config build.
             </p>
           </div>
         </div>
