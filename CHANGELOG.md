@@ -4,6 +4,80 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-08
+
+The Metro-as-a-Service (MaaS) JVD gains a validated configuration snip
+library, and the JVD portal adds two ways to turn those designs into
+config: a deterministic Config Generator and an AI-assisted design
+workflow. The portal is reorganized into a four-step path — Discover,
+Learn, Design, Build.
+
+### New content
+
+- **Metro-as-a-Service snip library** — a validated library of Junos and
+  Junos EVO configuration snippets in
+  [`service_provider/metro_as_a_service/configuration/snips/`](service_provider/metro_as_a_service/configuration/snips/).
+  Covers the MEF Carrier Ethernet service families: E-Line (EVPN-VPWS,
+  L2VPN, BGP-VPLS, EVPN-FXC), E-LAN (EVPN-ELAN VLAN-based, VLAN-bundle and
+  port-based, BGP-VPLS), E-Tree (EVPN E-Tree), and Pseudowire Headend
+  Termination. Validated across ACX7024/ACX7100/ACX7509 (EVO), MX204/MX304
+  (Junos), and PTX10001-36MR. Each snip carries source provenance, a
+  variable glossary, and pair-with references.
+
+### Portal
+
+- **Config Generator** — a deterministic builder that renders
+  download-ready Junos / Junos EVO service configuration from the validated
+  snip library. Metro-as-a-Service E-Line, E-LAN, E-Tree, EVPN-FXC, and
+  PWHT are available, with per-service options for homing, VLAN handling,
+  route-target export, and class-of-service.
+- **Design & Planner (Bring Your Own AI)** — a conversation-driven workflow
+  that pairs the AI you already use with a JVD's validated snip library to
+  plan a design and build configuration.
+- **New layout** — the portal is organized as Discover (JVD Catalog), Learn
+  (Config Explorer), Design (Design & Planner), and Build (Service
+  Configuration Generator), with links between each step.
+
+### What this means for you
+
+- Pull the latest `main` to get the Metro-as-a-Service snip library and the
+  updated portal.
+- If you are building a Metro Carrier Ethernet service, start from the
+  Config Generator or the snip library instead of writing configuration
+  from scratch.
+- Use the Design & Planner when you want design and scaling guidance
+  grounded in a validated design.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-area changes</summary>
+
+| Area | Added | Modified | Files | Lines added |
+| --- | ---: | ---: | ---: | ---: |
+| `service_provider/metro_as_a_service` (snip library) | 35 | 12 | 47 | 13,224 |
+| `portal` (Config Generator, Design & Planner, layout) | 13 | 5 | 18 | 17,842 |
+| `Documentation` | 1 | 0 | 1 | 51 |
+| **Total** | **49** | **17** | **66** | **31,117** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| service_provider/metro_as_a_service | 13,224 | 75 | +13,149 |
+| portal | 17,842 | 597 | +17,245 |
+| Documentation | 51 | 0 | +51 |
+| **Total** | **31,117** | **672** | **+30,445** |
+
+</details>
+
+---
+
 ## 2026-06-26
 
 README standardization across all 20 JVDs, plus the new AI Data Center
