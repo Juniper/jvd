@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sparkles, ExternalLink, Github, Info } from "lucide-react";
 import jvds from "@/data/jvds.json";
 import { snipBundle } from "@/lib/snips";
@@ -62,6 +62,21 @@ export default function ByoaiSection() {
 
   const [selectedId, setSelectedId] = useState<string>(pickerItems[0]?.id ?? "");
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
+
+  // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
+  useEffect(() => {
+    const applyHash = () => {
+      const h = window.location.hash;
+      if (!h.startsWith("#byoai")) return;
+      const qIdx = h.indexOf("?");
+      if (qIdx < 0) return;
+      const jvd = new URLSearchParams(h.slice(qIdx + 1)).get("jvd");
+      if (jvd && pickerItems.some((p) => p.id === jvd)) setSelectedId(jvd);
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [pickerItems]);
 
   const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl) : "#";
   const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl) : "#";

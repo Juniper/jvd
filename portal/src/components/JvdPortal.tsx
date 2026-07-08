@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Sparkles, Wrench, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -68,6 +68,10 @@ const LADDER = [
 ];
 
 const SNIP_JVD_IDS = new Set(snipBundle.jvds.map((j) => j.id));
+// Which onward steps each JVD supports, so the catalog can show live pills.
+const BYOAI_JVD_IDS = new Set((snipBundle.byoaiJvds ?? []).map((b) => b.jvd));
+const BUILD_JVD_IDS = new Set(["metro_as_a_service"]);
+type StepPill = { href: string; label: string; Icon: LucideIcon };
 
 const REPO_BASE = "https://github.com/Juniper/jvd/tree/main/";
 
@@ -124,6 +128,22 @@ export default function JvdPortal() {
   const [areaF, setAreaF] = useState<string | null>(null);
   const [platformF, setPlatformF] = useState<string | null>(null);
   const [osF, setOsF] = useState<string | null>(null);
+
+  // Deep links like "#snips?jvd=x" carry a query the browser can't anchor-scroll
+  // to (no element id matches "snips?jvd=x"), so scroll the base section into
+  // view ourselves whenever such a hash is set.
+  useEffect(() => {
+    const scrollToDeepLink = () => {
+      const h = window.location.hash;
+      const qIdx = h.indexOf("?");
+      if (qIdx < 0) return;
+      const el = document.getElementById(h.slice(1, qIdx));
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    scrollToDeepLink();
+    window.addEventListener("hashchange", scrollToDeepLink);
+    return () => window.removeEventListener("hashchange", scrollToDeepLink);
+  }, []);
 
   const filtered = useMemo(
     () =>
@@ -247,41 +267,39 @@ export default function JvdPortal() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Journey ladder — Discover → Explore → Design → Build */}
-      <section id="how" className="border-b border-border bg-surface/40">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            From requirement to running config
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Four stages, one path — discover the right design, explore how it&apos;s
-            built, plan it against your requirements, then generate validated config.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-4">
-            {LADDER.map((s, i) => (
-              <a
-                key={s.href}
-                href={s.href}
-                className="group relative rounded-lg border border-border bg-background p-5 transition-colors hover:border-primary/60"
-              >
-                <div className="flex items-center gap-2 text-primary">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full border border-primary/40 text-xs font-semibold">
-                    {i + 1}
+          {/* Journey ladder — Discover → Explore → Design → Build */}
+          <div id="how" className="mt-24 scroll-mt-24">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Find it. Learn it. Plan it. Build it.
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Four stages, one path. Discover the right design, explore how it&apos;s
+              built, plan it against your requirements, then generate validated config.
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-4">
+              {LADDER.map((s, i) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  className="group relative rounded-lg border border-border bg-surface p-5 transition-colors hover:border-primary/60"
+                >
+                  <div className="flex items-center gap-2 text-primary">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-primary/40 text-xs font-semibold">
+                      {i + 1}
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider">
+                      {s.stage}
+                    </span>
+                  </div>
+                  <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
+                  <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                    Open <ArrowRight className="h-3 w-3" />
                   </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-wider">
-                    {s.stage}
-                  </span>
-                </div>
-                <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
-                <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
-                <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                  Open <ArrowRight className="h-3 w-3" />
-                </span>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -323,23 +341,35 @@ export default function JvdPortal() {
             {filtered.map((j) => {
               const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
               const hasSnips = SNIP_JVD_IDS.has(j.id);
+              const steps: StepPill[] = [];
+              if (hasSnips)
+                steps.push({ href: `#snips?jvd=${j.id}`, label: "Explore", Icon: Layers });
+              if (BYOAI_JVD_IDS.has(j.id))
+                steps.push({ href: `#byoai?jvd=${j.id}`, label: "Design", Icon: Sparkles });
+              if (BUILD_JVD_IDS.has(j.id))
+                steps.push({ href: `#generator?jvd=${j.id}`, label: "Build", Icon: Wrench });
               return (
                 <article
                   key={j.id}
                   className="group flex flex-col rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary/50"
                 >
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-start justify-between gap-2">
                     <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary">
                       {j.area}
                     </span>
-                    {hasSnips && (
-                      <a
-                        href={`#snips?jvd=${j.id}`}
-                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
-                        title="This JVD has a snip library — click to browse"
-                      >
-                        <Layers className="h-3 w-3" /> Snips
-                      </a>
+                    {steps.length > 0 && (
+                      <div className="flex flex-wrap items-center justify-end gap-1.5">
+                        {steps.map(({ href, label, Icon }) => (
+                          <a
+                            key={label}
+                            href={href}
+                            className="inline-flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[10px] font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                            title={`${label} this JVD`}
+                          >
+                            <Icon className="h-3 w-3" /> {label}
+                          </a>
+                        ))}
+                      </div>
                     )}
                   </div>
                   <h3 className="mt-4 text-base font-semibold leading-snug">{j.name}</h3>
