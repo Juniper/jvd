@@ -404,8 +404,10 @@ export function expandVlanRange(range: string): number[] {
 /**
  * Map an EVPN-FXC entry list to the concrete UNI units for ONE PE. `mode` picks
  * the service style; `os` selects the OS-specific interface snips; on the
- * breakout side a range entry expands to per-VLAN units. For VLAN-aware, each
- * entry's ESI + vpws-service-id increment per UNI (from `base`).
+ * breakout side a range entry expands to per-VLAN units only when that entry's
+ * `breakout` flag is set (otherwise it stays a collapsed vlan-id-list, same as
+ * PE-A). For VLAN-aware, each entry's ESI + vpws-service-id increment per UNI
+ * (from `base`).
  */
 export function fxcUnitSpecs(
   mode: "unaware" | "aware",
@@ -446,7 +448,7 @@ export function fxcUnitSpecs(
     }
     const vlans = expandVlanRange(e.range);
     const start = String(vlans[0] ?? e.range);
-    if (isBreakoutSide) {
+    if (isBreakoutSide && e.breakout) {
       for (const v of vlans) {
         const rel = e.svlan
           ? `${os}/interfaces/vlan-ccc-1-unit-qinq`
