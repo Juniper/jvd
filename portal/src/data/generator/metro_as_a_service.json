@@ -37,6 +37,8 @@
       "VRF_TARGET_2",
       "VC_ID",
       "VLAN",
+      "VLAN_LIST_START",
+      "VLAN_LIST_END",
       "INPUT_VID",
       "LABEL_BLOCK_SIZE",
       "SITE_RANGE",
@@ -76,6 +78,8 @@
     "ESI_ID_1": { "type": "esi" },
     "ESI_ID_2": { "type": "esi" },
     "VLAN": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_LIST_START": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_LIST_END": { "type": "range", "min": 1, "max": 4094 },
     "VLAN_1": { "type": "range", "min": 1, "max": 4094 },
     "VLAN_2": { "type": "range", "min": 1, "max": 4094 },
     "INPUT_VID": { "type": "range", "min": 1, "max": 4094 },
@@ -353,6 +357,24 @@
                   "interface": { "multihomed": "junos/interfaces/vlan-bridge-esi" },
                   "interfaceExtras": [],
                   "filter": { "color-blind": "junos/firewall/filter-bridge-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "evpn-elan-bundle",
+              "label": "EVPN-ELAN (VLAN-bundle)",
+              "description": "EVPN multipoint bridge; a contiguous VLAN range shares one bridge-domain (mac-vrf vlan-bundle). EVO only.",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-elan-vlan-bundle"],
+                  "interface": {
+                    "single-homed": "evo/interfaces/vlan-bridge-bundle",
+                    "multihomed": "evo/interfaces/vlan-bridge-esi-bundle"
+                  },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
                 }
               }
             }
