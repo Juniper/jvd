@@ -229,6 +229,17 @@ export default function JvdPortal() {
     [data, areaF, platformF, osF],
   );
 
+  // Shuffle once per load so the idle marquee interleaves areas/platforms
+  // instead of scrolling through them in source (grouped) order.
+  const shuffledData = useMemo(() => {
+    const a = [...data];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }, [data]);
+
   const stats = [
     { label: "Validated Designs", value: "60+" },
     { label: "Reusable Config Templates", value: `${Math.floor(snipBundle.counts.total / 50) * 50}+` },
@@ -428,7 +439,7 @@ export default function JvdPortal() {
           ) : (
             <div className="marquee-pause mt-12 overflow-hidden">
               <div className="marquee-track marquee-cards flex w-max">
-                {[...data, ...data].map((j, i) => (
+                {[...shuffledData, ...shuffledData].map((j, i) => (
                   <JvdCard key={`${j.id}-${i}`} j={j} className="mr-5 w-80 shrink-0" />
                 ))}
               </div>
