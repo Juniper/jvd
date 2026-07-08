@@ -169,7 +169,7 @@ Table 1: Carrier Ethernet Service Categories
 </thead>
 <tbody>
 <tr>
-<td><img src="~/git-tmp/maas-dg-docx/media/media/image1.png" style="width:2.08968in;height:0.91033in" alt="A cloud with text on it Description automatically generated" /></td>
+<td><img src="images/design-guide/dg-word-1.png" style="width:2.08968in;height:0.91033in" alt="A cloud with text on it Description automatically generated" /></td>
 <td>E-LINE for delivering point-to-point connections as Ethernet Private Lines (EPL) or Ethernet Virtual Private Lines (EVPL)</td>
 <td><p>EVPN-VPWS</p>
 <p>EVPN-FXC</p>
@@ -177,20 +177,20 @@ Table 1: Carrier Ethernet Service Categories
 <p>VPLS VPWS</p></td>
 </tr>
 <tr>
-<td><img src="~/git-tmp/maas-dg-docx/media/media/image2.png" style="width:2.11842in;height:1.62913in" alt="A diagram of a network Description automatically generated" /></td>
+<td><img src="images/design-guide/dg-word-2.png" style="width:2.11842in;height:1.62913in" alt="A diagram of a network Description automatically generated" /></td>
 <td>E-LAN for delivering multipoint-to-multipoint connections as Ethernet Private LAN (EP-LAN) or Ethernet Virtual Private LAN (EVP-LAN).</td>
 <td><p>EVPN-ELAN</p>
 <p>VPLS</p>
 <p>L2VPN</p></td>
 </tr>
 <tr>
-<td><img src="~/git-tmp/maas-dg-docx/media/media/image3.png" style="width:2.02156in;height:1.55464in" alt="A diagram of a network Description automatically generated" /></td>
+<td><img src="images/design-guide/dg-word-3.png" style="width:2.02156in;height:1.55464in" alt="A diagram of a network Description automatically generated" /></td>
 <td>E-TREE for delivering rooted-multipoint hub-and-spoke connections as Ethernet Private Tree (EP-TREE) or Ethernet Virtual Private Tree (EVP-TREE).</td>
 <td><p>EVPN-ETREE</p>
 <p>H-VPLS</p></td>
 </tr>
 <tr>
-<td><img src="~/git-tmp/maas-dg-docx/media/media/image4.png" style="width:3.12788in;height:1.10456in" alt="A diagram of a cloud Description automatically generated" /></td>
+<td><img src="images/design-guide/dg-word-4.png" style="width:3.12788in;height:1.10456in" alt="A diagram of a cloud Description automatically generated" /></td>
 <td>E-ACCESS for delivering wholesale point-to-point services connecting UNI to NNI as Access EPL or Access EVPL.</td>
 <td><p>EVPN-VPWS LSW</p>
 <p>L2CCC LSW</p></td>
@@ -273,14 +273,14 @@ The Metro as a Service MEF JVD leverages two foundational components: the physic
 
 The diagram explains connectivity for building out the metro fabric spine-and-leaf and multi-ring topologies. For more details, please reference [Metro EBS JVD](https://www.juniper.net/documentation/us/en/software/jvd/jvd-metro-ebs-03-01/index.html).
 
-<img src="~/git-tmp/maas-dg-docx/media/media/image5.png" style="width:5.01817in;height:4.17949in" alt="Metro EBS JVD Infrastructure" />
+<img src="images/design-guide/dg-word-5.png" style="width:5.01817in;height:4.17949in" alt="Metro EBS JVD Infrastructure" />
 
 : Lab Topology Test Bed
 
 Iometrix Lab in the Sky is a Network as a Service (NaaS) cloud-based testing infrastructure supporting a Testing Application that leverages virtual test probes utilizing x86 whitebox probes. The same infrastructure is used as a basis for MEF 3.0 certification testing. The Lab in the Sky infrastructure consists of the following components.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image6.png" style="width:3.47221in;height:2.9434in" alt="A screenshot of a computer Description automatically generated" />
+<img src="images/design-guide/dg-word-6.png" style="width:3.47221in;height:2.9434in" alt="A screenshot of a computer Description automatically generated" />
 <figcaption><p>Iometrix Infrastructure</p></figcaption>
 </figure>
 
@@ -347,7 +347,7 @@ The underlying infrastructure described in this document provides a resilient an
 The validation focuses on qualifying MEF 3.0 mandatory test cases across [Metro Ethernet Business Services](https://www.juniper.net/documentation/us/en/software/jvd/jvd-metro-ebs-03-01/index.html) featuring E-Line, E-LAN, E-Tree, and E-Access solutions for supporting crucial Carrier Ethernet use cases.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image7.png" style="width:7.58761in;height:3.88646in" alt="A diagram of a network Description automatically generated" />
+<img src="images/design-guide/dg-word-7.png" style="width:7.58761in;height:3.88646in" alt="A diagram of a network Description automatically generated" />
 <figcaption><p>: Metro Ethernet Business Services Solution Architecture</p></figcaption>
 </figure>
 
@@ -452,7 +452,7 @@ The MaaS JVD leverages the established services and infrastructure defined by Me
 As shown in Figure 3, Iometrix probes are connected throughout the JVD topology to enable the execution of MEF-related test cases across all Layer 2 E-Line, E-LAN, E-Tree, and Access E-Line services featured in the solution. Test cases are developed to mirror MEF 3.0 certification requirements.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image8.png" style="width:6.76301in;height:6.79947in" alt="A diagram of a machine Description automatically generated with medium confidence" />
+<img src="images/design-guide/dg-word-8.png" style="width:6.76301in;height:6.79947in" alt="A diagram of a machine Description automatically generated with medium confidence" />
 <figcaption><p>: Metro EBS Solution Architecture with Iometrix Probes</p></figcaption>
 </figure>
 
@@ -517,7 +517,7 @@ The following sections describe how MEF framework is leveraged in the JVD to del
 The Subscriber Ethernet Services Definition 6.2/6.3 technical specification defines the E-Line service type as a point-to-point Ethernet Virtual Connection (EVC) connecting two User-Network Interfaces (UNIs). This service type is characterized by providing dedicated, private, and reliable Ethernet communications between two endpoints.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image9.png" style="width:3.89596in;height:1.05588in" alt="A blue cloud with white text Description automatically generated" />
+<img src="images/design-guide/dg-word-9.png" style="width:3.89596in;height:1.05588in" alt="A blue cloud with white text Description automatically generated" />
 <figcaption><p>: E-LINE Point-to-Point Service Type</p></figcaption>
 </figure>
 
@@ -556,7 +556,7 @@ The protocol suite of point-to-point E-LINE services covered by the JVD includes
 5.  Service Performance Attributes and Parameters
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image10.png" style="width:2.01933in;height:1.45645in" alt="A group of green rectangular signs with white text Description automatically generated" />
+<img src="images/design-guide/dg-word-10.png" style="width:2.01933in;height:1.45645in" alt="A group of green rectangular signs with white text Description automatically generated" />
 <figcaption><p>: E-Line Base Protocol Suite</p></figcaption>
 </figure>
 
@@ -575,7 +575,7 @@ Multiple permutations of service instantiation are delivered:
 Each VPN type can support multiple combinations of MEF service attributes. This flexibility is demonstrated, but the JVD does not attempt to include every possible combination. There are additional valid options for each VPN service type that can be leveraged, depending on the service objectives.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image11.png" style="width:7.5in;height:3.61875in" alt="A diagram of a diagram Description automatically generated" />
+<img src="images/design-guide/dg-word-11.png" style="width:7.5in;height:3.61875in" alt="A diagram of a diagram Description automatically generated" />
 <figcaption><p>: E-LINE Point-to-Point Service Termination</p></figcaption>
 </figure>
 
@@ -2139,7 +2139,7 @@ Multipoint-to-multipoint offers flexible and scalable solutions for enterprises 
 Service multiplexing is an important E-LAN feature capability, allowing multiple Ethernet services to be delivered over a single physical interface (UNI). A UNI can simultaneously support both E-LAN services connecting multiple locations and an E-Line service forming point-to-point connections. The ability to multiplex different services across the same interface is an important goal of supporting a flexible network design.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image12.png" style="width:2.85457in;height:2.20531in" />
+<img src="images/design-guide/dg-word-12.png" style="width:2.85457in;height:2.20531in" />
 <figcaption><p>: E-LAN Multipoint-to-Multipoint Service Type</p></figcaption>
 </figure>
 
@@ -2180,7 +2180,7 @@ The protocol suite of multipoint-to-multipoint E-LAN services covered by the JVD
 5.  Service Performance Attributes and Parameters
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image13.png" style="width:2.32244in;height:0.55868in" alt="A close-up of a sign Description automatically generated" />
+<img src="images/design-guide/dg-word-13.png" style="width:2.32244in;height:0.55868in" alt="A close-up of a sign Description automatically generated" />
 <figcaption><p>: E-LAN Base Protocol Suite</p></figcaption>
 </figure>
 
@@ -2199,7 +2199,7 @@ Multiple permutations of service instantiation are delivered:
 Each VPN type can support multiple combinations of MEF service attributes. This flexibility is demonstrated, but the JVD does not attempt to include every possible combination. There are additional valid options for each VPN service type that can be leveraged, depending on the service objectives.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image14.png" style="width:7.5in;height:3.00278in" alt="A diagram of a computer Description automatically generated" />
+<img src="images/design-guide/dg-word-14.png" style="width:7.5in;height:3.00278in" alt="A diagram of a computer Description automatically generated" />
 <figcaption><p>: E-LAN Multipoint-to-Multipoint Service Termination</p></figcaption>
 </figure>
 
@@ -3581,14 +3581,14 @@ Metro Ethernet Business Services JVD leverages E-Tree to deliver efficient, secu
 The E-Tree service model ensures clear hierarchical communication, suitable for scenarios requiring a single point of control with isolated downstream branches. In the scenario shown below ( Figure 11 ), a single root EVC supports multiple leaf EVCs. Service frames are exchanged between the Root EVC and any Leaf EVCs. Service frames cannot be exchanged between any Leaf-to-Leaf UNI EVCs. The behavior is consistent for all traffic types (Unicast, Multicast, Broadcast).
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image15.png" style="width:2.85242in;height:2.36698in" />
+<img src="images/design-guide/dg-word-15.png" style="width:2.85242in;height:2.36698in" />
 <figcaption><p>: E-TREE Rooted-Multipoint Single Root</p></figcaption>
 </figure>
 
 The second topology is shown below ( Figure 12 ) with multiple Root EVCs. In this scenario, leaf-to-leaf communication is still forbidden to only leaf-to-root or leaf-to-multiple roots. However, root-to-root communications are allowed, providing additional reliability and high availability. The Metro EBS JVD includes dual root nodes in active-active high availability modes.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image16.png" style="width:3.00761in;height:2.51804in" />
+<img src="images/design-guide/dg-word-16.png" style="width:3.00761in;height:2.51804in" />
 <figcaption><p>: E-TREE Rooted-Multipoint Multiple Roots</p></figcaption>
 </figure>
 
@@ -3629,14 +3629,14 @@ The protocol suite of rooted-multipoint E-Tree services covered by the JVD inclu
 5.  Service Performance Attributes and Parameters
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image17.png" style="width:2.26714in;height:0.31447in" alt="A blue rectangle with white text Description automatically generated" />
+<img src="images/design-guide/dg-word-17.png" style="width:2.26714in;height:0.31447in" alt="A blue rectangle with white text Description automatically generated" />
 <figcaption><p>: E-Tree Base Protocol Suite</p></figcaption>
 </figure>
 
 Multiple combinations and service attributes of EVPN-ETREE are supported beyond the scope of what is included in the JVD, with MX304 (MSE1, MSE2) as active-active root nodes and MX204 (MA4, MA5) as leaf nodes.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image18.png" style="width:4.77452in;height:2.12289in" alt="A diagram of a diagram Description automatically generated" />
+<img src="images/design-guide/dg-word-18.png" style="width:4.77452in;height:2.12289in" alt="A diagram of a diagram Description automatically generated" />
 <figcaption><p>: E-TREE Rooted-Multipoint Service Termination</p></figcaption>
 </figure>
 
@@ -3981,7 +3981,7 @@ The Access E-Line service formed by the point-to-point OVC is called O-Line, whi
 Additional connectivity methods are possible to form Access E-LAN multipoint-to-multipoint (O-LAN service) but are not covered in the JVD.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image19.png" style="width:5.81225in;height:2.25655in" />
+<img src="images/design-guide/dg-word-19.png" style="width:5.81225in;height:2.25655in" />
 <figcaption><p>: Access E-Line with ENNI Connectivity</p></figcaption>
 </figure>
 
@@ -4016,7 +4016,7 @@ The protocol suite of point-to-point OVC Access E-Line covered by the JVD includ
 5.  Service Performance Attributes and Parameters
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image20.png" style="width:2.75665in;height:0.6663in" alt="A purple rectangle with white text Description automatically generated" />
+<img src="images/design-guide/dg-word-20.png" style="width:2.75665in;height:0.6663in" alt="A purple rectangle with white text Description automatically generated" />
 <figcaption><p>: Access E-Line Base Protocol Suite</p></figcaption>
 </figure>
 
@@ -4031,7 +4031,7 @@ Multiple combinations and service attributes of Access E-Line are supported beyo
 Two options featured in the JVD to facilitate Access E-Line include leveraging local-switched services: L2CCC with L2Circuit local-switching and EVPN-VPWS local-switching.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image21.png" style="width:7.5in;height:2.71528in" alt="A diagram of a diagram Description automatically generated" />
+<img src="images/design-guide/dg-word-21.png" style="width:7.5in;height:2.71528in" alt="A diagram of a diagram Description automatically generated" />
 <figcaption><p>: Access E-Line</p></figcaption>
 </figure>
 
@@ -4310,7 +4310,7 @@ The solution architecture supports additional features and functionalities defin
 In some cases, optional (conditional mandatory) attributes are covered to preserve the intentionality of the JVD itself, such as UNI resiliency. The test data identifies certification applicability criteria with additional columns to clearly identify areas where the validation tested beyond the scope of MEF 3.0 requirements.
 
 <figure>
-<img src="~/git-tmp/maas-dg-docx/media/media/image8.png" style="width:6.76301in;height:6.79947in" alt="A diagram of a machine Description automatically generated with medium confidence" />
+<img src="images/design-guide/dg-word-8.png" style="width:6.76301in;height:6.79947in" alt="A diagram of a machine Description automatically generated with medium confidence" />
 <figcaption><p>: Metro Topology Under Test</p></figcaption>
 </figure>
 
