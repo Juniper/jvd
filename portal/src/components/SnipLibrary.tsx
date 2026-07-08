@@ -610,7 +610,7 @@ export default function SnipLibrary() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-              Step 2 · Explore
+              Step 2 · Learn
             </div>
             <div className="mt-1 flex items-center gap-2">
               <Layers className="h-5 w-5 text-primary" />

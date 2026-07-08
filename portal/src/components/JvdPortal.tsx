@@ -48,7 +48,7 @@ const LADDER = [
     href: "#catalog",
   },
   {
-    stage: "Explore",
+    stage: "Learn",
     title: "Config Explorer",
     desc: "Drill into the reusable, provenance-tracked config building blocks.",
     href: "#snips",
@@ -271,10 +271,10 @@ export default function JvdPortal() {
           {/* Journey ladder — Discover → Explore → Design → Build */}
           <div id="how" className="mt-24 scroll-mt-24">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Find it. Learn it. Plan it. Build it.
+              Discover. Learn. Design. Build.
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Four stages, one path. Discover the right design, explore how it&apos;s
+              Four stages, one path. Discover the right design, learn how it&apos;s
               built, plan it against your requirements, then generate validated config.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-4">
@@ -343,7 +343,7 @@ export default function JvdPortal() {
               const hasSnips = SNIP_JVD_IDS.has(j.id);
               const steps: StepPill[] = [];
               if (hasSnips)
-                steps.push({ href: `#snips?jvd=${j.id}`, label: "Explore", Icon: Layers });
+                steps.push({ href: `#snips?jvd=${j.id}`, label: "Learn", Icon: Layers });
               if (BYOAI_JVD_IDS.has(j.id))
                 steps.push({ href: `#byoai?jvd=${j.id}`, label: "Design", Icon: Sparkles });
               if (BUILD_JVD_IDS.has(j.id))
