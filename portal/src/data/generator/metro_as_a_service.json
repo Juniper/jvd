@@ -91,6 +91,7 @@
     "LOCAL_VID": { "type": "range", "min": 1, "max": 16777215 },
     "REMOTE_VID": { "type": "range", "min": 1, "max": 16777215 },
     "SITE_ID": { "type": "range", "min": 1, "max": 65534 },
+    "SITE_NAME": { "type": "name" },
     "REMOTE_SITE_ID": { "type": "range", "min": 1, "max": 65534 },
     "VC_ID": { "type": "range", "min": 1, "max": 4294967295 },
     "MTU": { "type": "enum", "values": ["1522", "2000", "9102", "9192", "9500"] },
@@ -372,6 +373,39 @@
                   "interface": {
                     "single-homed": "evo/interfaces/vlan-bridge-bundle",
                     "multihomed": "evo/interfaces/vlan-bridge-esi-bundle"
+                  },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "bgp-vpls",
+              "label": "BGP-VPLS",
+              "description": "BGP-signalled VPLS multipoint bridge (RFC 4761 virtual-switch); each PE has a per-domain site-identifier. EVO only.",
+              "multiSite": true,
+              "siteVars": ["RD", "SITE_ID", "SITE_NAME"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/bgp-vpls"],
+                  "interface": {
+                    "single-homed": "evo/interfaces/vlan-bridge"
+                  },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "single-vlan",
+                        "label": "Single VLAN",
+                        "description": "One customer VLAN joins the VPLS domain (no S-VLAN translation).",
+                        "interface": { "single-homed": "evo/interfaces/vlan-bridge" }
+                      },
+                      {
+                        "id": "vlan-map",
+                        "label": "VLAN map (S-VLAN push/pop)",
+                        "description": "Normalize the customer VLAN to a provider S-VLAN (input push / output pop).",
+                        "interface": { "single-homed": "evo/interfaces/vlan-bridge-vlan-map" }
+                      }
+                    ]
                   },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
