@@ -379,6 +379,34 @@
               }
             }
           ]
+        },
+        {
+          "id": "ep-lan",
+          "label": "EP-LAN (port-based)",
+          "description": "The whole physical port joins the shared broadcast domain (all traffic, all VLANs).",
+          "deployments": [
+            {
+              "id": "evpn-elan-port",
+              "label": "EVPN-ELAN (port-based)",
+              "description": "EVPN multipoint bridge over a full-port UNI (mac-vrf vlan-bundle on EVO, evpn direct-interface on Junos).",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-elan-port-based"],
+                  "interface": { "single-homed": "evo/interfaces/ethernet-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind-l2cp" }
+                },
+                "junos": {
+                  "service": ["junos/services/evpn-elan-port-based"],
+                  "interface": { "single-homed": "junos/interfaces/ethernet-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-aware": "junos/firewall/filter-bridge-color-aware-l2cp" }
+                }
+              }
+            }
+          ]
         }
       ]
     },
