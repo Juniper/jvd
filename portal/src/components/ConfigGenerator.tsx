@@ -139,6 +139,8 @@ const JVDS = [
 const HOMING_LABELS: Record<string, string> = {
   "single-homed": "Single-homed",
   multihomed: "Multihomed (all-active ESI)",
+  root: "Root (multihomed)",
+  leaf: "Leaf (single-homed)",
 };
 const COLOR_LABELS: Record<string, string> = {
   "color-blind": "Color-blind",
@@ -1311,7 +1313,11 @@ export default function ConfigGenerator() {
             <div className="space-y-4">
               {!multiUni && (
                 <div>
-                  <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
+                  <div className="mb-2 text-xs font-medium text-foreground">
+                    {homingOpts.includes("root") || homingOpts.includes("leaf")
+                      ? "AC role"
+                      : "Homing"}
+                  </div>
                   <div className="space-y-2">
                     {homingOpts.map((h) => (
                       <Chip

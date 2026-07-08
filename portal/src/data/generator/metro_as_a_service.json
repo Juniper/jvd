@@ -466,10 +466,39 @@
     {
       "id": "e-tree",
       "label": "E-Tree",
-      "tagline": "Rooted-multipoint",
+      "tagline": "Rooted-Multipoint",
       "description": "Leaf sites talk only to root sites, never to each other (MEF EP-Tree / EVP-Tree).",
-      "available": false,
-      "multiplexing": []
+      "available": true,
+      "multiplexing": [
+        {
+          "id": "evp-tree",
+          "label": "EVP-Tree (VLAN-based)",
+          "description": "Specific customer VLAN(s) form the rooted-multipoint tree; leaves reach only roots, never each other.",
+          "deployments": [
+            {
+              "id": "evpn-etree",
+              "label": "EVPN E-Tree (VLAN-based)",
+              "description": "EVPN rooted-multipoint; each AC is a root or a leaf (evpn-etree + etree-ac-role). MX / Junos.",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "junos": {
+                  "service": ["junos/services/evpn-etree-vlan-based"],
+                  "interface": {
+                    "root": "junos/interfaces/vlan-bridge-esi-etree-root",
+                    "leaf": "junos/interfaces/vlan-bridge-etree-leaf"
+                  },
+                  "interfaceExtras": [],
+                  "filter": {
+                    "color-blind": "junos/firewall/filter-bridge-color-blind",
+                    "color-aware": "junos/firewall/filter-bridge-color-aware"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "e-access",
