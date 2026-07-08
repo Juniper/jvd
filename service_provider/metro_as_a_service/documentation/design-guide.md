@@ -133,6 +133,10 @@ The design and validation reference the following MEF standards:
 | Service Multiplexing (VLAN-based) | EVPL | EVP-LAN | EVP-Tree |
 | Bundling (multiple CE-VLANs per EVC) | supported | supported | supported |
 
+![MEF end-to-end Carrier Ethernet service model with UNI, ENNI, Service OAM, and bandwidth profiles across two operators](images/mef-carrier-ethernet-service.png)
+
+*Figure 1. MEF end-to-end Carrier Ethernet service — UNI/ENNI demarcation, standardized inter-operator interconnect, Service OAM, and bandwidth profiles.*
+
 ### Use Cases
 
 The JVD delivers **19 validated service use cases** spanning E-Line, E-LAN,
@@ -146,6 +150,10 @@ The physical infrastructure is inherited from the Metro EBS JVD (metro access
 multi-ring topology + metro fabric spine-and-leaf) and integrated with the
 **Iometrix Lab in the Sky** Network-as-a-Service test infrastructure (cloud-based
 x86 whitebox virtual test probes).
+
+![Iometrix testing application with User, Cloud, and Network-or-Lab domains and virtual test probes](images/maas-test-application.png)
+
+*Figure 2. Iometrix testing application — Web portal / Test API (User domain), Test Catalog / Test Manager (Cloud domain), and x86 whitebox virtual test probes exercising E-Line, E-LAN, E-Tree, Access E-Line, and IP Access (Network / Lab domain).*
 
 ### Platforms / Devices Under Test
 
@@ -163,8 +171,13 @@ x86 whitebox virtual test probes).
 MEF 3.0-certified primary DUTs: **ACX7024, ACX7100, ACX7509, MX304**. Version
 qualification: Junos OS and Junos OS Evolved **Release 23.2R2**.
 
-_Figure: Metro as a Service reference topology —
-[`../images/Metro-MEF-Topology.png`](../images/Metro-MEF-Topology.png)._
+![Featured-devices topology showing the Metro Fabric and Metro Multi-Ring with device roles and a platform legend](images/maas-featured-devices.png)
+
+*Figure 3. Featured devices — Metro Fabric (access leaf, lean spine, border-leaf MEG) and Metro Multi-Ring (MSE, MDR, MA) with the per-role platform legend.*
+
+![Full Metro as a Service reference architecture spanning two autonomous systems](images/maas-reference-architecture.jpg)
+
+*Figure 4. Reference architecture — dual-AS (AS 63535 / AS 63536) SR-MPLS metro with multi-instance IS-IS, Flex-Algo/color transport (BGP-CT + BGP-LU), all-active ESI multihoming, and the full set of services under test overlaid.*
 
 ---
 
@@ -210,6 +223,10 @@ Test cases fall into four categories, executed across all services:
 - Features outside the MEF 3.0 certification scope for the tested service set.
 
 ### Services Under Test
+
+![Master services-under-test overlay across the metro topology](images/maas-services-under-test.png)
+
+*Figure 5. Services under test overlaid on the reference topology — the full E-Line, E-LAN, E-Tree, Access E-Line, and IP Access portfolio validated end-to-end.*
 
 **Table 3 — Services Under Test (19 services)**
 
@@ -257,6 +274,10 @@ resolution scheme provides failover: **Gold → Bronze → Best Effort**.
 
 Point-to-point services delivered with EVPN-VPWS, EVPN-FXC, BGP-VPLS (as p2p),
 L2Circuit, Floating PW, and L2VPN.
+
+![E-Line services under test overlaid on the topology](images/maas-eline-services.png)
+
+*Figure 6. E-Line services under test — EVPN-VPWS (single-homed and all-active MH), EVPN-FXC (VLAN-aware / VLAN-unaware), L2VPN, L2Circuit hot-standby, and anycast floating pseudowire.*
 
 **EVPN-VPWS (EVPL)** — MEG1/MEG2 example:
 
@@ -408,6 +429,10 @@ interfaces {
 
 Multipoint services delivered with EVPN-ELAN and BGP-VPLS.
 
+![E-LAN services under test overlaid on the topology](images/maas-elan-services.png)
+
+*Figure 7. E-LAN services under test — EVPN-ELAN (VLAN-based, VLAN-bundle, EP-LAN), EVPN Type-5, and BGP-VPLS.*
+
 **EVPN-ELAN VLAN-based** — AN1 (edge, `vlan-id none`) and MEG (MAC-VRF,
 VLAN-based):
 
@@ -466,6 +491,10 @@ Rooted-multipoint delivered with EVPN-ETREE. Root sites reach any leaf;
 leaf-to-leaf is forbidden; root-to-root is permitted for redundancy. Roots may be
 dual (active-active multihoming) for redundancy.
 
+![Multihomed EVPN-ETREE topology with dual root and multiple leaves](images/maas-etree-service.png)
+
+*Figure 8. Multihomed EVPN-ETREE — dual root (MSE1/MSE2, all-active ESI toward the SP core) and leaf attachment circuits on MA3/MA4/MA5 toward UNI-C3/UNI-C4.*
+
 **Root** — MSE1 / MSE2, `etree-ac-role root`:
 
 ```junos
@@ -512,6 +541,10 @@ UNI endpoint(s) via Operator Virtual Connections (OVCs). Delivered with
 local-switched services (EVPN-VPWS local-switching and L2Circuit local-switching /
 L2CCC). At the transit point (MA5, MX204), an S-TAG is mapped to the OVC endpoint
 toward MA3 (ACX7100-48L); C-TAGs and CoS markings are preserved.
+
+![Access E-Line OVC with S-TAG push and pop across INNI and ENNI](images/maas-access-eline-ovc.png)
+
+*Figure 9. Access E-Line OVC — customer C-TAGs (EVCs v1000–v1009) carried under a single S-TAG (v4000) between INNI (MA5) and ENNI (MA3), with push/pop operations toward the UNI and the cloud-provider NNI.*
 
 **MA3 — VLAN range with S-TAG push:**
 

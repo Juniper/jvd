@@ -1,21 +1,20 @@
 # Documentation images
 
-Figures referenced by the Metro as a Service documentation. Drop the exported
-PNG/SVG figures here and update the links in the markdown to point at
-`images/<file>`.
+Figures used by the Metro as a Service documentation, extracted from the
+published JVD PDFs (design guide, test report brief, solution overview) and
+referenced from the markdown as `images/<file>`.
 
-Until a dedicated export is added, the docs reference the existing JVD topology
-diagram at [`../../images/Metro-MEF-Topology.png`](../../images/Metro-MEF-Topology.png).
-
-## Figures to add
-
-| Suggested filename | Source | Used by |
+| File | Figure | Used by |
 | --- | --- | --- |
-| `maas-reference-topology.png` | Design Guide — reference topology | design-guide.md, solution-overview.md |
-| `sr-mpls-flex-algo-transport.png` | Design Guide — transport classes (Gold/Bronze/Best Effort) | design-guide.md |
-| `metro-edge-gateway.png` | Design Guide — MEG border-leaf placement | design-guide.md |
-| `mef-service-types.png` | Design Guide — E-Line/E-LAN/E-Tree/E-Access EVC topologies | design-guide.md |
+| `maas-reference-architecture.jpg` | Full reference architecture — dual-AS SR-MPLS metro (fabric + multi-ring), multi-instance IS-IS, Flex-Algo/color transport, all services under test | design-guide.md, solution-overview.md, test-report-brief.md |
+| `maas-featured-devices.png` | Featured devices — Metro Fabric + Metro Multi-Ring topology with device roles and platform legend | design-guide.md, test-report-brief.md |
+| `maas-services-under-test.png` | Master services-under-test overlay across the topology | design-guide.md |
+| `maas-eline-services.png` | E-Line services under test (EVPN-VPWS, EVPN-FXC, L2VPN, L2Circuit, Floating PW) | design-guide.md |
+| `maas-elan-services.png` | E-LAN services under test (EVPN-ELAN VLAN-based / VLAN-bundle / EP-LAN, EVPN Type-5, BGP-VPLS) | design-guide.md |
+| `maas-etree-service.png` | Multihomed EVPN-ETREE topology (dual root MSE1/MSE2, leaves MA3/MA4/MA5) | design-guide.md |
+| `maas-access-eline-ovc.png` | Access E-Line OVC — S-TAG push/pop across INNI/ENNI (MA5↔MA3) | design-guide.md |
+| `mef-carrier-ethernet-service.png` | MEF end-to-end Carrier Ethernet service model (UNI/ENNI, Service OAM, bandwidth profile) | design-guide.md |
+| `maas-test-application.png` | Iometrix testing application (User / Cloud / Network-or-Lab domains, virtual test probes) | design-guide.md, test-report-brief.md |
 
-> Figures cannot be extracted from the source PDFs automatically; export them from
-> the published JVD and place them here, then swap the markdown links from
-> `../images/Metro-MEF-Topology.png` to the local `images/<file>` equivalents.
+The JVD landing page also carries a topology diagram at
+[`../../images/Metro-MEF-Topology.png`](../../images/Metro-MEF-Topology.png).
