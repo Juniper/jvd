@@ -101,7 +101,8 @@ export default function ByoaiSection() {
               </span>
             </div>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              Plan and design with the AI you already use, grounded in the Juniper
+              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> —
+              plan and design with the AI you already use, grounded in the Juniper
               Validated Designs. Pick a JVD, launch Claude or ChatGPT, and the
               assistant works from that JVD&apos;s validated snip library — and,
               increasingly, its full design documentation — to answer design and
