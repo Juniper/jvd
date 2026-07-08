@@ -271,7 +271,7 @@ export default function JvdPortal() {
           {/* Journey ladder — Discover → Explore → Design → Build */}
           <div id="how" className="mt-24 scroll-mt-24">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Discover. Learn. Design. Build.
+              Find. Learn. Plan. Build.
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Four stages, one path. Discover the right design, learn how it&apos;s
