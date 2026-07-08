@@ -1815,6 +1815,165 @@ $AC_INTF {
 }
 ```
 
+## evo/interfaces/vlan-ccc-1-unit-list-push.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit vlan-id-list + S-VLAN push (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Evo: AN3 (ACX7100-48L)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-id-list range + input-vlan-map push (normalize to one S-VLAN)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-0/0/0
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $SVLAN        e.g. 4090
+ *   $UNIT         e.g. 800
+ *   $VLAN_LIST    e.g. 800-809
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id-list $VLAN_LIST;
+        input-vlan-map {
+            push;
+            vlan-id $SVLAN;
+        }
+        output-vlan-map pop;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-1-unit-list.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit vlan-id-list (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Evo: AN3 (ACX7100-48L)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-id-list bundles a contiguous VLAN range on one UNI
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-0/0/0
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $UNIT         e.g. 800
+ *   $VLAN_LIST    e.g. 800-809
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id-list $VLAN_LIST;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-1-unit-qinq.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit QinQ (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Evo: AN3 (ACX7100-48L)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-tags outer/inner (S-VLAN + C-VLAN double tag) — one UNI per C-VLAN
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-0/0/0
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $SVLAN        e.g. 4090
+ *   $UNIT         e.g. 800
+ *   $VLAN         e.g. 800
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-tags outer $SVLAN inner $VLAN;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-1-unit.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Evo: AN3 (ACX7100-48L)
+ *
+ * Highlights:
+ *   - encapsulation flexible-ethernet-services
+ *   - One bundled VLAN UNI of a VLAN-unaware EVPN-FXC (repeat per UNI)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-ccc-color-blind.conf
+ *   - evo/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-0/0/13
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $UNIT         e.g. 4007
+ *   $VLAN         e.g. 4007
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id $VLAN;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
 ## evo/interfaces/vlan-ccc-2-units.conf
 
 ```
@@ -1835,11 +1994,12 @@ $AC_INTF {
  *   - evo/services/evpn-fxc-vlan-unaware.conf
  *
  * Variables:
- *   $AC_INTF  e.g. et-0/0/13
- *   $UNIT_1   e.g. 4007
- *   $UNIT_2   e.g. 4008
- *   $VLAN_1   e.g. 4007
- *   $VLAN_2   e.g. 4008
+ *   $AC_INTF      e.g. et-0/0/13
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $UNIT_1       e.g. 4007
+ *   $UNIT_2       e.g. 4008
+ *   $VLAN_1       e.g. 4007
+ *   $VLAN_2       e.g. 4008
  */
 $AC_INTF {
     flexible-vlan-tagging;
@@ -1849,7 +2009,7 @@ $AC_INTF {
         vlan-id $VLAN_1;
         family ccc {
             filter {
-                input f_vlan_based_fam_bridge;
+                input $FILTER_NAME;
             }
         }
     }
@@ -1858,7 +2018,47 @@ $AC_INTF {
         vlan-id $VLAN_2;
         family ccc {
             filter {
-                input f_vlan_based_fam_bridge;
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-esi-1-unit.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc esi 1 unit (MEF E-Line / EVPL) — EVPN-FXC member (aware, no vlan-map)
+ *
+ * Seen on:
+ *   Evo: MEG1 (ACX7100-32C), MEG2 (ACX7509), MA1.1 (ACX7024), MA1.2 (ACX7024)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - ESI multihoming (all-active); customer VLAN matched end-to-end (no S-VLAN map)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/evpn-fxc-vlan-aware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. ae67
+ *   $ESI_ID       e.g. 00:10:44:11:50:12:02:00:00:00
+ *   $FILTER_NAME  e.g. f_vlan-based_fam_ccc
+ *   $UNIT         e.g. 4002
+ *   $VLAN         e.g. 4002
+ */
+$AC_INTF {
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id $VLAN;
+        esi {
+            $ESI_ID;
+            all-active;
+        }
+        family ccc {
+            filter {
+                input $FILTER_NAME;
             }
         }
     }
@@ -1904,6 +2104,38 @@ $AC_INTF {
                 input f_vlan-based_fam_ccc;
             }
         }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-list.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc list (MEF E-Line / PWHT access)
+ *
+ * Seen on:
+ *   Evo: MA1.2 (ACX7024)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-id-list — one attachment-circuit unit carries a VLAN range
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/l2circuit-floating-pw.conf
+ *
+ * Variables:
+ *   $AC_INTF          e.g. et-0/0/14
+ *   $UNIT             e.g. 300
+ *   $VLAN_LIST_START  e.g. 300
+ *   $VLAN_LIST_END    e.g. 309
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id-list $VLAN_LIST_START-$VLAN_LIST_END;
     }
 }
 ```
@@ -2037,6 +2269,57 @@ $AC_INTF {
         family ccc {
             filter {
                 input f_vlan-based_fam_ccc;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/vlan-ccc-vlan-map-esi-1-unit.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc vlan map esi 1 unit (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Evo: MEG1 (ACX7100-32C), MEG2 (ACX7509), MA1.1 (ACX7024), MA1.2 (ACX7024)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - ESI multihoming (all-active)
+ *   - One bundled VLAN UNI of a VLAN-aware EVPN-FXC (repeat per UNI)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-ccc-color-blind.conf
+ *   - evo/services/evpn-fxc-vlan-aware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. ae67
+ *   $ESI_ID       e.g. 00:10:44:11:50:12:02:00:00:00
+ *   $FILTER_NAME  e.g. f_vlan-based_fam_ccc
+ *   $INPUT_VID    e.g. 3400
+ *   $UNIT         e.g. 4002
+ *   $VLAN         e.g. 4002
+ */
+$AC_INTF {
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id $VLAN;
+        input-vlan-map {
+            push;
+            vlan-id $INPUT_VID;
+        }
+        output-vlan-map pop;
+        esi {
+            $ESI_ID;
+            all-active;
+        }
+        family ccc {
+            filter {
+                input $FILTER_NAME;
             }
         }
     }
@@ -2343,6 +2626,30 @@ $AC_INTF {
 }
 ```
 
+## evo/policy/communities-tc-color.conf
+
+```
+/*
+ * Topic:   Policy: transport-class color communities (gold / bronze)
+ *
+ * Seen on:
+ *   Evo: MA1.2 (ACX7024)
+ *
+ * Highlights:
+ *   - Defines the BGP-CT color-mapping communities referenced by a colored
+ *     l2circuit / VRF-export (color:0:4000 gold, color:0:6000 bronze)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/services/l2circuit-floating-pw.conf
+ *
+ * Variables: none — JVD-wide constants.
+ */
+policy-options {
+    community CM-TC-MAP2BRONZE members color:0:6000;
+    community CM-TC-MAP2GOLD members color:0:4000;
+}
+```
+
 ## evo/policy/policy-l3vpn-import-export.conf
 
 ```
@@ -2402,7 +2709,7 @@ policy-options {
  *
  * Highlights:
  *   - Community-driven RT policy
- *   - Color-mapping community is OPTIONAL — VPN works with or without it
+ *   - Defines + adds the bronze color-mapping community (color:0:6000)
  *
  * Pair with (same-device dependencies):
  *   (none derived)
@@ -2429,6 +2736,7 @@ policy-options {
         }
     }
     community $VPN_RT_COMM members target:$COMM_RT;
+    community CM-TC-MAP2BRONZE members color:0:6000;
 }
 ```
 
@@ -2443,7 +2751,7 @@ policy-options {
  *
  * Highlights:
  *   - Community-driven RT policy
- *   - Color-mapping community is OPTIONAL — VPN works with or without it
+ *   - Defines + adds the gold color-mapping community (color:0:4000)
  *
  * Pair with (same-device dependencies):
  *   (none derived)
@@ -2470,6 +2778,7 @@ policy-options {
         }
     }
     community $VPN_RT_COMM members target:$COMM_RT;
+    community CM-TC-MAP2GOLD members color:0:4000;
 }
 ```
 
@@ -2563,6 +2872,7 @@ routing-instances {
  *
  * Variables:
  *   $AC_INTF           e.g. et-0/0/13
+ *   $BD_NAME           e.g. vlan4012
  *   $INSTANCE_NAME     e.g. vpls_group_103_4012
  *   $LABEL_BLOCK_SIZE  e.g. 8
  *   $RD                e.g. 63535:1894012
@@ -2590,7 +2900,7 @@ routing-instances {
         vrf-export $INSTANCE_NAME;
         vrf-target target:$VRF_TARGET;
         vlans {
-            vlan4012 {
+            $BD_NAME {
                 interface $AC_INTF.$UNIT;
             }
         }
@@ -2714,30 +3024,24 @@ routing-instances {
  *   Evo: AN3 (ACX7100-48L), MEG1 (ACX7100-32C), MEG1 (ACX7509), MA1.1 (ACX7024), MA1.2 (ACX7024)
  *
  * Highlights:
- *   - instance-type mac-vrf
- *   - vlan-id none + no-normalization (port-based bridging)
- *   - MPLS encapsulation (SR-MPLS or LDP underlay)
- *   - no-control-word (matches remote PE)
- *   - RT-driven import/export
+ *   - instance-type mac-vrf, service-type vlan-bundle (whole-port UNI)
+ *   - MPLS encapsulation, no-control-word (matches remote PE)
+ *   - EVPN-ELAN multipoint (BGP auto-discovery; each PE self-contained)
  *
  * Pair with (same-device dependencies):
  *   - evo/cos/classifiers.conf
  *   - evo/cos/cos-binding-ieee8021p.conf
  *   - evo/cos/rewrite-rules.conf
- *   - evo/firewall/filter-eswitch-color-blind.conf
- *   - evo/interfaces/vlan-bridge-esi.conf
- *
- * JVD service mapping:
- *   evpn_group_90_4011 (elan_evp-lan_evpn-elan_vlan-based.conf):
- *     A-A Multihoming: AN1 (MX204), AN2 (ACX5448)
- *     PEs (Evo): AN3 (ACX7100-48L), MA1.1 (ACX7024), MA1.2 (ACX7024), MEG1 (ACX7100-32C), MEG1 (ACX7509)
+ *   - evo/firewall/filter-eswitch-color-blind-l2cp.conf
+ *   - evo/interfaces/ethernet-bridge.conf
  *
  * Variables:
- *   $AC_INTF        e.g. ae11
- *   $INSTANCE_NAME  e.g. evpn_group_90_4011
- *   $RD             e.g. 10.0.0.2:64011
- *   $UNIT           e.g. 4011
- *   $VRF_TARGET     e.g. 63535:64011
+ *   $AC_INTF        e.g. et-0/0/13
+ *   $BD_NAME        e.g. v-2
+ *   $INSTANCE_NAME  e.g. MEF_EVPN_ELAN_PORT_BASED
+ *   $RD             e.g. 10.0.0.2:4014
+ *   $UNIT           e.g. 0
+ *   $VRF_TARGET     e.g. 63535:4014
  */
 routing-instances {
     $INSTANCE_NAME {
@@ -2748,12 +3052,11 @@ routing-instances {
                 no-control-word;
             }
         }
-        service-type vlan-based;
+        service-type vlan-bundle;
         route-distinguisher $RD;
         vrf-target target:$VRF_TARGET;
         vlans {
-            BD_evpn_group_90_4011 {
-                vlan-id none;
+            $BD_NAME {
                 interface $AC_INTF.$UNIT;
             }
         }
@@ -2936,6 +3239,57 @@ routing-instances {
 }
 ```
 
+## evo/services/evpn-elan-vlan-based.conf
+
+```
+/*
+ * Topic:   Service instance: evpn elan vlan based (MEF E-LAN / EVP-LAN)
+ *
+ * Seen on:
+ *   Evo: AN2 (ACX5448), AN3 (ACX7100-48L), MEG1 (ACX7100-32C), MEG2 (ACX7509)
+ *
+ * Highlights:
+ *   - instance-type mac-vrf, service-type vlan-based (one C-VLAN per bridge domain)
+ *   - EVPN-ELAN multipoint (BGP auto-discovery; each PE self-contained)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-eswitch-color-blind.conf
+ *   - evo/interfaces/vlan-bridge.conf
+ *   - evo/interfaces/vlan-bridge-esi.conf
+ *
+ * Variables:
+ *   $AC_INTF        e.g. ae11
+ *   $BD_NAME        e.g. BD_evpn_group_90_4011
+ *   $INSTANCE_NAME  e.g. evpn_group_90_4011
+ *   $RD             e.g. 10.0.0.1:64011
+ *   $UNIT           e.g. 4011
+ *   $VRF_TARGET     e.g. 63535:64011
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation mpls;
+                no-control-word;
+            }
+        }
+        service-type vlan-based;
+        route-distinguisher $RD;
+        vrf-target target:$VRF_TARGET;
+        vlans {
+            $BD_NAME {
+                vlan-id none;
+                interface $AC_INTF.$UNIT;
+            }
+        }
+    }
+}
+```
+
 ## evo/services/evpn-elan-vlan-bundle.conf
 
 ```
@@ -2965,6 +3319,7 @@ routing-instances {
  *
  * Variables:
  *   $AC_INTF        e.g. et-0/0/13
+ *   $BD_NAME        e.g. BD_evpn_group_80_4013
  *   $INSTANCE_NAME  e.g. evpn_group_80_4013
  *   $RD             e.g. 10.0.0.2:4013
  *   $UNIT           e.g. 4013
@@ -2983,10 +3338,62 @@ routing-instances {
         vrf-export $INSTANCE_NAME;
         vrf-target target:$VRF_TARGET;
         vlans {
-            BD_evpn_group_80_4013 {
+            $BD_NAME {
                 interface $AC_INTF.$UNIT;
             }
         }
+    }
+}
+```
+
+## evo/services/evpn-fxc-vlan-aware-1.conf
+
+```
+/*
+ * Topic:   Service instance: evpn fxc vlan aware 1 (MEF E-Line / EVPL)
+ *
+ * Seen on:
+ *   Evo: MEG1 (ACX7100-32C), MEG2 (ACX7509), MA1.1 (ACX7024), MA1.2 (ACX7024)
+ *
+ * Highlights:
+ *   - instance-type evpn-vpws
+ *   - flexible-cross-connect-vlan-aware attachment circuit (per-UNI service-id)
+ *   - RT-driven import/export
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-ccc-color-blind.conf
+ *   - evo/interfaces/vlan-ccc-vlan-map-esi-1-unit.conf
+ *
+ * Variables:
+ *   $AC_INTF        e.g. ae67
+ *   $INSTANCE_NAME  e.g. evpn_vpws_fxc_aware
+ *   $LOCAL_VID      e.g. 1
+ *   $RD             e.g. 10.0.0.6:5501
+ *   $REMOTE_VID     e.g. 2
+ *   $UNIT           e.g. 4001
+ *   $VRF_TARGET     e.g. 63536:55100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF.$UNIT {
+                    vpws-service-id {
+                        local $LOCAL_VID;
+                        remote $REMOTE_VID;
+                    }
+                }
+                flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF.$UNIT;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$VRF_TARGET;
     }
 }
 ```
@@ -3049,6 +3456,58 @@ routing-instances {
         }
         interface $AC_INTF.$UNIT_1;
         interface $AC_INTF.$UNIT_2;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$VRF_TARGET;
+    }
+}
+```
+
+## evo/services/evpn-fxc-vlan-unaware-1.conf
+
+```
+/*
+ * Topic:   Service instance: evpn fxc vlan unaware 1 (MEF E-Line / EVPL)
+ *
+ * Seen on:
+ *   Evo: AN3 (ACX7100-48L)
+ *
+ * Highlights:
+ *   - instance-type evpn-vpws
+ *   - flexible-cross-connect-vlan-unaware group (one member per bundled UNI)
+ *   - RT-driven import/export
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-ccc-color-blind.conf
+ *   - evo/interfaces/vlan-ccc-1-unit.conf
+ *
+ * Variables:
+ *   $AC_INTF        e.g. et-0/0/13
+ *   $INSTANCE_NAME  e.g. evpn_group_4007
+ *   $LOCAL_VID      e.g. 1
+ *   $RD             e.g. 10.0.0.2:40001
+ *   $REMOTE_VID     e.g. 2
+ *   $UNIT           e.g. 4007
+ *   $VRF_TARGET     e.g. 63535:40001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT;
+                    service-id {
+                        local $LOCAL_VID;
+                        remote $REMOTE_VID;
+                    }
+                }
+            }
+        }
         route-distinguisher $RD;
         vrf-export $INSTANCE_NAME;
         vrf-target target:$VRF_TARGET;
@@ -3379,19 +3838,24 @@ routing-instances {
  *     PEs (Junos): MSE1 (MX304), MSE2 (MX304)
  *
  * Variables:
- *   $AC_INTF  e.g. et-0/0/12
- *   $UNIT     e.g. 4004
- *   $VC_ID    e.g. 10120
+ *   $AC_INTF       e.g. et-0/0/12
+ *   $COLOR_COMM    e.g. CM-TC-MAP2GOLD
+ *   $PW_LABEL_IN   e.g. 1000022
+ *   $PW_LABEL_OUT  e.g. 1000022
+ *   $PW_NEIGHBOR   e.g. 1.1.10.10
+ *   $UNIT          e.g. 4004
+ *   $VC_ID         e.g. 10120
  */
 protocols {
     l2circuit {
-        neighbor 1.1.10.10 {
+        neighbor $PW_NEIGHBOR {
             interface $AC_INTF.$UNIT {
                 static {
-                    incoming-label 1000022;
-                    outgoing-label 1000022;
+                    incoming-label $PW_LABEL_IN;
+                    outgoing-label $PW_LABEL_OUT;
                 }
                 virtual-circuit-id $VC_ID;
+                community $COLOR_COMM;
                 encapsulation-type ethernet-vlan;
             }
         }
@@ -5706,25 +6170,26 @@ irb {
  *   - junos/services/l2circuit-floating-pw.conf
  *
  * Variables:
- *   $ESI_ID  e.g. 00:11:11:11:44:11:11:30:02:0a
- *   $UNIT_1  e.g. 0
- *   $UNIT_2  e.g. 4004
- *   $VLAN    e.g. 4004
+ *   $PS_ANCHOR     e.g. lt-0/0/0
+ *   $PS_SERVICE    e.g. 4004
+ *   $PS_TRANSPORT  e.g. ps22
+ *   $VESI_ID       e.g. 00:11:11:11:44:11:11:30:02:0a
+ *   $VLAN          e.g. 4004
  */
-ps22 {
+$PS_TRANSPORT {
     anchor-point {
-        lt-0/0/0;
+        $PS_ANCHOR;
     }
     vlan-tagging;
     encapsulation flexible-ethernet-services;
-    unit $UNIT_1 {
+    unit 0 {
         encapsulation ethernet-ccc;
     }
-    unit $UNIT_2 {
+    unit $PS_SERVICE {
         encapsulation vlan-bridge;
         vlan-id $VLAN;
         esi {
-            $ESI_ID;
+            $VESI_ID;
             all-active;
         }
     }
@@ -5939,6 +6404,45 @@ $AC_INTF {
 }
 ```
 
+## junos/interfaces/vlan-bridge-etree-root.conf
+
+```
+/*
+ * Topic:   Interface: vlan bridge etree root (MEF E-Tree / EVP-Tree)
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304), MSE2 (MX304)   [single-homed variant of the MH root]
+ *
+ * Highlights:
+ *   - encapsulation vlan-bridge
+ *   - etree-ac-role root (single-homed — no ESI)
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/cos/classifiers.conf
+ *   - junos/cos/cos-binding-ieee8021p.conf
+ *   - junos/cos/rewrite-rules.conf
+ *   - junos/firewall/filter-bridge-color-blind.conf
+ *   - junos/services/evpn-etree-vlan-based.conf
+ *
+ * Variables:
+ *   $AC_INTF  e.g. ae10
+ *   $UNIT     e.g. 4080
+ *   $VLAN     e.g. 4080
+ */
+$AC_INTF {
+    unit $UNIT {
+        encapsulation vlan-bridge;
+        vlan-id $VLAN;
+        family bridge {
+            filter {
+                input f_vlan_based_fam_bridge;
+            }
+        }
+        etree-ac-role root;
+    }
+}
+```
+
 ## junos/interfaces/vlan-bridge-qinq-stacked-v2.conf
 
 ```
@@ -6057,6 +6561,166 @@ $AC_INTF {
         family bridge {
             filter {
                 input f_vlan_based_fam_bridge_1;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/vlan-ccc-1-unit-list-push.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit vlan-id-list + S-VLAN push (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-id-list range + input-vlan-map push (normalize to one S-VLAN)
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-1/0/3
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $SVLAN        e.g. 4090
+ *   $UNIT         e.g. 800
+ *   $VLAN_LIST    e.g. 800-809
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id-list $VLAN_LIST;
+        input-vlan-map {
+            push;
+            vlan-id $SVLAN;
+        }
+        output-vlan-map pop;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/vlan-ccc-1-unit-list.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit vlan-id-list (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-id-list bundles a contiguous VLAN range on one UNI
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-1/0/3
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $UNIT         e.g. 800
+ *   $VLAN_LIST    e.g. 800-809
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id-list $VLAN_LIST;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/vlan-ccc-1-unit-qinq.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit QinQ (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304)
+ *
+ * Highlights:
+ *   - encapsulation vlan-ccc
+ *   - vlan-tags outer/inner (S-VLAN + C-VLAN double tag) — one UNI per C-VLAN
+ *   - remote-side break-out of a peer's vlan-id-list range
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-1/0/3
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $SVLAN        e.g. 4090
+ *   $UNIT         e.g. 800
+ *   $VLAN         e.g. 800
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-tags outer $SVLAN inner $VLAN;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/vlan-ccc-1-unit.conf
+
+```
+/*
+ * Topic:   Interface: vlan ccc 1 unit (MEF E-Line / EVPL) — EVPN-FXC member
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304)
+ *
+ * Highlights:
+ *   - encapsulation flexible-ethernet-services
+ *   - One bundled VLAN UNI of a VLAN-unaware EVPN-FXC (repeat per UNI)
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/cos/classifiers.conf
+ *   - junos/cos/cos-binding-ieee8021p.conf
+ *   - junos/cos/rewrite-rules.conf
+ *   - junos/firewall/filter-ccc-color-blind.conf
+ *   - junos/services/evpn-fxc-vlan-unaware-1.conf
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-1/0/3
+ *   $FILTER_NAME  e.g. f_vlan_based_fam_bridge
+ *   $UNIT         e.g. 4007
+ *   $VLAN         e.g. 4007
+ */
+$AC_INTF {
+    flexible-vlan-tagging;
+    encapsulation flexible-ethernet-services;
+    unit $UNIT {
+        encapsulation vlan-ccc;
+        vlan-id $VLAN;
+        family ccc {
+            filter {
+                input $FILTER_NAME;
             }
         }
     }
@@ -6302,7 +6966,7 @@ policy-options {
  *
  * Highlights:
  *   - Community-driven RT policy
- *   - Color-mapping community is OPTIONAL — VPN works with or without it
+ *   - Defines + adds the gold color-mapping community (color:0:4000)
  *
  * Pair with (same-device dependencies):
  *   (none derived)
@@ -6329,6 +6993,7 @@ policy-options {
         }
     }
     community $VPN_RT_COMM members target:$COMM_RT;
+    community CM-TC-MAP2GOLD members color:0:4000;
 }
 ```
 
@@ -6399,6 +7064,69 @@ routing-instances {
 }
 ```
 
+## junos/services/bgp-vpls.conf
+
+```
+/*
+ * Topic:   Service instance: bgp vpls (MEF E-LAN / EVP-LAN)
+ *
+ * Seen on:
+ *   Junos: MA5 (MX204)
+ *
+ * Highlights:
+ *   - instance-type virtual-switch (MX bridge-domains + no-normalization)
+ *   - BGP-VPLS multipoint; per-domain site-identifier + label-block-size
+ *   - RT-driven import/export (colored vrf-export policy)
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/cos/classifiers.conf
+ *   - junos/cos/cos-binding-ieee8021p.conf
+ *   - junos/cos/rewrite-rules.conf
+ *   - junos/firewall/filter-bridge-color-blind.conf
+ *   - junos/interfaces/vlan-bridge.conf
+ *
+ * Variables:
+ *   $AC_INTF           e.g. xe-0/1/0
+ *   $BD_NAME           e.g. vlan4012
+ *   $INSTANCE_NAME     e.g. vpls_group_103_4012
+ *   $LABEL_BLOCK_SIZE  e.g. 8
+ *   $RD                e.g. 10.0.0.19:44012
+ *   $SITE_ID           e.g. 4
+ *   $SITE_NAME         e.g. r19
+ *   $SITE_RANGE        e.g. 10
+ *   $UNIT              e.g. 4012
+ *   $VLAN              e.g. 4012
+ *   $VRF_TARGET        e.g. 63535:1094012
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $SITE_NAME {
+                    site-identifier $SITE_ID;
+                }
+                site-range $SITE_RANGE;
+                label-block-size $LABEL_BLOCK_SIZE;
+                no-tunnel-services;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN;
+                interface $AC_INTF.$UNIT;
+                bridge-options {
+                    no-normalization;
+                }
+            }
+        }
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$VRF_TARGET;
+    }
+}
+```
+
 ## junos/services/bridge-domain-lsw.conf
 
 ```
@@ -6442,35 +7170,29 @@ bridge-domains {
 
 ```
 /*
- * Topic:   Service instance: evpn elan port based (MEF E-LAN / EVP-LAN)
+ * Topic:   Service instance: evpn elan port based (MEF E-LAN / EP-LAN)
  *
  * Seen on:
- *   Junos: AN1 (MX204), AN2 (ACX5448)
+ *   Junos: MA5 (MX204)
  *
  * Highlights:
- *   - instance-type evpn
- *   - vlan-id none + no-normalization (port-based bridging)
- *   - MPLS encapsulation (SR-MPLS or LDP underlay)
- *   - RT-driven import/export
+ *   - instance-type evpn, direct whole-port interface (no vlans)
+ *   - MPLS encapsulation, no-control-word (matches remote PE)
+ *   - EVPN-ELAN multipoint (BGP auto-discovery; each PE self-contained)
  *
  * Pair with (same-device dependencies):
  *   - junos/cos/classifiers.conf
  *   - junos/cos/cos-binding-ieee8021p.conf
  *   - junos/cos/rewrite-rules.conf
- *   - junos/firewall/filter-eswitch-color-blind.conf
- *   - junos/interfaces/vlan-bridge-esi.conf
- *
- * JVD service mapping:
- *   evpn_group_90_4011 (elan_evp-lan_evpn-elan_vlan-based.conf):
- *     A-A Multihoming: AN1 (MX204), AN2 (ACX5448)
- *     PEs (Evo): AN3 (ACX7100-48L), MA1.1 (ACX7024), MA1.2 (ACX7024), MEG1 (ACX7100-32C), MEG1 (ACX7509)
+ *   - junos/firewall/filter-bridge-color-aware-l2cp.conf
+ *   - junos/interfaces/ethernet-bridge.conf
  *
  * Variables:
- *   $AC_INTF        e.g. ae11
- *   $INSTANCE_NAME  e.g. evpn_group_90_4011
- *   $RD             e.g. 10.0.0.0:64011
- *   $UNIT           e.g. 4011
- *   $VRF_TARGET     e.g. 63535:64011
+ *   $AC_INTF        e.g. xe-0/1/0
+ *   $INSTANCE_NAME  e.g. MEF_EVPN_ELAN_PORT_BASED
+ *   $RD             e.g. 10.0.0.19:4014
+ *   $UNIT           e.g. 0
+ *   $VRF_TARGET     e.g. 63535:4014
  */
 routing-instances {
     $INSTANCE_NAME {
@@ -6478,10 +7200,9 @@ routing-instances {
         protocols {
             evpn {
                 encapsulation mpls;
+                no-control-word;
             }
         }
-        vlan-id none;
-        no-normalization;
         interface $AC_INTF.$UNIT;
         route-distinguisher $RD;
         vrf-target target:$VRF_TARGET;
@@ -6605,21 +7326,67 @@ routing-instances {
  *
  * Variables:
  *   $AC_INTF        e.g. ae10
- *   $INSTANCE_NAME  e.g. 4004-evpn-floating-pw
+ *   $PS_SERVICE     e.g. 4004
+ *   $PS_TRANSPORT   e.g. ps22
  *   $RD             e.g. 10.0.0.10:40004
  *   $UNIT           e.g. 4004
  *   $VLAN           e.g. 4004
  *   $VRF_TARGET     e.g. 4004:4004
  */
 routing-instances {
-    $INSTANCE_NAME {
+    $VLAN-evpn-floating-pw {
         instance-type evpn;
         protocols {
             evpn;
         }
         vlan-id $VLAN;
         interface $AC_INTF.$UNIT;
-        interface ps22.4004;
+        interface $PS_TRANSPORT.$PS_SERVICE;
+        route-distinguisher $RD;
+        vrf-target target:$VRF_TARGET;
+    }
+}
+```
+
+## junos/services/evpn-elan-vlan-based.conf
+
+```
+/*
+ * Topic:   Service instance: evpn elan vlan based (MEF E-LAN / EVP-LAN)
+ *
+ * Seen on:
+ *   Junos: AN1 (MX204)
+ *
+ * Highlights:
+ *   - instance-type evpn, vlan-id none + no-normalization (single C-VLAN, direct interface)
+ *   - EVPN-ELAN multipoint (BGP auto-discovery; each PE self-contained)
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/cos/classifiers.conf
+ *   - junos/cos/cos-binding-ieee8021p.conf
+ *   - junos/cos/rewrite-rules.conf
+ *   - junos/firewall/filter-bridge-color-blind.conf
+ *   - junos/interfaces/vlan-bridge.conf
+ *   - junos/interfaces/vlan-bridge-esi.conf
+ *
+ * Variables:
+ *   $AC_INTF        e.g. ae11
+ *   $INSTANCE_NAME  e.g. evpn_group_90_4011
+ *   $RD             e.g. 10.0.0.0:64011
+ *   $UNIT           e.g. 4011
+ *   $VRF_TARGET     e.g. 63535:64011
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn {
+                encapsulation mpls;
+            }
+        }
+        vlan-id none;
+        no-normalization;
+        interface $AC_INTF.$UNIT;
         route-distinguisher $RD;
         vrf-target target:$VRF_TARGET;
     }
@@ -6723,6 +7490,59 @@ routing-instances {
         }
         vlan-id $VLAN;
         interface $AC_INTF.$UNIT;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$VRF_TARGET;
+    }
+}
+```
+
+## junos/services/evpn-fxc-vlan-unaware-1.conf
+
+```
+/*
+ * Topic:   Service instance: evpn fxc vlan unaware 1 (MEF E-Line / EVPL)
+ *
+ * Seen on:
+ *   Junos: MSE1 (MX304)
+ *
+ * Highlights:
+ *   - instance-type evpn-vpws
+ *   - flexible-cross-connect-vlan-unaware group (one member per bundled UNI)
+ *   - service-id mirrors the peer PE (local/remote swap)
+ *   - RT-driven import/export
+ *
+ * Pair with (same-device dependencies):
+ *   - junos/cos/classifiers.conf
+ *   - junos/cos/cos-binding-ieee8021p.conf
+ *   - junos/cos/rewrite-rules.conf
+ *   - junos/firewall/filter-ccc-color-blind.conf
+ *   - junos/interfaces/vlan-ccc-1-unit.conf
+ *
+ * Variables:
+ *   $AC_INTF        e.g. et-1/0/3
+ *   $INSTANCE_NAME  e.g. evpn_group_4007
+ *   $LOCAL_VID      e.g. 2
+ *   $RD             e.g. 10.0.0.10:40001
+ *   $REMOTE_VID     e.g. 1
+ *   $UNIT           e.g. 4007
+ *   $VRF_TARGET     e.g. 63535:40001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT;
+                    service-id {
+                        local $LOCAL_VID;
+                        remote $REMOTE_VID;
+                    }
+                }
+            }
+        }
         route-distinguisher $RD;
         vrf-export $INSTANCE_NAME;
         vrf-target target:$VRF_TARGET;
@@ -6866,15 +7686,19 @@ routing-instances {
  *     PEs (Junos): MSE1 (MX304), MSE2 (MX304)
  *
  * Variables:
- *   $VC_ID  e.g. 10120
+ *   $PS_TRANSPORT  e.g. ps22
+ *   $PW_LABEL_IN   e.g. 1000022
+ *   $PW_LABEL_OUT  e.g. 1000022
+ *   $PW_NEIGHBOR   e.g. 10.0.0.18
+ *   $VC_ID         e.g. 10120
  */
 protocols {
     l2circuit {
-        neighbor 10.0.0.18 {
-            interface ps22.0 {
+        neighbor $PW_NEIGHBOR {
+            interface $PS_TRANSPORT.0 {
                 static {
-                    incoming-label 1000022;
-                    outgoing-label 1000022;
+                    incoming-label $PW_LABEL_IN;
+                    outgoing-label $PW_LABEL_OUT;
                 }
                 virtual-circuit-id $VC_ID;
                 encapsulation-type ethernet-vlan;
