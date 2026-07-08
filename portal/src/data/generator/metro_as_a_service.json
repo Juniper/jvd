@@ -31,11 +31,14 @@
     "_note": "Classifies each $VAR for two-endpoint (PE-A / PE-B) rendering. 'shared' = identical on both PEs (must match). VLAN is shared because the MaaS JVD's captured configs use matching UNI VLANs — differing VLANs would require input/output vlan-map normalization snips the JVD does not include. 'mirrored' pairs = each PE's local value; the partner is auto-filled from the other PE's local value. 'distinctPerEndpoint' = per-PE values that MUST differ for L2 services (RD) — default bumped + warned if identical. NOTE: for future L3 services (L3VPN/EVPN Type-5), same RD is valid, so this rule must be scoped per service type. Everything not listed = per-endpoint, defaults the same on both PEs.",
     "shared": [
       "INSTANCE_NAME",
+      "BD_NAME",
       "VRF_TARGET",
       "VRF_TARGET_1",
       "VRF_TARGET_2",
       "VC_ID",
       "VLAN",
+      "VLAN_LIST_START",
+      "VLAN_LIST_END",
       "INPUT_VID",
       "LABEL_BLOCK_SIZE",
       "SITE_RANGE",
@@ -63,6 +66,7 @@
   "varSpecs": {
     "_note": "Per-variable field type + validated domain. type: enum (dropdown of JVD-valid choices) | range (bounded integer) | interface (uses interfaceSpec) | rd | rt | esi | name | text. Anything not listed is a free text field. Out-of-domain values render but show a soft 'not JVD-validated' warning — never blocked.",
     "INSTANCE_NAME": { "type": "name" },
+    "BD_NAME": { "type": "name" },
     "AC_INTF": { "type": "interface" },
     "RD": { "type": "rd" },
     "VRF_TARGET": { "type": "rt" },
@@ -74,6 +78,8 @@
     "ESI_ID_1": { "type": "esi" },
     "ESI_ID_2": { "type": "esi" },
     "VLAN": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_LIST_START": { "type": "range", "min": 1, "max": 4094 },
+    "VLAN_LIST_END": { "type": "range", "min": 1, "max": 4094 },
     "VLAN_1": { "type": "range", "min": 1, "max": 4094 },
     "VLAN_2": { "type": "range", "min": 1, "max": 4094 },
     "INPUT_VID": { "type": "range", "min": 1, "max": 4094 },
@@ -85,6 +91,7 @@
     "LOCAL_VID": { "type": "range", "min": 1, "max": 16777215 },
     "REMOTE_VID": { "type": "range", "min": 1, "max": 16777215 },
     "SITE_ID": { "type": "range", "min": 1, "max": 65534 },
+    "SITE_NAME": { "type": "name" },
     "REMOTE_SITE_ID": { "type": "range", "min": 1, "max": 65534 },
     "VC_ID": { "type": "range", "min": 1, "max": 4294967295 },
     "MTU": { "type": "enum", "values": ["1522", "2000", "9102", "9192", "9500"] },
@@ -100,8 +107,8 @@
     {
       "id": "e-line",
       "label": "E-Line",
-      "tagline": "Point-to-point",
-      "description": "Connects exactly two sites, like a private virtual wire (MEF EPL / EVPL).",
+      "tagline": "Point-to-Point",
+      "description": "Private line service connecting exactly two sites (MEF EPL / EVPL).",
       "available": true,
       "multiplexing": [
         {
@@ -324,10 +331,137 @@
     {
       "id": "e-lan",
       "label": "E-LAN",
-      "tagline": "Multipoint",
-      "description": "Connects three or more sites into one shared broadcast domain (MEF EP-LAN / EVP-LAN).",
-      "available": false,
-      "multiplexing": []
+      "tagline": "Multipoint-to-Multipoint",
+      "description": "Private LAN service connecting three or more sites (MEF EP-LAN / EVP-LAN).",
+      "available": true,
+      "multiplexing": [
+        {
+          "id": "evp-lan",
+          "label": "EVP-LAN (VLAN-based)",
+          "description": "Specific customer VLAN(s) on the port join the shared broadcast domain; other VLANs can be other services.",
+          "deployments": [
+            {
+              "id": "evpn-elan-vlan",
+              "label": "EVPN-ELAN (VLAN-based)",
+              "description": "EVPN multipoint bridge; one C-VLAN per bridge-domain (mac-vrf vlan-based). Each PE self-discovers peers.",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-elan-vlan-based"],
+                  "interface": { "multihomed": "evo/interfaces/vlan-bridge-esi" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/evpn-elan-vlan-based"],
+                  "interface": { "multihomed": "junos/interfaces/vlan-bridge-esi" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "junos/firewall/filter-bridge-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "evpn-elan-bundle",
+              "label": "EVPN-ELAN (VLAN-bundle)",
+              "description": "EVPN multipoint bridge; a contiguous VLAN range shares one bridge-domain (mac-vrf vlan-bundle). EVO only.",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-elan-vlan-bundle"],
+                  "interface": {
+                    "single-homed": "evo/interfaces/vlan-bridge-bundle",
+                    "multihomed": "evo/interfaces/vlan-bridge-esi-bundle"
+                  },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                }
+              }
+            },
+            {
+              "id": "bgp-vpls",
+              "label": "BGP-VPLS",
+              "description": "BGP-signalled VPLS multipoint bridge (RFC 4761 virtual-switch); each PE has a per-domain site-identifier. EVO only.",
+              "multiSite": true,
+              "siteVars": ["RD", "SITE_ID", "SITE_NAME"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/bgp-vpls"],
+                  "interface": {
+                    "single-homed": "evo/interfaces/vlan-bridge"
+                  },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "single-vlan",
+                        "label": "Single VLAN",
+                        "description": "One customer VLAN joins the VPLS domain (no S-VLAN translation).",
+                        "interface": { "single-homed": "evo/interfaces/vlan-bridge" }
+                      },
+                      {
+                        "id": "vlan-map",
+                        "label": "VLAN map (S-VLAN push/pop)",
+                        "description": "Normalize the customer VLAN to a provider S-VLAN (input push / output pop).",
+                        "interface": { "single-homed": "evo/interfaces/vlan-bridge-vlan-map" }
+                      }
+                    ]
+                  },
+                  "interfaceExtras": ["evo/interfaces/physical-mtu"],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind" }
+                },
+                "junos": {
+                  "service": ["junos/services/bgp-vpls"],
+                  "interface": { "single-homed": "junos/interfaces/vlan-bridge" },
+                  "uni": {
+                    "modes": [
+                      {
+                        "id": "single-vlan",
+                        "label": "Single VLAN",
+                        "description": "One customer VLAN joins the VPLS domain (no S-VLAN translation).",
+                        "interface": { "single-homed": "junos/interfaces/vlan-bridge" }
+                      }
+                    ]
+                  },
+                  "interfaceExtras": [],
+                  "filter": {
+                    "color-blind": "junos/firewall/filter-bridge-color-blind",
+                    "color-aware": "junos/firewall/filter-bridge-color-aware"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ep-lan",
+          "label": "EP-LAN (port-based)",
+          "description": "The whole physical port joins the shared broadcast domain (all traffic, all VLANs).",
+          "deployments": [
+            {
+              "id": "evpn-elan-port",
+              "label": "EVPN-ELAN (port-based)",
+              "description": "EVPN multipoint bridge over a full-port UNI (mac-vrf vlan-bundle on EVO, evpn direct-interface on Junos).",
+              "multiSite": true,
+              "siteVars": ["RD", "ESI_ID"],
+              "os": {
+                "evo": {
+                  "service": ["evo/services/evpn-elan-port-based"],
+                  "interface": { "single-homed": "evo/interfaces/ethernet-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-blind": "evo/firewall/filter-eswitch-color-blind-l2cp" }
+                },
+                "junos": {
+                  "service": ["junos/services/evpn-elan-port-based"],
+                  "interface": { "single-homed": "junos/interfaces/ethernet-bridge" },
+                  "interfaceExtras": [],
+                  "filter": { "color-aware": "junos/firewall/filter-bridge-color-aware-l2cp" }
+                }
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "e-tree",

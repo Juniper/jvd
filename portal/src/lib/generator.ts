@@ -56,6 +56,16 @@ export type GenDeployment = {
   /** Variables that increment per bundled UNI (unit, vlan, and on VLAN-aware
    *  the S-VLAN + ESI). Everything else is constant across the bundle. */
   uniVars?: string[];
+  /** Multi-site deployment (EVPN-ELAN / BGP-VPLS): one shared EVI is replicated
+   *  across N self-contained PE sites (EVPN auto-discovery — no cross-site
+   *  mirror). The wizard shows a "Number of sites" count and emits each site as
+   *  an independent, separately-merged section (they are different devices).
+   *  Only `siteVars` differ per site; the instance name / route-target / VLAN /
+   *  bridge-domain stay constant so every PE joins the same EVI. */
+  multiSite?: boolean;
+  /** Variables that increment per site (route-distinguisher — must be unique
+   *  per PE — plus the local ESI). Everything else is constant across sites. */
+  siteVars?: string[];
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 
@@ -308,6 +318,26 @@ export function uniInstanceValues(
   i: number,
 ): Record<string, string> {
   const bump = new Set(uniVars);
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(values)) {
+    out[k] = bump.has(k) ? bumpInt(v, i) : v;
+  }
+  return out;
+}
+
+/**
+ * Shift a value map to the Nth PE site of a multi-site EVI (EVPN-ELAN /
+ * BGP-VPLS): only `siteVars` (the route-distinguisher — which MUST be unique
+ * per PE — and the local ESI) increment by `i`; the instance name, route-
+ * target, VLAN and bridge-domain stay constant so every site joins the same
+ * EVI. Site 0 = the values the user entered.
+ */
+export function siteInstanceValues(
+  values: Record<string, string>,
+  siteVars: string[],
+  i: number,
+): Record<string, string> {
+  const bump = new Set(siteVars);
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(values)) {
     out[k] = bump.has(k) ? bumpInt(v, i) : v;

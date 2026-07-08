@@ -29,6 +29,7 @@ import {
   classifyVar,
   endpointValues,
   instanceValues,
+  siteInstanceValues,
   fxcUnitSpecs,
   type FxcEntry,
   bumpInt,
@@ -365,6 +366,7 @@ export default function ConfigGenerator() {
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(1);
+  const [siteCount, setSiteCount] = useState(2);
   const [pwCount, setPwCount] = useState(1);
   // EVPN-FXC per-UNI VLAN entry list (+ a stable id for React keys) and the
   // VLAN-aware map toggle (matching vlan-id vs input/output vlan-map).
@@ -379,6 +381,11 @@ export default function ConfigGenerator() {
   // EVPN-FXC = one service bundling a per-UNI VLAN entry list (declared early:
   // the field filters below reference it).
   const multiUni = !!deployment?.multiUni;
+  // Multi-site EVI (EVPN-ELAN / BGP-VPLS): one shared service replicated across
+  // N self-contained PE sites. `count` doubles as the site count.
+  const multiSite = !!deployment?.multiSite;
+  // BGP-VPLS: site-range + label-block-size must scale to the number of sites.
+  const isVpls = !!deployment?.id?.includes("vpls");
 
   // Role-based families (PWHT) render one config per fixed role (Access /
   // Headend) instead of the symmetric PE-A / PE-B model.
@@ -786,6 +793,14 @@ export default function ConfigGenerator() {
     sharedErrors.PW_LABEL_IN = "anycast — in/out must match";
     sharedErrors.PW_LABEL_OUT = "anycast — in/out must match";
   }
+  // BGP-VPLS scaling: both the site-range and the label-block-size must be at
+  // least the number of sites in the domain (sites per instance).
+  if (multiSite && isVpls) {
+    if (shared.SITE_RANGE && Number(shared.SITE_RANGE) < siteCount)
+      sharedErrors.SITE_RANGE = `must be ≥ sites per instance (${siteCount})`;
+    if (shared.LABEL_BLOCK_SIZE && Number(shared.LABEL_BLOCK_SIZE) < siteCount)
+      sharedErrors.LABEL_BLOCK_SIZE = `must be ≥ sites per instance (${siteCount})`;
+  }
 
   const advance = (patch: Partial<Selection>, clears: (keyof Selection)[]) => {
     setSel((prev) => {
@@ -846,6 +861,7 @@ export default function ConfigGenerator() {
     setPerA({});
     setPerB({});
     setCount(1);
+    setSiteCount(2);
     setPwCount(1);
     setFxcEntries([]);
     setStep(0);
@@ -863,6 +879,59 @@ export default function ConfigGenerator() {
 
   const download = () => {
     if (!fullText) return;
+    // Multipoint EVI (EVPN-ELAN / BGP-VPLS): a 2-D fan-out — `count` independent
+    // instances (EVIs / VPLS domains) × `siteCount` self-contained PE sites per
+    // instance. Each site is a DIFFERENT device, merged on its own (never across
+    // sites). Instance-level vars (instance name, VLAN, bridge-domain, RT) bump
+    // per instance; `siteVars` (route-distinguisher — unique per PE — and the
+    // local ESI / VPLS site-identifier) bump per site. Within an instance, site 1
+    // uses Site A (osA); when a second OS is picked, sites 2+ use Site B (osB) so
+    // a mixed EVO/Junos mesh renders.
+    if (multiSite) {
+      const I = Math.max(1, Math.min(count, 64));
+      const S = Math.max(1, Math.min(siteCount, 64));
+      const siteVars = deployment?.siteVars ?? ["RD", "ESI_ID"];
+      const originRD = perA.RD ?? perB.RD ?? "";
+      const sects: string[] = [];
+      for (let i = 0; i < I; i++) {
+        const shI = instanceValues(shared, ROLES, i);
+        const perAI = instanceValues(perA, ROLES, i);
+        const perBI = instanceValues(perB, ROLES, i);
+        for (let s = 0; s < S; s++) {
+          const useB = twoPe && s >= 1;
+          const ids = useB ? idsB : idsA;
+          if (!ids.length) continue;
+          const os = (useB ? sel.osB : sel.osA) as GenOsKey;
+          const base = useB
+            ? endpointValues(names, ROLES, shI, perBI, perAI)
+            : endpointValues(names, ROLES, shI, perAI, perBI);
+          const vals = siteInstanceValues(base, siteVars, s);
+          // Guarantee a globally-unique RD across the whole instance × site grid.
+          if (originRD) vals.RD = bumpInt(originRD, i * S + s);
+          const body = renderConfig(ids, vals, byId, {
+            stripUniFilter: !sel.firewall,
+            stripVrfExport: rtPolicy === "rt-only",
+            derived: CATALOG.derivedVars,
+          }).text;
+          const label =
+            I > 1
+              ? `Instance ${i + 1} \u00b7 Site ${s + 1} \u00b7 ${OS_LABELS[os]}`
+              : `Site ${s + 1} \u00b7 ${OS_LABELS[os]}`;
+          sects.push(`/* ===== ${label} ===== */\n${mergeJunosConfig(body)}`);
+        }
+      }
+      const text = sects.join("\n\n") + "\n";
+      const grid = I > 1 ? `-x${I}x${S}` : `-sites${S}`;
+      const fname = `maas-${sel.familyId}-${sel.deploymentId}${grid}.conf`;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fname;
+      a.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
     // Emit all service instances, merged into one consolidated hierarchy per
     // endpoint. Symmetric families (E-Line): a 1-D batch of `count` services.
     // PWHT: an ASYMMETRIC fan-out — the access side renders once per transport
@@ -965,9 +1034,10 @@ export default function ConfigGenerator() {
 
   const peLabel = (os: GenOsKey | undefined, tag: string) =>
     os ? `${tag} · ${OS_LABELS[os]}` : tag;
-  // Endpoint column / section tags — role names for PWHT, PE-A/PE-B otherwise.
-  const tagA = roleBased ? roles[0]?.label ?? "Access" : "PE-A";
-  const tagB = roleBased ? roles[1]?.label ?? "Headend" : "PE-B";
+  // Endpoint column / section tags — role names for PWHT, per-site labels for
+  // multipoint EVIs, PE-A/PE-B otherwise.
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : multiSite ? "Site A" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : multiSite ? "Site B" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
@@ -1540,6 +1610,57 @@ export default function ConfigGenerator() {
                         ? "Each VLAN is a multihomed AC with input/output vlan-map to its S-VLAN; ESI + vpws-service-id increment per UNI."
                         : "Each VLAN is a multihomed AC matched end-to-end (no vlan-map); ESI + vpws-service-id increment per UNI."}
                   </span>
+                </div>
+              ) : multiSite ? (
+                <div className="space-y-2 rounded-md border border-border bg-background p-3">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      {isVpls ? "VPLS instances" : "Instances (EVIs)"}
+                      <input
+                        type="number"
+                        min={1}
+                        max={64}
+                        value={count}
+                        onChange={(e) =>
+                          setCount(Math.max(1, Math.min(64, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-muted-foreground">×</span>
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      Sites / instance
+                      <input
+                        type="number"
+                        min={1}
+                        max={64}
+                        value={siteCount}
+                        onChange={(e) =>
+                          setSiteCount(Math.max(1, Math.min(64, Number(e.target.value) || 1)))
+                        }
+                        className="h-8 w-16 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                      />
+                    </label>
+                    <span className="text-[11px] font-medium text-primary">
+                      = {count * siteCount} PE config{count * siteCount > 1 ? "s" : ""}
+                    </span>
+                  </div>
+                  <span className="block text-[11px] text-muted-foreground">
+                    The preview shows two representative PEs of instance 1. The
+                    download emits each instance × site as an independent PE
+                    section (unique route-distinguisher per PE
+                    {count > 1
+                      ? "; instance name, VLAN, bridge-domain + route-target increment per instance"
+                      : ""}
+                    ).
+                  </span>
+                  {isVpls && (
+                    <span className="block text-[11px] text-muted-foreground">
+                      For VPLS, <span className="font-mono">site-range</span> and{" "}
+                      <span className="font-mono">label-block-size</span> must be ≥
+                      sites per instance ({siteCount}).
+                    </span>
+                  )}
                 </div>
               ) : (
                 <div className="flex flex-wrap items-center gap-3 rounded-md border border-border bg-background p-3">
