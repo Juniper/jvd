@@ -7773,6 +7773,6 @@ We confidently recommend the solutions provided by this validation for the deliv
 ## Sources
 
 - Published JVD: <https://www.juniper.net/documentation/us/en/software/jvd/jvd-metro-ebs-mef-03-02/index.html>
-- Companion docs: [`solution-overview.md`](solution-overview.md), [`test-report-brief.md`](test-report-brief.md), [`test-reports/e-line.md`](test-reports/e-line.md)
+- Companion docs: [`solution-overview.md`](solution-overview.md), [`test-report-brief.md`](test-report-brief.md), [`test-reports/iometrix-eline-report.md`](test-reports/iometrix-eline-report.md)
 - Configurations: [`../configuration/`](../configuration/)
 - Design-guide figures: [`images/design-guide/`](images/design-guide/)
