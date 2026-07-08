@@ -35,6 +35,11 @@ export type GenOsBlock = {
    *  uses this so single-homed = VLAN-unaware and multihomed = VLAN-aware. */
   serviceByHoming?: Record<string, string[]>;
   interface: Record<string, string>; // homing key -> snip id (relative to jvd)
+  /** E-Tree root AC interface, keyed by homing (single-homed root = 1 root PE,
+   *  multihomed root = an all-active ESI pair of 2 root PEs). */
+  rootInterface?: Record<string, string>;
+  /** E-Tree leaf AC interface (leaves are single-homed; there can be many). */
+  leafInterface?: string;
   interfaceExtras: string[];
   filter: Record<string, string>; // color key -> snip id (relative to jvd)
   uni?: { modes: UniMode[] };
@@ -66,6 +71,11 @@ export type GenDeployment = {
   /** Variables that increment per site (route-distinguisher — must be unique
    *  per PE — plus the local ESI). Everything else is constant across sites. */
   siteVars?: string[];
+  /** E-Tree (rooted-multipoint): one EVI split into root vs leaf ACs. The
+   *  wizard shows a Root PE + a Leaf PE; a "multihomed root" toggle makes the
+   *  root a 2-node all-active ESI pair; a "leaves" count fans out leaf PEs.
+   *  Roots share one ESI; only the route-distinguisher is unique per node. */
+  etree?: boolean;
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 
@@ -601,6 +611,51 @@ export function resolveSnipIds(catalog: GenCatalog, sel: GenSelection): string[]
     rel.push(...(osb.cosSnips ?? catalog.cosSnips[sel.os] ?? []));
   }
   // De-dupe while preserving order, then qualify with the jvd prefix.
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const r of rel) {
+    const qualified = `${catalog.jvd}/${r}`;
+    if (!seen.has(qualified)) {
+      seen.add(qualified);
+      out.push(qualified);
+    }
+  }
+  return out;
+}
+
+/**
+ * Resolve the ordered jvd-qualified snip ids for one E-Tree AC role. The
+ * service snip is shared by roots and leaves (`evpn-etree`); only the interface
+ * differs — a root uses `rootInterface[single-homed|multihomed]` (multihomed =
+ * the 2-node ESI pair), a leaf uses the single `leafInterface`. Order matches
+ * `resolveSnipIds`: service → (colored) route-policy → interface → extras →
+ * (firewall) filter → (cos) cos.
+ */
+export function resolveEtreeSnipIds(
+  catalog: GenCatalog,
+  osb: GenOsBlock,
+  os: GenOsKey,
+  role: "root" | "leaf",
+  opts: { rootMultihomed: boolean; rtPolicy?: string; firewall: boolean; color: string; cos: boolean },
+): string[] {
+  const rel: string[] = [...osb.service];
+  if (opts.rtPolicy && opts.rtPolicy !== "rt-only") {
+    const pol = catalog.routePolicySnips?.[os]?.[opts.rtPolicy];
+    if (pol) rel.push(pol);
+  }
+  const iface =
+    role === "root"
+      ? osb.rootInterface?.[opts.rootMultihomed ? "multihomed" : "single-homed"]
+      : osb.leafInterface;
+  if (iface) rel.push(iface);
+  rel.push(...osb.interfaceExtras);
+  if (opts.firewall) {
+    const filter = osb.filter[opts.color];
+    if (filter) rel.push(filter);
+  }
+  if (opts.cos) {
+    rel.push(...(osb.cosSnips ?? catalog.cosSnips[os] ?? []));
+  }
   const seen = new Set<string>();
   const out: string[] = [];
   for (const r of rel) {

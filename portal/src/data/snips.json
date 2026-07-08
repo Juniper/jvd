@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-08T01:56:40.190Z",
+  "generatedAt": "2026-07-08T03:35:02.758Z",
   "counts": {
-    "total": 533,
-    "junos": 255,
+    "total": 534,
+    "junos": 256,
     "evo": 278,
     "jvds": 9
   },
@@ -123,9 +123,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_as_a_service",
       "counts": {
-        "junos": 57,
+        "junos": 58,
         "evo": 73,
-        "total": 130
+        "total": 131
       }
     },
     {
@@ -27805,6 +27805,83 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    mtu $MTU;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family bridge {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        etree-ac-role leaf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 324,
       "lineCount": 15,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/junos/interfaces/vlan-bridge-etree-root",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge-etree-root",
+      "path": "service_provider/metro_as_a_service/configuration/snips/junos/interfaces/vlan-bridge-etree-root.conf",
+      "topic": "Interface: vlan bridge etree root (MEF E-Tree / EVP-Tree)",
+      "seenOn": {
+        "junos": [
+          "MSE1"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "encapsulation vlan-bridge",
+        "etree-ac-role root (single-homed — no ESI)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/cos/classifiers.conf",
+          "id": "metro_as_a_service/junos/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/junos/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "junos/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/junos/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "junos/firewall/filter-bridge-color-blind.conf",
+          "id": "metro_as_a_service/junos/firewall/filter-bridge-color-blind",
+          "note": null
+        },
+        {
+          "raw": "junos/services/evpn-etree-vlan-based.conf",
+          "id": "metro_as_a_service/junos/services/evpn-etree-vlan-based",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae10"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4080"
+        },
+        {
+          "name": "$VLAN",
+          "example": "4080"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$AC_INTF {\n    unit $UNIT {\n        encapsulation vlan-bridge;\n        vlan-id $VLAN;\n        family bridge {\n            filter {\n                input f_vlan_based_fam_bridge;\n            }\n        }\n        etree-ac-role root;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family bridge {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input f_vlan_based_fam_bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        etree-ac-role root;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 237,
+      "lineCount": 12,
       "techFamily": "Interfaces",
       "subfamily": "Interfaces",
       "usecases": [
