@@ -85,6 +85,10 @@
 .marquee-track {
   animation: marquee 60s linear infinite;
 }
+/* Slower cadence for the larger JVD cards in the Catalog marquee. */
+.marquee-cards {
+  animation-duration: 120s;
+}
 .marquee-pause:hover .marquee-track {
   animation-play-state: paused;
 }
