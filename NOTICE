@@ -1,0 +1,23 @@
+Juniper Validated Designs (JVD)
+Copyright 2024–2026 Juniper Networks, Inc. / Hewlett Packard Enterprise
+
+This repository is an official HPE Juniper resource. All content — including
+validated configurations, design documentation, snippet libraries, and the
+portal — is authored by or on behalf of HPE Juniper engineering teams and
+published under the Apache License, Version 2.0 (see LICENSE).
+
+Derived works: Several markdown files under `*/documentation/` are faithful
+conversions of Juniper's published PDF design guides, solution overviews, and
+test report briefs. The published PDFs on juniper.net remain the authoritative
+source of truth. These conversions are created by the same engineering team that
+authored the originals and are included here to enable programmatic access,
+search, and AI-grounded workflows (BYOAI Design mode).
+
+Trademarks: "Juniper Networks," "Juniper Validated Designs," "JVD," and related
+marks are trademarks of Juniper Networks, Inc. / Hewlett Packard Enterprise.
+"Metro Ethernet Forum," "MEF," and "MEF 3.0" are trademarks of Mplify Alliance
+(formerly MEF Forum). Use of these marks in this repository does not imply
+endorsement by or affiliation with the mark owners beyond the actual authorship
+and validation described. The Apache 2.0 license does not grant permission to use
+any contributor's trade names, trademarks, or service marks except as required
+for reasonable and customary description of the origin of the work.
