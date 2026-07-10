@@ -869,6 +869,13 @@ export default function ConfigGenerator() {
     new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
   );
 
+  const peLabel = (os: GenOsKey | undefined, tag: string) =>
+    os ? `${tag} \u00b7 ${OS_LABELS[os]}` : tag;
+  // Endpoint column / section tags \u2014 role names for PWHT, per-site labels for
+  // multipoint EVIs, PE-A/PE-B otherwise.
+  const tagA = roleBased ? roles[0]?.label ?? "Access" : isEtree ? "Root" : multiSite ? "Site A" : "PE-A";
+  const tagB = roleBased ? roles[1]?.label ?? "Headend" : isEtree ? "Leaf" : multiSite ? "Site B" : "PE-B";
+
   // Templated (portable) variant: the same snip set rendered with NO value
   // substitution so every $VAR stays a placeholder, prefixed with a variable
   // dictionary (name = current/example value). Downloaded as a separate file.
@@ -1246,12 +1253,6 @@ export default function ConfigGenerator() {
     a.click();
     URL.revokeObjectURL(url);
   };
-  const peLabel = (os: GenOsKey | undefined, tag: string) =>
-    os ? `${tag} · ${OS_LABELS[os]}` : tag;
-  // Endpoint column / section tags — role names for PWHT, per-site labels for
-  // multipoint EVIs, PE-A/PE-B otherwise.
-  const tagA = roleBased ? roles[0]?.label ?? "Access" : isEtree ? "Root" : multiSite ? "Site A" : "PE-A";
-  const tagB = roleBased ? roles[1]?.label ?? "Headend" : isEtree ? "Leaf" : multiSite ? "Site B" : "PE-B";
 
   return (
     <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_minmax(22rem,34rem)]">
