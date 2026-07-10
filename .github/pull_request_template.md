@@ -1,39 +1,30 @@
 <!--
-  Juniper/jvd PR template.
-  Fill in the sections below; delete any section that doesn't apply.
-  Keep the body externally-safe — every push notifies watchers and the
-  squashed PR body becomes part of the public release notes.
+  Juniper/jvd PR template. Keep it BRIEF and externally-safe — every push
+  notifies watchers and the squashed PR body becomes part of the public
+  release notes. Delete any section that doesn't apply.
 -->
 
 ## What's New
 <!-- One-line headline matching the PR title, then 2-4 bullets of
      user-visible changes. Customer / watcher voice. -->
 
-
-
 ## Why
-<!-- Problem statement and context. Include concrete numbers if
-     this is a perf or scale change. -->
+<!-- The problem this solves, briefly. Concrete numbers if perf/scale. -->
 
+## Changes
+<!-- Checklist of what this PR does, grouped by area. Tick as done. -->
+- [x]
 
-
-## Details
-<!-- Changes grouped by file or component, for reviewers. Include
-     subtle refactors or behavior changes that aren't obvious from
-     the diff. -->
-
-
-
-## Testing
-<!-- What was verified locally — commands run, manual checks,
-     screenshots for UI changes. -->
-
-
+## Verified before merge
+<!-- Tick what you actually checked; leave unchecked = not done / N/A. -->
+- [ ] Portal builds — `bun run build`
+- [ ] Markdown links pass — `lychee --offline --include-fragments './**/*.md'` → 0 errors
+- [ ] Generated artifacts regenerated where source changed (e.g. byoai mirror via `generate-snips.mjs`)
+- [ ] No internal-only content in public files (lab hostnames/IPs, Confidential material, scratch/TODO)
+- [ ] Externally-safe wording (watcher/customer-appropriate)
 
 <!--
-## Notes
-Optional. Use only when applicable:
-  - Source-of-truth (e.g. generated vs hand-edited files)
-  - Breaking changes / migration steps
-  - Follow-up work intentionally deferred to a later PR
+## Notes — optional
+Source-of-truth (generated vs hand-edited) · breaking changes / migration steps ·
+follow-up work intentionally deferred.
 -->

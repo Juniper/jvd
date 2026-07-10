@@ -24,6 +24,10 @@ Juniper Validated Designs have been validated at scale to help ensure faster, mo
 
 Official documentation: <https://www.juniper.net/documentation/validated-designs/>
 
+This repository is an **official HPE Juniper resource** — all content is authored
+and maintained by HPE Juniper engineering teams and licensed under Apache 2.0. See
+[NOTICE](NOTICE) for attribution, trademark, and derived-work details.
+
 ---
 
 ## Validated Designs for:

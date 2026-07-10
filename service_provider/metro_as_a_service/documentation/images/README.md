@@ -21,7 +21,7 @@ Regenerate with `pymupdf4llm` (`write_images=True`) from the published PDF.
 ## `test-reports/images/` — test-report figures
 
 `mef-eline-*.png` — diagrams from the detailed E-Line MEF test report, referenced
-from [`test-reports/e-line.md`](../test-reports/e-line.md).
+from [`test-reports/iometrix-eline-report.md`](../test-reports/iometrix-eline-report.md).
 
 ---
 
