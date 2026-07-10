@@ -32,6 +32,7 @@ import {
   instanceValues,
   siteInstanceValues,
   fxcUnitSpecs,
+  expandVlanRange,
   type FxcEntry,
   bumpInt,
   validateSpec,
@@ -291,6 +292,32 @@ function fxcEntryVlanError(
   if (svlanShown && e.svlan && !vlanIdInRange(e.svlan))
     return `S-VLAN must be ${VLAN_MIN}–${VLAN_MAX}`;
   return undefined;
+}
+
+/** VLAN-ids an EVPN-FXC entry occupies (single/aware = one; range = expanded). */
+function fxcEntryVlans(e: FxcEntry, mode: "unaware" | "aware"): number[] {
+  if (mode === "aware" || e.kind === "single") {
+    const n = Number(e.vlan);
+    return Number.isInteger(n) ? [n] : [];
+  }
+  return expandVlanRange(e.range);
+}
+
+/** Ids of EVPN-FXC entries whose VLAN-ids collide with an earlier entry. A
+ *  duplicate unit/VLAN silently merges into a single UNI, so flag it. */
+function fxcOverlapIds(
+  entries: (FxcEntry & { id: number })[],
+  mode: "unaware" | "aware",
+): Set<number> {
+  const firstSeen = new Map<number, number>();
+  const bad = new Set<number>();
+  for (const e of entries) {
+    for (const v of fxcEntryVlans(e, mode)) {
+      if (firstSeen.has(v)) bad.add(e.id);
+      else firstSeen.set(v, e.id);
+    }
+  }
+  return bad;
 }
 
 function Chip({
@@ -744,6 +771,12 @@ export default function ConfigGenerator() {
   const baseVlan = Number(shared.VLAN) || 0;
   const fxcMode: "unaware" | "aware" =
     sel.deploymentId === "evpn-fxc-aware" ? "aware" : "unaware";
+  // Entries whose VLAN-ids collide (a duplicate unit/VLAN silently merges into
+  // one UNI). Used to flag the fields and block download.
+  const fxcOverlap = useMemo(
+    () => (multiUni ? fxcOverlapIds(fxcEntries, fxcMode) : new Set<number>()),
+    [multiUni, fxcEntries, fxcMode],
+  );
   // Seed the EVPN-FXC entry list with one single-VLAN UNI whenever an FXC
   // deployment is (re)selected.
   useEffect(() => {
@@ -942,15 +975,29 @@ export default function ConfigGenerator() {
   const fxcUpdate = (id: number, patch: Partial<FxcEntry>) =>
     setFxcEntries((es) => es.map((e) => (e.id === id ? { ...e, ...patch } : e)));
   const fxcAdd = () =>
-    setFxcEntries((es) => [
-      ...es,
-      { id: fxcIdRef.current++, kind: "single", vlan: "1000", range: "", svlan: "", breakout: false },
-    ]);
+    setFxcEntries((es) => {
+      // Seed the new UNI at max(existing VLAN) + 1 so bundled UNIs don't collide
+      // (identical units merge into one, which looked like "only the first UNI").
+      const used = es.flatMap((e) => fxcEntryVlans(e, fxcMode));
+      const next = Math.min(VLAN_MAX, (used.length ? Math.max(...used) : 999) + 1);
+      return [
+        ...es,
+        {
+          id: fxcIdRef.current++,
+          kind: "single",
+          vlan: String(next),
+          range: "",
+          svlan: "",
+          breakout: false,
+        },
+      ];
+    });
   const fxcRemove = (id: number) =>
     setFxcEntries((es) => (es.length > 1 ? es.filter((e) => e.id !== id) : es));
 
   const download = () => {
     if (!fullText) return;
+    if (multiUni && fxcOverlap.size > 0) return;
     // E-Tree (rooted-multipoint): ONE EVI = root PE(s) + N leaf PEs. A multihomed
     // root is an all-active ESI PAIR (2 root PEs that SHARE one ESI — so the ESI
     // is constant, only the route-distinguisher differs). Leaves are single-homed;
@@ -1664,7 +1711,11 @@ export default function ConfigGenerator() {
                   )}
                   <div className="space-y-2">
                     {fxcEntries.map((e) => {
-                      const vlanErr = fxcEntryVlanError(e, fxcMode, awareMap);
+                      const vlanErr =
+                        fxcEntryVlanError(e, fxcMode, awareMap) ??
+                        (fxcOverlap.has(e.id)
+                          ? "duplicate VLAN-id — each UNI must be unique"
+                          : undefined);
                       return (
                       <div
                         key={e.id}
@@ -1955,7 +2006,13 @@ export default function ConfigGenerator() {
                 </button>
                 <button
                   onClick={download}
-                  className="inline-flex items-center gap-1 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20"
+                  disabled={multiUni && fxcOverlap.size > 0}
+                  title={
+                    multiUni && fxcOverlap.size > 0
+                      ? "Resolve duplicate UNI VLAN-ids before downloading"
+                      : undefined
+                  }
+                  className="inline-flex items-center gap-1 rounded-md border border-primary/40 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary hover:bg-primary/20 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <Download className="h-3 w-3" /> .conf
                 </button>
