@@ -394,7 +394,7 @@ export default function JvdPortal() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-                Step 1 · Discover
+                Stage 1 · Discover
               </div>
               <h2 className="mt-1 text-3xl font-semibold tracking-tight">JVD Catalog</h2>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -458,7 +458,7 @@ export default function JvdPortal() {
       <section id="generator" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-            Step 4 · Build
+            Stage 4 · Build
           </div>
           <div className="mt-1 flex items-center gap-2">
             <h2 className="text-3xl font-semibold tracking-tight">Service Configuration Generator</h2>
