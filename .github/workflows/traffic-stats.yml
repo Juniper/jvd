@@ -16,18 +16,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: |
-          git clone --single-branch --branch traffic-stats \
-            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" repo \
-            2>/dev/null || {
-              # Branch doesn't exist yet — create orphan
-              mkdir repo && cd repo && git init
-              git checkout --orphan traffic-stats
-              git commit --allow-empty -m "chore: initialize traffic-stats branch"
-              git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-              git push -u origin traffic-stats
-            }
-          cd repo
-          echo "REPO_DIR=$(pwd)" >> $GITHUB_ENV
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git clone --single-branch --branch traffic-stats "$REMOTE" repo 2>/dev/null || {
+            # Branch doesn't exist yet — create orphan
+            mkdir repo && cd repo && git init
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git checkout --orphan traffic-stats
+            git commit --allow-empty -m "chore: initialize traffic-stats branch"
+            git remote add origin "$REMOTE"
+            git push -u origin traffic-stats
+          }
+          echo "REPO_DIR=$(cd repo && pwd)" >> $GITHUB_ENV
 
       - name: Fetch traffic data
         env:
