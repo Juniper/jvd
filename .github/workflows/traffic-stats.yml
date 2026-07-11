@@ -22,11 +22,11 @@ jobs:
         run: |
           mkdir -p .github/traffic
 
-          # Views (14-day rolling)
+          # Views (14-day rolling, per-day granularity)
           gh api repos/${{ github.repository }}/traffic/views \
             > .github/traffic/views-latest.json
 
-          # Clones (14-day rolling)
+          # Clones (14-day rolling, per-day granularity)
           gh api repos/${{ github.repository }}/traffic/clones \
             > .github/traffic/clones-latest.json
 
@@ -38,29 +38,146 @@ jobs:
           gh api repos/${{ github.repository }}/traffic/popular/paths \
             > .github/traffic/paths-latest.json
 
-          # Append daily summaries to CSV for historical tracking
-          DATE=$(date -u +%Y-%m-%d)
+      - name: Merge per-day data into history CSVs
+        run: |
+          python3 << 'EOF'
+          import json, csv, os
+          from datetime import datetime
 
-          VIEWS_FILE=.github/traffic/views-history.csv
-          if [ ! -f "$VIEWS_FILE" ]; then
-            echo "date,views,unique_visitors" > "$VIEWS_FILE"
-          fi
-          TOTAL_VIEWS=$(jq '.count' .github/traffic/views-latest.json)
-          UNIQUE_VIEWS=$(jq '.uniques' .github/traffic/views-latest.json)
-          # Only append if today's date isn't already recorded
-          if ! grep -q "^${DATE}," "$VIEWS_FILE"; then
-            echo "${DATE},${TOTAL_VIEWS},${UNIQUE_VIEWS}" >> "$VIEWS_FILE"
-          fi
+          traffic_dir = ".github/traffic"
 
-          CLONES_FILE=.github/traffic/clones-history.csv
-          if [ ! -f "$CLONES_FILE" ]; then
-            echo "date,clones,unique_cloners" > "$CLONES_FILE"
-          fi
-          TOTAL_CLONES=$(jq '.count' .github/traffic/clones-latest.json)
-          UNIQUE_CLONES=$(jq '.uniques' .github/traffic/clones-latest.json)
-          if ! grep -q "^${DATE}," "$CLONES_FILE"; then
-            echo "${DATE},${TOTAL_CLONES},${UNIQUE_CLONES}" >> "$CLONES_FILE"
-          fi
+          def merge_daily(json_file, csv_file, count_col, unique_col):
+              """Merge per-day API data into a cumulative CSV."""
+              # Load existing history
+              existing = {}
+              if os.path.exists(csv_file):
+                  with open(csv_file) as f:
+                      reader = csv.DictReader(f)
+                      for row in reader:
+                          existing[row["date"]] = row
+
+              # Parse API response (has per-day breakdown)
+              with open(json_file) as f:
+                  data = json.load(f)
+
+              for entry in data.get("views", data.get("clones", [])):
+                  ts = entry["timestamp"][:10]  # "2026-07-01T00:00:00Z" -> "2026-07-01"
+                  existing[ts] = {
+                      "date": ts,
+                      count_col: str(entry["count"]),
+                      unique_col: str(entry["uniques"]),
+                  }
+
+              # Write sorted
+              fieldnames = ["date", count_col, unique_col]
+              with open(csv_file, "w", newline="") as f:
+                  writer = csv.DictWriter(f, fieldnames=fieldnames)
+                  writer.writeheader()
+                  for date in sorted(existing.keys()):
+                      writer.writerow(existing[date])
+
+          merge_daily(
+              f"{traffic_dir}/views-latest.json",
+              f"{traffic_dir}/views-history.csv",
+              "views", "unique_visitors"
+          )
+          merge_daily(
+              f"{traffic_dir}/clones-latest.json",
+              f"{traffic_dir}/clones-history.csv",
+              "clones", "unique_cloners"
+          )
+          print("History CSVs updated")
+          EOF
+
+      - name: Generate SVG charts
+        run: |
+          python3 << 'EOF'
+          import csv, os
+          from datetime import datetime
+
+          traffic_dir = ".github/traffic"
+
+          def generate_svg_chart(csv_file, svg_file, title, col1, col2, color1="#4ade80", color2="#60a5fa"):
+              """Generate a simple SVG sparkline chart from CSV data."""
+              dates, vals1, vals2 = [], [], []
+              if not os.path.exists(csv_file):
+                  return
+              with open(csv_file) as f:
+                  reader = csv.DictReader(f)
+                  for row in reader:
+                      dates.append(row["date"])
+                      vals1.append(int(row[col1]))
+                      vals2.append(int(row[col2]))
+
+              if len(dates) < 2:
+                  return
+
+              # Chart dimensions
+              w, h = 720, 200
+              pad_l, pad_r, pad_t, pad_b = 50, 20, 40, 50
+              chart_w = w - pad_l - pad_r
+              chart_h = h - pad_t - pad_b
+
+              max_val = max(max(vals1), max(vals2), 1)
+              n = len(dates)
+
+              def x_pos(i):
+                  return pad_l + (i / (n - 1)) * chart_w if n > 1 else pad_l
+
+              def y_pos(v):
+                  return pad_t + chart_h - (v / max_val) * chart_h
+
+              # Build polyline points
+              pts1 = " ".join(f"{x_pos(i):.1f},{y_pos(v):.1f}" for i, v in enumerate(vals1))
+              pts2 = " ".join(f"{x_pos(i):.1f},{y_pos(v):.1f}" for i, v in enumerate(vals2))
+
+              # X-axis labels (show every 7th date or first/last)
+              x_labels = ""
+              for i, d in enumerate(dates):
+                  if i == 0 or i == n - 1 or i % 7 == 0:
+                      x_labels += f'<text x="{x_pos(i):.1f}" y="{h - 10}" text-anchor="middle" font-size="11" fill="#9ca3af">{d[5:]}</text>\n'
+
+              # Latest values for legend
+              latest1 = vals1[-1]
+              latest2 = vals2[-1]
+
+              svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="{w}" height="{h}">
+            <rect width="{w}" height="{h}" fill="#0d1117" rx="8"/>
+            <text x="{pad_l}" y="24" font-size="14" font-weight="600" fill="#e6edf3">{title}</text>
+            <text x="{w - pad_r}" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last {n} days</text>
+            <!-- Grid lines -->
+            <line x1="{pad_l}" y1="{pad_t}" x2="{pad_l}" y2="{pad_t + chart_h}" stroke="#21262d" stroke-width="1"/>
+            <line x1="{pad_l}" y1="{pad_t + chart_h}" x2="{pad_l + chart_w}" y2="{pad_t + chart_h}" stroke="#21262d" stroke-width="1"/>
+            <!-- Lines -->
+            <polyline points="{pts1}" fill="none" stroke="{color1}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="{pts2}" fill="none" stroke="{color2}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+            <!-- Legend -->
+            <circle cx="{pad_l + 10}" cy="{h - 32}" r="4" fill="{color1}"/>
+            <text x="{pad_l + 20}" y="{h - 28}" font-size="11" fill="#e6edf3">{col1}: {latest1}</text>
+            <circle cx="{pad_l + 150}" cy="{h - 32}" r="4" fill="{color2}"/>
+            <text x="{pad_l + 160}" y="{h - 28}" font-size="11" fill="#e6edf3">{col2}: {latest2}</text>
+            <!-- X labels -->
+            {x_labels}
+            <!-- Y max -->
+            <text x="{pad_l - 5}" y="{pad_t + 4}" text-anchor="end" font-size="11" fill="#9ca3af">{max_val}</text>
+            <text x="{pad_l - 5}" y="{pad_t + chart_h}" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
+          </svg>'''
+
+              with open(svg_file, "w") as f:
+                  f.write(svg)
+              print(f"Generated {svg_file}")
+
+          generate_svg_chart(
+              f"{traffic_dir}/views-history.csv",
+              f"{traffic_dir}/views.svg",
+              "Page Views", "views", "unique_visitors"
+          )
+          generate_svg_chart(
+              f"{traffic_dir}/clones-history.csv",
+              f"{traffic_dir}/clones.svg",
+              "Git Clones", "clones", "unique_cloners"
+          )
+          EOF
 
       - name: Commit if changed
         run: |
