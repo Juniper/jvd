@@ -180,10 +180,13 @@ jobs:
           EOF
 
       - name: Commit if changed
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: |
           cd $GITHUB_WORKSPACE
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
           git add .github/traffic/
           if git diff --cached --quiet; then
             echo "No traffic changes to commit"
