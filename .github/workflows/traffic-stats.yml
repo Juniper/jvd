@@ -12,39 +12,54 @@ jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
+      - name: Checkout traffic-stats branch
+        env:
+          GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+        run: |
+          git clone --single-branch --branch traffic-stats \
+            "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" repo \
+            2>/dev/null || {
+              # Branch doesn't exist yet — create orphan
+              mkdir repo && cd repo && git init
+              git checkout --orphan traffic-stats
+              git commit --allow-empty -m "chore: initialize traffic-stats branch"
+              git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+              git push -u origin traffic-stats
+            }
+          cd repo
+          echo "REPO_DIR=$(pwd)" >> $GITHUB_ENV
 
       - name: Fetch traffic data
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: |
-          mkdir -p .github/traffic
+          cd $REPO_DIR
+          mkdir -p traffic
 
           # Views (14-day rolling, per-day granularity)
           gh api repos/${{ github.repository }}/traffic/views \
-            > .github/traffic/views-latest.json
+            > traffic/views-latest.json
 
           # Clones (14-day rolling, per-day granularity)
           gh api repos/${{ github.repository }}/traffic/clones \
-            > .github/traffic/clones-latest.json
+            > traffic/clones-latest.json
 
           # Top referrers (snapshot)
           gh api repos/${{ github.repository }}/traffic/popular/referrers \
-            > .github/traffic/referrers-latest.json
+            > traffic/referrers-latest.json
 
           # Top paths (snapshot)
           gh api repos/${{ github.repository }}/traffic/popular/paths \
-            > .github/traffic/paths-latest.json
+            > traffic/paths-latest.json
 
       - name: Merge per-day data into history CSVs
         run: |
+          cd $REPO_DIR
           python3 << 'EOF'
           import json, csv, os
           from datetime import datetime
 
-          traffic_dir = ".github/traffic"
+          traffic_dir = "traffic"
 
           def merge_daily(json_file, csv_file, count_col, unique_col):
               """Merge per-day API data into a cumulative CSV."""
@@ -91,11 +106,12 @@ jobs:
 
       - name: Generate SVG charts
         run: |
+          cd $REPO_DIR
           python3 << 'EOF'
           import csv, os
           from datetime import datetime
 
-          traffic_dir = ".github/traffic"
+          traffic_dir = "traffic"
 
           def generate_svg_chart(csv_file, svg_file, title, col1, col2, color1="#4ade80", color2="#60a5fa"):
               """Generate a simple SVG sparkline chart from CSV data."""
@@ -183,14 +199,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
         run: |
-          cd $GITHUB_WORKSPACE
+          cd $REPO_DIR
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git add .github/traffic/
+          git add traffic/
           if git diff --cached --quiet; then
             echo "No traffic changes to commit"
           else
-            git commit -m "chore: daily traffic snapshot [skip ci]"
-            git push
+            git commit -m "chore: daily traffic snapshot $(date -u +%Y-%m-%d)"
+            git push origin traffic-stats
           fi
