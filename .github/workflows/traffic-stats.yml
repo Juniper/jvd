@@ -1,0 +1,76 @@
+name: Repo Traffic Stats
+
+on:
+  schedule:
+    - cron: '15 6 * * *'   # daily at 06:15 UTC (before GitHub's 14-day rolloff)
+  workflow_dispatch:        # manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Fetch traffic data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p .github/traffic
+
+          # Views (14-day rolling)
+          gh api repos/${{ github.repository }}/traffic/views \
+            > .github/traffic/views-latest.json
+
+          # Clones (14-day rolling)
+          gh api repos/${{ github.repository }}/traffic/clones \
+            > .github/traffic/clones-latest.json
+
+          # Top referrers (snapshot)
+          gh api repos/${{ github.repository }}/traffic/popular/referrers \
+            > .github/traffic/referrers-latest.json
+
+          # Top paths (snapshot)
+          gh api repos/${{ github.repository }}/traffic/popular/paths \
+            > .github/traffic/paths-latest.json
+
+          # Append daily summaries to CSV for historical tracking
+          DATE=$(date -u +%Y-%m-%d)
+
+          VIEWS_FILE=.github/traffic/views-history.csv
+          if [ ! -f "$VIEWS_FILE" ]; then
+            echo "date,views,unique_visitors" > "$VIEWS_FILE"
+          fi
+          TOTAL_VIEWS=$(jq '.count' .github/traffic/views-latest.json)
+          UNIQUE_VIEWS=$(jq '.uniques' .github/traffic/views-latest.json)
+          # Only append if today's date isn't already recorded
+          if ! grep -q "^${DATE}," "$VIEWS_FILE"; then
+            echo "${DATE},${TOTAL_VIEWS},${UNIQUE_VIEWS}" >> "$VIEWS_FILE"
+          fi
+
+          CLONES_FILE=.github/traffic/clones-history.csv
+          if [ ! -f "$CLONES_FILE" ]; then
+            echo "date,clones,unique_cloners" > "$CLONES_FILE"
+          fi
+          TOTAL_CLONES=$(jq '.count' .github/traffic/clones-latest.json)
+          UNIQUE_CLONES=$(jq '.uniques' .github/traffic/clones-latest.json)
+          if ! grep -q "^${DATE}," "$CLONES_FILE"; then
+            echo "${DATE},${TOTAL_CLONES},${UNIQUE_CLONES}" >> "$CLONES_FILE"
+          fi
+
+      - name: Commit if changed
+        run: |
+          cd $GITHUB_WORKSPACE
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/traffic/
+          if git diff --cached --quiet; then
+            echo "No traffic changes to commit"
+          else
+            git commit -m "chore: daily traffic snapshot [skip ci]"
+            git push
+          fi

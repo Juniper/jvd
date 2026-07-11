@@ -196,10 +196,17 @@ export default function ByoaiSection() {
               />
             </div>
 
-            <div className="mt-4 text-[11px] text-muted-foreground">
-              <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
-              currently support pre-filled prompts via URL; it&apos;s omitted here. The same BYOAI
-              prompt works on Gemini if pasted manually.
+            <div className="mt-4 space-y-2 text-[11px] text-muted-foreground">
+              <p>
+                <strong className="font-semibold text-foreground/80">Requires a free login:</strong>{" "}
+                Claude and ChatGPT require a (free) account to fetch the BYOAI prompt at launch.
+                No paid plan is needed — a free-tier login works.
+              </p>
+              <p>
+                <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
+                currently support pre-filled prompts via URL; it&apos;s omitted here. The same BYOAI
+                prompt works on Gemini if pasted manually.
+              </p>
             </div>
           </div>
         </div>
