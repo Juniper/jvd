@@ -115,9 +115,9 @@ Metro Fabric topology: spine-and-leaf model with MEG1 and MEG2 as border leaf no
 
 | Role | New Platform | Replaces | Software |
 |---|---|---|---|
-| MEG | ACX7348 | ACX7100-32C, ACX7509 | 24.2R1-EVO |
-| MSE | MX10004 + LC9600 | MX304 | 24.2R1 |
-| MDR | PTX10001-36MR | MX10003, ACX7509 | 24.2R1-EVO |
+| MEG | ACX7348 | ACX7100-32C, ACX7509 | 24.2R2S1-EVO |
+| MSE | MX10004 + LC9600 | MX304 | 24.2R2S1 |
+| MDR | PTX10001-36MR | MX10003, ACX7509 | 24.2R2S1-EVO |
 
 ## Test Objectives
 
@@ -143,8 +143,8 @@ Metro Fabric topology: spine-and-leaf model with MEG1 and MEG2 as border leaf no
 
 - L2 VPN color service mapping onto transport classes with inter-AS BGP-CT for ACX7000 (planned for 24.1R1-EVO)
 - CoS model deployed but QoS not the focus
-- EVPN Distributed Gateway with Anycast IRB on ACX7000 excluded (planned 24.2R1-EVO)
-- No SRv6 underlay in this phase
+- Devices not listed as DUTs (helper nodes verified for functional behavior, but test cases run only against DUTs)
+- Any features not specifically listed, including stated solution gaps and known limitations
 
 ### Scale and Performance (KPI Summary)
 

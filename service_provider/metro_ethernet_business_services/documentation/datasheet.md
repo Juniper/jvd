@@ -62,7 +62,7 @@ matrix, see the published JVD page on juniper.net.
 
 All other roles (AN, AG, CR, MA) re-validated at 24.2R2S1 with the same platforms.
 
-The primary devices under test — ACX7024, ACX7100, ACX7348, MX304, MX10004 — are
+The primary devices under test — ACX7024, ACX7100, ACX7348, ACX7509, MX304 — are
 MEF 3.0-certified products on the MEF registry (a product-level certification,
 separate from the JVD validation).
 

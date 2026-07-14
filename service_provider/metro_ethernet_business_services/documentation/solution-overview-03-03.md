@@ -88,9 +88,9 @@ Key platform features and technical differentiators:
 |------|-----------------|-----------------|-----|
 | Access Node (AN) | MX204, ACX5448, ACX7100-48L, ACX710 | MX204, ACX5448, ACX7100-48L, ACX710 | Junos / EVO 23.2R2 |
 | Aggregation (AG) | ACX7100-32C | ACX7100-32C | EVO 23.2R2 |
-| Metro Edge Gateway (MEG) | ACX7100-32C, ACX7509 | **ACX7348** | EVO 24.2R1 |
-| Multiservice Edge (MSE) | MX304 | **MX10004 + LC9600** | Junos 24.2R1 |
-| Metro Distribution Router (MDR) | MX10003, ACX7509 | **PTX10001-36MR** | EVO 24.2R1 |
+| Metro Edge Gateway (MEG) | ACX7100-32C, ACX7509 | **ACX7348** | EVO 24.2R2S1 |
+| Multiservice Edge (MSE) | MX304 | **MX10004 + LC9600** | Junos 24.2R2S1 |
+| Metro Distribution Router (MDR) | MX10003, ACX7509 | **PTX10001-36MR** | EVO 24.2R2S1 |
 | Core Router (CR) | PTX10001-36MR | PTX10001-36MR | EVO 23.2R2 |
 | Metro Access (MA) | ACX7024, ACX7100-48L, MX204 | ACX7024, ACX7100-48L, MX204 | Junos / EVO 23.2R2 |
 
