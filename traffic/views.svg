@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
+  <rect width="720" height="200" fill="#0d1117" rx="8"/>
+  <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Page Views</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 14 days</text>
+  <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
+  <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
+  <polyline points="50.0,147.8 100.0,148.3 150.0,147.7 200.0,147.6 250.0,149.7 300.0,149.1 350.0,147.8 400.0,146.1 450.0,144.5 500.0,147.4 550.0,40.0 600.0,144.9 650.0,148.7 700.0,148.4" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,149.4 100.0,149.2 150.0,149.2 200.0,149.6 250.0,149.9 300.0,149.7 350.0,149.2 400.0,149.4 450.0,149.2 500.0,149.5 550.0,45.4 600.0,149.7 650.0,149.6 700.0,149.4" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 44</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 17</text>
+  <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
+<text x="400.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-13</text>
+
+  <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">3057</text>
+  <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
+</svg>
