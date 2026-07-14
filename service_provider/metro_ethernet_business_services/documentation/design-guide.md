@@ -41,7 +41,7 @@ Platform alternatives (03-03 updates):
 
 The Cloud Metro evolution transforms traditional aggregation-heavy metro networks into lean, distributed architectures. Aggregation nodes evolve into lean edge roles—border-leaf gateways connecting the metro fabric to external domains. The architecture embraces a spine-and-leaf IP fabric model within the metro, interconnected with multi-ring topologies serving access and distribution tiers.
 
-![Metro EBS Solution Topology](images/metro-ebs-topology.png)
+![Metro EBS Solution Topology](images/metro-ebs-full-topology.png)
 
 ## Validation Framework
 
@@ -88,7 +88,7 @@ Featured MEF 3.0 certified platforms: MX304, ACX7100, ACX7509, ACX7024, ACX5448,
 
 Metro Fabric topology: spine-and-leaf model with MEG1 and MEG2 as border leaf nodes. Services within the fabric use spine aggregation nodes (AG1.1, AG1.2) for communication between access nodes (AN). Multi-ring infrastructure includes common metro distribution routers supporting inter-ring communications.
 
-![Metro EBS Test Bed Topology](images/metro-ebs-testbed.png)
+![Metro EBS Test Bed Topology](images/metro-ebs-topology-platforms.png)
 
 ### Platforms / Devices Under Test
 
