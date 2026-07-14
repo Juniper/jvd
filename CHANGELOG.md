@@ -4,6 +4,101 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-14
+
+Two more JVDs — Metro Ethernet Business Services and Enterprise WAN
+Advanced Core and Edge Services — gain full design documentation, a
+concise datasheet, and an AI-assisted design assistant. Enterprise WAN
+is the first non-Metro design to get the complete treatment. The portal's
+Config Generator and Design & Planner are hardened for reliability.
+
+### New content
+
+- **Metro Ethernet Business Services documentation** — the Metro EBS JVD
+  gains a full design corpus in
+  [`service_provider/metro_ethernet_business_services/documentation/`](service_provider/metro_ethernet_business_services/documentation/):
+  a design guide, solution overviews and test report briefs for both the
+  `03-01` foundation and the `03-03` platform refresh, a one-page
+  datasheet, and topology diagrams. Covers the Cloud Metro fabric +
+  multi-ring architecture across ACX7024/ACX7100/ACX7348/ACX7509 (EVO),
+  MX204/MX304/MX10004 (Junos), and PTX10001-36MR, with EVPN-VPWS, EVPN-FXC,
+  EVPN-ELAN, EVPN Type-5, and SR-MPLS transport.
+- **Enterprise WAN Advanced Core and Edge Services — design assistant and
+  documentation** — the Enterprise WAN JVD gains its first AI-assisted
+  design assistant plus a full documentation corpus in
+  [`enterprise_wan/ewan_adv_core_edge/`](enterprise_wan/ewan_adv_core_edge/):
+  a design guide, solution overview, test report brief, datasheet, and
+  topology diagrams. This MPLS-backbone design delivers EVPN-VPWS,
+  EVPN-ELAN, and EVPN Type-5 services over mixed Segment Routing + LDP
+  transport, with MACsec encryption and BGP FlowSpec DDoS protection,
+  validated across MX304/MX10004, ACX7509/ACX7100-48L, and
+  PTX10003-80C/PTX10001-36MR.
+- **Per-JVD datasheets** — Metro-as-a-Service, Metro EBS, and Enterprise
+  WAN each now ship a concise one-page datasheet summarizing device roles,
+  featured platforms, protocols, services, and use cases — a fast reference
+  before diving into the full design guide.
+
+### Portal
+
+- **Config Generator reliability** — the EVPN-FXC builder now
+  auto-increments VLAN IDs across bundled UNIs (so multi-UNI services no
+  longer collapse into one), flags overlaps inline, and offers a
+  downloadable `$VAR` template alongside the rendered config.
+- **Design & Planner (Bring Your Own AI)** — the assistant now starts
+  reliably on any account and adds a **Design mode** grounded in each JVD's
+  published documentation, so you can ask architecture and scaling
+  questions and get answers cited to the validated design. Metro EBS and
+  Enterprise WAN join Metro-as-a-Service as AI-equipped designs.
+
+### Repository
+
+- **Licensing clarity** — a `NOTICE` file and README statement clarify that
+  this is an official Juniper resource under Apache 2.0, with guidance on
+  derived works and trademarks.
+
+### What this means for you
+
+- Pull the latest `main` to get the Metro EBS and Enterprise WAN
+  documentation, the three new datasheets, and the updated portal.
+- Start from a JVD's **datasheet** for a one-minute overview, then follow
+  it into the design guide for depth.
+- Launch **Design & Planner** and pick Design mode to explore an
+  architecture with answers grounded in the published JVD documentation.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Modified |
+| --- | ---: | ---: |
+| `enterprise_wan/ewan_adv_core_edge` | 22 | 0 |
+| `service_provider/metro_ethernet_business_services` | 22 | 2 |
+| `service_provider/metro_as_a_service` | 1 | 3 |
+| `portal` | 9 | 13 |
+| `.github` + repo root | 3 | 5 |
+| **TOTAL** | **57** | **23** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN (docs + assistant) | 5,708 | 0 | +5,708 |
+| Metro EBS (docs + assistant) | 1,277 | 287 | +990 |
+| Metro-as-a-Service (datasheet) | 308 | 127 | +181 |
+| Portal (generator, assistant, bundles) | 6,903 | 526 | +6,377 |
+| Automation + repo root | 200 | 54 | +146 |
+| **Total** | **14,379** | **968** | **+13,411** |
+
+</details>
+
+---
+
 ## 2026-07-08
 
 The Metro-as-a-Service (MaaS) JVD gains a validated configuration snip
