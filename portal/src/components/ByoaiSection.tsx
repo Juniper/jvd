@@ -40,6 +40,10 @@ function buildChatGptUrl(promptUrl: string): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(msg)}`;
 }
 
+// Detailed usage + "tested & working" compatibility notes (rendered on GitHub).
+const GUIDE_URL =
+  "https://github.com/Juniper/jvd/blob/main/portal/public/USING-BYOAI.md";
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -179,7 +183,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="Claude"
                 description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
-                tip="Tip: pick Haiku 4.5 for the fastest experience."
+                tip="Tip: works with any browsing-capable model."
                 href={claudeUrl}
                 disabled={!selected}
                 logo={<ClaudeLogo />}
@@ -188,7 +192,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="ChatGPT"
                 description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
-                tip="Tip: use Instant mode + a Temporary Chat (avoids memory carryover between sessions)."
+                tip="Tip: needs web access. If it can't fetch the prompt, attach the file instead."
                 href={chatGptUrl}
                 disabled={!selected}
                 logo={<ChatGptLogo />}
@@ -198,9 +202,29 @@ export default function ByoaiSection() {
 
             <div className="mt-4 space-y-2 text-[11px] text-muted-foreground">
               <p>
-                <strong className="font-semibold text-foreground/80">Requires a free login:</strong>{" "}
-                Claude and ChatGPT require a (free) account to fetch the BYOAI prompt at launch.
-                No paid plan is needed — a free-tier login works.
+                <strong className="font-semibold text-foreground/80">Requires web access:</strong>{" "}
+                the AI must be able to fetch a URL to load the prompt. Most paid tiers and
+                browsing-capable modes work; some free &quot;fast&quot; modes cannot fetch. See{" "}
+                <a href={GUIDE_URL} target="_blank" rel="noreferrer" className="underline hover:text-primary">
+                  what&apos;s tested &amp; working
+                </a>
+                .
+              </p>
+              <p>
+                <strong className="font-semibold text-foreground/80">Having trouble?</strong>{" "}
+                {selected ? (
+                  <a
+                    href={selected.promptUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline hover:text-primary"
+                  >
+                    Download the prompt
+                  </a>
+                ) : (
+                  <span>Download the prompt</span>
+                )}{" "}
+                and attach or paste it into your chat instead — no fetching required.
               </p>
               <p>
                 <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
