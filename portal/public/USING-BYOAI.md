@@ -53,16 +53,27 @@ launch. "Attach/paste" = the prompt was downloaded and attached or pasted.
 
 _Last updated: 2026-07-15_
 
+> **Bottom line:** ChatGPT **Instant** mode can't reliably fetch the launch prompt
+> — use a **Thinking / Medium** mode, or **download & attach** the prompt (always
+> works). Claude works in every mode tested.
+
 | AI | Tier | Model / mode | Launch-fetch | Attach / paste | Last tested | Notes |
 |----|------|--------------|:------------:|:--------------:|-------------|-------|
-| ChatGPT | Pro | GPT‑5.5 · Instant | ✅ | — | 2026-07-15 | Fetched cleanly. |
-| ChatGPT | Pro | GPT‑5.5 · Medium | ✅ | — | 2026-07-15 | Fetched cleanly. |
-| ChatGPT | Free | Instant (model not disclosed) | ✅ | — | 2026-07-15 | Fetched cleanly. Free tier often doesn't show the active model. |
-| Claude | Pro | Sonnet 5 (app) | ✅ | ✅ | 2026-07-15 | Real BYOAI prompt + portal launch work. See injection note below. |
-| Claude | Pro | Haiku 4.5 (app) | ✅ | ✅ | 2026-07-15 | Real BYOAI prompt + portal launch work. See injection note below. |
+| ChatGPT | Pro | GPT‑5.5 · Medium (Thinking) | ✅ | ✅ | 2026-07-15 | Full launch fetches and greets cleanly. |
+| ChatGPT | Pro | GPT‑5.5 · Instant | ⚠️ | ✅ | 2026-07-15 | Fetched a tiny test file, but **failed the full ~18 KB launch prompt** (“you can't perform that action at this time”). Use Medium or attach. |
+| ChatGPT | Free | Instant (model not disclosed) | ⚠️ | ✅ | 2026-07-15 | Same as Pro Instant — unreliable browsing on the full prompt. Switch to a Thinking mode or attach. |
+| Claude | Pro | Sonnet 5 (app / web) | ✅ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
+| Claude | Pro | Haiku 4.5 (app / web) | ✅ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
+| Claude | Pro | Opus 4.6 (web) | ✅ | ✅ | 2026-07-15 | Full launch works. |
 | Gemini | — | — | n/a | ❓ | — | No URL pre-fill; paste/attach the prompt manually. |
 
-Legend: ✅ works · ❌ does not work · ❓ untested · — not applicable.
+Legend: ✅ works · ⚠️ unreliable / partial · ❌ does not work · ❓ untested · — not applicable.
+
+> **Why Instant differs.** A tiny probe file can fetch on Instant, but the full
+> launch prompt (~18 KB) often fails with “you can't perform that action at this
+> time” — that's ChatGPT's fast **Instant** tier declining / throttling the web
+> tool, not a problem with the prompt (it's served as `text/plain` from both the
+> CDN and raw GitHub). The fix is a browsing-capable mode or the attach path.
 
 > **Injection note.** Some assistants (notably Claude) will **decline to obey an
 > instruction that lives inside a fetched file** — that's correct prompt-injection

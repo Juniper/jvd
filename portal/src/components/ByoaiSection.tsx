@@ -192,7 +192,7 @@ export default function ByoaiSection() {
               <AiTile
                 name="ChatGPT"
                 description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
-                tip="Tip: needs web access. If it can't fetch the prompt, attach the file instead."
+                tip="Tip: Instant mode often can't fetch — use a Thinking mode, or attach the prompt."
                 href={chatGptUrl}
                 disabled={!selected}
                 logo={<ChatGptLogo />}
