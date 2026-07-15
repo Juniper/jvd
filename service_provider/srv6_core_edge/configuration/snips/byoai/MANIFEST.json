@@ -1,0 +1,831 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips",
+  "snip_count": 47,
+  "snips": [
+    {
+      "path": "evo/apply-groups/gr-bgp.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-bgp",
+      "topic": "Wildcard apply-group: iBGP + eBGP overlay defaults",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1700,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-bgp.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-core-intf-ipv6.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-core-intf-ipv6",
+      "topic": "Wildcard apply-group: standard core IPv6 interface settings.",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 2329,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-core-intf-ipv6.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-isis-ipv6.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-isis-ipv6",
+      "topic": "Wildcard apply-group: per-interface IS-IS L2 settings for",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 4603,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-isis-ipv6.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-l3vpn.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-l3vpn",
+      "topic": "Wildcard apply-group: L3VPN routing-instance defaults",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 692,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-l3vpn.conf"
+    },
+    {
+      "path": "evo/apply-groups/gr-srv6.conf",
+      "os": "evo",
+      "category": "apply-groups",
+      "name": "gr-srv6",
+      "topic": "Wildcard apply-group: SRv6 \u00b5SID locator default flavors",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 864,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/apply-groups/gr-srv6.conf"
+    },
+    {
+      "path": "evo/interfaces/core-ae-link.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "core-ae-link",
+      "topic": "Core AE link template \u2014 flexible-vlan-tagging trunk",
+      "seen_on": [
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 2013,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/interfaces/core-ae-link.conf"
+    },
+    {
+      "path": "evo/interfaces/cpe-attachment.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "cpe-attachment",
+      "topic": "CPE attachment \u2014 flexible-vlan trunk with per-service units",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2363,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/interfaces/cpe-attachment.conf"
+    },
+    {
+      "path": "evo/interfaces/pe-ce-direct.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "pe-ce-direct",
+      "topic": "PE-CE direct (sub-)interface attachment \u2014 IFL on physical",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1985,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/interfaces/pe-ce-direct.conf"
+    },
+    {
+      "path": "evo/interfaces/pe-ce-irb.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "pe-ce-irb",
+      "topic": "PE-CE attachment via IRB \u2014 bridge-domain on the AC stitched",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/interfaces/pe-ce-irb.conf"
+    },
+    {
+      "path": "evo/oam/bfd-defaults.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "bfd-defaults",
+      "topic": "Default BFD timers and detection profile \u2014 the canonical",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1374,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/oam/bfd-defaults.conf"
+    },
+    {
+      "path": "evo/oam/twamp-light.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "twamp-light",
+      "topic": "TWAMP-Light responder \u2014 receive-only TWAMP-Light server for",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1232,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/oam/twamp-light.conf"
+    },
+    {
+      "path": "evo/policy/srv6-redistribution-policy.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "srv6-redistribution-policy",
+      "topic": "SRv6 redistribution / load-balance policies (Evolved-OS \u2014",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 2651,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/policy/srv6-redistribution-policy.conf"
+    },
+    {
+      "path": "evo/policy/vpn-import-export-rt.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "vpn-import-export-rt",
+      "topic": "VRF route-target import/export policy + RT-SRV6 community",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1516,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/policy/vpn-import-export-rt.conf"
+    },
+    {
+      "path": "evo/services/l3vpn-srv6-vrf.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l3vpn-srv6-vrf",
+      "topic": "L3VPN routing-instance over SRv6 \u2014 per-Flex-Algo VRF with",
+      "seen_on": [
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 3835,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/services/l3vpn-srv6-vrf.conf"
+    },
+    {
+      "path": "evo/transport/bfd-isis.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bfd-isis",
+      "topic": "Per-IFL BFDv6 configuration for IS-IS adjacencies \u2014 fast",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1327,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/bfd-isis.conf"
+    },
+    {
+      "path": "evo/transport/bgp-overlay-rr-client.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-overlay-rr-client",
+      "topic": "PE-side iBGP overlay configuration toward route-reflectors",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 3897,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-overlay-rr-client.conf"
+    },
+    {
+      "path": "evo/transport/bgp-overlay-rr.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-overlay-rr",
+      "topic": "iBGP overlay route-reflector configuration \u2014 multi-AFI SRv6",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 7492,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-overlay-rr.conf"
+    },
+    {
+      "path": "evo/transport/bgp-transport-class.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-transport-class",
+      "topic": "Per-VRF transport-class definitions \u2014 maps service color",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1737,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-transport-class.conf"
+    },
+    {
+      "path": "evo/transport/inter-as-option-c.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "inter-as-option-c",
+      "topic": "Inter-AS Option C between Border Routers (Evolved-OS",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 3092,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/inter-as-option-c.conf"
+    },
+    {
+      "path": "evo/transport/isis-srv6-flex-algo.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "isis-srv6-flex-algo",
+      "topic": "IS-IS L2 instantiation for SRv6 \u00b5SID transport \u2014 per-device",
+      "seen_on": [
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 7223,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/isis-srv6-flex-algo.conf"
+    },
+    {
+      "path": "evo/transport/srv6-locator-summarization.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "srv6-locator-summarization",
+      "topic": "SRv6 locator redistribution / summarization at AS boundary \u2014",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 2383,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/srv6-locator-summarization.conf"
+    },
+    {
+      "path": "evo/transport/ti-lfa-mla.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "ti-lfa-mla",
+      "topic": "TI-LFA + Micro-Loop Avoidance (MLA) under IS-IS for SRv6",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1844,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/ti-lfa-mla.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-bgp.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-bgp",
+      "topic": "Wildcard apply-group: iBGP overlay group defaults for the",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1447,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/apply-groups/gr-bgp.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-core-intf-ipv6.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-core-intf-ipv6",
+      "topic": "Wildcard apply-group: standard core IPv6 interface settings",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 2422,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/apply-groups/gr-core-intf-ipv6.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-isis-ipv6.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-isis-ipv6",
+      "topic": "Wildcard apply-group: per-interface IS-IS L2 settings for",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 4438,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/apply-groups/gr-isis-ipv6.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-l3vpn.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-l3vpn",
+      "topic": "Wildcard apply-group: L3VPN routing-instance defaults",
+      "seen_on": [
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1209,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/apply-groups/gr-l3vpn.conf"
+    },
+    {
+      "path": "junos/apply-groups/gr-srv6.conf",
+      "os": "junos",
+      "category": "apply-groups",
+      "name": "gr-srv6",
+      "topic": "Wildcard apply-group: SRv6 \u00b5SID locator default flavors",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1294,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/apply-groups/gr-srv6.conf"
+    },
+    {
+      "path": "junos/interfaces/core-ae-link.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "core-ae-link",
+      "topic": "Core AE link template \u2014 flexible-vlan-tagging trunk",
+      "seen_on": [
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1851,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/interfaces/core-ae-link.conf"
+    },
+    {
+      "path": "junos/interfaces/cpe-attachment.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "cpe-attachment",
+      "topic": "CPE attachment \u2014 flexible-vlan trunk with per-service units",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2288,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/interfaces/cpe-attachment.conf"
+    },
+    {
+      "path": "junos/interfaces/pe-ce-direct.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "pe-ce-direct",
+      "topic": "PE-CE direct (sub-)interface attachment \u2014 IFL on physical",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1838,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/interfaces/pe-ce-direct.conf"
+    },
+    {
+      "path": "junos/interfaces/pe-ce-irb.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "pe-ce-irb",
+      "topic": "PE-CE attachment via IRB \u2014 bridge-domain on the AC stitched",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1832,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/interfaces/pe-ce-irb.conf"
+    },
+    {
+      "path": "junos/oam/bfd-defaults.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "bfd-defaults",
+      "topic": "Default BFD timers and detection profile \u2014 the canonical",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1297,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/oam/bfd-defaults.conf"
+    },
+    {
+      "path": "junos/oam/twamp-light.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "twamp-light",
+      "topic": "TWAMP-Light responder \u2014 receive-only TWAMP-Light server for",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1153,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/oam/twamp-light.conf"
+    },
+    {
+      "path": "junos/policy/srv6-redistribution-policy.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "srv6-redistribution-policy",
+      "topic": "Per-packet load-balancing across SRv6 \u00b5SID equal-cost",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1263,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/policy/srv6-redistribution-policy.conf"
+    },
+    {
+      "path": "junos/policy/vpn-import-export-rt.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "vpn-import-export-rt",
+      "topic": "VRF route-target import/export policy + RT-SRV6 community",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1478,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/policy/vpn-import-export-rt.conf"
+    },
+    {
+      "path": "junos/services/cpe-virtual-router.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "cpe-virtual-router",
+      "topic": "CPE-side virtual-router \u2014 eBGP toward PE(s) for L3VPN",
+      "seen_on": [
+        "cpe2_mx240",
+        "cpe4_mx240"
+      ],
+      "size_bytes": 3515,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/cpe-virtual-router.conf"
+    },
+    {
+      "path": "junos/services/evpn-vpws-srv6.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-vpws-srv6",
+      "topic": "EVPN-VPWS over SRv6 \u2014 per-instance pseudowire with locator",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2848,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/evpn-vpws-srv6.conf"
+    },
+    {
+      "path": "junos/services/l3vpn-evpn-t5-srv6.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l3vpn-evpn-t5-srv6",
+      "topic": "L3VPN EVPN Type-5 (IP-prefix routes) over SRv6 \u2014 silent-host",
+      "seen_on": [
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480"
+      ],
+      "size_bytes": 2780,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/l3vpn-evpn-t5-srv6.conf"
+    },
+    {
+      "path": "junos/services/l3vpn-srv6-vrf.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l3vpn-srv6-vrf",
+      "topic": "L3VPN routing-instance over SRv6 \u2014 per-Flex-Algo VRF with",
+      "seen_on": [
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 3778,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/l3vpn-srv6-vrf.conf"
+    },
+    {
+      "path": "junos/transport/bfd-isis.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bfd-isis",
+      "topic": "Per-IFL BFDv6 configuration for IS-IS adjacencies \u2014 fast",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1324,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/bfd-isis.conf"
+    },
+    {
+      "path": "junos/transport/bgp-overlay-rr-client.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-overlay-rr-client",
+      "topic": "PE-side iBGP overlay configuration toward route-reflectors",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 3553,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/bgp-overlay-rr-client.conf"
+    },
+    {
+      "path": "junos/transport/bgp-overlay-rr.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-overlay-rr",
+      "topic": "iBGP overlay route-reflector configuration \u2014 multi-AFI SRv6",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 7393,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/bgp-overlay-rr.conf"
+    },
+    {
+      "path": "junos/transport/bgp-transport-class.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-transport-class",
+      "topic": "Per-VRF transport-class definitions \u2014 maps service color",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1648,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/bgp-transport-class.conf"
+    },
+    {
+      "path": "junos/transport/inter-as-option-c.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "inter-as-option-c",
+      "topic": "Inter-AS Option C between Border Routers \u2014 eBGP between",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 3066,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/inter-as-option-c.conf"
+    },
+    {
+      "path": "junos/transport/isis-srv6-flex-algo.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "isis-srv6-flex-algo",
+      "topic": "IS-IS L2 instantiation for SRv6 \u00b5SID transport \u2014 per-device",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 6851,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/isis-srv6-flex-algo.conf"
+    },
+    {
+      "path": "junos/transport/srv6-locator-summarization.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "srv6-locator-summarization",
+      "topic": "SRv6 locator redistribution / summarization at AS boundary \u2014",
+      "seen_on": [
+        "br2_mx304",
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304"
+      ],
+      "size_bytes": 2185,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/srv6-locator-summarization.conf"
+    },
+    {
+      "path": "junos/transport/ti-lfa-mla.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "ti-lfa-mla",
+      "topic": "TI-LFA + Micro-Loop Avoidance (MLA) under IS-IS for SRv6",
+      "seen_on": [
+        "cr1_mx10004",
+        "cr2_mx2010",
+        "br2_mx304",
+        "edge1_mx480",
+        "edge2_mx480",
+        "edge3_mx480",
+        "mse1_mx480",
+        "mse2_mx304",
+        "br1_ptx10002-36qdd"
+      ],
+      "size_bytes": 1767,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/transport/ti-lfa-mla.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
