@@ -1,0 +1,601 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips",
+  "snip_count": 38,
+  "snips": [
+    {
+      "path": "evo/bootstrap/chassis-config.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "chassis-config",
+      "topic": "Chassis hardware initialization \u2014 aggregated devices and FPC/PIC port speeds",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 1389,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/bootstrap/chassis-config.conf"
+    },
+    {
+      "path": "evo/cos/exp-classifiers-schedulers.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "exp-classifiers-schedulers",
+      "topic": "MPLS EXP-based QoS \u2014 classifiers, forwarding classes, schedulers, and rewrite rules",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 3285,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/cos/exp-classifiers-schedulers.conf"
+    },
+    {
+      "path": "evo/interfaces/flexible-vlan-subinterface.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "flexible-vlan-subinterface",
+      "topic": "Flexible VLAN-tagged subinterfaces with per-unit addressing",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1361,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/interfaces/flexible-vlan-subinterface.conf"
+    },
+    {
+      "path": "evo/interfaces/lag-lacp.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "lag-lacp",
+      "topic": "LAG with LACP active and vlan-bridge encapsulated units",
+      "seen_on": [
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 1205,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/interfaces/lag-lacp.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback-multi-af.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback-multi-af",
+      "topic": "Loopback interface with IPv4, ISO, and IPv6 address families",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "cr2_mx480",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "cr1_acx7100-48l",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 1580,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/interfaces/loopback-multi-af.conf"
+    },
+    {
+      "path": "evo/interfaces/physical-p2p-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "physical-p2p-mpls",
+      "topic": "Core point-to-point interfaces with inet/ISO/MPLS families",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1242,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/interfaces/physical-p2p-mpls.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge-domain.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge-domain",
+      "topic": "Single-tag VLAN bridge-domains with interface membership binding",
+      "seen_on": [
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 964,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/interfaces/vlan-bridge-domain.conf"
+    },
+    {
+      "path": "evo/oam/lldp-discovery.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "lldp-discovery",
+      "topic": "LLDP protocol enabled on all interfaces for neighbor discovery",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "cr2_mx480",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "cr1_acx7100-48l",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 601,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/oam/lldp-discovery.conf"
+    },
+    {
+      "path": "evo/oam/twamp-client.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "twamp-client",
+      "topic": "TWAMP client with per-virtual-router control connections and test sessions",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1796,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/oam/twamp-client.conf"
+    },
+    {
+      "path": "evo/policy/protocol-redistribution.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "protocol-redistribution",
+      "topic": "Routing policy statements for BGP/OSPF/direct protocol redistribution",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1164,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/policy/protocol-redistribution.conf"
+    },
+    {
+      "path": "evo/policy/route-filter-med.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "route-filter-med",
+      "topic": "Route-filter-based MED metric assignment for BGP export",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1310,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/policy/route-filter-med.conf"
+    },
+    {
+      "path": "evo/services/virtual-router-instance.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "virtual-router-instance",
+      "topic": "Virtual-router instance with BGP, PIM sparse-mode, and multicast RP",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 2992,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/services/virtual-router-instance.conf"
+    },
+    {
+      "path": "evo/transport/ibgp-core-mesh.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "ibgp-core-mesh",
+      "topic": "iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families",
+      "seen_on": [
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 2095,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/transport/ibgp-core-mesh.conf"
+    },
+    {
+      "path": "evo/transport/mpls-interfaces.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "mpls-interfaces",
+      "topic": "MPLS protocol enablement on core and loopback interfaces",
+      "seen_on": [
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1138,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/transport/mpls-interfaces.conf"
+    },
+    {
+      "path": "evo/transport/ospf-te-protection.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "ospf-te-protection",
+      "topic": "OSPF with traffic engineering, node-link-protection, and BFD",
+      "seen_on": [
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 2321,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/transport/ospf-te-protection.conf"
+    },
+    {
+      "path": "evo/transport/rsvp-signaling.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "rsvp-signaling",
+      "topic": "RSVP-TE interface enablement for label-switched path signaling",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1143,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/evo/transport/rsvp-signaling.conf"
+    },
+    {
+      "path": "junos/bootstrap/chassis-config.conf",
+      "os": "junos",
+      "category": "bootstrap",
+      "name": "chassis-config",
+      "topic": "Chassis hardware initialization \u2014 aggregated devices, FPC/PIC port speeds, tunnel-services",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 1715,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/bootstrap/chassis-config.conf"
+    },
+    {
+      "path": "junos/cos/exp-classifiers-schedulers.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "exp-classifiers-schedulers",
+      "topic": "MPLS EXP-based QoS \u2014 classifiers, forwarding classes, schedulers, and rewrite rules",
+      "seen_on": [
+        "ap1_mx304",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 3231,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/cos/exp-classifiers-schedulers.conf"
+    },
+    {
+      "path": "junos/firewall/multicast-fwd-cache-filter.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "multicast-fwd-cache-filter",
+      "topic": "Multicast forwarding-cache filters with destination-based CoS marking",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1789,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/firewall/multicast-fwd-cache-filter.conf"
+    },
+    {
+      "path": "junos/interfaces/flexible-vlan-subinterface.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "flexible-vlan-subinterface",
+      "topic": "Flexible VLAN-tagged subinterfaces with per-unit addressing",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1221,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/flexible-vlan-subinterface.conf"
+    },
+    {
+      "path": "junos/interfaces/irb-l3-gateway.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "irb-l3-gateway",
+      "topic": "IRB L3 gateway with multicast forwarding-cache filter and static MAC",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1309,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/irb-l3-gateway.conf"
+    },
+    {
+      "path": "junos/interfaces/lag-esi-lacp.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "lag-esi-lacp",
+      "topic": "ESI-based LAG with LACP, single-active DF election, and vlan-bridge units",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 2423,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/lag-esi-lacp.conf"
+    },
+    {
+      "path": "junos/interfaces/loopback-multi-af.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "loopback-multi-af",
+      "topic": "Loopback interface with IPv4, ISO, and IPv6 address families",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "cr2_mx480",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "cr1_acx7100-48l",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 1584,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/loopback-multi-af.conf"
+    },
+    {
+      "path": "junos/interfaces/physical-p2p-mpls.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "physical-p2p-mpls",
+      "topic": "Core point-to-point interfaces with inet/ISO/MPLS families",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1256,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/physical-p2p-mpls.conf"
+    },
+    {
+      "path": "junos/multicast/forwarding-multicast-tuning.conf",
+      "os": "junos",
+      "category": "multicast",
+      "name": "forwarding-multicast-tuning",
+      "topic": "Multicast forwarding-options tuning \u2014 resolve-rate and mismatch-rate",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004"
+      ],
+      "size_bytes": 994,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/multicast/forwarding-multicast-tuning.conf"
+    },
+    {
+      "path": "junos/oam/lldp-discovery.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "lldp-discovery",
+      "topic": "LLDP protocol enabled on all interfaces for neighbor discovery",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "cr2_mx480",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr",
+        "cr1_acx7100-48l",
+        "l2-l3_edge_acx7100"
+      ],
+      "size_bytes": 600,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/oam/lldp-discovery.conf"
+    },
+    {
+      "path": "junos/oam/twamp-client.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "twamp-client",
+      "topic": "TWAMP client with per-virtual-router control connections and test sessions",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1904,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/oam/twamp-client.conf"
+    },
+    {
+      "path": "junos/oam/twamp-server.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "twamp-server",
+      "topic": "TWAMP server with per-VRF port mappings and client authentication lists",
+      "seen_on": [
+        "ap1_mx304",
+        "ap2_mx10004"
+      ],
+      "size_bytes": 1760,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/oam/twamp-server.conf"
+    },
+    {
+      "path": "junos/policy/protocol-redistribution.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "protocol-redistribution",
+      "topic": "Routing policy statements for BGP/OSPF/direct protocol redistribution",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1167,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/policy/protocol-redistribution.conf"
+    },
+    {
+      "path": "junos/policy/route-filter-med.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "route-filter-med",
+      "topic": "Route-filter-based MED metric assignment for BGP export",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 1315,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/policy/route-filter-med.conf"
+    },
+    {
+      "path": "junos/services/evpn-virtual-switch-esi.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-virtual-switch-esi",
+      "topic": "EVPN virtual-switch instance with MPLS encapsulation and bridge-domain",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 2205,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/services/evpn-virtual-switch-esi.conf"
+    },
+    {
+      "path": "junos/services/mvpn-instance.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "mvpn-instance",
+      "topic": "NG-MVPN VRF instance with PIM, OSPF, BGP, and RSVP-TE provider-tunnel",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 4246,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/services/mvpn-instance.conf"
+    },
+    {
+      "path": "junos/services/virtual-router-instance.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "virtual-router-instance",
+      "topic": "Virtual-router instance with BGP, PIM sparse-mode, and multicast RP",
+      "seen_on": [
+        "cr2_mx480",
+        "cr1_acx7100-48l"
+      ],
+      "size_bytes": 2994,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/services/virtual-router-instance.conf"
+    },
+    {
+      "path": "junos/services/vrf-l3vpn.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "vrf-l3vpn",
+      "topic": "L3VPN VRF instance with external BGP peer (traffic-generator / CE device)",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 2184,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/services/vrf-l3vpn.conf"
+    },
+    {
+      "path": "junos/transport/ibgp-core-mesh.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "ibgp-core-mesh",
+      "topic": "iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families",
+      "seen_on": [
+        "ap1_mx304",
+        "ap2_mx10004",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 2159,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/transport/ibgp-core-mesh.conf"
+    },
+    {
+      "path": "junos/transport/mpls-lsp-p2mp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mpls-lsp-p2mp",
+      "topic": "MPLS LSPs with P2MP template and named point-to-point paths",
+      "seen_on": [
+        "ap1_mx304",
+        "ap2_mx10004",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1935,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/transport/mpls-lsp-p2mp.conf"
+    },
+    {
+      "path": "junos/transport/ospf-te-protection.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "ospf-te-protection",
+      "topic": "OSPF with traffic engineering, node-link-protection, and BFD",
+      "seen_on": [
+        "ap1_mx304",
+        "ap2_mx10004",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1770,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/transport/ospf-te-protection.conf"
+    },
+    {
+      "path": "junos/transport/rsvp-signaling.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "rsvp-signaling",
+      "topic": "RSVP-TE interface enablement for label-switched path signaling",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004",
+        "ap1_mx304",
+        "ap2_mx10004",
+        "p1_ptx10003-80c",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1001,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/transport/rsvp-signaling.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/ewan_finance/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/ewan_finance/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/ewan_finance/OUTPUT_FORMAT.md"
+    }
+  ]
+}
