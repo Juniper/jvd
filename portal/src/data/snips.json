@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T14:35:51.482Z",
+  "generatedAt": "2026-07-15T18:15:42.435Z",
   "counts": {
     "total": 534,
     "junos": 256,
@@ -39942,6 +39942,12 @@
       "promptPath": "enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/jvd-ewan-ace-byoai-prompt.txt",
       "promptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_adv_core_edge/jvd-ewan-ace-byoai-prompt.txt",
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/jvd-ewan-ace-byoai-prompt.txt"
+    },
+    {
+      "jvd": "ewan_finance",
+      "promptPath": "enterprise_wan/ewan_finance/configuration/snips/byoai/jvd-ewan-fin-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_finance/jvd-ewan-fin-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/byoai/jvd-ewan-fin-byoai-prompt.txt"
     },
     {
       "jvd": "metro_as_a_service",
