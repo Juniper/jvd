@@ -14,11 +14,11 @@ Two modes:
   from the 53-snip library: an L2 vlan-aware MAC-VRF (EVPN-VXLAN) and an L3
   EVPN Type-5 VRF, over an eBGP Clos underlay + eBGP EVPN overlay with ERB
   anycast IRB gateways.
-- **Design mode** (currently limited) — explore the architecture, grounded in
-  the snip library + repo README + general Junos knowledge. The formal JVD
-  documentation corpus (design guide / solution overview / test report brief /
-  datasheet) has not been published for this JVD yet; once it is, this bundle
-  will be refreshed to fetch and cite it.
+- **Design mode** — explore the architecture, grounded in the JVD documentation
+  corpus ([`../../../documentation/`](../../../documentation/)): datasheet,
+  design guide, solution overview, and test report brief, plus the **NSX-T
+  integration** and **IPv6 underlay** variant guides. Answers are cited to the
+  docs.
 
 ## Quick start
 
@@ -56,16 +56,14 @@ For detailed usage + the tested-and-working AI compatibility list, see
 ## Configuration mode vs Design mode
 
 **Configuration mode** fetches the snip bundle (`jvd-3stage-dc-snips.md`)
-and generates config. **Design mode** is currently limited: it answers
-architecture questions from the snip library + repo README + general Junos
-knowledge, and says so. There is no published `documentation/` corpus for
-this JVD yet — when it lands (via jvd-documentation-ingest), Design mode
-will be wired to fetch and cite:
+and generates config. **Design mode** fetches the design corpus and answers
+architecture questions, grounded and cited:
 
-- `../../../documentation/datasheet.md`
-- `../../../documentation/design-guide.md`
-- `../../../documentation/solution-overview.md`
-- `../../../documentation/test-report-brief.md`
+- [`../../../documentation/datasheet.md`](../../../documentation/datasheet.md) (fetched first)
+- [`../../../documentation/design-guide.md`](../../../documentation/design-guide.md)
+- [`../../../documentation/solution-overview.md`](../../../documentation/solution-overview.md)
+- [`../../../documentation/test-report-brief.md`](../../../documentation/test-report-brief.md)
+- Variants: [`design-guide-nsxt-integration.md`](../../../documentation/design-guide-nsxt-integration.md) · [`design-guide-ipv6-underlay.md`](../../../documentation/design-guide-ipv6-underlay.md)
 
 The snip bundle is not required for Design mode.
 
