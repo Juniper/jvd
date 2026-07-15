@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips",
+  "snip_count": 23,
+  "snips": [
+    {
+      "path": "evo/bootstrap/chassis-buffer-monitor.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "chassis-buffer-monitor",
+      "topic": "FPC traffic-manager buffer-monitor for AI/RoCE fabric visibility",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 886,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/chassis-buffer-monitor.conf"
+    },
+    {
+      "path": "evo/bootstrap/security-grpc-cert.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "security-grpc-cert",
+      "topic": "Local TLS certificate for the gRPC extension-service listener",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1044,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/security-grpc-cert.conf"
+    },
+    {
+      "path": "evo/bootstrap/system-grpc-netconf.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "system-grpc-netconf",
+      "topic": "System base \u2014 netconf/SSH, gRPC extension-service over TLS, mgmt instance",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1706,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/bootstrap/system-grpc-netconf.conf"
+    },
+    {
+      "path": "evo/cos/rdma-rocev2-lossless.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rdma-rocev2-lossless",
+      "topic": "RoCEv2 lossless CoS \u2014 DSCP classifier, PFC, ECN, lossless buffers, schedulers",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 4040,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/cos/rdma-rocev2-lossless.conf"
+    },
+    {
+      "path": "evo/interfaces/fabric-p2p-400g-breakout.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "fabric-p2p-400g-breakout",
+      "topic": "400G breakout to 2x sub-ports for fabric P2P /31 links (MTU 9216/9170)",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1809,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/fabric-p2p-400g-breakout.conf"
+    },
+    {
+      "path": "evo/interfaces/irb-tenant-gateway.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "irb-tenant-gateway",
+      "topic": "IRB anycast gateway per tenant \u2014 MTU 9000, shared virtual MAC",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 1392,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/irb-tenant-gateway.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback-leaf.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback-leaf",
+      "topic": "Leaf loopback \u2014 primary unit (underlay/overlay) + per-VRF units",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 1681,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/loopback-leaf.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback-spine.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback-spine",
+      "topic": "Spine loopback \u2014 single unit serving both underlay router-id and EVPN overlay",
+      "seen_on": [
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1106,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/loopback-spine.conf"
+    },
+    {
+      "path": "evo/interfaces/tenant-gpu-server-link.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "tenant-gpu-server-link",
+      "topic": "Per-tenant GPU-server-facing 400G sub-port with dual-stack /31",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 1489,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/interfaces/tenant-gpu-server-link.conf"
+    },
+    {
+      "path": "evo/oam/l2-learning-telemetry.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "l2-learning-telemetry",
+      "topic": "L2-learning telemetry \u2014 stream remote MAC entries via gRPC",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 810,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/l2-learning-telemetry.conf"
+    },
+    {
+      "path": "evo/oam/lldp-interface-all.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "lldp-interface-all",
+      "topic": "LLDP enabled on all interfaces with descriptive port-id reporting",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1240,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/lldp-interface-all.conf"
+    },
+    {
+      "path": "evo/oam/rstp-disable.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "rstp-disable",
+      "topic": "RSTP disabled on spine \u2014 pure L3 device, no L2 loop protection needed",
+      "seen_on": [
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 713,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/oam/rstp-disable.conf"
+    },
+    {
+      "path": "evo/policy/allpodnetworks-direct-redistribution.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "allpodnetworks-direct-redistribution",
+      "topic": "AllPodNetworks \u2014 direct-route redistribution into BGP with community tagging",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 3568,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/allpodnetworks-direct-redistribution.conf"
+    },
+    {
+      "path": "evo/policy/clos-loop-prevention.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "clos-loop-prevention",
+      "topic": "eBGP CLOS loop-prevention \u2014 spine tags outbound, leaf rejects tagged inbound",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 2685,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/clos-loop-prevention.conf"
+    },
+    {
+      "path": "evo/policy/community-definitions.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions \u2014 tier markers, default redistribution, per-tenant",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 2862,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/community-definitions.conf"
+    },
+    {
+      "path": "evo/policy/pfe-load-balance.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "pfe-load-balance",
+      "topic": "PFE per-packet load-balance policy (referenced by forwarding-table export)",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1018,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/pfe-load-balance.conf"
+    },
+    {
+      "path": "evo/policy/tenant-community-export.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "tenant-community-export",
+      "topic": "Per-tenant export policies \u2014 AllPodNetworks-tenant-N + BGP-AOS-Policy-tenant-N",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 3048,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy/tenant-community-export.conf"
+    },
+    {
+      "path": "evo/services/evpn-vrf-ip-prefix-routes.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vrf-ip-prefix-routes",
+      "topic": "Per-tenant VRF with EVPN type-5 ip-prefix-routes (VXLAN encap)",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 2793,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/services/evpn-vrf-ip-prefix-routes.conf"
+    },
+    {
+      "path": "evo/transport/bgp-ebgp-evpn-overlay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-ebgp-evpn-overlay",
+      "topic": "eBGP EVPN overlay \u2014 loopback-to-loopback, multihop, signaling loops 2",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 3994,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/bgp-ebgp-evpn-overlay.conf"
+    },
+    {
+      "path": "evo/transport/bgp-ebgp-fabric-underlay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-ebgp-fabric-underlay",
+      "topic": "eBGP fabric underlay \u2014 leaf<->spine /31 sessions, multipath, BFD 1s",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 3419,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/bgp-ebgp-fabric-underlay.conf"
+    },
+    {
+      "path": "evo/transport/ecmp-dlb-flowlet.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "ecmp-dlb-flowlet",
+      "topic": "ECMP DLB (Dynamic Load Balancing) flowlet \u2014 AI fabric load spreading",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1696,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/ecmp-dlb-flowlet.conf"
+    },
+    {
+      "path": "evo/transport/router-advertisement.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "router-advertisement",
+      "topic": "IPv6 Router Advertisement on tenant GPU-server-facing interfaces",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od"
+      ],
+      "size_bytes": 1162,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/router-advertisement.conf"
+    },
+    {
+      "path": "evo/transport/routing-options-ecmp-frr.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "routing-options-ecmp-frr",
+      "topic": "Routing-options \u2014 router-id, AS, ECMP fast-reroute, chained-composite-NH",
+      "seen_on": [
+        "leaf1_qfx5240-64od",
+        "leaf2_qfx5240-64od",
+        "leaf3_qfx5240-64od",
+        "leaf4_qfx5240-64od",
+        "spine1_qfx5240-64od",
+        "spine2_qfx5240-64od",
+        "spine3_qfx5240-64od",
+        "spine4_qfx5240-64od"
+      ],
+      "size_bytes": 1920,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/transport/routing-options-ecmp-frr.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_multitenancy_backend/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, tenant VNIs, RD/RT, RoCE CoS",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_multitenancy_backend/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_multitenancy_backend/OUTPUT_FORMAT.md"
+    }
+  ]
+}

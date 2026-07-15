@@ -4,6 +4,99 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-15
+
+Four more Juniper Validated Designs gain the full treatment — an AI-assisted
+design assistant plus a complete documentation corpus — and the Data Center
+track joins the program for the first time. SP Core & Edge SRv6 and Enterprise
+WAN for Finance & Stock Exchange are joined by the first two Data Center
+designs: the 3-Stage EVPN-VXLAN fabric and the AI Data Center Multitenancy GPU
+backend. The Bring Your Own AI experience also gains a usage guide and clearer
+launch guidance.
+
+### New content
+
+- **SP Core & Edge SRv6 — design assistant and documentation** — the SRv6 JVD
+  gains an AI-assisted design assistant and a full documentation corpus in
+  [`service_provider/srv6_core_edge/`](service_provider/srv6_core_edge/):
+  design guide, solution overview, test report brief, datasheet, and topology
+  figures. Covers SRv6 micro-SID transport with IS-IS Flex-Algo, TI-LFA fast
+  reroute, inter-AS Option C, and GRT / L3VPN / EVPN E-Line services, validated
+  on Junos OS / Junos OS Evolved 24.4R2.
+- **Enterprise WAN for Finance & Stock Exchange — design assistant and
+  documentation** — a full corpus in
+  [`enterprise_wan/ewan_finance/`](enterprise_wan/ewan_finance/): an
+  ultra-low-latency, multicast-centric MPLS/RSVP-TE WAN delivering NG-MVPN
+  (SPT-only, RSVP-TE P2MP), EVPN virtual-switch Active/Standby ESI multihoming,
+  L3VPN VRFs, and a core-router virtual-router context with TWAMP SLA
+  monitoring, across MX304/MX10004, ACX7100, and PTX10001/10003.
+- **3-Stage Data Center (EVPN-VXLAN) — first Data Center design with the full
+  treatment** — [`data_center/adc/3stage_dc/`](data_center/adc/3stage_dc/) gains
+  a design assistant and documentation for the EVPN-VXLAN edge-routed-bridging
+  fabric built with Juniper Apstra: a VLAN-aware MAC-VRF and EVPN Type-5 VRFs
+  over an eBGP Clos underlay + EVPN overlay, across QFX5220 spines, QFX5120
+  server leaves, and QFX5130/QFX5120 border leaves. Includes companion
+  documentation for the VMware NSX-T integration and IPv6-underlay variants.
+- **AI Data Center Multitenancy with EVPN/VXLAN — first AI design with the full
+  treatment** —
+  [`data_center/aidc/aiml_multitenancy_backend/`](data_center/aidc/aiml_multitenancy_backend/)
+  gains a design assistant and documentation for the GPU backend fabric that
+  delivers GPU as a Service (GPUaaS): per-tenant EVPN Type-5 IP-VRFs on a
+  rail-optimized stripe of QFX5240 switches, with RoCEv2 lossless transport,
+  DCQCN congestion management, and Dynamic Load Balancing.
+
+### Portal
+
+- **Bring Your Own AI — usage guide and launch clarity** — a new Using BYOAI
+  guide documents which AI models and tiers are tested and working, how to
+  verify your AI can fetch the design content, and how to attach or paste the
+  assistant prompt when your AI can't browse the web. Launch guidance is
+  corrected to make clear the assistant needs an AI with web access.
+
+### What this means for you
+
+- Explore SRv6, Enterprise WAN Finance, and the first two Data Center designs
+  (3-Stage EVPN-VXLAN and AI Multitenancy) in the portal's Design & Planner —
+  ask architecture and scaling questions and get answers cited to the validated
+  design.
+- Generate ready-to-deploy configuration for any of these designs with your own
+  AI assistant or the portal Config Generator.
+- Before launching the assistant, check the Using BYOAI guide to pick an AI
+  model/tier that can fetch the design content — or use the attach / paste
+  fallback.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| service_provider/srv6_core_edge | 23 | 0 | 0 | 0 | 3 |
+| enterprise_wan/ewan_finance | 33 | 0 | 0 | 0 | 3 |
+| data_center/adc/3stage_dc | 25 | 0 | 0 | 0 | 3 |
+| data_center/aidc/aiml_multitenancy_backend | 19 | 0 | 0 | 0 | 3 |
+| portal | 39 | 0 | 0 | 2 | 0 |
+| **TOTAL** | **139** | **0** | **0** | **2** | **12** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| service_provider/srv6_core_edge | 6,710 | 0 | +6,710 |
+| enterprise_wan/ewan_finance | 5,230 | 0 | +5,230 |
+| data_center/adc/3stage_dc | 6,128 | 0 | +6,128 |
+| data_center/aidc/aiml_multitenancy_backend | 3,723 | 0 | +3,723 |
+| portal | 19,018 | 6 | +19,012 |
+| **Total** | **40,809** | **6** | **+40,803** |
+
+</details>
+
 ## 2026-07-14
 
 Two more JVDs — Metro Ethernet Business Services and Enterprise WAN
