@@ -13,11 +13,10 @@ Two modes:
 - **Configuration mode** — a guided interview produces ready-to-deploy config
   from the 23-snip library: per-tenant EVPN Type-5 VRFs, RoCEv2 lossless CoS,
   DLB/ECMP, and the eBGP Clos underlay + EVPN overlay.
-- **Design mode** (currently limited) — explore the architecture, grounded in
-  the snip library + repo README + general Junos/RoCE knowledge. The formal JVD
-  documentation corpus (design guide / solution overview / test report brief /
-  datasheet) has not been published for this JVD yet; once it is, this bundle
-  will be refreshed to fetch and cite it.
+- **Design mode** — explore the architecture, grounded in the JVD documentation
+  corpus ([`../../../documentation/`](../../../documentation/)): datasheet,
+  design guide, solution overview, and test report brief. Answers are cited to
+  the docs.
 
 ## Quick start
 
@@ -55,16 +54,13 @@ For detailed usage + the tested-and-working AI compatibility list, see
 ## Configuration mode vs Design mode
 
 **Configuration mode** fetches the snip bundle (`jvd-aiml-mtb-snips.md`)
-and generates config. **Design mode** is currently limited: it answers
-architecture questions from the snip library + repo README + general Junos/RoCE
-knowledge, and says so. There is no published `documentation/` corpus for
-this JVD yet — when it lands (via jvd-documentation-ingest), Design mode
-will be wired to fetch and cite:
+and generates config. **Design mode** fetches the design corpus and answers
+architecture questions, grounded and cited:
 
-- `../../../documentation/datasheet.md`
-- `../../../documentation/design-guide.md`
-- `../../../documentation/solution-overview.md`
-- `../../../documentation/test-report-brief.md`
+- [`../../../documentation/datasheet.md`](../../../documentation/datasheet.md) (fetched first)
+- [`../../../documentation/design-guide.md`](../../../documentation/design-guide.md)
+- [`../../../documentation/solution-overview.md`](../../../documentation/solution-overview.md)
+- [`../../../documentation/test-report-brief.md`](../../../documentation/test-report-brief.md)
 
 The snip bundle is not required for Design mode.
 
