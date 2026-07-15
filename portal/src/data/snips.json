@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T18:28:48.297Z",
+  "generatedAt": "2026-07-15T19:38:51.824Z",
   "counts": {
     "total": 534,
     "junos": 256,
@@ -39937,6 +39937,12 @@
     }
   ],
   "byoaiJvds": [
+    {
+      "jvd": "3stage_dc",
+      "promptPath": "data_center/adc/3stage_dc/configuration/snips/byoai/jvd-3stage-dc-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/3stage_dc/jvd-3stage-dc-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/byoai/jvd-3stage-dc-byoai-prompt.txt"
+    },
     {
       "jvd": "ewan_adv_core_edge",
       "promptPath": "enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/jvd-ewan-ace-byoai-prompt.txt",
