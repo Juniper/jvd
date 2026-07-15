@@ -1,0 +1,919 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips",
+  "snip_count": 53,
+  "snips": [
+    {
+      "path": "evo/bootstrap/chassis-port-config.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "chassis-port-config",
+      "topic": "Chassis port-speed configuration for QFX5220/5130/5700 spine and border leaf",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1357,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/bootstrap/chassis-port-config.conf"
+    },
+    {
+      "path": "evo/bootstrap/grpc-certificate.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "grpc-certificate",
+      "topic": "gRPC TLS certificate for Juniper Apstra controller authentication",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1016,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/bootstrap/grpc-certificate.conf"
+    },
+    {
+      "path": "evo/interfaces/external-vlan-tagged.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "external-vlan-tagged",
+      "topic": "Flexible-VLAN-tagged external breakout interface for inter-VRF/WAN exit",
+      "seen_on": [
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1731,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/interfaces/external-vlan-tagged.conf"
+    },
+    {
+      "path": "evo/interfaces/fabric-uplink.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "fabric-uplink",
+      "topic": "Point-to-point fabric uplink to spine with /31 IPv4 addressing",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1484,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/interfaces/fabric-uplink.conf"
+    },
+    {
+      "path": "evo/interfaces/irb-gateway.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "irb-gateway",
+      "topic": "IRB gateway interface for EVPN/VXLAN symmetric routing (ERB model)",
+      "seen_on": [
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1441,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/interfaces/irb-gateway.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback-multi-unit.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback-multi-unit",
+      "topic": "Multi-unit loopback for router-id, EVPN overlay, and per-VRF identities",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1567,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/interfaces/loopback-multi-unit.conf"
+    },
+    {
+      "path": "evo/oam/ipv6-router-advertisement.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "ipv6-router-advertisement",
+      "topic": "IPv6 Router Advertisement on IRB/WAN interfaces",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 846,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/oam/ipv6-router-advertisement.conf"
+    },
+    {
+      "path": "evo/oam/l2-learning-telemetry.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "l2-learning-telemetry",
+      "topic": "L2 learning telemetry for remote MAC entry visibility",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 627,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/oam/l2-learning-telemetry.conf"
+    },
+    {
+      "path": "evo/oam/lldp-discovery.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "lldp-discovery",
+      "topic": "LLDP neighbor discovery configuration",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 707,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/oam/lldp-discovery.conf"
+    },
+    {
+      "path": "evo/oam/rstp-bridge.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "rstp-bridge",
+      "topic": "RSTP bridge configuration with edge-port BPDU blocking",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 627,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/oam/rstp-bridge.conf"
+    },
+    {
+      "path": "evo/oam/sflow-telemetry.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "sflow-telemetry",
+      "topic": "sFlow telemetry sampling and collector configuration",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1033,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/oam/sflow-telemetry.conf"
+    },
+    {
+      "path": "evo/policy/bgp-aos-export-policy.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "bgp-aos-export-policy",
+      "topic": "BGP-AOS-Policy master export filter chaining AllPodNetworks and BGP redistribution",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1570,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/bgp-aos-export-policy.conf"
+    },
+    {
+      "path": "evo/policy/community-definitions.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions for fabric signaling and route tagging",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2076,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/community-definitions.conf"
+    },
+    {
+      "path": "evo/policy/external-route-export.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "external-route-export",
+      "topic": "External route export policy with fabric community stripping",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1734,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/external-route-export.conf"
+    },
+    {
+      "path": "evo/policy/external-route-import.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "external-route-import",
+      "topic": "External route import policy with route-filter-list and community tagging",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1872,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/external-route-import.conf"
+    },
+    {
+      "path": "evo/policy/leaf-to-spine-evpn-filter.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "leaf-to-spine-evpn-filter",
+      "topic": "LEAF_TO_SPINE_EVPN_OUT loop-prevention filter rejecting spine-originated EVPN routes",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 986,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/leaf-to-spine-evpn-filter.conf"
+    },
+    {
+      "path": "evo/policy/leaf-to-spine-fabric-filter.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "leaf-to-spine-fabric-filter",
+      "topic": "LEAF_TO_SPINE_FABRIC_OUT loop-prevention filter rejecting spine-originated fabric routes",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1000,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/leaf-to-spine-fabric-filter.conf"
+    },
+    {
+      "path": "evo/policy/per-packet-load-balance.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "topic": "Per-packet load-balance policy for PFE forwarding-table export",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 804,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/per-packet-load-balance.conf"
+    },
+    {
+      "path": "evo/policy/pod-network-export.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "pod-network-export",
+      "topic": "AllPodNetworks direct-route export policy with per-VRF community tagging",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2173,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/pod-network-export.conf"
+    },
+    {
+      "path": "evo/policy/route-filter-lists.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "route-filter-lists",
+      "topic": "Route-filter-list definitions for external peer import/export control",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1522,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/route-filter-lists.conf"
+    },
+    {
+      "path": "evo/services/vrf-evpn-ip-prefix.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "vrf-evpn-ip-prefix",
+      "topic": "VRF instance with EVPN ip-prefix-routes, optional eBGP external peering, and DHCP relay",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 4961,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/services/vrf-evpn-ip-prefix.conf"
+    },
+    {
+      "path": "evo/transport/bgp-evpn-overlay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-evpn-overlay",
+      "topic": "eBGP EVPN overlay peer group with multihop and signaling",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2273,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/transport/bgp-evpn-overlay.conf"
+    },
+    {
+      "path": "evo/transport/bgp-underlay-fabric.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-underlay-fabric",
+      "topic": "eBGP underlay fabric peer group (leaf-to-spine or spine-to-leaf)",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2347,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/transport/bgp-underlay-fabric.conf"
+    },
+    {
+      "path": "evo/transport/forwarding-table-ecmp.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "forwarding-table-ecmp",
+      "topic": "Forwarding-table ECMP with per-packet load-balance and chained-composite-next-hop",
+      "seen_on": [
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1390,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/transport/forwarding-table-ecmp.conf"
+    },
+    {
+      "path": "junos/bootstrap/chassis-port-config.conf",
+      "os": "junos",
+      "category": "bootstrap",
+      "name": "chassis-port-config",
+      "topic": "Chassis aggregated-devices and FPC port-speed configuration for QFX5120 leaf",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y"
+      ],
+      "size_bytes": 1408,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/bootstrap/chassis-port-config.conf"
+    },
+    {
+      "path": "junos/bootstrap/grpc-certificate.conf",
+      "os": "junos",
+      "category": "bootstrap",
+      "name": "grpc-certificate",
+      "topic": "gRPC TLS certificate for Juniper Apstra controller authentication",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 978,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/bootstrap/grpc-certificate.conf"
+    },
+    {
+      "path": "junos/interfaces/external-vlan-tagged.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "external-vlan-tagged",
+      "topic": "Flexible-VLAN-tagged external interface for inter-VRF/WAN exit",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1154,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/external-vlan-tagged.conf"
+    },
+    {
+      "path": "junos/interfaces/fabric-uplink.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "fabric-uplink",
+      "topic": "Point-to-point fabric uplink to spine with /31 IPv4 addressing",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1381,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/fabric-uplink.conf"
+    },
+    {
+      "path": "junos/interfaces/irb-gateway.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "irb-gateway",
+      "topic": "IRB gateway interface for EVPN/VXLAN symmetric routing (ERB model)",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1807,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/irb-gateway.conf"
+    },
+    {
+      "path": "junos/interfaces/lag-esi-access.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "lag-esi-access",
+      "topic": "LAG with EVPN ESI all-active multihoming for redundant server access",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1941,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/lag-esi-access.conf"
+    },
+    {
+      "path": "junos/interfaces/loopback-multi-unit.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "loopback-multi-unit",
+      "topic": "Multi-unit loopback for router-id, EVPN overlay, and per-VRF identities",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1508,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/loopback-multi-unit.conf"
+    },
+    {
+      "path": "junos/interfaces/trunk-access-port.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "trunk-access-port",
+      "topic": "L2 trunk access port carrying EVPN/VXLAN VLANs to servers",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y"
+      ],
+      "size_bytes": 1371,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/trunk-access-port.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-vxlan-domain.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-vxlan-domain",
+      "topic": "VLAN-to-VXLAN domain mapping with VNI and optional L3 IRB interface",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y"
+      ],
+      "size_bytes": 1605,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/interfaces/vlan-vxlan-domain.conf"
+    },
+    {
+      "path": "junos/oam/ipv6-router-advertisement.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "ipv6-router-advertisement",
+      "topic": "IPv6 Router Advertisement on IRB/WAN interfaces",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1110,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/oam/ipv6-router-advertisement.conf"
+    },
+    {
+      "path": "junos/oam/l2-learning-telemetry.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "l2-learning-telemetry",
+      "topic": "L2 learning telemetry for remote MAC entry visibility",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 702,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/oam/l2-learning-telemetry.conf"
+    },
+    {
+      "path": "junos/oam/lldp-discovery.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "lldp-discovery",
+      "topic": "LLDP neighbor discovery configuration",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 969,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/oam/lldp-discovery.conf"
+    },
+    {
+      "path": "junos/oam/rstp-bridge.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "rstp-bridge",
+      "topic": "RSTP bridge configuration with edge-port BPDU blocking",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 923,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/oam/rstp-bridge.conf"
+    },
+    {
+      "path": "junos/oam/sflow-telemetry.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "sflow-telemetry",
+      "topic": "sFlow telemetry sampling and collector configuration",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1345,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/oam/sflow-telemetry.conf"
+    },
+    {
+      "path": "junos/policy/bgp-aos-export-policy.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "bgp-aos-export-policy",
+      "topic": "BGP-AOS-Policy master export filter chaining AllPodNetworks and BGP redistribution",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1898,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/bgp-aos-export-policy.conf"
+    },
+    {
+      "path": "junos/policy/community-definitions.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions for fabric signaling and route tagging",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2384,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/community-definitions.conf"
+    },
+    {
+      "path": "junos/policy/external-route-export.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "external-route-export",
+      "topic": "External route export policy with fabric community stripping",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1963,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/external-route-export.conf"
+    },
+    {
+      "path": "junos/policy/external-route-import.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "external-route-import",
+      "topic": "External route import policy with route-filter-list and community tagging",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2136,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/external-route-import.conf"
+    },
+    {
+      "path": "junos/policy/leaf-to-spine-evpn-filter.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "leaf-to-spine-evpn-filter",
+      "topic": "LEAF_TO_SPINE_EVPN_OUT loop-prevention filter rejecting spine-originated EVPN routes",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1185,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/leaf-to-spine-evpn-filter.conf"
+    },
+    {
+      "path": "junos/policy/leaf-to-spine-fabric-filter.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "leaf-to-spine-fabric-filter",
+      "topic": "LEAF_TO_SPINE_FABRIC_OUT loop-prevention filter rejecting spine-originated fabric routes",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1184,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/leaf-to-spine-fabric-filter.conf"
+    },
+    {
+      "path": "junos/policy/per-packet-load-balance.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "topic": "Per-packet load-balance policy for PFE forwarding-table export",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 864,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/per-packet-load-balance.conf"
+    },
+    {
+      "path": "junos/policy/pod-network-export.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "pod-network-export",
+      "topic": "AllPodNetworks direct-route export policy with per-VRF community tagging",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2567,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/pod-network-export.conf"
+    },
+    {
+      "path": "junos/policy/route-filter-lists.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "route-filter-lists",
+      "topic": "Route-filter-list definitions for external peer import/export control",
+      "seen_on": [
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1861,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/route-filter-lists.conf"
+    },
+    {
+      "path": "junos/services/mac-vrf-evpn-vxlan.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "mac-vrf-evpn-vxlan",
+      "topic": "MAC-VRF instance with EVPN/VXLAN encapsulation and per-VNI route-targets",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y"
+      ],
+      "size_bytes": 3330,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/services/mac-vrf-evpn-vxlan.conf"
+    },
+    {
+      "path": "junos/services/vrf-evpn-ip-prefix.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "vrf-evpn-ip-prefix",
+      "topic": "VRF instance with EVPN ip-prefix-routes, optional eBGP external peering, and DHCP relay",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c",
+        "borderleaf1_qfx5130-32cd",
+        "borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 5351,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/services/vrf-evpn-ip-prefix.conf"
+    },
+    {
+      "path": "junos/transport/bgp-evpn-overlay.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-evpn-overlay",
+      "topic": "eBGP EVPN overlay peer group with multihop and signaling",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 2103,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/transport/bgp-evpn-overlay.conf"
+    },
+    {
+      "path": "junos/transport/bgp-underlay-fabric.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-underlay-fabric",
+      "topic": "eBGP underlay fabric peer group (leaf-to-spine or spine-to-leaf)",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 2126,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/transport/bgp-underlay-fabric.conf"
+    },
+    {
+      "path": "junos/transport/evpn-vxlan-shared-tunnels.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "evpn-vxlan-shared-tunnels",
+      "topic": "EVPN-VXLAN shared tunnels and VXLAN routing parameters",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1427,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/transport/evpn-vxlan-shared-tunnels.conf"
+    },
+    {
+      "path": "junos/transport/forwarding-table-ecmp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "forwarding-table-ecmp",
+      "topic": "Forwarding-table ECMP with per-packet load-balance and chained-composite-next-hop",
+      "seen_on": [
+        "esi-leaf1_qfx5120-48y",
+        "esi-leaf2_qfx5120-48y",
+        "server-leaf1_qfx5120-48y",
+        "borderleaf1_qfx5120-32c",
+        "borderleaf2_qfx5120-32c"
+      ],
+      "size_bytes": 1348,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/transport/forwarding-table-ecmp.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/3stage_dc/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/3stage_dc/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/3stage_dc/OUTPUT_FORMAT.md"
+    }
+  ]
+}
