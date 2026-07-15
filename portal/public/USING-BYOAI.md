@@ -99,6 +99,12 @@ Do **not** put "reply with exactly …" style instructions inside the probe file
 looks like prompt injection and some models will (correctly) refuse, giving a false
 negative even though the fetch worked.
 
+> **Caching note.** Prompt and probe URLs are CDN-cached (`raw` ~5 min, GitHub Pages
+> ~10 min). Right after you *change* a file, an AI may briefly fetch the previous
+> version — this only affects testing immediately after an edit, never a stable
+> published prompt. To force-refresh while testing, append a throwaway query string
+> (e.g. `…/probe.txt?cb=123`) or just wait out the TTL.
+
 ---
 
 ## Can this be automated?
