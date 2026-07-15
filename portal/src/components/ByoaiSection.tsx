@@ -203,8 +203,9 @@ export default function ByoaiSection() {
             <div className="mt-4 space-y-2 text-[11px] text-muted-foreground">
               <p>
                 <strong className="font-semibold text-foreground/80">Requires web access:</strong>{" "}
-                the AI must be able to fetch a URL to load the prompt. Most paid tiers and
-                browsing-capable modes work; some free &quot;fast&quot; modes cannot fetch. See{" "}
+                the AI must be able to fetch a URL to load the prompt. Most current tiers —
+                including many free ones — can; a few will decline. If yours can&apos;t, attach the
+                prompt instead. See{" "}
                 <a href={GUIDE_URL} target="_blank" rel="noreferrer" className="underline hover:text-primary">
                   what&apos;s tested &amp; working
                 </a>

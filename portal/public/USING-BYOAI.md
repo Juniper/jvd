@@ -55,14 +55,22 @@ _Last updated: 2026-07-15_
 
 | AI | Tier | Model / mode | Launch-fetch | Attach / paste | Last tested | Notes |
 |----|------|--------------|:------------:|:--------------:|-------------|-------|
-| ChatGPT | Plus | GPT‑5 Thinking (Medium) | ✅ | — | 2026-07-15 | Confirmed working. |
-| ChatGPT | Plus | Instant | ❓ | — | — | To test. |
-| ChatGPT | Free | (model not disclosed) | ❓ | ❓ | — | Free tier often doesn't show which model is active. |
-| Claude | Pro | (browsing-capable) | ❓ | — | — | To test; record exact model. |
-| Claude | Free | (default) | ❓ | ❓ | — | To test. |
-| Gemini | — | — | n/a | ❓ | — | No URL pre-fill; paste the prompt manually. |
+| ChatGPT | Pro | GPT‑5.5 · Instant | ✅ | — | 2026-07-15 | Fetched cleanly. |
+| ChatGPT | Pro | GPT‑5.5 · Medium | ✅ | — | 2026-07-15 | Fetched cleanly. |
+| ChatGPT | Free | Instant (model not disclosed) | ✅ | — | 2026-07-15 | Fetched cleanly. Free tier often doesn't show the active model. |
+| Claude | Pro | Sonnet 5 (app) | ✅ | ✅ | 2026-07-15 | Real BYOAI prompt + portal launch work. See injection note below. |
+| Claude | Pro | Haiku 4.5 (app) | ✅ | ✅ | 2026-07-15 | Real BYOAI prompt + portal launch work. See injection note below. |
+| Gemini | — | — | n/a | ❓ | — | No URL pre-fill; paste/attach the prompt manually. |
 
 Legend: ✅ works · ❌ does not work · ❓ untested · — not applicable.
+
+> **Injection note.** Some assistants (notably Claude) will **decline to obey an
+> instruction that lives inside a fetched file** — that's correct prompt-injection
+> resistance, not a fetch failure. The real BYOAI prompt is unaffected: it's framed
+> as a user-authored task guide that explicitly does **not** override the model's
+> safety rules, and it launches fine (confirmed on Claude Haiku 4.5 via the portal).
+> Because of this, the verification probe below is **pure data** — you ask the
+> question yourself rather than letting the file instruct the model.
 
 > When you test a cell, **record the exact model/mode** you used. On tiers that
 > don't disclose the model (some free tiers), note that explicitly.
@@ -74,20 +82,22 @@ Legend: ✅ works · ❌ does not work · ❓ untested · — not applicable.
 The fastest end-to-end check is the launch itself: if the assistant answers with
 the mode menu, fetch works on that account.
 
-To isolate **whether the account can fetch a URL at all** (independent of the JVD
-prompt), use the tiny probe files and a fixed question:
+To isolate **whether the account can fetch a URL at all**, use the tiny **data-only**
+probe. Ask the question **yourself** — don't rely on an instruction inside the file
+(see the injection note above):
 
-1. In a fresh chat, paste: **`Fetch this URL and follow the instruction inside it: <URL>`**
-2. Use a probe URL (raw, `text/plain`):
+1. In a fresh chat, paste this (the request comes from *you*; the file is just data):
+   **`Fetch this URL and tell me the second line, the last fruit, and the value of the format line: <URL>`**
+2. Probe URL (raw, `text/plain`):
    - `https://raw.githubusercontent.com/Juniper/jvd/main/portal/public/_fetch-probe/probe.txt`
-3. A working fetch replies **exactly**:
-   `PROBE-OK format=TXT line2=Banana lastfruit=Carrot`
-   - The `format=` / `line2=` tokens come from *inside* the file, so a correct
-     reply proves the AI actually read it (not guessed).
-   - "I can't access that link" → that account can't browse; use attach/paste.
+   - (`.md` variant: `.../probe.md`)
+3. A working fetch answers: **second line = Banana, last fruit = Carrot, format = txt**
+   (`md` for the `.md` file). If it says it can't open the link, that account can't
+   browse — use attach/paste.
 
-To also compare hosting/format (only matters for the one `.md` corpus file), test
-the same probe as `.md` and from the GitHub Pages copy — see the probe folder.
+Do **not** put "reply with exactly …" style instructions inside the probe file — that
+looks like prompt injection and some models will (correctly) refuse, giving a false
+negative even though the fetch worked.
 
 ---
 
