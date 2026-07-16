@@ -370,47 +370,15 @@ export default function JvdPortal() {
             </div>
           </div>
 
-          {/* Why the portal — read on juniper.net, act here */}
-          <div className="mt-20 rounded-xl border border-border bg-surface p-6 md:p-8">
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-              Why this portal
-            </div>
-            <p className="mt-2 max-w-3xl text-lg font-medium tracking-tight md:text-xl">
-              The full designs are published on juniper.net. This is where you{" "}
-              <span className="text-primary">act on them</span> — find the right
-              JVD, understand how it&apos;s built, and generate config you can deploy.
-            </p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-lg border border-border bg-background p-5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  juniper.net — Read
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  The authoritative Design Guides, Solution Overviews, and test
-                  reports. Deep, exhaustive, PDF-length. The source of truth.
-                </p>
-              </div>
-              <div className="rounded-lg border border-primary/40 bg-primary/5 p-5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-                  This portal — Do
-                </div>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Search every JVD in one place, drill into provenance-tracked
-                  config blocks, ask an AI grounded in the designs, and render
-                  download-ready service config in minutes.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Journey ladder — Discover → Explore → Design → Build */}
           <div id="how" className="mt-24 scroll-mt-24">
             <h2 className="text-2xl font-semibold tracking-tight">
               Find. Learn. Plan. Build.
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Four stages, one path. Discover the right design, learn how it&apos;s
-              built, plan it against your requirements, then generate validated config.
+              <span className="font-medium text-foreground">Explore Juniper Validated Designs in a new way.</span>{" "}
+              Discover the right design, learn how it&apos;s built, plan it against
+              your requirements, then generate validated config. Four stages, one path.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-4">
               {LADDER.map((s, i) => (
