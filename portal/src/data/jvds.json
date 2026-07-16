@@ -99,6 +99,7 @@
     "description": "Collapsed fabric extended with EX-series access switch pairs for high-density mGig access ports.",
     "platforms": [
       "ACX7100-48L",
+      "EX4400-48MP",
       "MX304",
       "PTX10001-36MR",
       "QFX5120-48Y",
@@ -327,8 +328,7 @@
       "MX10003",
       "MX204",
       "MX304",
-      "PTX10001-36MR",
-      "QFX5110-48S-4C"
+      "PTX10001-36MR"
     ],
     "os": [
       "Junos",
@@ -351,8 +351,7 @@
       "MX10004",
       "MX204",
       "PTX10001-36MR",
-      "PTX10004",
-      "QFX5210-64C"
+      "PTX10004"
     ],
     "os": [
       "Junos",
