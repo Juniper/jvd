@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Sparkles, Wrench, type LucideIcon } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
 import ConfigGenerator from "@/components/ConfigGenerator";
 import { snipBundle } from "@/lib/snips";
+import { track } from "@/lib/analytics";
 
 type Jvd = {
   id: string;
@@ -183,15 +184,28 @@ function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
         </div>
       )}
       <div className="mt-6 flex-1" />
-      <a
-        href={`${REPO_BASE}${j.repoPath}`}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-flex items-center justify-between rounded-md border border-border bg-background px-4 py-2 text-sm font-medium transition-colors group-hover:border-primary/60 group-hover:text-primary"
-      >
-        View JVD
-        <ExternalLink className="h-3.5 w-3.5" />
-      </a>
+      <div className="grid grid-cols-2 gap-2">
+        <a
+          href={`${REPO_BASE}${j.repoPath}`}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => track("jvd-github")}
+          className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium transition-colors group-hover:border-primary/60 hover:text-primary"
+          title="View this JVD's configs on GitHub"
+        >
+          <Github className="h-3.5 w-3.5" /> GitHub
+        </a>
+        <a
+          href={AREA_DOC_LINKS[j.area] ?? "https://www.juniper.net/documentation/validated-designs/"}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => track("jvd-juniper")}
+          className="inline-flex items-center justify-center gap-1.5 rounded-md border border-border bg-background px-3 py-2 text-xs font-medium transition-colors group-hover:border-primary/60 hover:text-primary"
+          title={`Browse ${j.area} JVDs on juniper.net`}
+        >
+          JVD Docs <ExternalLink className="h-3.5 w-3.5" />
+        </a>
+      </div>
     </article>
   );
 }
@@ -201,6 +215,7 @@ export default function JvdPortal() {
   const [areaF, setAreaF] = useState<string | null>(null);
   const [platformF, setPlatformF] = useState<string | null>(null);
   const [osF, setOsF] = useState<string | null>(null);
+  const [queryF, setQueryF] = useState("");
 
   // Deep links like "#snips?jvd=x" carry a query the browser can't anchor-scroll
   // to (no element id matches "snips?jvd=x"), so scroll the base section into
@@ -218,16 +233,19 @@ export default function JvdPortal() {
     return () => window.removeEventListener("hashchange", scrollToDeepLink);
   }, []);
 
-  const filtered = useMemo(
-    () =>
-      data.filter((j) => {
-        if (areaF && j.area !== areaF) return false;
-        if (platformF && !j.platforms.some((p) => familyOf(p) === platformF)) return false;
-        if (osF && !j.os.includes(osF)) return false;
-        return true;
-      }),
-    [data, areaF, platformF, osF],
-  );
+  const filtered = useMemo(() => {
+    const q = queryF.trim().toLowerCase();
+    return data.filter((j) => {
+      if (areaF && j.area !== areaF) return false;
+      if (platformF && !j.platforms.some((p) => familyOf(p) === platformF)) return false;
+      if (osF && !j.os.includes(osF)) return false;
+      if (q) {
+        const hay = `${j.name} ${j.description} ${j.area} ${j.platforms.join(" ")} ${j.os.join(" ")}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [data, areaF, platformF, osF, queryF]);
 
   // Shuffle once per load so the idle marquee interleaves areas/platforms
   // instead of scrolling through them in source (grouped) order.
@@ -411,19 +429,31 @@ export default function JvdPortal() {
               </p>
             </div>
             <div className="text-sm text-muted-foreground">
-              {areaF || platformF || osF
+              {areaF || platformF || osF || queryF.trim()
                 ? `Showing ${filtered.length} of ${data.length}`
                 : `${data.length} designs · hover to pause, filter to expand`}
             </div>
           </div>
 
           <div className="mt-10 space-y-4">
+            <div className="relative max-w-xl">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="search"
+                value={queryF}
+                onChange={(e) => setQueryF(e.target.value)}
+                onFocus={() => track("catalog-search")}
+                placeholder="Find a matching JVD…"
+                aria-label="Search the JVD catalog"
+                className="w-full rounded-md border border-border bg-surface py-2.5 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60"
+              />
+            </div>
             <FilterRow label="Area" options={AREAS} value={areaF} onChange={setAreaF} />
             <FilterRow label="Platform" options={PLATFORMS} value={platformF} onChange={setPlatformF} />
             <FilterRow label="OS" options={OS_OPTIONS} value={osF} onChange={setOsF} />
           </div>
 
-          {areaF || platformF || osF ? (
+          {areaF || platformF || osF || queryF.trim() ? (
             <>
               <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {filtered.map((j) => (
@@ -432,7 +462,7 @@ export default function JvdPortal() {
               </div>
               {filtered.length === 0 && (
                 <div className="mt-12 rounded-lg border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
-                  No JVDs match the selected filters.
+                  No JVDs match your search or filters.
                 </div>
               )}
             </>
