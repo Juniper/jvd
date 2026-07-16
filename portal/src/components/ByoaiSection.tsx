@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Sparkles, ExternalLink, Github, Info } from "lucide-react";
 import jvds from "@/data/jvds.json";
 import { snipBundle } from "@/lib/snips";
+import { track } from "@/lib/analytics";
 
 /**
  * Bring Your Own AI (BYOAI) — launches Claude or ChatGPT with a bootstrap
@@ -186,6 +187,7 @@ export default function ByoaiSection() {
                 tip="Tip: works with any browsing-capable model."
                 href={claudeUrl}
                 disabled={!selected}
+                onLaunch={() => track(`byoai-launch-claude-${selected?.id ?? "none"}`)}
                 logo={<ClaudeLogo />}
                 accentClass="hover:border-[#cc785c]/60"
               />
@@ -195,6 +197,7 @@ export default function ByoaiSection() {
                 tip="Tip: Instant mode often can't fetch — use a Thinking mode, or attach the prompt."
                 href={chatGptUrl}
                 disabled={!selected}
+                onLaunch={() => track(`byoai-launch-chatgpt-${selected?.id ?? "none"}`)}
                 logo={<ChatGptLogo />}
                 accentClass="hover:border-[#10a37f]/60"
               />
@@ -246,6 +249,7 @@ function AiTile({
   tip,
   href,
   disabled,
+  onLaunch,
   logo,
   accentClass,
 }: {
@@ -254,6 +258,7 @@ function AiTile({
   tip?: string;
   href: string;
   disabled: boolean;
+  onLaunch?: () => void;
   logo: React.ReactNode;
   accentClass: string;
 }) {
@@ -291,7 +296,7 @@ function AiTile({
 
   if (disabled) return inner;
   return (
-    <a href={href} target="_blank" rel="noreferrer" className="block h-full">
+    <a href={href} target="_blank" rel="noreferrer" className="block h-full" onClick={onLaunch}>
       {inner}
     </a>
   );

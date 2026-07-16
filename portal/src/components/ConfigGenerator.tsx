@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { snipBundle, type SnipRecord, type SnipVariable } from "@/lib/snips";
+import { track } from "@/lib/analytics";
 import maasCatalog from "@/data/generator/metro_as_a_service.json";
 import {
   type GenCatalog,
@@ -1046,6 +1047,7 @@ export default function ConfigGenerator() {
   const download = () => {
     if (!fullText) return;
     if (multiUni && fxcOverlap.size > 0) return;
+    track(`generator-download-${sel.familyId}`);
     // E-Tree (rooted-multipoint): ONE EVI = root PE(s) + N leaf PEs. A multihomed
     // root is an all-active ESI PAIR (2 root PEs that SHARE one ESI — so the ESI
     // is constant, only the route-distinguisher differs). Leaves are single-homed;
@@ -1238,6 +1240,7 @@ export default function ConfigGenerator() {
 
   const copy = async () => {
     if (!fullText) return;
+    track(`generator-copy-${sel.familyId}`);
     await navigator.clipboard.writeText(fullText + "\n");
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
@@ -1245,6 +1248,7 @@ export default function ConfigGenerator() {
 
   const downloadTemplate = () => {
     if (!templateText) return;
+    track(`generator-template-${sel.familyId}`);
     const blob = new Blob([templateText], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
