@@ -4,6 +4,41 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-16
+
+The JVD Portal gets a usability, discoverability, and shareability refresh —
+making it faster to find the right design, clearer why the portal exists
+alongside the published JVDs, and better looking when shared or indexed.
+
+### Portal
+
+- **Find a design faster** — a new catalog search bar filters the full JVD
+  library by name, description, area, platform, or OS, and every design card now
+  links straight to both its GitHub configuration and its documentation on
+  juniper.net.
+- **"Why this portal" at a glance** — a new home-page band explains the portal
+  in five seconds: the full designs are published on juniper.net, and the portal
+  is where you act on them — find the right design, learn how it's built, plan
+  it, and generate validated configuration.
+- **Better link previews** — shared portal links now render a branded preview
+  card with a title, summary, and image on Slack, Teams, LinkedIn, and X.
+- **Easier to discover** — the portal now exposes structured catalog data and a
+  no-JavaScript fallback, so search engines and AI assistants can index every
+  validated design in the library.
+- **Curated platform tags** — each design's platform tags were tidied so they
+  reflect the switches and routers actually validated in that design (for
+  example, EX-series access switches now appear on the collapsed-fabric-with-
+  access design).
+
+### What this means for you
+
+- Jump to the right JVD in seconds, then go straight to its configuration or its
+  full documentation.
+- Share portal links that look intentional and on-brand in chat and social.
+- Find validated designs more easily through search engines and AI assistants.
+
+---
+
 ## 2026-07-15
 
 Four more Juniper Validated Designs gain the full treatment — an AI-assisted
