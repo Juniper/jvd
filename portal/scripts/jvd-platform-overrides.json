@@ -3,5 +3,13 @@
   "3stage_dc": {
     "exclude": ["SRX4600", "MX304"],
     "_note": "Base 3-Stage DC fabric has no firewall/MX; SRX4600+MX304 belong to the Connected Security variant (API mis-attribution)."
+  },
+  "metro_as_a_service": {
+    "exclude": ["QFX5110-48S-4C"],
+    "_note": "Lone QFX bit-player from the API; Metro-aaS is an ACX/MX/PTX design with no QFX in its configs."
+  },
+  "metro_ethernet_business_services": {
+    "exclude": ["QFX5210-64C"],
+    "_note": "Lone QFX bit-player from the API; MEBS configs are all ACX/MX/PTX, no QFX."
   }
 }

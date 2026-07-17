@@ -16,15 +16,17 @@
 //   - Print a report: what was added, what an override removed, and which pills
 //     are API-only (uncorroborated by README/config) as review candidates.
 //
-// Usage: node portal/scripts/reconcile-platforms.mjs
+// Usage: node portal/scripts/reconcile-platforms.mjs [targetJvdsJson]
+//   targetJvdsJson defaults to portal/src/data/jvds.json. generate-catalog.sh
+//   passes a temp path in --check mode.
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HERE, "..", "..");
-const JVDS = join(HERE, "..", "src", "data", "jvds.json");
+const JVDS = process.argv[2] ? resolve(process.argv[2]) : join(HERE, "..", "src", "data", "jvds.json");
 const OVERRIDES_PATH = join(HERE, "jvd-platform-overrides.json");
 
 const MODEL_RE = /\b(ACX|QFX|PTX|MX|SRX|EX)[ -]?[0-9][0-9A-Za-z-]*/g;
@@ -93,14 +95,14 @@ for (const j of jvds) {
 
 writeFileSync(JVDS, JSON.stringify(jvds, null, 2) + "\n", "utf8");
 
-console.log("=== changes ===");
+console.error("=== changes ===");
 for (const r of report) {
   if (!r.added.length && !r.removed.length) continue;
-  console.log(`\n${r.id}`);
-  if (r.added.length) console.log("  + added:   " + r.added.join(", "));
-  if (r.removed.length) console.log("  − removed: " + r.removed.join(", ") + "  (override)");
+  console.error(`\n${r.id}`);
+  if (r.added.length) console.error("  + added:   " + r.added.join(", "));
+  if (r.removed.length) console.error("  − removed: " + r.removed.join(", ") + "  (override)");
 }
-console.log("\n=== API-only pills (not in README/config) — review candidates ===");
+console.error("\n=== API-only pills (not in README/config) — review candidates ===");
 for (const r of report) {
-  if (r.apiOnly.length) console.log(`  ${r.id}: ${r.apiOnly.join(", ")}`);
+  if (r.apiOnly.length) console.error(`  ${r.id}: ${r.apiOnly.join(", ")}`);
 }
