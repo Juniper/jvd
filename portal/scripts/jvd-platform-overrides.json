@@ -1,0 +1,7 @@
+{
+  "_comment": "Per-JVD platform-pill overrides applied by reconcile-platforms.mjs AFTER the API+README+config union. 'exclude' removes confirmed-wrong entries (e.g. API mis-attribution of a sibling JVD's gear); 'add' force-adds a model the sources miss. Keep this list minimal and evidence-based.",
+  "3stage_dc": {
+    "exclude": ["SRX4600", "MX304"],
+    "_note": "Base 3-Stage DC fabric has no firewall/MX; SRX4600+MX304 belong to the Connected Security variant (API mis-attribution)."
+  }
+}

@@ -29,7 +29,6 @@ import {
   renderConfig,
   mergeJunosConfig,
   classifyVar,
-  collectVariables,
   endpointValues,
   instanceValues,
   siteInstanceValues,
