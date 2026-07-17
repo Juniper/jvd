@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
   <rect width="720" height="200" fill="#0d1117" rx="8"/>
   <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Page Views</text>
-  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 16 days</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 17 days</text>
   <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
   <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
-  <polyline points="50.0,147.8 93.3,148.3 136.7,147.7 180.0,147.6 223.3,149.7 266.7,149.1 310.0,147.8 353.3,146.1 396.7,144.5 440.0,147.4 483.3,40.0 526.7,144.9 570.0,148.7 613.3,148.4 656.7,147.0 700.0,145.2" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="50.0,149.4 93.3,149.2 136.7,149.2 180.0,149.6 223.3,149.9 266.7,149.7 310.0,149.2 353.3,149.4 396.7,149.2 440.0,149.5 483.3,45.4 526.7,149.7 570.0,149.6 613.3,149.4 656.7,149.5 700.0,149.3" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
-  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 134</text>
-  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 20</text>
+  <polyline points="50.0,147.8 90.6,148.3 131.2,147.7 171.9,147.6 212.5,149.7 253.1,149.1 293.8,147.8 334.4,146.1 375.0,144.5 415.6,147.4 456.2,40.0 496.9,144.9 537.5,148.7 578.1,148.4 618.8,147.0 659.4,145.2 700.0,147.0" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,149.4 90.6,149.2 131.2,149.2 171.9,149.6 212.5,149.9 253.1,149.7 293.8,149.2 334.4,149.4 375.0,149.2 415.6,149.5 456.2,45.4 496.9,149.7 537.5,149.6 578.1,149.4 618.8,149.5 659.4,149.3 700.0,149.4" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 84</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 17</text>
   <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
-<text x="353.3" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
-<text x="656.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
-<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-15</text>
+<text x="334.4" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="618.8" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-16</text>
 
   <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">3057</text>
   <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
