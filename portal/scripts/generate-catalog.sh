@@ -6,13 +6,17 @@
 #   Tier 0 (preferred): Juniper validated-platforms API.
 #     - Folder→JVD-ID map: portal/scripts/jvd-id-map.json
 #     - Cached response:   portal/scripts/jvd-platforms-cache.json
-#     - Filters to helperDut == "DUT" (Device Under Test = actually validated;
-#       Helper devices are stand-ins / supporting kit, equivalent to CE)
+#     - Includes DUT and Helper devices (the whole validated Juniper topology).
 #
 #   Tier 1: Scan README.md for Juniper model names.
 #
 #   Tier 2: Scan .conf filenames + contents under the JVD dir, applying the
 #     CE-skip rule for QFX/EX models that only appear as ce<n> roles.
+#
+# Then a reconciliation pass (reconcile-platforms.mjs) UNIONS the API list with
+# models found in each JVD's README + config filenames and applies curated
+# overrides (portal/scripts/jvd-platform-overrides.json) — so pills reflect all
+# sources, and confirmed-wrong entries are removed.
 #
 # OS field is always extracted from the README text.
 # Manually-curated `name` and `description` are preserved on existing entries.
@@ -24,7 +28,7 @@
 #   --refresh   Re-fetch all Tier-0 data from the Juniper API and update the
 #               cache file before regenerating.
 #
-# Requires: python3, jq, curl (only when --refresh is used).
+# Requires: python3, jq, node; curl (only when --refresh is used).
 
 set -euo pipefail
 
@@ -403,14 +407,27 @@ NEW_JSON="$(REPO_ROOT="$REPO_ROOT" CATALOG="$CATALOG" ID_MAP="$ID_MAP" CACHE="$C
 # using jq for stable formatting.
 FORMATTED="$(printf '%s\n' "$NEW_JSON" | jq -c '.[]' | awk 'BEGIN{print "["} {if(NR>1)print prev","; prev=$0} END{print prev"\n]"}')"
 
+RECONCILE="$REPO_ROOT/portal/scripts/reconcile-platforms.mjs"
+
 if [[ $CHECK_ONLY -eq 1 ]]; then
-  if ! diff -q <(jq -S . "$CATALOG") <(jq -S . <(printf '%s\n' "$FORMATTED")) >/dev/null; then
+  # Reconcile a temp copy of the freshly-generated output (README+config union
+  # + curated overrides), then compare against the committed catalog. jq -S
+  # canonicalizes both sides, so formatting differences don't matter.
+  TMP_CAT="$(mktemp)"
+  printf '%s\n' "$FORMATTED" > "$TMP_CAT"
+  node "$RECONCILE" "$TMP_CAT" >/dev/null || { rm -f "$TMP_CAT"; echo "reconcile failed" >&2; exit 1; }
+  if ! diff -q <(jq -S . "$CATALOG") <(jq -S . "$TMP_CAT") >/dev/null; then
+    rm -f "$TMP_CAT"
     echo "Catalog out of date — run portal/scripts/generate-catalog.sh" >&2
     exit 1
   fi
+  rm -f "$TMP_CAT"
   echo "Catalog up to date."
   exit 0
 fi
 
 printf '%s\n' "$FORMATTED" > "$CATALOG"
-echo "Wrote $CATALOG ($(jq 'length' "$CATALOG") entries)."
+# Reconcile platform pills: union the API list with models found in each JVD's
+# README + config filenames, then apply curated overrides. See reconcile-platforms.mjs.
+node "$RECONCILE"
+echo "Wrote $CATALOG ($(jq 'length' "$CATALOG") entries, reconciled)."

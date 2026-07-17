@@ -5,8 +5,10 @@ import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
 import ConfigGenerator from "@/components/ConfigGenerator";
+import CommandPalette from "@/components/CommandPalette";
 import { snipBundle } from "@/lib/snips";
 import { track } from "@/lib/analytics";
+import { searchJvdIds, didYouMean, type SearchHit } from "@/lib/search";
 
 type Jvd = {
   id: string;
@@ -38,6 +40,14 @@ const NAV = [
   { label: "Generator", href: "#generator" },
   { label: "About", href: "#about" },
 ];
+
+// True when focus is in a text field, so the "/" shortcut doesn't hijack typing.
+function isTypingTarget(t: EventTarget | null): boolean {
+  const el = t as HTMLElement | null;
+  if (!el) return false;
+  const tag = el.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el.isContentEditable;
+}
 
 // The site as a journey: Discover → Explore → Design → Build. Each rung links
 // to its section so the four tools read as stages, not competing alternatives.
@@ -216,6 +226,32 @@ export default function JvdPortal() {
   const [platformF, setPlatformF] = useState<string | null>(null);
   const [osF, setOsF] = useState<string | null>(null);
   const [queryF, setQueryF] = useState("");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  // Global shortcut: ⌘K / Ctrl+K toggles search; "/" opens it (unless typing).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen((v) => !v);
+      } else if (e.key === "/" && !isTypingTarget(e.target)) {
+        e.preventDefault();
+        setPaletteOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // A JVD chosen from the palette: clear filters, pre-fill the catalog search
+  // with its name so its card shows, and jump to the catalog.
+  const pickJvd = (hit: SearchHit) => {
+    setAreaF(null);
+    setPlatformF(null);
+    setOsF(null);
+    setQueryF(hit.title);
+    window.location.hash = "#catalog";
+  };
 
   // Deep links like "#snips?jvd=x" carry a query the browser can't anchor-scroll
   // to (no element id matches "snips?jvd=x"), so scroll the base section into
@@ -234,18 +270,24 @@ export default function JvdPortal() {
   }, []);
 
   const filtered = useMemo(() => {
-    const q = queryF.trim().toLowerCase();
+    // Text query is resolved through the full-text index so a design matches by
+    // the technologies, use-cases and snips it actually contains — not just its
+    // name/description. Chips (area/platform/os) still filter on metadata.
+    const matchIds = searchJvdIds(queryF);
     return data.filter((j) => {
       if (areaF && j.area !== areaF) return false;
       if (platformF && !j.platforms.some((p) => familyOf(p) === platformF)) return false;
       if (osF && !j.os.includes(osF)) return false;
-      if (q) {
-        const hay = `${j.name} ${j.description} ${j.area} ${j.platforms.join(" ")} ${j.os.join(" ")}`.toLowerCase();
-        if (!hay.includes(q)) return false;
-      }
+      if (matchIds && !matchIds.has(j.id)) return false;
       return true;
     });
   }, [data, areaF, platformF, osF, queryF]);
+
+  // Suggest near terms only when a typed query returns nothing.
+  const catalogSuggestions = useMemo(
+    () => (queryF.trim() && filtered.length === 0 ? didYouMean(queryF) : []),
+    [queryF, filtered.length],
+  );
 
   // Shuffle once per load so the idle marquee interleaves areas/platforms
   // instead of scrolling through them in source (grouped) order.
@@ -302,14 +344,26 @@ export default function JvdPortal() {
               </a>
             ))}
           </nav>
-          <a
-            href="https://github.com/Juniper/jvd"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60"
-          >
-            <Github className="h-3.5 w-3.5" /> GitHub
-          </a>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="Search"
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/60 hover:text-foreground"
+            >
+              <Search className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="hidden rounded border border-border px-1 text-[10px] md:inline">⌘K</kbd>
+            </button>
+            <a
+              href="https://github.com/Juniper/jvd"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60"
+            >
+              <Github className="h-3.5 w-3.5" /> GitHub
+            </a>
+          </div>
         </div>
       </header>
 
@@ -336,22 +390,22 @@ export default function JvdPortal() {
               and validation guidance for data center, WAN, optical, security, and service provider
               networks.
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <a
-                href="#catalog"
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                Browse Catalog <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="https://github.com/Juniper/jvd"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium hover:border-primary/60"
-              >
-                <Github className="h-4 w-4" /> View on GitHub
-              </a>
-            </div>
+
+            {/* Primary action: open the global search palette */}
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="Search designs, snips, and technologies"
+              className="group mt-10 flex w-full max-w-2xl items-center gap-3 rounded-xl border border-border bg-surface px-5 py-4 text-left transition-colors hover:border-primary/60"
+            >
+              <Search className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+              <span className="flex-1 text-base text-muted-foreground">
+                Search designs, snips, technologies…
+              </span>
+              <kbd className="hidden shrink-0 rounded border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground sm:inline">
+                ⌘K
+              </kbd>
+            </button>
 
             <div className="mt-16 grid grid-cols-3 gap-4 md:max-w-xl">
               {stats.map((s) => (
@@ -444,7 +498,7 @@ export default function JvdPortal() {
                 value={queryF}
                 onChange={(e) => setQueryF(e.target.value)}
                 onFocus={() => track("catalog-search")}
-                placeholder="Find a matching JVD…"
+                placeholder="Search by tech, use case, platform…"
                 aria-label="Search the JVD catalog"
                 className="w-full rounded-md border border-border bg-surface py-2.5 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60"
               />
@@ -464,6 +518,24 @@ export default function JvdPortal() {
               {filtered.length === 0 && (
                 <div className="mt-12 rounded-lg border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
                   No JVDs match your search or filters.
+                  {catalogSuggestions.length > 0 && (
+                    <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+                      <span>Did you mean</span>
+                      {catalogSuggestions.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => {
+                            track("catalog-did-you-mean");
+                            setQueryF(s);
+                          }}
+                          className="rounded-md border border-border bg-surface px-2 py-0.5 font-medium text-primary transition-colors hover:border-primary/60"
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </>
@@ -619,6 +691,12 @@ export default function JvdPortal() {
           </div>
         </div>
       </footer>
+
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        onPickJvd={pickJvd}
+      />
     </div>
   );
 }

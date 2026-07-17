@@ -7,7 +7,6 @@
     "platforms": [
       "ACX7100-32C",
       "ACX7100-48L",
-      "MX304",
       "PTX10001-36MR",
       "QFX10002-36Q",
       "QFX5110-48S",
@@ -18,8 +17,8 @@
       "QFX5130-32CD",
       "QFX5220-128C",
       "QFX5220-32C",
-      "QFX5700",
-      "SRX4600"
+      "QFX5220-32CD",
+      "QFX5700"
     ],
     "os": [
       "Junos",
@@ -41,7 +40,8 @@
       "QFX5130-32CD",
       "QFX5220-32CD",
       "QFX5700",
-      "SRX4600"
+      "SRX4600",
+      "SRX4700"
     ],
     "os": [
       "Junos",
@@ -53,7 +53,7 @@
     "id": "5stage_evpn_vxlan",
     "name": "5-Stage EVPN-VXLAN",
     "area": "Data Center",
-    "description": "Web-scale data center with lean super spines above multiple PODs \u2014 Compute, Storage, and Services.",
+    "description": "Web-scale data center with lean super spines above multiple PODs — Compute, Storage, and Services.",
     "platforms": [
       "MX304",
       "QFX5120-32C",
@@ -77,7 +77,7 @@
     "id": "collapsed_dc_fabric",
     "name": "Collapsed DC Fabric",
     "area": "Data Center",
-    "description": "Small data center pattern where leaf switches *are* the fabric, peering directly over EVPN/VXLAN \u2014 no spines.",
+    "description": "Small data center pattern where leaf switches *are* the fabric, peering directly over EVPN/VXLAN — no spines.",
     "platforms": [
       "ACX7100-48L",
       "MX304",
@@ -117,11 +117,16 @@
     "id": "evpn_vxlan_dci",
     "name": "EVPN-VXLAN DCI",
     "area": "Data Center",
-    "description": "Three DCI techniques for stretching EVPN/VXLAN across data centers \u2014 OTT, Type-2 stitching, and integrated.",
+    "description": "Three DCI techniques for stretching EVPN/VXLAN across data centers — OTT, Type-2 stitching, and integrated.",
     "platforms": [
       "PTX10001-36MR",
+      "QFX5120-48Y-8C",
       "QFX5120-48YM",
+      "QFX5130-32CD",
       "QFX5130-48C",
+      "QFX5210-64C",
+      "QFX5220-32CD",
+      "QFX5230-64CD",
       "QFX5700"
     ],
     "os": [
@@ -143,7 +148,9 @@
       "QFX5110-48S",
       "QFX5120-32C",
       "QFX5120-48Y",
+      "QFX5120-48Y-8C",
       "QFX5120-48YM",
+      "QFX5120-48YM-8C",
       "QFX5220-128C",
       "QFX5220-32CD",
       "QFX5700"
@@ -158,10 +165,11 @@
     "id": "aiml_multitenancy_backend",
     "name": "AI/ML Multitenancy Backend",
     "area": "Data Center",
-    "description": "Multi-tenant GPU-as-a-Service backend on EVPN/VXLAN \u2014 IP-VRF per tenant, rail-optimized stripes.",
+    "description": "Multi-tenant GPU-as-a-Service backend on EVPN/VXLAN — IP-VRF per tenant, rail-optimized stripes.",
     "platforms": [
       "QFX5130-32CD",
       "QFX5130-32QD",
+      "QFX5220-32CD",
       "QFX5230-64CD",
       "QFX5240-64OD",
       "QFX5240-64QD"
@@ -177,6 +185,7 @@
     "area": "Enterprise WAN",
     "description": "EVPN- and MPLS-backed enterprise WAN with secure cross-site connectivity and simplified data sharing.",
     "platforms": [
+      "ACX7100-48L",
       "ACX7509",
       "MX10004",
       "MX304",
@@ -213,14 +222,15 @@
     "id": "ewan_finance",
     "name": "Enterprise WAN: Finance",
     "area": "Enterprise WAN",
-    "description": "Enterprise WAN for financial trading \u2014 heavy multicast, ultra-low latency, and resilient market data delivery.",
+    "description": "Enterprise WAN for financial trading — heavy multicast, ultra-low latency, and resilient market data delivery.",
     "platforms": [
       "ACX7100-48L",
       "MX10004",
       "MX304",
       "MX480",
       "PTX10001-36MR",
-      "PTX10003"
+      "PTX10003",
+      "PTX10003-80C"
     ],
     "os": [
       "Junos",
@@ -232,7 +242,7 @@
     "id": "dci_over_ipodwdm",
     "name": "DCI over IPoDWDM",
     "area": "Optical",
-    "description": "Data center interconnect over IP-over-DWDM \u2014 collapsing IP and optical layers for lower cost and complexity.",
+    "description": "Data center interconnect over IP-over-DWDM — collapsing IP and optical layers for lower cost and complexity.",
     "platforms": [
       "ACX7100-48L",
       "MX304",
@@ -248,7 +258,7 @@
     "id": "scale_out_firewall_nat",
     "name": "Scale-Out Firewall NAT",
     "area": "Security",
-    "description": "Connected Security Distributed Services (CSDS) \u2014 horizontally scalable firewall and CGNAT capacity.",
+    "description": "Connected Security Distributed Services (CSDS) — horizontally scalable firewall and CGNAT capacity.",
     "platforms": [
       "MX304",
       "SRX4600"
@@ -262,7 +272,7 @@
     "id": "scale_out_ipsec",
     "name": "Scale-Out IPsec",
     "area": "Security",
-    "description": "Connected Security Distributed Services (CSDS) \u2014 horizontally scalable IPsec termination at carrier scale.",
+    "description": "Connected Security Distributed Services (CSDS) — horizontally scalable IPsec termination at carrier scale.",
     "platforms": [
       "MX304",
       "SRX4600"
@@ -299,8 +309,11 @@
     "id": "low_latency_queueing",
     "name": "Low Latency Queueing",
     "area": "Service Provider",
-    "description": "Low-latency CoS for Metro and 5G xHaul \u2014 LLQ, classification, remarking, and measured under-load latency.",
+    "description": "Low-latency CoS for Metro and 5G xHaul — LLQ, classification, remarking, and measured under-load latency.",
     "platforms": [
+      "ACX7024",
+      "ACX7100-32C",
+      "ACX7100-48L",
       "ACX7509",
       "MX204",
       "MX304",
@@ -348,8 +361,11 @@
       "ACX7100-32C",
       "ACX7100-48L",
       "ACX7348",
+      "ACX7509",
+      "MX10003",
       "MX10004",
       "MX204",
+      "MX304",
       "PTX10001-36MR",
       "PTX10004"
     ],
@@ -363,7 +379,7 @@
     "id": "port_fan_out",
     "name": "Port Fan-Out",
     "area": "Service Provider",
-    "description": "Cost-effective port density via Juniper's port fan-out solution \u2014 more ports, less complexity.",
+    "description": "Cost-effective port density via Juniper's port fan-out solution — more ports, less complexity.",
     "platforms": [
       "ACX7024",
       "ACX7100-48L",
@@ -380,7 +396,7 @@
     "id": "srv6_core_edge",
     "name": "SRv6 Core/Edge",
     "area": "Service Provider",
-    "description": "Multi-domain SRv6 \u00b5SID transport with Flex-Algo and core overlays \u2014 L3VPN and EVPN E-Line/VPWS.",
+    "description": "Multi-domain SRv6 µSID transport with Flex-Algo and core overlays — L3VPN and EVPN E-Line/VPWS.",
     "platforms": [
       "MX10004",
       "MX2010",

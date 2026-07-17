@@ -84,6 +84,9 @@ export function matchesQuery(s: SnipRecord, q: string): boolean {
   if (s.topic.toLowerCase().includes(needle)) return true;
   if (s.name.toLowerCase().includes(needle)) return true;
   if (s.subfamily.toLowerCase().includes(needle)) return true;
+  if (s.category.toLowerCase().includes(needle)) return true;
+  if (s.techFamily.toLowerCase().includes(needle)) return true;
+  if (s.usecases.some((u) => u.toLowerCase().includes(needle))) return true;
   if (s.highlights.some((h) => h.toLowerCase().includes(needle))) return true;
   if (s.variables.some((v) => v.name.toLowerCase().includes(needle))) return true;
   if (s.body.toLowerCase().includes(needle)) return true;
