@@ -525,7 +525,10 @@ export default function JvdPortal() {
                         <button
                           key={s}
                           type="button"
-                          onClick={() => setQueryF(s)}
+                          onClick={() => {
+                            track("catalog-did-you-mean");
+                            setQueryF(s);
+                          }}
                           className="rounded-md border border-border bg-surface px-2 py-0.5 font-medium text-primary transition-colors hover:border-primary/60"
                         >
                           {s}

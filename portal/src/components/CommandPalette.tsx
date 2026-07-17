@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, Network, FileCode, Cpu, Tag, CornerDownLeft } from "lucide-react";
+import { Search, Network, FileCode, Cpu, Tag, CornerDownLeft, ArrowRight } from "lucide-react";
 import {
   searchAll,
   groupHits,
   hitHref,
   didYouMean,
+  starterTerms,
+  countSnipMatches,
   type SearchHit,
   type ResultKind,
 } from "@/lib/search";
@@ -42,12 +44,15 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
     if (open) {
       setQuery("");
       setActive(0);
+      track("search-open");
       // focus after paint
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
 
+  const starters = useMemo(() => starterTerms(), []);
   const grouped = useMemo(() => groupHits(searchAll(query)), [query]);
+  const snipTotal = useMemo(() => countSnipMatches(query), [query]);
   const suggestions = useMemo(
     () => (query.trim() && grouped.total === 0 ? didYouMean(query) : []),
     [query, grouped.total],
@@ -70,6 +75,13 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
     } else {
       window.location.hash = hitHref(hit);
     }
+    onClose();
+  };
+
+  // "See all N snips" → open the Config Explorer filtered by this query.
+  const seeAllSnips = () => {
+    track("search-see-all-snips");
+    window.location.hash = `#snips?q=${encodeURIComponent(query.trim())}`;
     onClose();
   };
 
@@ -122,8 +134,12 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
             >
               <Icon className={"h-4 w-4 shrink-0 " + (isActive ? "text-primary" : "text-muted-foreground")} />
               <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-medium text-foreground">{hit.title}</span>
-                <span className="block truncate text-xs text-muted-foreground">{hit.subtitle}</span>
+                <span className="block truncate text-sm font-medium text-foreground">
+                  <Highlight text={hit.title} query={query} />
+                </span>
+                <span className="block truncate text-xs text-muted-foreground">
+                  <Highlight text={hit.subtitle} query={query} />
+                </span>
               </span>
               {isActive && <CornerDownLeft className="h-3.5 w-3.5 shrink-0 text-primary" />}
             </button>
@@ -165,10 +181,26 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
         {/* Results */}
         <div ref={listRef} className="max-h-[60vh] overflow-y-auto p-2">
           {query.trim() === "" ? (
-            <div className="px-3 py-8 text-center text-xs text-muted-foreground">
-              Search across {" "}
-              {GROUP_LABEL.jvd.toLowerCase()}, {GROUP_LABEL.snip.toLowerCase()},{" "}
-              {GROUP_LABEL.tech.toLowerCase()}, and {GROUP_LABEL.usecase.toLowerCase()}.
+            <div className="p-2">
+              <div className="px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Try searching
+              </div>
+              <div className="flex flex-wrap gap-2 px-3 py-2">
+                {starters.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => setQuery(s)}
+                    className="rounded-md border border-border bg-surface px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-primary/60"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+              <div className="px-3 pt-2 text-[11px] text-muted-foreground">
+                Search across {GROUP_LABEL.jvd.toLowerCase()}, {GROUP_LABEL.snip.toLowerCase()},{" "}
+                {GROUP_LABEL.tech.toLowerCase()}, and {GROUP_LABEL.usecase.toLowerCase()}.
+              </div>
             </div>
           ) : grouped.total === 0 ? (
             <div className="px-3 py-8 text-center text-xs text-muted-foreground">
@@ -180,7 +212,10 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
                     <button
                       key={s}
                       type="button"
-                      onClick={() => setQuery(s)}
+                      onClick={() => {
+                        track("search-did-you-mean");
+                        setQuery(s);
+                      }}
                       className="rounded-md border border-border bg-surface px-2 py-0.5 font-medium text-primary transition-colors hover:border-primary/60"
                     >
                       {s}
@@ -193,6 +228,16 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
             <>
               {renderGroup("jvd", grouped.jvds)}
               {renderGroup("snip", grouped.snips)}
+              {snipTotal > grouped.snips.length && (
+                <button
+                  type="button"
+                  onClick={seeAllSnips}
+                  className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs font-medium text-primary transition-colors hover:bg-surface-2"
+                >
+                  <ArrowRight className="h-3.5 w-3.5" />
+                  See all {snipTotal} config snips in the Explorer
+                </button>
+              )}
               {renderGroup("tech", grouped.techs)}
               {renderGroup("usecase", grouped.usecases)}
             </>
@@ -200,5 +245,30 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
         </div>
       </div>
     </div>
+  );
+}
+
+// Bold the matched query terms within a result label (plain text, no HTML
+// injection — parts are rendered as React children).
+function Highlight({ text, query }: { text: string; query: string }) {
+  const ts = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  if (!ts.length) return <>{text}</>;
+  const esc = ts
+    .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .sort((a, b) => b.length - a.length);
+  const re = new RegExp(`(${esc.join("|")})`, "ig");
+  const set = new Set(ts);
+  return (
+    <>
+      {text.split(re).map((p, i) =>
+        set.has(p.toLowerCase()) ? (
+          <mark key={i} className="rounded-sm bg-primary/20 text-foreground">
+            {p}
+          </mark>
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
+    </>
   );
 }

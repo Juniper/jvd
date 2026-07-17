@@ -268,6 +268,31 @@ export function groupHits(hits: SearchHit[], perGroup = 6): GroupedHits {
   return { jvds, snips, techs, usecases, total: jvds.length + snips.length + techs.length + usecases.length };
 }
 
+/** Total snip matches for a query (so the palette can offer "see all N"). */
+export function countSnipMatches(query: string): number {
+  const ts = terms(query);
+  if (!ts.length) return 0;
+  return matchSnips(ts, query).length;
+}
+
+/** High-signal starter terms shown in the empty search palette for discovery.
+ *  Curated, then filtered to those that actually return results. */
+export function starterTerms(): string[] {
+  const candidates = [
+    "EVPN-VXLAN",
+    "BGP",
+    "SRv6",
+    "Pseudowire",
+    "Flex-Algo",
+    "CGNAT",
+    "IRB",
+    "Multicast",
+    "MACsec",
+    "EVPN-ELAN",
+  ];
+  return candidates.filter((c) => searchAll(c).length > 0).slice(0, 8);
+}
+
 // ---- did-you-mean (fuzzy, zero-result only) --------------------------------
 
 // Optimal string alignment (Damerau-Levenshtein with adjacent transpositions),
