@@ -4,6 +4,37 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-17
+
+The JVD Portal gains a powerful global search and more accurate hardware
+details, making it far easier to find the right design — and the exact
+configuration — for what you need.
+
+### Portal
+
+- **Global search** — a new search bar on the home page (also opened with ⌘K or
+  the `/` key) searches everything at once: validated designs, the full library
+  of configuration building blocks, technologies, and use cases. Results are
+  grouped and ranked, and jump you straight to the right place.
+- **Search that understands the designs** — searching a technology, platform, or
+  feature (for example `EVPN-VXLAN`, `SRX4700`, `pseudowire`, or `flex-algo`)
+  now returns every design that actually uses it — matched against each design's
+  documentation and validated configuration, not just its title.
+- **Typo tolerance** — if a search finds nothing, the portal suggests close
+  matches (`bpg` → `bgp`), so a small slip still gets you there.
+- **More accurate hardware** — each design's platform list was reconciled
+  against its documentation and configuration files, so the hardware shown
+  reflects what the design actually validates.
+
+### What this means for you
+
+- Find the right JVD — or the exact config snippet — in seconds, from anywhere
+  on the page.
+- Trust that a search for a platform or technology surfaces every design that
+  truly uses it.
+
+---
+
 ## 2026-07-16
 
 The JVD Portal gets a usability, discoverability, and shareability refresh —
