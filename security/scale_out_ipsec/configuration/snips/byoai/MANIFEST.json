@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips",
+  "snip_count": 23,
+  "snips": [
+    {
+      "path": "junos/firewall/fbf-ipsec-lb-redirect.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "fbf-ipsec-lb-redirect",
+      "topic": "Filter-based forwarding: redirect IPsec (to the IKE VIP) into the TLB tproxy instance",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1379,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/firewall/fbf-ipsec-lb-redirect.conf"
+    },
+    {
+      "path": "junos/high-availability/mnha-chassis-srg.conf",
+      "os": "junos",
+      "category": "high-availability",
+      "name": "mnha-chassis-srg",
+      "topic": "SRX Multinode High Availability (MNHA) chassis config \u2014 SRG0 active/active + SRG1 active/backup",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2800,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/high-availability/mnha-chassis-srg.conf"
+    },
+    {
+      "path": "junos/high-availability/mnha-ha-link-encryption.conf",
+      "os": "junos",
+      "category": "high-availability",
+      "name": "mnha-ha-link-encryption",
+      "topic": "MNHA inter-chassis-link encryption VPN (L3HA) protecting session/SA sync between nodes",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1812,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/high-availability/mnha-ha-link-encryption.conf"
+    },
+    {
+      "path": "junos/high-availability/mnha-signal-route-policies.conf",
+      "os": "junos",
+      "category": "high-availability",
+      "name": "mnha-signal-route-policies",
+      "topic": "MNHA active/backup route-signalling policies (ARI + loopback export gated on signal-route existence)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 3045,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/high-availability/mnha-signal-route-policies.conf"
+    },
+    {
+      "path": "junos/interfaces/mx-ae-fbf-uni.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "mx-ae-fbf-uni",
+      "topic": "MX north-side AC (flexible-ethernet-services) with the IPsec FBF filter + TLB health-check loopback",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1637,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/mx-ae-fbf-uni.conf"
+    },
+    {
+      "path": "junos/interfaces/mx-ae-scaleout-subunits.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "mx-ae-scaleout-subunits",
+      "topic": "MX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1303,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/mx-ae-scaleout-subunits.conf"
+    },
+    {
+      "path": "junos/interfaces/mx-initiator-ams-lo0-st0.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "mx-initiator-ams-lo0-st0",
+      "topic": "MX initiator interfaces: AMS member bundle, multi-address lo0 endpoints, and st0 tunnels",
+      "seen_on": [
+        "ipsec_initiator_gateway_mx304"
+      ],
+      "size_bytes": 1595,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/mx-initiator-ams-lo0-st0.conf"
+    },
+    {
+      "path": "junos/interfaces/srx-ae-scaleout-subunits.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "srx-ae-scaleout-subunits",
+      "topic": "SRX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1346,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/srx-ae-scaleout-subunits.conf"
+    },
+    {
+      "path": "junos/interfaces/srx-lo0-ike-anycast.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "srx-lo0-ike-anycast",
+      "topic": "SRX loopbacks: MNHA node ID (lo0.0) + shared anycast IKE endpoint & TLB health-check (lo0.1)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1162,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/srx-lo0-ike-anycast.conf"
+    },
+    {
+      "path": "junos/interfaces/srx-st0-tunnels.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "srx-st0-tunnels",
+      "topic": "SRX secure tunnel (st0) units for the IPsec VPNs",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 708,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/interfaces/srx-st0-tunnels.conf"
+    },
+    {
+      "path": "junos/ipsec/mx-ams-service-set.conf",
+      "os": "junos",
+      "category": "ipsec",
+      "name": "mx-ams-service-set",
+      "topic": "MX AMS (aggregated multiservices) service-sets binding the initiator IPsec VPNs",
+      "seen_on": [
+        "ipsec_initiator_gateway_mx304"
+      ],
+      "size_bytes": 979,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/ipsec/mx-ams-service-set.conf"
+    },
+    {
+      "path": "junos/ipsec/mx-ike-ipsec-initiator.conf",
+      "os": "junos",
+      "category": "ipsec",
+      "name": "mx-ike-ipsec-initiator",
+      "topic": "MX-based IPsec INITIATOR: per-tunnel IKE gateways + IPsec VPNs toward the SRX anycast VIP",
+      "seen_on": [
+        "ipsec_initiator_gateway_mx304"
+      ],
+      "size_bytes": 2826,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/ipsec/mx-ike-ipsec-initiator.conf"
+    },
+    {
+      "path": "junos/ipsec/srx-ike-gateway-avpn-responder.conf",
+      "os": "junos",
+      "category": "ipsec",
+      "name": "srx-ike-gateway-avpn-responder",
+      "topic": "SRX auto-VPN IKE gateway (responder-only, group-ike-id) on the shared anycast endpoint",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2175,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/ipsec/srx-ike-gateway-avpn-responder.conf"
+    },
+    {
+      "path": "junos/ipsec/srx-ipsec-vpn-aes256gcm.conf",
+      "os": "junos",
+      "category": "ipsec",
+      "name": "srx-ipsec-vpn-aes256gcm",
+      "topic": "SRX IPsec VPN (ESP AES-256-GCM) bound to a secure tunnel with a wildcard traffic-selector",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1540,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/ipsec/srx-ipsec-vpn-aes256gcm.conf"
+    },
+    {
+      "path": "junos/load-balancing/network-monitoring-profiles.conf",
+      "os": "junos",
+      "category": "load-balancing",
+      "name": "network-monitoring-profiles",
+      "topic": "TLB health-check profiles (ICMP + TCP) for scale-out SRX liveness",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 961,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/load-balancing/network-monitoring-profiles.conf"
+    },
+    {
+      "path": "junos/load-balancing/tlb-ipsec-dsr.conf",
+      "os": "junos",
+      "category": "load-balancing",
+      "name": "tlb-ipsec-dsr",
+      "topic": "RE-based Traffic Load Balancer (TLB) for scale-out IPsec, Direct Server Return mode",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2328,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/load-balancing/tlb-ipsec-dsr.conf"
+    },
+    {
+      "path": "junos/policy/mx-scaleout-export-policies.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "mx-scaleout-export-policies",
+      "topic": "MX export policies and route-filter-lists for scale-out (ARI, default, next-hop-self, per-packet LB)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2471,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/policy/mx-scaleout-export-policies.conf"
+    },
+    {
+      "path": "junos/security/srx-policies-ipsec-data.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "srx-policies-ipsec-data",
+      "topic": "SRX security policies + address-book for scale-out IPsec data and MNHA ICL",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2914,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/security/srx-policies-ipsec-data.conf"
+    },
+    {
+      "path": "junos/security/srx-zones-scaleout.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "srx-zones-scaleout",
+      "topic": "SRX security zones for the scale-out planes (trust / untrust / MNHA-ICL)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1743,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/security/srx-zones-scaleout.conf"
+    },
+    {
+      "path": "junos/transport/bgp-mx-vrf-scaleout.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-mx-vrf-scaleout",
+      "topic": "MX scale-out VRFs (TRUST/UNTRUST/MNHA) with per-zone eBGP to the SRX farm",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 6758,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/transport/bgp-mx-vrf-scaleout.conf"
+    },
+    {
+      "path": "junos/transport/bgp-srx-to-mx-scaleout.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-srx-to-mx-scaleout",
+      "topic": "SRX eBGP to the MX load balancer per plane (TRUST/UNTRUST) + MNHA-VR ICL peering",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 3022,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/transport/bgp-srx-to-mx-scaleout.conf"
+    },
+    {
+      "path": "junos/transport/enhanced-hash-key-symmetric.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "enhanced-hash-key-symmetric",
+      "topic": "Symmetric enhanced-hash-key so dual-MX peers compute identical hashes",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 496,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/transport/enhanced-hash-key-symmetric.conf"
+    },
+    {
+      "path": "junos/transport/forwarding-instance-tproxy.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "forwarding-instance-tproxy",
+      "topic": "Forwarding routing-instance that anchors the TLB virtual-service (transparent proxy)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 755,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/junos/transport/forwarding-instance-tproxy.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-role snip lists for `minimum` / `with-bgp` / `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default anycast VIP, AS numbers, per-plane /30s, MNHA signal-routes",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
