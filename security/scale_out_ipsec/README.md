@@ -116,7 +116,7 @@ Other config examples for **ECMP CHASH** and **TLB** variants are included in th
 
 | Juniper Product | Role | Config |
 |---|---|---|
-| **MX304** | Load Balancer / Traffic Orchestrator | [`mx304.conf`](configuration/conf/mx304.conf) |
+| **MX304** | Load Balancer / Traffic Orchestrator | [`mx1_mx304.conf`](configuration/conf/mx1_mx304.conf) |
 | **MX304** | IPsec Initiator Gateway | [`ipsec_initiator_gateway_mx304.conf`](configuration/conf/ipsec_initiator_gateway_mx304.conf) |
 | **SRX4600** | IPsec Endpoint (pair 1) | [`srx1a_srx4600.conf`](configuration/conf/srx1a_srx4600.conf), [`srx1b_srx4600.conf`](configuration/conf/srx1b_srx4600.conf) |
 | **SRX4600** | IPsec Endpoint (pair 2) | [`srx2a_srx4600.conf`](configuration/conf/srx2a_srx4600.conf), [`srx2b_srx4600.conf`](configuration/conf/srx2b_srx4600.conf) |
