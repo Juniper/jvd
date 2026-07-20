@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T20:03:59.444Z",
+  "generatedAt": "2026-07-20T20:42:53.719Z",
   "counts": {
     "total": 534,
     "junos": 256,
@@ -39948,6 +39948,12 @@
       "promptPath": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/byoai/jvd-aiml-mtb-byoai-prompt.txt",
       "promptUrl": "https://juniper.github.io/jvd/portal/byoai/aiml_multitenancy_backend/jvd-aiml-mtb-byoai-prompt.txt",
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/byoai/jvd-aiml-mtb-byoai-prompt.txt"
+    },
+    {
+      "jvd": "broadband_edge",
+      "promptPath": "service_provider/broadband_edge/configuration/snips/byoai/jvd-bbe-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/broadband_edge/jvd-bbe-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/jvd-bbe-byoai-prompt.txt"
     },
     {
       "jvd": "ewan_adv_core_edge",
