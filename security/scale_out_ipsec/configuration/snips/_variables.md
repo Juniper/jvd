@@ -8,7 +8,7 @@ Render with:
 
     ~/git-scripts/snips_render.py <snip>.conf <vars.json>  > rendered.conf
 
-Example values are drawn from the validated lab configs (see [`../conf/`](../conf/)).
+Example values are drawn from the validated lab configs under `configuration/conf/`.
 
 ## Autonomous systems
 
