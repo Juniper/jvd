@@ -1,0 +1,1148 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips",
+  "snip_count": 70,
+  "snips": [
+    {
+      "path": "evo/cos/classifier-dscp-ipv6.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "classifier-dscp-ipv6",
+      "topic": "DSCP-IPv6 classifier (CL-DSCP-IPV6) \u2014 ingress IPv6 packet-to-FC mapping",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2292,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/classifier-dscp-ipv6.conf"
+    },
+    {
+      "path": "evo/cos/classifier-dscp.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "classifier-dscp",
+      "topic": "DSCP classifier (CL-DSCP) \u2014 ingress packet-to-FC mapping",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2475,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/classifier-dscp.conf"
+    },
+    {
+      "path": "evo/cos/classifier-exp.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "classifier-exp",
+      "topic": "MPLS EXP classifier (CL-MPLS) \u2014 ingress MPLS-to-FC mapping",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1785,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/classifier-exp.conf"
+    },
+    {
+      "path": "evo/cos/classifier-ieee-802.1.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "classifier-ieee-802.1",
+      "topic": "802.1p classifier (CL-8021P) \u2014 ingress VLAN-tag-to-FC mapping",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1800,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/classifier-ieee-802.1.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-irb.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-irb",
+      "topic": "CoS interface binding \u2014 IRB with static FC-REALTIME + DSCP rewrite",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1453,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/cos-binding-irb.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-l2-fronthaul-static.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-l2-fronthaul-static",
+      "topic": "CoS interface binding \u2014 L2 fronthaul with static FC-LLQ (guaranteed low-latency)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1471,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/cos-binding-l2-fronthaul-static.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-l2-fronthaul.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-l2-fronthaul",
+      "topic": "CoS interface binding \u2014 L2 fronthaul with 802.1p classification",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1348,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/cos-binding-l2-fronthaul.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-l3-service.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-l3-service",
+      "topic": "CoS interface binding \u2014 L3 service (DSCP classifier + rewrite per unit)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1333,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/cos-binding-l3-service.conf"
+    },
+    {
+      "path": "evo/cos/cos-binding-transport.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "cos-binding-transport",
+      "topic": "CoS interface binding \u2014 MPLS transport (EXP classifier + rewrite)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1093,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/cos-binding-transport.conf"
+    },
+    {
+      "path": "evo/cos/forwarding-classes.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "8-class forwarding-class model (O-RAN multi-priority alignment)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1580,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "evo/cos/rewrite-dscp-ipv6.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rewrite-dscp-ipv6",
+      "topic": "DSCP-IPv6 rewrite rule (RR-DSCP-IPV6) \u2014 egress FC-to-DSCP marking for IPv6",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2319,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/rewrite-dscp-ipv6.conf"
+    },
+    {
+      "path": "evo/cos/rewrite-dscp.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rewrite-dscp",
+      "topic": "DSCP rewrite rule (RR-DSCP) \u2014 egress FC-to-DSCP marking",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2396,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/rewrite-dscp.conf"
+    },
+    {
+      "path": "evo/cos/rewrite-exp.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rewrite-exp",
+      "topic": "MPLS EXP rewrite rule (RR-MPLS) \u2014 egress FC-to-EXP marking",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2402,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/rewrite-exp.conf"
+    },
+    {
+      "path": "evo/cos/rewrite-ieee-802.1.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rewrite-ieee-802.1",
+      "topic": "802.1p rewrite rule (RR-8021P) \u2014 egress FC-to-PCP marking",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2440,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/rewrite-ieee-802.1.conf"
+    },
+    {
+      "path": "evo/cos/scheduler-map.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "scheduler-map",
+      "topic": "Scheduler-map binding FCs to schedulers (SM-5G-SCHEDULER)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1541,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/scheduler-map.conf"
+    },
+    {
+      "path": "evo/cos/schedulers-low-latency.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "schedulers-low-latency",
+      "topic": "Scheduler definitions with priority low-latency (ACX LLQ)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2257,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/schedulers-low-latency.conf"
+    },
+    {
+      "path": "evo/cos/schedulers-strict-high.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "schedulers-strict-high",
+      "topic": "Scheduler definitions with priority strict-high (PTX core transit)",
+      "seen_on": [
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 2011,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/cos/schedulers-strict-high.conf"
+    },
+    {
+      "path": "evo/firewall/filter-mf-ecpri-fronthaul.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-mf-ecpri-fronthaul",
+      "topic": "Multi-field eCPRI filter \u2014 MAC-based FC classification for fronthaul (CCC)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 3266,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/firewall/filter-mf-ecpri-fronthaul.conf"
+    },
+    {
+      "path": "evo/firewall/filter-mfc-ipv4-l3vpn-irb.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-mfc-ipv4-l3vpn-irb",
+      "topic": "Multi-field classifier \u2014 IPv4 DSCP-to-FC (L3VPN IRB ingress)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c"
+      ],
+      "size_bytes": 1707,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/firewall/filter-mfc-ipv4-l3vpn-irb.conf"
+    },
+    {
+      "path": "evo/firewall/filter-mfc-ipv6-l3vpn-irb.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-mfc-ipv6-l3vpn-irb",
+      "topic": "Multi-field classifier \u2014 IPv6 traffic-class-to-FC (L3VPN IRB ingress)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c"
+      ],
+      "size_bytes": 1602,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/firewall/filter-mfc-ipv6-l3vpn-irb.conf"
+    },
+    {
+      "path": "evo/interfaces/lag-esi.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "lag-esi",
+      "topic": "LAG interface with ESI for EVPN multi-homing",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1996,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/interfaces/lag-esi.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-bridge.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "topic": "Service sub-interface with vlan-bridge encapsulation",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c"
+      ],
+      "size_bytes": 1148,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/interfaces/vlan-bridge.conf"
+    },
+    {
+      "path": "evo/interfaces/vlan-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "vlan-ccc",
+      "topic": "Service sub-interface with vlan-ccc encapsulation",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c"
+      ],
+      "size_bytes": 1106,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/interfaces/vlan-ccc.conf"
+    },
+    {
+      "path": "evo/oam/cfm-maintenance-domain.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "cfm-maintenance-domain",
+      "topic": "CFM maintenance-domain with continuity-check MEPs (802.1ag OAM)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1640,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/oam/cfm-maintenance-domain.conf"
+    },
+    {
+      "path": "evo/policy/allow-loopback.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "allow-loopback",
+      "topic": "ALLOW_LOOPBACK \u2014 rib-group import filter for labeled-unicast",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 859,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/policy/allow-loopback.conf"
+    },
+    {
+      "path": "evo/policy/next-hop-self.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "next-hop-self",
+      "topic": "next-hop-self BGP export policy",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 710,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/policy/next-hop-self.conf"
+    },
+    {
+      "path": "evo/policy/pplb.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "pplb",
+      "topic": "Per-packet load-balance policy (PPLB)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 805,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/policy/pplb.conf"
+    },
+    {
+      "path": "evo/policy/sr-nonzero-loopbacks.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "sr-nonzero-loopbacks",
+      "topic": "SR non-zero loopback advertisement (IPv4 + IPv6 prefix-segment)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1480,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/policy/sr-nonzero-loopbacks.conf"
+    },
+    {
+      "path": "evo/services/bgp-vpls-vsi.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "bgp-vpls-vsi",
+      "topic": "BGP-VPLS virtual-switch with FAT pseudowire (midhaul L2)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1782,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/services/bgp-vpls-vsi.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-vlan-based.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-vlan-based",
+      "topic": "EVPN-ELAN VLAN-based (mac-vrf, multi-homed fronthaul)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1343,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/services/evpn-elan-vlan-based.conf"
+    },
+    {
+      "path": "evo/services/evpn-fxc-vlan-aware.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-fxc-vlan-aware",
+      "topic": "EVPN-VPWS Flexible Cross-Connect (FXC, multi-homed)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1865,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/services/evpn-fxc-vlan-aware.conf"
+    },
+    {
+      "path": "evo/services/evpn-vpws-vlan-based-mh.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-vpws-vlan-based-mh",
+      "topic": "EVPN-VPWS VLAN-based multi-homed (eCPRI fronthaul)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1515,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/services/evpn-vpws-vlan-based-mh.conf"
+    },
+    {
+      "path": "evo/services/l3vpn-irb.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l3vpn-irb",
+      "topic": "L3VPN VRF with IRB (anycast gateway, vrf-table-label)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024"
+      ],
+      "size_bytes": 1236,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/services/l3vpn-irb.conf"
+    },
+    {
+      "path": "evo/transport/bgp-internal.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-internal",
+      "topic": "BGP internal (iBGP) \u2014 labeled-unicast + route-reflector",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1534,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/bgp-internal.conf"
+    },
+    {
+      "path": "evo/transport/forwarding-options-hash.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "forwarding-options-hash",
+      "topic": "Forwarding-options hash-key \u2014 ECMP/LAG hashing (L3+L4+MPLS)",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1066,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/forwarding-options-hash.conf"
+    },
+    {
+      "path": "evo/transport/isis-global.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "isis-global",
+      "topic": "IS-IS global \u2014 segment routing, SPF tuning, TI-LFA backup",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1729,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/isis-global.conf"
+    },
+    {
+      "path": "evo/transport/isis-interface.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "isis-interface",
+      "topic": "IS-IS interface \u2014 level 2, TI-LFA, BFD, point-to-point",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1304,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/isis-interface.conf"
+    },
+    {
+      "path": "evo/transport/load-balance-pplb.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "load-balance-pplb",
+      "topic": "Forwarding-table load-balance + chained-composite-next-hop",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 893,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/load-balance-pplb.conf"
+    },
+    {
+      "path": "evo/transport/mpls-global.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "mpls-global",
+      "topic": "MPLS global \u2014 PCE-controlled LSPs, TTL, ICMP tunneling, IPv6",
+      "seen_on": [
+        "ag1_1_acx7509",
+        "ag1_2_acx7100-32c",
+        "an1_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7024",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr"
+      ],
+      "size_bytes": 1186,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/evo/transport/mpls-global.conf"
+    },
+    {
+      "path": "junos/cos/classifier-dscp-ipv6.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "classifier-dscp-ipv6",
+      "topic": "DSCP-IPv6 classifier (CL-DSCP-IPV6) \u2014 ingress IPv6 packet-to-FC mapping",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2211,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/classifier-dscp-ipv6.conf"
+    },
+    {
+      "path": "junos/cos/classifier-dscp.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "classifier-dscp",
+      "topic": "DSCP classifier (CL-DSCP) \u2014 ingress packet-to-FC mapping",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2396,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/classifier-dscp.conf"
+    },
+    {
+      "path": "junos/cos/classifier-exp.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "classifier-exp",
+      "topic": "MPLS EXP classifier (CL-MPLS) \u2014 ingress MPLS-to-FC mapping",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1704,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/classifier-exp.conf"
+    },
+    {
+      "path": "junos/cos/classifier-ieee-802.1.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "classifier-ieee-802.1",
+      "topic": "802.1p classifier (CL-8021P) \u2014 ingress VLAN-tag-to-FC mapping",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1614,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/classifier-ieee-802.1.conf"
+    },
+    {
+      "path": "junos/cos/cos-binding-l3-service.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "cos-binding-l3-service",
+      "topic": "CoS interface binding \u2014 L3 service (DSCP classifier + rewrite per unit)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1538,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/cos-binding-l3-service.conf"
+    },
+    {
+      "path": "junos/cos/cos-binding-transport.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "cos-binding-transport",
+      "topic": "CoS interface binding \u2014 MPLS transport (EXP classifier + rewrite)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1011,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/cos-binding-transport.conf"
+    },
+    {
+      "path": "junos/cos/forwarding-classes.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "forwarding-classes",
+      "topic": "8-class forwarding-class model (O-RAN multi-priority alignment)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1338,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/forwarding-classes.conf"
+    },
+    {
+      "path": "junos/cos/rewrite-dscp-ipv6.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rewrite-dscp-ipv6",
+      "topic": "DSCP-IPv6 rewrite rule (RR-DSCP-IPV6) \u2014 egress FC-to-DSCP marking for IPv6",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2207,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/rewrite-dscp-ipv6.conf"
+    },
+    {
+      "path": "junos/cos/rewrite-dscp.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rewrite-dscp",
+      "topic": "DSCP rewrite rule (RR-DSCP) \u2014 egress FC-to-DSCP marking",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2282,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/rewrite-dscp.conf"
+    },
+    {
+      "path": "junos/cos/rewrite-exp.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rewrite-exp",
+      "topic": "MPLS EXP rewrite rule (RR-MPLS) \u2014 egress FC-to-EXP marking",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2321,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/rewrite-exp.conf"
+    },
+    {
+      "path": "junos/cos/rewrite-ieee-802.1.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rewrite-ieee-802.1",
+      "topic": "802.1p rewrite rule (RR-8021P) \u2014 egress FC-to-PCP marking",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2207,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/rewrite-ieee-802.1.conf"
+    },
+    {
+      "path": "junos/cos/scheduler-map.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "scheduler-map",
+      "topic": "Scheduler-map binding FCs to schedulers (SM-5G-SCHEDULER)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1372,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/scheduler-map.conf"
+    },
+    {
+      "path": "junos/cos/schedulers-strict-high.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "schedulers-strict-high",
+      "topic": "Scheduler definitions with priority strict-high (MX fallback)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 2001,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/cos/schedulers-strict-high.conf"
+    },
+    {
+      "path": "junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-mfc-ipv4-l3vpn-irb",
+      "topic": "Multi-field classifier \u2014 IPv4 DSCP-to-FC (L3VPN IRB ingress)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1796,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf"
+    },
+    {
+      "path": "junos/firewall/filter-mfc-ipv6-l3vpn-irb.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-mfc-ipv6-l3vpn-irb",
+      "topic": "Multi-field classifier \u2014 IPv6 traffic-class-to-FC (L3VPN IRB ingress)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1604,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/firewall/filter-mfc-ipv6-l3vpn-irb.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-bridge.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-bridge",
+      "topic": "Service sub-interface with vlan-bridge encapsulation",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1065,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/interfaces/vlan-bridge.conf"
+    },
+    {
+      "path": "junos/interfaces/vlan-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "vlan-ccc",
+      "topic": "Service sub-interface with vlan-ccc encapsulation",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 964,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/interfaces/vlan-ccc.conf"
+    },
+    {
+      "path": "junos/policy/allow-loopback.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "allow-loopback",
+      "topic": "ALLOW_LOOPBACK \u2014 rib-group import filter for labeled-unicast",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 774,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/policy/allow-loopback.conf"
+    },
+    {
+      "path": "junos/policy/next-hop-self.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "next-hop-self",
+      "topic": "next-hop-self BGP export policy",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 625,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/policy/next-hop-self.conf"
+    },
+    {
+      "path": "junos/policy/pplb.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "pplb",
+      "topic": "Per-packet load-balance policy (PPLB)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 649,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/policy/pplb.conf"
+    },
+    {
+      "path": "junos/policy/sr-nonzero-loopbacks.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "sr-nonzero-loopbacks",
+      "topic": "SR non-zero loopback advertisement (IPv4 + IPv6 prefix-segment)",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1395,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/policy/sr-nonzero-loopbacks.conf"
+    },
+    {
+      "path": "junos/services/bgp-vpls-vsi.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "bgp-vpls-vsi",
+      "topic": "BGP-VPLS virtual-switch with FAT pseudowire (midhaul L2)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1640,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/services/bgp-vpls-vsi.conf"
+    },
+    {
+      "path": "junos/services/evpn-elan-vlan-based-irb.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-vlan-based-irb",
+      "topic": "EVPN-ELAN VLAN-based with IRB (mac-vrf, anycast gateway)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1514,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/services/evpn-elan-vlan-based-irb.conf"
+    },
+    {
+      "path": "junos/services/evpn-fxc-vlan-aware.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-fxc-vlan-aware",
+      "topic": "EVPN-VPWS Flexible Cross-Connect (FXC, midhaul)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1567,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/services/evpn-fxc-vlan-aware.conf"
+    },
+    {
+      "path": "junos/services/evpn-vpws-vlan-based-sh.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-vpws-vlan-based-sh",
+      "topic": "EVPN-VPWS VLAN-based single-homed (midhaul/backhaul)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1298,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/services/evpn-vpws-vlan-based-sh.conf"
+    },
+    {
+      "path": "junos/services/l3vpn-irb.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "l3vpn-irb",
+      "topic": "L3VPN VRF with IRB (anycast gateway, vrf-table-label)",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1284,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/services/l3vpn-irb.conf"
+    },
+    {
+      "path": "junos/transport/bgp-internal.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "bgp-internal",
+      "topic": "BGP internal (iBGP) \u2014 labeled-unicast + route-reflector",
+      "seen_on": [
+        "sag_mx304"
+      ],
+      "size_bytes": 1420,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/transport/bgp-internal.conf"
+    },
+    {
+      "path": "junos/transport/isis-global.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "isis-global",
+      "topic": "IS-IS global \u2014 segment routing, SPF tuning, TI-LFA backup",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480"
+      ],
+      "size_bytes": 1640,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/transport/isis-global.conf"
+    },
+    {
+      "path": "junos/transport/isis-interface.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "isis-interface",
+      "topic": "IS-IS interface \u2014 level 2, TI-LFA, BFD, point-to-point",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480"
+      ],
+      "size_bytes": 1232,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/transport/isis-interface.conf"
+    },
+    {
+      "path": "junos/transport/load-balance-pplb.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "load-balance-pplb",
+      "topic": "Forwarding-table load-balance + chained-composite-next-hop",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 741,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/transport/load-balance-pplb.conf"
+    },
+    {
+      "path": "junos/transport/mpls-global.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mpls-global",
+      "topic": "MPLS global \u2014 PCE-controlled LSPs, TTL, ICMP tunneling, IPv6",
+      "seen_on": [
+        "ag2_1_mx204",
+        "ag2_2_mx204",
+        "ag3_1_mx480",
+        "ag3_2_mx480",
+        "sag_mx304"
+      ],
+      "size_bytes": 1055,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/junos/transport/mpls-global.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of <variable> placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
