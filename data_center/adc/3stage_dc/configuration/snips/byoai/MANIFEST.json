@@ -16,7 +16,7 @@
         "borderleaf1_qfx5130-32cd",
         "borderleaf2_qfx5130-32cd"
       ],
-      "size_bytes": 1357,
+      "size_bytes": 1384,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/bootstrap/chassis-port-config.conf"
     },
     {
@@ -220,7 +220,7 @@
         "borderleaf1_qfx5130-32cd",
         "borderleaf2_qfx5130-32cd"
       ],
-      "size_bytes": 2076,
+      "size_bytes": 2176,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/evo/policy/community-definitions.conf"
     },
     {
@@ -669,7 +669,7 @@
         "borderleaf1_qfx5130-32cd",
         "borderleaf2_qfx5130-32cd"
       ],
-      "size_bytes": 2384,
+      "size_bytes": 2484,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/junos/policy/community-definitions.conf"
     },
     {

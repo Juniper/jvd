@@ -460,7 +460,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2869,
+      "size_bytes": 2873,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5.conf"
     },
     {
@@ -522,7 +522,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 1770,
+      "size_bytes": 1822,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2vpn-kompella.conf"
     },
     {
@@ -1089,7 +1089,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3410,
+      "size_bytes": 3414,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5.conf"
     },
     {
@@ -1127,7 +1127,7 @@
       "seen_on": [
         "ma5_mx204"
       ],
-      "size_bytes": 2160,
+      "size_bytes": 2210,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2vpn-kompella.conf"
     },
     {

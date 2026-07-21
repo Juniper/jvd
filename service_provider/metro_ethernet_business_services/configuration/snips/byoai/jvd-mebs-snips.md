@@ -1805,8 +1805,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-$INSTANCE_NAME-IMPORT;
-        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-import PS-${INSTANCE_NAME}-IMPORT;
+        vrf-export PS-${INSTANCE_NAME}-EXPORT;
         vrf-table-label;
     }
 }
@@ -2023,6 +2023,7 @@ protocols {
  *     ma5_mx204  xe-0/1/2.0
  *
  * Variables (example values from an3_acx7100-48l):
+ *   $INSTANCE_NAME           e.g. L2VPN_PORT_BASED
  *   $L2VPN_SITE              e.g. r2
  *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
  *   $L2VPN_REMOTE_SITE_ID    e.g. 1119
@@ -4353,8 +4354,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-$INSTANCE_NAME-IMPORT;
-        vrf-export PS-$INSTANCE_NAME-EXPORT;
+        vrf-import PS-${INSTANCE_NAME}-IMPORT;
+        vrf-export PS-${INSTANCE_NAME}-EXPORT;
         vrf-table-label;
     }
 }
@@ -4533,6 +4534,7 @@ protocols {
  *     ma5_mx204  xe-0/1/2.0
  *
  * Variables (example values from ma5_mx204):
+ *   $INSTANCE_NAME           e.g. L2VPN_PORT_BASED
  *   $L2VPN_SITE              e.g. r19
  *   $L2VPN_LOCAL_SITE_ID     e.g. 1119
  *   $L2VPN_REMOTE_SITE_ID    e.g. 1102
@@ -4542,7 +4544,7 @@ protocols {
  */
 routing-instances {
     apply-groups GR-FATPW-LABEL;
-    L2VPN_PORT_BASED {
+    $INSTANCE_NAME {
         instance-type l2vpn;
         protocols {
             l2vpn {

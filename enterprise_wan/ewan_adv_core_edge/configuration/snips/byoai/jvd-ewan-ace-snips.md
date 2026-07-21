@@ -208,6 +208,7 @@ class-of-service {
  * Variables:
  *   $CORE_INTF          e.g. et-0/0/0
  *   $ACCESS_INTF        e.g. et-0/0/2
+ *   $UNIT               e.g. 0
  *   $REWRITE_NAME       e.g. EXP-REWRITE
  *   $CLASSIFIER_NAME    e.g. EXP / 8021P
  */
@@ -296,6 +297,7 @@ protocols {
  *   $FILTER_NAME        e.g. filter_ip_dport1
  *   $PROTOCOL           e.g. tcp
  *   $MATCH_FIELD        e.g. destination-port 80 / source-address 222.222.2.100/32
+ *   $DST_PORT           e.g. 80
  *   $NEXT_HOP           e.g. 192.168.56.2/32
  *   $NEXT_INTF          e.g. et-0/0/1
  */
@@ -1264,6 +1266,7 @@ protocols {
  *   $CORE_INTF_1        e.g. ae2.0
  *   $CORE_INTF_2        e.g. et-1/0/5.0
  *   $CORE_INTF_3        e.g. et-1/0/1.0
+ *   $MAPPING_SERVER_NAME e.g. ospf-mapping-server
  */
 
 protocols {
@@ -1596,6 +1599,7 @@ class-of-service {
  * Variables (example values from wanedge1_mx304):
  *   $CORE_INTF          e.g. et-0/0/1
  *   $ACCESS_INTF        e.g. xe-0/0/9:0
+ *   $UNIT               e.g. 0
  *   $REWRITE_NAME       e.g. EXP-REWRITE
  *   $CLASSIFIER_NAME    e.g. EXP / 8021P
  */
@@ -1693,6 +1697,7 @@ protocols {
  *   $FILTER_NAME        e.g. filter_ip_dport1
  *   $PROTOCOL           e.g. tcp
  *   $MATCH_FIELD        e.g. destination-port 80 / source-address 222.222.2.100/32
+ *   $DST_PORT           e.g. 80
  *   $NEXT_HOP           e.g. 192.168.56.2/32
  *   $NEXT_INTF          e.g. et-0/0/1
  */
