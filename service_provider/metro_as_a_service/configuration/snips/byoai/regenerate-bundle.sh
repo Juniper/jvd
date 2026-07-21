@@ -48,41 +48,9 @@ lines=$(wc -l < "$OUT")
 size=$(du -h "$OUT" | cut -f1)
 echo "regenerated: $OUT ($lines lines, $size)"
 
-# Also extract the fenced system-prompt block to a standalone shareable file,
-# PLUS append the reference files inline so a single fetch is self-contained
-# (fixes ChatGPT Instant mode which can't do AI-initiated follow-up fetches).
+# Also extract the fenced system-prompt block to a standalone shareable file.
 PROMPT_OUT="byoai/jvd-maas-byoai-prompt.txt"
-{
-  awk '/^```$/{f=!f; next} f' byoai/SYSTEM_PROMPT.md
-  echo
-  echo "============================================================"
-  echo "REFERENCE FILES (appended inline for single-fetch operation)"
-  echo "============================================================"
-  echo
-  echo "------------------------------------------------------------"
-  echo "FILE: CATALOG.md"
-  echo "------------------------------------------------------------"
-  echo
-  cat byoai/CATALOG.md
-  echo
-  echo "------------------------------------------------------------"
-  echo "FILE: TIERS.md"
-  echo "------------------------------------------------------------"
-  echo
-  cat byoai/TIERS.md
-  echo
-  echo "------------------------------------------------------------"
-  echo "FILE: DEFAULTS.md"
-  echo "------------------------------------------------------------"
-  echo
-  cat byoai/DEFAULTS.md
-  echo
-  echo "------------------------------------------------------------"
-  echo "FILE: OUTPUT_FORMAT.md"
-  echo "------------------------------------------------------------"
-  echo
-  cat byoai/OUTPUT_FORMAT.md
-} > "$PROMPT_OUT"
+awk '/^```$/{f=!f; next} f' byoai/SYSTEM_PROMPT.md > "$PROMPT_OUT"
 plines=$(wc -l < "$PROMPT_OUT")
 psize=$(du -h "$PROMPT_OUT" | cut -f1)
 echo "regenerated: $PROMPT_OUT ($plines lines, $psize)"

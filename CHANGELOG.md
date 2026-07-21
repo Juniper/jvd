@@ -4,6 +4,53 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-21
+
+Six more validated designs join the library — spanning AI/ML data center
+fabrics, collapsed and multi-stage EVPN-VXLAN, data center interconnect, and
+coherent optical transport — each with full documentation, validated
+configuration building blocks, and an AI assistant. The portal's AI assistants
+also gain a built-in feedback loop.
+
+### New designs
+
+- **AI/ML Inference Frontend** — the frontend EVPN-VXLAN fabric for an AI/ML
+  inference cluster (built with Juniper Apstra): documentation corpus, validated
+  configuration building blocks, and an AI-assistant bundle.
+- **EVPN-VXLAN Data Center Interconnect (DCI)** — the DCI extension that stitches
+  data center fabrics together over an EVPN-VXLAN core, across both Junos and
+  Junos Evolved platforms.
+- **5-Stage EVPN-VXLAN Fabric** — the five-stage Clos data center design, scaled
+  beyond a single pod.
+- **Collapsed Data Center Fabric** — the two-switch collapsed-spine EVPN-VXLAN
+  design for smaller sites.
+- **Collapsed Data Center Fabric with Access Switches** — the collapsed design
+  extended with an EX4400 access-switch layer for port expansion.
+- **Data Center Interconnect over IPoDWDM** — high-capacity DCI using Converged
+  Optical Routing Architecture (CORA): Juniper 400G Coherent Optics plugged
+  directly into PTX, MX, and ACX routers, with no external transponder.
+
+Each new design ships with a solution overview, design guide, test-report brief,
+datasheet quick-reference, a library of templated Junos / Junos Evolved
+configuration building blocks, and a bring-your-own-AI (BYOAI) assistant bundle
+that can both generate grounded configuration and answer design questions.
+
+### Portal
+
+- **Bigger library** — the portal now indexes **17 validated designs** and
+  **638 configuration building blocks**.
+- **Service Configuration Generator** is now clearly marked **Under
+  Construction** while more services and designs are wired in.
+
+### AI assistant (BYOAI)
+
+- **Built-in feedback loop** — every design's AI assistant now invites you to
+  flag anything that looks off, re-checks the validated documentation, and
+  corrects itself — and points you to the project's GitHub Issues to report a
+  problem with a design.
+
+---
+
 ## 2026-07-20
 
 A new Scale-Out security design joins the library — complete with full
