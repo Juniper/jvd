@@ -15,6 +15,17 @@ Validated configurations for the Juniper Validated Design *"Collapsed Data Cente
 
 <img width="900" alt="Collapsed Data Center Fabric with Access Switches" src="https://github.com/user-attachments/assets/47a0a73e-5510-42ad-b40d-0b8082dbeaac" />
 
+## Documentation
+
+In-repo design corpus — faithful markdown conversions of the published JVD PDFs:
+
+| Doc | Contents |
+|---|---|
+| [Datasheet](documentation/datasheet.md) | One-page quick reference |
+| [Solution overview](documentation/solution-overview.md) | Executive summary, port-expansion use case, platforms |
+| [Design guide](documentation/design-guide.md) | Architecture, two-tier EVPN fabrics, EX4400 access VTEP, ESI-LAG interconnect |
+| [Test report brief](documentation/test-report-brief.md) | Platforms, convergence, scale |
+
 ## Hardware
 
 | Juniper Product | Role | Hostnames |
