@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips",
+  "snip_count": 13,
+  "snips": [
+    {
+      "path": "evo/interfaces/loopback.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0 addressing (router-id, VTEP, and VRF loopbacks)",
+      "seen_on": [
+        "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1351,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/interfaces/loopback.conf"
+    },
+    {
+      "path": "evo/policy/community-definitions.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions for DCI gateway and interconnect targets",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1383,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/policy/community-definitions.conf"
+    },
+    {
+      "path": "evo/security/macsec-dci.conf",
+      "os": "evo",
+      "category": "security",
+      "name": "macsec-dci",
+      "topic": "MACSEC encryption on the DCI border-leaf uplink",
+      "seen_on": [
+        "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+        "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1830,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/security/macsec-dci.conf"
+    },
+    {
+      "path": "evo/services/evpn-interconnect.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-interconnect",
+      "topic": "EVPN interconnect (seamless stitching) \u2014 DCI ESI, RD, and VNI list",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+        "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 2236,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/services/evpn-interconnect.conf"
+    },
+    {
+      "path": "evo/services/vrf-type5-interconnect.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "vrf-type5-interconnect",
+      "topic": "Type 5 (L3 VRF) EVPN interconnect for seamless stitching",
+      "seen_on": [
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1923,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/services/vrf-type5-interconnect.conf"
+    },
+    {
+      "path": "evo/services/vxlan-translation-vni.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "vxlan-translation-vni",
+      "topic": "Per-VLAN VXLAN translation VNI for cross-site stitching",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+        "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 1633,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/services/vxlan-translation-vni.conf"
+    },
+    {
+      "path": "evo/transport/dci-gateway-overlay-ebgp.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "dci-gateway-overlay-ebgp",
+      "topic": "DCI overlay eBGP gateway group to remote data center border leaves",
+      "seen_on": [
+        "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+        "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 2880,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/evo/transport/dci-gateway-overlay-ebgp.conf"
+    },
+    {
+      "path": "junos/policy/community-definitions.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions for DCI gateway and interconnect targets",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1208,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/policy/community-definitions.conf"
+    },
+    {
+      "path": "junos/policy/leaf-to-leaf-dci-filter.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "leaf-to-leaf-dci-filter",
+      "topic": "Collapsed-fabric leaf-to-leaf DCI export filter",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1590,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/policy/leaf-to-leaf-dci-filter.conf"
+    },
+    {
+      "path": "junos/security/macsec-dci.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "macsec-dci",
+      "topic": "MACSEC encryption on the DCI collapsed-fabric uplink",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1411,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/security/macsec-dci.conf"
+    },
+    {
+      "path": "junos/services/evpn-interconnect.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-interconnect",
+      "topic": "EVPN interconnect (seamless stitching) \u2014 DCI ESI, RD, and VNI list",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1762,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/services/evpn-interconnect.conf"
+    },
+    {
+      "path": "junos/services/vxlan-translation-vni.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "vxlan-translation-vni",
+      "topic": "Per-VLAN VXLAN translation VNI for cross-site stitching",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1278,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/services/vxlan-translation-vni.conf"
+    },
+    {
+      "path": "junos/transport/dci-gateway-overlay-ebgp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "dci-gateway-overlay-ebgp",
+      "topic": "DCI overlay eBGP gateway group to remote data center border leaves",
+      "seen_on": [
+        "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+        "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 2207,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/junos/transport/dci-gateway-overlay-ebgp.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/evpn_vxlan_dci/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/evpn_vxlan_dci/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/evpn_vxlan_dci/OUTPUT_FORMAT.md"
+    }
+  ]
+}
