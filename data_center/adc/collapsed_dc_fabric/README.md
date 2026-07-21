@@ -16,6 +16,17 @@ Validated configurations for the Juniper Validated Design *"Collapsed Data Cente
 
 <img width="678" alt="Collapsed Data Center Fabric architecture" src="https://github.com/user-attachments/assets/52e20a5a-127e-4947-97ea-0f7ded3f5431" />
 
+## Documentation
+
+In-repo design corpus — faithful markdown conversions of the published JVD PDFs:
+
+| Doc | Contents |
+|---|---|
+| [Datasheet](documentation/datasheet.md) | One-page quick reference |
+| [Solution overview](documentation/solution-overview.md) | Executive summary, use cases, platforms |
+| [Design guide](documentation/design-guide.md) | Architecture, direct leaf-to-leaf peering, config walkthrough |
+| [Test report brief](documentation/test-report-brief.md) | Platforms, features, convergence, scale |
+
 ## Hardware
 
 | Juniper Product | Role | Hostnames |
