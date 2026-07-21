@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips",
+  "snip_count": 16,
+  "snips": [
+    {
+      "path": "evo/bootstrap/security-grpc-cert.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "security-grpc-cert",
+      "topic": "Local TLS certificate for the gRPC extension-service listener",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1012,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/bootstrap/security-grpc-cert.conf"
+    },
+    {
+      "path": "evo/bootstrap/system-grpc-apstra.conf",
+      "os": "evo",
+      "category": "bootstrap",
+      "name": "system-grpc-apstra",
+      "topic": "System base \u2014 host-name, mgmt instance, gRPC extension-service over TLS",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1546,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/bootstrap/system-grpc-apstra.conf"
+    },
+    {
+      "path": "evo/interfaces/fabric-p2p-links.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "fabric-p2p-links",
+      "topic": "Fabric P2P /31 links \u2014 leaf 400G breakout sub-ports + spine direct ports",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 2482,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/fabric-p2p-links.conf"
+    },
+    {
+      "path": "evo/interfaces/irb-cluster-gateway.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "irb-cluster-gateway",
+      "topic": "IRB L3 gateway for the frontend cluster VLAN \u2014 MTU 9000",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd"
+      ],
+      "size_bytes": 1420,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/irb-cluster-gateway.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0.0 \u2014 underlay router-id / eBGP anchor",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1014,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/loopback.conf"
+    },
+    {
+      "path": "evo/interfaces/server-access-trunk.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "server-access-trunk",
+      "topic": "Server/client access port \u2014 jumbo trunk into the frontend cluster VLAN",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd"
+      ],
+      "size_bytes": 1493,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/server-access-trunk.conf"
+    },
+    {
+      "path": "evo/oam/l2-learning-telemetry.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "l2-learning-telemetry",
+      "topic": "L2-learning telemetry \u2014 stream remote MAC entries via gRPC",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd"
+      ],
+      "size_bytes": 826,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/l2-learning-telemetry.conf"
+    },
+    {
+      "path": "evo/oam/lldp-interface-all.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "lldp-interface-all",
+      "topic": "LLDP on all interfaces \u2014 neighbor discovery for fabric validation",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 986,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/lldp-interface-all.conf"
+    },
+    {
+      "path": "evo/oam/rstp-fabric.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "rstp-fabric",
+      "topic": "RSTP \u2014 leaf edge/BPDU-guard on access ports, disabled on spines",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1290,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/rstp-fabric.conf"
+    },
+    {
+      "path": "evo/policy/allpodnetworks-direct-redistribution.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "allpodnetworks-direct-redistribution",
+      "topic": "AllPodNetworks \u2014 direct-route redistribution + BGP-AOS-Policy umbrella",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 3029,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/allpodnetworks-direct-redistribution.conf"
+    },
+    {
+      "path": "evo/policy/clos-loop-prevention.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "clos-loop-prevention",
+      "topic": "eBGP CLOS loop-prevention \u2014 spine tags outbound, leaf rejects tagged",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1758,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/clos-loop-prevention.conf"
+    },
+    {
+      "path": "evo/policy/community-definitions.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "community-definitions",
+      "topic": "BGP community definitions \u2014 tier marker + default direct redistribution",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1318,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/community-definitions.conf"
+    },
+    {
+      "path": "evo/policy/pfe-load-balance.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "pfe-load-balance",
+      "topic": "PFE per-packet load-balance policy (referenced by forwarding-table export)",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 951,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/pfe-load-balance.conf"
+    },
+    {
+      "path": "evo/services/frontend-cluster-vlan.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "frontend-cluster-vlan",
+      "topic": "Frontend cluster VLAN \u2014 L2 broadcast domain + L3 gateway binding",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd"
+      ],
+      "size_bytes": 1330,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/services/frontend-cluster-vlan.conf"
+    },
+    {
+      "path": "evo/transport/bgp-ebgp-fabric-underlay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "bgp-ebgp-fabric-underlay",
+      "topic": "eBGP fabric underlay \u2014 leaf<->spine /31 sessions, multipath, BFD 1s",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 3306,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/transport/bgp-ebgp-fabric-underlay.conf"
+    },
+    {
+      "path": "evo/transport/routing-options-ecmp-frr.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "routing-options-ecmp-frr",
+      "topic": "Routing-options \u2014 router-id, local AS, ECMP fast-reroute, PFE-LB export",
+      "seen_on": [
+        "leaf1_qfx5130-32cd",
+        "leaf2_qfx5130-32cd",
+        "leaf3_qfx5130-32cd",
+        "leaf4_qfx5130-32cd",
+        "spine1_qfx5220-32cd",
+        "spine2_qfx5220-32cd"
+      ],
+      "size_bytes": 1516,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/evo/transport/routing-options-ecmp-frr.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_inference_frontend/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VLAN IDs, /31 links",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_inference_frontend/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/aiml_inference_frontend/OUTPUT_FORMAT.md"
+    }
+  ]
+}
