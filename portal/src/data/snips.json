@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-21T19:28:08.978Z",
+  "generatedAt": "2026-07-21T19:55:01.563Z",
   "counts": {
-    "total": 617,
-    "junos": 309,
+    "total": 623,
+    "junos": 315,
     "evo": 308,
-    "jvds": 14
+    "jvds": 15
   },
   "categories": [
     "apply-groups",
@@ -110,6 +110,17 @@
         "junos": 30,
         "evo": 18,
         "total": 48
+      }
+    },
+    {
+      "id": "collapsed_dc_fabric",
+      "label": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "repoPath": "data_center/adc/collapsed_dc_fabric",
+      "counts": {
+        "junos": 6,
+        "evo": 0,
+        "total": 6
       }
     },
     {
@@ -4520,6 +4531,397 @@
       "lineCount": 27,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/interfaces/esi-lag-access",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "esi-lag-access",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/esi-lag-access.conf",
+      "topic": "ESI-LAG all-active access (multihomed server / access switch)",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Dual-homes a server or access switch to BOTH collapsed leaves with an all-active ESI-LAG (AE bundle + EVPN ESI + LACP).",
+        "The ESI value AND the LACP system-id MUST be identical on both collapsed switches for the same AE bundle (that is what makes it all-active).",
+        "unit 0 is an ethernet-switching trunk carrying the fabric VLANs (vn<vlan>)."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/mac-vrf-evpn-vxlan.conf   (the VLANs/VNIs carried on the trunk)",
+          "id": "collapsed_dc_fabric/junos/services/mac-vrf-evpn-vxlan",
+          "note": "the VLANs/VNIs carried on the trunk"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AE_IFD",
+          "example": "ae1"
+        },
+        {
+          "name": "$AE_DESCRIPTION",
+          "example": "to.dc3-rack-001-sys001"
+        },
+        {
+          "name": "$ESI_VALUE",
+          "example": "00:02:00:00:00:00:01:00:00:01"
+        },
+        {
+          "name": "$LACP_SYSTEM_ID",
+          "example": "02:00:00:00:00:01"
+        },
+        {
+          "name": "$VLAN_MEMBERS",
+          "example": "vn400 vn401"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AE_IFD {\n        description $AE_DESCRIPTION;\n        mtu 9216;\n        esi {\n            $ESI_VALUE;\n            all-active;\n        }\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYSTEM_ID;\n            }\n        }\n        unit 0 {\n            family ethernet-switching {\n                interface-mode trunk;\n                vlan {\n                    members [ $VLAN_MEMBERS ];\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AE_IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description $AE_DESCRIPTION;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mtu </span><span style=\"color:#79C0FF\">9216</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $ESI_VALUE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYSTEM_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ethernet-switching {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface-mode trunk;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    members [ $VLAN_MEMBERS ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 513,
+      "lineCount": 24,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/interfaces/irb-anycast-gateway",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "irb-anycast-gateway",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/irb-anycast-gateway.conf",
+      "topic": "Anycast IRB gateway for a fabric VLAN",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "The distributed anycast L3 gateway for a VLAN. Both collapsed switches use the SAME irb unit address and the SAME `mac` value, so hosts see one consistent default gateway regardless of which switch they land on.",
+        "MTU 9000 supports jumbo frames across the fabric.",
+        "Repeat the unit block per routed VLAN; bind the units into the tenant VRF."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/mac-vrf-evpn-vxlan.conf   (the L2 domain this gateways)",
+          "id": "collapsed_dc_fabric/junos/services/mac-vrf-evpn-vxlan",
+          "note": "the L2 domain this gateways"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$IRB_UNIT",
+          "example": "400"
+        },
+        {
+          "name": "$IRB_ADDRESS",
+          "example": "10.0.0.1/24"
+        },
+        {
+          "name": "$ANYCAST_MAC",
+          "example": "00:1c:73:00:00:01"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    irb {\n        unit $IRB_UNIT {\n            family inet {\n                mtu 9000;\n                address $IRB_ADDRESS;\n            }\n            mac $ANYCAST_MAC;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $IRB_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mac $ANYCAST_MAC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 199,
+      "lineCount": 11,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/interfaces/loopback",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "loopback",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/loopback.conf",
+      "topic": "Loopback lo0 addressing (router-id / VTEP / per-VRF)",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "lo0.0 is the router-id / VTEP source and the local-address for the collapsed EVPN overlay (l3clos-l-evpn).",
+        "Additional units (lo0.2, lo0.3, ...) are per-VRF loopbacks used by the tenant routing-instances.",
+        "Repeat the unit block per loopback."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/collapsed-evpn-overlay.conf   (lo0.0 as overlay local-address)",
+          "id": "collapsed_dc_fabric/junos/transport/collapsed-evpn-overlay",
+          "note": "lo0.0 as overlay local-address"
+        },
+        {
+          "raw": "junos/transport/collapsed-underlay-ebgp.conf   (lo0 router-id / VTEP)",
+          "id": "collapsed_dc_fabric/junos/transport/collapsed-underlay-ebgp",
+          "note": "lo0 router-id / VTEP"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LO_UNIT",
+          "example": "0"
+        },
+        {
+          "name": "$LO_IPV4",
+          "example": "192.168.253.0/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    lo0 {\n        unit $LO_UNIT {\n            family inet {\n                address $LO_IPV4;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $LO_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LO_IPV4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 138,
+      "lineCount": 9,
+      "techFamily": "Interfaces",
+      "subfamily": "Interfaces",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/services/mac-vrf-evpn-vxlan",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "mac-vrf-evpn-vxlan",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/services/mac-vrf-evpn-vxlan.conf",
+      "topic": "VLAN-aware MAC-VRF EVPN-VXLAN instance",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "The single VLAN-aware MAC-VRF (evpn-1) per collapsed switch — one VXLAN VNI per VLAN, with per-VNI route targets under vni-options.",
+        "default-gateway do-not-advertise: each switch owns its anycast IRB gateway locally (symmetric ERB), so the gateway MAC is not advertised over EVPN.",
+        "duplicate-mac-detection guards against host mis-cabling / loops.",
+        "Repeat the vni block per stretched VLAN/VNI."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/collapsed-evpn-overlay.conf   (advertises the EVI)",
+          "id": "collapsed_dc_fabric/junos/transport/collapsed-evpn-overlay",
+          "note": "advertises the EVI"
+        },
+        {
+          "raw": "junos/interfaces/irb-anycast-gateway.conf      (L3 anycast gateway per VLAN)",
+          "id": "collapsed_dc_fabric/junos/interfaces/irb-anycast-gateway",
+          "note": "L3 anycast gateway per VLAN"
+        },
+        {
+          "raw": "junos/interfaces/esi-lag-access.conf           (ESI access into the VLANs)",
+          "id": "collapsed_dc_fabric/junos/interfaces/esi-lag-access",
+          "note": "ESI access into the VLANs"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VNI",
+          "example": "10400"
+        },
+        {
+          "name": "$VNI_RT",
+          "example": "target:10400:1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    evpn-1 {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation vxlan;\n                default-gateway do-not-advertise;\n                duplicate-mac-detection {\n                    auto-recovery-time 9;\n                }\n                extended-vni-list all;\n                vni-options {\n                    vni $VNI {\n                        vrf-target $VNI_RT;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    evpn-</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation vxlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                duplicate-mac-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    auto-recovery-time </span><span style=\"color:#79C0FF\">9</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                extended-vni-list all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vni-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vni $VNI {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        vrf-target $VNI_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 507,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/transport/collapsed-evpn-overlay",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "collapsed-evpn-overlay",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/transport/collapsed-evpn-overlay.conf",
+      "topic": "Direct leaf-to-leaf eBGP EVPN overlay (collapsed spine)",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "The EVPN overlay (group l3clos-l-evpn) runs directly between the two collapsed leaves over their loopbacks (multihop ttl 1, no-nexthop-change) — no spine relay because there is no spine.",
+        "family evpn signaling with loops 2 allows Type-5 routes to re-enter for inter-VRF routing on the border-capable collapsed switches.",
+        "BFD 3000ms x 3 (multihop overlay)."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/collapsed-underlay-ebgp.conf   (underlay reachability)",
+          "id": "collapsed_dc_fabric/junos/transport/collapsed-underlay-ebgp",
+          "note": "underlay reachability"
+        },
+        {
+          "raw": "junos/interfaces/loopback.conf                 (lo0 local-address)",
+          "id": "collapsed_dc_fabric/junos/interfaces/loopback",
+          "note": "lo0 local-address"
+        },
+        {
+          "raw": "junos/services/mac-vrf-evpn-vxlan.conf          (the EVI advertised here)",
+          "id": "collapsed_dc_fabric/junos/services/mac-vrf-evpn-vxlan",
+          "note": "the EVI advertised here"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$OVERLAY_BFD_MS",
+          "example": "3000"
+        },
+        {
+          "name": "$BFD_MULTIPLIER",
+          "example": "3"
+        },
+        {
+          "name": "$PEER_LOOPBACK",
+          "example": "192.168.253.1"
+        },
+        {
+          "name": "$PEER_DESCRIPTION",
+          "example": "facing_dc3-rack-001-leaf2-evpn-overlay"
+        },
+        {
+          "name": "$LOCAL_LOOPBACK",
+          "example": "192.168.253.0"
+        },
+        {
+          "name": "$PEER_AS",
+          "example": "64801"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group l3clos-l-evpn {\n            type external;\n            multihop {\n                ttl 1;\n                no-nexthop-change;\n            }\n            family evpn {\n                signaling {\n                    loops 2;\n                }\n            }\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval $OVERLAY_BFD_MS;\n                multiplier $BFD_MULTIPLIER;\n            }\n            neighbor $PEER_LOOPBACK {\n                description $PEER_DESCRIPTION;\n                local-address $LOCAL_LOOPBACK;\n                family evpn {\n                    signaling;\n                }\n                export ( EVPN_EXPORT );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-l-evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-nexthop-change;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval $OVERLAY_BFD_MS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier $BFD_MULTIPLIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description $PEER_DESCRIPTION;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( EVPN_EXPORT );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 847,
+      "lineCount": 33,
+      "techFamily": "Transport",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "collapsed_dc_fabric/junos/transport/collapsed-underlay-ebgp",
+      "jvd": "collapsed_dc_fabric",
+      "jvdLabel": "Collapsed DC Fabric",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "collapsed-underlay-ebgp",
+      "path": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/transport/collapsed-underlay-ebgp.conf",
+      "topic": "Direct leaf-to-leaf eBGP underlay (collapsed spine)",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48y",
+          "leaf2_qfx5120-48y"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "In a collapsed fabric there is NO spine tier — the two switches ARE the fabric. This is the eBGP underlay (group l3clos-l) directly between the two collapsed leaves over point-to-point /31 links.",
+        "Repeat the neighbor block per direct link (the pair is dual-linked).",
+        "BFD (1000ms x 3) for fast underlay convergence; export BGP-AOS-Policy."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/collapsed-evpn-overlay.conf   (EVPN overlay over loopbacks)",
+          "id": "collapsed_dc_fabric/junos/transport/collapsed-evpn-overlay",
+          "note": "EVPN overlay over loopbacks"
+        },
+        {
+          "raw": "junos/interfaces/loopback.conf                (lo0 router-id / VTEP)",
+          "id": "collapsed_dc_fabric/junos/interfaces/loopback",
+          "note": "lo0 router-id / VTEP"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$UNDERLAY_BFD_MS",
+          "example": "1000"
+        },
+        {
+          "name": "$BFD_MULTIPLIER",
+          "example": "3"
+        },
+        {
+          "name": "$PEER_LINK_IP",
+          "example": "10.0.3.0"
+        },
+        {
+          "name": "$PEER_DESCRIPTION",
+          "example": "facing_dc3-rack-001-leaf2"
+        },
+        {
+          "name": "$LOCAL_LINK_IP",
+          "example": "10.0.3.1"
+        },
+        {
+          "name": "$PEER_AS",
+          "example": "64801"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group l3clos-l {\n            type external;\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval $UNDERLAY_BFD_MS;\n                multiplier $BFD_MULTIPLIER;\n            }\n            neighbor $PEER_LINK_IP {\n                description $PEER_DESCRIPTION;\n                local-address $LOCAL_LINK_IP;\n                family inet {\n                    unicast;\n                }\n                export ( BGP-AOS-Policy );\n                peer-as $PEER_AS;\n            }\n            vpn-apply-export;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-l {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval $UNDERLAY_BFD_MS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier $BFD_MULTIPLIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PEER_LINK_IP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description $PEER_DESCRIPTION;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_LINK_IP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( BGP-AOS-Policy );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpn-apply-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 632,
+      "lineCount": 24,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
       "usecases": [
         "Data Center"
       ],
@@ -45450,6 +45852,10 @@
       "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers\nthat vary between deployments are written as `$VAR`. Render with the\nsame `snips_render.py` tool used elsewhere in the JVD repo.\n\nConstants left as literals on purpose:\n- Apply-group / policy / community names (PS-ISIS-EXPORT, PS-PPLB,\n  PS-RADIUS-COMM, etc.) — they ARE the abstraction.\n- Forwarding-class names, scheduler-map names — JVD-wide.\n- Pool / dynamic-profile names (`pppv4-pool`, `auto-stacked-pwht`,\n  `prod-dhcp-base`, …) — wired by the BNG runtime by name.\n- All `$junos-*` placeholders inside dynamic-profiles — runtime-resolved\n  by smg-service, NOT user-templatable.\n\n## Identity / topology\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$ROUTER_ID` | Device router-id (== lo0.0 IPv4) | `192.168.0.7` | transport/* |\n| `$LOCAL_AS` | iBGP / overlay AS | `65001` | transport/* |\n| `$LOOPBACK_V4` | This PE's lo0.0 IPv4 | `192.168.0.7` | transport/*, policy/* |\n| `$LOOPBACK_V6` | This PE's lo0.0 IPv6 | `2001:db8::192:168:0:7` | policy/* |\n| `$NODE_SID_V4` | ISIS-SR IPv4 node-segment index (1000+lastoctet in this JVD) | `1007` | policy/isis-export-prefix-segment.conf |\n| `$NODE_SID_V6` | ISIS-SR IPv6 node-segment index (4000+lastoctet) | `4007` | policy/isis-export-prefix-segment.conf |\n| `$SRGB_START` / `$SRGB_END` | MPLS SRGB label range | `800000` / `890000` | transport/mpls-segment-routing.conf |\n\n## Neighbours / route reflectors\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$RR_AGN1_V4` / `$RR_AGN2_V4` | Fabric (AGN) RR loopbacks | `192.168.0.5` / `192.168.0.6` | transport/bgp-overlay-* |\n| `$RR_CR_V4` | Core (CR) RR loopback | `192.168.0.11` | transport/bgp-overlay-pe-bng.conf |\n| `$AN1_V4`..`$AN5_V4` | Access-node loopbacks (RR clients) | `192.168.0.0`..`192.168.0.4` | transport/bgp-overlay-rr-fabric.conf |\n| `$BNG1_V4`..`$BNG4_V4` | BNG loopbacks (RR clients) | `192.168.0.7`..`192.168.0.10` | transport/bgp-overlay-rr-* |\n| `$AGN1_V4` / `$AGN2_V4` | Aggregation-node loopbacks (cr1 view) | `192.168.0.5` / `192.168.0.6` | transport/bgp-overlay-rr-core.conf |\n| `$CR_V4` | Core RR loopback (AGN view) | `192.168.0.11` | transport/bgp-overlay-rr-fabric.conf |\n| `$CE_PEER_V4` / `$CE_PEER_V6` | Internet eBGP peer addresses | `10.11.110.2` / `2001:db8::11:11:110:2` | services/l3vpn-internet.conf |\n| `$CE_AS_V4` / `$CE_AS_V6` | Internet eBGP peer AS numbers | `200` / `300` | services/l3vpn-internet.conf |\n\n## Interfaces (underlay)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$CORE_INTF` | Core-facing IS-IS unit | `et-0/0/2.0` | transport/isis-srmpls-tilfa.conf |\n| `$CORE_PHYS` | Core-facing physical interface | `et-0/0/2` | interfaces/core-isis-mpls.conf |\n| `$CORE_DESC` | JVD-style link description | `R7-BNG1-To-R6-AGN2` | interfaces/core-isis-mpls.conf |\n| `$CORE_V4` / `$CORE_V6` | Underlay link addresses | `10.10.67.2/24` / `2001:db8::10:10:67:1:2/120` | interfaces/core-isis-mpls.conf |\n| `$ISIS_LEVEL` | ISIS level on this interface | `1` (or `2` on cr1's L2 links) | transport/isis-srmpls-tilfa.conf |\n| `$L2_KNOB` | `level 2` mode | `disable` (or `wide-metrics-only` on cr1) | transport/isis-srmpls-tilfa.conf |\n| `$EXPORT_POLICY` | ISIS export policy reference | `PS-ISIS-EXPORT` (or `[ PS-ISIS-EXPORT stop_leak ]` on cr1) | transport/isis-srmpls-tilfa.conf |\n| `$V6_VRF_RIB` | VRF v6 rib leaked into inet6.0 | `PPPOE_SUBS_1.inet6.0` | transport/routing-options-pe.conf |\n\n## Interfaces (subscriber & access)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PS_DEV` | Pseudowire-headend ifd | `ps0`, `ps11` | interfaces/ps-pseudowire-* |\n| `$PS_AC` | psN.0 attachment-circuit unit | `ps1.0`, `ps11.0`, `ps31.0` | services/evpn-vpws-*-bng.conf |\n| `$ANCHOR_LT` | logical-tunnel anchor | `lt-0/0/0` | interfaces/ps-pseudowire-* |\n| `$DYN_PROFILE` | Dynamic-profile invoked by auto-configure | `auto-stacked-pwht`, `auto-stacked-pwht_dhcp` | interfaces/ps-pseudowire-* |\n| `$ESI_VALUE` | Per-ps ESI for EVPN multihoming | `00:10:12:12:12:12:12:00:00:31` | interfaces/ps-pseudowire-* |\n| `$DF_PREFERENCE` | df-election-type preference value | `1000` (preferred) / `995` (backup) | interfaces/ps-pseudowire-* |\n| `$STATIC_MAC` | Override MAC on ps interface (DHCP) | `aa:aa:aa:bb:bb:bb` | interfaces/ps-pseudowire-dhcp-ipoe.conf |\n| `$MTU` | ps interface MTU | `2022` | interfaces/ps-pseudowire-* |\n| `$AC_INTF` | AN-side EVPN-VPWS attachment-circuit unit | `ae1.1041` | services/evpn-vpws-an.conf |\n| `$AC1` / `$AC2` | FXC bundle members on the AN | `ae0.1061` / `ae0.1062` | services/evpn-vpws-fxc-an.conf |\n| `$LAG`, `$LAG_FXC`, `$LAG_PERSUB` | Aggregated-Ethernet device names | `ae0`, `ae1` | interfaces/ae-vlan-bridge-* |\n| `$LAG_VLAN_UNIT` / `$LAG_VLAN_ID` | per-subscriber VLAN unit/id | `1031` / `1031` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$CPE_PORT` | sw1/sw2 CPE-facing breakout port | `xe-0/0/0:3` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$BD_NAME` | sw1/sw2 bridge-domain name | `bd_group_1031` | interfaces/ae-vlan-bridge-fxc-sw.conf |\n| `$FXC_VLAN_UNIT` | AN FXC LAG unit/vlan | `1061` | interfaces/ae-vlan-bridge-an.conf |\n| `$PERSUB_VLAN_UNIT` | AN per-subscriber LAG unit/vlan | `1031` | interfaces/ae-vlan-bridge-an.conf |\n| `$FXC_ESI` | Shared LAG-level ESI for FXC | `00:15:15:15:00:00:00:15:15:15` | interfaces/ae-vlan-bridge-an.conf, services/evpn-vpws-fxc-an.conf |\n| `$PERSUB_ESI_VALUE` | Per-unit ESI for per-subscriber EVPN-VPWS | `00:10:11:11:11:11:11:00:00:31` | interfaces/ae-vlan-bridge-an.conf |\n| `$LACP_SYSID_FXC` / `$LACP_SYSID_PERSUB` | LACP system-id overrides on AN LAGs | `00:00:00:00:01:01` / `00:00:00:00:02:02` | interfaces/ae-vlan-bridge-an.conf |\n\n## Services (EVPN-VPWS / L3VPN)\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$INSTANCE_NAME` | routing-instance name | `METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1` | services/evpn-vpws-* |\n| `$VRF_NAME` | L3VPN routing-instance name | `PPPOE_SUBS_1`, `dhcp-subs` | services/l3vpn-* |\n| `$RD_LOOPBACK_V4` | Loopback used as RD-prefix | `192.168.107.107` (BNG-side), `100.100.100.100` (AN-side) | services/* |\n| `$RD_ID` | RD tail integer | `1031` | services/* |\n| `$RT_AS` / `$RT_ID` | Route-target AS:ID pair | `60000`:`1031` | services/evpn-vpws-* |\n| `$VPWS_LOCAL_ID` / `$VPWS_REMOTE_ID` | EVPN-VPWS service-id pair | `21` / `1` | services/evpn-vpws-* |\n| `$SVC_LOCAL` / `$SVC_REMOTE` | FXC group service-id pair | `5001` / `6001` | services/evpn-vpws-fxc-an.conf |\n| `$LO_UNIT` | VRF loopback unit | `lo0.1`, `lo0.7`, `lo0.11`, `lo0.313` | services/l3vpn-* |\n| `$VRF_IMPORT_POL` / `$VRF_EXPORT_POL` | Per-VRF import/export policy refs | `PS-PPPOE-SUBS-1-VRF-IMPORT` / `-EXPORT` | services/l3vpn-* |\n| `$V4_AGGREGATE` / `$V6_AGGREGATE` | Subscriber-pool aggregate prefixes | `10.25.0.0/16` / `fc00:25:140::/48` | services/l3vpn-pppoe-subs.conf |\n| `$V4_POOL` / `$V6_POOL` | DHCP pool names | `dhcp_v4_pool` / `dhcp_v6_pool` | services/l3vpn-dhcp-subs.conf |\n| `$V4_NETWORK` | DHCP v4 pool network | `10.42.0.0/16` | services/l3vpn-dhcp-subs.conf |\n| `$V4_RANGE_LOW` / `$V4_RANGE_HIGH` | DHCP v4 lease range | `10.42.0.2` / `10.42.255.254` | services/l3vpn-dhcp-subs.conf |\n| `$V4_GATEWAY` | DHCP server-identifier + router option | `10.42.0.1` | services/l3vpn-dhcp-subs.conf |\n| `$V6_PREFIX` | DHCPv6 pool prefix | `fc00:125:140::/64` | services/l3vpn-dhcp-subs.conf |\n| `$V6_RANGE_LOW` / `$V6_RANGE_HIGH` | DHCPv6 range | `fc00:125:140::2/128` / `fc00:125:140::ffff/128` | services/l3vpn-dhcp-subs.conf |\n| `$LEASE_TIME` | dhcp-attributes maximum-lease-time (s) | `600` | services/l3vpn-dhcp-subs.conf |\n| `$V6_RIB` | rib for IPv6 aggregate inside VRF | `PPPOE_SUBS_1.inet6.0` | services/l3vpn-pppoe-subs.conf |\n| `$V4_POOL_NETWORK` / `$V6_POOL_PREFIX` | PPPoE pool prefixes | `10.25.0.0/16` / `fc00:25:140::/48` | services/l3vpn-pppoe-subs.conf, subscriber-management/address-assignment-pools.conf |\n| `$AUTH_PROFILE` | RADIUS access-profile reference | `vlan-auth-access1` | interfaces/ps-pseudowire-*, services/l3vpn-dhcp-subs.conf |\n| `$RADIUS_INTF` | RADIUS-VRF interface on cr1 | `et-0/0/20:0.0` | services/l3vpn-radius.conf |\n| `$CE_INTF` | VRF_Internet eBGP interface | `et-0/0/26:1.0` | services/l3vpn-internet.conf |\n\n## Chassis / boot / subscriber-management\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PS_DEVICE_COUNT` | chassis pseudowire-service device-count | `100` | bootstrap/chassis-bng.conf |\n| `$TS_FPC` / `$TS_PIC` / `$TS_BW` | tunnel-services FPC/PIC/bandwidth | `0` / `0` / `100g` | bootstrap/chassis-bng.conf |\n| `$NAS_ID` | RADIUS NAS-Identifier | `R7-BNG1` | subscriber-management/access-profile-radius.conf |\n| `$RADIUS_SERVER_V4` | RADIUS server address | `10.189.189.2` | subscriber-management/* |\n| `$RADIUS_PORT` | RADIUS server UDP port | `1812` | subscriber-management/radius-server.conf |\n| `$RADIUS_SECRET` / `$RADIUS_SECRET_AUTH` / `$RADIUS_SECRET_ACCT` | Encrypted RADIUS secrets | `$9$...` (Junos type-9) | subscriber-management/* |\n| `$RADIUS_SOURCE_V4` | RADIUS source-address (in RADIUS VRF) | `192.168.17.17` | subscriber-management/* |\n| `$AUTOCONF_BW` / `$AUTOCONF_BURST` | ddos-protection autoconf rate-limits | `20000` / `20000` | subscriber-management/system-services-subscriber-mgmt.conf |\n| `$PPPOE_PADSE_BW` / `$PPPOE_PADSE_BURST` | ddos-protection PPPoE PADSE rate-limits | `2000` / `100` | subscriber-management/system-services-subscriber-mgmt.conf |\n| `$USER_PASS` | dynamic-profile RADIUS password | `joshua` | interfaces/ps-pseudowire-*, services/l3vpn-dhcp-subs.conf, subscriber-management/dp-auto-stacked-* |\n| `$USER_PREFIX` | dynamic-profile username prefix | `pwht_pppoe`, `pwht_dhcp` | (same as `$USER_PASS`) |\n| `$DOMAIN_NAME` | dynamic-profile username domain | `jnpr.net` | (same as `$USER_PASS`) |\n| `$RA_MIN` / `$RA_MAX` | router-advertisement intervals | `30` / `60` | subscriber-management/dp-auto-stacked-pwht-dhcp.conf |\n| `$VRF_LO_UNIT` | dhcp-subs VRF loopback unit | `lo0.313` | subscriber-management/dp-prod-dhcp-base.conf, dp-autosense-ipdemux.conf |\n\n## Policy\n\n| Variable | Meaning | Example | Used in |\n|---|---|---|---|\n| `$PL_AN_REGION_LIST` | Prefix-list of AN+BNG client loopbacks | `192.168.0.0..0.4 192.168.0.7 192.168.0.8` | policy/bgp-rr-export.conf |\n| `$PL_CORE_LIST` | Prefix-list of CORE loopbacks (per RR view) | `192.168.0.7 .8 .11` (AGN view); `192.168.0.9 .10` (cr1 view) | policy/bgp-rr-export.conf |\n"
     },
     {
+      "jvd": "collapsed_dc_fabric",
+      "markdown": "# Snip Variable Reference — Collapsed Data Center Fabric\n\nVariables used across the `collapsed_dc_fabric` snip library. Replace `$VARIABLE`\nplaceholders with site-specific values when adapting snips to a new deployment.\nJVD-wide constants (group names `l3clos-l` / `l3clos-l-evpn`, policy names\n`BGP-AOS-Policy` / `EVPN_EXPORT`, the `evpn-1` MAC-VRF instance) are left literal\nbecause they *are* the abstraction the JVD documents.\n\nBoth collapsed switches run **Junos OS** (baseline QFX5120-48Y), so every snip\nlives under `junos/` — there is no `evo/` tree.\n\n## Transport (direct leaf-to-leaf)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$UNDERLAY_BFD_MS` | `1000` | collapsed-underlay-ebgp |\n| `$OVERLAY_BFD_MS` | `3000` | collapsed-evpn-overlay |\n| `$BFD_MULTIPLIER` | `3` | both |\n| `$PEER_LINK_IP` | `10.0.3.0` | collapsed-underlay-ebgp |\n| `$LOCAL_LINK_IP` | `10.0.3.1` | collapsed-underlay-ebgp |\n| `$PEER_LOOPBACK` | `192.168.253.1` | collapsed-evpn-overlay |\n| `$LOCAL_LOOPBACK` | `192.168.253.0` | collapsed-evpn-overlay |\n| `$PEER_DESCRIPTION` | `facing_dc3-rack-001-leaf2` | both |\n| `$PEER_AS` | `64801` | both |\n\n## Services\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VNI` | `10400` | mac-vrf-evpn-vxlan |\n| `$VNI_RT` | `target:10400:1` | mac-vrf-evpn-vxlan |\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$AE_IFD` | `ae1` | esi-lag-access |\n| `$AE_DESCRIPTION` | `to.dc3-rack-001-sys001` | esi-lag-access |\n| `$ESI_VALUE` | `00:02:00:00:00:00:01:00:00:01` | esi-lag-access |\n| `$LACP_SYSTEM_ID` | `02:00:00:00:00:01` | esi-lag-access |\n| `$VLAN_MEMBERS` | `vn400 vn401` | esi-lag-access |\n| `$IRB_UNIT` | `400` | irb-anycast-gateway |\n| `$IRB_ADDRESS` | `10.0.0.1/24` | irb-anycast-gateway |\n| `$ANYCAST_MAC` | `00:1c:73:00:00:01` | irb-anycast-gateway |\n| `$LO_UNIT` | `0` | loopback |\n| `$LO_IPV4` | `192.168.253.0/32` | loopback |\n"
+    },
+    {
       "jvd": "evpn_vxlan_dci",
       "markdown": "# Snip Variable Reference — EVPN-VXLAN Data Center Interconnect (DCI)\n\nVariables used across the `evpn_vxlan_dci` snip library. Replace `$VARIABLE`\nplaceholders with site-specific values when adapting snips to a new deployment.\nJVD-wide constants (policy names such as `EVPN_GW_IN` / `EVPN_GW_OUT`, community\nnames, the `evpn-gw` group name, the `evpn-1` MAC-VRF instance) are left literal\nbecause they *are* the abstraction the JVD documents.\n\n## DCI overlay gateway (evpn-gw)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$GW_PEER` | `192.168.254.2` | dci-gateway-overlay-ebgp |\n| `$GW_LOCAL` | `192.168.255.2` | dci-gateway-overlay-ebgp |\n| `$PEER_DESCRIPTION` | `facing_dc2-bl1-evpn-gateway` | dci-gateway-overlay-ebgp |\n| `$PEER_TTL` | `2` (EVO) / `5` (junos) | dci-gateway-overlay-ebgp |\n| `$PEER_AS` | `65105` | dci-gateway-overlay-ebgp |\n| `$BFD_INTERVAL_MS` | `3000` | dci-gateway-overlay-ebgp (EVO) |\n| `$BFD_MULTIPLIER` | `3` | dci-gateway-overlay-ebgp (EVO) |\n\n## EVPN interconnect (seamless stitching)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$IC_VRF_TARGET` | `target:65655L:1` | evpn-interconnect |\n| `$IC_RD` | `192.168.255.2:65533` | evpn-interconnect |\n| `$IC_ESI` | `00:02:ff:00:00:00:01:00:00:01` | evpn-interconnect |\n| `$IC_VNI_LIST` | `10400 10401 41400 41401` | evpn-interconnect |\n\n## Translation VNI\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VLAN_NAME` | `vn1400` | vxlan-translation-vni |\n| `$VLAN_ID` | `1400` | vxlan-translation-vni |\n| `$IRB_IFL` | `irb.1400` | vxlan-translation-vni |\n| `$VNI` | `11400` (EVO) / `31400` (junos) | vxlan-translation-vni |\n| `$TRANSLATION_VNI` | `41400` | vxlan-translation-vni |\n\n## Type 5 (L3 VRF) interconnect\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VRF_NAME` | `blue` | vrf-type5-interconnect |\n| `$L3_IC_VRF_TARGET` | `target:65655L:2222` | vrf-type5-interconnect |\n| `$L3_IC_RD` | `192.168.255.2:65530` | vrf-type5-interconnect |\n| `$L3_VNI` | `20002` | vrf-type5-interconnect |\n| `$L3_EXPORT_POLICY` | `BGP-AOS-Policy-blue` | vrf-type5-interconnect |\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$LO_UNIT` | `0` | loopback |\n| `$LO_IPV4` | `192.168.255.2/32` | loopback |\n| `$LO_IPV6` | `fdf6:ed70:1fac:f2d1::1000/128` | loopback |\n\n## MACSEC\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$CA_NAME` | `dc1-dc2-dci` | macsec-dci |\n| `$CKN` | `abcd1234…` (64 hex) | macsec-dci |\n| `$CAK` | *(secret — `## SECRET-DATA`)* | macsec-dci |\n| `$MACSEC_INTF` | `et-0/0/12:2` (EVO) / `xe-0/0/12` (junos) | macsec-dci |\n"
     },
@@ -45516,6 +45922,12 @@
       "promptPath": "service_provider/broadband_edge/configuration/snips/byoai/jvd-bbe-byoai-prompt.txt",
       "promptUrl": "https://juniper.github.io/jvd/portal/byoai/broadband_edge/jvd-bbe-byoai-prompt.txt",
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/jvd-bbe-byoai-prompt.txt"
+    },
+    {
+      "jvd": "collapsed_dc_fabric",
+      "promptPath": "data_center/adc/collapsed_dc_fabric/configuration/snips/byoai/jvd-collapsed-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric/jvd-collapsed-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/byoai/jvd-collapsed-byoai-prompt.txt"
     },
     {
       "jvd": "evpn_vxlan_dci",
