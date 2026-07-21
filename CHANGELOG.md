@@ -51,6 +51,14 @@ block provably faithful to the design it was validated on.
   **578 configuration building blocks**, including the new Scale-Out Stateful
   Firewall & NAT design and its AI-assistant bundle.
 
+### AI assistant (BYOAI)
+
+- **More faithful design answers** — the AI-assistant bundle for every design
+  now answers design questions grounded strictly in that design's validated
+  documentation: it explains only what the design documents, says plainly when
+  the documentation doesn't cover a point (instead of guessing), and attributes
+  each explanation to its source document and section.
+
 ### What this means for you
 
 - A complete, ready-to-use Scale-Out security design — documentation, validated
@@ -59,6 +67,9 @@ block provably faithful to the design it was validated on.
 - Greater confidence that every configuration building block in the library
   faithfully reflects the design it was validated on, with clearer, better-
   documented variables when you adapt one to your network.
+- When you ask a design assistant *why* something is configured a certain way,
+  it answers from the validated design — or tells you the design doesn't say —
+  rather than inventing a plausible-sounding rationale.
 
 ### By the numbers
 
@@ -68,6 +79,7 @@ block provably faithful to the design it was validated on.
 | New design documents (overviews, design guides, test briefs, datasheet) | 7 |
 | New configuration building blocks | 21 |
 | Designs with configuration-fidelity corrections/verification | 6 |
+| Designs with hardened AI-assistant grounding | 11 |
 | Source configuration files cleaned | 14 |
 | Designs in the portal library | 11 |
 | Configuration building blocks in the portal library | 578 |
