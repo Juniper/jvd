@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T00:46:28.101Z",
+  "generatedAt": "2026-07-21T02:30:25.047Z",
   "counts": {
     "total": 557,
     "junos": 279,
@@ -217,6 +217,10 @@
         },
         {
           "name": "$PIC_SLOT",
+          "example": "0"
+        },
+        {
+          "name": "$PORT_NUM",
           "example": "0"
         },
         {
@@ -986,6 +990,10 @@
         {
           "name": "$EXT_PEER_NAME",
           "example": "external_router"
+        },
+        {
+          "name": "$VRF_ID",
+          "example": "21003   (per-VRF community ID in the external-peer import communities)"
         }
       ],
       "jvdServiceMapping": [],
@@ -2884,6 +2892,10 @@
         {
           "name": "$EXT_PEER_NAME",
           "example": "external_router"
+        },
+        {
+          "name": "$VRF_ID",
+          "example": "21003   (per-VRF community ID in the external-peer import communities)"
         }
       ],
       "jvdServiceMapping": [],

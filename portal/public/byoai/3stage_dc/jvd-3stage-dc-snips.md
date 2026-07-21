@@ -28,6 +28,7 @@
  *   $PORT_SPEED    e.g. 100g
  *   $FPC_SLOT      e.g. 0
  *   $PIC_SLOT      e.g. 0
+ *   $PORT_NUM      e.g. 0
  *   $PORT_RANGE    e.g. 0–15
  */
 chassis {
@@ -496,6 +497,7 @@ policy-options {
  *   $VRF_COMM_V6       e.g. BLUE_COMMUNITY_V6
  *   $VRF_MEMBERS_V6    e.g. [ 3:20008 21003:26000 ]
  *   $EXT_PEER_NAME     e.g. external_router
+ *   $VRF_ID            e.g. 21003   (per-VRF community ID in the external-peer import communities)
  */
 policy-options {
     /* Base communities — present on all devices */
@@ -1816,6 +1818,7 @@ policy-options {
  *   $VRF_COMM_V6       e.g. BLUE_COMMUNITY_V6
  *   $VRF_MEMBERS_V6    e.g. [ 3:20008 21003:26000 ]
  *   $EXT_PEER_NAME     e.g. external_router
+ *   $VRF_ID            e.g. 21003   (per-VRF community ID in the external-peer import communities)
  */
 policy-options {
     /* Base communities — present on all devices */
