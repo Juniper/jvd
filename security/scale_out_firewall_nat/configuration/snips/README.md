@@ -9,7 +9,7 @@ device config.
 
 ## Topology
 
-![CSDS ScaleOut topology](../images/CSDS-general.png)
+![CSDS ScaleOut topology](../../images/CSDS-general.png)
 
 MX Series routers act as **stateless load balancers** (ECMP consistent-hash or
 RE-based TLB in Direct Server Return mode) distributing traffic across a scaled-out
