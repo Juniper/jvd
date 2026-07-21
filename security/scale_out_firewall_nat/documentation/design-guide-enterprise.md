@@ -485,7 +485,7 @@ emulator) are in [../configuration/conf](../configuration/conf):
 [srx1b_srx4600.conf](../configuration/conf/srx1b_srx4600.conf),
 [srx2a_srx4600.conf](../configuration/conf/srx2a_srx4600.conf),
 [srx2b_srx4600.conf](../configuration/conf/srx2b_srx4600.conf), and
-[gateway_emulator.conf](../configuration/conf/gateway_emulator.conf) — see
+[gateway_emulator_mx304.conf](../configuration/conf/gateway_emulator_mx304.conf) — see
 [../README.md](../README.md) for the device/config map.
 
 ## Results Summary and Analysis

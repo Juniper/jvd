@@ -453,7 +453,7 @@ Representative MX routing-instance/eBGP peering (with BFD), the SRX
 TRUST/UNTRUST export policies, and the SRD mastership event-options for dual-MX
 ECMP are shown in the published guide. The complete per-device configurations for
 this JVD (MX304 load balancer `mx1_mx304`, the SRX4600 cluster nodes
-`srx1a`/`srx1b`/`srx2a`/`srx2b`, and the `gateway_emulator`) are in
+`srx1a`/`srx1b`/`srx2a`/`srx2b`, and the `gateway_emulator_mx304`) are in
 [../configuration/conf](../configuration/conf) — see [../README.md](../README.md)
 for the device/config map.
 

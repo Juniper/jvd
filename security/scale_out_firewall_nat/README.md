@@ -119,5 +119,5 @@ Other config examples for **ECMP CHASH** and **TLB** variants are included in th
 | **MX304** | Load Balancer / Traffic Orchestrator | [`mx1_mx304.conf`](configuration/conf/mx1_mx304.conf) |
 | **SRX4600** | Stateful Firewall + CGNAT (pair 1) | [`srx1a_srx4600.conf`](configuration/conf/srx1a_srx4600.conf), [`srx1b_srx4600.conf`](configuration/conf/srx1b_srx4600.conf) |
 | **SRX4600** | Stateful Firewall + CGNAT (pair 2) | [`srx2a_srx4600.conf`](configuration/conf/srx2a_srx4600.conf), [`srx2b_srx4600.conf`](configuration/conf/srx2b_srx4600.conf) |
-| — | Gateway emulator | [`gateway_emulator.conf`](configuration/conf/gateway_emulator.conf) |
+| — | Gateway emulator | [`gateway_emulator_mx304.conf`](configuration/conf/gateway_emulator_mx304.conf) |
 
