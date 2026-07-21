@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules and byoai/CATALOG.md for the funnel map.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips",
+  "snip_count": 9,
+  "snips": [
+    {
+      "path": "evo/chassis/aggregated-devices.conf",
+      "os": "evo",
+      "category": "chassis",
+      "name": "aggregated-devices",
+      "topic": "Enable aggregated-ethernet (chassis device-count)",
+      "seen_on": [],
+      "size_bytes": 699,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/chassis/aggregated-devices.conf"
+    },
+    {
+      "path": "evo/interfaces/coherent-optics-port.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "coherent-optics-port",
+      "topic": "Coherent 400G DWDM interface (optics-options / wavelength)",
+      "seen_on": [],
+      "size_bytes": 1432,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/coherent-optics-port.conf"
+    },
+    {
+      "path": "evo/interfaces/dwdm-ae-bundle.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "dwdm-ae-bundle",
+      "topic": "DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)",
+      "seen_on": [],
+      "size_bytes": 1491,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/dwdm-ae-bundle.conf"
+    },
+    {
+      "path": "evo/interfaces/loopback.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0 addressing (router-id)",
+      "seen_on": [],
+      "size_bytes": 695,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/loopback.conf"
+    },
+    {
+      "path": "junos/chassis/aggregated-devices.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "aggregated-devices",
+      "topic": "Enable aggregated-ethernet (chassis device-count)",
+      "seen_on": [],
+      "size_bytes": 662,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/aggregated-devices.conf"
+    },
+    {
+      "path": "junos/chassis/port-channelization.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "port-channelization",
+      "topic": "Port speed / channelization (chassis fpc-pic-port)",
+      "seen_on": [],
+      "size_bytes": 1156,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/port-channelization.conf"
+    },
+    {
+      "path": "junos/interfaces/coherent-optics-port.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "coherent-optics-port",
+      "topic": "Coherent 400G DWDM interface (optics-options / wavelength)",
+      "seen_on": [],
+      "size_bytes": 1512,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/coherent-optics-port.conf"
+    },
+    {
+      "path": "junos/interfaces/dwdm-ae-bundle.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "dwdm-ae-bundle",
+      "topic": "DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)",
+      "seen_on": [],
+      "size_bytes": 1458,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/dwdm-ae-bundle.conf"
+    },
+    {
+      "path": "junos/interfaces/loopback.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0 addressing (router-id)",
+      "seen_on": [],
+      "size_bytes": 656,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/loopback.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/CATALOG.md",
+      "kind": "reference",
+      "topic": "Funnel map: service profile + deployment + attributes -> exact service / interface / filter snip per OS",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/CATALOG.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-tier snip lists for `minimum` / `with-cos` / `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default instance names, RDs, RTs, VLAN/unit sequences, ESI shape, device selection",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}
