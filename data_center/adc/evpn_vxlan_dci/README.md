@@ -36,6 +36,17 @@ Extends Type 2 stitching by also stretching the **Layer 3 context** across data 
 
 > The configurations in this folder include only the additional configuration required for each DCI technique. Operational essentials such as root password, DNS, FTP, and other site-specific settings are intentionally omitted and must be added per data center deployment.
 
+## Documentation
+
+In-repo design corpus — faithful markdown conversions of the published JVD PDFs:
+
+| Doc | Contents |
+|---|---|
+| [Datasheet](documentation/datasheet.md) | One-page quick reference |
+| [Solution overview](documentation/solution-overview.md) | Executive summary, three DCI techniques, benefits |
+| [Design guide](documentation/design-guide.md) | Architecture, config walkthrough, seamless stitching, MACSEC/BFD configlets |
+| [Test report brief](documentation/test-report-brief.md) | Platforms, features, flow paths, scale, convergence results |
+
 ## Hardware
 
 | Juniper Product | Role | Software |
