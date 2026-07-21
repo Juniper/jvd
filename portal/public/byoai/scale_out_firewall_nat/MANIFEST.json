@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips",
+  "snip_count": 21,
+  "snips": [
+    {
+      "path": "junos/bootstrap/srx-system-services.conf",
+      "os": "junos",
+      "category": "bootstrap",
+      "name": "srx-system-services",
+      "topic": "SRX management bootstrap: netconf/ssh + web-management on the TLB health-check port",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1042,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/bootstrap/srx-system-services.conf"
+    },
+    {
+      "path": "junos/firewall/mx-fbf-tlb-redirect.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "mx-fbf-tlb-redirect",
+      "topic": "MX filter-based forwarding: redirect SFW/NAT traffic into the TLB forwarding instances (v4 + v6)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 4360,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/mx-fbf-tlb-redirect.conf"
+    },
+    {
+      "path": "junos/high-availability/srx-mnha-chassis-srg.conf",
+      "os": "junos",
+      "category": "high-availability",
+      "name": "srx-mnha-chassis-srg",
+      "topic": "SRX Multinode High Availability (MNHA) chassis config \u2014 SRG0 with BFD monitor + install-on-failure route",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2499,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/high-availability/srx-mnha-chassis-srg.conf"
+    },
+    {
+      "path": "junos/high-availability/srx-signal-route-export-policies.conf",
+      "os": "junos",
+      "category": "high-availability",
+      "name": "srx-signal-route-export-policies",
+      "topic": "SRX active/backup route-signalling policies (as-path-prepend gated on the MNHA signal-route)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 4503,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/high-availability/srx-signal-route-export-policies.conf"
+    },
+    {
+      "path": "junos/interfaces/mx-ae-scaleout-subunits.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "mx-ae-scaleout-subunits",
+      "topic": "MX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100), v4 + v6",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1689,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/mx-ae-scaleout-subunits.conf"
+    },
+    {
+      "path": "junos/interfaces/mx-ae-uni-flexible.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "mx-ae-uni-flexible",
+      "topic": "MX north-side AC (flexible-ethernet-services) with the TLB FBF filters + health-check loopbacks",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2948,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/mx-ae-uni-flexible.conf"
+    },
+    {
+      "path": "junos/interfaces/srx-ae-scaleout-subunits.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "srx-ae-scaleout-subunits",
+      "topic": "SRX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100), v4 + v6",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1996,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/srx-ae-scaleout-subunits.conf"
+    },
+    {
+      "path": "junos/interfaces/srx-lo0-hc-loopbacks.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "srx-lo0-hc-loopbacks",
+      "topic": "SRX loopbacks: MNHA node ID (lo0.0) + shared TLB health-check / anchor address (lo0.1)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1319,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/srx-lo0-hc-loopbacks.conf"
+    },
+    {
+      "path": "junos/load-balancing/network-monitoring-profiles.conf",
+      "os": "junos",
+      "category": "load-balancing",
+      "name": "network-monitoring-profiles",
+      "topic": "TLB health-check profiles (ICMP + TCP) for scale-out SRX liveness",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1129,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/load-balancing/network-monitoring-profiles.conf"
+    },
+    {
+      "path": "junos/load-balancing/tlb-sfw-dsr.conf",
+      "os": "junos",
+      "category": "load-balancing",
+      "name": "tlb-sfw-dsr",
+      "topic": "RE-based Traffic Load Balancer (TLB) for scale-out SFW/NAT, Direct Server Return mode",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 4130,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/load-balancing/tlb-sfw-dsr.conf"
+    },
+    {
+      "path": "junos/nat/mx-napt44-route-advertise.conf",
+      "os": "junos",
+      "category": "nat",
+      "name": "mx-napt44-route-advertise",
+      "topic": "MX route-filter-list + export term advertising the SRX NAPT44 pool prefixes north to the GW",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1801,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/mx-napt44-route-advertise.conf"
+    },
+    {
+      "path": "junos/nat/srx-nat64.conf",
+      "os": "junos",
+      "category": "nat",
+      "name": "srx-nat64",
+      "topic": "SRX NAT64 (IPv6->IPv4) source + destination NAT translating v6 clients to a v4 server",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2721,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/srx-nat64.conf"
+    },
+    {
+      "path": "junos/nat/srx-source-nat-napt44.conf",
+      "os": "junos",
+      "category": "nat",
+      "name": "srx-source-nat-napt44",
+      "topic": "SRX source-NAT (NAPT44) into an RFC6598 100.64/10 pool with address-pooling paired",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2390,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/srx-source-nat-napt44.conf"
+    },
+    {
+      "path": "junos/security/srx-policies-sfw.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "srx-policies-sfw",
+      "topic": "SRX stateful firewall policies + address-book for scale-out SFW/NAT (v4 + v6)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2836,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/srx-policies-sfw.conf"
+    },
+    {
+      "path": "junos/security/srx-zones-scaleout.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "srx-zones-scaleout",
+      "topic": "SRX security zones for the scale-out planes (trust / untrust / MNHA-ICL)",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1919,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/srx-zones-scaleout.conf"
+    },
+    {
+      "path": "junos/transport/enhanced-hash-key-symmetric.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "enhanced-hash-key-symmetric",
+      "topic": "Symmetric enhanced-hash-key so the MX computes identical forward/return hashes",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 704,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/enhanced-hash-key-symmetric.conf"
+    },
+    {
+      "path": "junos/transport/gw-emulator-bgp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "gw-emulator-bgp",
+      "topic": "Gateway emulator: north-side TRUST/UNTRUST VRFs with static client/server routes + eBGP to the MX",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 3489,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/gw-emulator-bgp.conf"
+    },
+    {
+      "path": "junos/transport/mx-bgp-vrf-scaleout.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mx-bgp-vrf-scaleout",
+      "topic": "MX scale-out VRFs (TRUST_VR / UNTRUST_VR / MNHA-VR) with per-pair eBGP to the SRX farm and the GW",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 7618,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-bgp-vrf-scaleout.conf"
+    },
+    {
+      "path": "junos/transport/mx-forwarding-instance-tlb.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mx-forwarding-instance-tlb",
+      "topic": "MX forwarding routing-instances that anchor the TLB virtual-services (trust + untrust)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 835,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-forwarding-instance-tlb.conf"
+    },
+    {
+      "path": "junos/transport/mx-scaleout-export-policies.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "mx-scaleout-export-policies",
+      "topic": "MX export policies for scale-out (default, client, per-plane next-hop-self, per-packet LB)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2897,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-scaleout-export-policies.conf"
+    },
+    {
+      "path": "junos/transport/srx-bgp-to-mx-scaleout.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "srx-bgp-to-mx-scaleout",
+      "topic": "SRX eBGP to the MX load balancer per plane (VR-1 trust/untrust v4+v6) + MNHA-VR ICL peering",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 4878,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/srx-bgp-to-mx-scaleout.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-role snip lists for `minimum` / `with-bgp` / `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/scale_out_firewall_nat/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default anycast health-check IPs, AS numbers, per-plane /30s, NAPT44 pools, MNHA signal-routes",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/scale_out_firewall_nat/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/scale_out_firewall_nat/OUTPUT_FORMAT.md"
+    }
+  ]
+}
