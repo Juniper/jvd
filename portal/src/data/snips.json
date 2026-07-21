@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-21T17:07:57.858Z",
+  "generatedAt": "2026-07-21T19:28:08.978Z",
   "counts": {
-    "total": 607,
-    "junos": 306,
-    "evo": 301,
-    "jvds": 13
+    "total": 617,
+    "junos": 309,
+    "evo": 308,
+    "jvds": 14
   },
   "categories": [
     "apply-groups",
@@ -66,6 +66,17 @@
         "junos": 29,
         "evo": 24,
         "total": 53
+      }
+    },
+    {
+      "id": "5stage_evpn_vxlan",
+      "label": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "repoPath": "data_center/adc/5stage_evpn_vxlan",
+      "counts": {
+        "junos": 3,
+        "evo": 7,
+        "total": 10
       }
     },
     {
@@ -3956,6 +3967,559 @@
       "lineCount": 14,
       "techFamily": "Transport",
       "subfamily": "Transport",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/cos/rocev2-dcqcn-drop-profiles",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "cos",
+      "name": "rocev2-dcqcn-drop-profiles",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/cos/rocev2-dcqcn-drop-profiles.conf",
+      "topic": "RoCEv2 DCQCN drop-profiles (ECN WRED)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "storage-leaf1_qfx5130-32cd",
+          "storage-leaf2_qfx5130-32cd",
+          "services-leaf1_qfx5130-48c",
+          "services-leaf2_qfx5130-48c"
+        ]
+      },
+      "highlights": [
+        "Part of the DCQCN congestion-management profile for RoCEv2 storage traffic. Combines with PFC so ECN marks packets (via WRED drop-profiles) before PFC pauses the link. Applied via Apstra configlet.",
+        "dp0 / dp1 interpolate fill-level vs drop-probability define the ECN marking curve. Tune per data center — test before deploying."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/oism-server-leaf.conf   (same storage/services leaves)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-server-leaf",
+          "note": "same storage/services leaves"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    drop-profiles {\n        dp0 {\n            interpolate {\n                fill-level [ 0 20 ];\n                drop-probability [ 0 100 ];\n            }\n        }\n        dp1 {\n            interpolate {\n                fill-level [ 1 2 ];\n                drop-probability [ 0 100 ];\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    drop-profiles {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dp0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interpolate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                fill-level [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 20</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                drop-probability [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 100</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dp1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interpolate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                fill-level [ </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#79C0FF\"> 2</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                drop-probability [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 100</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 335,
+      "lineCount": 16,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Cos",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/oam/oism-enhanced-forwarding",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "oam",
+      "name": "oism-enhanced-forwarding",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/oam/oism-enhanced-forwarding.conf",
+      "topic": "Enhanced OISM multicast replication (fabric-wide enable)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "storage-leaf1_qfx5130-32cd",
+          "storage-leaf2_qfx5130-32cd",
+          "services-leaf1_qfx5130-48c",
+          "services-leaf2_qfx5130-48c"
+        ]
+      },
+      "highlights": [
+        "Enables enhanced Optimized Intersubnet Multicast (OISM) with Bridge Domain Not Everywhere (BDNE) on the leaf, so revenue bridge domains need not exist on every leaf. Applied via Apstra configlet (Apstra 5.0 lacks native OISM).",
+        "Pairs with the per-VRF OISM/PIM/OSPF config on the same leaf."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/oism-server-leaf.conf        (server-leaf per-VRF OISM)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-server-leaf",
+          "note": "server-leaf per-VRF OISM"
+        },
+        {
+          "raw": "evo/services/oism-border-pim-gateway.conf  (border-leaf per-VRF OISM)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-border-pim-gateway",
+          "note": "border-leaf per-VRF OISM"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "forwarding-options {\n    multicast-replication {\n        evpn {\n            irb enhanced-oism;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    multicast-replication {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            irb enhanced-oism;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 112,
+      "lineCount": 7,
+      "techFamily": "OAM",
+      "subfamily": "Oam",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/services/oism-border-pim-gateway",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "oism-border-pim-gateway",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-border-pim-gateway.conf",
+      "topic": "Border-leaf OISM PIM-EVPN gateway per-VRF (external multicast)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "services-leaf1_qfx5130-48c",
+          "services-leaf2_qfx5130-48c"
+        ]
+      },
+      "highlights": [
+        "The services-POD border leaf acts as a PIM EVPN Gateway (PEG), bridging the EVPN fabric to an external PIM domain via the Classic L3 method.",
+        "pim-evpn-gateway under evpn oism enables the gateway role; the external RP is static; revenue-VLAN IRBs run distributed-DR while the SBD IRB carries inter-leaf multicast."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/oam/oism-enhanced-forwarding.conf       (fabric-wide enhanced-oism enable)",
+          "id": "5stage_evpn_vxlan/evo/oam/oism-enhanced-forwarding",
+          "note": "fabric-wide enhanced-oism enable"
+        },
+        {
+          "raw": "evo/services/oism-conserve-mcast-pfe.conf    (QFX5130 PFE conservation)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-conserve-mcast-pfe",
+          "note": "QFX5130 PFE conservation"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "blue"
+        },
+        {
+          "name": "$SBD_IRB",
+          "example": "irb.3500"
+        },
+        {
+          "name": "$PIM_RP",
+          "example": "100.100.100.100"
+        },
+        {
+          "name": "$REVENUE_IRB",
+          "example": "irb.1400"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $VRF_NAME {\n        protocols {\n            evpn {\n                oism {\n                    supplemental-bridge-domain-irb $SBD_IRB;\n                    pim-evpn-gateway;\n                }\n            }\n            pim {\n                rp {\n                    static {\n                        address $PIM_RP;\n                    }\n                }\n                interface $REVENUE_IRB {\n                    distributed-dr;\n                }\n                interface $SBD_IRB;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                oism {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    supplemental-bridge-domain-irb $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    pim-evpn-gateway;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $PIM_RP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $REVENUE_IRB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    distributed-dr;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 540,
+      "lineCount": 23,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/services/oism-conserve-mcast-pfe",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "oism-conserve-mcast-pfe",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-conserve-mcast-pfe.conf",
+      "topic": "OISM PFE route conservation on QFX5130 leaves",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "storage-leaf1_qfx5130-32cd",
+          "storage-leaf2_qfx5130-32cd",
+          "services-leaf1_qfx5130-48c",
+          "services-leaf2_qfx5130-48c"
+        ]
+      },
+      "highlights": [
+        "Required on QFX5130-32CD / QFX5130-48C when used as an OISM server or border leaf: conserves PFE table space by installing only L3 multicast routes and skipping L2 multicast snooping routes.",
+        "Set in the OISM-enabled MAC-VRF (evpn-1). Delete it if OISM is disabled."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/oism-server-leaf.conf         (server-leaf OISM)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-server-leaf",
+          "note": "server-leaf OISM"
+        },
+        {
+          "raw": "evo/services/oism-border-pim-gateway.conf   (border-leaf OISM)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-border-pim-gateway",
+          "note": "border-leaf OISM"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    evpn-1 {\n        multicast-snooping-options {\n            oism {\n                conserve-mcast-routes-in-pfe;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    evpn-</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        multicast-snooping-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            oism {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                conserve-mcast-routes-in-pfe;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 166,
+      "lineCount": 9,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/services/oism-server-leaf",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "oism-server-leaf",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-server-leaf.conf",
+      "topic": "Server-leaf OISM per-VRF (SBD, PIM accept-remote-source, OSPF)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "storage-leaf1_qfx5130-32cd",
+          "storage-leaf2_qfx5130-32cd"
+        ]
+      },
+      "highlights": [
+        "Per-tenant-VRF OISM on a server (non-border) leaf. The Supplemental Bridge Domain IRB (irb.3500) carries multicast between leaves that do not share a revenue bridge domain (BDNE).",
+        "PIM is passive; the SBD IRB uses accept-remote-source to receive multicast sourced elsewhere in the fabric.",
+        "OISM requires OSPF in the tenant VRF — the VRF loopback + SBD IRB are active (OSPF area 0), all other interfaces passive."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/oam/oism-enhanced-forwarding.conf        (fabric-wide enhanced-oism enable)",
+          "id": "5stage_evpn_vxlan/evo/oam/oism-enhanced-forwarding",
+          "note": "fabric-wide enhanced-oism enable"
+        },
+        {
+          "raw": "evo/services/oism-conserve-mcast-pfe.conf     (QFX5130 PFE conservation)",
+          "id": "5stage_evpn_vxlan/evo/services/oism-conserve-mcast-pfe",
+          "note": "QFX5130 PFE conservation"
+        },
+        {
+          "raw": "evo/cos/rocev2-dcqcn-drop-profiles.conf        (RoCEv2 congestion on same leaf)",
+          "id": "5stage_evpn_vxlan/evo/cos/rocev2-dcqcn-drop-profiles",
+          "note": "RoCEv2 congestion on same leaf"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "blue"
+        },
+        {
+          "name": "$SBD_IRB",
+          "example": "irb.3500"
+        },
+        {
+          "name": "$VRF_LOOPBACK",
+          "example": "lo0.3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $VRF_NAME {\n        protocols {\n            evpn {\n                oism {\n                    supplemental-bridge-domain-irb $SBD_IRB;\n                }\n            }\n            ospf {\n                area 0.0.0.0 {\n                    interface $VRF_LOOPBACK;\n                    interface $SBD_IRB;\n                    interface all {\n                        passive;\n                    }\n                }\n            }\n            pim {\n                passive;\n                interface all;\n                interface $SBD_IRB {\n                    accept-remote-source;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                oism {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    supplemental-bridge-domain-irb $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $VRF_LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface all {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $SBD_IRB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    accept-remote-source;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 651,
+      "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/transport/superspine-evpn-overlay-relay",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "superspine-evpn-overlay-relay",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/transport/superspine-evpn-overlay-relay.conf",
+      "topic": "Lean super-spine EVPN overlay route relay to POD spines",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "superspine1_qfx5230-64cd",
+          "superspine2_qfx5230-64cd"
+        ]
+      },
+      "highlights": [
+        "The super spine relays EVPN routes between PODs (group l3clos-s-evpn) so every POD's leaves can reach routes in the other PODs — without the super spine itself being a VXLAN tunnel endpoint.",
+        "multihop ttl 1 + no-nexthop-change preserves the originating VTEP through the relay; family evpn signaling with loops 2 lets Type-5 routes traverse.",
+        "Peers with each POD spine's loopback (overlay); BFD 3000ms x 3 (multihop)."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/superspine-underlay-ebgp.conf   (provides loopback reachability)",
+          "id": "5stage_evpn_vxlan/evo/transport/superspine-underlay-ebgp",
+          "note": "provides loopback reachability"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$OVERLAY_BFD_MS",
+          "example": "3000"
+        },
+        {
+          "name": "$BFD_MULTIPLIER",
+          "example": "3"
+        },
+        {
+          "name": "$SPINE_OVERLAY_PEER",
+          "example": "192.168.252.2"
+        },
+        {
+          "name": "$PEER_DESCRIPTION",
+          "example": "facing_spine001-001-1-evpn-overlay"
+        },
+        {
+          "name": "$OVERLAY_LOCAL",
+          "example": "192.168.252.0"
+        },
+        {
+          "name": "$POD_SPINE_AS",
+          "example": "64701"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group l3clos-s-evpn {\n            type external;\n            multihop {\n                ttl 1;\n                no-nexthop-change;\n            }\n            family evpn {\n                signaling {\n                    loops 2;\n                }\n            }\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval $OVERLAY_BFD_MS;\n                multiplier $BFD_MULTIPLIER;\n            }\n            neighbor $SPINE_OVERLAY_PEER {\n                description $PEER_DESCRIPTION;\n                local-address $OVERLAY_LOCAL;\n                family evpn {\n                    signaling;\n                }\n                export ( SUPERSPINE_TO_SPINE_EVPN_OUT );\n                peer-as $POD_SPINE_AS;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-s-evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multihop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ttl </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-nexthop-change;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    loops </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval $OVERLAY_BFD_MS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier $BFD_MULTIPLIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $SPINE_OVERLAY_PEER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description $PEER_DESCRIPTION;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $OVERLAY_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( SUPERSPINE_TO_SPINE_EVPN_OUT );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $POD_SPINE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 843,
+      "lineCount": 32,
+      "techFamily": "Transport",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/evo/transport/superspine-underlay-ebgp",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "superspine-underlay-ebgp",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/transport/superspine-underlay-ebgp.conf",
+      "topic": "Lean super-spine underlay eBGP to POD spines (IPv6)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "superspine1_qfx5230-64cd",
+          "superspine2_qfx5230-64cd"
+        ]
+      },
+      "highlights": [
+        "The 5-stage super spine is \"lean\": it forwards IP and relays routes only, it does NOT run VXLAN. This is the fabric (underlay) eBGP group l3clos-s.",
+        "Each super spine peers with every POD spine over IPv6 unicast link addresses; each POD's spines share one ASN.",
+        "SUPERSPINE_TO_SPINE_FABRIC_OUT + BGP-AOS-Policy scope underlay advertisement.",
+        "BFD (1000ms x 3) speeds underlay convergence."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/superspine-evpn-overlay-relay.conf  (overlay route relay)",
+          "id": "5stage_evpn_vxlan/evo/transport/superspine-evpn-overlay-relay",
+          "note": "overlay route relay"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$UNDERLAY_BFD_MS",
+          "example": "1000"
+        },
+        {
+          "name": "$BFD_MULTIPLIER",
+          "example": "3"
+        },
+        {
+          "name": "$SPINE_PEER_V6",
+          "example": "fdf6:ed70:1fac:f2d4::"
+        },
+        {
+          "name": "$PEER_DESCRIPTION",
+          "example": "facing_spine001-001-1"
+        },
+        {
+          "name": "$LOCAL_V6",
+          "example": "fdf6:ed70:1fac:f2d4::1"
+        },
+        {
+          "name": "$POD_SPINE_AS",
+          "example": "64701"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group l3clos-s {\n            type external;\n            multipath {\n                multiple-as;\n            }\n            bfd-liveness-detection {\n                minimum-interval $UNDERLAY_BFD_MS;\n                multiplier $BFD_MULTIPLIER;\n            }\n            neighbor $SPINE_PEER_V6 {\n                description $PEER_DESCRIPTION;\n                local-address $LOCAL_V6;\n                family inet6 {\n                    unicast;\n                }\n                export ( SUPERSPINE_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );\n                peer-as $POD_SPINE_AS;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group l3clos-s {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiple-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval $UNDERLAY_BFD_MS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier $BFD_MULTIPLIER;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $SPINE_PEER_V6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description $PEER_DESCRIPTION;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local-address $LOCAL_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> ( SUPERSPINE_TO_SPINE_FABRIC_OUT &#x26;&#x26; BGP-AOS-Policy );</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $POD_SPINE_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 638,
+      "lineCount": 23,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/junos/cos/rocev2-dcqcn-drop-profiles",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "cos",
+      "name": "rocev2-dcqcn-drop-profiles",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/cos/rocev2-dcqcn-drop-profiles.conf",
+      "topic": "RoCEv2 DCQCN drop-profiles (ECN WRED)",
+      "seenOn": {
+        "junos": [
+          "compute-leaf1_qfx5120-48ym",
+          "compute-leaf2_qfx5120-48ym"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "DCQCN congestion-management profile for RoCEv2 storage traffic on the Junos compute-POD leaves. ECN marks packets (WRED drop-profiles) before PFC pauses the link. Applied via Apstra configlet.",
+        "dp0 / dp1 interpolate fill-level vs drop-probability define the ECN curve. Tune per data center — test before deploying."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/oism-server-leaf.conf   (same compute leaves)",
+          "id": "5stage_evpn_vxlan/junos/services/oism-server-leaf",
+          "note": "same compute leaves"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    drop-profiles {\n        dp0 {\n            interpolate {\n                fill-level [ 0 20 ];\n                drop-probability [ 0 100 ];\n            }\n        }\n        dp1 {\n            interpolate {\n                fill-level [ 1 2 ];\n                drop-probability [ 0 100 ];\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    drop-profiles {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dp0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interpolate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                fill-level [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 20</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                drop-probability [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 100</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dp1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interpolate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                fill-level [ </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#79C0FF\"> 2</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                drop-probability [ </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#79C0FF\"> 100</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 335,
+      "lineCount": 16,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Cos",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/junos/oam/oism-enhanced-forwarding",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "oam",
+      "name": "oism-enhanced-forwarding",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/oam/oism-enhanced-forwarding.conf",
+      "topic": "Enhanced OISM multicast replication (fabric-wide enable)",
+      "seenOn": {
+        "junos": [
+          "compute-leaf1_qfx5120-48ym",
+          "compute-leaf2_qfx5120-48ym"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Enables enhanced OISM (BDNE) on the Junos compute-POD leaves. Applied via Apstra configlet (Apstra 5.0 lacks native OISM).",
+        "Pairs with the per-VRF OISM/PIM/OSPF config on the same leaf."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/oism-server-leaf.conf   (server-leaf per-VRF OISM)",
+          "id": "5stage_evpn_vxlan/junos/services/oism-server-leaf",
+          "note": "server-leaf per-VRF OISM"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "forwarding-options {\n    multicast-replication {\n        evpn {\n            irb enhanced-oism;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    multicast-replication {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            irb enhanced-oism;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 112,
+      "lineCount": 7,
+      "techFamily": "OAM",
+      "subfamily": "Oam",
+      "usecases": [
+        "Data Center"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "5stage_evpn_vxlan/junos/services/oism-server-leaf",
+      "jvd": "5stage_evpn_vxlan",
+      "jvdLabel": "5-Stage EVPN-VXLAN",
+      "area": "Data Center",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "oism-server-leaf",
+      "path": "data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/services/oism-server-leaf.conf",
+      "topic": "Server-leaf OISM per-VRF (SBD, PIM accept-remote-source, OSPF)",
+      "seenOn": {
+        "junos": [
+          "compute-leaf1_qfx5120-48ym",
+          "compute-leaf2_qfx5120-48ym"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Per-tenant-VRF OISM on the Junos compute-POD server leaves. The SBD IRB (irb.3500) carries multicast between leaves without a shared revenue bridge domain (BDNE).",
+        "PIM passive; SBD IRB uses accept-remote-source; OSPF (area 0) on the VRF loopback + SBD IRB, all other interfaces passive."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/oam/oism-enhanced-forwarding.conf   (fabric-wide enhanced-oism enable)",
+          "id": "5stage_evpn_vxlan/junos/oam/oism-enhanced-forwarding",
+          "note": "fabric-wide enhanced-oism enable"
+        },
+        {
+          "raw": "junos/cos/rocev2-dcqcn-drop-profiles.conf  (RoCEv2 congestion on same leaf)",
+          "id": "5stage_evpn_vxlan/junos/cos/rocev2-dcqcn-drop-profiles",
+          "note": "RoCEv2 congestion on same leaf"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "blue"
+        },
+        {
+          "name": "$SBD_IRB",
+          "example": "irb.3500"
+        },
+        {
+          "name": "$VRF_LOOPBACK",
+          "example": "lo0.3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-instances {\n    $VRF_NAME {\n        protocols {\n            evpn {\n                oism {\n                    supplemental-bridge-domain-irb $SBD_IRB;\n                }\n            }\n            ospf {\n                area 0.0.0.0 {\n                    interface $VRF_LOOPBACK;\n                    interface $SBD_IRB;\n                    interface all {\n                        passive;\n                    }\n                }\n            }\n            pim {\n                passive;\n                interface all;\n                interface $SBD_IRB {\n                    accept-remote-source;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                oism {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    supplemental-bridge-domain-irb $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $VRF_LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $SBD_IRB;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface all {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $SBD_IRB {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    accept-remote-source;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 651,
+      "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
       "usecases": [
         "Data Center"
       ],
@@ -44870,6 +45434,10 @@
       "markdown": "# Snip Variable Reference\n\nVariables used across the `3stage_dc` snip library. Replace `$VARIABLE` placeholders\nwith site-specific values when adapting snips to a new deployment.\n\n## Bootstrap / Platform\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$AGGREGATED_COUNT` | `2` | chassis-port-config |\n| `$PIC_SLOT` | `0` | chassis-port-config |\n| `$PORT_GROUP` | `0` | chassis-port-config |\n| `$SPEED` | `10g` | chassis-port-config, fabric-uplink (EVO) |\n| `$CERT_NAME` | `certs` | grpc-certificate |\n| `$CERT_DATA` | (base64 PEM) | grpc-certificate |\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$FABRIC_INTF` | `et-0/0/0` | fabric-uplink |\n| `$UNIT` | `0` | fabric-uplink, irb-gateway, external-vlan-tagged |\n| `$LOCAL_IP` | `10.0.0.1/31` | fabric-uplink |\n| `$DESCRIPTION` | `facing_spine1` | fabric-uplink, irb-gateway |\n| `$LO_UNIT` | `0`, `2`, `3` | loopback-multi-unit |\n| `$LO_IPV4` | `192.168.255.4/32` | loopback-multi-unit |\n| `$LO_IPV6` | `fdf6:ed70:1fac:f2d1::4/128` | loopback-multi-unit |\n| `$IRB_UNIT` | `1400` | irb-gateway |\n| `$IRB_IPV4` | `10.10.0.1/18` | irb-gateway |\n| `$IRB_IPV6` | `2001:db8:dc1:10:a::1/90` | irb-gateway |\n| `$ANYCAST_MAC` | `00:1c:73:00:00:01` | irb-gateway (Junos) |\n| `$VLAN_ID` | `1400` | irb-gateway (EVO), vlan-vxlan-domain, trunk-access-port |\n| `$VXLAN_VNI` | `11400` | vlan-vxlan-domain |\n| `$LAG_NAME` | `ae1` | lag-esi-access |\n| `$LAG_MEMBER` | `xe-0/0/1` | lag-esi-access |\n| `$ESI_VALUE` | `00:01:01:01:01:01:01:01:01:01` | lag-esi-access |\n| `$LACP_SYSTEM_ID` | `01:01:01:01:01:01` | lag-esi-access |\n| `$FLEX_INTF` | `et-0/0/8:0` | external-vlan-tagged |\n| `$VLAN_RANGE` | `299-399` | external-vlan-tagged |\n\n## Transport / Routing\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$ROUTER_ID` | `192.168.255.4` | forwarding-table-ecmp |\n| `$AS_NUMBER` | `64515` | forwarding-table-ecmp |\n| `$PEER_IP` | `10.0.0.0` | bgp-underlay-fabric |\n| `$LOCAL_ADDR` | `10.0.0.1` | bgp-underlay-fabric |\n| `$PEER_AS` | `64512` | bgp-underlay-fabric, bgp-evpn-overlay |\n| `$PEER_LOOPBACK` | `192.168.255.0` | bgp-evpn-overlay |\n| `$LOCAL_LOOPBACK` | `192.168.255.4` | bgp-evpn-overlay |\n| `$VTEP_SHARED_TUNNEL` | `default` | evpn-vxlan-shared-tunnels |\n\n## Policy\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VRF_NAME` | `blue` | pod-network-export, bgp-aos-export-policy, external-route-import/export, route-filter-lists, community-definitions |\n| `$VRF_COMMUNITY_V4` | `BLUE_COMMUNITY_V4` | pod-network-export |\n| `$VRF_COMMUNITY_V6` | `BLUE_COMMUNITY_V6` | pod-network-export |\n| `$VRF_COMM_V4` | `BLUE_COMMUNITY_V4` | community-definitions |\n| `$VRF_MEMBERS_V4` | `[ 3:20007 21003:26000 ]` | community-definitions |\n| `$VRF_MEMBERS_V6` | `[ 3:20008 21003:26000 ]` | community-definitions |\n| `$VRF_ID` | `21003` | community-definitions |\n| `$EXT_PEER_NAME` | `external_router` | external-route-import/export, route-filter-lists |\n| `$IMPORT_COMMUNITY` | `RoutesFromExt-blue-external_router` | external-route-import |\n| `$IMPORT_COMM_V6` | `RoutesFromExtV6-blue-external_router` | external-route-import |\n| `$PREFIX/$LEN` | `10.10.0.0/18 upto /32` | route-filter-lists |\n\n## Services\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VNI` | `20002` | vrf-evpn-ip-prefix |\n| `$RD` | `192.168.255.2:3` | vrf-evpn-ip-prefix, mac-vrf-evpn-vxlan |\n| `$VRF_TARGET` | `target:20002:1` | vrf-evpn-ip-prefix |\n| `$DHCP_SERVER` | `10.10.0.200` | vrf-evpn-ip-prefix |\n| `$EXT_NEIGHBOR_V4` | `10.200.0.5` | vrf-evpn-ip-prefix |\n| `$EXT_LOCAL_V4` | `10.200.0.4` | vrf-evpn-ip-prefix |\n| `$EXT_NEIGHBOR_V6` | `2001:db8:dc1:10:200::5` | vrf-evpn-ip-prefix |\n| `$EXT_LOCAL_V6` | `2001:db8:dc1:10:200::4` | vrf-evpn-ip-prefix |\n| `$EXT_PEER_AS` | `65000` | vrf-evpn-ip-prefix |\n| `$WAN_INTERFACE` | `et-0/0/8:0.399` | vrf-evpn-ip-prefix |\n| `$INSTANCE_NAME` | `evpn-1` | mac-vrf-evpn-vxlan |\n| `$VNI_TARGET` | `target:10400:1` | mac-vrf-evpn-vxlan |\n| `$GLOBAL_VRF_TARGET` | `target:100:100` | mac-vrf-evpn-vxlan |\n| `$VTEP_SOURCE` | `lo0.0` | mac-vrf-evpn-vxlan |\n| `$VLAN_NAME` | `vn1400` | mac-vrf-evpn-vxlan |\n| `$VLAN_DESC` | `blue_all_1400` | mac-vrf-evpn-vxlan |\n| `$AUTO_RECOVERY_TIME` | `9` | mac-vrf-evpn-vxlan |\n| `$ACCESS_INTERFACE` | `ae1.0` | mac-vrf-evpn-vxlan |\n\n## OAM\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$SOURCE_IP` | `10.48.9.240` | sflow-telemetry |\n| `$COLLECTOR_IP` | `10.87.84.51` | sflow-telemetry |\n| `$COLLECTOR_PORT` | `9995` | sflow-telemetry |\n| `$INTERFACE` | `et-0/0/2.0` | sflow-telemetry, ipv6-router-advertisement |\n"
     },
     {
+      "jvd": "5stage_evpn_vxlan",
+      "markdown": "# Snip Variable Reference — 5-Stage EVPN-VXLAN Data Center\n\nVariables used across the `5stage_evpn_vxlan` snip library. Replace `$VARIABLE`\nplaceholders with site-specific values when adapting snips to a new deployment.\nJVD-wide constants (group names `l3clos-s` / `l3clos-s-evpn`, policy names\n`SUPERSPINE_TO_SPINE_*`, `BGP-AOS-Policy`, the `evpn-1` MAC-VRF instance,\n`enhanced-oism`, `pim-evpn-gateway`) are left literal because they *are* the\nabstraction the JVD documents.\n\nThis library focuses on the **5-stage-distinctive** configuration — the lean\nsuper-spine tier, enhanced OISM multicast, and RoCEv2 DCQCN. The per-POD 3-stage\nfabric building blocks are shared with the\n[3-stage data center](https://github.com/Juniper/jvd/tree/main/data_center/adc/3stage_dc/configuration/snips) library.\n\n## Super-spine transport\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$UNDERLAY_BFD_MS` | `1000` | superspine-underlay-ebgp |\n| `$OVERLAY_BFD_MS` | `3000` | superspine-evpn-overlay-relay |\n| `$BFD_MULTIPLIER` | `3` | superspine-underlay-ebgp, -overlay-relay |\n| `$SPINE_PEER_V6` | `fdf6:ed70:1fac:f2d4::` | superspine-underlay-ebgp |\n| `$LOCAL_V6` | `fdf6:ed70:1fac:f2d4::1` | superspine-underlay-ebgp |\n| `$SPINE_OVERLAY_PEER` | `192.168.252.2` | superspine-evpn-overlay-relay |\n| `$OVERLAY_LOCAL` | `192.168.252.0` | superspine-evpn-overlay-relay |\n| `$PEER_DESCRIPTION` | `facing_spine001-001-1` | superspine-underlay-ebgp, -overlay-relay |\n| `$POD_SPINE_AS` | `64701` | superspine-underlay-ebgp, -overlay-relay |\n\n## OISM multicast\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VRF_NAME` | `blue` | oism-server-leaf, oism-border-pim-gateway |\n| `$SBD_IRB` | `irb.3500` | oism-server-leaf, oism-border-pim-gateway |\n| `$VRF_LOOPBACK` | `lo0.3` | oism-server-leaf |\n| `$PIM_RP` | `100.100.100.100` | oism-border-pim-gateway |\n| `$REVENUE_IRB` | `irb.1400` | oism-border-pim-gateway |\n\n## Literal (no variables)\n\n- `oism-enhanced-forwarding` — `forwarding-options multicast-replication evpn irb enhanced-oism`\n- `oism-conserve-mcast-pfe` — `multicast-snooping-options oism conserve-mcast-routes-in-pfe` (QFX5130)\n- `rocev2-dcqcn-drop-profiles` — `class-of-service drop-profiles dp0/dp1` (retune per fabric)\n"
+    },
+    {
       "jvd": "aiml_inference_frontend",
       "markdown": "# Snip variable glossary\n\nThis file documents every `$VARIABLE` used in the templated snips under\n`evo/`. Variables are alphabetical; the **Used in** column lists which\nsnip categories reference each one.\n\n| Variable | Meaning | Typical example | Used in |\n|---|---|---|---|\n| `$EDGE_PORT` | Access port marked as an RSTP edge port on a leaf | `et-0/0/0:0` | oam/ |\n| `$GRPC_CERT_PEM` | PEM-encoded TLS cert/key for the gRPC listener (masked SECRET-DATA) | *(redacted)* | bootstrap/ |\n| `$GRPC_PORT` | TCP port for the gRPC extension-service SSL listener | `32769` (leaf), `32767` (spine) | bootstrap/ |\n| `$GW_V4` | Frontend cluster VLAN IRB gateway IPv4 (full prefix) | `10.10.5.254/24` | interfaces/ |\n| `$HOSTNAME` | Device hostname | `leaf3` | bootstrap/ |\n| `$IRB_UNIT` | IRB logical unit number for the frontend cluster VLAN | `5` | interfaces/, services/ |\n| `$LO0_V4` | Loopback IPv4 (router-id / underlay anchor, full prefix) | `10.0.4.4/32` (leaf), `10.0.3.0/32` (spine) | interfaces/ |\n| `$LOCAL_AS` | Per-device BGP autonomous system number | `4201032406` (leaf), `4201032300` (spine) | transport/ |\n| `$LOCAL_TIER_TAG` | Community high-order tag identifying the device's tier | `5` (leaf), `1` (spine) | policy/ |\n| `$LOCAL_V4` | Local /31 v4 on a spine fabric interface (full prefix) | `10.0.5.0/31` | interfaces/, transport/ |\n| `$LOCAL_V4_A` | First /31 v4 on a leaf fabric breakout sub-port | `10.0.5.33/31` | interfaces/ |\n| `$LOCAL_V4_B` | Second /31 v4 on a leaf fabric breakout sub-port | `10.0.5.35/31` | interfaces/ |\n| `$NATIVE_VLAN` | Native VLAN ID on a server/client access trunk | `5` | interfaces/ |\n| `$PEER_AS` | Remote eBGP peer autonomous system number | `4201032300` (leaf->spine), `4201032400` (spine->leaf) | transport/ |\n| `$PEER_DESC` | Attached-endpoint description on an access port | `to.mi300-01` | interfaces/ |\n| `$PEER_HOST` | Remote device shortname (used in interface description) | `frontend-spine-1` | interfaces/ |\n| `$PEER_NAME` | Remote device shortname (used in BGP neighbor description) | `frontend-spine-1`, `frontend-leaf1` | transport/ |\n| `$PEER_PORT` | Remote interface name on a spine direct link (description) | `et-0/0/0` | interfaces/ |\n| `$PEER_PORT_A` | Remote interface name for first leaf sub-port (description) | `et-0/0/4` | interfaces/ |\n| `$PEER_PORT_B` | Remote interface name for second leaf sub-port (description) | `et-0/0/5` | interfaces/ |\n| `$PEER_V4` | Remote /31 v4 (eBGP fabric underlay neighbor) | `10.0.5.32` | transport/ |\n| `$PHY_PORT` | Parent physical port (breakout parent, access port, or spine link) | `et-0/0/24`, `et-0/0/0` | interfaces/ |\n| `$ROUTER_ID` | Device router-id (matches lo0.0 v4 address) | `10.0.4.4` | transport/ |\n| `$VLAN_DESC` | Frontend cluster VLAN description | `FrontEnd-Cluster-VN5` | services/ |\n| `$VLAN_ID` | Frontend cluster VLAN ID | `5` | services/ |\n| `$VLAN_NAME` | Frontend cluster VLAN name | `vn5` | interfaces/, services/ |\n"
     },
@@ -44924,6 +45492,12 @@
       "promptPath": "data_center/adc/3stage_dc/configuration/snips/byoai/jvd-3stage-dc-byoai-prompt.txt",
       "promptUrl": "https://juniper.github.io/jvd/portal/byoai/3stage_dc/jvd-3stage-dc-byoai-prompt.txt",
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/byoai/jvd-3stage-dc-byoai-prompt.txt"
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "promptPath": "data_center/adc/5stage_evpn_vxlan/configuration/snips/byoai/jvd-5stage-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/5stage_evpn_vxlan/jvd-5stage-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/byoai/jvd-5stage-byoai-prompt.txt"
     },
     {
       "jvd": "aiml_inference_frontend",

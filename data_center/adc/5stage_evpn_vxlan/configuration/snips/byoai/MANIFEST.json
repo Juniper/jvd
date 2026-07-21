@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips",
+  "snip_count": 10,
+  "snips": [
+    {
+      "path": "evo/cos/rocev2-dcqcn-drop-profiles.conf",
+      "os": "evo",
+      "category": "cos",
+      "name": "rocev2-dcqcn-drop-profiles",
+      "topic": "RoCEv2 DCQCN drop-profiles (ECN WRED)",
+      "seen_on": [
+        "storage-leaf1_qfx5130-32cd",
+        "storage-leaf2_qfx5130-32cd",
+        "services-leaf1_qfx5130-48c",
+        "services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 1103,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/cos/rocev2-dcqcn-drop-profiles.conf"
+    },
+    {
+      "path": "evo/oam/oism-enhanced-forwarding.conf",
+      "os": "evo",
+      "category": "oam",
+      "name": "oism-enhanced-forwarding",
+      "topic": "Enhanced OISM multicast replication (fabric-wide enable)",
+      "seen_on": [
+        "storage-leaf1_qfx5130-32cd",
+        "storage-leaf2_qfx5130-32cd",
+        "services-leaf1_qfx5130-48c",
+        "services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 903,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/oam/oism-enhanced-forwarding.conf"
+    },
+    {
+      "path": "evo/services/oism-border-pim-gateway.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "oism-border-pim-gateway",
+      "topic": "Border-leaf OISM PIM-EVPN gateway per-VRF (external multicast)",
+      "seen_on": [
+        "services-leaf1_qfx5130-48c",
+        "services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 1494,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-border-pim-gateway.conf"
+    },
+    {
+      "path": "evo/services/oism-conserve-mcast-pfe.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "oism-conserve-mcast-pfe",
+      "topic": "OISM PFE route conservation on QFX5130 leaves",
+      "seen_on": [
+        "storage-leaf1_qfx5130-32cd",
+        "storage-leaf2_qfx5130-32cd",
+        "services-leaf1_qfx5130-48c",
+        "services-leaf2_qfx5130-48c"
+      ],
+      "size_bytes": 907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-conserve-mcast-pfe.conf"
+    },
+    {
+      "path": "evo/services/oism-server-leaf.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "oism-server-leaf",
+      "topic": "Server-leaf OISM per-VRF (SBD, PIM accept-remote-source, OSPF)",
+      "seen_on": [
+        "storage-leaf1_qfx5130-32cd",
+        "storage-leaf2_qfx5130-32cd"
+      ],
+      "size_bytes": 1764,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/services/oism-server-leaf.conf"
+    },
+    {
+      "path": "evo/transport/superspine-evpn-overlay-relay.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "superspine-evpn-overlay-relay",
+      "topic": "Lean super-spine EVPN overlay route relay to POD spines",
+      "seen_on": [
+        "superspine1_qfx5230-64cd",
+        "superspine2_qfx5230-64cd"
+      ],
+      "size_bytes": 1940,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/transport/superspine-evpn-overlay-relay.conf"
+    },
+    {
+      "path": "evo/transport/superspine-underlay-ebgp.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "superspine-underlay-ebgp",
+      "topic": "Lean super-spine underlay eBGP to POD spines (IPv6)",
+      "seen_on": [
+        "superspine1_qfx5230-64cd",
+        "superspine2_qfx5230-64cd"
+      ],
+      "size_bytes": 1688,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/transport/superspine-underlay-ebgp.conf"
+    },
+    {
+      "path": "junos/cos/rocev2-dcqcn-drop-profiles.conf",
+      "os": "junos",
+      "category": "cos",
+      "name": "rocev2-dcqcn-drop-profiles",
+      "topic": "RoCEv2 DCQCN drop-profiles (ECN WRED)",
+      "seen_on": [
+        "compute-leaf1_qfx5120-48ym",
+        "compute-leaf2_qfx5120-48ym"
+      ],
+      "size_bytes": 1021,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/cos/rocev2-dcqcn-drop-profiles.conf"
+    },
+    {
+      "path": "junos/oam/oism-enhanced-forwarding.conf",
+      "os": "junos",
+      "category": "oam",
+      "name": "oism-enhanced-forwarding",
+      "topic": "Enhanced OISM multicast replication (fabric-wide enable)",
+      "seen_on": [
+        "compute-leaf1_qfx5120-48ym",
+        "compute-leaf2_qfx5120-48ym"
+      ],
+      "size_bytes": 652,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/oam/oism-enhanced-forwarding.conf"
+    },
+    {
+      "path": "junos/services/oism-server-leaf.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "oism-server-leaf",
+      "topic": "Server-leaf OISM per-VRF (SBD, PIM accept-remote-source, OSPF)",
+      "seen_on": [
+        "compute-leaf1_qfx5120-48ym",
+        "compute-leaf2_qfx5120-48ym"
+      ],
+      "size_bytes": 1532,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/services/oism-server-leaf.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/byoai/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/byoai/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips/byoai/OUTPUT_FORMAT.md"
+    }
+  ]
+}

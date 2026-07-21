@@ -18,6 +18,17 @@ The 5-stage fabric targets large data centers where compute and storage scale be
 
 ![5-stage EVPN-VXLAN fabric architecture](images/5stage-architecture.png)
 
+## Documentation
+
+In-repo design corpus — faithful markdown conversions of the published JVD PDFs:
+
+| Doc | Contents |
+|---|---|
+| [Datasheet](documentation/datasheet.md) | One-page quick reference |
+| [Solution overview](documentation/solution-overview.md) | Executive summary, lean super-spine architecture, benefits |
+| [Design guide](documentation/design-guide.md) | Architecture, config walkthrough, enhanced OISM, RoCEv2 DCQCN |
+| [Test report brief](documentation/test-report-brief.md) | Platforms, events/triggers, scale scenarios, results |
+
 ## Hardware
 
 | Juniper Product | Role | Hostnames | Software |
