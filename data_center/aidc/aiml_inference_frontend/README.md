@@ -12,6 +12,17 @@ This design complements the [AI/ML Multi-Tenancy Backend Fabric](../aiml_multite
 
 ![AI Inference Frontend Fabric Topology](images/inference-frontend-topology.png)
 
+## Documentation
+
+In-repo design corpus — faithful markdown conversions of the published JVD PDFs:
+
+| Doc | Contents |
+|---|---|
+| [Datasheet](documentation/datasheet.md) | One-page quick reference |
+| [Solution overview](documentation/solution-overview.md) | Executive summary, validated fabric, benefits |
+| [Design guide](documentation/design-guide.md) | Architecture, components, topology, inference flows, benchmark methodology |
+| [Test report brief](documentation/test-report-brief.md) | Platforms, 20 benchmark test cases, TTFT/TPS results |
+
 ## Hardware
 
 The JVD validates multiple QFX platform options per role. The configurations included in this repository were captured using the platforms listed below; see the JVD document for the full validated platform matrix.
