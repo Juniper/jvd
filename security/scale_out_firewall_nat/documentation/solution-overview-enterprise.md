@@ -31,7 +31,7 @@ The solution delivers the following values:
 - Broad security service support with NAT and Stateful Firewall support for
   physical and virtual security appliances
 
-![Scale-Out Security Services Solution](images/csds-general.png)
+![Scale-Out Security Services Solution](images/CSDS-general.png)
 
 *Figure 1. Scale-Out Security Services Solution.*
 
