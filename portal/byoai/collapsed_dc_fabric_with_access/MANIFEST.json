@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips",
+  "snip_count": 6,
+  "snips": [
+    {
+      "path": "junos/interfaces/esi-lag.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "esi-lag",
+      "topic": "All-active ESI-LAG (tier interconnect / server multihoming)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y",
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1688,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/esi-lag.conf"
+    },
+    {
+      "path": "junos/interfaces/loopback.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0 addressing (router-id / VTEP)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y",
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 984,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/loopback.conf"
+    },
+    {
+      "path": "junos/services/mac-vrf-evpn-vxlan.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "mac-vrf-evpn-vxlan",
+      "topic": "VLAN-aware MAC-VRF EVPN-VXLAN instance",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y",
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1480,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/services/mac-vrf-evpn-vxlan.conf"
+    },
+    {
+      "path": "junos/transport/access-evpn-overlay.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "access-evpn-overlay",
+      "topic": "Access-tier direct eBGP EVPN overlay (EX4400 access pair)",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1955,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/access-evpn-overlay.conf"
+    },
+    {
+      "path": "junos/transport/access-underlay-ebgp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "access-underlay-ebgp",
+      "topic": "Access-tier direct eBGP underlay (EX4400 access pair)",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1702,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/access-underlay-ebgp.conf"
+    },
+    {
+      "path": "junos/transport/evpn-vxlan-forwarding.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "evpn-vxlan-forwarding",
+      "topic": "EVPN-VXLAN forwarding (shared tunnels + VXLAN routing)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y",
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 936,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/evpn-vxlan-forwarding.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/OUTPUT_FORMAT.md"
+    }
+  ]
+}
