@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T02:30:25.047Z",
+  "generatedAt": "2026-07-21T02:30:35.004Z",
   "counts": {
     "total": 557,
     "junos": 279,
@@ -5578,6 +5578,10 @@
           "example": "et-0/0/2"
         },
         {
+          "name": "$UNIT",
+          "example": "0"
+        },
+        {
           "name": "$REWRITE_NAME",
           "example": "EXP-REWRITE"
         },
@@ -5696,6 +5700,10 @@
         {
           "name": "$MATCH_FIELD",
           "example": "destination-port 80 / source-address 222.222.2.100/32"
+        },
+        {
+          "name": "$DST_PORT",
+          "example": "80"
         },
         {
           "name": "$NEXT_HOP",
@@ -7244,6 +7252,10 @@
         {
           "name": "$CORE_INTF_3",
           "example": "et-1/0/1.0"
+        },
+        {
+          "name": "$MAPPING_SERVER_NAME",
+          "example": "ospf-mapping-server"
         }
       ],
       "jvdServiceMapping": [],
@@ -7558,6 +7570,10 @@
           "example": "xe-0/0/9:0"
         },
         {
+          "name": "$UNIT",
+          "example": "0"
+        },
+        {
           "name": "$REWRITE_NAME",
           "example": "EXP-REWRITE"
         },
@@ -7685,6 +7701,10 @@
         {
           "name": "$MATCH_FIELD",
           "example": "destination-port 80 / source-address 222.222.2.100/32"
+        },
+        {
+          "name": "$DST_PORT",
+          "example": "80"
         },
         {
           "name": "$NEXT_HOP",

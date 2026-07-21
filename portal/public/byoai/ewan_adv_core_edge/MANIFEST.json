@@ -61,7 +61,7 @@
         "p1_ptx10003",
         "p2_ptx10001-36mr"
       ],
-      "size_bytes": 1288,
+      "size_bytes": 1320,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/cos/rewrite-rules-exp.conf"
     },
     {
@@ -87,7 +87,7 @@
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1159,
+      "size_bytes": 1192,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-ipv4-stateless.conf"
     },
     {
@@ -372,7 +372,7 @@
         "p1_ptx10003",
         "p2_ptx10001-36mr"
       ],
-      "size_bytes": 2815,
+      "size_bytes": 2866,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/ospf-sr-lfa.conf"
     },
     {
@@ -451,7 +451,7 @@
         "p1_ptx10003",
         "p2_ptx10001-36mr"
       ],
-      "size_bytes": 1524,
+      "size_bytes": 1556,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/cos/rewrite-rules-exp.conf"
     },
     {
@@ -481,7 +481,7 @@
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1396,
+      "size_bytes": 1429,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-ipv4-stateless.conf"
     },
     {
