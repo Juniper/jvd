@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips",
+  "snip_count": 6,
+  "snips": [
+    {
+      "path": "junos/interfaces/esi-lag-access.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "esi-lag-access",
+      "topic": "ESI-LAG all-active access (multihomed server / access switch)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1466,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/esi-lag-access.conf"
+    },
+    {
+      "path": "junos/interfaces/irb-anycast-gateway.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "irb-anycast-gateway",
+      "topic": "Anycast IRB gateway for a fabric VLAN",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1002,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/irb-anycast-gateway.conf"
+    },
+    {
+      "path": "junos/interfaces/loopback.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "loopback",
+      "topic": "Loopback lo0 addressing (router-id / VTEP / per-VRF)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 895,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/interfaces/loopback.conf"
+    },
+    {
+      "path": "junos/services/mac-vrf-evpn-vxlan.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "mac-vrf-evpn-vxlan",
+      "topic": "VLAN-aware MAC-VRF EVPN-VXLAN instance",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1484,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/services/mac-vrf-evpn-vxlan.conf"
+    },
+    {
+      "path": "junos/transport/collapsed-evpn-overlay.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "collapsed-evpn-overlay",
+      "topic": "Direct leaf-to-leaf eBGP EVPN overlay (collapsed spine)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1991,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/transport/collapsed-evpn-overlay.conf"
+    },
+    {
+      "path": "junos/transport/collapsed-underlay-ebgp.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "collapsed-underlay-ebgp",
+      "topic": "Direct leaf-to-leaf eBGP underlay (collapsed spine)",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1652,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/junos/transport/collapsed-underlay-ebgp.conf"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "_variables.md",
+      "kind": "glossary",
+      "topic": "Glossary of $VAR placeholders used across all snips",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips/_variables.md"
+    },
+    {
+      "path": "byoai/TIERS.md",
+      "kind": "reference",
+      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric/TIERS.md"
+    },
+    {
+      "path": "byoai/DEFAULTS.md",
+      "kind": "reference",
+      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric/DEFAULTS.md"
+    },
+    {
+      "path": "byoai/OUTPUT_FORMAT.md",
+      "kind": "reference",
+      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric/OUTPUT_FORMAT.md"
+    }
+  ]
+}
