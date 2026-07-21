@@ -4,6 +4,76 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-20
+
+A new Scale-Out security design joins the library — complete with full
+documentation, validated configuration building blocks, and an AI assistant —
+alongside a library-wide quality pass that makes every configuration building
+block provably faithful to the design it was validated on.
+
+### New design: Scale-Out Stateful Firewall & NAT
+
+- **Full design corpus** — the Connected Security Distributed Services (CSDS)
+  ScaleOut stateful-firewall-and-NAT design is now documented end to end:
+  solution overviews, design guides, and test-report briefs for **both**
+  deployment focuses — Enterprise (Source NAT) and Service Provider (CGNAT) —
+  plus a one-page datasheet quick-reference and a figure catalog.
+- **Validated configuration building blocks** — 21 templated Junos
+  configuration snippets covering the MX304 stateless load balancer (ECMP
+  consistent-hashing and Traffic Load Balancer), the SRX stateful firewall and
+  NAPT44 source/carrier-grade NAT, SRX Multinode High Availability, the
+  eBGP/BFD transport, and the supporting interfaces, zones, and policies.
+- **AI assistant (BYOAI)** — a bring-your-own-AI bundle for this design that can
+  generate grounded configuration and answer design questions, automatically
+  framing its answers for an Enterprise (Source NAT) or Service Provider (CGNAT)
+  audience.
+
+### Configuration library quality
+
+- **Provable fidelity** — every configuration building block across the library
+  was validated by rebuilding its configuration from the template and confirming
+  that every resulting statement exists, exactly, in the design's validated
+  source configuration. Six designs were corrected or verified so their building
+  blocks now round-trip cleanly.
+- **Clearer variables** — previously undocumented template variables were added
+  to the glossaries for several designs (Metro Ethernet Business Services,
+  3-Stage Data Center, and Enterprise WAN Advanced Core/Edge), and instance-name
+  templating was made consistent — so the building blocks are easier to reuse
+  correctly.
+- **Cleaner source configuration** — a stray command-capture line that had
+  leaked into 14 source device configurations (Broadband Edge and Low-Latency
+  Queueing) was removed, so every configuration file now begins with real Junos
+  configuration.
+
+### Portal
+
+- **Bigger library** — the portal now indexes **11 validated designs** and
+  **578 configuration building blocks**, including the new Scale-Out Stateful
+  Firewall & NAT design and its AI-assistant bundle.
+
+### What this means for you
+
+- A complete, ready-to-use Scale-Out security design — documentation, validated
+  configuration, and an AI assistant — for both enterprise and service-provider
+  NAT use cases.
+- Greater confidence that every configuration building block in the library
+  faithfully reflects the design it was validated on, with clearer, better-
+  documented variables when you adapt one to your network.
+
+### By the numbers
+
+| Item | Count |
+|---|---|
+| New design published (docs + configs + AI assistant) | 1 |
+| New design documents (overviews, design guides, test briefs, datasheet) | 7 |
+| New configuration building blocks | 21 |
+| Designs with configuration-fidelity corrections/verification | 6 |
+| Source configuration files cleaned | 14 |
+| Designs in the portal library | 11 |
+| Configuration building blocks in the portal library | 578 |
+
+---
+
 ## 2026-07-17
 
 The JVD Portal gains a powerful global search and more accurate hardware
