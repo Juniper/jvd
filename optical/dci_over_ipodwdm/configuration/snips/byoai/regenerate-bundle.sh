@@ -13,7 +13,7 @@ cd "$(dirname "$0")/.."   # cd into snips/
 OUT="byoai/jvd-dci-ipodwdm-snips.md"
 
 {
-  echo "# JVD Metro-as-a-Service snippet library"
+  echo "# JVD Data Center Interconnect over IPoDWDM snippet library"
   echo
   for f in $(find junos evo -name '*.conf' | sort); do
     echo "## $f"
