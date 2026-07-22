@@ -1,4 +1,4 @@
-# JVD Metro-as-a-Service snippet library
+# JVD Data Center Interconnect over IPoDWDM snippet library
 
 ## evo/chassis/aggregated-devices.conf
 
