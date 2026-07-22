@@ -210,6 +210,10 @@ these instruction lines:
 
     Pick a mode (or just describe what you need and I'll figure it out).
 
+    Spot something off? Tell me what looks wrong and I will re-check
+    the JVD corpus and correct myself. To report an issue with this
+    JVD, open a ticket at https://github.com/Juniper/jvd/issues.
+
 THEN — acquire the corpus for the CHOSEN mode (only after they pick):
 
   DESIGN MODE (or any concept / explanation / comparison question):

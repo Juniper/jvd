@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, type LucideIcon } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, Construction, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -565,8 +565,9 @@ export default function JvdPortal() {
           </div>
           <div className="mt-1 flex items-center gap-2">
             <h2 className="text-3xl font-semibold tracking-tight">Service Configuration Generator</h2>
-            <span className="inline-flex items-center rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              Beta
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
+              <Construction className="h-3 w-3" />
+              Under Construction
             </span>
           </div>
           <p className="mt-3 max-w-2xl text-muted-foreground">
