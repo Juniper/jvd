@@ -165,6 +165,7 @@ function TreeNode({
   node,
   depth,
   expanded,
+  forceOpen,
   toggle,
   selectedId,
   onSelectSnip,
@@ -174,6 +175,7 @@ function TreeNode({
   node: GroupNode;
   depth: number;
   expanded: Set<string>;
+  forceOpen: boolean;
   toggle: (id: string) => void;
   selectedId: string;
   onSelectSnip: (id: string) => void;
@@ -191,7 +193,7 @@ function TreeNode({
     visibleSnipIds.length + visibleChildren.reduce((n, c) => n + c.visibleCount, 0);
   if (visibleCount === 0) return null;
 
-  const isOpen = expanded.has(node.id);
+  const isOpen = forceOpen || expanded.has(node.id);
   const isLeafGroup = !!node.snipIds;
 
   const padding = { paddingLeft: `${0.5 + depth * 0.75}rem` };
@@ -227,6 +229,7 @@ function TreeNode({
                   node={child}
                   depth={depth + 1}
                   expanded={expanded}
+                  forceOpen={forceOpen}
                   toggle={toggle}
                   selectedId={selectedId}
                   onSelectSnip={onSelectSnip}
@@ -334,10 +337,12 @@ function CopyButton({ text }: { text: string }) {
 function SnipDetail({
   snip,
   onSelectSnip,
+  onClose,
   snipById,
 }: {
   snip: SnipRecord;
   onSelectSnip: (id: string) => void;
+  onClose: () => void;
   snipById: Map<string, SnipRecord>;
 }) {
   const githubUrl = REPO_BLOB_BASE + snip.path;
@@ -349,8 +354,16 @@ function SnipDetail({
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="border-b border-border px-6 py-5">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="relative border-b border-border px-6 py-5">
+        <button
+          onClick={onClose}
+          aria-label="Close snip"
+          title="Close"
+          className="absolute right-4 top-4 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+        >
+          <X className="h-4 w-4" />
+        </button>
+        <div className="flex flex-wrap items-center gap-2 pr-10">
           <Pill tone="primary">{snip.jvdLabel}</Pill>
           <Pill tone="outline">{snip.os}</Pill>
           <Pill>{titleize(snip.category)}</Pill>
@@ -565,18 +578,9 @@ export default function SnipLibrary() {
 
   const tree = useMemo(() => buildTree(allSnips, mode), [allSnips, mode]);
 
-  // Auto-expand: top level always; if a single top group, also expand its children
-  useEffect(() => {
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      // First time on this mode? Open top level by default.
-      const topIds = tree.map((n) => n.id);
-      if (topIds.every((id) => !prev.has(id)) && topIds.length <= 4) {
-        for (const id of topIds) next.add(id);
-      }
-      return next;
-    });
-  }, [tree]);
+  // Tracks start collapsed by default (compact). While a search query or JVD
+  // filter is active, groups with matches are force-opened at render time (see
+  // `forceOpen` below) so results are always visible without manual expansion.
 
   // Auto-expand the path to the selected snip so it's visible
   useEffect(() => {
@@ -679,7 +683,7 @@ export default function SnipLibrary() {
         )}
 
         {/* Two-pane layout */}
-        <div className="mt-8 grid min-h-[36rem] grid-cols-1 gap-6 lg:grid-cols-[minmax(20rem,24rem)_1fr]">
+        <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(20rem,24rem)_1fr]">
           {/* Left: tree */}
           <div className="rounded-lg border border-border bg-surface/40 p-3">
             <div className="max-h-[calc(100vh-12rem)] overflow-y-auto">
@@ -694,6 +698,7 @@ export default function SnipLibrary() {
                     node={n}
                     depth={0}
                     expanded={expanded}
+                    forceOpen={!!query.trim() || !!jvdF}
                     toggle={toggle}
                     selectedId={selectedId}
                     onSelectSnip={setSelectedId}
@@ -716,10 +721,11 @@ export default function SnipLibrary() {
               <SnipDetail
                 snip={selectedSnip}
                 onSelectSnip={setSelectedId}
+                onClose={() => setSelectedId("")}
                 snipById={snipById}
               />
             ) : (
-              <div className="flex h-full min-h-[28rem] flex-col items-center justify-center gap-3 px-6 py-12 text-center">
+              <div className="flex h-full min-h-[16rem] flex-col items-center justify-center gap-3 px-6 py-12 text-center">
                 <FileCode className="h-10 w-10 text-muted-foreground/50" />
                 <div>
                   <p className="text-sm font-medium text-foreground">Pick a snip to view</p>

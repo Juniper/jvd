@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Sparkles, ExternalLink, Github, Info } from "lucide-react";
+import { Sparkles, ExternalLink, Github, Info, LifeBuoy, Download } from "lucide-react";
 import jvds from "@/data/jvds.json";
 import { snipBundle } from "@/lib/snips";
 import { track } from "@/lib/analytics";
@@ -172,6 +172,44 @@ export default function ByoaiSection() {
                 Both providers accept a query-param to pre-fill the chat. The assistant fetches the
                 public BYOAI prompt at launch and adopts it as task instructions.
               </span>
+            </div>
+
+            {/* Help / troubleshooting — discoverable entry point */}
+            <div className="mt-4 rounded-md border border-primary/30 bg-primary/5 p-3">
+              <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
+                <LifeBuoy className="h-4 w-4 shrink-0 text-primary" />
+                Having trouble?
+              </div>
+              <div className="mt-2 flex flex-col gap-2 text-[11px]">
+                {selected ? (
+                  <a
+                    href={selected.promptUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    download
+                    onClick={() => track(`byoai-download-prompt-${selected.id}`)}
+                    className="inline-flex items-start gap-1.5 text-muted-foreground hover:text-primary"
+                  >
+                    <Download className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    <span>Download the prompt and paste it into the chat</span>
+                  </a>
+                ) : (
+                  <span className="inline-flex items-start gap-1.5 text-muted-foreground">
+                    <Download className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    <span>Download the prompt and paste it into the chat</span>
+                  </span>
+                )}
+                <a
+                  href={GUIDE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("byoai-help-tips")}
+                  className="inline-flex items-start gap-1.5 text-muted-foreground hover:text-primary"
+                >
+                  <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>Need setup tips? See what&apos;s tested &amp; working</span>
+                </a>
+              </div>
             </div>
           </div>
 
