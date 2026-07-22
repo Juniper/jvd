@@ -10,3 +10,9 @@
 # Real scratch lives under the actual ~/git-tmp; never inside the repo.
 /~/
 **/~/
+# Python virtualenvs & caches (local dev only — must never be committed)
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+*.pyc
