@@ -45,6 +45,10 @@ function buildChatGptUrl(promptUrl: string): string {
 const GUIDE_URL =
   "https://github.com/Juniper/jvd/blob/main/portal/public/USING-BYOAI.md";
 
+// Practical tips for getting the most out of the BYOAI assistants.
+const TIPS_URL =
+  "https://github.com/Juniper/jvd/blob/main/portal/public/BYOAI-TIPS.md";
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -200,14 +204,14 @@ export default function ByoaiSection() {
                   </span>
                 )}
                 <a
-                  href={GUIDE_URL}
+                  href={TIPS_URL}
                   target="_blank"
                   rel="noreferrer"
-                  onClick={() => track("byoai-help-tips")}
+                  onClick={() => track("byoai-tips")}
                   className="inline-flex items-start gap-1.5 text-muted-foreground hover:text-primary"
                 >
                   <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span>Need setup tips? See what&apos;s tested &amp; working</span>
+                  <span>Check out some BYOAI tips!</span>
                 </a>
               </div>
             </div>
@@ -251,22 +255,6 @@ export default function ByoaiSection() {
                   what&apos;s tested &amp; working
                 </a>
                 .
-              </p>
-              <p>
-                <strong className="font-semibold text-foreground/80">Having trouble?</strong>{" "}
-                {selected ? (
-                  <a
-                    href={selected.promptUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline hover:text-primary"
-                  >
-                    Download the prompt
-                  </a>
-                ) : (
-                  <span>Download the prompt</span>
-                )}{" "}
-                and attach or paste it into your chat instead — no fetching required.
               </p>
               <p>
                 <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
