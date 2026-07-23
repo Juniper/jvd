@@ -57,6 +57,9 @@ const GUIDE_URL =
 const TIPS_URL =
   "https://github.com/Juniper/jvd/blob/main/portal/public/BYOAI-TIPS.md";
 
+// Default JVD pre-selected in the picker (falls back to the first available).
+const DEFAULT_JVD = "metro_as_a_service";
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -79,7 +82,9 @@ export default function ByoaiSection() {
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [byoaiJvds, allJvds]);
 
-  const [selectedId, setSelectedId] = useState<string>(pickerItems[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState<string>(
+    pickerItems.find((p) => p.id === DEFAULT_JVD)?.id ?? pickerItems[0]?.id ?? "",
+  );
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
