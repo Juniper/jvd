@@ -57,8 +57,25 @@ const GUIDE_URL =
 const TIPS_URL =
   "https://github.com/Juniper/jvd/blob/main/portal/public/BYOAI-TIPS.md";
 
-// Default JVD pre-selected in the picker (falls back to the first available).
-const DEFAULT_JVD = "metro_as_a_service";
+// Initial picker default is weighted: a few designs carry more weight so they
+// surface more often, while every design remains reachable.
+const DEFAULT_WEIGHTS: Record<string, number> = {
+  metro_ethernet_business_services: 5,
+  srv6_core_edge: 5,
+  metro_as_a_service: 5,
+};
+
+function pickDefaultJvd(items: { id: string }[]): string {
+  if (items.length === 0) return "";
+  const weights = items.map((it) => DEFAULT_WEIGHTS[it.id] ?? 1);
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < items.length; i++) {
+    r -= weights[i];
+    if (r < 0) return items[i].id;
+  }
+  return items[items.length - 1].id;
+}
 
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
@@ -82,9 +99,7 @@ export default function ByoaiSection() {
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [byoaiJvds, allJvds]);
 
-  const [selectedId, setSelectedId] = useState<string>(
-    pickerItems.find((p) => p.id === DEFAULT_JVD)?.id ?? pickerItems[0]?.id ?? "",
-  );
+  const [selectedId, setSelectedId] = useState<string>(() => pickDefaultJvd(pickerItems));
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
