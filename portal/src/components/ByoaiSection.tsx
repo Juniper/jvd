@@ -41,6 +41,14 @@ function buildChatGptUrl(promptUrl: string): string {
   return `https://chatgpt.com/?q=${encodeURIComponent(msg)}`;
 }
 
+// VS Code + Copilot: install the JVD's .prompt.md as a reusable /slash-command.
+// Unlike the hosted-AI links, this doesn't pre-fill a chat box — it installs
+// the prompt file, which the user then runs with /<name> in Copilot Chat.
+function buildVscodeInstallUrl(promptMdUrl: string, insiders = false): string {
+  const scheme = insiders ? "vscode-insiders" : "vscode";
+  return `${scheme}:chat-prompt/install?url=${encodeURIComponent(promptMdUrl)}`;
+}
+
 // Detailed usage + "tested & working" compatibility notes (rendered on GitHub).
 const GUIDE_URL =
   "https://github.com/Juniper/jvd/blob/main/portal/public/USING-BYOAI.md";
@@ -64,6 +72,8 @@ export default function ByoaiSection() {
           area: meta?.area ?? "",
           promptUrl: b.promptUrl,
           promptPath: b.promptPath,
+          vscodePromptUrl: b.vscodePromptUrl ?? null,
+          vscodePromptName: b.vscodePromptName ?? null,
         };
       })
       .sort((a, b) => a.label.localeCompare(b.label));
@@ -89,6 +99,10 @@ export default function ByoaiSection() {
 
   const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl) : "#";
   const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl) : "#";
+  const vscodeUrl = selected?.vscodePromptUrl
+    ? buildVscodeInstallUrl(selected.vscodePromptUrl)
+    : "#";
+  const vscodeCmd = `/${selected?.vscodePromptName ?? "jvd-"}`;
 
   return (
     <section id="byoai" className="border-b border-border">
@@ -222,7 +236,7 @@ export default function ByoaiSection() {
             <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
               Step 2 — Launch your AI
             </span>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <AiTile
                 name="Claude"
                 description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
@@ -243,6 +257,18 @@ export default function ByoaiSection() {
                 logo={<ChatGptLogo />}
                 accentClass="hover:border-[#10a37f]/60"
               />
+              <AiTile
+                name="VS Code"
+                launchLabel="Install in VS Code"
+                description="GitHub Copilot Chat. Installs the JVD prompt as a reusable /slash-command — no copy-paste, kept for every future session."
+                tip={`Tip: after installing, run it with ${vscodeCmd} in Copilot Chat.`}
+                href={vscodeUrl}
+                disabled={!selected?.vscodePromptUrl}
+                disabledLabel="Coming soon"
+                onLaunch={() => track(`byoai-launch-vscode-${selected?.id ?? "none"}`)}
+                logo={<VsCodeLogo />}
+                accentClass="hover:border-[#0098ff]/60"
+              />
             </div>
 
             <div className="mt-4 space-y-2 text-[11px] text-muted-foreground">
@@ -261,6 +287,14 @@ export default function ByoaiSection() {
                 currently support pre-filled prompts via URL; it&apos;s omitted here. The same BYOAI
                 prompt works on Gemini if pasted manually.
               </p>
+              <p>
+                <strong className="font-semibold text-foreground/80">VS Code:</strong> requires VS Code
+                with a GitHub Copilot subscription. The button installs the prompt (it doesn&apos;t
+                pre-fill the chat) — run it with{" "}
+                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">{vscodeCmd}</code>.
+                It runs in read-only <em>ask</em> mode. Using Insiders? Swap the scheme to{" "}
+                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">vscode-insiders:</code>.
+              </p>
             </div>
           </div>
         </div>
@@ -278,6 +312,8 @@ function AiTile({
   onLaunch,
   logo,
   accentClass,
+  launchLabel,
+  disabledLabel,
 }: {
   name: string;
   description: string;
@@ -287,6 +323,8 @@ function AiTile({
   onLaunch?: () => void;
   logo: React.ReactNode;
   accentClass: string;
+  launchLabel?: string;
+  disabledLabel?: string;
 }) {
   const inner = (
     <div
@@ -315,7 +353,7 @@ function AiTile({
           (disabled ? "" : "group-hover:border-primary/60 group-hover:text-primary")
         }
       >
-        Launch in {name}
+        {disabled ? (disabledLabel ?? `Launch in ${name}`) : (launchLabel ?? `Launch in ${name}`)}
       </div>
     </div>
   );
@@ -346,6 +384,17 @@ function ChatGptLogo() {
       <path
         fill="#10a37f"
         d="M28.5 13.4a7.4 7.4 0 0 0-.6-6 7.5 7.5 0 0 0-8.1-3.6A7.5 7.5 0 0 0 6.5 6a7.4 7.4 0 0 0-5 3.6 7.5 7.5 0 0 0 .9 8.8 7.4 7.4 0 0 0 .6 6 7.5 7.5 0 0 0 8.1 3.6 7.4 7.4 0 0 0 5.6 2.5 7.5 7.5 0 0 0 7.1-5.2 7.4 7.4 0 0 0 5-3.6 7.5 7.5 0 0 0-.9-8.8zM17.7 27.5a5.5 5.5 0 0 1-3.5-1.3l.2-.1 5.9-3.4a1 1 0 0 0 .5-.8v-8.3l2.5 1.4v6.9a5.6 5.6 0 0 1-5.6 5.6zM5.7 22.4a5.5 5.5 0 0 1-.7-3.8l.2.1 5.9 3.4a1 1 0 0 0 1 0l7.2-4.2v2.9l-7.3 4.2a5.6 5.6 0 0 1-7.6-2zM4.2 11a5.5 5.5 0 0 1 2.9-2.4v6.9a1 1 0 0 0 .5.9l7.2 4.1-2.5 1.5L6.4 18.6a5.6 5.6 0 0 1-2.2-7.6zm21.5 5l-7.2-4.2 2.5-1.4 5.9 3.4a5.5 5.5 0 0 1-.8 9.9V16a1 1 0 0 0-.4-.8zm2.5-3.7l-.2-.1-5.9-3.4a1 1 0 0 0-1 0l-7.2 4.2v-3l7.2-4.1a5.5 5.5 0 0 1 8.1 5.7zM12.5 17l-2.5-1.4V8.6a5.6 5.6 0 0 1 9.2-4.3l-.2.1-5.9 3.4a1 1 0 0 0-.5.9zm1.4-3l3.2-1.9 3.2 1.9v3.6L17 19.6l-3.2-1.9z"
+      />
+    </svg>
+  );
+}
+
+function VsCodeLogo() {
+  return (
+    <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden="true">
+      <path
+        fill="#0098ff"
+        d="M23.2 3.2 27.4 5.2c.4.2.6.6.6 1v19.6c0 .4-.2.8-.6 1l-4.2 2c-.5.2-1 .1-1.4-.2L9.9 18.4l-4.6 3.5c-.4.3-1 .3-1.4-.1l-1.1-1c-.5-.4-.5-1.2 0-1.7L6.8 16l-4-4.1c-.5-.5-.5-1.3 0-1.7l1.1-1c.4-.4 1-.4 1.4-.1l4.6 3.5 11.9-11.2c.4-.3.9-.4 1.4-.2ZM22.5 9.2 14 16l8.5 6.8V9.2Z"
       />
     </svg>
   );

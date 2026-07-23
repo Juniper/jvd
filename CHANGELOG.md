@@ -4,6 +4,49 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-07-23
+
+The bring-your-own-AI (BYOAI) assistants gain a new one-click launch path for
+VS Code, and we've published how BYOAI is designed for transparency and trust.
+
+### AI assistant (BYOAI)
+
+- **Open in VS Code** — alongside Claude and ChatGPT, every design's AI assistant
+  can now be launched directly in **VS Code with GitHub Copilot Chat**. One click
+  installs that design's assistant as a reusable **slash-command** — no copy-paste,
+  and it stays available for every future session without returning to the portal.
+  Available across all **17 validated designs**.
+- **Read-only by design** — the VS Code assistant runs in a question-and-answer
+  mode that does not edit files or run commands on your machine. Installing the
+  assistant and running it are separate, deliberate steps that stay under your
+  control.
+- **Security & trust, documented** — the BYOAI guide now includes a plain-English
+  **Security & trust** section. Every assistant prompt is a public, reviewable,
+  narrowly-scoped task guide that works alongside — never overrides — your AI's own
+  safety rules, and every response is grounded in validated, published content.
+
+### How we test before rolling out
+
+- **Hands-on across providers and tiers** — each assistant launch path is exercised
+  by hand across multiple AI providers and model tiers, and the results are captured
+  in a **date-stamped compatibility matrix** in the BYOAI guide, so you can see
+  exactly what has been confirmed working and when.
+- **Provably faithful building blocks** — the configuration the assistants draw from
+  is validated by reconstructing each building block and confirming that every
+  resulting statement appears, exactly, in the design's validated source
+  configuration.
+- **Verified end to end** — the new VS Code launch path was tested through the full
+  install-and-run flow before release, and the portal is rebuilt and verified — all
+  17 designs, 638 configuration building blocks, zero warnings — as part of every
+  change.
+
+### Fixes
+
+- Corrected the title displayed on the Data Center Interconnect over IPoDWDM
+  AI-assistant bundle.
+
+---
+
 ## 2026-07-21
 
 Six more validated designs join the library — spanning AI/ML data center
