@@ -57,6 +57,26 @@ const GUIDE_URL =
 const TIPS_URL =
   "https://github.com/Juniper/jvd/blob/main/portal/public/BYOAI-TIPS.md";
 
+// Initial picker default is weighted: a few designs carry more weight so they
+// surface more often, while every design remains reachable.
+const DEFAULT_WEIGHTS: Record<string, number> = {
+  metro_ethernet_business_services: 5,
+  srv6_core_edge: 5,
+  metro_as_a_service: 5,
+};
+
+function pickDefaultJvd(items: { id: string }[]): string {
+  if (items.length === 0) return "";
+  const weights = items.map((it) => DEFAULT_WEIGHTS[it.id] ?? 1);
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < items.length; i++) {
+    r -= weights[i];
+    if (r < 0) return items[i].id;
+  }
+  return items[items.length - 1].id;
+}
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -79,7 +99,7 @@ export default function ByoaiSection() {
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [byoaiJvds, allJvds]);
 
-  const [selectedId, setSelectedId] = useState<string>(pickerItems[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState<string>(() => pickDefaultJvd(pickerItems));
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
@@ -292,9 +312,10 @@ export default function ByoaiSection() {
                 with a GitHub Copilot subscription. The button installs the prompt (it doesn&apos;t
                 pre-fill the chat) — run it with{" "}
                 <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">{vscodeCmd}</code>.
-                It runs in read-only <em>ask</em> mode. When VS Code asks where to install, choose{" "}
-                <strong className="font-semibold text-foreground/80">User</strong> to keep it out of your
-                repo (Workspace adds it to the open project). Using Insiders? Swap the scheme to{" "}
+                It runs in read-only <em>ask</em> mode. After you approve VS Code&apos;s prompt, it asks for a
+                destination — pick a location outside your repo (the default is the open project&apos;s{" "}
+                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">.github/prompts/</code>).
+                Using Insiders? Swap the scheme to{" "}
                 <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">vscode-insiders:</code>.
               </p>
             </div>
