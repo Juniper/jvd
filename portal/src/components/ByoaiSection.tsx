@@ -312,9 +312,10 @@ export default function ByoaiSection() {
                 with a GitHub Copilot subscription. The button installs the prompt (it doesn&apos;t
                 pre-fill the chat) — run it with{" "}
                 <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">{vscodeCmd}</code>.
-                It runs in read-only <em>ask</em> mode. When VS Code asks where to install, choose{" "}
-                <strong className="font-semibold text-foreground/80">User</strong> to keep it out of your
-                repo (Workspace adds it to the open project). Using Insiders? Swap the scheme to{" "}
+                It runs in read-only <em>ask</em> mode. After you approve VS Code&apos;s prompt, it asks for a
+                destination — pick a location outside your repo (the default is the open project&apos;s{" "}
+                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">.github/prompts/</code>).
+                Using Insiders? Swap the scheme to{" "}
                 <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">vscode-insiders:</code>.
               </p>
             </div>
