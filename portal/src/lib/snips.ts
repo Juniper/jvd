@@ -61,6 +61,10 @@ export type SnipBundle = {
     promptUrl: string;
     /** raw.githubusercontent.com URL (source-of-truth fallback). */
     rawUrl?: string;
+    /** Pages URL of the synthesized VS Code ask-mode .prompt.md. */
+    vscodePromptUrl?: string | null;
+    /** Slash-command name for the VS Code prompt (e.g. "jvd-dci-ipodwdm"). */
+    vscodePromptName?: string | null;
   }[];
   parseWarnings: { file: string; warning: string }[];
 };

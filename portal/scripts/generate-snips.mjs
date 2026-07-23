@@ -486,6 +486,25 @@ async function main() {
       await fs.writeFile(dstPath, content);
     }
 
+    // Synthesize a hardened VS Code prompt-file (<slug>.prompt.md) derived
+    // from the canonical bootstrap prompt. It runs in ask mode (read-only
+    // Q&A — no file edits, no terminal) and inlines the guide so it is pinned
+    // and self-contained. This is a build artifact: it stays in sync with the
+    // .txt on every run and powers the portal's "Open in VS Code" install link.
+    const slug = promptFile.replace(/^jvd-/, "").replace(/-byoai-prompt\.txt$/, "");
+    const vscodePromptName = `jvd-${slug}`;
+    const vscodePromptFile = `${slug}.prompt.md`;
+    const label = (jvdMeta.get(jvd)?.label || jvd).replace(/'/g, "''");
+    const promptBody = await fs.readFile(pf, "utf8");
+    const vscodePromptMd =
+      "---\n" +
+      `description: '${label} — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'\n` +
+      `name: ${vscodePromptName}\n` +
+      "agent: ask\n" +
+      "---\n\n" +
+      promptBody;
+    await fs.writeFile(path.join(mirrorTargetDir, vscodePromptFile), vscodePromptMd);
+
     byoaiJvds.push({
       jvd,
       promptPath: rel,
@@ -493,6 +512,10 @@ async function main() {
       promptUrl: `${PAGES_BYOAI_BASE}/${jvd}/${promptFile}`,
       // Raw GitHub URL (kept as fallback / source-of-truth pointer).
       rawUrl: `https://raw.githubusercontent.com/Juniper/jvd/main/${rel}`,
+      // Synthesized VS Code prompt-file (ask mode) — powers the portal's
+      // "Open in VS Code" install link (vscode:chat-prompt/install?url=…).
+      vscodePromptUrl: `${PAGES_BYOAI_BASE}/${jvd}/${vscodePromptFile}`,
+      vscodePromptName,
     });
   }
   byoaiJvds.sort((a, b) => a.jvd.localeCompare(b.jvd));

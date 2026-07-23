@@ -28,6 +28,54 @@ instead (below).
 
 ---
 
+## Open in VS Code (GitHub Copilot)
+
+If you work in **VS Code with GitHub Copilot**, the portal also offers **Open in
+VS Code** for each JVD. Rather than pre-filling a chat, it installs that JVD's
+prompt as a reusable **`/jvd-<name>` slash-command** in Copilot Chat, which you can
+invoke at any time without returning to the portal.
+
+Installing and running are separate, explicit steps. After you confirm the install,
+the prompt opens for review, and you run it with its slash-command — for example,
+`/jvd-dci-ipodwdm`. The prompt runs in **ask mode**: a read-only, question-and-answer
+context that does not modify files or run commands. On VS Code Insiders, use the
+`vscode-insiders:` scheme (the note beside the button covers this). As with the
+hosted assistants, the exact prompt is public — use **View prompt source** to read
+it first.
+
+---
+
+## Security & trust
+
+BYOAI is designed to be transparent and least-privilege by default.
+
+- **Everything is public and reviewable.** Each JVD's prompt is a versioned,
+  human-readable file in the open-source repository, and the portal links directly
+  to the exact source for the selected JVD (**View prompt source**). You can read
+  precisely what an assistant will work from before you launch it.
+- **The prompt is a scoped task guide, not an override.** Every BYOAI prompt is
+  framed as a user-authored description of a narrow task — generating Juniper
+  configuration from a validated snippet library, or answering design questions
+  grounded in the JVD documentation. It explicitly does not replace or supersede a
+  model's own operating and safety guidelines. Assistants that decline to follow
+  instructions embedded in fetched content are behaving correctly, and the BYOAI
+  prompt is written to work with that behavior rather than around it.
+- **Grounded in validated content.** Responses are anchored to a fixed, reviewed
+  library of validated snippets and design documentation. The workflow is
+  read-and-generate: the assistant reads published material and produces
+  configuration text for you to review — it does not act on your infrastructure.
+- **VS Code runs read-only.** The **Open in VS Code** option installs the prompt as
+  a slash-command that runs in **ask mode**, a read-only conversational context that
+  does not edit files or run commands on your machine. Installing a prompt and
+  running it remain separate, explicit actions under your control.
+- **You stay in control.** Use the official links on the portal, review the prompt
+  source whenever you want to, and keep your AI client up to date. As with any
+  configuration authored outside your production systems, generated output should be
+  reviewed and tested through your normal change-management process before
+  deployment.
+
+---
+
 ## Requirement: the AI must be able to fetch a URL — or you attach the prompt
 
 Loading the prompt by URL requires an AI with **web access**. Not every tier can
