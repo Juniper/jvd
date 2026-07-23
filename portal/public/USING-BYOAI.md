@@ -43,6 +43,12 @@ context that does not modify files or run commands. On VS Code Insiders, use the
 hosted assistants, the exact prompt is public — use **View prompt source** to read
 it first.
 
+> **Where to install:** when VS Code asks, choose **User** to make the assistant
+> available in every workspace and keep it out of any repository. Choosing
+> **Workspace** instead writes the prompt into the open project's
+> `.github/prompts/` folder — pick that only if you intend to commit it to that
+> project.
+
 ---
 
 ## Security & trust
