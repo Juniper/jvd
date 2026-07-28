@@ -1,7 +1,7 @@
 ---
 description: 'Collapsed DC Fabric — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-collapsed
-agent: ask
+agent: agent
 tools: ['fetch']
 ---
 

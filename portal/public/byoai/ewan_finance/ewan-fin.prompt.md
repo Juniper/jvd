@@ -1,7 +1,7 @@
 ---
 description: 'Enterprise WAN: Finance — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-ewan-fin
-agent: ask
+agent: agent
 tools: ['fetch']
 ---
 

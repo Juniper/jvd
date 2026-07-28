@@ -1,7 +1,7 @@
 ---
 description: '5-Stage EVPN-VXLAN — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-5stage
-agent: ask
+agent: agent
 tools: ['fetch']
 ---
 

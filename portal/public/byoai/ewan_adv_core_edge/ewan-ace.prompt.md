@@ -1,7 +1,7 @@
 ---
 description: 'Enterprise WAN: Advanced Core/Edge — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-ewan-ace
-agent: ask
+agent: agent
 tools: ['fetch']
 ---
 

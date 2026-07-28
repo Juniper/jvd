@@ -1,7 +1,7 @@
 ---
 description: 'Low Latency Queueing — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-llq
-agent: ask
+agent: agent
 tools: ['fetch']
 ---
 
