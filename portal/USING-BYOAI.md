@@ -37,11 +37,12 @@ invoke at any time without returning to the portal.
 
 Installing and running are separate, explicit steps. After you confirm the install,
 the prompt opens for review, and you run it with its slash-command — for example,
-`/jvd-dci-ipodwdm`. The prompt runs in **ask mode**: a read-only, question-and-answer
-context that does not modify files or run commands. On VS Code Insiders, use the
-`vscode-insiders:` scheme (the note beside the button covers this). As with the
-hosted assistants, the exact prompt is public — use **View prompt source** to read
-it first.
+`/jvd-dci-ipodwdm`. The prompt is restricted to a single read-only capability —
+fetching the published JVD content it needs — and is granted no file-editing or
+terminal tools, so it cannot modify files or run commands on your machine. On VS
+Code Insiders, use the `vscode-insiders:` scheme (the note beside the button covers
+this). As with the hosted assistants, the exact prompt is public — use **View
+prompt source** to read it first.
 
 > **Where to install:** after you approve VS Code's prompt, it opens a destination
 > picker that defaults to the open project's `.github/prompts/` folder. To keep the
@@ -72,8 +73,9 @@ BYOAI is designed to be transparent and least-privilege by default.
   read-and-generate: the assistant reads published material and produces
   configuration text for you to review — it does not act on your infrastructure.
 - **VS Code runs read-only.** The **Open in VS Code** option installs the prompt as
-  a slash-command that runs in **ask mode**, a read-only conversational context that
-  does not edit files or run commands on your machine. Installing a prompt and
+  a slash-command whose tool access is restricted to a single read-only capability:
+  fetching the published JVD content. No file-editing or terminal tools are granted,
+  so it cannot edit files or run commands on your machine. Installing a prompt and
   running it remain separate, explicit actions under your control.
 - **You stay in control.** Use the official links on the portal, review the prompt
   source whenever you want to, and keep your AI client up to date. As with any
