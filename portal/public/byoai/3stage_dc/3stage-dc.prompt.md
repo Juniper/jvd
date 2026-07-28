@@ -2,6 +2,7 @@
 description: '3-Stage Data Center — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-3stage-dc
 agent: ask
+tools: ['fetch']
 ---
 
 TASK INSTRUCTIONS — JUNIPER VALIDATED DESIGN (JVD) 3-STAGE DATA CENTER

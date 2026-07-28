@@ -491,6 +491,10 @@ async function main() {
     // Q&A — no file edits, no terminal) and inlines the guide so it is pinned
     // and self-contained. This is a build artifact: it stays in sync with the
     // .txt on every run and powers the portal's "Open in VS Code" install link.
+    // The `fetch` tool is granted so the assistant can retrieve the published
+    // JVD corpus (documentation + snip bundle) it is instructed to load. This
+    // is a read-only web fetch — the prompt still performs no file edits and
+    // runs no terminal commands, preserving the hardened posture.
     const slug = promptFile.replace(/^jvd-/, "").replace(/-byoai-prompt\.txt$/, "");
     const vscodePromptName = `jvd-${slug}`;
     const vscodePromptFile = `${slug}.prompt.md`;
@@ -501,6 +505,7 @@ async function main() {
       `description: '${label} — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'\n` +
       `name: ${vscodePromptName}\n` +
       "agent: ask\n" +
+      "tools: ['fetch']\n" +
       "---\n\n" +
       promptBody;
     await fs.writeFile(path.join(mirrorTargetDir, vscodePromptFile), vscodePromptMd);
