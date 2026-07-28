@@ -2,6 +2,7 @@
 description: 'Scale-Out IPsec — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-so-ipsec
 agent: ask
+tools: ['fetch']
 ---
 
 TASK INSTRUCTIONS — JUNIPER VALIDATED DESIGN (JVD) SCALE-OUT IPSEC

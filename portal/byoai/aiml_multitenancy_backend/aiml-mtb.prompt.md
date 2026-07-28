@@ -2,6 +2,7 @@
 description: 'AI/ML Multitenancy Backend — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-aiml-mtb
 agent: ask
+tools: ['fetch']
 ---
 
 TASK INSTRUCTIONS — JUNIPER VALIDATED DESIGN (JVD) AI/ML MULTI-TENANCY
