@@ -2,6 +2,7 @@
 description: 'SRv6 Core/Edge — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'
 name: jvd-srv6
 agent: ask
+tools: ['fetch']
 ---
 
 TASK INSTRUCTIONS — JUNIPER VALIDATED DESIGN (JVD) SRv6 CORE EDGE
