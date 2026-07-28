@@ -487,14 +487,17 @@ async function main() {
     }
 
     // Synthesize a hardened VS Code prompt-file (<slug>.prompt.md) derived
-    // from the canonical bootstrap prompt. It runs in ask mode (read-only
-    // Q&A — no file edits, no terminal) and inlines the guide so it is pinned
+    // from the canonical bootstrap prompt. It inlines the guide so it is pinned
     // and self-contained. This is a build artifact: it stays in sync with the
     // .txt on every run and powers the portal's "Open in VS Code" install link.
-    // The `fetch` tool is granted so the assistant can retrieve the published
-    // JVD corpus (documentation + snip bundle) it is instructed to load. This
-    // is a read-only web fetch — the prompt still performs no file edits and
-    // runs no terminal commands, preserving the hardened posture.
+    //
+    // It runs in `agent` mode with a single-tool whitelist: `fetch`. VS Code
+    // only attaches tools in agent mode (the `ask` agent ignores a `tools`
+    // list), so agent mode is required for the assistant to retrieve the
+    // published JVD corpus (documentation + snip bundle) it is instructed to
+    // load. The explicit `tools` list REPLACES the default agent toolset, so
+    // the assistant gets ONLY read-only web fetch — no file-editing and no
+    // terminal tools are granted, preserving the hardened read-only posture.
     const slug = promptFile.replace(/^jvd-/, "").replace(/-byoai-prompt\.txt$/, "");
     const vscodePromptName = `jvd-${slug}`;
     const vscodePromptFile = `${slug}.prompt.md`;
@@ -504,7 +507,7 @@ async function main() {
       "---\n" +
       `description: '${label} — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'\n` +
       `name: ${vscodePromptName}\n` +
-      "agent: ask\n" +
+      "agent: agent\n" +
       "tools: ['fetch']\n" +
       "---\n\n" +
       promptBody;
