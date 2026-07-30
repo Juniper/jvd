@@ -1,3 +1,16 @@
+<p align="center">
+  <a href="https://juniper.github.io/jvd/portal/">
+    <img src="portal/src/assets/jvd-portal.png" alt="JVD Portal" height="240">
+  </a>
+</p>
+
+<p align="center">
+  <b><a href="https://juniper.github.io/jvd/portal/">🌐 Explore the JVD Portal →</a></b><br>
+  <sub>Every Juniper Validated Design — browse, learn, design, and build, interactively.</sub>
+</p>
+
+---
+
 # Juniper Validated Designs (JVD)
 
 Tested and documented blueprints that take HPE Juniper Networks solution architectures from design to deployment with confidence—from branch and campus to data center, security, enterprise WAN, and service provider networks.
