@@ -503,6 +503,15 @@ async function main() {
     const vscodePromptFile = `${slug}.prompt.md`;
     const label = (jvdMeta.get(jvd)?.label || jvd).replace(/'/g, "''");
     const promptBody = await fs.readFile(pf, "utf8");
+    // VS Code always has the fetch tool here, so scope out the inlined no-web
+    // fallbacks (paste / limited mode / confirm-first) that exist for other clients.
+    const vscodeRuntimeNote =
+      "> VS Code runtime: you have a live web-fetch tool, so you always have web\n" +
+      "> access here. When the task calls for the corpus (datasheet, design docs,\n" +
+      "> snip bundle), fetch it immediately and silently, then answer with\n" +
+      "> citations. The no-web fallbacks described later — pasting files, \"limited\n" +
+      "> mode,\" or confirming a fetch first — are for clients without fetch and\n" +
+      "> don't apply here.\n";
     const vscodePromptMd =
       "---\n" +
       `description: '${label} — Juniper Validated Design BYOAI assistant: config generation and design Q&A grounded in the validated snip library.'\n` +
@@ -510,6 +519,8 @@ async function main() {
       "agent: agent\n" +
       "tools: ['fetch']\n" +
       "---\n\n" +
+      vscodeRuntimeNote +
+      "\n" +
       promptBody;
     await fs.writeFile(path.join(mirrorTargetDir, vscodePromptFile), vscodePromptMd);
 
