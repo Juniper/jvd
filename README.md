@@ -22,12 +22,6 @@
 
 Tested and documented blueprints that take HPE Juniper Networks solution architectures from design to deployment with confidence—from branch and campus to data center, security, enterprise WAN, and service provider networks.
 
-> **Browse the JVD Portal:** <https://juniper.github.io/jvd/portal/>
->
-> A searchable catalog of every JVD in this repository — filter by
-> area, platform, and Junos version, jump straight to the matching
-> reference design, snip library, or BYOAI config generator.
-
 ## Why JVD
 
 ### Qualify Solutions Faster
@@ -83,18 +77,31 @@ paired across Junos and Junos EVO.
 
 ---
 
-## Snip Libraries and BYOAI
+## The JVD Portal
 
-Several JVDs ship a paired Junos / Junos EVO **snip library** —
-templated, variable-driven config fragments with structured headers
-(`Topic`, `Seen on`, `Pair with`, `Variables`) that can be assembled
-into a complete device config.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="portal/src/assets/jvd-bot.png">
+    <img width="96" alt="BYOAI" src="portal/src/assets/jvd-bot-black.png">
+  </picture>
+</p>
 
-- Browse the snips in the portal:
-  <https://juniper.github.io/jvd/portal/#snips>
-- Launch the **BYOAI** config generator (drives any modern AI against
-  the snip library to produce a full, customer-specific config) from
-  the portal: <https://juniper.github.io/jvd/portal/#byoai>
+The [**JVD Portal**](https://juniper.github.io/jvd/portal/) turns this repository
+into an interactive catalog and toolset. Search and filter every JVD by track,
+use case, technology, or configuration — then dive in:
+
+- **[Config Explorer / Snip Library](https://juniper.github.io/jvd/portal/#snips)**
+  — templated, variable-driven Junos & Junos EVO config fragments with structured
+  headers (`Topic`, `Seen on`, `Pair with`, `Variables`), assembled into complete
+  device configs.
+- **[BYOAI — Bring Your Own AI](https://juniper.github.io/jvd/portal/#byoai)**
+  — per-JVD **Config** and **Design** assistants, with guardrails that keep the AI
+  grounded in the validated snips and docs. One click into ChatGPT, Claude, or VS Code.
+- **[Service Config Generator](https://juniper.github.io/jvd/portal/#generator)**
+  *(in development)* — a deterministic wizard that renders download-ready,
+  JVD-validated service configuration.
+- **JVD MCP Server** *(coming soon)* — bring validated designs straight into your
+  AI agent via the JVD + Junos MCP servers.
 
 ---
 
