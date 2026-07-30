@@ -4,9 +4,16 @@
   </a>
 </p>
 
+<h3 align="center">
+  <a href="https://juniper.github.io/jvd/portal/">🌐 Explore the JVD Portal →</a>
+</h3>
+
+<p align="center"><b>DISCOVER &nbsp;·&nbsp; LEARN &nbsp;·&nbsp; DESIGN &nbsp;·&nbsp; BUILD</b></p>
+
 <p align="center">
-  <b><a href="https://juniper.github.io/jvd/portal/">🌐 Explore the JVD Portal →</a></b><br>
-  <sub>Every Juniper Validated Design — browse, learn, design, and build, interactively.</sub>
+  A searchable catalog of every JVD in this repository. Search and filter by JVD
+  track, use case, technologies, or configurations. Explore and interact with JVDs
+  in the Snip Library, BYOAI Configurator and Design Tool, or Service Generator.
 </p>
 
 ---
