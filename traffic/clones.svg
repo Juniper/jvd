@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
   <rect width="720" height="200" fill="#0d1117" rx="8"/>
   <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Git Clones</text>
-  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 30 days</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 31 days</text>
   <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
   <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
-  <polyline points="50.0,148.7 72.4,149.1 94.8,149.1 117.2,150.0 139.7,149.6 162.1,137.9 184.5,99.5 206.9,40.0 229.3,52.1 251.7,144.0 274.1,84.4 296.6,113.8 319.0,149.1 341.4,149.1 363.8,103.0 386.2,55.5 408.6,134.9 431.0,140.5 453.4,149.6 475.9,148.3 498.3,125.4 520.7,72.4 543.1,96.5 565.5,111.6 587.9,125.4 610.3,146.1 632.8,148.3 655.2,147.4 677.6,117.2 700.0,147.4" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="50.0,148.7 72.4,149.1 94.8,149.1 117.2,150.0 139.7,149.6 162.1,148.7 184.5,129.3 206.9,111.2 229.3,111.6 251.7,146.5 274.1,127.6 296.6,132.3 319.0,149.1 341.4,149.1 363.8,130.6 386.2,115.5 408.6,144.8 431.0,145.7 453.4,149.6 475.9,148.3 498.3,138.4 520.7,117.6 543.1,122.4 565.5,131.0 587.9,139.2 610.3,147.0 632.8,148.3 655.2,147.4 677.6,134.5 700.0,147.4" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
-  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">clones: 6</text>
-  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_cloners: 6</text>
+  <polyline points="50.0,148.7 71.7,149.1 93.3,149.1 115.0,150.0 136.7,149.6 158.3,137.9 180.0,99.5 201.7,40.0 223.3,52.1 245.0,144.0 266.7,84.4 288.3,113.8 310.0,149.1 331.7,149.1 353.3,103.0 375.0,55.5 396.7,134.9 418.3,140.5 440.0,149.6 461.7,148.3 483.3,125.4 505.0,72.4 526.7,96.5 548.3,111.6 570.0,125.4 591.7,146.1 613.3,148.3 635.0,147.4 656.7,117.2 678.3,147.4 700.0,123.7" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,148.7 71.7,149.1 93.3,149.1 115.0,150.0 136.7,149.6 158.3,148.7 180.0,129.3 201.7,111.2 223.3,111.6 245.0,146.5 266.7,127.6 288.3,132.3 310.0,149.1 331.7,149.1 353.3,130.6 375.0,115.5 396.7,144.8 418.3,145.7 440.0,149.6 461.7,148.3 483.3,138.4 505.0,117.6 526.7,122.4 548.3,131.0 570.0,139.2 591.7,147.0 613.3,148.3 635.0,147.4 656.7,134.5 678.3,147.4 700.0,136.2" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">clones: 61</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_cloners: 32</text>
   <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
-<text x="206.9" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
-<text x="363.8" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
-<text x="520.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
-<text x="677.6" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
-<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-29</text>
+<text x="201.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="353.3" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
+<text x="505.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
+<text x="656.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-30</text>
 
   <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">255</text>
   <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
