@@ -1,0 +1,211 @@
+{
+  "jvd": "ewan_core_edge",
+  "snip_count": 34,
+  "base_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips",
+  "snips": [
+    {
+      "path": "evo/bootstrap/chassis.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/bootstrap/chassis.conf",
+      "topic": "Chassis \u2014 aggregated-devices count and network-services enhanced-ip (EVO)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/bootstrap/forwarding-options-hash.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/bootstrap/forwarding-options-hash.conf",
+      "topic": "Forwarding-options hash-key \u2014 MPLS and multiservice ECMP hashing",
+      "seen_on": []
+    },
+    {
+      "path": "evo/interfaces/ae-lag-access.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/interfaces/ae-lag-access.conf",
+      "topic": "Aggregated Ethernet LAG \u2014 access link with flexible-vlan-tagging (service-facing)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/interfaces/ae-lag-core.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/interfaces/ae-lag-core.conf",
+      "topic": "Aggregated Ethernet LAG \u2014 core link with LACP (P2P to P-router)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/policy/redistribute-vpn.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/redistribute-vpn.conf",
+      "topic": "Redistribute-VPN policy (export VPN routes to eBGP CE in hub-spoke)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/l2ckt-pseudowire.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l2ckt-pseudowire.conf",
+      "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/l3vpn-vrf-vrrp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l3vpn-vrf-vrrp.conf",
+      "topic": "L3VPN VRF with VRRP \u2014 PE-CE eBGP peering, vrf-target, vrf-table-label",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/ngmvpn-hub-adv.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-hub-adv.conf",
+      "topic": "NGMVPN Hub-and-Spoke \u2014 Hub advertise-to-spokes VRF (vrf-import spoke, vrf-export null)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/ngmvpn-spoke-adv.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-spoke-adv.conf",
+      "topic": "NGMVPN Hub-and-Spoke \u2014 Spoke advertise-to-hub VRF (vrf-import null, vrf-export hub)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/ngmvpn-vrf.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-vrf.conf",
+      "topic": "NGMVPN (Next-Generation Multicast VPN) \u2014 multicast VRF with MVPN, PIM, OSPF CE",
+      "seen_on": []
+    },
+    {
+      "path": "evo/services/vpls-virtual-switch.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/vpls-virtual-switch.conf",
+      "topic": "VPLS virtual-switch instance with LDP signaling (EVO vlans syntax)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/transport/bgp-ibgp-rr.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/bgp-ibgp-rr.conf",
+      "topic": "iBGP Route Reflector \u2014 inet-vpn, l2vpn families with cluster-id",
+      "seen_on": []
+    },
+    {
+      "path": "evo/transport/ldp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/ldp.conf",
+      "topic": "LDP with auto-targeted sessions and P2MP (multicast)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/transport/mpls-transit.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/mpls-transit.conf",
+      "topic": "MPLS interfaces (EVO P-routers \u2014 no LSPs, transit only)",
+      "seen_on": []
+    },
+    {
+      "path": "evo/transport/ospf-lfa.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/ospf-lfa.conf",
+      "topic": "OSPF with Loop-Free Alternates (LFA) \u2014 remote-backup, per-prefix, node-link-degradation",
+      "seen_on": []
+    },
+    {
+      "path": "evo/transport/pim-sparse-rp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/pim-sparse-rp.conf",
+      "topic": "PIM sparse-mode \u2014 P-router as local RP for NGMVPN",
+      "seen_on": []
+    },
+    {
+      "path": "junos/bootstrap/chassis.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/bootstrap/chassis.conf",
+      "topic": "Chassis \u2014 aggregated-devices count (Junos)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/bootstrap/forwarding-options-hash.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/bootstrap/forwarding-options-hash.conf",
+      "topic": "Forwarding-options hash-key \u2014 MPLS and multiservice ECMP hashing",
+      "seen_on": []
+    },
+    {
+      "path": "junos/cos/classifiers-forwarding-classes.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/cos/classifiers-forwarding-classes.conf",
+      "topic": "Class-of-Service \u2014 DSCP and 802.1p classifiers, forwarding-classes, rewrite-rules",
+      "seen_on": []
+    },
+    {
+      "path": "junos/interfaces/ae-lag-access.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ae-lag-access.conf",
+      "topic": "Aggregated Ethernet LAG \u2014 access link with flexible-vlan-tagging (service-facing)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/interfaces/ae-lag-core.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ae-lag-core.conf",
+      "topic": "Aggregated Ethernet LAG \u2014 core link with LACP (P2P to P-router)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/policy/bgp-to-ospf.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/bgp-to-ospf.conf",
+      "topic": "BGP-to-OSPF redistribution policy (for multicast VPN CE routing)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/policy/hub-spoke-community.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/hub-spoke-community.conf",
+      "topic": "Hub-and-Spoke communities \u2014 RT community per spoke/hub group",
+      "seen_on": []
+    },
+    {
+      "path": "junos/policy/hub-spoke-import-export.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/hub-spoke-import-export.conf",
+      "topic": "Hub-and-Spoke import/export policies \u2014 hub imports spoke community, spoke imports hub",
+      "seen_on": []
+    },
+    {
+      "path": "junos/services/l2ckt-pseudowire.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l2ckt-pseudowire.conf",
+      "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/services/l3vpn-vrf-spoke.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l3vpn-vrf-spoke.conf",
+      "topic": "L3VPN Hub-and-Spoke \u2014 Spoke VRF (vrf-import hub policy, vrf-export spoke community)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/services/l3vpn-vrf-vrrp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l3vpn-vrf-vrrp.conf",
+      "topic": "L3VPN VRF with VRRP \u2014 PE-CE eBGP peering, vrf-target, vrf-table-label",
+      "seen_on": []
+    },
+    {
+      "path": "junos/services/ngmvpn-vrf.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/services/ngmvpn-vrf.conf",
+      "topic": "NGMVPN (Next-Generation Multicast VPN) \u2014 multicast VRF with MVPN, PIM, OSPF CE",
+      "seen_on": []
+    },
+    {
+      "path": "junos/services/vpls-virtual-switch.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/services/vpls-virtual-switch.conf",
+      "topic": "VPLS virtual-switch instance with LDP signaling (Junos bridge-domains)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/transport/bgp-ibgp-rr-client.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/bgp-ibgp-rr-client.conf",
+      "topic": "iBGP to Route Reflector \u2014 inet-vpn, l2vpn, route-target families with BFD",
+      "seen_on": []
+    },
+    {
+      "path": "junos/transport/ldp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/ldp.conf",
+      "topic": "LDP with auto-targeted sessions and P2MP (multicast)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/transport/mpls-lsp.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/mpls-lsp.conf",
+      "topic": "MPLS LSPs with entropy-label (RSVP-TE)",
+      "seen_on": []
+    },
+    {
+      "path": "junos/transport/ospf-lfa.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/ospf-lfa.conf",
+      "topic": "OSPF with Loop-Free Alternates (LFA) \u2014 remote-backup, per-prefix, node-link-degradation",
+      "seen_on": []
+    },
+    {
+      "path": "junos/transport/pim-sparse.conf",
+      "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/pim-sparse.conf",
+      "topic": "PIM sparse-mode \u2014 global multicast for NGMVPN provider tunnels",
+      "seen_on": []
+    }
+  ]
+}
