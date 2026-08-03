@@ -39,7 +39,6 @@
       "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/interfaces/ae-lag-core.conf",
       "topic": "Aggregated Ethernet LAG \u2014 core link with LACP (P2P to P-router)",
       "seen_on": [
-        "wanedge3_acx7509",
         "wanedge4_acx7100-48l",
         "p1_ptx10003",
         "p2_ptx10001-36mr"
@@ -81,7 +80,7 @@
     {
       "path": "evo/services/l2ckt-pseudowire.conf",
       "url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l2ckt-pseudowire.conf",
-      "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
+      "topic": "L2CKT pseudowire (protocols l2circuit)",
       "seen_on": [
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"

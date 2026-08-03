@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T18:43:42.037Z",
+  "generatedAt": "2026-08-03T18:49:03.386Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -14473,9 +14473,8 @@
         "evo": []
       },
       "highlights": [
-        "Body is byte-identical to the EVO sibling",
         "Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)",
-        "PIM sparse-mode with local group-ranges + static RP address",
+        "PIM sparse-mode with local group-ranges + static RP address (EVO uses local{address;process-non-null})",
         "provider-tunnel ldp-p2mp with selective per-group tunnels",
         "100 multicast VPN instances validated at scale"
       ],
