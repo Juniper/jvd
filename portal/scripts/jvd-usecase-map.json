@@ -1,10 +1,22 @@
 {
-  "_comment": "Use-case tags applied to every snip from a given JVD folder. Tags are free-form strings; the snip browser groups by them in 'Use case' browse mode. Add new entries here as JVDs gain snip libraries — at minimum include the area name (Service Provider, Data Center, etc) so the JVD shows up under that bucket.",
+  "_comment": "Intent-based use-case tags applied to every snip from a given JVD folder. The snip browser's 'Use Case' mode groups snips as tag -> JVD -> snip, so a solution intent like 'Business VPN Services' surfaces every JVD that has it. Tags are a curated, intent-oriented vocabulary (NOT raw technology names — those live in 'Technology' mode). Keep tags reusable across JVDs. A JVD with no entry falls back to its area name. Only snip-equipped JVDs need entries.",
 
-  "broadband_edge": ["Service Provider", "BNG", "Subscriber Mgmt", "Metro"],
-  "metro_as_a_service": ["Service Provider", "Metro", "Business Services", "MEF"],
-  "metro_ethernet_business_services": ["Service Provider", "Metro", "Business Services", "MEF"],
-  "srv6_core_edge": ["Service Provider", "SRv6", "Core/Edge"],
-  "ewan_adv_core_edge": ["Enterprise WAN", "EVPN-VPWS", "EVPN-ELAN", "MPLS"],
-  "ewan_finance": ["Enterprise WAN", "L3VPN", "Multicast", "MPLS"]
+  "3stage_dc": ["Data Center Fabric", "Apstra-Managed Fabric"],
+  "5stage_evpn_vxlan": ["Data Center Fabric", "Apstra-Managed Fabric"],
+  "collapsed_dc_fabric": ["Data Center Fabric", "Apstra-Managed Fabric"],
+  "collapsed_dc_fabric_with_access": ["Data Center Fabric", "Apstra-Managed Fabric"],
+  "evpn_vxlan_dci": ["Data Center Fabric", "Data Center Interconnect", "Apstra-Managed Fabric"],
+  "aiml_inference_frontend": ["AI/ML Infrastructure", "Data Center Fabric", "Apstra-Managed Fabric"],
+  "aiml_multitenancy_backend": ["AI/ML Infrastructure", "Multitenancy", "Data Center Fabric"],
+  "ewan_adv_core_edge": ["Enterprise WAN", "Business VPN Services"],
+  "ewan_core_edge": ["Enterprise WAN", "Business VPN Services"],
+  "ewan_finance": ["Enterprise WAN", "Low-Latency Transport"],
+  "dci_over_ipodwdm": ["Data Center Interconnect", "Coherent Optics"],
+  "scale_out_firewall_nat": ["Network Security Services", "CGNAT"],
+  "scale_out_ipsec": ["Network Security Services", "Secure Connectivity (IPsec)"],
+  "broadband_edge": ["Cloud Metro", "Metro Fabric", "Broadband Subscriber Edge", "CGNAT"],
+  "low_latency_queueing": ["Low-Latency Transport", "Mobile Backhaul", "Mobile Fronthaul"],
+  "metro_as_a_service": ["Cloud Metro", "Metro Fabric", "Carrier Ethernet (MEF)", "Business VPN Services"],
+  "metro_ethernet_business_services": ["Cloud Metro", "Metro Fabric", "Carrier Ethernet (MEF)", "Business VPN Services", "Route Reflector", "Mobile Backhaul"],
+  "srv6_core_edge": ["SRv6", "Business VPN Services", "Route Reflector"]
 }
