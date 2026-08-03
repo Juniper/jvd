@@ -30,7 +30,7 @@ per the OS column, unless already shown).
 | `l2vpn-kompella` | `services/l2vpn-kompella-vlan-based.conf` | `interfaces/vlan-ccc.conf` | `services/l2vpn-kompella-vlan-based.conf` | `interfaces/vlan-ccc.conf` |
 | `bgp-vpls-p2p` | `services/bgp-vpls-p2p.conf` | `interfaces/vlan-bridge.conf` | `services/bgp-vpls-p2p.conf` | `interfaces/vlan-bridge.conf` |
 | `l2circuit` (floating PW) | `services/l2circuit-floating-pw.conf` + `interfaces/pseudowire-subscriber.conf` | `interfaces/vlan-ccc.conf` | `services/l2circuit-floating-pw.conf` | `interfaces/vlan-ccc.conf` |
-| `l2circuit` (hot-standby) | — | — | `services/l2circuit-hot-standby-primary.conf` + `services/l2circuit-hot-standby-backup.conf` | `interfaces/vlan-ccc-vlan-map.conf` |
+| `l2circuit` (hot-standby) | — | — | `services/l2circuit-hsb-hub.conf` + `services/l2circuit-hsb-pe.conf` | `interfaces/vlan-ccc-vlan-map.conf` |
 | `evpn-fxc` (vlan-unaware) | `services/evpn-fxc-vlan-unaware.conf` | `interfaces/vlan-ccc-vlan-map{-esi}.conf` | `services/evpn-fxc-vlan-unaware.conf` | `interfaces/vlan-ccc-2-units.conf` |
 | `evpn-fxc` (vlan-aware) | — | — | `services/evpn-fxc-vlan-aware.conf` | `interfaces/vlan-ccc-vlan-map-esi-2-units.conf` |
 | `evpn-floating-pw` | `services/evpn-elan-vlan-based-floating-pw.conf` + `services/l2circuit-floating-pw.conf` + `interfaces/pseudowire-subscriber.conf` | `interfaces/vlan-bridge-esi.conf` | — | — |
