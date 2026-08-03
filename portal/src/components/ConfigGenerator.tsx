@@ -418,18 +418,20 @@ function VarField({
         </span>
       )}
       {spec?.type === "enum" ? (
-        <select
-          value={value ?? ""}
-          onChange={(e) => onChange(e.target.value)}
-          className={inputCls}
-        >
-          {Array.from(new Set([value, ...spec.values].filter(Boolean))).map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-              {!spec.values.includes(opt) ? " (custom)" : ""}
-            </option>
-          ))}
-        </select>
+        <>
+          <input
+            value={value ?? ""}
+            list={`opts-${bare}`}
+            inputMode={/^\d+$/.test(spec.values[0] ?? "") ? "numeric" : undefined}
+            onChange={(e) => onChange(e.target.value)}
+            className={inputCls}
+          />
+          <datalist id={`opts-${bare}`}>
+            {spec.values.map((opt) => (
+              <option key={opt} value={opt} />
+            ))}
+          </datalist>
+        </>
       ) : (
         <input
           value={value ?? ""}
@@ -923,11 +925,10 @@ export default function ConfigGenerator() {
             firewall: sel.firewall,
             color: "color-blind",
             cos: sel.cos,
-            normalize: hsbNorm,
           })
         : [],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isHsb, osBlockA, sel.firewall, sel.cos, hsbNorm],
+    [isHsb, osBlockA, sel.firewall, sel.cos],
   );
   const hsbPeIds = useMemo(
     () =>
@@ -936,11 +937,10 @@ export default function ConfigGenerator() {
             firewall: sel.firewall,
             color: "color-blind",
             cos: sel.cos,
-            normalize: hsbNorm,
           })
         : [],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isHsb, osBlockA, sel.firewall, sel.cos, hsbNorm],
+    [isHsb, osBlockA, sel.firewall, sel.cos],
   );
   // Build the Hub / Primary / Backup value maps for HSB service instance `i`
   // (i=0 = the base service; i>0 increments VC-IDs, VLANs and units for a batch).
@@ -976,7 +976,7 @@ export default function ConfigGenerator() {
   };
   const hsbRender = useMemo(() => {
     if (!isHsb || hsbHubIds.length === 0) return null;
-    const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+    const rOpts = { stripUniFilter: !sel.firewall, stripVlanMap: !hsbNorm, derived: CATALOG.derivedVars };
     const { hubVals, priVals, bakVals } = hsbValsFor(0);
     const hub = renderConfig(hsbHubIds, hubVals, byId, rOpts);
     const pri = renderConfig(hsbPeIds, priVals, byId, rOpts);
@@ -988,7 +988,7 @@ export default function ConfigGenerator() {
       missing: Array.from(new Set([...hub.missing, ...pri.missing, ...bak.missing])),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHsb, hsbHubIds, hsbPeIds, hsb, byId, sel.firewall]);
+  }, [isHsb, hsbHubIds, hsbPeIds, hsb, byId, sel.firewall, hsbNorm]);
 
   const fullText = isHsb && hsbRender
     ? [hsbRender.hub, hsbRender.pri, hsbRender.bak].join("\n\n")
@@ -1181,7 +1181,7 @@ export default function ConfigGenerator() {
     // each merged across all `count` services.
     if (isHsb) {
       if (hsbHubIds.length === 0) return;
-      const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+      const rOpts = { stripUniFilter: !sel.firewall, stripVlanMap: !hsbNorm, derived: CATALOG.derivedVars };
       const N = Math.max(1, Math.min(count, 500));
       const hubBodies: string[] = [];
       const priBodies: string[] = [];

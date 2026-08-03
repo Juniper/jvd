@@ -50,9 +50,6 @@ export type GenOsBlock = {
   /** L2circuit hot-standby: the Hub device's service snip. The two PE devices
    *  use the default `service`; the Hub uses this instead. */
   hubService?: string[];
-  /** L2circuit hot-standby: the attachment-circuit interface snip used when VLAN
-   *  normalization is OFF (plain vlan-id, no input/output vlan-map). */
-  interfacePlain?: string;
 };
 
 export type GenDeployment = {
@@ -695,13 +692,10 @@ export function resolveHsbSnipIds(
   osb: GenOsBlock,
   os: GenOsKey,
   role: "hub" | "pe",
-  opts: { firewall: boolean; color: string; cos: boolean; normalize?: boolean },
+  opts: { firewall: boolean; color: string; cos: boolean },
 ): string[] {
   const rel: string[] = [...(role === "hub" ? osb.hubService ?? [] : osb.service)];
-  const iface =
-    opts.normalize === false && osb.interfacePlain
-      ? osb.interfacePlain
-      : osb.interface["single-homed"] ?? Object.values(osb.interface)[0];
+  const iface = osb.interface["single-homed"] ?? Object.values(osb.interface)[0];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
   if (opts.firewall) {
@@ -808,6 +802,15 @@ function stripCommunity(body: string): string {
   return body.replace(/\n?[^\S\n]*community\s+\S+;/g, "");
 }
 
+/** Remove the `input-vlan-map { … }` block and the `output-vlan-map …;` line from
+ *  an interface body — the "no VLAN normalization" mode. Everything else
+ *  (flexible-vlan-tagging, the encapsulation, the unit vlan-id and family) stays. */
+function stripVlanMap(body: string): string {
+  return body
+    .replace(/\n?[^\S\n]*input-vlan-map\s*\{[^{}]*\}/g, "")
+    .replace(/\n?[^\S\n]*output-vlan-map\s+[^;]*;/g, "");
+}
+
 /** Compute auto-derived variable values (e.g. POLICY_NAME = INSTANCE_NAME,
  *  VPN_RT_COMM = INSTANCE_NAME + "_RT") from the resolved base values. */
 function applyDerived(
@@ -847,6 +850,7 @@ export function renderConfig(
     stripUniFilter?: boolean;
     stripVrfExport?: boolean;
     stripCommunity?: boolean;
+    stripVlanMap?: boolean;
     derived?: Record<string, DerivedVar>;
   },
 ): RenderResult {
@@ -870,6 +874,10 @@ export function renderConfig(
     // opted out of the firewall filter (else it dangles).
     if (opts?.stripUniFilter && snip.category === "interfaces") {
       body = stripUniFilterBinding(body);
+    }
+    // No VLAN normalization: drop the input/output vlan-map statements only.
+    if (opts?.stripVlanMap && snip.category === "interfaces") {
+      body = stripVlanMap(body);
     }
     // Route-target-only mode: drop the vrf-export policy reference.
     if (opts?.stripVrfExport && snip.category === "services") {

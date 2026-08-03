@@ -271,7 +271,6 @@
                   "service": ["evo/services/l2circuit-hsb-pe"],
                   "hubService": ["evo/services/l2circuit-hsb-hub"],
                   "interface": { "single-homed": "evo/interfaces/vlan-ccc-vlan-map" },
-                  "interfacePlain": "evo/interfaces/vlan-ccc",
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }
                 }
