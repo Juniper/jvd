@@ -1580,7 +1580,7 @@
           "platform": "ACX7509"
         }
       ],
-      "size_bytes": 1319,
+      "size_bytes": 1321,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-backup.conf"
     },
     {
