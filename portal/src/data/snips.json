@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-03T18:12:14.891Z",
+  "generatedAt": "2026-08-03T18:26:09.744Z",
   "counts": {
-    "total": 672,
+    "total": 675,
     "junos": 344,
-    "evo": 328,
+    "evo": 331,
     "jvds": 18
   },
   "categories": [
@@ -165,8 +165,8 @@
       "repoPath": "enterprise_wan/ewan_core_edge",
       "counts": {
         "junos": 18,
-        "evo": 16,
-        "total": 34
+        "evo": 19,
+        "total": 37
       }
     },
     {
@@ -12492,7 +12492,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "p1"
+          "p1_ptx10003",
+          "p2_ptx10001-36mr",
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -12500,13 +12503,7 @@
         "network-services enhanced-ip required on EVO for MPLS/VPN functionality",
         "Must be set before enabling L3VPN/VPLS/L2CKT services"
       ],
-      "pairWith": [
-        {
-          "raw": "interfaces/ae-lag.conf — uses pre-allocated ae interfaces",
-          "id": null,
-          "note": "— uses pre-allocated ae interfaces"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$AE_DEVICE_COUNT",
@@ -12539,7 +12536,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -12548,13 +12548,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/mpls-transit.conf — MPLS forwarding benefits from hash",
-          "id": null,
+          "raw": "evo/transport/mpls-transit.conf — MPLS forwarding benefits from hash",
+          "id": "ewan_core_edge/evo/transport/mpls-transit",
           "note": "— MPLS forwarding benefits from hash"
         },
         {
-          "raw": "transport/ldp.conf — LDP LSPs use the MPLS hash-key",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — LDP LSPs use the MPLS hash-key",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— LDP LSPs use the MPLS hash-key"
         }
       ],
@@ -12585,7 +12585,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -12594,18 +12595,18 @@
       ],
       "pairWith": [
         {
-          "raw": "bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
-          "id": null,
+          "raw": "evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
+          "id": "ewan_core_edge/evo/bootstrap/chassis",
           "note": "— pre-allocates ae device-count + enhanced-ip"
         },
         {
-          "raw": "services/vpls-virtual-switch.conf — L2 units reference ae1.X",
-          "id": null,
+          "raw": "evo/services/vpls-virtual-switch.conf — L2 units reference ae1.X",
+          "id": "ewan_core_edge/evo/services/vpls-virtual-switch",
           "note": "— L2 units reference ae1.X"
         },
         {
-          "raw": "services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
-          "id": null,
+          "raw": "evo/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
+          "id": "ewan_core_edge/evo/services/l2ckt-pseudowire",
           "note": "— L2CKT units reference ae1.X"
         }
       ],
@@ -12645,7 +12646,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -12654,18 +12658,18 @@
       ],
       "pairWith": [
         {
-          "raw": "bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
-          "id": null,
+          "raw": "evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
+          "id": "ewan_core_edge/evo/bootstrap/chassis",
           "note": "— pre-allocates ae device-count + enhanced-ip"
         },
         {
-          "raw": "transport/ospf-lfa.conf — OSPF runs on ae2.0",
-          "id": null,
+          "raw": "evo/transport/ospf-lfa.conf — OSPF runs on ae2.0",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
           "note": "— OSPF runs on ae2.0"
         },
         {
-          "raw": "transport/ldp.conf — LDP runs on ae2.0",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — LDP runs on ae2.0",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— LDP runs on ae2.0"
         }
       ],
@@ -12696,6 +12700,189 @@
       "parseWarnings": []
     },
     {
+      "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "bgp-to-ospf",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/bgp-to-ospf.conf",
+      "topic": "BGP-to-OSPF redistribution policy (for multicast VPN CE routing)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs",
+        "Enables BGP-learned VPN routes to be redistributed into VRF-local OSPF",
+        "Also used as iBGP group export on PE devices for multicast signaling"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-vrf.conf — OSPF export references this policy",
+          "id": "ewan_core_edge/evo/services/ngmvpn-vrf",
+          "note": "— OSPF export references this policy"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement bgp-to-ospf {\n        from protocol bgp;\n        then accept;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement bgp-to-ospf {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 107,
+      "lineCount": 6,
+      "techFamily": "Policy & Routing",
+      "subfamily": "OSPF",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/hub-spoke-community",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "hub-spoke-community",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/hub-spoke-community.conf",
+      "topic": "Hub-and-Spoke communities — RT community per spoke/hub group",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "Hub community carries routes FROM hub TO spokes (odd RT values)",
+        "Spoke community carries routes FROM spoke TO hub (even RT values)",
+        "Pattern: hub_N target:65535:<2N-1>, spoke_N target:65535:<2N>",
+        "1000 hub + 1000 spoke communities validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/hub-spoke-import-export.conf — references these communities",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+          "note": "— references these communities"
+        },
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — vrf-import uses hub/spoke policies",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— vrf-import uses hub/spoke policies"
+        },
+        {
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — vrf-export uses hub/spoke policies",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+          "note": "— vrf-export uses hub/spoke policies"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_COMMUNITY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_RT",
+          "example": "target:65535:1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_RT",
+          "example": "target:65535:2"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community $HUB_COMMUNITY_NAME members $HUB_RT;\n    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $HUB_COMMUNITY_NAME members $HUB_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 124,
+      "lineCount": 4,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "hub-spoke-import-export",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/hub-spoke-import-export.conf",
+      "topic": "Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "hub_N policy: accepts routes with spoke_N community (hub imports from spokes)",
+        "spoke_N policy: adds spoke_N community on export, accepts bgp+direct",
+        "Explicit reject term prevents route leaking between VRFs",
+        "Used by ngmvpn-hub-adv and ngmvpn-spoke-adv vrf-import/vrf-export"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/hub-spoke-community.conf — community definitions referenced here",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-community",
+          "note": "— community definitions referenced here"
+        },
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — hub VRFs use spoke import",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— hub VRFs use spoke import"
+        },
+        {
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — spoke VRFs use hub export",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+          "note": "— spoke VRFs use hub export"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_POLICY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_COMMUNITY",
+          "example": "hub_1"
+        },
+        {
+          "name": "$SPOKE_POLICY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY",
+          "example": "spoke_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $HUB_POLICY_NAME {\n        term a {\n            from {\n                protocol bgp;\n                community $HUB_COMMUNITY;\n            }\n            then accept;\n        }\n        term b {\n            then reject;\n        }\n    }\n    policy-statement $SPOKE_POLICY_NAME {\n        term a {\n            from protocol [ bgp direct ];\n            then {\n                community add $SPOKE_COMMUNITY;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $HUB_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community $HUB_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $SPOKE_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol [ bgp direct ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $SPOKE_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 547,
+      "lineCount": 26,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "ewan_core_edge/evo/policy/redistribute-vpn",
       "jvd": "ewan_core_edge",
       "jvdLabel": "Enterprise WAN: Core/Edge",
@@ -12709,7 +12896,7 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509"
         ]
       },
       "highlights": [
@@ -12719,8 +12906,8 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-hub-adv.conf — references this as BGP group export",
-          "id": null,
+          "raw": "evo/services/ngmvpn-hub-adv.conf — references this as BGP group export",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
           "note": "— references this as BGP group export"
         }
       ],
@@ -12751,7 +12938,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -12760,19 +12948,9 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — targeted LDP session to remote PE",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — targeted LDP session to remote PE",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— targeted LDP session to remote PE"
-        },
-        {
-          "raw": "transport/mpls-lsp.conf — MPLS transport",
-          "id": null,
-          "note": "— MPLS transport"
-        },
-        {
-          "raw": "interfaces/access-unit-l2ckt.conf — AC subinterface",
-          "id": null,
-          "note": "— AC subinterface"
         }
       ],
       "variables": [
@@ -12823,7 +13001,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -12833,14 +13012,9 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
-          "id": null,
-          "note": "— carries inet-vpn routes to RR"
-        },
-        {
-          "raw": "interfaces/access-unit-l3vpn.conf — AC subinterface",
-          "id": null,
-          "note": "— AC subinterface"
+          "raw": "evo/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)",
+          "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
+          "note": "— redistributes BGP into OSPF (if multicast VRF co-exists)"
         }
       ],
       "variables": [
@@ -12911,7 +13085,7 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509"
         ]
       },
       "highlights": [
@@ -12922,24 +13096,19 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-spoke-adv.conf — corresponding spoke-side VRF",
-          "id": null,
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — corresponding spoke-side VRF",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
           "note": "— corresponding spoke-side VRF"
         },
         {
-          "raw": "policy/hub-spoke-import-export.conf — spoke_N import policy",
-          "id": null,
+          "raw": "evo/policy/hub-spoke-import-export.conf — spoke_N import policy",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
           "note": "— spoke_N import policy"
         },
         {
-          "raw": "policy/redistribute-vpn.conf — export policy for CE redistribution",
-          "id": null,
+          "raw": "evo/policy/redistribute-vpn.conf — export policy for CE redistribution",
+          "id": "ewan_core_edge/evo/policy/redistribute-vpn",
           "note": "— export policy for CE redistribution"
-        },
-        {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes",
-          "id": null,
-          "note": "— carries inet-vpn routes"
         }
       ],
       "variables": [
@@ -13006,7 +13175,7 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509"
         ]
       },
       "highlights": [
@@ -13017,19 +13186,14 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-hub-adv.conf — corresponding hub-side VRF",
-          "id": null,
+          "raw": "evo/services/ngmvpn-hub-adv.conf — corresponding hub-side VRF",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
           "note": "— corresponding hub-side VRF"
         },
         {
-          "raw": "policy/hub-spoke-import-export.conf — hub_N export policy",
-          "id": null,
+          "raw": "evo/policy/hub-spoke-import-export.conf — hub_N export policy",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
           "note": "— hub_N export policy"
-        },
-        {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes",
-          "id": null,
-          "note": "— carries inet-vpn routes"
         }
       ],
       "variables": [
@@ -13096,7 +13260,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -13109,24 +13274,14 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes",
-          "id": null,
-          "note": "— carries inet-vpn + mvpn routes"
-        },
-        {
-          "raw": "transport/pim-sparse.conf — global PIM for core multicast",
-          "id": null,
+          "raw": "evo/transport/pim-sparse-rp.conf — global PIM for core multicast",
+          "id": "ewan_core_edge/evo/transport/pim-sparse-rp",
           "note": "— global PIM for core multicast"
         },
         {
-          "raw": "policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
-          "id": null,
+          "raw": "evo/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
+          "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
           "note": "— redistributes BGP into VRF OSPF"
-        },
-        {
-          "raw": "interfaces/access-unit-ngmvpn.conf — CE-facing interface",
-          "id": null,
-          "note": "— CE-facing interface"
         }
       ],
       "variables": [
@@ -13203,7 +13358,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -13215,19 +13371,9 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — LDP signaling for VPLS pseudowires",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — LDP signaling for VPLS pseudowires",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— LDP signaling for VPLS pseudowires"
-        },
-        {
-          "raw": "transport/mpls-lsp.conf — MPLS transport LSPs",
-          "id": null,
-          "note": "— MPLS transport LSPs"
-        },
-        {
-          "raw": "interfaces/access-unit-vpls.conf — AC subinterface (VLAN-tagged)",
-          "id": null,
-          "note": "— AC subinterface (VLAN-tagged)"
         }
       ],
       "variables": [
@@ -13298,7 +13444,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "p1"
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13310,19 +13457,14 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — IGP reachability to PE loopbacks",
-          "id": null,
+          "raw": "evo/transport/ospf-lfa.conf — IGP reachability to PE loopbacks",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
           "note": "— IGP reachability to PE loopbacks"
         },
         {
-          "raw": "transport/ldp.conf — label distribution",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — label distribution",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— label distribution"
-        },
-        {
-          "raw": "policy/send-ospf.conf — export policy",
-          "id": null,
-          "note": "— export policy"
         }
       ],
       "variables": [
@@ -13381,7 +13523,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13390,14 +13535,9 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — IGP reachability for LDP sessions",
-          "id": null,
+          "raw": "evo/transport/ospf-lfa.conf — IGP reachability for LDP sessions",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
           "note": "— IGP reachability for LDP sessions"
-        },
-        {
-          "raw": "transport/mpls-lsp.conf — MPLS forwarding",
-          "id": null,
-          "note": "— MPLS forwarding"
         }
       ],
       "variables": [
@@ -13440,7 +13580,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "p1"
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13449,13 +13590,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — IGP provides topology for MPLS forwarding",
-          "id": null,
+          "raw": "evo/transport/ospf-lfa.conf — IGP provides topology for MPLS forwarding",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
           "note": "— IGP provides topology for MPLS forwarding"
         },
         {
-          "raw": "transport/ldp.conf — label distribution",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — label distribution",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— label distribution"
         }
       ],
@@ -13499,7 +13640,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13508,14 +13652,9 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — LDP runs on same interfaces",
-          "id": null,
+          "raw": "evo/transport/ldp.conf — LDP runs on same interfaces",
+          "id": "ewan_core_edge/evo/transport/ldp",
           "note": "— LDP runs on same interfaces"
-        },
-        {
-          "raw": "transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions",
-          "id": null,
-          "note": "— RSVP-TE uses OSPF TE extensions"
         }
       ],
       "variables": [
@@ -13558,7 +13697,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "p1"
+          "p1_ptx10003",
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -13568,13 +13709,13 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
-          "id": null,
+          "raw": "evo/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
+          "id": "ewan_core_edge/evo/services/ngmvpn-vrf",
           "note": "— per-VRF PIM/MVPN"
         },
         {
-          "raw": "transport/ospf-lfa.conf — RP reachability via IGP",
-          "id": null,
+          "raw": "evo/transport/ospf-lfa.conf — RP reachability via IGP",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
           "note": "— RP reachability via IGP"
         }
       ],
@@ -13617,7 +13758,9 @@
       "topic": "Chassis — aggregated-devices count (Junos)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008",
+          "ce2_mx480"
         ],
         "evo": []
       },
@@ -13625,13 +13768,7 @@
         "aggregated-devices device-count 25 pre-allocates ae interface namespace",
         "Junos MX does not require network-services enhanced-ip (unlike EVO)"
       ],
-      "pairWith": [
-        {
-          "raw": "interfaces/ae-lag.conf — uses pre-allocated ae interfaces",
-          "id": null,
-          "note": "— uses pre-allocated ae interfaces"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$AE_DEVICE_COUNT",
@@ -13663,10 +13800,14 @@
       "topic": "Forwarding-options hash-key — MPLS and multiservice ECMP hashing",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13678,13 +13819,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/mpls-lsp.conf — entropy-label LSPs benefit from this hash config",
-          "id": null,
+          "raw": "junos/transport/mpls-lsp.conf — entropy-label LSPs benefit from this hash config",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
           "note": "— entropy-label LSPs benefit from this hash config"
         },
         {
-          "raw": "transport/ldp.conf — LDP LSPs use the MPLS hash-key",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — LDP LSPs use the MPLS hash-key",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— LDP LSPs use the MPLS hash-key"
         }
       ],
@@ -13714,7 +13855,8 @@
       "topic": "Class-of-Service — DSCP and 802.1p classifiers, forwarding-classes, rewrite-rules",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -13727,13 +13869,13 @@
       ],
       "pairWith": [
         {
-          "raw": "services/vpls-virtual-switch.conf — L2 services use dot1p classifier",
-          "id": null,
+          "raw": "junos/services/vpls-virtual-switch.conf — L2 services use dot1p classifier",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
           "note": "— L2 services use dot1p classifier"
         },
         {
-          "raw": "services/l3vpn-vrf-vrrp.conf — L3 services use DSCP classifier",
-          "id": null,
+          "raw": "junos/services/l3vpn-vrf-vrrp.conf — L3 services use DSCP classifier",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-vrrp",
           "note": "— L3 services use DSCP classifier"
         }
       ],
@@ -13763,10 +13905,12 @@
       "topic": "Aggregated Ethernet LAG — access link with flexible-vlan-tagging (service-facing)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
         ]
       },
       "highlights": [
@@ -13777,23 +13921,23 @@
       ],
       "pairWith": [
         {
-          "raw": "bootstrap/chassis.conf — pre-allocates ae device-count",
-          "id": null,
+          "raw": "junos/bootstrap/chassis.conf — pre-allocates ae device-count",
+          "id": "ewan_core_edge/junos/bootstrap/chassis",
           "note": "— pre-allocates ae device-count"
         },
         {
-          "raw": "services/vpls-virtual-switch.conf — L2 units reference ae1.X",
-          "id": null,
+          "raw": "junos/services/vpls-virtual-switch.conf — L2 units reference ae1.X",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
           "note": "— L2 units reference ae1.X"
         },
         {
-          "raw": "services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
-          "id": null,
+          "raw": "junos/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
+          "id": "ewan_core_edge/junos/services/l2ckt-pseudowire",
           "note": "— L2CKT units reference ae1.X"
         },
         {
-          "raw": "services/l3vpn-vrf-vrrp.conf — L3VPN interface references",
-          "id": null,
+          "raw": "junos/services/l3vpn-vrf-vrrp.conf — L3VPN interface references",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-vrrp",
           "note": "— L3VPN interface references"
         }
       ],
@@ -13832,10 +13976,14 @@
       "topic": "Aggregated Ethernet LAG — core link with LACP (P2P to P-router)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -13845,18 +13993,18 @@
       ],
       "pairWith": [
         {
-          "raw": "bootstrap/chassis.conf — pre-allocates ae device-count",
-          "id": null,
+          "raw": "junos/bootstrap/chassis.conf — pre-allocates ae device-count",
+          "id": "ewan_core_edge/junos/bootstrap/chassis",
           "note": "— pre-allocates ae device-count"
         },
         {
-          "raw": "transport/ospf-lfa.conf — OSPF runs on ae2.0",
-          "id": null,
+          "raw": "junos/transport/ospf-lfa.conf — OSPF runs on ae2.0",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
           "note": "— OSPF runs on ae2.0"
         },
         {
-          "raw": "transport/ldp.conf — LDP runs on ae2.0",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — LDP runs on ae2.0",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— LDP runs on ae2.0"
         }
       ],
@@ -13899,11 +14047,10 @@
       "topic": "BGP-to-OSPF redistribution policy (for multicast VPN CE routing)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
-        "evo": [
-          "wanedge3"
-        ]
+        "evo": []
       },
       "highlights": [
         "Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs",
@@ -13912,8 +14059,8 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-vrf.conf — OSPF export references this policy",
-          "id": null,
+          "raw": "junos/services/ngmvpn-vrf.conf — OSPF export references this policy",
+          "id": "ewan_core_edge/junos/services/ngmvpn-vrf",
           "note": "— OSPF export references this policy"
         }
       ],
@@ -13943,11 +14090,10 @@
       "topic": "Hub-and-Spoke communities — RT community per spoke/hub group",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
-        "evo": [
-          "wanedge3"
-        ]
+        "evo": []
       },
       "highlights": [
         "Hub community carries routes FROM hub TO spokes (odd RT values)",
@@ -13957,13 +14103,13 @@
       ],
       "pairWith": [
         {
-          "raw": "policy/hub-spoke-import-export.conf — references these communities",
-          "id": null,
+          "raw": "junos/policy/hub-spoke-import-export.conf — references these communities",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-import-export",
           "note": "— references these communities"
         },
         {
-          "raw": "services/l3vpn-vrf-spoke.conf — vrf-import/export uses hub/spoke policies",
-          "id": null,
+          "raw": "junos/services/l3vpn-vrf-spoke.conf — vrf-import/export uses hub/spoke policies",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-spoke",
           "note": "— vrf-import/export uses hub/spoke policies"
         }
       ],
@@ -14010,11 +14156,10 @@
       "topic": "Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
-        "evo": [
-          "wanedge3"
-        ]
+        "evo": []
       },
       "highlights": [
         "hub_N policy: accepts routes with spoke_N community (hub imports from spokes)",
@@ -14024,24 +14169,14 @@
       ],
       "pairWith": [
         {
-          "raw": "policy/hub-spoke-community.conf — community definitions referenced here",
-          "id": null,
+          "raw": "junos/policy/hub-spoke-community.conf — community definitions referenced here",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-community",
           "note": "— community definitions referenced here"
         },
         {
-          "raw": "services/l3vpn-vrf-spoke.conf — uses these as vrf-import/export",
-          "id": null,
+          "raw": "junos/services/l3vpn-vrf-spoke.conf — uses these as vrf-import/export",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-spoke",
           "note": "— uses these as vrf-import/export"
-        },
-        {
-          "raw": "services/ngmvpn-hub-adv.conf — hub VRFs use spoke import",
-          "id": null,
-          "note": "— hub VRFs use spoke import"
-        },
-        {
-          "raw": "services/ngmvpn-spoke-adv.conf — spoke VRFs use hub export",
-          "id": null,
-          "note": "— spoke VRFs use hub export"
         }
       ],
       "variables": [
@@ -14087,7 +14222,8 @@
       "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14101,19 +14237,14 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — targeted LDP session to remote PE",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — targeted LDP session to remote PE",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— targeted LDP session to remote PE"
         },
         {
-          "raw": "transport/mpls-lsp.conf — MPLS transport",
-          "id": null,
+          "raw": "junos/transport/mpls-lsp.conf — MPLS transport",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
           "note": "— MPLS transport"
-        },
-        {
-          "raw": "interfaces/access-unit-l2ckt.conf — AC subinterface",
-          "id": null,
-          "note": "— AC subinterface"
         }
       ],
       "variables": [
@@ -14163,7 +14294,8 @@
       "topic": "L3VPN Hub-and-Spoke — Spoke VRF (vrf-import hub policy, vrf-export spoke community)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14175,24 +14307,19 @@
       ],
       "pairWith": [
         {
-          "raw": "policy/hub-spoke-community.conf — hub/spoke RT communities",
-          "id": null,
+          "raw": "junos/policy/hub-spoke-community.conf — hub/spoke RT communities",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-community",
           "note": "— hub/spoke RT communities"
         },
         {
-          "raw": "policy/hub-spoke-import-export.conf — hub_N/spoke_N policy-statements",
-          "id": null,
+          "raw": "junos/policy/hub-spoke-import-export.conf — hub_N/spoke_N policy-statements",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-import-export",
           "note": "— hub_N/spoke_N policy-statements"
         },
         {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
-          "id": null,
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
           "note": "— carries inet-vpn routes to RR"
-        },
-        {
-          "raw": "interfaces/access-unit-l3vpn.conf — AC subinterface",
-          "id": null,
-          "note": "— AC subinterface"
         }
       ],
       "variables": [
@@ -14262,7 +14389,8 @@
       "topic": "L3VPN VRF with VRRP — PE-CE eBGP peering, vrf-target, vrf-table-label",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14275,18 +14403,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
-          "id": null,
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
           "note": "— carries inet-vpn routes to RR"
         },
         {
-          "raw": "interfaces/access-unit-l3vpn.conf — AC subinterface",
-          "id": null,
-          "note": "— AC subinterface"
-        },
-        {
-          "raw": "policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)",
-          "id": null,
+          "raw": "junos/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
           "note": "— redistributes BGP into OSPF (if multicast VRF co-exists)"
         }
       ],
@@ -14357,7 +14480,8 @@
       "topic": "NGMVPN (Next-Generation Multicast VPN) — multicast VRF with MVPN, PIM, OSPF CE",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14370,24 +14494,19 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes",
-          "id": null,
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
           "note": "— carries inet-vpn + mvpn routes"
         },
         {
-          "raw": "transport/pim-sparse.conf — global PIM for core multicast",
-          "id": null,
+          "raw": "junos/transport/pim-sparse.conf — global PIM for core multicast",
+          "id": "ewan_core_edge/junos/transport/pim-sparse",
           "note": "— global PIM for core multicast"
         },
         {
-          "raw": "policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
-          "id": null,
+          "raw": "junos/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
           "note": "— redistributes BGP into VRF OSPF"
-        },
-        {
-          "raw": "interfaces/access-unit-ngmvpn.conf — CE-facing interface",
-          "id": null,
-          "note": "— CE-facing interface"
         }
       ],
       "variables": [
@@ -14461,7 +14580,7 @@
       "topic": "VPLS virtual-switch instance with LDP signaling (Junos bridge-domains)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304"
         ],
         "evo": []
       },
@@ -14474,19 +14593,14 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — LDP signaling for VPLS pseudowires",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — LDP signaling for VPLS pseudowires",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— LDP signaling for VPLS pseudowires"
         },
         {
-          "raw": "transport/mpls-lsp.conf — MPLS transport LSPs",
-          "id": null,
+          "raw": "junos/transport/mpls-lsp.conf — MPLS transport LSPs",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
           "note": "— MPLS transport LSPs"
-        },
-        {
-          "raw": "interfaces/access-unit-vpls.conf — AC subinterface (VLAN-tagged)",
-          "id": null,
-          "note": "— AC subinterface (VLAN-tagged)"
         }
       ],
       "variables": [
@@ -14556,7 +14670,8 @@
       "topic": "iBGP to Route Reflector — inet-vpn, l2vpn, route-target families with BFD",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14569,14 +14684,19 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — IGP reachability to RR loopbacks",
-          "id": null,
+          "raw": "junos/transport/ospf-lfa.conf — IGP reachability to RR loopbacks",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
           "note": "— IGP reachability to RR loopbacks"
         },
         {
-          "raw": "transport/ldp.conf — label distribution for inet labeled-unicast",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — label distribution for inet labeled-unicast",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— label distribution for inet labeled-unicast"
+        },
+        {
+          "raw": "junos/policy/bgp-to-ospf.conf — export policy for multicast VPN OSPF redistribution",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
+          "note": "— export policy for multicast VPN OSPF redistribution"
         }
       ],
       "variables": [
@@ -14622,10 +14742,14 @@
       "topic": "LDP with auto-targeted sessions and P2MP (multicast)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -14637,23 +14761,23 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — IGP reachability for LDP sessions",
-          "id": null,
+          "raw": "junos/transport/ospf-lfa.conf — IGP reachability for LDP sessions",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
           "note": "— IGP reachability for LDP sessions"
         },
         {
-          "raw": "transport/mpls-lsp.conf — MPLS forwarding",
-          "id": null,
+          "raw": "junos/transport/mpls-lsp.conf — MPLS forwarding",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
           "note": "— MPLS forwarding"
         },
         {
-          "raw": "services/l2ckt-pseudowire.conf — uses targeted LDP sessions",
-          "id": null,
+          "raw": "junos/services/l2ckt-pseudowire.conf — uses targeted LDP sessions",
+          "id": "ewan_core_edge/junos/services/l2ckt-pseudowire",
           "note": "— uses targeted LDP sessions"
         },
         {
-          "raw": "services/vpls-virtual-switch.conf — uses LDP signaling",
-          "id": null,
+          "raw": "junos/services/vpls-virtual-switch.conf — uses LDP signaling",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
           "note": "— uses LDP signaling"
         }
       ],
@@ -14696,7 +14820,8 @@
       "topic": "MPLS LSPs with entropy-label (RSVP-TE)",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": []
       },
@@ -14707,13 +14832,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ospf-lfa.conf — CSPF path computation uses OSPF-TE",
-          "id": null,
+          "raw": "junos/transport/ospf-lfa.conf — CSPF path computation uses OSPF-TE",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
           "note": "— CSPF path computation uses OSPF-TE"
         },
         {
-          "raw": "transport/ldp.conf — co-exists for LDP-signaled services",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — co-exists for LDP-signaled services",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— co-exists for LDP-signaled services"
         }
       ],
@@ -14764,10 +14889,14 @@
       "topic": "OSPF with Loop-Free Alternates (LFA) — remote-backup, per-prefix, node-link-degradation",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
         "evo": [
-          "wanedge3"
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
@@ -14780,13 +14909,13 @@
       ],
       "pairWith": [
         {
-          "raw": "transport/ldp.conf — LDP runs on same interfaces",
-          "id": null,
+          "raw": "junos/transport/ldp.conf — LDP runs on same interfaces",
+          "id": "ewan_core_edge/junos/transport/ldp",
           "note": "— LDP runs on same interfaces"
         },
         {
-          "raw": "transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions",
-          "id": null,
+          "raw": "junos/transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
           "note": "— RSVP-TE uses OSPF TE extensions"
         }
       ],
@@ -14829,11 +14958,10 @@
       "topic": "PIM sparse-mode — global multicast for NGMVPN provider tunnels",
       "seenOn": {
         "junos": [
-          "wanedge1"
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
         ],
-        "evo": [
-          "wanedge3"
-        ]
+        "evo": []
       },
       "highlights": [
         "Static RP or local RP depending on device role (PE=static, P=local)",
@@ -14844,13 +14972,13 @@
       ],
       "pairWith": [
         {
-          "raw": "services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
-          "id": null,
+          "raw": "junos/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
+          "id": "ewan_core_edge/junos/services/ngmvpn-vrf",
           "note": "— per-VRF PIM/MVPN"
         },
         {
-          "raw": "transport/ospf-lfa.conf — RP reachability via IGP",
-          "id": null,
+          "raw": "junos/transport/ospf-lfa.conf — RP reachability via IGP",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
           "note": "— RP reachability via IGP"
         }
       ],
