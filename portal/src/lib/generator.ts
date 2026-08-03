@@ -50,6 +50,9 @@ export type GenOsBlock = {
   /** L2circuit hot-standby: the Hub device's service snip. The two PE devices
    *  use the default `service`; the Hub uses this instead. */
   hubService?: string[];
+  /** L2circuit hot-standby: the attachment-circuit interface snip used when VLAN
+   *  normalization is OFF (plain vlan-id, no input/output vlan-map). */
+  interfacePlain?: string;
 };
 
 export type GenDeployment = {
@@ -692,10 +695,13 @@ export function resolveHsbSnipIds(
   osb: GenOsBlock,
   os: GenOsKey,
   role: "hub" | "pe",
-  opts: { firewall: boolean; color: string; cos: boolean },
+  opts: { firewall: boolean; color: string; cos: boolean; normalize?: boolean },
 ): string[] {
   const rel: string[] = [...(role === "hub" ? osb.hubService ?? [] : osb.service)];
-  const iface = osb.interface["single-homed"] ?? Object.values(osb.interface)[0];
+  const iface =
+    opts.normalize === false && osb.interfacePlain
+      ? osb.interfacePlain
+      : osb.interface["single-homed"] ?? Object.values(osb.interface)[0];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
   if (opts.firewall) {

@@ -3898,10 +3898,10 @@ protocols {
  * Variables:
  *   $AC_INTF           e.g. et-0/0/13
  *   $UNIT              e.g. 4006
- *   $PRIMARY_LOOPBACK  primary PE loopback   e.g. 10.0.0.6
- *   $BACKUP_LOOPBACK   backup PE loopback    e.g. 10.0.0.7
- *   $VC_ID_PRIMARY     active VC-ID          e.g. 2006
- *   $VC_ID_BACKUP      hot-standby VC-ID     e.g. 3333
+ *   $PRIMARY_LOOPBACK  e.g. 10.0.0.6
+ *   $BACKUP_LOOPBACK   e.g. 10.0.0.7
+ *   $VC_ID_PRIMARY     e.g. 2006
+ *   $VC_ID_BACKUP      e.g. 3333
  */
 protocols {
     l2circuit {
@@ -3959,8 +3959,8 @@ protocols {
  * Variables:
  *   $AC_INTF      e.g. et-0/0/28:2
  *   $UNIT         e.g. 4006
- *   $HUB_LOOPBACK hub loopback (neighbor)  e.g. 10.0.0.2
- *   $VC_ID        this PE's VC-ID          e.g. 2006
+ *   $HUB_LOOPBACK e.g. 10.0.0.2
+ *   $VC_ID        e.g. 2006
  */
 protocols {
     l2circuit {

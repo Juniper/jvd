@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T20:56:41.345Z",
+  "generatedAt": "2026-08-03T21:46:47.210Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -35243,19 +35243,19 @@
         },
         {
           "name": "$PRIMARY_LOOPBACK",
-          "example": "primary PE loopback   e.g. 10.0.0.6"
+          "example": "10.0.0.6"
         },
         {
           "name": "$BACKUP_LOOPBACK",
-          "example": "backup PE loopback    e.g. 10.0.0.7"
+          "example": "10.0.0.7"
         },
         {
           "name": "$VC_ID_PRIMARY",
-          "example": "active VC-ID          e.g. 2006"
+          "example": "2006"
         },
         {
           "name": "$VC_ID_BACKUP",
-          "example": "hot-standby VC-ID     e.g. 3333"
+          "example": "3333"
         }
       ],
       "jvdServiceMapping": [
@@ -35336,11 +35336,11 @@
         },
         {
           "name": "$HUB_LOOPBACK",
-          "example": "hub loopback (neighbor)  e.g. 10.0.0.2"
+          "example": "10.0.0.2"
         },
         {
           "name": "$VC_ID",
-          "example": "this PE's VC-ID          e.g. 2006"
+          "example": "2006"
         }
       ],
       "jvdServiceMapping": [
