@@ -102,20 +102,19 @@ interfaces {
 ```
 /*
  * Topic:   Aggregated Ethernet LAG — core link with LACP (P2P to P-router)
- * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
+ *   EVO: wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
- *   - Body is byte-identical to the Junos sibling
- *   - Core LAG on all EVO devices in the topology
+ *   - Core-facing LAG with LACP active + periodic fast
+ *   - wanedge3 uses direct interfaces (no core ae LAG on that device)
  * Pair with:
  *   - evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip
- *   - evo/transport/ospf-lfa.conf — OSPF runs on ae2.0
- *   - evo/transport/ldp.conf — LDP runs on ae2.0
+ *   - evo/transport/ospf-lfa.conf — OSPF runs on ae unit 0
+ *   - evo/transport/ldp.conf — LDP runs on ae unit 0
  * Variables:
  *   $AE_INTF        e.g. ae2
- *   $DESCRIPTION    e.g. Link1 from WAN Edge3 to P1 Node
- *   $LOCAL_ADDRESS  e.g. 10.10.14.1/24
+ *   $DESCRIPTION    e.g. P1Node to WANEdge1
+ *   $LOCAL_ADDRESS  e.g. 192.168.12.2/24
  */
 interfaces {
     $AE_INTF {
@@ -271,21 +270,20 @@ policy-options {
 
 ```
 /*
- * Topic:   L2CKT pseudowire with hot-standby backup (protocols l2circuit)
- * Variant: Evolved-OS (EVO)
+ * Topic:   L2CKT pseudowire (protocols l2circuit)
  * Seen on:
  *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
- *   - Body is byte-identical to the Junos sibling
+ *   - Point-to-point L2 circuit over MPLS (CCC encapsulation)
+ *   - No hot-standby backup on EVO (Junos sibling adds backup-neighbor)
  *   - Validated on ACX7509 and ACX7100-48L EVO platforms
  * Pair with:
  *   - evo/transport/ldp.conf — targeted LDP session to remote PE
  * Variables:
- *   $PE_NEIGHBOR       e.g. 192.168.0.14
+ *   $PE_NEIGHBOR       e.g. 192.168.0.12
  *   $AC_INTF           e.g. ae1
- *   $UNIT              e.g. 1501
- *   $VC_ID             e.g. 1501
- *   $BACKUP_NEIGHBOR   e.g. 192.168.0.16
+ *   $UNIT              e.g. 1502
+ *   $VC_ID             e.g. 1502
  */
 l2circuit {
     neighbor $PE_NEIGHBOR {
@@ -297,9 +295,6 @@ l2circuit {
             ignore-mtu-mismatch;
             pseudowire-status-tlv;
             revert-time 30;
-            backup-neighbor $BACKUP_NEIGHBOR {
-                hot-standby;
-            }
         }
     }
 }
@@ -323,13 +318,13 @@ l2circuit {
  *   $VRF_NAME       e.g. l3vpn_vrrp_3001_3002
  *   $ROUTER_ID      e.g. 192.168.0.14
  *   $CE_GROUP       e.g. CE2
- *   $CE_NEIGHBOR    e.g. 10.55.0.1
- *   $LOCAL_ADDRESS  e.g. 10.55.0.2
+ *   $CE_NEIGHBOR    e.g. 10.75.0.7
+ *   $LOCAL_ADDRESS  e.g. 10.75.0.8
  *   $CE_PEER_AS     e.g. 64520
- *   $AC_INTF        e.g. et-1/0/10
+ *   $AC_INTF        e.g. et-1/0/12
  *   $UNIT           e.g. 3002
  *   $RD             e.g. 192.168.0.14:3002
- *   $VRF_TARGET     e.g. 64520:3002
+ *   $VRF_TARGET     e.g. 64510:3002
  */
 $VRF_NAME {
     instance-type vrf;
@@ -462,7 +457,6 @@ $VRF_NAME {
  *   - Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)
  *   - PIM sparse-mode with local RP + process-non-null-as-null-register
  *   - OSPF CE redistribution (bgp-to-ospf export policy)
- *   - iBGP peering within VRF for multicast source/receiver signaling
  *   - provider-tunnel ldp-p2mp with selective per-group tunnels
  *   - 100 multicast VPN instances validated at scale
  * Pair with:
@@ -471,28 +465,19 @@ $VRF_NAME {
  * JVD service mapping:
  *   100 NGMVPN instances (vpn-mcast_1 through vpn-mcast_100) on 4 WAN Edge PEs
  * Variables:
- *   $VRF_NAME       e.g. vpn-mcast_1
- *   $BGP_GROUP      e.g. mcast_1
- *   $PE_PEER_AS     e.g. 64512
- *   $BGP_NEIGHBOR   e.g. 10.11.11.1
- *   $LOOPBACK_UNIT  e.g. 1
+ *   $VRF_NAME       e.g. vpn-mcast_10
+ *   $LOOPBACK_UNIT  e.g. 10
  *   $CE_INTF        e.g. et-1/0/10
- *   $CE_UNIT        e.g. 1
- *   $RP_ADDRESS     e.g. 10.33.33.1
- *   $MCAST_GROUP    e.g. 227.1.1.1/32
- *   $RD             e.g. 10.33.33.1:1
- *   $VRF_TARGET     e.g. 1:1
+ *   $CE_UNIT        e.g. 10
+ *   $RP_ADDRESS     e.g. 10.33.33.10
+ *   $MCAST_GROUP    e.g. 227.1.1.10/32
+ *   $MCAST_SOURCE   e.g. 124.1.10.1/32
+ *   $RD             e.g. 10.33.33.10:10
+ *   $VRF_TARGET     e.g. 1:10
  */
 $VRF_NAME {
     instance-type vrf;
     protocols {
-        bgp {
-            group $BGP_GROUP {
-                type internal;
-                peer-as $PE_PEER_AS;
-                neighbor $BGP_NEIGHBOR;
-            }
-        }
         mvpn;
         ospf {
             area 0.0.0.0 {
@@ -511,9 +496,13 @@ $VRF_NAME {
                     process-non-null-as-null-register;
                 }
             }
-            interface lo0.$LOOPBACK_UNIT;
+            interface lo0.$LOOPBACK_UNIT {
+                mode sparse;
+                version 2;
+            }
             interface $CE_INTF.$CE_UNIT {
                 mode sparse;
+                version 2;
             }
         }
     }
@@ -527,7 +516,7 @@ $VRF_NAME {
         selective {
             tunnel-limit 1;
             group $MCAST_GROUP {
-                source 0.0.0.0/0 {
+                source $MCAST_SOURCE {
                     ldp-p2mp;
                 }
             }
@@ -655,13 +644,13 @@ protocols {
  * Seen on:
  *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
- *   - Body is byte-identical to the Junos sibling
- *   - All P and EVO PE devices run LDP
+ *   - auto-targeted sessions with P2MP capability for multicast
+ *   - All EVO P and PE devices run LDP
  * Pair with:
  *   - evo/transport/ospf-lfa.conf — IGP reachability for LDP sessions
  * Variables:
- *   $CORE_INTF_1    e.g. et-0/0/2.0
- *   $CORE_INTF_2    e.g. ae2.0
+ *   $CORE_INTF_1    e.g. et-1/0/0.0
+ *   $CORE_INTF_2    e.g. et-1/0/1.0
  *   $LOOPBACK       e.g. lo0.0
  */
 protocols {
@@ -715,14 +704,14 @@ protocols {
  * Seen on:
  *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
- *   - Body is byte-identical to the Junos sibling
- *   - All 6 P/PE devices in the topology run OSPF LFA
+ *   - EVO uses passive on loopback (Junos leaves it bare)
+ *   - All 4 EVO P/PE devices in the topology run OSPF LFA
  * Pair with:
  *   - evo/transport/ldp.conf — LDP runs on same interfaces
  * Variables:
  *   $LOOPBACK       e.g. lo0.0
- *   $CORE_INTF_1    e.g. ae2.0
- *   $CORE_INTF_2    e.g. et-0/0/2.0
+ *   $CORE_INTF_1    e.g. et-1/0/0.0
+ *   $CORE_INTF_2    e.g. et-1/0/1.0
  */
 protocols {
     ospf {
@@ -1284,7 +1273,7 @@ $VRF_NAME {
  * Highlights:
  *   - Body is byte-identical to the EVO sibling
  *   - Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)
- *   - PIM sparse-mode with local RP + process-non-null-as-null-register
+ *   - PIM sparse-mode with local group-ranges + static RP address
  *   - provider-tunnel ldp-p2mp with selective per-group tunnels
  *   - 100 multicast VPN instances validated at scale
  * Pair with:
@@ -1292,28 +1281,19 @@ $VRF_NAME {
  *   - junos/transport/pim-sparse.conf — global PIM for core multicast
  *   - junos/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF
  * Variables:
- *   $VRF_NAME       e.g. vpn-mcast_1
- *   $BGP_GROUP      e.g. mcast_1
- *   $PE_PEER_AS     e.g. 64512
- *   $BGP_NEIGHBOR   e.g. 10.11.11.1
- *   $LOOPBACK_UNIT  e.g. 1
+ *   $VRF_NAME       e.g. vpn-mcast_10
+ *   $LOOPBACK_UNIT  e.g. 10
  *   $CE_INTF        e.g. xe-0/0/15:3
- *   $CE_UNIT        e.g. 500
- *   $RP_ADDRESS     e.g. 10.33.33.1
- *   $MCAST_GROUP    e.g. 227.1.1.1/32
- *   $RD             e.g. 10.33.33.1:1
- *   $VRF_TARGET     e.g. 1:1
+ *   $CE_UNIT        e.g. 10
+ *   $RP_ADDRESS     e.g. 10.33.33.10
+ *   $MCAST_GROUP    e.g. 227.1.1.10/32
+ *   $MCAST_SOURCE   e.g. 124.1.10.1/32
+ *   $RD             e.g. 10.11.11.10:10
+ *   $VRF_TARGET     e.g. 1:10
  */
 $VRF_NAME {
     instance-type vrf;
     protocols {
-        bgp {
-            group $BGP_GROUP {
-                type internal;
-                peer-as $PE_PEER_AS;
-                neighbor $BGP_NEIGHBOR;
-            }
-        }
         mvpn;
         ospf {
             area 0.0.0.0 {
@@ -1325,16 +1305,21 @@ $VRF_NAME {
         pim {
             rp {
                 local {
-                    address $RP_ADDRESS;
                     group-ranges {
                         $MCAST_GROUP;
                     }
-                    process-non-null-as-null-register;
+                }
+                static {
+                    address $RP_ADDRESS;
                 }
             }
-            interface lo0.$LOOPBACK_UNIT;
+            interface lo0.$LOOPBACK_UNIT {
+                mode sparse;
+                version 2;
+            }
             interface $CE_INTF.$CE_UNIT {
                 mode sparse;
+                version 2;
             }
         }
     }
@@ -1348,7 +1333,7 @@ $VRF_NAME {
         selective {
             tunnel-limit 1;
             group $MCAST_GROUP {
-                source 0.0.0.0/0 {
+                source $MCAST_SOURCE {
                     ldp-p2mp;
                 }
             }
@@ -1566,9 +1551,7 @@ protocols {
         }
         traffic-engineering;
         area 0.0.0.0 {
-            interface $LOOPBACK {
-                passive;
-            }
+            interface $LOOPBACK;
             interface $CORE_INTF_1 {
                 node-link-protection;
                 bfd-liveness-detection {

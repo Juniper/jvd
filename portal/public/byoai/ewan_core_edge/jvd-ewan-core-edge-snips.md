@@ -6,13 +6,12 @@
 /*
  * Topic:   Chassis — aggregated-devices count and network-services enhanced-ip (EVO)
  * Seen on:
- *   EVO: p1 (ptx10003), p2 (ptx10001-36mr), wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: p1_ptx10003 p2_ptx10001-36mr wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - aggregated-devices device-count 25 pre-allocates ae interface namespace
  *   - network-services enhanced-ip required on EVO for MPLS/VPN functionality
  *   - Must be set before enabling L3VPN/VPLS/L2CKT services
- * Pair with (same-device dependencies):
- *   - interfaces/ae-lag.conf — uses pre-allocated ae interfaces
+ * Pair with:
  * Variables:
  *   $AE_DEVICE_COUNT  e.g. 25
  */
@@ -33,13 +32,13 @@ chassis {
  * Topic:   Forwarding-options hash-key — MPLS and multiservice ECMP hashing
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - All 6 P and PE devices use this hash configuration
- * Pair with (same-device dependencies):
- *   - transport/mpls-transit.conf — MPLS forwarding benefits from hash
- *   - transport/ldp.conf — LDP LSPs use the MPLS hash-key
+ * Pair with:
+ *   - evo/transport/mpls-transit.conf — MPLS forwarding benefits from hash
+ *   - evo/transport/ldp.conf — LDP LSPs use the MPLS hash-key
  * Variables:
  *   (none — hash configuration is invariant)
  */
@@ -71,14 +70,14 @@ forwarding-options {
  * Topic:   Aggregated Ethernet LAG — access link with flexible-vlan-tagging (service-facing)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - Carries thousands of VLAN-tagged subinterfaces for services
- * Pair with (same-device dependencies):
- *   - bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip
- *   - services/vpls-virtual-switch.conf — L2 units reference ae1.X
- *   - services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X
+ * Pair with:
+ *   - evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip
+ *   - evo/services/vpls-virtual-switch.conf — L2 units reference ae1.X
+ *   - evo/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X
  * Variables:
  *   $AE_INTF        e.g. ae1
  *   $LACP_SYSTEM_ID e.g. 00:00:44:00:00:01
@@ -105,14 +104,14 @@ interfaces {
  * Topic:   Aggregated Ethernet LAG — core link with LACP (P2P to P-router)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - Core LAG on all EVO devices in the topology
- * Pair with (same-device dependencies):
- *   - bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip
- *   - transport/ospf-lfa.conf — OSPF runs on ae2.0
- *   - transport/ldp.conf — LDP runs on ae2.0
+ * Pair with:
+ *   - evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip
+ *   - evo/transport/ospf-lfa.conf — OSPF runs on ae2.0
+ *   - evo/transport/ldp.conf — LDP runs on ae2.0
  * Variables:
  *   $AE_INTF        e.g. ae2
  *   $DESCRIPTION    e.g. Link1 from WAN Edge3 to P1 Node
@@ -137,19 +136,121 @@ interfaces {
 }
 ```
 
+## evo/policy/bgp-to-ospf.conf
+
+```
+/*
+ * Topic:   BGP-to-OSPF redistribution policy (for multicast VPN CE routing)
+ * Seen on:
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
+ * Highlights:
+ *   - Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs
+ *   - Enables BGP-learned VPN routes to be redistributed into VRF-local OSPF
+ *   - Also used as iBGP group export on PE devices for multicast signaling
+ * Pair with:
+ *   - evo/services/ngmvpn-vrf.conf — OSPF export references this policy
+ * Variables:
+ *   (none — policy is invariant across instances)
+ */
+policy-options {
+    policy-statement bgp-to-ospf {
+        from protocol bgp;
+        then accept;
+    }
+}
+```
+
+## evo/policy/hub-spoke-community.conf
+
+```
+/*
+ * Topic:   Hub-and-Spoke communities — RT community per spoke/hub group
+ * Seen on:
+ *   EVO: wanedge3_acx7509
+ * Highlights:
+ *   - Hub community carries routes FROM hub TO spokes (odd RT values)
+ *   - Spoke community carries routes FROM spoke TO hub (even RT values)
+ *   - Pattern: hub_N target:65535:<2N-1>, spoke_N target:65535:<2N>
+ *   - 1000 hub + 1000 spoke communities validated at scale
+ * Pair with:
+ *   - evo/policy/hub-spoke-import-export.conf — references these communities
+ *   - evo/services/ngmvpn-hub-adv.conf — vrf-import uses hub/spoke policies
+ *   - evo/services/ngmvpn-spoke-adv.conf — vrf-export uses hub/spoke policies
+ * Variables:
+ *   $HUB_COMMUNITY_NAME    e.g. hub_1
+ *   $HUB_RT                e.g. target:65535:1
+ *   $SPOKE_COMMUNITY_NAME  e.g. spoke_1
+ *   $SPOKE_RT              e.g. target:65535:2
+ */
+policy-options {
+    community $HUB_COMMUNITY_NAME members $HUB_RT;
+    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;
+}
+```
+
+## evo/policy/hub-spoke-import-export.conf
+
+```
+/*
+ * Topic:   Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub
+ * Seen on:
+ *   EVO: wanedge3_acx7509
+ * Highlights:
+ *   - hub_N policy: accepts routes with spoke_N community (hub imports from spokes)
+ *   - spoke_N policy: adds spoke_N community on export, accepts bgp+direct
+ *   - Explicit reject term prevents route leaking between VRFs
+ *   - Used by ngmvpn-hub-adv and ngmvpn-spoke-adv vrf-import/vrf-export
+ * Pair with:
+ *   - evo/policy/hub-spoke-community.conf — community definitions referenced here
+ *   - evo/services/ngmvpn-hub-adv.conf — hub VRFs use spoke import
+ *   - evo/services/ngmvpn-spoke-adv.conf — spoke VRFs use hub export
+ * Variables:
+ *   $HUB_POLICY_NAME     e.g. hub_1
+ *   $HUB_COMMUNITY       e.g. hub_1
+ *   $SPOKE_POLICY_NAME   e.g. spoke_1
+ *   $SPOKE_COMMUNITY     e.g. spoke_1
+ */
+policy-options {
+    policy-statement $HUB_POLICY_NAME {
+        term a {
+            from {
+                protocol bgp;
+                community $HUB_COMMUNITY;
+            }
+            then accept;
+        }
+        term b {
+            then reject;
+        }
+    }
+    policy-statement $SPOKE_POLICY_NAME {
+        term a {
+            from protocol [ bgp direct ];
+            then {
+                community add $SPOKE_COMMUNITY;
+                accept;
+            }
+        }
+        term b {
+            then reject;
+        }
+    }
+}
+```
+
 ## evo/policy/redistribute-vpn.conf
 
 ```
 /*
  * Topic:   Redistribute-VPN policy (export VPN routes to eBGP CE in hub-spoke)
  * Seen on:
- *   EVO: wanedge3 (acx7509)
+ *   EVO: wanedge3_acx7509
  * Highlights:
  *   - Used by Hub_Adv_To_Spokes VRFs to export VPN routes toward CE
  *   - Accepts protocol bgp routes and rejects all else
  *   - Applied as BGP group export in the hub VRF's CE peering
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-hub-adv.conf — references this as BGP group export
+ * Pair with:
+ *   - evo/services/ngmvpn-hub-adv.conf — references this as BGP group export
  * Variables:
  *   (none — policy is invariant)
  */
@@ -173,14 +274,12 @@ policy-options {
  * Topic:   L2CKT pseudowire with hot-standby backup (protocols l2circuit)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - Validated on ACX7509 and ACX7100-48L EVO platforms
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — targeted LDP session to remote PE
- *   - transport/mpls-lsp.conf — MPLS transport
- *   - interfaces/access-unit-l2ckt.conf — AC subinterface
+ * Pair with:
+ *   - evo/transport/ldp.conf — targeted LDP session to remote PE
  * Variables:
  *   $PE_NEIGHBOR       e.g. 192.168.0.14
  *   $AC_INTF           e.g. ae1
@@ -213,14 +312,13 @@ l2circuit {
  * Topic:   L3VPN VRF with VRRP — PE-CE eBGP peering, vrf-target, vrf-table-label
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - Validated on ACX7509 and ACX7100-48L (EVO platforms)
  *   - 513 instances validated at scale on each WAN Edge
- * Pair with (same-device dependencies):
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR
- *   - interfaces/access-unit-l3vpn.conf — AC subinterface
+ * Pair with:
+ *   - evo/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)
  * Variables:
  *   $VRF_NAME       e.g. l3vpn_vrrp_3001_3002
  *   $ROUTER_ID      e.g. 192.168.0.14
@@ -265,17 +363,16 @@ $VRF_NAME {
 /*
  * Topic:   NGMVPN Hub-and-Spoke — Hub advertise-to-spokes VRF (vrf-import spoke, vrf-export null)
  * Seen on:
- *   EVO: wanedge3 (acx7509)
+ *   EVO: wanedge3_acx7509
  * Highlights:
  *   - Hub side of hub-and-spoke NGMVPN — receives spoke routes via vrf-import
  *   - vrf-export null (hub does not re-export to other hubs)
  *   - eBGP CE peering with export redistribute-vpn policy
  *   - 1000 Hub_Adv instances on WAN Edge 3 (ACX7509)
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-spoke-adv.conf — corresponding spoke-side VRF
- *   - policy/hub-spoke-import-export.conf — spoke_N import policy
- *   - policy/redistribute-vpn.conf — export policy for CE redistribution
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes
+ * Pair with:
+ *   - evo/services/ngmvpn-spoke-adv.conf — corresponding spoke-side VRF
+ *   - evo/policy/hub-spoke-import-export.conf — spoke_N import policy
+ *   - evo/policy/redistribute-vpn.conf — export policy for CE redistribution
  * Variables:
  *   $VRF_NAME       e.g. Hub_Adv_To_Spokes_1001
  *   $CE_GROUP       e.g. CE2
@@ -314,16 +411,15 @@ $VRF_NAME {
 /*
  * Topic:   NGMVPN Hub-and-Spoke — Spoke advertise-to-hub VRF (vrf-import null, vrf-export hub)
  * Seen on:
- *   EVO: wanedge3 (acx7509)
+ *   EVO: wanedge3_acx7509
  * Highlights:
  *   - Spoke side of hub-and-spoke NGMVPN — exports routes with hub community
  *   - vrf-import null (spoke does not import from other spokes directly)
  *   - eBGP CE peering without export policy (CE routes only)
  *   - 1000 Spokes_Adv instances on WAN Edge 3 (ACX7509)
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-hub-adv.conf — corresponding hub-side VRF
- *   - policy/hub-spoke-import-export.conf — hub_N export policy
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes
+ * Pair with:
+ *   - evo/services/ngmvpn-hub-adv.conf — corresponding hub-side VRF
+ *   - evo/policy/hub-spoke-import-export.conf — hub_N export policy
  * Variables:
  *   $VRF_NAME       e.g. Spokes_Adv_To_Hub_1001
  *   $CE_GROUP       e.g. CE2
@@ -361,7 +457,7 @@ $VRF_NAME {
 /*
  * Topic:   NGMVPN (Next-Generation Multicast VPN) — multicast VRF with MVPN, PIM, OSPF CE
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)
  *   - PIM sparse-mode with local RP + process-non-null-as-null-register
@@ -369,11 +465,9 @@ $VRF_NAME {
  *   - iBGP peering within VRF for multicast source/receiver signaling
  *   - provider-tunnel ldp-p2mp with selective per-group tunnels
  *   - 100 multicast VPN instances validated at scale
- * Pair with (same-device dependencies):
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes
- *   - transport/pim-sparse.conf — global PIM for core multicast
- *   - policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF
- *   - interfaces/access-unit-ngmvpn.conf — CE-facing interface
+ * Pair with:
+ *   - evo/transport/pim-sparse-rp.conf — global PIM for core multicast
+ *   - evo/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF
  * JVD service mapping:
  *   100 NGMVPN instances (vpn-mcast_1 through vpn-mcast_100) on 4 WAN Edge PEs
  * Variables:
@@ -449,17 +543,15 @@ $VRF_NAME {
  * Topic:   VPLS virtual-switch instance with LDP signaling (EVO vlans syntax)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - instance-type virtual-switch with vlans (EVO syntax, not bridge-domains)
  *   - VPLS site-identifier for multi-homing site designation
  *   - no-tunnel-services (uses LDP instead of RSVP tunnel)
  *   - flow-label-transmit/receive for FAT pseudowire ECMP
  *   - 1000 instances validated at scale
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — LDP signaling for VPLS pseudowires
- *   - transport/mpls-lsp.conf — MPLS transport LSPs
- *   - interfaces/access-unit-vpls.conf — AC subinterface (VLAN-tagged)
+ * Pair with:
+ *   - evo/transport/ldp.conf — LDP signaling for VPLS pseudowires
  * Variables:
  *   $VRF_NAME       e.g. vpls_group_101_1
  *   $SITE_NAME      e.g. 103
@@ -502,17 +594,16 @@ $VRF_NAME {
 /*
  * Topic:   iBGP Route Reflector — inet-vpn, l2vpn families with cluster-id
  * Seen on:
- *   EVO: p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - Route Reflector with cluster-id (cluster = RR loopback)
  *   - inet-vpn + l2vpn signaling + inet unicast (for labeled routes)
  *   - Reflects to all PE clients (wanedge1-4)
  *   - BFD liveness detection + graceful-restart + multipath
  *   - send-ospf export policy redistributes OSPF into BGP for VPN reachability
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — IGP reachability to PE loopbacks
- *   - transport/ldp.conf — label distribution
- *   - policy/send-ospf.conf — export policy
+ * Pair with:
+ *   - evo/transport/ospf-lfa.conf — IGP reachability to PE loopbacks
+ *   - evo/transport/ldp.conf — label distribution
  * Variables:
  *   $LOCAL_ADDRESS  e.g. 1.1.1.8
  *   $CLUSTER_ID     e.g. 1.1.1.8
@@ -562,13 +653,12 @@ protocols {
  * Topic:   LDP with auto-targeted sessions and P2MP (multicast)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - All P and EVO PE devices run LDP
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — IGP reachability for LDP sessions
- *   - transport/mpls-lsp.conf — MPLS forwarding
+ * Pair with:
+ *   - evo/transport/ospf-lfa.conf — IGP reachability for LDP sessions
  * Variables:
  *   $CORE_INTF_1    e.g. et-0/0/2.0
  *   $CORE_INTF_2    e.g. ae2.0
@@ -595,13 +685,13 @@ protocols {
  * Topic:   MPLS interfaces (EVO P-routers — no LSPs, transit only)
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - P-routers enable MPLS on all core-facing interfaces (transit role)
  *   - No LSP head-end on P-routers — they are transit/RR only
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — IGP provides topology for MPLS forwarding
- *   - transport/ldp.conf — label distribution
+ * Pair with:
+ *   - evo/transport/ospf-lfa.conf — IGP provides topology for MPLS forwarding
+ *   - evo/transport/ldp.conf — label distribution
  * Variables:
  *   $CORE_INTF_1    e.g. et-0/0/2.0
  *   $CORE_INTF_2    e.g. et-0/0/3.0
@@ -623,13 +713,12 @@ protocols {
  * Topic:   OSPF with Loop-Free Alternates (LFA) — remote-backup, per-prefix, node-link-degradation
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - Body is byte-identical to the Junos sibling
  *   - All 6 P/PE devices in the topology run OSPF LFA
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — LDP runs on same interfaces
- *   - transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions
+ * Pair with:
+ *   - evo/transport/ldp.conf — LDP runs on same interfaces
  * Variables:
  *   $LOOPBACK       e.g. lo0.0
  *   $CORE_INTF_1    e.g. ae2.0
@@ -677,14 +766,14 @@ protocols {
  * Topic:   PIM sparse-mode — P-router as local RP for NGMVPN
  * Variant: Evolved-OS (EVO)
  * Seen on:
- *   EVO: p1 (ptx10003), wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   EVO: p1_ptx10003 wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - P1 acts as rendezvous point (local RP) for the multicast domain
  *   - process-non-null-as-null-register simplifies register handling
  *   - EVO PE devices use static RP pointing to P1 (same body as Junos)
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-vrf.conf — per-VRF PIM/MVPN
- *   - transport/ospf-lfa.conf — RP reachability via IGP
+ * Pair with:
+ *   - evo/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN
+ *   - evo/transport/ospf-lfa.conf — RP reachability via IGP
  * Variables:
  *   $RP_ADDRESS     e.g. 1.1.1.8
  *   $CORE_INTF_1    e.g. et-1/0/4.0
@@ -714,12 +803,11 @@ protocols {
 /*
  * Topic:   Chassis — aggregated-devices count (Junos)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008), ce2 (mx480)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008 ce2_mx480
  * Highlights:
  *   - aggregated-devices device-count 25 pre-allocates ae interface namespace
  *   - Junos MX does not require network-services enhanced-ip (unlike EVO)
- * Pair with (same-device dependencies):
- *   - interfaces/ae-lag.conf — uses pre-allocated ae interfaces
+ * Pair with:
  * Variables:
  *   $AE_DEVICE_COUNT  e.g. 25
  */
@@ -738,17 +826,17 @@ chassis {
 /*
  * Topic:   Forwarding-options hash-key — MPLS and multiservice ECMP hashing
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - MPLS hash-key uses label-1/2/3 for per-flow load-balancing across ECMP paths
  *   - Multiservice hash uses src+dst MAC for L2 service ECMP
  *   - enhanced-hash-key with no-payload (hash on labels only, not inner payload)
  *   - load-balance-label-capability enables entropy-label processing
  *   - Critical for achieving link utilization across parallel core paths
- * Pair with (same-device dependencies):
- *   - transport/mpls-lsp.conf — entropy-label LSPs benefit from this hash config
- *   - transport/ldp.conf — LDP LSPs use the MPLS hash-key
+ * Pair with:
+ *   - junos/transport/mpls-lsp.conf — entropy-label LSPs benefit from this hash config
+ *   - junos/transport/ldp.conf — LDP LSPs use the MPLS hash-key
  * Variables:
  *   (none — hash configuration is invariant)
  */
@@ -779,16 +867,16 @@ forwarding-options {
 /*
  * Topic:   Class-of-Service — DSCP and 802.1p classifiers, forwarding-classes, rewrite-rules
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - 8 forwarding classes: be, be1, af, af1, ef, ef1, nc, nc1 (queues 0-7)
  *   - DSCP classifier "mydscp" maps 8 code-points with loss-priority differentiation
  *   - 802.1p classifier "dot1p" for L2 service ingress classification
  *   - Enables hierarchical QoS for mixed L2/L3 services at scale
  *   - Only configured on WAN Edge PEs (not P-routers)
- * Pair with (same-device dependencies):
- *   - services/vpls-virtual-switch.conf — L2 services use dot1p classifier
- *   - services/l3vpn-vrf-vrrp.conf — L3 services use DSCP classifier
+ * Pair with:
+ *   - junos/services/vpls-virtual-switch.conf — L2 services use dot1p classifier
+ *   - junos/services/l3vpn-vrf-vrrp.conf — L3 services use DSCP classifier
  * Variables:
  *   (none — CoS profile is invariant across WAN Edge PEs)
  */
@@ -866,18 +954,18 @@ class-of-service {
 /*
  * Topic:   Aggregated Ethernet LAG — access link with flexible-vlan-tagging (service-facing)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
  * Highlights:
  *   - flexible-vlan-tagging + flexible-ethernet-services for per-unit encap selection
  *   - LACP active with system-id (MC-LAG identifier if dual-homed)
  *   - Carries thousands of VLAN-tagged subinterfaces for L2CKT/VPLS/L3VPN services
  *   - Each service unit uses vlan-bridge (L2) or vlan-ccc (L2CKT) or inet (L3VPN)
- * Pair with (same-device dependencies):
- *   - bootstrap/chassis.conf — pre-allocates ae device-count
- *   - services/vpls-virtual-switch.conf — L2 units reference ae1.X
- *   - services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X
- *   - services/l3vpn-vrf-vrrp.conf — L3VPN interface references
+ * Pair with:
+ *   - junos/bootstrap/chassis.conf — pre-allocates ae device-count
+ *   - junos/services/vpls-virtual-switch.conf — L2 units reference ae1.X
+ *   - junos/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X
+ *   - junos/services/l3vpn-vrf-vrrp.conf — L3VPN interface references
  * Variables:
  *   $AE_INTF        e.g. ae1
  *   $LACP_SYSTEM_ID e.g. 00:00:22:00:00:01
@@ -903,16 +991,16 @@ interfaces {
 /*
  * Topic:   Aggregated Ethernet LAG — core link with LACP (P2P to P-router)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - LACP active with fast periodic (1s intervals)
  *   - Core-facing LAG carries family inet + family mpls (L3 + MPLS transport)
  *   - All PE-to-P links use ae2 as the core LAG in this topology
- * Pair with (same-device dependencies):
- *   - bootstrap/chassis.conf — pre-allocates ae device-count
- *   - transport/ospf-lfa.conf — OSPF runs on ae2.0
- *   - transport/ldp.conf — LDP runs on ae2.0
+ * Pair with:
+ *   - junos/bootstrap/chassis.conf — pre-allocates ae device-count
+ *   - junos/transport/ospf-lfa.conf — OSPF runs on ae2.0
+ *   - junos/transport/ldp.conf — LDP runs on ae2.0
  * Variables:
  *   $AE_INTF        e.g. ae2
  *   $DESCRIPTION    e.g. Link1 from WAN Edge1 to P1 Node
@@ -943,14 +1031,13 @@ interfaces {
 /*
  * Topic:   BGP-to-OSPF redistribution policy (for multicast VPN CE routing)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs
  *   - Enables BGP-learned VPN routes to be redistributed into VRF-local OSPF
  *   - Also used as iBGP group export on PE devices for multicast signaling
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-vrf.conf — OSPF export references this policy
+ * Pair with:
+ *   - junos/services/ngmvpn-vrf.conf — OSPF export references this policy
  * Variables:
  *   (none — policy is invariant across instances)
  */
@@ -968,16 +1055,15 @@ policy-options {
 /*
  * Topic:   Hub-and-Spoke communities — RT community per spoke/hub group
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Hub community carries routes FROM hub TO spokes (odd RT values)
  *   - Spoke community carries routes FROM spoke TO hub (even RT values)
  *   - Pattern: hub_N target:65535:<2N-1>, spoke_N target:65535:<2N>
  *   - 1000 hub + 1000 spoke communities validated at scale
- * Pair with (same-device dependencies):
- *   - policy/hub-spoke-import-export.conf — references these communities
- *   - services/l3vpn-vrf-spoke.conf — vrf-import/export uses hub/spoke policies
+ * Pair with:
+ *   - junos/policy/hub-spoke-import-export.conf — references these communities
+ *   - junos/services/l3vpn-vrf-spoke.conf — vrf-import/export uses hub/spoke policies
  * Variables:
  *   $HUB_COMMUNITY_NAME    e.g. hub_1
  *   $HUB_RT                e.g. target:65535:1
@@ -996,18 +1082,15 @@ policy-options {
 /*
  * Topic:   Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - hub_N policy: accepts routes with spoke_N community (hub imports from spokes)
  *   - spoke_N policy: adds spoke_N community on export, accepts bgp+direct
  *   - Explicit reject term prevents route leaking between VRFs
  *   - Used by l3vpn-vrf-spoke vrf-import/vrf-export statements
- * Pair with (same-device dependencies):
- *   - policy/hub-spoke-community.conf — community definitions referenced here
- *   - services/l3vpn-vrf-spoke.conf — uses these as vrf-import/export
- *   - services/ngmvpn-hub-adv.conf — hub VRFs use spoke import
- *   - services/ngmvpn-spoke-adv.conf — spoke VRFs use hub export
+ * Pair with:
+ *   - junos/policy/hub-spoke-community.conf — community definitions referenced here
+ *   - junos/services/l3vpn-vrf-spoke.conf — uses these as vrf-import/export
  * Variables:
  *   $HUB_POLICY_NAME     e.g. hub_1
  *   $HUB_COMMUNITY       e.g. hub_1
@@ -1048,7 +1131,7 @@ policy-options {
 /*
  * Topic:   L2CKT pseudowire with hot-standby backup (protocols l2circuit)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Pseudowire with control-word and Ethernet-VLAN encapsulation
  *   - Hot-standby backup-neighbor for sub-50ms PW failover
@@ -1056,10 +1139,9 @@ policy-options {
  *   - ignore-encapsulation-mismatch + ignore-mtu-mismatch for interop flexibility
  *   - pseudowire-status-tlv for operational state signaling
  *   - ~500 L2CKTs per WAN Edge validated at scale
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — targeted LDP session to remote PE
- *   - transport/mpls-lsp.conf — MPLS transport
- *   - interfaces/access-unit-l2ckt.conf — AC subinterface
+ * Pair with:
+ *   - junos/transport/ldp.conf — targeted LDP session to remote PE
+ *   - junos/transport/mpls-lsp.conf — MPLS transport
  * Variables:
  *   $PE_NEIGHBOR       e.g. 192.168.0.14
  *   $AC_INTF           e.g. ae1
@@ -1091,17 +1173,16 @@ l2circuit {
 /*
  * Topic:   L3VPN Hub-and-Spoke — Spoke VRF (vrf-import hub policy, vrf-export spoke community)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Hub-and-spoke L3VPN via asymmetric vrf-import/export policies
  *   - Spoke exports routes with spoke community; imports routes with hub community
  *   - as-override on CE peering (spoke sites share the same CE AS)
  *   - 1000 instances per WAN Edge validated at scale
- * Pair with (same-device dependencies):
- *   - policy/hub-spoke-community.conf — hub/spoke RT communities
- *   - policy/hub-spoke-import-export.conf — hub_N/spoke_N policy-statements
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR
- *   - interfaces/access-unit-l3vpn.conf — AC subinterface
+ * Pair with:
+ *   - junos/policy/hub-spoke-community.conf — hub/spoke RT communities
+ *   - junos/policy/hub-spoke-import-export.conf — hub_N/spoke_N policy-statements
+ *   - junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR
  * Variables:
  *   $VRF_NAME       e.g. l3vpn_Spoke_1_1
  *   $CE_GROUP       e.g. v4spirent
@@ -1145,17 +1226,16 @@ $VRF_NAME {
 /*
  * Topic:   L3VPN VRF with VRRP — PE-CE eBGP peering, vrf-target, vrf-table-label
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Instance-type vrf with vrf-table-label (signal-based, no per-VRF MPLS interface)
  *   - eBGP PE-CE with inet unicast only (family inet any)
  *   - Single vrf-target (symmetric import/export via auto-derived RT)
  *   - router-id set per-VRF to PE loopback (standard but non-default)
  *   - 513 instances validated at scale on each WAN Edge
- * Pair with (same-device dependencies):
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR
- *   - interfaces/access-unit-l3vpn.conf — AC subinterface
- *   - policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)
+ * Pair with:
+ *   - junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR
+ *   - junos/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)
  * Variables:
  *   $VRF_NAME       e.g. l3vpn_vrrp_3001_3002
  *   $ROUTER_ID      e.g. 10.10.0.12
@@ -1200,18 +1280,17 @@ $VRF_NAME {
 /*
  * Topic:   NGMVPN (Next-Generation Multicast VPN) — multicast VRF with MVPN, PIM, OSPF CE
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Body is byte-identical to the EVO sibling
  *   - Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)
  *   - PIM sparse-mode with local RP + process-non-null-as-null-register
  *   - provider-tunnel ldp-p2mp with selective per-group tunnels
  *   - 100 multicast VPN instances validated at scale
- * Pair with (same-device dependencies):
- *   - transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes
- *   - transport/pim-sparse.conf — global PIM for core multicast
- *   - policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF
- *   - interfaces/access-unit-ngmvpn.conf — CE-facing interface
+ * Pair with:
+ *   - junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes
+ *   - junos/transport/pim-sparse.conf — global PIM for core multicast
+ *   - junos/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF
  * Variables:
  *   $VRF_NAME       e.g. vpn-mcast_1
  *   $BGP_GROUP      e.g. mcast_1
@@ -1284,17 +1363,16 @@ $VRF_NAME {
 /*
  * Topic:   VPLS virtual-switch instance with LDP signaling (Junos bridge-domains)
  * Seen on:
- *   Junos: wanedge1 (mx304)
+ *   Junos: wanedge1_mx304
  * Highlights:
  *   - instance-type virtual-switch with bridge-domains (Junos syntax)
  *   - VPLS site-identifier for multi-homing site designation
  *   - no-tunnel-services (uses LDP instead of RSVP tunnel)
  *   - flow-label-transmit/receive for FAT pseudowire ECMP
  *   - 1000 instances validated at scale
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — LDP signaling for VPLS pseudowires
- *   - transport/mpls-lsp.conf — MPLS transport LSPs
- *   - interfaces/access-unit-vpls.conf — AC subinterface (VLAN-tagged)
+ * Pair with:
+ *   - junos/transport/ldp.conf — LDP signaling for VPLS pseudowires
+ *   - junos/transport/mpls-lsp.conf — MPLS transport LSPs
  * Variables:
  *   $VRF_NAME       e.g. vpls_group_101_1
  *   $SITE_NAME      e.g. 101
@@ -1337,16 +1415,17 @@ $VRF_NAME {
 /*
  * Topic:   iBGP to Route Reflector — inet-vpn, l2vpn, route-target families with BFD
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - iBGP PE-to-RR with inet labeled-unicast + inet-vpn + l2vpn signaling + route-target
  *   - route-target family enables RT-constrained route distribution (RTC/RFC 4684)
  *   - BFD liveness detection (10ms interval, multiplier 3) for fast failure detection
  *   - graceful-restart for hitless BGP restart
  *   - bgp-to-ospf export for multicast VPN OSPF redistribution
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — IGP reachability to RR loopbacks
- *   - transport/ldp.conf — label distribution for inet labeled-unicast
+ * Pair with:
+ *   - junos/transport/ospf-lfa.conf — IGP reachability to RR loopbacks
+ *   - junos/transport/ldp.conf — label distribution for inet labeled-unicast
+ *   - junos/policy/bgp-to-ospf.conf — export policy for multicast VPN OSPF redistribution
  * Variables:
  *   $LOCAL_ADDRESS  e.g. 10.10.0.12
  *   $RR_NEIGHBOR_1  e.g. 192.168.0.17
@@ -1389,19 +1468,19 @@ protocols {
 /*
  * Topic:   LDP with auto-targeted sessions and P2MP (multicast)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - auto-targeted-session enables targeted LDP for l2circuit/VPLS pseudowires
  *   - teardown-delay 90s prevents session flap on brief outages
  *   - maximum-sessions 100 caps resource usage
  *   - p2mp enables LDP P2MP LSPs for NGMVPN provider tunnels
  *   - All 8 devices run LDP (7 in the split inventory)
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — IGP reachability for LDP sessions
- *   - transport/mpls-lsp.conf — MPLS forwarding
- *   - services/l2ckt-pseudowire.conf — uses targeted LDP sessions
- *   - services/vpls-virtual-switch.conf — uses LDP signaling
+ * Pair with:
+ *   - junos/transport/ospf-lfa.conf — IGP reachability for LDP sessions
+ *   - junos/transport/mpls-lsp.conf — MPLS forwarding
+ *   - junos/services/l2ckt-pseudowire.conf — uses targeted LDP sessions
+ *   - junos/services/vpls-virtual-switch.conf — uses LDP signaling
  * Variables:
  *   $CORE_INTF_1    e.g. et-0/0/6.0
  *   $CORE_INTF_2    e.g. ae2.0
@@ -1427,14 +1506,14 @@ protocols {
 /*
  * Topic:   MPLS LSPs with entropy-label (RSVP-TE)
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - RSVP-TE label-switched-paths to remote PEs
  *   - entropy-label enables per-flow ECMP at transit P-routers (RFC 6790)
  *   - Core and access interfaces enabled for MPLS forwarding
- * Pair with (same-device dependencies):
- *   - transport/ospf-lfa.conf — CSPF path computation uses OSPF-TE
- *   - transport/ldp.conf — co-exists for LDP-signaled services
+ * Pair with:
+ *   - junos/transport/ospf-lfa.conf — CSPF path computation uses OSPF-TE
+ *   - junos/transport/ldp.conf — co-exists for LDP-signaled services
  * Variables:
  *   $LSP_NAME       e.g. lsp_to_pe3
  *   $LSP_TO         e.g. 192.168.0.14
@@ -1461,8 +1540,8 @@ protocols {
 /*
  * Topic:   OSPF with Loop-Free Alternates (LFA) — remote-backup, per-prefix, node-link-degradation
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), wanedge4 (acx7100-48l), p1 (ptx10003), p2 (ptx10001-36mr)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
+ *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l p1_ptx10003 p2_ptx10001-36mr
  * Highlights:
  *   - backup-spf-options: remote-backup-calculation + per-prefix-calculation all + node-link-degradation
  *   - Provides sub-50ms IP/MPLS convergence via pre-computed backup next-hops
@@ -1470,9 +1549,9 @@ protocols {
  *   - BFD per-interface (10ms min-interval, multiplier 3, full-neighbors-only)
  *   - ldp-synchronization prevents traffic blackholing during LDP convergence
  *   - node-link-protection on all core interfaces
- * Pair with (same-device dependencies):
- *   - transport/ldp.conf — LDP runs on same interfaces
- *   - transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions
+ * Pair with:
+ *   - junos/transport/ldp.conf — LDP runs on same interfaces
+ *   - junos/transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions
  * Variables:
  *   $LOOPBACK       e.g. lo0.0
  *   $CORE_INTF_1    e.g. ae2.0
@@ -1519,17 +1598,16 @@ protocols {
 /*
  * Topic:   PIM sparse-mode — global multicast for NGMVPN provider tunnels
  * Seen on:
- *   Junos: wanedge1 (mx304), wanedge2 (mx10008)
- *   EVO: wanedge3 (acx7509), p1 (ptx10003)
+ *   Junos: wanedge1_mx304 wanedge2_mx10008
  * Highlights:
  *   - Static RP or local RP depending on device role (PE=static, P=local)
  *   - PE uses static RP pointing to P1 (ptx10003) loopback
  *   - P1 acts as RP with local address + process-non-null-as-null-register
  *   - sparse-mode on core interfaces for PIM adjacency
  *   - Required for NGMVPN provider-tunnel ldp-p2mp operation
- * Pair with (same-device dependencies):
- *   - services/ngmvpn-vrf.conf — per-VRF PIM/MVPN
- *   - transport/ospf-lfa.conf — RP reachability via IGP
+ * Pair with:
+ *   - junos/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN
+ *   - junos/transport/ospf-lfa.conf — RP reachability via IGP
  * Variables:
  *   $RP_ADDRESS     e.g. 192.168.0.17
  *   $CORE_INTF_1    e.g. et-0/0/6.0

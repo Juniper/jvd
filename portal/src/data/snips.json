@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T18:26:09.744Z",
+  "generatedAt": "2026-08-03T18:43:42.037Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -12646,15 +12646,14 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "wanedge3_acx7509",
           "wanedge4_acx7100-48l",
           "p1_ptx10003",
           "p2_ptx10001-36mr"
         ]
       },
       "highlights": [
-        "Body is byte-identical to the Junos sibling",
-        "Core LAG on all EVO devices in the topology"
+        "Core-facing LAG with LACP active + periodic fast",
+        "wanedge3 uses direct interfaces (no core ae LAG on that device)"
       ],
       "pairWith": [
         {
@@ -12663,14 +12662,14 @@
           "note": "— pre-allocates ae device-count + enhanced-ip"
         },
         {
-          "raw": "evo/transport/ospf-lfa.conf — OSPF runs on ae2.0",
+          "raw": "evo/transport/ospf-lfa.conf — OSPF runs on ae unit 0",
           "id": "ewan_core_edge/evo/transport/ospf-lfa",
-          "note": "— OSPF runs on ae2.0"
+          "note": "— OSPF runs on ae unit 0"
         },
         {
-          "raw": "evo/transport/ldp.conf — LDP runs on ae2.0",
+          "raw": "evo/transport/ldp.conf — LDP runs on ae unit 0",
           "id": "ewan_core_edge/evo/transport/ldp",
-          "note": "— LDP runs on ae2.0"
+          "note": "— LDP runs on ae unit 0"
         }
       ],
       "variables": [
@@ -12680,11 +12679,11 @@
         },
         {
           "name": "$DESCRIPTION",
-          "example": "Link1 from WAN Edge3 to P1 Node"
+          "example": "P1Node to WANEdge1"
         },
         {
           "name": "$LOCAL_ADDRESS",
-          "example": "10.10.14.1/24"
+          "example": "192.168.12.2/24"
         }
       ],
       "jvdServiceMapping": [],
@@ -12934,7 +12933,7 @@
       "category": "services",
       "name": "l2ckt-pseudowire",
       "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l2ckt-pseudowire.conf",
-      "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
+      "topic": "L2CKT pseudowire (protocols l2circuit)",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -12943,7 +12942,8 @@
         ]
       },
       "highlights": [
-        "Body is byte-identical to the Junos sibling",
+        "Point-to-point L2 circuit over MPLS (CCC encapsulation)",
+        "No hot-standby backup on EVO (Junos sibling adds backup-neighbor)",
         "Validated on ACX7509 and ACX7100-48L EVO platforms"
       ],
       "pairWith": [
@@ -12956,7 +12956,7 @@
       "variables": [
         {
           "name": "$PE_NEIGHBOR",
-          "example": "192.168.0.14"
+          "example": "192.168.0.12"
         },
         {
           "name": "$AC_INTF",
@@ -12964,22 +12964,18 @@
         },
         {
           "name": "$UNIT",
-          "example": "1501"
+          "example": "1502"
         },
         {
           "name": "$VC_ID",
-          "example": "1501"
-        },
-        {
-          "name": "$BACKUP_NEIGHBOR",
-          "example": "192.168.0.16"
+          "example": "1502"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "l2circuit {\n    neighbor $PE_NEIGHBOR {\n        interface $AC_INTF.$UNIT {\n            virtual-circuit-id $VC_ID;\n            control-word;\n            encapsulation-type ethernet-vlan;\n            ignore-encapsulation-mismatch;\n            ignore-mtu-mismatch;\n            pseudowire-status-tlv;\n            revert-time 30;\n            backup-neighbor $BACKUP_NEIGHBOR {\n                hot-standby;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    neighbor $PE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            revert-time </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            backup-neighbor $BACKUP_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 432,
-      "lineCount": 16,
+      "body": "l2circuit {\n    neighbor $PE_NEIGHBOR {\n        interface $AC_INTF.$UNIT {\n            virtual-circuit-id $VC_ID;\n            control-word;\n            encapsulation-type ethernet-vlan;\n            ignore-encapsulation-mismatch;\n            ignore-mtu-mismatch;\n            pseudowire-status-tlv;\n            revert-time 30;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    neighbor $PE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            revert-time </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 342,
+      "lineCount": 13,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
@@ -13032,11 +13028,11 @@
         },
         {
           "name": "$CE_NEIGHBOR",
-          "example": "10.55.0.1"
+          "example": "10.75.0.7"
         },
         {
           "name": "$LOCAL_ADDRESS",
-          "example": "10.55.0.2"
+          "example": "10.75.0.8"
         },
         {
           "name": "$CE_PEER_AS",
@@ -13044,7 +13040,7 @@
         },
         {
           "name": "$AC_INTF",
-          "example": "et-1/0/10"
+          "example": "et-1/0/12"
         },
         {
           "name": "$UNIT",
@@ -13056,7 +13052,7 @@
         },
         {
           "name": "$VRF_TARGET",
-          "example": "64520:3002"
+          "example": "64510:3002"
         }
       ],
       "jvdServiceMapping": [],
@@ -13268,7 +13264,6 @@
         "Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)",
         "PIM sparse-mode with local RP + process-non-null-as-null-register",
         "OSPF CE redistribution (bgp-to-ospf export policy)",
-        "iBGP peering within VRF for multicast source/receiver signaling",
         "provider-tunnel ldp-p2mp with selective per-group tunnels",
         "100 multicast VPN instances validated at scale"
       ],
@@ -13287,23 +13282,11 @@
       "variables": [
         {
           "name": "$VRF_NAME",
-          "example": "vpn-mcast_1"
-        },
-        {
-          "name": "$BGP_GROUP",
-          "example": "mcast_1"
-        },
-        {
-          "name": "$PE_PEER_AS",
-          "example": "64512"
-        },
-        {
-          "name": "$BGP_NEIGHBOR",
-          "example": "10.11.11.1"
+          "example": "vpn-mcast_10"
         },
         {
           "name": "$LOOPBACK_UNIT",
-          "example": "1"
+          "example": "10"
         },
         {
           "name": "$CE_INTF",
@@ -13311,32 +13294,36 @@
         },
         {
           "name": "$CE_UNIT",
-          "example": "1"
+          "example": "10"
         },
         {
           "name": "$RP_ADDRESS",
-          "example": "10.33.33.1"
+          "example": "10.33.33.10"
         },
         {
           "name": "$MCAST_GROUP",
-          "example": "227.1.1.1/32"
+          "example": "227.1.1.10/32"
+        },
+        {
+          "name": "$MCAST_SOURCE",
+          "example": "124.1.10.1/32"
         },
         {
           "name": "$RD",
-          "example": "10.33.33.1:1"
+          "example": "10.33.33.10:10"
         },
         {
           "name": "$VRF_TARGET",
-          "example": "1:1"
+          "example": "1:10"
         }
       ],
       "jvdServiceMapping": [
         "  100 NGMVPN instances (vpn-mcast_1 through vpn-mcast_100) on 4 WAN Edge PEs"
       ],
-      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        bgp {\n            group $BGP_GROUP {\n                type internal;\n                peer-as $PE_PEER_AS;\n                neighbor $BGP_NEIGHBOR;\n            }\n        }\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    address $RP_ADDRESS;\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                    process-non-null-as-null-register;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT;\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source 0.0.0.0/0 {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $BGP_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $BGP_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    process-non-null-as-null-register;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1239,
-      "lineCount": 51,
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    address $RP_ADDRESS;\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                    process-non-null-as-null-register;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT {\n                mode sparse;\n                version 2;\n            }\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n                version 2;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source $MCAST_SOURCE {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    process-non-null-as-null-register;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source $MCAST_SOURCE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1164,
+      "lineCount": 48,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
@@ -13530,8 +13517,8 @@
         ]
       },
       "highlights": [
-        "Body is byte-identical to the Junos sibling",
-        "All P and EVO PE devices run LDP"
+        "auto-targeted sessions with P2MP capability for multicast",
+        "All EVO P and PE devices run LDP"
       ],
       "pairWith": [
         {
@@ -13543,11 +13530,11 @@
       "variables": [
         {
           "name": "$CORE_INTF_1",
-          "example": "et-0/0/2.0"
+          "example": "et-1/0/0.0"
         },
         {
           "name": "$CORE_INTF_2",
-          "example": "ae2.0"
+          "example": "et-1/0/1.0"
         },
         {
           "name": "$LOOPBACK",
@@ -13647,8 +13634,8 @@
         ]
       },
       "highlights": [
-        "Body is byte-identical to the Junos sibling",
-        "All 6 P/PE devices in the topology run OSPF LFA"
+        "EVO uses passive on loopback (Junos leaves it bare)",
+        "All 4 EVO P/PE devices in the topology run OSPF LFA"
       ],
       "pairWith": [
         {
@@ -13664,11 +13651,11 @@
         },
         {
           "name": "$CORE_INTF_1",
-          "example": "ae2.0"
+          "example": "et-1/0/0.0"
         },
         {
           "name": "$CORE_INTF_2",
-          "example": "et-0/0/2.0"
+          "example": "et-1/0/1.0"
         }
       ],
       "jvdServiceMapping": [],
@@ -14488,7 +14475,7 @@
       "highlights": [
         "Body is byte-identical to the EVO sibling",
         "Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)",
-        "PIM sparse-mode with local RP + process-non-null-as-null-register",
+        "PIM sparse-mode with local group-ranges + static RP address",
         "provider-tunnel ldp-p2mp with selective per-group tunnels",
         "100 multicast VPN instances validated at scale"
       ],
@@ -14512,23 +14499,11 @@
       "variables": [
         {
           "name": "$VRF_NAME",
-          "example": "vpn-mcast_1"
-        },
-        {
-          "name": "$BGP_GROUP",
-          "example": "mcast_1"
-        },
-        {
-          "name": "$PE_PEER_AS",
-          "example": "64512"
-        },
-        {
-          "name": "$BGP_NEIGHBOR",
-          "example": "10.11.11.1"
+          "example": "vpn-mcast_10"
         },
         {
           "name": "$LOOPBACK_UNIT",
-          "example": "1"
+          "example": "10"
         },
         {
           "name": "$CE_INTF",
@@ -14536,30 +14511,34 @@
         },
         {
           "name": "$CE_UNIT",
-          "example": "500"
+          "example": "10"
         },
         {
           "name": "$RP_ADDRESS",
-          "example": "10.33.33.1"
+          "example": "10.33.33.10"
         },
         {
           "name": "$MCAST_GROUP",
-          "example": "227.1.1.1/32"
+          "example": "227.1.1.10/32"
+        },
+        {
+          "name": "$MCAST_SOURCE",
+          "example": "124.1.10.1/32"
         },
         {
           "name": "$RD",
-          "example": "10.33.33.1:1"
+          "example": "10.11.11.10:10"
         },
         {
           "name": "$VRF_TARGET",
-          "example": "1:1"
+          "example": "1:10"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        bgp {\n            group $BGP_GROUP {\n                type internal;\n                peer-as $PE_PEER_AS;\n                neighbor $BGP_NEIGHBOR;\n            }\n        }\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    address $RP_ADDRESS;\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                    process-non-null-as-null-register;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT;\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source 0.0.0.0/0 {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $BGP_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                peer-as $PE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $BGP_NEIGHBOR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    process-non-null-as-null-register;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1239,
-      "lineCount": 51,
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                }\n                static {\n                    address $RP_ADDRESS;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT {\n                mode sparse;\n                version 2;\n            }\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n                version 2;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source $MCAST_SOURCE {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source $MCAST_SOURCE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1152,
+      "lineCount": 49,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
@@ -14934,10 +14913,10 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "protocols {\n    ospf {\n        backup-spf-options {\n            remote-backup-calculation;\n            per-prefix-calculation all;\n            node-link-degradation;\n        }\n        traffic-engineering;\n        area 0.0.0.0 {\n            interface $LOOPBACK {\n                passive;\n            }\n            interface $CORE_INTF_1 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n            interface $CORE_INTF_2 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        backup-spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remote-backup-calculation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            per-prefix-calculation all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            node-link-degradation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        traffic-engineering;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 920,
-      "lineCount": 33,
+      "body": "protocols {\n    ospf {\n        backup-spf-options {\n            remote-backup-calculation;\n            per-prefix-calculation all;\n            node-link-degradation;\n        }\n        traffic-engineering;\n        area 0.0.0.0 {\n            interface $LOOPBACK;\n            interface $CORE_INTF_1 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n            interface $CORE_INTF_2 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        backup-spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remote-backup-calculation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            per-prefix-calculation all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            node-link-degradation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        traffic-engineering;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 880,
+      "lineCount": 31,
       "techFamily": "Transport",
       "subfamily": "OSPF",
       "usecases": [
