@@ -242,7 +242,7 @@ const STEPS_ROLE: StepId[] = ["jvd", "family", "attributes", "params"];
  *  Backup PE), so it skips the PE-A/PE-B endpoint step. */
 const STEPS_HSB: StepId[] = ["jvd", "family", "mux", "deployment", "attributes", "params"];
 
-/** One-line hints for the HSB shared loopback / VC-ID fields. */
+/** One-line hints for the HSB loopback / VC-ID fields. */
 const HSB_HINTS: Record<string, string> = {
   HUB_LOOPBACK: "Hub loopback — both PEs point here",
   PRIMARY_LOOPBACK: "Primary PE loopback (Hub neighbor)",
@@ -251,6 +251,14 @@ const HSB_HINTS: Record<string, string> = {
   VC_ID_BACKUP: "Hot-standby circuit VC-ID",
   MTU: "Attachment-circuit MTU (all devices)",
 };
+
+/** The three HSB device cards (colour-separated). Each owns its loopback + AC;
+ *  the PEs also own their circuit VC-ID. The generator wires the pseudowires. */
+const HSB_CARDS = [
+  { label: "Hub", pfx: "HUB", loop: "HUB_LOOPBACK", vc: null, ring: "border-primary/40 bg-primary/5", note: "carries both pseudowires · hot-standby" },
+  { label: "Primary PE", pfx: "PRI", loop: "PRIMARY_LOOPBACK", vc: "VC_ID_PRIMARY", ring: "border-emerald-500/40 bg-emerald-500/5", note: "active circuit · hot-standby-vc-on" },
+  { label: "Backup PE", pfx: "BAK", loop: "BACKUP_LOOPBACK", vc: "VC_ID_BACKUP", ring: "border-amber-500/40 bg-amber-500/5", note: "hot-standby circuit · hot-standby-vc-on" },
+] as const;
 
 type Selection = {
   jvd?: string;
@@ -456,6 +464,9 @@ export default function ConfigGenerator() {
   // L2circuit hot-standby: a flat value map for the 3 devices (shared loopbacks +
   // VC-IDs, plus per-device AC fields prefixed HUB_/PRI_/BAK_).
   const [hsb, setHsb] = useState<Record<string, string>>({});
+  // HSB: whether the attachment circuit normalizes the VLAN (input/output
+  // vlan-map). Off = plain vlan-id (all devices must use the same VLAN).
+  const [hsbNorm, setHsbNorm] = useState(true);
   const [leafCount, setLeafCount] = useState(2);
   // EVPN-FXC per-UNI VLAN entry list (+ a stable id for React keys) and the
   // VLAN-aware map toggle (matching vlan-id vs input/output vlan-map).
@@ -912,10 +923,11 @@ export default function ConfigGenerator() {
             firewall: sel.firewall,
             color: "color-blind",
             cos: sel.cos,
+            normalize: hsbNorm,
           })
         : [],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isHsb, osBlockA, sel.firewall, sel.cos],
+    [isHsb, osBlockA, sel.firewall, sel.cos, hsbNorm],
   );
   const hsbPeIds = useMemo(
     () =>
@@ -924,39 +936,51 @@ export default function ConfigGenerator() {
             firewall: sel.firewall,
             color: "color-blind",
             cos: sel.cos,
+            normalize: hsbNorm,
           })
         : [],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isHsb, osBlockA, sel.firewall, sel.cos],
+    [isHsb, osBlockA, sel.firewall, sel.cos, hsbNorm],
   );
-  const hsbRender = useMemo(() => {
-    if (!isHsb || hsbHubIds.length === 0) return null;
-    const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+  // Build the Hub / Primary / Backup value maps for HSB service instance `i`
+  // (i=0 = the base service; i>0 increments VC-IDs, VLANs and units for a batch).
+  const hsbValsFor = (i: number) => {
+    const bump = (v: string) => (i === 0 ? v : bumpInt(v, i));
     const peVals = (pfx: string, vc: string) => ({
       AC_INTF: hsb[`${pfx}_AC_INTF`] ?? "",
-      UNIT: hsb[`${pfx}_UNIT`] ?? "",
-      VLAN: hsb[`${pfx}_VLAN`] ?? "",
-      INPUT_VID: hsb[`${pfx}_INPUT_VID`] ?? "",
+      UNIT: bump(hsb[`${pfx}_UNIT`] ?? ""),
+      VLAN: bump(hsb[`${pfx}_VLAN`] ?? ""),
+      INPUT_VID: bump(hsb[`${pfx}_INPUT_VID`] ?? ""),
       MTU: hsb.MTU ?? "",
       FILTER_NAME: hsb.FILTER_NAME ?? "",
       HUB_LOOPBACK: hsb.HUB_LOOPBACK ?? "",
-      VC_ID: vc,
+      VC_ID: bump(vc),
     });
     const hubVals = {
       AC_INTF: hsb.HUB_AC_INTF ?? "",
-      UNIT: hsb.HUB_UNIT ?? "",
-      VLAN: hsb.HUB_VLAN ?? "",
-      INPUT_VID: hsb.HUB_INPUT_VID ?? "",
+      UNIT: bump(hsb.HUB_UNIT ?? ""),
+      VLAN: bump(hsb.HUB_VLAN ?? ""),
+      INPUT_VID: bump(hsb.HUB_INPUT_VID ?? ""),
       MTU: hsb.MTU ?? "",
       FILTER_NAME: hsb.FILTER_NAME ?? "",
       PRIMARY_LOOPBACK: hsb.PRIMARY_LOOPBACK ?? "",
       BACKUP_LOOPBACK: hsb.BACKUP_LOOPBACK ?? "",
-      VC_ID_PRIMARY: hsb.VC_ID_PRIMARY ?? "",
-      VC_ID_BACKUP: hsb.VC_ID_BACKUP ?? "",
+      VC_ID_PRIMARY: bump(hsb.VC_ID_PRIMARY ?? ""),
+      VC_ID_BACKUP: bump(hsb.VC_ID_BACKUP ?? ""),
     };
+    return {
+      hubVals,
+      priVals: peVals("PRI", hsb.VC_ID_PRIMARY ?? ""),
+      bakVals: peVals("BAK", hsb.VC_ID_BACKUP ?? ""),
+    };
+  };
+  const hsbRender = useMemo(() => {
+    if (!isHsb || hsbHubIds.length === 0) return null;
+    const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+    const { hubVals, priVals, bakVals } = hsbValsFor(0);
     const hub = renderConfig(hsbHubIds, hubVals, byId, rOpts);
-    const pri = renderConfig(hsbPeIds, peVals("PRI", hsb.VC_ID_PRIMARY ?? ""), byId, rOpts);
-    const bak = renderConfig(hsbPeIds, peVals("BAK", hsb.VC_ID_BACKUP ?? ""), byId, rOpts);
+    const pri = renderConfig(hsbPeIds, priVals, byId, rOpts);
+    const bak = renderConfig(hsbPeIds, bakVals, byId, rOpts);
     return {
       hub: mergeJunosConfig(hub.text),
       pri: mergeJunosConfig(pri.text),
@@ -1153,20 +1177,32 @@ export default function ConfigGenerator() {
     if (!fullText) return;
     if (multiUni && fxcOverlap.size > 0) return;
     track(`generator-download-${sel.familyId}`);
-    // L2circuit hot-standby: 3 fixed device configs (Hub + Primary PE + Backup PE).
+    // L2circuit hot-standby: 3 fixed device configs (Hub + Primary PE + Backup PE),
+    // each merged across all `count` services.
     if (isHsb) {
-      if (!hsbRender) return;
+      if (hsbHubIds.length === 0) return;
+      const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+      const N = Math.max(1, Math.min(count, 500));
+      const hubBodies: string[] = [];
+      const priBodies: string[] = [];
+      const bakBodies: string[] = [];
+      for (let i = 0; i < N; i++) {
+        const { hubVals, priVals, bakVals } = hsbValsFor(i);
+        hubBodies.push(renderConfig(hsbHubIds, hubVals, byId, rOpts).text);
+        priBodies.push(renderConfig(hsbPeIds, priVals, byId, rOpts).text);
+        bakBodies.push(renderConfig(hsbPeIds, bakVals, byId, rOpts).text);
+      }
       const text =
         [
-          `/* ===== Hub \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.hub}`,
-          `/* ===== Primary PE \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.pri}`,
-          `/* ===== Backup PE \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.bak}`,
+          `/* ===== Hub \u00b7 ${OS_LABELS.evo} ===== */\n${mergeJunosConfig(hubBodies.join("\n"))}`,
+          `/* ===== Primary PE \u00b7 ${OS_LABELS.evo} ===== */\n${mergeJunosConfig(priBodies.join("\n"))}`,
+          `/* ===== Backup PE \u00b7 ${OS_LABELS.evo} ===== */\n${mergeJunosConfig(bakBodies.join("\n"))}`,
         ].join("\n\n") + "\n";
       const blob = new Blob([text], { type: "text/plain" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "maas-l2circuit-hsb-3device.conf";
+      a.download = N > 1 ? `maas-l2circuit-hsb-3device-x${N}.conf` : "maas-l2circuit-hsb-3device.conf";
       a.click();
       URL.revokeObjectURL(url);
       return;
@@ -1667,7 +1703,7 @@ export default function ConfigGenerator() {
 
           {currentStep === "attributes" && !roleBased && osBlockA && (
             <div className="space-y-4">
-              {!multiUni && !isEtree && (
+              {!multiUni && !isEtree && !isHsb && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">Homing</div>
                   <div className="space-y-2">
@@ -1831,58 +1867,87 @@ export default function ConfigGenerator() {
                 <div className="space-y-4">
                   <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
                     <span className="font-medium text-foreground">3-device hot-standby.</span>{" "}
-                    The Hub carries both the active and hot-standby pseudowires; the
-                    Primary and Backup PEs each run{" "}
-                    <span className="font-mono">hot-standby-vc-on</span>. Loopbacks and
-                    VC-IDs are shared across the devices; each device has its own
-                    attachment circuit.
+                    Each device is configured on its own card below; the generator wires
+                    the pseudowires between them (Hub ↔ Primary and Hub ↔ Backup). The
+                    Hub runs <span className="font-mono">hot-standby</span>; both PEs run{" "}
+                    <span className="font-mono">hot-standby-vc-on</span>.
                   </div>
-                  <div>
-                    <div className="mb-2 text-xs font-medium text-foreground">
-                      Loopbacks &amp; VC-IDs (shared)
+
+                  <div className="space-y-3 rounded-md border border-border bg-background p-3">
+                    <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                      <input
+                        type="checkbox"
+                        checked={hsbNorm}
+                        onChange={(e) => setHsbNorm(e.target.checked)}
+                        className="h-3.5 w-3.5 accent-primary"
+                      />
+                      Normalize VLAN (input/output vlan-map)
+                      <span className="font-normal text-muted-foreground">
+                        — off = plain vlan-id; all devices must use the same VLAN
+                      </span>
+                    </label>
+                    <div className="flex flex-wrap items-end gap-4">
+                      <label className="flex items-center gap-2 text-xs font-medium text-foreground">
+                        Number of services
+                        <input
+                          type="number"
+                          min={1}
+                          max={500}
+                          value={count}
+                          onChange={(e) =>
+                            setCount(Math.max(1, Math.min(500, Number(e.target.value) || 1)))
+                          }
+                          className="h-8 w-20 rounded-md border border-border bg-surface px-2 font-mono text-sm text-foreground focus:border-primary/60 focus:outline-none"
+                        />
+                      </label>
+                      <div className="w-44">
+                        <VarField
+                          name="$MTU"
+                          value={hsb.MTU ?? ""}
+                          error={formatError("MTU", hsb.MTU)}
+                          onChange={(v) => setHsb((p) => ({ ...p, MTU: v }))}
+                        />
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      {[
-                        "$HUB_LOOPBACK",
-                        "$PRIMARY_LOOPBACK",
-                        "$BACKUP_LOOPBACK",
-                        "$VC_ID_PRIMARY",
-                        "$VC_ID_BACKUP",
-                        "$MTU",
-                      ].map((n) => {
-                        const k = n.replace(/^\$/, "");
-                        return (
-                          <VarField
-                            key={k}
-                            name={n}
-                            value={hsb[k] ?? ""}
-                            onChange={(v) => setHsb((p) => ({ ...p, [k]: v }))}
-                            hint={HSB_HINTS[k]}
-                          />
-                        );
-                      })}
-                    </div>
+                    <span className="block text-[11px] text-muted-foreground">
+                      {count > 1
+                        ? `Preview shows service #1; services #2–${count} increment VC-IDs, VLANs and units. Download includes all ${count}.`
+                        : "Increase to generate a numbered batch (VC-IDs / VLANs / units auto-increment)."}
+                    </span>
                   </div>
-                  {([
-                    ["Hub", "HUB"],
-                    ["Primary PE", "PRI"],
-                    ["Backup PE", "BAK"],
-                  ] as const).map(([label, pfx]) => (
-                    <div key={pfx}>
-                      <div className="mb-2 text-xs font-medium text-foreground">
-                        {label} — attachment circuit
+
+                  {HSB_CARDS.map((c) => (
+                    <div key={c.pfx} className={`space-y-3 rounded-md border p-3 ${c.ring}`}>
+                      <div className="text-xs font-semibold text-foreground">
+                        {c.label}
+                        <span className="ml-2 font-normal text-muted-foreground">— {c.note}</span>
                       </div>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        {([
-                          ["$AC_INTF", `${pfx}_AC_INTF`],
-                          ["$UNIT", `${pfx}_UNIT`],
-                          ["$VLAN", `${pfx}_VLAN`],
-                          ["$INPUT_VID", `${pfx}_INPUT_VID`],
-                        ] as const).map(([n, k]) => (
+                        <VarField
+                          name={`$${c.loop}`}
+                          value={hsb[c.loop] ?? ""}
+                          hint={HSB_HINTS[c.loop]}
+                          error={formatError(c.loop, hsb[c.loop])}
+                          onChange={(v) => setHsb((p) => ({ ...p, [c.loop]: v }))}
+                        />
+                        {c.vc && (
+                          <VarField
+                            name={`$${c.vc}`}
+                            value={hsb[c.vc] ?? ""}
+                            hint={HSB_HINTS[c.vc]}
+                            error={formatError(c.vc, hsb[c.vc])}
+                            onChange={(v) => setHsb((p) => ({ ...p, [c.vc as string]: v }))}
+                          />
+                        )}
+                        {(hsbNorm
+                          ? [["$AC_INTF", `${c.pfx}_AC_INTF`], ["$UNIT", `${c.pfx}_UNIT`], ["$VLAN", `${c.pfx}_VLAN`], ["$INPUT_VID", `${c.pfx}_INPUT_VID`]]
+                          : [["$AC_INTF", `${c.pfx}_AC_INTF`], ["$UNIT", `${c.pfx}_UNIT`], ["$VLAN", `${c.pfx}_VLAN`]]
+                        ).map(([n, k]) => (
                           <VarField
                             key={k}
                             name={n}
                             value={hsb[k] ?? ""}
+                            error={formatError(n.replace(/^\$/, ""), hsb[k])}
                             onChange={(v) => setHsb((p) => ({ ...p, [k]: v }))}
                           />
                         ))}
@@ -2168,7 +2233,7 @@ export default function ConfigGenerator() {
                 </div>
               )}
 
-              {sharedFields.length > 0 && (
+              {sharedFields.length > 0 && !isHsb && (
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
                     Shared{" "}
@@ -2194,7 +2259,8 @@ export default function ConfigGenerator() {
                 </div>
               )}
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              {!isHsb && (
+                <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <div className="mb-2 text-xs font-medium text-foreground">
                     {peLabel(sel.osA, tagA)}
@@ -2241,6 +2307,7 @@ export default function ConfigGenerator() {
                   </div>
                 )}
               </div>
+              )}
             </div>
           )}
         </div>
@@ -2316,14 +2383,16 @@ export default function ConfigGenerator() {
                   </div>
                 ))}
               <div className="mt-2 text-[11px] text-muted-foreground">
-                3 devices · Hub + Primary PE + Backup PE ·{" "}
+                {count > 1 ? `Previewing service #1 · ` : ""}3 devices · Hub + Primary PE + Backup PE ·{" "}
                 {[sel.cos && "CoS", sel.firewall && "firewall filter"]
                   .filter(Boolean)
                   .join(" + ") || "service only"}{" "}
                 · rendered client-side from the JVD snip library
               </div>
               <div className="mt-1 text-[11px] font-medium text-primary">
-                Download includes all 3 device configs.
+                {count > 1
+                  ? `Download includes all 3 device configs × ${count} services.`
+                  : "Download includes all 3 device configs."}
               </div>
             </>
           ) : (
