@@ -1576,7 +1576,7 @@
           "platform": "ACX7100-48L"
         }
       ],
-      "size_bytes": 1966,
+      "size_bytes": 1878,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-hub.conf"
     },
     {
@@ -1595,7 +1595,7 @@
           "platform": "ACX7509"
         }
       ],
-      "size_bytes": 1833,
+      "size_bytes": 1783,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-pe.conf"
     },
     {
