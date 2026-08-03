@@ -47,6 +47,9 @@ export type GenOsBlock = {
    *  global catalog.cosSnips[os] set is used. EVPN-FXC uses this to bind CoS to
    *  both bundled VLAN units instead of the single-unit default. */
   cosSnips?: string[];
+  /** L2circuit hot-standby: the Hub device's service snip. The two PE devices
+   *  use the default `service`; the Hub uses this instead. */
+  hubService?: string[];
 };
 
 export type GenDeployment = {
@@ -76,6 +79,11 @@ export type GenDeployment = {
    *  root a 2-node all-active ESI pair; a "leaves" count fans out leaf PEs.
    *  Roots share one ESI; only the route-distinguisher is unique per node. */
   etree?: boolean;
+  /** L2circuit hot-standby: a fixed 3-device deployment (Hub + Primary PE +
+   *  Backup PE). The Hub carries both the active and hot-standby pseudowires
+   *  (`hot-standby`); each PE runs `hot-standby-vc-on`. The wizard renders the
+   *  Hub in one pane and the two PEs stacked in the other. */
+  hotStandby?: boolean;
   os: Partial<Record<GenOsKey, GenOsBlock>>;
 };
 
@@ -649,6 +657,45 @@ export function resolveEtreeSnipIds(
     role === "root"
       ? osb.rootInterface?.[opts.rootMultihomed ? "multihomed" : "single-homed"]
       : osb.leafInterface;
+  if (iface) rel.push(iface);
+  rel.push(...osb.interfaceExtras);
+  if (opts.firewall) {
+    const filter = osb.filter[opts.color];
+    if (filter) rel.push(filter);
+  }
+  if (opts.cos) {
+    rel.push(...(osb.cosSnips ?? catalog.cosSnips[os] ?? []));
+  }
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const r of rel) {
+    const qualified = `${catalog.jvd}/${r}`;
+    if (!seen.has(qualified)) {
+      seen.add(qualified);
+      out.push(qualified);
+    }
+  }
+  return out;
+}
+
+/**
+ * Resolve the ordered jvd-qualified snip ids for one L2circuit hot-standby role.
+ * The Hub uses `osb.hubService` (the endpoint carrying both the active and
+ * hot-standby pseudowires); a PE (Primary or Backup) uses the default
+ * `osb.service` (the `hot-standby-vc-on` endpoint). Both roles share the same
+ * single-homed attachment-circuit interface, extras, filter and CoS. Order
+ * matches `resolveSnipIds`: service → interface → extras → (firewall) filter →
+ * (cos) cos.
+ */
+export function resolveHsbSnipIds(
+  catalog: GenCatalog,
+  osb: GenOsBlock,
+  os: GenOsKey,
+  role: "hub" | "pe",
+  opts: { firewall: boolean; color: string; cos: boolean },
+): string[] {
+  const rel: string[] = [...(role === "hub" ? osb.hubService ?? [] : osb.service)];
+  const iface = osb.interface["single-homed"] ?? Object.values(osb.interface)[0];
   if (iface) rel.push(iface);
   rel.push(...osb.interfaceExtras);
   if (opts.firewall) {

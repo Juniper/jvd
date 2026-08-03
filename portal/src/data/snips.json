@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T18:49:03.386Z",
+  "generatedAt": "2026-08-03T20:56:41.345Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -31098,8 +31098,8 @@
           "note": null
         },
         {
-          "raw": "evo/services/l2circuit-hot-standby-primary.conf",
-          "id": "metro_as_a_service/evo/services/l2circuit-hot-standby-primary",
+          "raw": "evo/services/l2circuit-hsb-hub.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-hsb-hub",
           "note": null
         },
         {
@@ -32999,13 +32999,13 @@
           "note": null
         },
         {
-          "raw": "evo/services/l2circuit-hot-standby-backup.conf",
-          "id": "metro_as_a_service/evo/services/l2circuit-hot-standby-backup",
+          "raw": "evo/services/l2circuit-hsb-pe.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-hsb-pe",
           "note": null
         },
         {
-          "raw": "evo/services/l2circuit-hot-standby-primary.conf",
-          "id": "metro_as_a_service/evo/services/l2circuit-hot-standby-primary",
+          "raw": "evo/services/l2circuit-hsb-hub.conf",
+          "id": "metro_as_a_service/evo/services/l2circuit-hsb-hub",
           "note": null
         }
       ],
@@ -35181,97 +35181,16 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_as_a_service/evo/services/l2circuit-hot-standby-backup",
+      "id": "metro_as_a_service/evo/services/l2circuit-hsb-hub",
       "jvd": "metro_as_a_service",
       "jvdLabel": "Metro as a Service",
       "area": "Service Provider",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "services",
-      "name": "l2circuit-hot-standby-backup",
-      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-backup.conf",
-      "topic": "Service instance: l2circuit hot standby backup (MEF E-Line / EVPL)",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "MEG1"
-        ]
-      },
-      "highlights": [
-        "Static targeted-LDP L2-circuit pseudowire (no routing-instance required)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/cos/classifiers.conf",
-          "id": "metro_as_a_service/evo/cos/classifiers",
-          "note": null
-        },
-        {
-          "raw": "evo/cos/cos-binding-ieee8021p.conf",
-          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
-          "note": null
-        },
-        {
-          "raw": "evo/cos/rewrite-rules.conf",
-          "id": "metro_as_a_service/evo/cos/rewrite-rules",
-          "note": null
-        },
-        {
-          "raw": "evo/firewall/filter-ccc-color-blind.conf",
-          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
-          "note": null
-        },
-        {
-          "raw": "evo/interfaces/vlan-ccc-vlan-map.conf",
-          "id": "metro_as_a_service/evo/interfaces/vlan-ccc-vlan-map",
-          "note": null
-        }
-      ],
-      "variables": [
-        {
-          "name": "$AC_INTF",
-          "example": "et-0/0/28:2"
-        },
-        {
-          "name": "$UNIT",
-          "example": "4006"
-        },
-        {
-          "name": "$VC_ID",
-          "example": "2006"
-        }
-      ],
-      "jvdServiceMapping": [
-        "  l2ckt-vc2006 (eline_evpl_l2ckt_hsb.conf):",
-        "    PEs (Evo): AN3 (ACX7100-48L), MEG1 (ACX7100-32C)",
-        "  l2ckt-vc3333 (eline_evpl_l2ckt_hsb.conf):",
-        "    PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)"
-      ],
-      "body": "protocols {\n    l2circuit {\n        neighbor 10.0.0.2 {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                encapsulation-type ethernet-vlan;\n                ignore-encapsulation-mismatch;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv {\n                    hot-standby-vc-on;\n                }\n            }\n        }\n    }",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby-vc-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span></code></pre>",
-      "bytes": 501,
-      "lineCount": 17,
-      "techFamily": "Service Overlay",
-      "subfamily": "Services",
-      "usecases": [
-        "Service Provider",
-        "Metro",
-        "Business Services",
-        "MEF"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "metro_as_a_service/evo/services/l2circuit-hot-standby-primary",
-      "jvd": "metro_as_a_service",
-      "jvdLabel": "Metro as a Service",
-      "area": "Service Provider",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "name": "l2circuit-hot-standby-primary",
-      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-primary.conf",
-      "topic": "Service instance: l2circuit hot standby primary (MEF E-Line / EVPL)",
+      "name": "l2circuit-hsb-hub",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-hub.conf",
+      "topic": "Service instance: l2circuit hot-standby — Hub (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -35323,12 +35242,20 @@
           "example": "4006"
         },
         {
-          "name": "$VC_ID_1",
-          "example": "2006"
+          "name": "$PRIMARY_LOOPBACK",
+          "example": "primary PE loopback   e.g. 10.0.0.6"
         },
         {
-          "name": "$VC_ID_2",
-          "example": "3333"
+          "name": "$BACKUP_LOOPBACK",
+          "example": "backup PE loopback    e.g. 10.0.0.7"
+        },
+        {
+          "name": "$VC_ID_PRIMARY",
+          "example": "active VC-ID          e.g. 2006"
+        },
+        {
+          "name": "$VC_ID_BACKUP",
+          "example": "hot-standby VC-ID     e.g. 3333"
         }
       ],
       "jvdServiceMapping": [
@@ -35337,10 +35264,95 @@
         "  l2ckt-vc3333 (eline_evpl_l2ckt_hsb.conf):",
         "    PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)"
       ],
-      "body": "protocols {\n    l2circuit {\n        neighbor 10.0.0.6 {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID_1;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                encapsulation-type ethernet-vlan;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv;\n                backup-neighbor 10.0.0.7 {\n                    virtual-circuit-id $VC_ID_2;\n                    hot-standby;\n                }\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">6</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                backup-neighbor </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">7</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-circuit-id $VC_ID_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 543,
+      "body": "protocols {\n    l2circuit {\n        neighbor $PRIMARY_LOOPBACK {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID_PRIMARY;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                encapsulation-type ethernet-vlan;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv;\n                backup-neighbor $BACKUP_LOOPBACK {\n                    virtual-circuit-id $VC_ID_BACKUP;\n                    hot-standby;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PRIMARY_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID_PRIMARY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                backup-neighbor $BACKUP_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-circuit-id $VC_ID_BACKUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 571,
       "lineCount": 19,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Service Provider",
+        "Metro",
+        "Business Services",
+        "MEF"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_as_a_service/evo/services/l2circuit-hsb-pe",
+      "jvd": "metro_as_a_service",
+      "jvdLabel": "Metro as a Service",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "l2circuit-hsb-pe",
+      "path": "service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-pe.conf",
+      "topic": "Service instance: l2circuit hot-standby — Primary / Backup PE (MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "MEG1"
+        ]
+      },
+      "highlights": [
+        "Static targeted-LDP L2-circuit pseudowire (no routing-instance required)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/cos/classifiers.conf",
+          "id": "metro_as_a_service/evo/cos/classifiers",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/cos-binding-ieee8021p.conf",
+          "id": "metro_as_a_service/evo/cos/cos-binding-ieee8021p",
+          "note": null
+        },
+        {
+          "raw": "evo/cos/rewrite-rules.conf",
+          "id": "metro_as_a_service/evo/cos/rewrite-rules",
+          "note": null
+        },
+        {
+          "raw": "evo/firewall/filter-ccc-color-blind.conf",
+          "id": "metro_as_a_service/evo/firewall/filter-ccc-color-blind",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/vlan-ccc-vlan-map.conf",
+          "id": "metro_as_a_service/evo/interfaces/vlan-ccc-vlan-map",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/28:2"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4006"
+        },
+        {
+          "name": "$HUB_LOOPBACK",
+          "example": "hub loopback (neighbor)  e.g. 10.0.0.2"
+        },
+        {
+          "name": "$VC_ID",
+          "example": "this PE's VC-ID          e.g. 2006"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  l2ckt-vc2006 (eline_evpl_l2ckt_hsb.conf):",
+        "    PEs (Evo): AN3 (ACX7100-48L), MEG1 (ACX7100-32C)",
+        "  l2ckt-vc3333 (eline_evpl_l2ckt_hsb.conf):",
+        "    PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)"
+      ],
+      "body": "protocols {\n    l2circuit {\n        neighbor $HUB_LOOPBACK {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                encapsulation-type ethernet-vlan;\n                ignore-encapsulation-mismatch;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv {\n                    hot-standby-vc-on;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $HUB_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby-vc-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 508,
+      "lineCount": 18,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [

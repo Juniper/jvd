@@ -140,8 +140,8 @@ Snip headers also list:
 | [`evpn-vpws-vlan-based.conf`](evo/services/evpn-vpws-vlan-based.conf) | Service instance: evpn vpws vlan based (MEF E-Line / EVPL) |
 | [`evpn-vpws-vlan-based-v2.conf`](evo/services/evpn-vpws-vlan-based-v2.conf) | Service instance: evpn vpws vlan based (MEF E-Line / EVPL) |
 | [`l2circuit-floating-pw.conf`](evo/services/l2circuit-floating-pw.conf) | Service instance: l2circuit floating pw (MEF E-Line / EVPL) |
-| [`l2circuit-hot-standby-backup.conf`](evo/services/l2circuit-hot-standby-backup.conf) | Service instance: l2circuit hot standby backup (MEF E-Line / EVPL) |
-| [`l2circuit-hot-standby-primary.conf`](evo/services/l2circuit-hot-standby-primary.conf) | Service instance: l2circuit hot standby primary (MEF E-Line / EVPL) |
+| [`l2circuit-hsb-hub.conf`](evo/services/l2circuit-hsb-hub.conf) | Service instance: l2circuit hot-standby — Hub (MEF E-Line / EVPL) |
+| [`l2circuit-hsb-pe.conf`](evo/services/l2circuit-hsb-pe.conf) | Service instance: l2circuit hot-standby — Primary / Backup PE (MEF E-Line / EVPL) |
 | [`l2circuit-lsw.conf`](evo/services/l2circuit-lsw.conf) | Service instance: l2circuit lsw (MEF E-Access) |
 | [`l2vpn-kompella-port-based.conf`](evo/services/l2vpn-kompella-port-based.conf) | Service instance: l2vpn kompella port based (MEF E-Line / EPL) |
 | [`l2vpn-kompella-vlan-based.conf`](evo/services/l2vpn-kompella-vlan-based.conf) | Service instance: l2vpn kompella vlan based (MEF E-Line / EVPL) |
