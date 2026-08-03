@@ -241,9 +241,9 @@ export function validateSpec(
   if (!spec || value === undefined || value === "") return undefined;
   switch (spec.type) {
     case "enum":
-      return spec.values.includes(value)
-        ? undefined
-        : `not a validated value (${spec.values.join(", ")})`;
+      // Enum values render as an editable combobox (suggestions, not a closed set),
+      // so a value outside the list is permitted — don't flag it.
+      return undefined;
     case "range": {
       if (!/^\d+$/.test(value)) return "expected a number";
       const n = Number(value);
