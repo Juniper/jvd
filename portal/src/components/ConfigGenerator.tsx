@@ -23,6 +23,7 @@ import {
   resolveSnipIds,
   resolveRoleSnipIds,
   resolveEtreeSnipIds,
+  resolveHsbSnipIds,
   attributeOptions,
   vlanModes,
   collectVariables,
@@ -237,6 +238,20 @@ const STEPS: StepId[] = [
  *  two roles are fixed — so they use a shorter step flow. */
 const STEPS_ROLE: StepId[] = ["jvd", "family", "attributes", "params"];
 
+/** L2circuit hot-standby is EVO-only and always 3 devices (Hub + Primary PE +
+ *  Backup PE), so it skips the PE-A/PE-B endpoint step. */
+const STEPS_HSB: StepId[] = ["jvd", "family", "mux", "deployment", "attributes", "params"];
+
+/** One-line hints for the HSB shared loopback / VC-ID fields. */
+const HSB_HINTS: Record<string, string> = {
+  HUB_LOOPBACK: "Hub loopback — both PEs point here",
+  PRIMARY_LOOPBACK: "Primary PE loopback (Hub neighbor)",
+  BACKUP_LOOPBACK: "Backup PE loopback (Hub backup-neighbor)",
+  VC_ID_PRIMARY: "Active circuit VC-ID",
+  VC_ID_BACKUP: "Hot-standby circuit VC-ID",
+  MTU: "Attachment-circuit MTU (all devices)",
+};
+
 type Selection = {
   jvd?: string;
   familyId?: string;
@@ -438,6 +453,9 @@ export default function ConfigGenerator() {
   // E-Tree: the root is single-homed (1 root PE) or multihomed (a 2-node
   // all-active ESI pair); `leafCount` fans out single-homed leaf PEs.
   const [rootMultihomed, setRootMultihomed] = useState(true);
+  // L2circuit hot-standby: a flat value map for the 3 devices (shared loopbacks +
+  // VC-IDs, plus per-device AC fields prefixed HUB_/PRI_/BAK_).
+  const [hsb, setHsb] = useState<Record<string, string>>({});
   const [leafCount, setLeafCount] = useState(2);
   // EVPN-FXC per-UNI VLAN entry list (+ a stable id for React keys) and the
   // VLAN-aware map toggle (matching vlan-id vs input/output vlan-map).
@@ -459,6 +477,8 @@ export default function ConfigGenerator() {
   const isVpls = !!deployment?.id?.includes("vpls");
   // E-Tree (rooted-multipoint): one EVI split into a Root PE + N Leaf PEs.
   const isEtree = !!deployment?.etree;
+  // L2circuit hot-standby: a fixed 3-device deployment (Hub + Primary/Backup PE).
+  const isHsb = !!deployment?.hotStandby;
 
   // Role-based families (PWHT) render one config per fixed role (Access /
   // Headend) instead of the symmetric PE-A / PE-B model.
@@ -559,7 +579,7 @@ export default function ConfigGenerator() {
     : Boolean(
         (sel.homing || isEtree) && (modeOpts.length === 0 || vlanMode) && (!sel.firewall || sel.color),
       );
-  const steps = roleBased ? STEPS_ROLE : STEPS;
+  const steps = roleBased ? STEPS_ROLE : isHsb ? STEPS_HSB : STEPS;
   const currentStep = steps[Math.min(step, steps.length - 1)];
   const complete = roleBased
     ? Boolean(sel.familyId && roles.length >= 2)
@@ -789,6 +809,24 @@ export default function ConfigGenerator() {
     setAwareMap(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sel.deploymentId, multiUni]);
+  // Seed the HSB 3-device form with source-of-truth example values whenever an
+  // HSB deployment is (re)selected.
+  useEffect(() => {
+    if (!isHsb) return;
+    setHsb({
+      HUB_LOOPBACK: "10.0.0.2",
+      PRIMARY_LOOPBACK: "10.0.0.6",
+      BACKUP_LOOPBACK: "10.0.0.7",
+      VC_ID_PRIMARY: "2006",
+      VC_ID_BACKUP: "3333",
+      MTU: "9102",
+      FILTER_NAME: "f_vlan-based_fam_ccc",
+      HUB_AC_INTF: "et-0/0/13", HUB_UNIT: "4006", HUB_VLAN: "4006", HUB_INPUT_VID: "1000",
+      PRI_AC_INTF: "et-0/0/28:2", PRI_UNIT: "4006", PRI_VLAN: "4006", PRI_INPUT_VID: "1000",
+      BAK_AC_INTF: "et-2/0/4", BAK_UNIT: "4006", BAK_VLAN: "4006", BAK_INPUT_VID: "1000",
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sel.deploymentId, isHsb]);
   // Render one EVPN-FXC PE from the per-UNI entry list. PE-A renders ranges
   // collapsed (vlan-id-list); PE-B (isBreakout) can break a range into per-VLAN
   // units. Each unit renders interface + service-member (+ filter/CoS) snips;
@@ -864,10 +902,78 @@ export default function ConfigGenerator() {
     [renderB],
   );
 
-  const fullText = [mergedA, mergedB].filter(Boolean).join("\n\n");
-  const missing = Array.from(
-    new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
+  // L2circuit hot-standby: resolve the Hub + PE snip sets, then render all three
+  // devices (Hub, Primary PE, Backup PE) with the shared loopbacks/VC-IDs mirrored
+  // across them and each device's own attachment-circuit fields.
+  const hsbHubIds = useMemo(
+    () =>
+      isHsb && osBlockA
+        ? resolveHsbSnipIds(CATALOG, osBlockA, "evo", "hub", {
+            firewall: sel.firewall,
+            color: "color-blind",
+            cos: sel.cos,
+          })
+        : [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isHsb, osBlockA, sel.firewall, sel.cos],
   );
+  const hsbPeIds = useMemo(
+    () =>
+      isHsb && osBlockA
+        ? resolveHsbSnipIds(CATALOG, osBlockA, "evo", "pe", {
+            firewall: sel.firewall,
+            color: "color-blind",
+            cos: sel.cos,
+          })
+        : [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isHsb, osBlockA, sel.firewall, sel.cos],
+  );
+  const hsbRender = useMemo(() => {
+    if (!isHsb || hsbHubIds.length === 0) return null;
+    const rOpts = { stripUniFilter: !sel.firewall, derived: CATALOG.derivedVars };
+    const peVals = (pfx: string, vc: string) => ({
+      AC_INTF: hsb[`${pfx}_AC_INTF`] ?? "",
+      UNIT: hsb[`${pfx}_UNIT`] ?? "",
+      VLAN: hsb[`${pfx}_VLAN`] ?? "",
+      INPUT_VID: hsb[`${pfx}_INPUT_VID`] ?? "",
+      MTU: hsb.MTU ?? "",
+      FILTER_NAME: hsb.FILTER_NAME ?? "",
+      HUB_LOOPBACK: hsb.HUB_LOOPBACK ?? "",
+      VC_ID: vc,
+    });
+    const hubVals = {
+      AC_INTF: hsb.HUB_AC_INTF ?? "",
+      UNIT: hsb.HUB_UNIT ?? "",
+      VLAN: hsb.HUB_VLAN ?? "",
+      INPUT_VID: hsb.HUB_INPUT_VID ?? "",
+      MTU: hsb.MTU ?? "",
+      FILTER_NAME: hsb.FILTER_NAME ?? "",
+      PRIMARY_LOOPBACK: hsb.PRIMARY_LOOPBACK ?? "",
+      BACKUP_LOOPBACK: hsb.BACKUP_LOOPBACK ?? "",
+      VC_ID_PRIMARY: hsb.VC_ID_PRIMARY ?? "",
+      VC_ID_BACKUP: hsb.VC_ID_BACKUP ?? "",
+    };
+    const hub = renderConfig(hsbHubIds, hubVals, byId, rOpts);
+    const pri = renderConfig(hsbPeIds, peVals("PRI", hsb.VC_ID_PRIMARY ?? ""), byId, rOpts);
+    const bak = renderConfig(hsbPeIds, peVals("BAK", hsb.VC_ID_BACKUP ?? ""), byId, rOpts);
+    return {
+      hub: mergeJunosConfig(hub.text),
+      pri: mergeJunosConfig(pri.text),
+      bak: mergeJunosConfig(bak.text),
+      missing: Array.from(new Set([...hub.missing, ...pri.missing, ...bak.missing])),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isHsb, hsbHubIds, hsbPeIds, hsb, byId, sel.firewall]);
+
+  const fullText = isHsb && hsbRender
+    ? [hsbRender.hub, hsbRender.pri, hsbRender.bak].join("\n\n")
+    : [mergedA, mergedB].filter(Boolean).join("\n\n");
+  const missing = isHsb
+    ? hsbRender?.missing ?? []
+    : Array.from(
+        new Set([...(renderA?.missing ?? []), ...(renderB?.missing ?? [])]),
+      );
 
   const peLabel = (os: GenOsKey | undefined, tag: string) =>
     os ? `${tag} \u00b7 ${OS_LABELS[os]}` : tag;
@@ -1047,6 +1153,24 @@ export default function ConfigGenerator() {
     if (!fullText) return;
     if (multiUni && fxcOverlap.size > 0) return;
     track(`generator-download-${sel.familyId}`);
+    // L2circuit hot-standby: 3 fixed device configs (Hub + Primary PE + Backup PE).
+    if (isHsb) {
+      if (!hsbRender) return;
+      const text =
+        [
+          `/* ===== Hub \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.hub}`,
+          `/* ===== Primary PE \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.pri}`,
+          `/* ===== Backup PE \u00b7 ${OS_LABELS.evo} ===== */\n${hsbRender.bak}`,
+        ].join("\n\n") + "\n";
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "maas-l2circuit-hsb-3device.conf";
+      a.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
     // E-Tree (rooted-multipoint): ONE EVI = root PE(s) + N leaf PEs. A multihomed
     // root is an all-active ESI PAIR (2 root PEs that SHARE one ESI — so the ESI
     // is constant, only the route-distinguisher differs). Leaves are single-homed;
@@ -1398,9 +1522,25 @@ export default function ConfigGenerator() {
                   sub={d.description}
                   active={sel.deploymentId === d.id}
                   disabled={!dAvailable}
-                  onClick={() =>
-                    advance({ deploymentId: d.id }, ["osA", "osB", "homing", "color"])
-                  }
+                  onClick={() => {
+                    if (d.hotStandby) {
+                      // HSB is EVO-only + 3 fixed devices: skip endpoints, fix
+                      // the OS + single-homed AC, jump straight to attributes.
+                      setSel((p) => ({
+                        ...p,
+                        deploymentId: d.id,
+                        osA: "evo",
+                        osB: "none",
+                        homing: "single-homed",
+                        color: "color-blind",
+                        vlanMode: undefined,
+                        rtPolicy: undefined,
+                      }));
+                      setStep((s) => s + 1);
+                    } else {
+                      advance({ deploymentId: d.id }, ["osA", "osB", "homing", "color"]);
+                    }
+                  }}
                 />
               );
             })}
@@ -1687,7 +1827,70 @@ export default function ConfigGenerator() {
 
           {currentStep === "params" && (
             <div className="space-y-5">
-              {roleBased ? (
+              {isHsb ? (
+                <div className="space-y-4">
+                  <div className="rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
+                    <span className="font-medium text-foreground">3-device hot-standby.</span>{" "}
+                    The Hub carries both the active and hot-standby pseudowires; the
+                    Primary and Backup PEs each run{" "}
+                    <span className="font-mono">hot-standby-vc-on</span>. Loopbacks and
+                    VC-IDs are shared across the devices; each device has its own
+                    attachment circuit.
+                  </div>
+                  <div>
+                    <div className="mb-2 text-xs font-medium text-foreground">
+                      Loopbacks &amp; VC-IDs (shared)
+                    </div>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {[
+                        "$HUB_LOOPBACK",
+                        "$PRIMARY_LOOPBACK",
+                        "$BACKUP_LOOPBACK",
+                        "$VC_ID_PRIMARY",
+                        "$VC_ID_BACKUP",
+                        "$MTU",
+                      ].map((n) => {
+                        const k = n.replace(/^\$/, "");
+                        return (
+                          <VarField
+                            key={k}
+                            name={n}
+                            value={hsb[k] ?? ""}
+                            onChange={(v) => setHsb((p) => ({ ...p, [k]: v }))}
+                            hint={HSB_HINTS[k]}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {([
+                    ["Hub", "HUB"],
+                    ["Primary PE", "PRI"],
+                    ["Backup PE", "BAK"],
+                  ] as const).map(([label, pfx]) => (
+                    <div key={pfx}>
+                      <div className="mb-2 text-xs font-medium text-foreground">
+                        {label} — attachment circuit
+                      </div>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {([
+                          ["$AC_INTF", `${pfx}_AC_INTF`],
+                          ["$UNIT", `${pfx}_UNIT`],
+                          ["$VLAN", `${pfx}_VLAN`],
+                          ["$INPUT_VID", `${pfx}_INPUT_VID`],
+                        ] as const).map(([n, k]) => (
+                          <VarField
+                            key={k}
+                            name={n}
+                            value={hsb[k] ?? ""}
+                            onChange={(v) => setHsb((p) => ({ ...p, [k]: v }))}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : roleBased ? (
                 <div className="rounded-md border border-border bg-background p-3">
                   <div className="flex flex-wrap items-center gap-4">
                     <label className="flex items-center gap-2 text-xs font-medium text-foreground">
@@ -2089,6 +2292,40 @@ export default function ConfigGenerator() {
               <Cpu className="mb-2 h-6 w-6 text-muted-foreground/60" />
               Work through the steps and the validated config appears here.
             </div>
+          ) : isHsb ? (
+            <>
+              {missing.length > 0 && (
+                <div className="mt-3 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-2 text-[11px] text-amber-700 dark:text-amber-400">
+                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>Unfilled variables: {missing.join(", ")}.</span>
+                </div>
+              )}
+              {hsbRender &&
+                ([
+                  ["Hub", hsbRender.hub],
+                  ["Primary PE", hsbRender.pri],
+                  ["Backup PE", hsbRender.bak],
+                ] as const).map(([label, text]) => (
+                  <div key={label} className="mt-3">
+                    <div className="mb-1 text-[11px] font-semibold text-primary">
+                      # {label} · {OS_LABELS.evo}
+                    </div>
+                    <pre className="max-h-[24rem] overflow-auto rounded-md border border-border bg-background p-3 text-[11px] leading-relaxed text-foreground">
+                      {text}
+                    </pre>
+                  </div>
+                ))}
+              <div className="mt-2 text-[11px] text-muted-foreground">
+                3 devices · Hub + Primary PE + Backup PE ·{" "}
+                {[sel.cos && "CoS", sel.firewall && "firewall filter"]
+                  .filter(Boolean)
+                  .join(" + ") || "service only"}{" "}
+                · rendered client-side from the JVD snip library
+              </div>
+              <div className="mt-1 text-[11px] font-medium text-primary">
+                Download includes all 3 device configs.
+              </div>
+            </>
           ) : (
             <>
               {missing.length > 0 && (

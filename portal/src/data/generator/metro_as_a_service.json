@@ -94,6 +94,11 @@
     "SITE_NAME": { "type": "name" },
     "REMOTE_SITE_ID": { "type": "range", "min": 1, "max": 65534 },
     "VC_ID": { "type": "range", "min": 1, "max": 4294967295 },
+    "VC_ID_PRIMARY": { "type": "range", "min": 1, "max": 4294967295 },
+    "VC_ID_BACKUP": { "type": "range", "min": 1, "max": 4294967295 },
+    "HUB_LOOPBACK": { "type": "ip" },
+    "PRIMARY_LOOPBACK": { "type": "ip" },
+    "BACKUP_LOOPBACK": { "type": "ip" },
     "MTU": { "type": "enum", "values": ["1522", "2000", "9102", "9192", "9500"] },
     "LABEL_BLOCK_SIZE": { "type": "enum", "values": ["2", "4", "8", "16", "32", "64"] },
     "PS_SERVICE": { "type": "range", "min": 1, "max": 16385 },
@@ -259,13 +264,12 @@
             {
               "id": "l2circuit-hot-standby",
               "label": "L2Circuit (hot-standby)",
-              "description": "LDP pseudowire with a primary + backup neighbor for fast failover.",
+              "description": "Hot-standby LDP pseudowire across 3 devices: a Hub carrying active + hot-standby pseudowires to a Primary PE and a Backup PE.",
+              "hotStandby": true,
               "os": {
                 "evo": {
-                  "service": [
-                    "evo/services/l2circuit-hot-standby-primary",
-                    "evo/services/l2circuit-hot-standby-backup"
-                  ],
+                  "service": ["evo/services/l2circuit-hsb-pe"],
+                  "hubService": ["evo/services/l2circuit-hsb-hub"],
                   "interface": { "single-homed": "evo/interfaces/vlan-ccc-vlan-map" },
                   "interfaceExtras": ["evo/interfaces/physical-mtu"],
                   "filter": { "color-blind": "evo/firewall/filter-ccc-color-blind" }

@@ -644,7 +644,7 @@
           "platform": "ACX7100-48L"
         }
       ],
-      "size_bytes": 1141,
+      "size_bytes": 1129,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/physical-mtu.conf"
     },
     {
@@ -1084,7 +1084,7 @@
           "platform": "ACX7509"
         }
       ],
-      "size_bytes": 1066,
+      "size_bytes": 1042,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/interfaces/vlan-ccc-vlan-map.conf"
     },
     {
@@ -1565,11 +1565,26 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-floating-pw.conf"
     },
     {
-      "path": "evo/services/l2circuit-hot-standby-backup.conf",
+      "path": "evo/services/l2circuit-hsb-hub.conf",
       "os": "evo",
       "category": "services",
-      "name": "l2circuit-hot-standby-backup",
-      "topic": "Service instance: l2circuit hot standby backup (MEF E-Line / EVPL)",
+      "name": "l2circuit-hsb-hub",
+      "topic": "Service instance: l2circuit hot-standby \u2014 Hub (MEF E-Line / EVPL)",
+      "seen_on": [
+        {
+          "label": "AN3",
+          "platform": "ACX7100-48L"
+        }
+      ],
+      "size_bytes": 1966,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-hub.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-hsb-pe.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hsb-pe",
+      "topic": "Service instance: l2circuit hot-standby \u2014 Primary / Backup PE (MEF E-Line / EVPL)",
       "seen_on": [
         {
           "label": "MEG1",
@@ -1580,23 +1595,8 @@
           "platform": "ACX7509"
         }
       ],
-      "size_bytes": 1321,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-backup.conf"
-    },
-    {
-      "path": "evo/services/l2circuit-hot-standby-primary.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "l2circuit-hot-standby-primary",
-      "topic": "Service instance: l2circuit hot standby primary (MEF E-Line / EVPL)",
-      "seen_on": [
-        {
-          "label": "AN3",
-          "platform": "ACX7100-48L"
-        }
-      ],
-      "size_bytes": 1408,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hot-standby-primary.conf"
+      "size_bytes": 1833,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2circuit-hsb-pe.conf"
     },
     {
       "path": "evo/services/l2circuit-lsw.conf",

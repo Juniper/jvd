@@ -1508,7 +1508,7 @@ irb {
  *   - evo/services/evpn-fxc-vlan-unaware.conf
  *   - evo/services/evpn-vpws-port-based.conf
  *   - evo/services/evpn-vpws-vlan-based.conf
- *   - evo/services/l2circuit-hot-standby-primary.conf
+ *   - evo/services/l2circuit-hsb-hub.conf
  *   - evo/services/l2vpn-kompella-port-based.conf
  *   - evo/services/l2vpn-kompella-vlan-based.conf
  *
@@ -2560,8 +2560,8 @@ interfaces {
  *   - evo/cos/rewrite-rules.conf
  *   - evo/firewall/filter-ccc-color-blind.conf
  *   - evo/services/evpn-vpws-vlan-based.conf
- *   - evo/services/l2circuit-hot-standby-backup.conf
- *   - evo/services/l2circuit-hot-standby-primary.conf
+ *   - evo/services/l2circuit-hsb-pe.conf
+ *   - evo/services/l2circuit-hsb-hub.conf
  *
  * Variables:
  *   $AC_INTF    e.g. et-0/0/13
@@ -3863,61 +3863,17 @@ protocols {
 }
 ```
 
-## evo/services/l2circuit-hot-standby-backup.conf
+## evo/services/l2circuit-hsb-hub.conf
 
 ```
 /*
- * Topic:   Service instance: l2circuit hot standby backup (MEF E-Line / EVPL)
+ * Topic:   Service instance: l2circuit hot-standby — Hub (MEF E-Line / EVPL)
  *
- * Seen on:
- *   Evo: MEG1 (ACX7100-32C), MEG2 (ACX7509)
- *
- * Highlights:
- *   - Static targeted-LDP L2-circuit pseudowire (no routing-instance required)
- *
- * Pair with (same-device dependencies):
- *   - evo/cos/classifiers.conf
- *   - evo/cos/cos-binding-ieee8021p.conf
- *   - evo/cos/rewrite-rules.conf
- *   - evo/firewall/filter-ccc-color-blind.conf
- *   - evo/interfaces/vlan-ccc-vlan-map.conf
- *
- * JVD service mapping:
- *   l2ckt-vc2006 (eline_evpl_l2ckt_hsb.conf):
- *     PEs (Evo): AN3 (ACX7100-48L), MEG1 (ACX7100-32C)
- *   l2ckt-vc3333 (eline_evpl_l2ckt_hsb.conf):
- *     PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)
- *
- * Variables:
- *   $AC_INTF  e.g. et-0/0/28:2
- *   $UNIT     e.g. 4006
- *   $VC_ID    e.g. 2006
- */
-protocols {
-    l2circuit {
-        neighbor 10.0.0.2 {
-            interface $AC_INTF.$UNIT {
-                virtual-circuit-id $VC_ID;
-                control-word;
-                flow-label-transmit;
-                flow-label-receive;
-                encapsulation-type ethernet-vlan;
-                ignore-encapsulation-mismatch;
-                ignore-mtu-mismatch;
-                pseudowire-status-tlv {
-                    hot-standby-vc-on;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/services/l2circuit-hot-standby-primary.conf
-
-```
-/*
- * Topic:   Service instance: l2circuit hot standby primary (MEF E-Line / EVPL)
+ * Role:
+ *   Hub = the l2circuit endpoint that carries BOTH the active and hot-standby
+ *   pseudowires. It runs the `hot-standby` statement on its backup-neighbor
+ *   (per Junos: configured on the router that has both active + standby VCs).
+ *   Pairs with two PE devices (Primary + Backup), each running hot-standby-vc-on.
  *
  * Seen on:
  *   Evo: AN3 (ACX7100-48L)
@@ -3940,25 +3896,85 @@ protocols {
  *     PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)
  *
  * Variables:
- *   $AC_INTF  e.g. et-0/0/13
- *   $UNIT     e.g. 4006
- *   $VC_ID_1  e.g. 2006
- *   $VC_ID_2  e.g. 3333
+ *   $AC_INTF           e.g. et-0/0/13
+ *   $UNIT              e.g. 4006
+ *   $PRIMARY_LOOPBACK  primary PE loopback   e.g. 10.0.0.6
+ *   $BACKUP_LOOPBACK   backup PE loopback    e.g. 10.0.0.7
+ *   $VC_ID_PRIMARY     active VC-ID          e.g. 2006
+ *   $VC_ID_BACKUP      hot-standby VC-ID     e.g. 3333
  */
 protocols {
     l2circuit {
-        neighbor 10.0.0.6 {
+        neighbor $PRIMARY_LOOPBACK {
             interface $AC_INTF.$UNIT {
-                virtual-circuit-id $VC_ID_1;
+                virtual-circuit-id $VC_ID_PRIMARY;
                 control-word;
                 flow-label-transmit;
                 flow-label-receive;
                 encapsulation-type ethernet-vlan;
                 ignore-mtu-mismatch;
                 pseudowire-status-tlv;
-                backup-neighbor 10.0.0.7 {
-                    virtual-circuit-id $VC_ID_2;
+                backup-neighbor $BACKUP_LOOPBACK {
+                    virtual-circuit-id $VC_ID_BACKUP;
                     hot-standby;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/services/l2circuit-hsb-pe.conf
+
+```
+/*
+ * Topic:   Service instance: l2circuit hot-standby — Primary / Backup PE (MEF E-Line / EVPL)
+ *
+ * Role:
+ *   PE = a provider-edge endpoint of a hot-standby l2circuit. It runs the
+ *   `hot-standby-vc-on` statement (per Junos: configured on PE routers to
+ *   signal a hot-standby pseudowire is desired). This same body serves BOTH the
+ *   Primary PE (active VC) and the Backup PE (hot-standby VC); only $VC_ID and
+ *   the attachment circuit differ. Its neighbor is the Hub's loopback.
+ *
+ * Seen on:
+ *   Evo: MEG1 (ACX7100-32C), MEG2 (ACX7509)
+ *
+ * Highlights:
+ *   - Static targeted-LDP L2-circuit pseudowire (no routing-instance required)
+ *
+ * Pair with (same-device dependencies):
+ *   - evo/cos/classifiers.conf
+ *   - evo/cos/cos-binding-ieee8021p.conf
+ *   - evo/cos/rewrite-rules.conf
+ *   - evo/firewall/filter-ccc-color-blind.conf
+ *   - evo/interfaces/vlan-ccc-vlan-map.conf
+ *
+ * JVD service mapping:
+ *   l2ckt-vc2006 (eline_evpl_l2ckt_hsb.conf):
+ *     PEs (Evo): AN3 (ACX7100-48L), MEG1 (ACX7100-32C)
+ *   l2ckt-vc3333 (eline_evpl_l2ckt_hsb.conf):
+ *     PEs (Evo): AN3 (ACX7100-48L), MEG2 (ACX7509)
+ *
+ * Variables:
+ *   $AC_INTF      e.g. et-0/0/28:2
+ *   $UNIT         e.g. 4006
+ *   $HUB_LOOPBACK hub loopback (neighbor)  e.g. 10.0.0.2
+ *   $VC_ID        this PE's VC-ID          e.g. 2006
+ */
+protocols {
+    l2circuit {
+        neighbor $HUB_LOOPBACK {
+            interface $AC_INTF.$UNIT {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                flow-label-transmit;
+                flow-label-receive;
+                encapsulation-type ethernet-vlan;
+                ignore-encapsulation-mismatch;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv {
+                    hot-standby-vc-on;
                 }
             }
         }
@@ -7922,7 +7938,7 @@ per the OS column, unless already shown).
 | `l2vpn-kompella` | `services/l2vpn-kompella-vlan-based.conf` | `interfaces/vlan-ccc.conf` | `services/l2vpn-kompella-vlan-based.conf` | `interfaces/vlan-ccc.conf` |
 | `bgp-vpls-p2p` | `services/bgp-vpls-p2p.conf` | `interfaces/vlan-bridge.conf` | `services/bgp-vpls-p2p.conf` | `interfaces/vlan-bridge.conf` |
 | `l2circuit` (floating PW) | `services/l2circuit-floating-pw.conf` + `interfaces/pseudowire-subscriber.conf` | `interfaces/vlan-ccc.conf` | `services/l2circuit-floating-pw.conf` | `interfaces/vlan-ccc.conf` |
-| `l2circuit` (hot-standby) | — | — | `services/l2circuit-hot-standby-primary.conf` + `services/l2circuit-hot-standby-backup.conf` | `interfaces/vlan-ccc-vlan-map.conf` |
+| `l2circuit` (hot-standby) | — | — | `services/l2circuit-hsb-hub.conf` + `services/l2circuit-hsb-pe.conf` | `interfaces/vlan-ccc-vlan-map.conf` |
 | `evpn-fxc` (vlan-unaware) | `services/evpn-fxc-vlan-unaware.conf` | `interfaces/vlan-ccc-vlan-map{-esi}.conf` | `services/evpn-fxc-vlan-unaware.conf` | `interfaces/vlan-ccc-2-units.conf` |
 | `evpn-fxc` (vlan-aware) | — | — | `services/evpn-fxc-vlan-aware.conf` | `interfaces/vlan-ccc-vlan-map-esi-2-units.conf` |
 | `evpn-floating-pw` | `services/evpn-elan-vlan-based-floating-pw.conf` + `services/l2circuit-floating-pw.conf` + `interfaces/pseudowire-subscriber.conf` | `interfaces/vlan-bridge-esi.conf` | — | — |
