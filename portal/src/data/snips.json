@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-30T15:38:36.100Z",
+  "generatedAt": "2026-08-03T18:49:03.386Z",
   "counts": {
-    "total": 638,
-    "junos": 326,
-    "evo": 312,
-    "jvds": 17
+    "total": 675,
+    "junos": 344,
+    "evo": 331,
+    "jvds": 18
   },
   "categories": [
     "apply-groups",
@@ -156,6 +156,17 @@
         "junos": 25,
         "evo": 26,
         "total": 51
+      }
+    },
+    {
+      "id": "ewan_core_edge",
+      "label": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "repoPath": "enterprise_wan/ewan_core_edge",
+      "counts": {
+        "junos": 18,
+        "evo": 19,
+        "total": 37
       }
     },
     {
@@ -12464,6 +12475,2514 @@
         "EVPN-VPWS",
         "EVPN-ELAN",
         "MPLS"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/bootstrap/chassis",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "bootstrap",
+      "name": "chassis",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/bootstrap/chassis.conf",
+      "topic": "Chassis — aggregated-devices count and network-services enhanced-ip (EVO)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_ptx10003",
+          "p2_ptx10001-36mr",
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "aggregated-devices device-count 25 pre-allocates ae interface namespace",
+        "network-services enhanced-ip required on EVO for MPLS/VPN functionality",
+        "Must be set before enabling L3VPN/VPLS/L2CKT services"
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AE_DEVICE_COUNT",
+          "example": "25"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "chassis {\n    aggregated-devices {\n        ethernet {\n            device-count $AE_DEVICE_COUNT;\n        }\n    }\n    network-services enhanced-ip;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    aggregated-devices {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ethernet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            device-count $AE_DEVICE_COUNT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    network-services enhanced-ip;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 148,
+      "lineCount": 8,
+      "techFamily": "Chassis",
+      "subfamily": "Chassis",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/bootstrap/forwarding-options-hash",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "bootstrap",
+      "name": "forwarding-options-hash",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/bootstrap/forwarding-options-hash.conf",
+      "topic": "Forwarding-options hash-key — MPLS and multiservice ECMP hashing",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "Body is byte-identical to the Junos sibling",
+        "All 6 P and PE devices use this hash configuration"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/mpls-transit.conf — MPLS forwarding benefits from hash",
+          "id": "ewan_core_edge/evo/transport/mpls-transit",
+          "note": "— MPLS forwarding benefits from hash"
+        },
+        {
+          "raw": "evo/transport/ldp.conf — LDP LSPs use the MPLS hash-key",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— LDP LSPs use the MPLS hash-key"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "forwarding-options {\n    hash-key {\n        family mpls {\n            label-1;\n            label-2;\n            label-3;\n        }\n        family multiservice {\n            source-mac;\n            destination-mac;\n        }\n    }\n    enhanced-hash-key {\n        family mpls {\n            no-payload;\n        }\n    }\n    load-balance-label-capability;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family multiservice {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            source-mac;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            destination-mac;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    enhanced-hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            no-payload;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    load-balance-label-capability;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 352,
+      "lineCount": 19,
+      "techFamily": "Chassis",
+      "subfamily": "Bootstrap",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/interfaces/ae-lag-access",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "ae-lag-access",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/interfaces/ae-lag-access.conf",
+      "topic": "Aggregated Ethernet LAG — access link with flexible-vlan-tagging (service-facing)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Body is byte-identical to the Junos sibling",
+        "Carries thousands of VLAN-tagged subinterfaces for services"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
+          "id": "ewan_core_edge/evo/bootstrap/chassis",
+          "note": "— pre-allocates ae device-count + enhanced-ip"
+        },
+        {
+          "raw": "evo/services/vpls-virtual-switch.conf — L2 units reference ae1.X",
+          "id": "ewan_core_edge/evo/services/vpls-virtual-switch",
+          "note": "— L2 units reference ae1.X"
+        },
+        {
+          "raw": "evo/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
+          "id": "ewan_core_edge/evo/services/l2ckt-pseudowire",
+          "note": "— L2CKT units reference ae1.X"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AE_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$LACP_SYSTEM_ID",
+          "example": "00:00:44:00:00:01"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AE_INTF {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYSTEM_ID;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AE_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYSTEM_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 292,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Aggregated Ethernet",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/interfaces/ae-lag-core",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "name": "ae-lag-core",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/interfaces/ae-lag-core.conf",
+      "topic": "Aggregated Ethernet LAG — core link with LACP (P2P to P-router)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "Core-facing LAG with LACP active + periodic fast",
+        "wanedge3 uses direct interfaces (no core ae LAG on that device)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/bootstrap/chassis.conf — pre-allocates ae device-count + enhanced-ip",
+          "id": "ewan_core_edge/evo/bootstrap/chassis",
+          "note": "— pre-allocates ae device-count + enhanced-ip"
+        },
+        {
+          "raw": "evo/transport/ospf-lfa.conf — OSPF runs on ae unit 0",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
+          "note": "— OSPF runs on ae unit 0"
+        },
+        {
+          "raw": "evo/transport/ldp.conf — LDP runs on ae unit 0",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— LDP runs on ae unit 0"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AE_INTF",
+          "example": "ae2"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "P1Node to WANEdge1"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "192.168.12.2/24"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AE_INTF {\n        description \"$DESCRIPTION\";\n        aggregated-ether-options {\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $LOCAL_ADDRESS;\n            }\n            family mpls;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AE_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description \"$DESCRIPTION\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 336,
+      "lineCount": 17,
+      "techFamily": "Interfaces",
+      "subfamily": "Aggregated Ethernet",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "bgp-to-ospf",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/bgp-to-ospf.conf",
+      "topic": "BGP-to-OSPF redistribution policy (for multicast VPN CE routing)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs",
+        "Enables BGP-learned VPN routes to be redistributed into VRF-local OSPF",
+        "Also used as iBGP group export on PE devices for multicast signaling"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-vrf.conf — OSPF export references this policy",
+          "id": "ewan_core_edge/evo/services/ngmvpn-vrf",
+          "note": "— OSPF export references this policy"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement bgp-to-ospf {\n        from protocol bgp;\n        then accept;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement bgp-to-ospf {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 107,
+      "lineCount": 6,
+      "techFamily": "Policy & Routing",
+      "subfamily": "OSPF",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/hub-spoke-community",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "hub-spoke-community",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/hub-spoke-community.conf",
+      "topic": "Hub-and-Spoke communities — RT community per spoke/hub group",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "Hub community carries routes FROM hub TO spokes (odd RT values)",
+        "Spoke community carries routes FROM spoke TO hub (even RT values)",
+        "Pattern: hub_N target:65535:<2N-1>, spoke_N target:65535:<2N>",
+        "1000 hub + 1000 spoke communities validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/hub-spoke-import-export.conf — references these communities",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+          "note": "— references these communities"
+        },
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — vrf-import uses hub/spoke policies",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— vrf-import uses hub/spoke policies"
+        },
+        {
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — vrf-export uses hub/spoke policies",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+          "note": "— vrf-export uses hub/spoke policies"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_COMMUNITY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_RT",
+          "example": "target:65535:1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_RT",
+          "example": "target:65535:2"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community $HUB_COMMUNITY_NAME members $HUB_RT;\n    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $HUB_COMMUNITY_NAME members $HUB_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 124,
+      "lineCount": 4,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "hub-spoke-import-export",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/hub-spoke-import-export.conf",
+      "topic": "Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "hub_N policy: accepts routes with spoke_N community (hub imports from spokes)",
+        "spoke_N policy: adds spoke_N community on export, accepts bgp+direct",
+        "Explicit reject term prevents route leaking between VRFs",
+        "Used by ngmvpn-hub-adv and ngmvpn-spoke-adv vrf-import/vrf-export"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/hub-spoke-community.conf — community definitions referenced here",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-community",
+          "note": "— community definitions referenced here"
+        },
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — hub VRFs use spoke import",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— hub VRFs use spoke import"
+        },
+        {
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — spoke VRFs use hub export",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+          "note": "— spoke VRFs use hub export"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_POLICY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_COMMUNITY",
+          "example": "hub_1"
+        },
+        {
+          "name": "$SPOKE_POLICY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY",
+          "example": "spoke_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $HUB_POLICY_NAME {\n        term a {\n            from {\n                protocol bgp;\n                community $HUB_COMMUNITY;\n            }\n            then accept;\n        }\n        term b {\n            then reject;\n        }\n    }\n    policy-statement $SPOKE_POLICY_NAME {\n        term a {\n            from protocol [ bgp direct ];\n            then {\n                community add $SPOKE_COMMUNITY;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $HUB_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community $HUB_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $SPOKE_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol [ bgp direct ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $SPOKE_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 547,
+      "lineCount": 26,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/policy/redistribute-vpn",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "redistribute-vpn",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/policy/redistribute-vpn.conf",
+      "topic": "Redistribute-VPN policy (export VPN routes to eBGP CE in hub-spoke)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "Used by Hub_Adv_To_Spokes VRFs to export VPN routes toward CE",
+        "Accepts protocol bgp routes and rejects all else",
+        "Applied as BGP group export in the hub VRF's CE peering"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — references this as BGP group export",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— references this as BGP group export"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement redistribute-vpn {\n        term a {\n            from protocol bgp;\n            then accept;\n        }\n        term b {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement redistribute-vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 199,
+      "lineCount": 11,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/l2ckt-pseudowire",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "l2ckt-pseudowire",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l2ckt-pseudowire.conf",
+      "topic": "L2CKT pseudowire (protocols l2circuit)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Point-to-point L2 circuit over MPLS (CCC encapsulation)",
+        "No hot-standby backup on EVO (Junos sibling adds backup-neighbor)",
+        "Validated on ACX7509 and ACX7100-48L EVO platforms"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ldp.conf — targeted LDP session to remote PE",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— targeted LDP session to remote PE"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PE_NEIGHBOR",
+          "example": "192.168.0.12"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1502"
+        },
+        {
+          "name": "$VC_ID",
+          "example": "1502"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "l2circuit {\n    neighbor $PE_NEIGHBOR {\n        interface $AC_INTF.$UNIT {\n            virtual-circuit-id $VC_ID;\n            control-word;\n            encapsulation-type ethernet-vlan;\n            ignore-encapsulation-mismatch;\n            ignore-mtu-mismatch;\n            pseudowire-status-tlv;\n            revert-time 30;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    neighbor $PE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            revert-time </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 342,
+      "lineCount": 13,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/l3vpn-vrf-vrrp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "l3vpn-vrf-vrrp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/l3vpn-vrf-vrrp.conf",
+      "topic": "L3VPN VRF with VRRP — PE-CE eBGP peering, vrf-target, vrf-table-label",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Body is byte-identical to the Junos sibling",
+        "Validated on ACX7509 and ACX7100-48L (EVO platforms)",
+        "513 instances validated at scale on each WAN Edge"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)",
+          "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
+          "note": "— redistributes BGP into OSPF (if multicast VRF co-exists)"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "l3vpn_vrrp_3001_3002"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "192.168.0.14"
+        },
+        {
+          "name": "$CE_GROUP",
+          "example": "CE2"
+        },
+        {
+          "name": "$CE_NEIGHBOR",
+          "example": "10.75.0.7"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.75.0.8"
+        },
+        {
+          "name": "$CE_PEER_AS",
+          "example": "64520"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/12"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3002"
+        },
+        {
+          "name": "$RD",
+          "example": "192.168.0.14:3002"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "64510:3002"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    routing-options {\n        router-id $ROUTER_ID;\n    }\n    protocols {\n        bgp {\n            group $CE_GROUP {\n                type external;\n                family inet {\n                    any;\n                }\n                neighbor $CE_NEIGHBOR {\n                    local-address $LOCAL_ADDRESS;\n                    peer-as $CE_PEER_AS;\n                }\n            }\n        }\n    }\n    interface $AC_INTF.$UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $CE_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 552,
+      "lineCount": 24,
+      "techFamily": "Service Overlay",
+      "subfamily": "L3VPN",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "ngmvpn-hub-adv",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-hub-adv.conf",
+      "topic": "NGMVPN Hub-and-Spoke — Hub advertise-to-spokes VRF (vrf-import spoke, vrf-export null)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "Hub side of hub-and-spoke NGMVPN — receives spoke routes via vrf-import",
+        "vrf-export null (hub does not re-export to other hubs)",
+        "eBGP CE peering with export redistribute-vpn policy",
+        "1000 Hub_Adv instances on WAN Edge 3 (ACX7509)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-spoke-adv.conf — corresponding spoke-side VRF",
+          "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+          "note": "— corresponding spoke-side VRF"
+        },
+        {
+          "raw": "evo/policy/hub-spoke-import-export.conf — spoke_N import policy",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+          "note": "— spoke_N import policy"
+        },
+        {
+          "raw": "evo/policy/redistribute-vpn.conf — export policy for CE redistribution",
+          "id": "ewan_core_edge/evo/policy/redistribute-vpn",
+          "note": "— export policy for CE redistribution"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "Hub_Adv_To_Spokes_1001"
+        },
+        {
+          "name": "$CE_GROUP",
+          "example": "CE2"
+        },
+        {
+          "name": "$CE_NEIGHBOR",
+          "example": "10.70.0.1"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.70.0.2"
+        },
+        {
+          "name": "$CE_PEER_AS",
+          "example": "64520"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/12"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2001"
+        },
+        {
+          "name": "$RD",
+          "example": "192.168.0.14:2001"
+        },
+        {
+          "name": "$VRF_IMPORT",
+          "example": "spoke_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        bgp {\n            group $CE_GROUP {\n                type external;\n                export redistribute-vpn;\n                neighbor $CE_NEIGHBOR {\n                    local-address $LOCAL_ADDRESS;\n                    peer-as $CE_PEER_AS;\n                }\n            }\n        }\n    }\n    interface $AC_INTF.$UNIT;\n    route-distinguisher $RD;\n    vrf-import $VRF_IMPORT;\n    vrf-export null;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $CE_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type external;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                export</span><span style=\"color:#E6EDF3\"> redistribute-vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-import $VRF_IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> null;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 455,
+      "lineCount": 19,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/ngmvpn-spoke-adv",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "ngmvpn-spoke-adv",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-spoke-adv.conf",
+      "topic": "NGMVPN Hub-and-Spoke — Spoke advertise-to-hub VRF (vrf-import null, vrf-export hub)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509"
+        ]
+      },
+      "highlights": [
+        "Spoke side of hub-and-spoke NGMVPN — exports routes with hub community",
+        "vrf-import null (spoke does not import from other spokes directly)",
+        "eBGP CE peering without export policy (CE routes only)",
+        "1000 Spokes_Adv instances on WAN Edge 3 (ACX7509)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-hub-adv.conf — corresponding hub-side VRF",
+          "id": "ewan_core_edge/evo/services/ngmvpn-hub-adv",
+          "note": "— corresponding hub-side VRF"
+        },
+        {
+          "raw": "evo/policy/hub-spoke-import-export.conf — hub_N export policy",
+          "id": "ewan_core_edge/evo/policy/hub-spoke-import-export",
+          "note": "— hub_N export policy"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "Spokes_Adv_To_Hub_1001"
+        },
+        {
+          "name": "$CE_GROUP",
+          "example": "CE2"
+        },
+        {
+          "name": "$CE_NEIGHBOR",
+          "example": "10.65.0.1"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.65.0.2"
+        },
+        {
+          "name": "$CE_PEER_AS",
+          "example": "64520"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-1/0/12"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1001"
+        },
+        {
+          "name": "$RD",
+          "example": "192.168.0.14:1001"
+        },
+        {
+          "name": "$VRF_EXPORT",
+          "example": "hub_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        bgp {\n            group $CE_GROUP {\n                type external;\n                neighbor $CE_NEIGHBOR {\n                    local-address $LOCAL_ADDRESS;\n                    peer-as $CE_PEER_AS;\n                }\n            }\n        }\n    }\n    interface $AC_INTF.$UNIT;\n    route-distinguisher $RD;\n    vrf-import null;\n    vrf-export $VRF_EXPORT;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $CE_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-import null;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $VRF_EXPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 414,
+      "lineCount": 18,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/ngmvpn-vrf",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "ngmvpn-vrf",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/ngmvpn-vrf.conf",
+      "topic": "NGMVPN (Next-Generation Multicast VPN) — multicast VRF with MVPN, PIM, OSPF CE",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)",
+        "PIM sparse-mode with local RP + process-non-null-as-null-register",
+        "OSPF CE redistribution (bgp-to-ospf export policy)",
+        "provider-tunnel ldp-p2mp with selective per-group tunnels",
+        "100 multicast VPN instances validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/pim-sparse-rp.conf — global PIM for core multicast",
+          "id": "ewan_core_edge/evo/transport/pim-sparse-rp",
+          "note": "— global PIM for core multicast"
+        },
+        {
+          "raw": "evo/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
+          "id": "ewan_core_edge/evo/policy/bgp-to-ospf",
+          "note": "— redistributes BGP into VRF OSPF"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "vpn-mcast_10"
+        },
+        {
+          "name": "$LOOPBACK_UNIT",
+          "example": "10"
+        },
+        {
+          "name": "$CE_INTF",
+          "example": "et-1/0/10"
+        },
+        {
+          "name": "$CE_UNIT",
+          "example": "10"
+        },
+        {
+          "name": "$RP_ADDRESS",
+          "example": "10.33.33.10"
+        },
+        {
+          "name": "$MCAST_GROUP",
+          "example": "227.1.1.10/32"
+        },
+        {
+          "name": "$MCAST_SOURCE",
+          "example": "124.1.10.1/32"
+        },
+        {
+          "name": "$RD",
+          "example": "10.33.33.10:10"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "1:10"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  100 NGMVPN instances (vpn-mcast_1 through vpn-mcast_100) on 4 WAN Edge PEs"
+      ],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    address $RP_ADDRESS;\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                    process-non-null-as-null-register;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT {\n                mode sparse;\n                version 2;\n            }\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n                version 2;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source $MCAST_SOURCE {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    process-non-null-as-null-register;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source $MCAST_SOURCE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1164,
+      "lineCount": 48,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/services/vpls-virtual-switch",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "vpls-virtual-switch",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/services/vpls-virtual-switch.conf",
+      "topic": "VPLS virtual-switch instance with LDP signaling (EVO vlans syntax)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "instance-type virtual-switch with vlans (EVO syntax, not bridge-domains)",
+        "VPLS site-identifier for multi-homing site designation",
+        "no-tunnel-services (uses LDP instead of RSVP tunnel)",
+        "flow-label-transmit/receive for FAT pseudowire ECMP",
+        "1000 instances validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ldp.conf — LDP signaling for VPLS pseudowires",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— LDP signaling for VPLS pseudowires"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "vpls_group_101_1"
+        },
+        {
+          "name": "$SITE_NAME",
+          "example": "103"
+        },
+        {
+          "name": "$SITE_ID",
+          "example": "1003"
+        },
+        {
+          "name": "$VPLS_ID",
+          "example": "1"
+        },
+        {
+          "name": "$VLAN_NAME",
+          "example": "VPLS1"
+        },
+        {
+          "name": "$VLAN",
+          "example": "1"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1"
+        },
+        {
+          "name": "$RD",
+          "example": "4444:1011"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "64512:1011"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type virtual-switch;\n    protocols {\n        vpls {\n            site $SITE_NAME {\n                site-identifier $SITE_ID;\n            }\n            no-tunnel-services;\n            vpls-id $VPLS_ID;\n            flow-label-transmit;\n            flow-label-receive;\n        }\n    }\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vlans {\n        $VLAN_NAME {\n            vlan-id $VLAN;\n            interface $AC_INTF.$UNIT;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            site $SITE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls-id $VPLS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        $VLAN_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 485,
+      "lineCount": 22,
+      "techFamily": "Service Overlay",
+      "subfamily": "VPLS",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/transport/bgp-ibgp-rr",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "bgp-ibgp-rr",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/bgp-ibgp-rr.conf",
+      "topic": "iBGP Route Reflector — inet-vpn, l2vpn families with cluster-id",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "Route Reflector with cluster-id (cluster = RR loopback)",
+        "inet-vpn + l2vpn signaling + inet unicast (for labeled routes)",
+        "Reflects to all PE clients (wanedge1-4)",
+        "BFD liveness detection + graceful-restart + multipath",
+        "send-ospf export policy redistributes OSPF into BGP for VPN reachability"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ospf-lfa.conf — IGP reachability to PE loopbacks",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
+          "note": "— IGP reachability to PE loopbacks"
+        },
+        {
+          "raw": "evo/transport/ldp.conf — label distribution",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— label distribution"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "1.1.1.8"
+        },
+        {
+          "name": "$CLUSTER_ID",
+          "example": "1.1.1.8"
+        },
+        {
+          "name": "$LOCAL_AS",
+          "example": "64512"
+        },
+        {
+          "name": "$PE_NEIGHBOR_1",
+          "example": "2.2.2.2"
+        },
+        {
+          "name": "$PE_NEIGHBOR_2",
+          "example": "4.4.4.4"
+        },
+        {
+          "name": "$PE_NEIGHBOR_3",
+          "example": "5.5.5.5"
+        },
+        {
+          "name": "$PE_NEIGHBOR_4",
+          "example": "7.7.7.7"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group ibgp {\n            type internal;\n            local-address $LOCAL_ADDRESS;\n            family inet {\n                any;\n            }\n            family inet-vpn {\n                any;\n            }\n            family l2vpn {\n                signaling;\n            }\n            export send-ospf;\n            cluster $CLUSTER_ID;\n            local-as $LOCAL_AS;\n            graceful-restart;\n            multipath;\n            bfd-liveness-detection {\n                minimum-interval 10;\n                multiplier 3;\n            }\n            neighbor $PE_NEIGHBOR_1;\n            neighbor $PE_NEIGHBOR_2;\n            neighbor $PE_NEIGHBOR_3;\n            neighbor $PE_NEIGHBOR_4;\n        }\n        advertise-peer-as;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group ibgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet-vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> send-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            cluster $CLUSTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            multipath;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PE_NEIGHBOR_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PE_NEIGHBOR_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PE_NEIGHBOR_3;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $PE_NEIGHBOR_4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        advertise-peer-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 764,
+      "lineCount": 31,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/transport/ldp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "ldp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/ldp.conf",
+      "topic": "LDP with auto-targeted sessions and P2MP (multicast)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "auto-targeted sessions with P2MP capability for multicast",
+        "All EVO P and PE devices run LDP"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ospf-lfa.conf — IGP reachability for LDP sessions",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
+          "note": "— IGP reachability for LDP sessions"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-1/0/0.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "et-1/0/1.0"
+        },
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        auto-targeted-session {\n            teardown-delay 90;\n            maximum-sessions 100;\n        }\n        interface $CORE_INTF_1;\n        interface $CORE_INTF_2;\n        interface $LOOPBACK;\n        p2mp;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        auto-targeted-session {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            teardown-delay </span><span style=\"color:#79C0FF\">90</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            maximum-sessions </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 243,
+      "lineCount": 12,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/transport/mpls-transit",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "mpls-transit",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/mpls-transit.conf",
+      "topic": "MPLS interfaces (EVO P-routers — no LSPs, transit only)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "P-routers enable MPLS on all core-facing interfaces (transit role)",
+        "No LSP head-end on P-routers — they are transit/RR only"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ospf-lfa.conf — IGP provides topology for MPLS forwarding",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
+          "note": "— IGP provides topology for MPLS forwarding"
+        },
+        {
+          "raw": "evo/transport/ldp.conf — label distribution",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— label distribution"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-0/0/2.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "et-0/0/3.0"
+        },
+        {
+          "name": "$CORE_INTF_3",
+          "example": "ae2.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    mpls {\n        interface $CORE_INTF_1;\n        interface $CORE_INTF_2;\n        interface $CORE_INTF_3;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_3;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 126,
+      "lineCount": 7,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/transport/ospf-lfa",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "ospf-lfa",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/ospf-lfa.conf",
+      "topic": "OSPF with Loop-Free Alternates (LFA) — remote-backup, per-prefix, node-link-degradation",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "EVO uses passive on loopback (Junos leaves it bare)",
+        "All 4 EVO P/PE devices in the topology run OSPF LFA"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/ldp.conf — LDP runs on same interfaces",
+          "id": "ewan_core_edge/evo/transport/ldp",
+          "note": "— LDP runs on same interfaces"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        },
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-1/0/0.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "et-1/0/1.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ospf {\n        backup-spf-options {\n            remote-backup-calculation;\n            per-prefix-calculation all;\n            node-link-degradation;\n        }\n        traffic-engineering;\n        area 0.0.0.0 {\n            interface $LOOPBACK {\n                passive;\n            }\n            interface $CORE_INTF_1 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n            interface $CORE_INTF_2 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        backup-spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remote-backup-calculation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            per-prefix-calculation all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            node-link-degradation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        traffic-engineering;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                passive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 920,
+      "lineCount": 33,
+      "techFamily": "Transport",
+      "subfamily": "OSPF",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/evo/transport/pim-sparse-rp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "pim-sparse-rp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/evo/transport/pim-sparse-rp.conf",
+      "topic": "PIM sparse-mode — P-router as local RP for NGMVPN",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_ptx10003",
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "P1 acts as rendezvous point (local RP) for the multicast domain",
+        "process-non-null-as-null-register simplifies register handling",
+        "EVO PE devices use static RP pointing to P1 (same body as Junos)"
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
+          "id": "ewan_core_edge/evo/services/ngmvpn-vrf",
+          "note": "— per-VRF PIM/MVPN"
+        },
+        {
+          "raw": "evo/transport/ospf-lfa.conf — RP reachability via IGP",
+          "id": "ewan_core_edge/evo/transport/ospf-lfa",
+          "note": "— RP reachability via IGP"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$RP_ADDRESS",
+          "example": "1.1.1.8"
+        },
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-1/0/4.0"
+        },
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    pim {\n        rp {\n            local {\n                address $RP_ADDRESS;\n                process-non-null-as-null-register;\n            }\n        }\n        interface $CORE_INTF_1 {\n            mode sparse;\n        }\n        interface $LOOPBACK {\n            mode sparse;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                process-non-null-as-null-register;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 307,
+      "lineCount": 16,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/bootstrap/chassis",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "bootstrap",
+      "name": "chassis",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/bootstrap/chassis.conf",
+      "topic": "Chassis — aggregated-devices count (Junos)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008",
+          "ce2_mx480"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "aggregated-devices device-count 25 pre-allocates ae interface namespace",
+        "Junos MX does not require network-services enhanced-ip (unlike EVO)"
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AE_DEVICE_COUNT",
+          "example": "25"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "chassis {\n    aggregated-devices {\n        ethernet {\n            device-count $AE_DEVICE_COUNT;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    aggregated-devices {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ethernet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            device-count $AE_DEVICE_COUNT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 114,
+      "lineCount": 7,
+      "techFamily": "Chassis",
+      "subfamily": "Chassis",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/bootstrap/forwarding-options-hash",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "bootstrap",
+      "name": "forwarding-options-hash",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/bootstrap/forwarding-options-hash.conf",
+      "topic": "Forwarding-options hash-key — MPLS and multiservice ECMP hashing",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "MPLS hash-key uses label-1/2/3 for per-flow load-balancing across ECMP paths",
+        "Multiservice hash uses src+dst MAC for L2 service ECMP",
+        "enhanced-hash-key with no-payload (hash on labels only, not inner payload)",
+        "load-balance-label-capability enables entropy-label processing",
+        "Critical for achieving link utilization across parallel core paths"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/mpls-lsp.conf — entropy-label LSPs benefit from this hash config",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
+          "note": "— entropy-label LSPs benefit from this hash config"
+        },
+        {
+          "raw": "junos/transport/ldp.conf — LDP LSPs use the MPLS hash-key",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— LDP LSPs use the MPLS hash-key"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "forwarding-options {\n    hash-key {\n        family mpls {\n            label-1;\n            label-2;\n            label-3;\n        }\n        family multiservice {\n            source-mac;\n            destination-mac;\n        }\n    }\n    enhanced-hash-key {\n        family mpls {\n            no-payload;\n        }\n    }\n    load-balance-label-capability;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            label-</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family multiservice {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            source-mac;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            destination-mac;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    enhanced-hash-key {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        family mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            no-payload;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    load-balance-label-capability;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 352,
+      "lineCount": 19,
+      "techFamily": "Chassis",
+      "subfamily": "Bootstrap",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/cos/classifiers-forwarding-classes",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "cos",
+      "name": "classifiers-forwarding-classes",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/cos/classifiers-forwarding-classes.conf",
+      "topic": "Class-of-Service — DSCP and 802.1p classifiers, forwarding-classes, rewrite-rules",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "8 forwarding classes: be, be1, af, af1, ef, ef1, nc, nc1 (queues 0-7)",
+        "DSCP classifier \"mydscp\" maps 8 code-points with loss-priority differentiation",
+        "802.1p classifier \"dot1p\" for L2 service ingress classification",
+        "Enables hierarchical QoS for mixed L2/L3 services at scale",
+        "Only configured on WAN Edge PEs (not P-routers)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/vpls-virtual-switch.conf — L2 services use dot1p classifier",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
+          "note": "— L2 services use dot1p classifier"
+        },
+        {
+          "raw": "junos/services/l3vpn-vrf-vrrp.conf — L3 services use DSCP classifier",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-vrrp",
+          "note": "— L3 services use DSCP classifier"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    classifiers {\n        dscp mydscp {\n            forwarding-class af {\n                loss-priority low code-points 000101;\n            }\n            forwarding-class af1 {\n                loss-priority medium-low code-points 001101;\n            }\n            forwarding-class be {\n                loss-priority low code-points 000001;\n            }\n            forwarding-class be1 {\n                loss-priority medium-low code-points 001001;\n            }\n            forwarding-class ef {\n                loss-priority low code-points 000011;\n            }\n            forwarding-class ef1 {\n                loss-priority medium-low code-points 001011;\n            }\n            forwarding-class nc {\n                loss-priority low code-points 000111;\n            }\n            forwarding-class nc1 {\n                loss-priority medium-low code-points 001111;\n            }\n        }\n        ieee-802.1 dot1p {\n            forwarding-class af {\n                loss-priority low code-points 010;\n            }\n            forwarding-class af1 {\n                loss-priority low code-points 110;\n            }\n            forwarding-class be {\n                loss-priority low code-points 000;\n            }\n            forwarding-class be1 {\n                loss-priority low code-points 100;\n            }\n            forwarding-class ef {\n                loss-priority high code-points 001;\n            }\n            forwarding-class ef1 {\n                loss-priority high code-points 101;\n            }\n            forwarding-class nc {\n                loss-priority high code-points 011;\n            }\n            forwarding-class nc1 {\n                loss-priority high code-points 111;\n            }\n        }\n    }\n    forwarding-classes {\n        class af queue-num 2;\n        class af1 queue-num 6;\n        class be queue-num 0;\n        class be1 queue-num 4;\n        class ef queue-num 1;\n        class ef1 queue-num 5;\n        class nc queue-num 3;\n        class nc1 queue-num 7;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dscp mydscp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class af {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">000101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class af1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority medium-low code-points </span><span style=\"color:#79C0FF\">001101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class be {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">000001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class be1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority medium-low code-points </span><span style=\"color:#79C0FF\">001001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class ef {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">000011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class ef1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority medium-low code-points </span><span style=\"color:#79C0FF\">001011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class nc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">000111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class nc1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority medium-low code-points </span><span style=\"color:#79C0FF\">001111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> dot1p {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class af {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class af1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">110</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class be {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class be1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class ef {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class ef1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class nc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class nc1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-classes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class af queue-num </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class af1 queue-num </span><span style=\"color:#79C0FF\">6</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class be queue-num </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class be1 queue-num </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class ef queue-num </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class ef1 queue-num </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class nc queue-num </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class nc1 queue-num </span><span style=\"color:#79C0FF\">7</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 2036,
+      "lineCount": 66,
+      "techFamily": "QoS / CoS",
+      "subfamily": "CoS",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/interfaces/ae-lag-access",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "ae-lag-access",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ae-lag-access.conf",
+      "topic": "Aggregated Ethernet LAG — access link with flexible-vlan-tagging (service-facing)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "flexible-vlan-tagging + flexible-ethernet-services for per-unit encap selection",
+        "LACP active with system-id (MC-LAG identifier if dual-homed)",
+        "Carries thousands of VLAN-tagged subinterfaces for L2CKT/VPLS/L3VPN services",
+        "Each service unit uses vlan-bridge (L2) or vlan-ccc (L2CKT) or inet (L3VPN)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/bootstrap/chassis.conf — pre-allocates ae device-count",
+          "id": "ewan_core_edge/junos/bootstrap/chassis",
+          "note": "— pre-allocates ae device-count"
+        },
+        {
+          "raw": "junos/services/vpls-virtual-switch.conf — L2 units reference ae1.X",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
+          "note": "— L2 units reference ae1.X"
+        },
+        {
+          "raw": "junos/services/l2ckt-pseudowire.conf — L2CKT units reference ae1.X",
+          "id": "ewan_core_edge/junos/services/l2ckt-pseudowire",
+          "note": "— L2CKT units reference ae1.X"
+        },
+        {
+          "raw": "junos/services/l3vpn-vrf-vrrp.conf — L3VPN interface references",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-vrrp",
+          "note": "— L3VPN interface references"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AE_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$LACP_SYSTEM_ID",
+          "example": "00:00:22:00:00:01"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AE_INTF {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYSTEM_ID;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AE_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYSTEM_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 292,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Aggregated Ethernet",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/interfaces/ae-lag-core",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "name": "ae-lag-core",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ae-lag-core.conf",
+      "topic": "Aggregated Ethernet LAG — core link with LACP (P2P to P-router)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "LACP active with fast periodic (1s intervals)",
+        "Core-facing LAG carries family inet + family mpls (L3 + MPLS transport)",
+        "All PE-to-P links use ae2 as the core LAG in this topology"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/bootstrap/chassis.conf — pre-allocates ae device-count",
+          "id": "ewan_core_edge/junos/bootstrap/chassis",
+          "note": "— pre-allocates ae device-count"
+        },
+        {
+          "raw": "junos/transport/ospf-lfa.conf — OSPF runs on ae2.0",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
+          "note": "— OSPF runs on ae2.0"
+        },
+        {
+          "raw": "junos/transport/ldp.conf — LDP runs on ae2.0",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— LDP runs on ae2.0"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AE_INTF",
+          "example": "ae2"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "Link1 from WAN Edge1 to P1 Node"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.10.12.1/24"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AE_INTF {\n        description \"$DESCRIPTION\";\n        aggregated-ether-options {\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $LOCAL_ADDRESS;\n            }\n            family mpls;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AE_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        description \"$DESCRIPTION\";</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 336,
+      "lineCount": 17,
+      "techFamily": "Interfaces",
+      "subfamily": "Aggregated Ethernet",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "bgp-to-ospf",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/bgp-to-ospf.conf",
+      "topic": "BGP-to-OSPF redistribution policy (for multicast VPN CE routing)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Simple accept-all from protocol bgp; used as OSPF export in NGMVPN VRFs",
+        "Enables BGP-learned VPN routes to be redistributed into VRF-local OSPF",
+        "Also used as iBGP group export on PE devices for multicast signaling"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/ngmvpn-vrf.conf — OSPF export references this policy",
+          "id": "ewan_core_edge/junos/services/ngmvpn-vrf",
+          "note": "— OSPF export references this policy"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement bgp-to-ospf {\n        from protocol bgp;\n        then accept;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement bgp-to-ospf {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 107,
+      "lineCount": 6,
+      "techFamily": "Policy & Routing",
+      "subfamily": "OSPF",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/policy/hub-spoke-community",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "hub-spoke-community",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/hub-spoke-community.conf",
+      "topic": "Hub-and-Spoke communities — RT community per spoke/hub group",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Hub community carries routes FROM hub TO spokes (odd RT values)",
+        "Spoke community carries routes FROM spoke TO hub (even RT values)",
+        "Pattern: hub_N target:65535:<2N-1>, spoke_N target:65535:<2N>",
+        "1000 hub + 1000 spoke communities validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy/hub-spoke-import-export.conf — references these communities",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-import-export",
+          "note": "— references these communities"
+        },
+        {
+          "raw": "junos/services/l3vpn-vrf-spoke.conf — vrf-import/export uses hub/spoke policies",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-spoke",
+          "note": "— vrf-import/export uses hub/spoke policies"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_COMMUNITY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_RT",
+          "example": "target:65535:1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_RT",
+          "example": "target:65535:2"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community $HUB_COMMUNITY_NAME members $HUB_RT;\n    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $HUB_COMMUNITY_NAME members $HUB_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community $SPOKE_COMMUNITY_NAME members $SPOKE_RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 124,
+      "lineCount": 4,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/policy/hub-spoke-import-export",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "hub-spoke-import-export",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/policy/hub-spoke-import-export.conf",
+      "topic": "Hub-and-Spoke import/export policies — hub imports spoke community, spoke imports hub",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "hub_N policy: accepts routes with spoke_N community (hub imports from spokes)",
+        "spoke_N policy: adds spoke_N community on export, accepts bgp+direct",
+        "Explicit reject term prevents route leaking between VRFs",
+        "Used by l3vpn-vrf-spoke vrf-import/vrf-export statements"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy/hub-spoke-community.conf — community definitions referenced here",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-community",
+          "note": "— community definitions referenced here"
+        },
+        {
+          "raw": "junos/services/l3vpn-vrf-spoke.conf — uses these as vrf-import/export",
+          "id": "ewan_core_edge/junos/services/l3vpn-vrf-spoke",
+          "note": "— uses these as vrf-import/export"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$HUB_POLICY_NAME",
+          "example": "hub_1"
+        },
+        {
+          "name": "$HUB_COMMUNITY",
+          "example": "hub_1"
+        },
+        {
+          "name": "$SPOKE_POLICY_NAME",
+          "example": "spoke_1"
+        },
+        {
+          "name": "$SPOKE_COMMUNITY",
+          "example": "spoke_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $HUB_POLICY_NAME {\n        term a {\n            from {\n                protocol bgp;\n                community $HUB_COMMUNITY;\n            }\n            then accept;\n        }\n        term b {\n            then reject;\n        }\n    }\n    policy-statement $SPOKE_POLICY_NAME {\n        term a {\n            from protocol [ bgp direct ];\n            then {\n                community add $SPOKE_COMMUNITY;\n                accept;\n            }\n        }\n        term b {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $HUB_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community $HUB_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $SPOKE_POLICY_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term a {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol [ bgp direct ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add $SPOKE_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term b {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 547,
+      "lineCount": 26,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Policy",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/services/l2ckt-pseudowire",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "l2ckt-pseudowire",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l2ckt-pseudowire.conf",
+      "topic": "L2CKT pseudowire with hot-standby backup (protocols l2circuit)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Pseudowire with control-word and Ethernet-VLAN encapsulation",
+        "Hot-standby backup-neighbor for sub-50ms PW failover",
+        "revert-time 30s (revertive switchback after primary recovers)",
+        "ignore-encapsulation-mismatch + ignore-mtu-mismatch for interop flexibility",
+        "pseudowire-status-tlv for operational state signaling",
+        "~500 L2CKTs per WAN Edge validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ldp.conf — targeted LDP session to remote PE",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— targeted LDP session to remote PE"
+        },
+        {
+          "raw": "junos/transport/mpls-lsp.conf — MPLS transport",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
+          "note": "— MPLS transport"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PE_NEIGHBOR",
+          "example": "192.168.0.14"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1501"
+        },
+        {
+          "name": "$VC_ID",
+          "example": "1501"
+        },
+        {
+          "name": "$BACKUP_NEIGHBOR",
+          "example": "192.168.0.16"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "l2circuit {\n    neighbor $PE_NEIGHBOR {\n        interface $AC_INTF.$UNIT {\n            virtual-circuit-id $VC_ID;\n            control-word;\n            encapsulation-type ethernet-vlan;\n            ignore-encapsulation-mismatch;\n            ignore-mtu-mismatch;\n            pseudowire-status-tlv;\n            revert-time 30;\n            backup-neighbor $BACKUP_NEIGHBOR {\n                hot-standby;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    neighbor $PE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            revert-time </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            backup-neighbor $BACKUP_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 432,
+      "lineCount": 16,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/services/l3vpn-vrf-spoke",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "l3vpn-vrf-spoke",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l3vpn-vrf-spoke.conf",
+      "topic": "L3VPN Hub-and-Spoke — Spoke VRF (vrf-import hub policy, vrf-export spoke community)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Hub-and-spoke L3VPN via asymmetric vrf-import/export policies",
+        "Spoke exports routes with spoke community; imports routes with hub community",
+        "as-override on CE peering (spoke sites share the same CE AS)",
+        "1000 instances per WAN Edge validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy/hub-spoke-community.conf — hub/spoke RT communities",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-community",
+          "note": "— hub/spoke RT communities"
+        },
+        {
+          "raw": "junos/policy/hub-spoke-import-export.conf — hub_N/spoke_N policy-statements",
+          "id": "ewan_core_edge/junos/policy/hub-spoke-import-export",
+          "note": "— hub_N/spoke_N policy-statements"
+        },
+        {
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
+          "note": "— carries inet-vpn routes to RR"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "l3vpn_Spoke_1_1"
+        },
+        {
+          "name": "$CE_GROUP",
+          "example": "v4spirent"
+        },
+        {
+          "name": "$CE_NEIGHBOR",
+          "example": "10.40.0.1"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.40.0.2"
+        },
+        {
+          "name": "$CE_PEER_AS",
+          "example": "64510"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/0/15:0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "4001"
+        },
+        {
+          "name": "$RD",
+          "example": "10.10.0.12:4001"
+        },
+        {
+          "name": "$VRF_IMPORT",
+          "example": "hub_1"
+        },
+        {
+          "name": "$VRF_EXPORT",
+          "example": "spoke_1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        bgp {\n            group $CE_GROUP {\n                type external;\n                family inet {\n                    any;\n                }\n                neighbor $CE_NEIGHBOR {\n                    local-address $LOCAL_ADDRESS;\n                    peer-as $CE_PEER_AS;\n                    as-override;\n                }\n            }\n        }\n    }\n    interface $AC_INTF.$UNIT;\n    route-distinguisher $RD;\n    vrf-import $VRF_IMPORT;\n    vrf-export $VRF_EXPORT;\n    vrf-table-label;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $CE_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-import $VRF_IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $VRF_EXPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 548,
+      "lineCount": 23,
+      "techFamily": "Service Overlay",
+      "subfamily": "L3VPN",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/services/l3vpn-vrf-vrrp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "l3vpn-vrf-vrrp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l3vpn-vrf-vrrp.conf",
+      "topic": "L3VPN VRF with VRRP — PE-CE eBGP peering, vrf-target, vrf-table-label",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Instance-type vrf with vrf-table-label (signal-based, no per-VRF MPLS interface)",
+        "eBGP PE-CE with inet unicast only (family inet any)",
+        "Single vrf-target (symmetric import/export via auto-derived RT)",
+        "router-id set per-VRF to PE loopback (standard but non-default)",
+        "513 instances validated at scale on each WAN Edge"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn routes to RR",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
+          "note": "— carries inet-vpn routes to RR"
+        },
+        {
+          "raw": "junos/policy/bgp-to-ospf.conf — redistributes BGP into OSPF (if multicast VRF co-exists)",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
+          "note": "— redistributes BGP into OSPF (if multicast VRF co-exists)"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "l3vpn_vrrp_3001_3002"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "10.10.0.12"
+        },
+        {
+          "name": "$CE_GROUP",
+          "example": "CE1"
+        },
+        {
+          "name": "$CE_NEIGHBOR",
+          "example": "10.45.0.7"
+        },
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.45.0.8"
+        },
+        {
+          "name": "$CE_PEER_AS",
+          "example": "64510"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/0/15:1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3002"
+        },
+        {
+          "name": "$RD",
+          "example": "10.10.0.12:3002"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "64510:3002"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    routing-options {\n        router-id $ROUTER_ID;\n    }\n    protocols {\n        bgp {\n            group $CE_GROUP {\n                type external;\n                family inet {\n                    any;\n                }\n                neighbor $CE_NEIGHBOR {\n                    local-address $LOCAL_ADDRESS;\n                    peer-as $CE_PEER_AS;\n                }\n            }\n        }\n    }\n    interface $AC_INTF.$UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $CE_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                type external;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                neighbor $CE_NEIGHBOR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    peer-as $CE_PEER_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 552,
+      "lineCount": 24,
+      "techFamily": "Service Overlay",
+      "subfamily": "L3VPN",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/services/ngmvpn-vrf",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "ngmvpn-vrf",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/services/ngmvpn-vrf.conf",
+      "topic": "NGMVPN (Next-Generation Multicast VPN) — multicast VRF with MVPN, PIM, OSPF CE",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Instance-type vrf with protocols mvpn (draft-rosen NG-MVPN)",
+        "PIM sparse-mode with local group-ranges + static RP address (EVO uses local{address;process-non-null})",
+        "provider-tunnel ldp-p2mp with selective per-group tunnels",
+        "100 multicast VPN instances validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/bgp-ibgp-rr-client.conf — carries inet-vpn + mvpn routes",
+          "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
+          "note": "— carries inet-vpn + mvpn routes"
+        },
+        {
+          "raw": "junos/transport/pim-sparse.conf — global PIM for core multicast",
+          "id": "ewan_core_edge/junos/transport/pim-sparse",
+          "note": "— global PIM for core multicast"
+        },
+        {
+          "raw": "junos/policy/bgp-to-ospf.conf — redistributes BGP into VRF OSPF",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
+          "note": "— redistributes BGP into VRF OSPF"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "vpn-mcast_10"
+        },
+        {
+          "name": "$LOOPBACK_UNIT",
+          "example": "10"
+        },
+        {
+          "name": "$CE_INTF",
+          "example": "xe-0/0/15:3"
+        },
+        {
+          "name": "$CE_UNIT",
+          "example": "10"
+        },
+        {
+          "name": "$RP_ADDRESS",
+          "example": "10.33.33.10"
+        },
+        {
+          "name": "$MCAST_GROUP",
+          "example": "227.1.1.10/32"
+        },
+        {
+          "name": "$MCAST_SOURCE",
+          "example": "124.1.10.1/32"
+        },
+        {
+          "name": "$RD",
+          "example": "10.11.11.10:10"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "1:10"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type vrf;\n    protocols {\n        mvpn;\n        ospf {\n            area 0.0.0.0 {\n                interface lo0.$LOOPBACK_UNIT;\n                interface $CE_INTF.$CE_UNIT;\n            }\n            export bgp-to-ospf;\n        }\n        pim {\n            rp {\n                local {\n                    group-ranges {\n                        $MCAST_GROUP;\n                    }\n                }\n                static {\n                    address $RP_ADDRESS;\n                }\n            }\n            interface lo0.$LOOPBACK_UNIT {\n                mode sparse;\n                version 2;\n            }\n            interface $CE_INTF.$CE_UNIT {\n                mode sparse;\n                version 2;\n            }\n        }\n    }\n    interface $CE_INTF.$CE_UNIT;\n    interface lo0.$LOOPBACK_UNIT;\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n    vrf-table-label;\n    provider-tunnel {\n        ldp-p2mp;\n        selective {\n            tunnel-limit 1;\n            group $MCAST_GROUP {\n                source $MCAST_SOURCE {\n                    ldp-p2mp;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        mvpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                local {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    group-ranges {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        $MCAST_GROUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface lo0.$LOOPBACK_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CE_INTF.$CE_UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                version </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface $CE_INTF.$CE_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    interface lo0.$LOOPBACK_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    provider-tunnel {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        selective {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-limit </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            group $MCAST_GROUP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                source $MCAST_SOURCE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    ldp-p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 1152,
+      "lineCount": 49,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "vpls-virtual-switch",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/services/vpls-virtual-switch.conf",
+      "topic": "VPLS virtual-switch instance with LDP signaling (Junos bridge-domains)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "instance-type virtual-switch with bridge-domains (Junos syntax)",
+        "VPLS site-identifier for multi-homing site designation",
+        "no-tunnel-services (uses LDP instead of RSVP tunnel)",
+        "flow-label-transmit/receive for FAT pseudowire ECMP",
+        "1000 instances validated at scale"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ldp.conf — LDP signaling for VPLS pseudowires",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— LDP signaling for VPLS pseudowires"
+        },
+        {
+          "raw": "junos/transport/mpls-lsp.conf — MPLS transport LSPs",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
+          "note": "— MPLS transport LSPs"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$VRF_NAME",
+          "example": "vpls_group_101_1"
+        },
+        {
+          "name": "$SITE_NAME",
+          "example": "101"
+        },
+        {
+          "name": "$SITE_ID",
+          "example": "1001"
+        },
+        {
+          "name": "$VPLS_ID",
+          "example": "1"
+        },
+        {
+          "name": "$BD_NAME",
+          "example": "BDVPLS1"
+        },
+        {
+          "name": "$VLAN",
+          "example": "1"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1"
+        },
+        {
+          "name": "$RD",
+          "example": "2222:1011"
+        },
+        {
+          "name": "$VRF_TARGET",
+          "example": "64512:1011"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "$VRF_NAME {\n    instance-type virtual-switch;\n    protocols {\n        vpls {\n            site $SITE_NAME {\n                site-identifier $SITE_ID;\n            }\n            no-tunnel-services;\n            vpls-id $VPLS_ID;\n            flow-label-transmit;\n            flow-label-receive;\n        }\n    }\n    bridge-domains {\n        $BD_NAME {\n            vlan-id $VLAN;\n            interface $AC_INTF.$UNIT;\n        }\n    }\n    route-distinguisher $RD;\n    vrf-target target:$VRF_TARGET;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">$VRF_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            site $SITE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls-id $VPLS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    vrf-target target:$VRF_TARGET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 492,
+      "lineCount": 22,
+      "techFamily": "Service Overlay",
+      "subfamily": "VPLS",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/transport/bgp-ibgp-rr-client",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "bgp-ibgp-rr-client",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/bgp-ibgp-rr-client.conf",
+      "topic": "iBGP to Route Reflector — inet-vpn, l2vpn, route-target families with BFD",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "iBGP PE-to-RR with inet labeled-unicast + inet-vpn + l2vpn signaling + route-target",
+        "route-target family enables RT-constrained route distribution (RTC/RFC 4684)",
+        "BFD liveness detection (10ms interval, multiplier 3) for fast failure detection",
+        "graceful-restart for hitless BGP restart",
+        "bgp-to-ospf export for multicast VPN OSPF redistribution"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ospf-lfa.conf — IGP reachability to RR loopbacks",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
+          "note": "— IGP reachability to RR loopbacks"
+        },
+        {
+          "raw": "junos/transport/ldp.conf — label distribution for inet labeled-unicast",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— label distribution for inet labeled-unicast"
+        },
+        {
+          "raw": "junos/policy/bgp-to-ospf.conf — export policy for multicast VPN OSPF redistribution",
+          "id": "ewan_core_edge/junos/policy/bgp-to-ospf",
+          "note": "— export policy for multicast VPN OSPF redistribution"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LOCAL_ADDRESS",
+          "example": "10.10.0.12"
+        },
+        {
+          "name": "$RR_NEIGHBOR_1",
+          "example": "192.168.0.17"
+        },
+        {
+          "name": "$RR_NEIGHBOR_2",
+          "example": "192.168.0.11"
+        },
+        {
+          "name": "$LOCAL_AS",
+          "example": "64512"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group ibgp {\n            type internal;\n            local-address $LOCAL_ADDRESS;\n            family inet {\n                labeled-unicast;\n            }\n            family inet-vpn {\n                any;\n            }\n            family l2vpn {\n                signaling;\n            }\n            family route-target;\n            export bgp-to-ospf;\n            bfd-liveness-detection {\n                minimum-interval 10;\n                multiplier 3;\n            }\n            neighbor $RR_NEIGHBOR_1;\n            neighbor $RR_NEIGHBOR_2;\n        }\n        advertise-peer-as;\n        local-as $LOCAL_AS;\n        graceful-restart;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        group ibgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            type internal;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            local-address $LOCAL_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                labeled-unicast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet-vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                signaling;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family route-target;</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            export</span><span style=\"color:#E6EDF3\"> bgp-to-ospf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $RR_NEIGHBOR_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            neighbor $RR_NEIGHBOR_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        advertise-peer-as;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        local-as $LOCAL_AS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        graceful-restart;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 673,
+      "lineCount": 28,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/transport/ldp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "ldp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/ldp.conf",
+      "topic": "LDP with auto-targeted sessions and P2MP (multicast)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "auto-targeted-session enables targeted LDP for l2circuit/VPLS pseudowires",
+        "teardown-delay 90s prevents session flap on brief outages",
+        "maximum-sessions 100 caps resource usage",
+        "p2mp enables LDP P2MP LSPs for NGMVPN provider tunnels",
+        "All 8 devices run LDP (7 in the split inventory)"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ospf-lfa.conf — IGP reachability for LDP sessions",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
+          "note": "— IGP reachability for LDP sessions"
+        },
+        {
+          "raw": "junos/transport/mpls-lsp.conf — MPLS forwarding",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
+          "note": "— MPLS forwarding"
+        },
+        {
+          "raw": "junos/services/l2ckt-pseudowire.conf — uses targeted LDP sessions",
+          "id": "ewan_core_edge/junos/services/l2ckt-pseudowire",
+          "note": "— uses targeted LDP sessions"
+        },
+        {
+          "raw": "junos/services/vpls-virtual-switch.conf — uses LDP signaling",
+          "id": "ewan_core_edge/junos/services/vpls-virtual-switch",
+          "note": "— uses LDP signaling"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-0/0/6.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "ae2.0"
+        },
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        auto-targeted-session {\n            teardown-delay 90;\n            maximum-sessions 100;\n        }\n        interface $CORE_INTF_1;\n        interface $CORE_INTF_2;\n        interface $LOOPBACK;\n        p2mp;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        auto-targeted-session {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            teardown-delay </span><span style=\"color:#79C0FF\">90</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            maximum-sessions </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        p2mp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 243,
+      "lineCount": 12,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/transport/mpls-lsp",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "mpls-lsp",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/mpls-lsp.conf",
+      "topic": "MPLS LSPs with entropy-label (RSVP-TE)",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "RSVP-TE label-switched-paths to remote PEs",
+        "entropy-label enables per-flow ECMP at transit P-routers (RFC 6790)",
+        "Core and access interfaces enabled for MPLS forwarding"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ospf-lfa.conf — CSPF path computation uses OSPF-TE",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
+          "note": "— CSPF path computation uses OSPF-TE"
+        },
+        {
+          "raw": "junos/transport/ldp.conf — co-exists for LDP-signaled services",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— co-exists for LDP-signaled services"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LSP_NAME",
+          "example": "lsp_to_pe3"
+        },
+        {
+          "name": "$LSP_TO",
+          "example": "192.168.0.14"
+        },
+        {
+          "name": "$CORE_INTF_1",
+          "example": "ae1.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "ae2.0"
+        },
+        {
+          "name": "$CORE_INTF_3",
+          "example": "et-0/0/6.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    mpls {\n        label-switched-path $LSP_NAME {\n            to $LSP_TO;\n            entropy-label;\n        }\n        interface $CORE_INTF_1;\n        interface $CORE_INTF_2;\n        interface $CORE_INTF_3;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    mpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        label-switched-path $LSP_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            to $LSP_TO;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            entropy-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_2;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_3;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 227,
+      "lineCount": 11,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/transport/ospf-lfa",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "ospf-lfa",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/ospf-lfa.conf",
+      "topic": "OSPF with Loop-Free Alternates (LFA) — remote-backup, per-prefix, node-link-degradation",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": [
+          "wanedge3_acx7509",
+          "wanedge4_acx7100-48l",
+          "p1_ptx10003",
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "backup-spf-options: remote-backup-calculation + per-prefix-calculation all + node-link-degradation",
+        "Provides sub-50ms IP/MPLS convergence via pre-computed backup next-hops",
+        "traffic-engineering enabled (required for RSVP LSPs and TE extensions)",
+        "BFD per-interface (10ms min-interval, multiplier 3, full-neighbors-only)",
+        "ldp-synchronization prevents traffic blackholing during LDP convergence",
+        "node-link-protection on all core interfaces"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/ldp.conf — LDP runs on same interfaces",
+          "id": "ewan_core_edge/junos/transport/ldp",
+          "note": "— LDP runs on same interfaces"
+        },
+        {
+          "raw": "junos/transport/mpls-lsp.conf — RSVP-TE uses OSPF TE extensions",
+          "id": "ewan_core_edge/junos/transport/mpls-lsp",
+          "note": "— RSVP-TE uses OSPF TE extensions"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        },
+        {
+          "name": "$CORE_INTF_1",
+          "example": "ae2.0"
+        },
+        {
+          "name": "$CORE_INTF_2",
+          "example": "et-0/0/6.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ospf {\n        backup-spf-options {\n            remote-backup-calculation;\n            per-prefix-calculation all;\n            node-link-degradation;\n        }\n        traffic-engineering;\n        area 0.0.0.0 {\n            interface $LOOPBACK;\n            interface $CORE_INTF_1 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n            interface $CORE_INTF_2 {\n                node-link-protection;\n                bfd-liveness-detection {\n                    minimum-interval 10;\n                    multiplier 3;\n                    full-neighbors-only;\n                }\n                ldp-synchronization;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        backup-spf-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            remote-backup-calculation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            per-prefix-calculation all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            node-link-degradation;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        traffic-engineering;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $CORE_INTF_2 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                node-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bfd-liveness-detection {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    minimum-interval </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    multiplier </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    full-neighbors-only;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ldp-synchronization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 880,
+      "lineCount": 31,
+      "techFamily": "Transport",
+      "subfamily": "OSPF",
+      "usecases": [
+        "Enterprise WAN"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "ewan_core_edge/junos/transport/pim-sparse",
+      "jvd": "ewan_core_edge",
+      "jvdLabel": "Enterprise WAN: Core/Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "pim-sparse",
+      "path": "enterprise_wan/ewan_core_edge/configuration/snips/junos/transport/pim-sparse.conf",
+      "topic": "PIM sparse-mode — global multicast for NGMVPN provider tunnels",
+      "seenOn": {
+        "junos": [
+          "wanedge1_mx304",
+          "wanedge2_mx10008"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "Static RP or local RP depending on device role (PE=static, P=local)",
+        "PE uses static RP pointing to P1 (ptx10003) loopback",
+        "P1 acts as RP with local address + process-non-null-as-null-register",
+        "sparse-mode on core interfaces for PIM adjacency",
+        "Required for NGMVPN provider-tunnel ldp-p2mp operation"
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/services/ngmvpn-vrf.conf — per-VRF PIM/MVPN",
+          "id": "ewan_core_edge/junos/services/ngmvpn-vrf",
+          "note": "— per-VRF PIM/MVPN"
+        },
+        {
+          "raw": "junos/transport/ospf-lfa.conf — RP reachability via IGP",
+          "id": "ewan_core_edge/junos/transport/ospf-lfa",
+          "note": "— RP reachability via IGP"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$RP_ADDRESS",
+          "example": "192.168.0.17"
+        },
+        {
+          "name": "$CORE_INTF_1",
+          "example": "et-0/0/6.0"
+        },
+        {
+          "name": "$LOOPBACK",
+          "example": "lo0.0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    pim {\n        rp {\n            static {\n                address $RP_ADDRESS;\n            }\n        }\n        interface $CORE_INTF_1 {\n            mode sparse;\n        }\n        interface $LOOPBACK {\n            mode sparse;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    pim {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        rp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            static {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $RP_ADDRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_INTF_1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            mode sparse;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 257,
+      "lineCount": 15,
+      "techFamily": "Transport",
+      "subfamily": "Transport",
+      "usecases": [
+        "Enterprise WAN"
       ],
       "parseWarnings": []
     },
@@ -46825,6 +49344,10 @@
       "markdown": "# Snip Variable Reference\n\nVariables used across the `ewan_adv_core_edge` snip library. Replace `$VARIABLE` placeholders\nwith site-specific values when adapting snips to a new deployment.\n\n## Interfaces\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$CORE_INTF` | `et-0/0/1` | physical-uplink-mpls, rewrite-rules-exp |\n| `$ACCESS_INTF` | `xe-0/0/9:0` | rewrite-rules-exp, vlan-ccc-esi |\n| `$LAG_INTF` | `ae0` | lag-flexible-services |\n| `$LAG_MEMBER` | `xe-0/0/9:0` | lag-flexible-services |\n| `$UNIT` | `301` | vlan-ccc-esi, irb-gateway, rewrite-rules-exp |\n| `$VLAN_ID` | `301` | vlan-ccc-esi, irb-gateway |\n| `$LOOPBACK_IPV4` | `192.168.0.1/32` | loopback |\n| `$LOOPBACK_IPV6` | `fd00::1/128` | loopback |\n| `$IRB_IPV4` | `10.0.1.1/24` | irb-gateway |\n| `$MTU` | `9192` | physical-uplink-mpls |\n\n## Transport / Routing\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$ROUTER_ID` | `192.168.0.1` | bgp-ibgp-evpn, ospf-sr-lfa |\n| `$AS_NUMBER` | `65001` | bgp-ibgp-evpn |\n| `$RR_PEER` | `192.168.0.100` | bgp-ibgp-evpn |\n| `$AREA` | `0.0.0.0` | ospf-sr-lfa |\n| `$SRGB_START` | `400000` | ospf-sr-lfa |\n| `$SRGB_SIZE` | `4096` | ospf-sr-lfa |\n| `$NODE_INDEX` | `1` | ospf-sr-lfa |\n| `$LSP_NAME` | `to-wanedge2` | mpls-lsp |\n| `$LSP_DESTINATION` | `192.168.0.2` | mpls-lsp |\n| `$BW_MBPS` | `1000m` | rsvp-te |\n\n## Services (EVPN / VPN)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$VPN_INSTANCE` | `vpws_group_14_1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$RD` | `192.168.0.1:14001` | all services |\n| `$RT_IMPORT` | `target:65001:14001` | all services |\n| `$RT_EXPORT` | `target:65001:14001` | all services |\n| `$LOCAL_ID` | `1` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$REMOTE_ID` | `2` | evpn-fxc-vlan-aware, evpn-vpws-vlan-based |\n| `$FXC_INTF` | `lsi.*` | evpn-fxc-vlan-aware |\n| `$ELAN_VNI` | `5001` | evpn-elan-vlan-based (if extended) |\n\n## CoS / QoS\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$REWRITE_NAME` | `EXP-REWRITE` | rewrite-rules-exp |\n| `$CLASSIFIER_NAME` | `EXP` / `8021P` | rewrite-rules-exp |\n\n## Firewall / Security\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$FILTER_NAME` | `filter_ip_dport1` | filter-ipv4-stateless |\n| `$PROTOCOL` | `tcp` | filter-ipv4-stateless |\n| `$DST_PORT` | `80` | filter-ipv4-stateless |\n| `$NEXT_HOP` | `192.168.56.2/32` | filter-ipv4-stateless |\n| `$NEXT_INTF` | `et-0/0/1` | filter-ipv4-stateless |\n\n## OAM (802.1ag CFM)\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$MD_NAME` | `m-d301` | cfm-maintenance-domain |\n| `$MD_LEVEL` | `3` | cfm-maintenance-domain |\n| `$MA_NAME` | `m-a301` | cfm-maintenance-domain |\n| `$MEP_ID` | `1` | cfm-maintenance-domain |\n| `$MEP_INTF` | `xe-0/0/9:0.301` | cfm-maintenance-domain |\n| `$CC_INTERVAL` | `1s` | cfm-maintenance-domain |\n| `$PROFILE_DELAY` | `i1` | cfm-sla-iterator |\n| `$PROFILE_SLM` | `i2` | cfm-sla-iterator |\n| `$INTERVAL` | `5` | cfm-sla-iterator |\n\n## Bootstrap / Platform\n\n| Variable | Example | Used in |\n|----------|---------|---------|\n| `$DEVICE_COUNT` | `25` | chassis-network-services |\n"
     },
     {
+      "jvd": "ewan_core_edge",
+      "markdown": "# Variables Reference — EWAN Core & Edge Snip Library\n\nAll templated variables used across snips in this library.\n\n| Variable | Meaning | Typical example | Used in |\n|---|---|---|---|\n| `$AC_INTF` | Attachment-circuit (access) interface | `ae1`, `xe-0/0/15:1` | services/* |\n| `$AE_DEVICE_COUNT` | Chassis aggregated-device pre-allocation | `25` | bootstrap/chassis |\n| `$AE_INTF` | Aggregated Ethernet interface name | `ae2` | interfaces/* |\n| `$BACKUP_NEIGHBOR` | L2CKT hot-standby backup PE loopback | `192.168.0.16` | services/l2ckt-pseudowire |\n| `$BD_NAME` | Bridge-domain name (Junos VPLS) | `BDVPLS1` | services/vpls-virtual-switch (junos) |\n| `$BGP_GROUP` | BGP group name within VRF | `mcast_1` | services/ngmvpn-vrf |\n| `$BGP_NEIGHBOR` | BGP neighbor within VRF | `10.11.11.1` | services/ngmvpn-vrf |\n| `$CE_GROUP` | CE-facing BGP group name | `CE1`, `CE2` | services/l3vpn-* |\n| `$CE_INTF` | CE-facing physical interface | `et-1/0/10` | services/ngmvpn-vrf |\n| `$CE_NEIGHBOR` | CE device BGP neighbor address | `10.45.0.7` | services/l3vpn-* |\n| `$CE_PEER_AS` | CE autonomous system number | `64510`, `64520` | services/l3vpn-*, services/ngmvpn-* |\n| `$CE_UNIT` | CE interface unit number | `1` | services/ngmvpn-vrf |\n| `$CLUSTER_ID` | BGP Route Reflector cluster-id | `1.1.1.8` | transport/bgp-ibgp-rr |\n| `$CORE_INTF_1` | Core-facing interface (first) | `ae2.0`, `et-0/0/6.0` | transport/* |\n| `$CORE_INTF_2` | Core-facing interface (second) | `et-0/0/2.0` | transport/* |\n| `$CORE_INTF_3` | Core-facing interface (third) | `et-0/0/3.0` | transport/mpls-* |\n| `$DESCRIPTION` | Interface description | `Link1 from WAN Edge1 to P1 Node` | interfaces/* |\n| `$HUB_COMMUNITY` | Hub community name (policy ref) | `hub_1` | policy/hub-spoke-import-export |\n| `$HUB_COMMUNITY_NAME` | Hub community definition name | `hub_1` | policy/hub-spoke-community |\n| `$HUB_POLICY_NAME` | Hub import policy-statement name | `hub_1` | policy/hub-spoke-import-export |\n| `$HUB_RT` | Hub route-target community value | `target:65535:1` | policy/hub-spoke-community |\n| `$LACP_SYSTEM_ID` | LACP system-id for MC-LAG | `00:00:22:00:00:01` | interfaces/ae-lag-access |\n| `$LOCAL_ADDRESS` | Local address for BGP/interface | `10.10.0.12`, `10.10.12.1/24` | transport/*, services/* |\n| `$LOCAL_AS` | Local autonomous system number | `64512` | transport/bgp-* |\n| `$LOOPBACK` | Loopback interface | `lo0.0` | transport/* |\n| `$LOOPBACK_UNIT` | Loopback unit for per-VRF PIM/OSPF | `1` | services/ngmvpn-vrf |\n| `$LSP_NAME` | RSVP-TE LSP name | `lsp_to_pe3` | transport/mpls-lsp |\n| `$LSP_TO` | LSP destination (remote PE loopback) | `192.168.0.14` | transport/mpls-lsp |\n| `$MCAST_GROUP` | Multicast group range | `227.1.1.1/32` | services/ngmvpn-vrf |\n| `$PE_NEIGHBOR` | Remote PE loopback (L2CKT neighbor) | `192.168.0.14` | services/l2ckt-pseudowire |\n| `$PE_NEIGHBOR_1`..`4` | PE client neighbors (on RR) | `2.2.2.2` | transport/bgp-ibgp-rr |\n| `$PE_PEER_AS` | PE autonomous system (iBGP within VRF) | `64512` | services/ngmvpn-vrf |\n| `$RD` | Route-distinguisher | `10.10.0.12:3002` | services/* |\n| `$ROUTER_ID` | Per-VRF router-id | `10.10.0.12` | services/l3vpn-vrf-vrrp |\n| `$RP_ADDRESS` | PIM Rendezvous Point address | `192.168.0.17`, `1.1.1.8` | transport/pim-* |\n| `$RR_NEIGHBOR_1` | Route Reflector neighbor (first) | `192.168.0.17` | transport/bgp-ibgp-rr-client |\n| `$RR_NEIGHBOR_2` | Route Reflector neighbor (second) | `192.168.0.11` | transport/bgp-ibgp-rr-client |\n| `$SITE_ID` | VPLS site-identifier (numeric) | `1001` | services/vpls-virtual-switch |\n| `$SITE_NAME` | VPLS site name | `101` | services/vpls-virtual-switch |\n| `$SPOKE_COMMUNITY` | Spoke community name (policy ref) | `spoke_1` | policy/hub-spoke-import-export |\n| `$SPOKE_COMMUNITY_NAME` | Spoke community definition name | `spoke_1` | policy/hub-spoke-community |\n| `$SPOKE_POLICY_NAME` | Spoke export policy-statement name | `spoke_1` | policy/hub-spoke-import-export |\n| `$SPOKE_RT` | Spoke route-target community value | `target:65535:2` | policy/hub-spoke-community |\n| `$UNIT` | Interface unit number | `3002`, `1501` | services/* |\n| `$VC_ID` | L2CKT virtual-circuit-id | `1501` | services/l2ckt-pseudowire |\n| `$VLAN` | VLAN ID | `1` | services/vpls-virtual-switch |\n| `$VLAN_NAME` | VLAN name (EVO vlans syntax) | `VPLS1` | services/vpls-virtual-switch (evo) |\n| `$VPLS_ID` | VPLS instance identifier | `1` | services/vpls-virtual-switch |\n| `$VRF_EXPORT` | VRF export policy name | `spoke_1`, `hub_1` | services/l3vpn-vrf-spoke, ngmvpn-spoke-adv |\n| `$VRF_IMPORT` | VRF import policy name | `hub_1`, `spoke_1` | services/l3vpn-vrf-spoke, ngmvpn-hub-adv |\n| `$VRF_NAME` | Routing-instance name | `l3vpn_vrrp_3001_3002` | services/* |\n| `$VRF_TARGET` | VRF target community value | `64510:3002` | services/* |\n"
+    },
+    {
       "jvd": "ewan_finance",
       "markdown": "# Variables Glossary\n\nAll `$VARIABLE` placeholders used across the ewan_finance snip library.\nReplace these with site-specific values when deploying.\n\n## Identifiers & Addressing\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$LOCAL_ADDRESS` | BGP local-address (router-id loopback) | `10.200.50.12` |\n| `$LOCAL_AS` | BGP autonomous system number | `64512` |\n| `$ROUTER_ID_ADDRESS` | Primary loopback IPv4 with /32 mask | `10.200.50.13/32` |\n| `$MGMT_LOOPBACK` | Management loopback address | `10.255.163.148/32` |\n| `$ISO_ADDRESS` | IS-IS/CLNS NET address on lo0 | `47.0005.80ff.f800.0000.0108.0001.0102.5516.3148.00` |\n| `$IPV6_ADDRESS` | Primary IPv6 loopback address | `2001:db8::10:255:163:148/128` |\n| `$IPV4_ADDRESS` | Interface IPv4 address with mask | `10.101.23.2/24` |\n| `$ROUTE_DISTINGUISHER` | BGP route-distinguisher (router-id:id) | `10.200.50.12:61` |\n| `$VRF_TARGET` | VPN route-target community | `target:64512:11` |\n\n## Interfaces & LAG\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$INTERFACE_NAME` | Physical interface name | `et-0/0/0` |\n| `$AE_NAME` | Aggregated Ethernet (LAG) name | `ae0` |\n| `$DESCRIPTION` | Interface description string | `Link to P1Node to WANEdge1` |\n| `$MTU` | Interface MTU value | `1522` |\n| `$CORE_IFACE_1` .. `$CORE_IFACE_4` | Core transport interface.unit | `et-0/0/1.0` |\n| `$UNIT_ID` | Logical interface unit number | `1` |\n| `$VLAN_ID` | 802.1Q VLAN identifier | `1` |\n\n## LAG / ESI\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$ESI_ID` | Ethernet Segment Identifier (10 bytes) | `00:11:11:11:11:11:12:12:12:12` |\n| `$DF_PREFERENCE` | Designated-forwarder election preference | `150` |\n| `$LACP_PRIORITY` | LACP system priority | `100` |\n| `$LACP_SYSTEM_ID` | LACP system-id (must match across ESI peers) | `00:00:00:00:00:10` |\n| `$UNIT_ESI` | Per-unit ESI for per-VLAN DF election | `00:01:71:81:11:12:a1:00:00:01` |\n| `$UNIT_DF_PREFERENCE` | Per-unit DF preference value | `150` |\n\n## IRB\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$FILTER_NAME` | Firewall filter applied on IRB input | `mfc-filter` |\n| `$STATIC_MAC` | Static MAC for deterministic gateway | `00:10:94:00:00:01` |\n\n## Chassis\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$DEVICE_COUNT` | Aggregated Ethernet device-count | `25` |\n| `$FPC_SLOT` | FPC slot number | `0` |\n| `$PIC_SLOT` | PIC slot number | `0` |\n| `$TUNNEL_BW` | Tunnel-services bandwidth | `10g` |\n| `$PORT_ID` | Physical port number | `0` |\n| `$PORT_SPEED` | Port speed setting | `100g` |\n| `$BREAKOUT_PORT_ID` | Port to be broken out | `9` |\n| `$BREAKOUT_SPEED` | Per-lane speed after breakout | `10g` |\n| `$BREAKOUT_SUB_PORTS` | Number of breakout sub-ports | `4` |\n\n## BGP Peers\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$NEIGHBOR_1` .. `$NEIGHBOR_5` | iBGP peer addresses | `10.200.50.13` |\n| `$EXPORT_POLICY` | BGP group export policy list | `[ PS-send-ospf PS-BGP-TO-OSPF ]` |\n| `$CE_NEIGHBOR` | CE/TG BGP peer address | `172.16.1.2` |\n| `$CE_PEER_AS` | CE/TG peer autonomous system | `64513` |\n| `$AP_PEER_AS` | AP router peer AS (for CR VRs) | `64512` |\n| `$AP_NEIGHBOR_1` | AP1 peer address in virtual-router | `10.101.49.1` |\n| `$AP_NEIGHBOR_2` | AP2 peer address in virtual-router | `10.101.79.1` |\n| `$IXIA_PEER_AS` | Traffic generator peer AS | `64521` |\n| `$IXIA_NEIGHBOR` | Traffic generator peer address | `10.101.91.2` |\n\n## MPLS / RSVP\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$P2MP_LSP_NAME` | P2MP LSP template name | `P2MP` |\n| `$LSP_NAME_1` .. `$LSP_NAME_3` | Named unicast LSP | `lsp_to_AP1` |\n| `$LSP_DEST_1` .. `$LSP_DEST_3` | LSP destination (peer loopback) | `10.200.50.14` |\n\n## OSPF / BFD\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$BFD_INTERVAL` | BFD minimum-interval (ms) | `10` |\n| `$BFD_MULTIPLIER` | BFD detect-multiplier | `3` |\n\n## Policy\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$DIRECT_POLICY_NAME` | Direct-route redistribution policy | `PS-ADV_DIRECT` |\n| `$BGP_TO_OSPF_NAME` | BGP-to-OSPF leak policy | `PS-BGP-TO-OSPF` |\n| `$OSPF_TO_BGP_NAME` | OSPF-to-BGP export policy | `PS-send-ospf` |\n| `$MED_LOW_NAME` | Low-MED route-filter policy | `PS-med-10` |\n| `$MED_LOW_PREFIX` | Route-filter prefix for low MED | `10.101.0.0/16` |\n| `$MED_LOW_VALUE` | Low MED metric value | `10` |\n| `$MED_HIGH_NAME` | High-MED catch-all policy | `PS-med-30` |\n| `$MED_HIGH_VALUE` | High MED metric value | `30` |\n| `$EXPORT_POLICIES` | VR BGP export policy list | `[ med-10 med-30 ]` |\n\n## CoS\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$INTERFACE_1` .. `$INTERFACE_4` | CoS-applied interfaces | `et-0/0/1` |\n\n## Firewall\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$MCAST_DEST_PREFIX` | Multicast destination prefix to match | `225.0.0.0/16` |\n| `$FORWARDING_CLASS` | Target forwarding class for match | `FC-LLQ` |\n| `$UNICAST_DEST_1` | Unicast destination for VRF filter | `10.8.21.2/32` |\n| `$UNICAST_DEST_2` | Second unicast destination | `10.9.21.2/32` |\n| `$UNICAST_FWD_CLASS` | Forwarding class for unicast match | `FC-HIGH` |\n\n## Multicast / MVPN\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$RESOLVE_RATE` | Multicast PFE resolve-rate (pps) | `1000` |\n| `$MISMATCH_RATE` | RPF mismatch-rate (pps) | `1000` |\n| `$INSTANCE_NAME` | MVPN/VRF routing-instance name | `MVPN_INSTANCE1` |\n| `$CE_LOCAL_ADDRESS` | MVPN VRF local-address for CE peering | `172.16.1.1` |\n| `$MVPN_RT_IMPORT` | MVPN route-target import | `target:64512:101` |\n| `$MVPN_RT_EXPORT` | MVPN route-target export | `target:64512:101` |\n| `$RP_ADDRESS` | PIM Rendezvous Point address | `10.10.47.101` |\n| `$MCAST_GROUP_RANGE` | PIM multicast group-range prefix | `225.0.0.0/22` |\n| `$IRB_UNIT` | IRB interface bound to MVPN | `irb.1` |\n| `$LO_UNIT` | Loopback unit bound to MVPN | `lo0.1` |\n\n## EVPN\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$BD_NAME` | Bridge-domain name | `BD_EVPN_GROUP1` |\n| `$AE_UNIT` | LAG unit in bridge-domain | `ae0.1` |\n| `$IRB_UNIT` | Routing-interface in bridge-domain | `irb.1` |\n\n## L3VPN / Virtual-Router\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$VRF_NAME` | L3VPN VRF instance name | `VRF21` |\n| `$VR_NAME` | Virtual-router instance name | `VIRTUAL-ROUTER-V1` |\n| `$LOCAL_ADDRESS` | VRF eBGP local-address | `172.16.21.1` |\n| `$IFACE_AP1` | AP1-facing interface in VR | `et-5/0/0.1` |\n| `$IFACE_AP2` | AP2-facing interface in VR | `et-5/0/1.1` |\n| `$IFACE_TG` | Traffic-generator interface in VR | `xe-3/0/6.1` |\n\n## TWAMP / OAM\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$VRF_NAME_1` | TWAMP server VRF name | `MVPN_INSTANCE1` |\n| `$VRF_PORT_1` | TWAMP server port for VRF | `862` |\n| `$GLOBAL_PORT` | TWAMP server global port | `1862` |\n| `$CLIENT_LIST_NAME` | TWAMP client-list ACL name | `CR1_1` |\n| `$CLIENT_ADDRESS` | TWAMP client source address | `10.101.48.2/32` |\n| `$CONNECTION_NAME` | TWAMP client control-connection name | `CR24_1` |\n| `$DEST_PORT` | TWAMP client destination port | `862` |\n| `$ROUTING_INSTANCE` | TWAMP client routing-instance | `VIRTUAL-ROUTER-V1` |\n| `$TARGET_ADDRESS` | TWAMP probe target (server) address | `10.101.49.1` |\n| `$TEST_SESSION_NAME` | TWAMP test-session identifier | `T24_1` |\n| `$PROBE_COUNT` | Probes per test-session iteration | `100` |\n| `$PROBE_INTERVAL` | Probe interval in seconds | `1` |\n\n## VLAN Bridge-Domain (L2 Edge)\n\n| Variable | Description | Example |\n|----------|-------------|---------|\n| `$VLAN_NAME` | VLAN definition name | `vlan1` |\n| `$LAG_UNIT` | LAG unit in VLAN membership | `ae0.1` |\n| `$ACCESS_UNIT` | Access port unit in VLAN membership | `et-0/0/47.1` |\n"
     },
@@ -46933,6 +49456,14 @@
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/jvd-ewan-ace-byoai-prompt.txt",
       "vscodePromptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_adv_core_edge/ewan-ace.prompt.md",
       "vscodePromptName": "jvd-ewan-ace"
+    },
+    {
+      "jvd": "ewan_core_edge",
+      "promptPath": "enterprise_wan/ewan_core_edge/configuration/snips/byoai/jvd-ewan-core-edge-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_core_edge/jvd-ewan-core-edge-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/byoai/jvd-ewan-core-edge-byoai-prompt.txt",
+      "vscodePromptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_core_edge/ewan-core-edge.prompt.md",
+      "vscodePromptName": "jvd-ewan-core-edge"
     },
     {
       "jvd": "ewan_finance",

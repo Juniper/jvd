@@ -205,10 +205,12 @@
     "area": "Enterprise WAN",
     "description": "Reliable enterprise WAN edge and core connecting branches, campuses, data centers, and public cloud.",
     "platforms": [
+      "ACX7100-48L",
       "ACX7509",
       "MX10008",
       "MX304",
       "MX480",
+      "PTX10001-36MR",
       "PTX10003-80C",
       "PTX10008"
     ],
