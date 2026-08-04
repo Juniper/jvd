@@ -1,14 +1,22 @@
 {
-  "_comment": "Maps snip categories (the directory name under snips/{junos,evo}/) to a Technology family for the 'Technology' browse mode. Subfamily is derived per-snip in generate-snips.mjs from filename keywords.",
+  "_comment": "Maps snip categories (the directory name under snips/{junos,evo}/) to a Technology family for the 'Technology' browse mode. One semantic override lives in generate-snips.mjs: EVPN snips authored under transport/ are re-homed to 'Service Overlay'. Subfamily (2nd level) is derived per-snip from filename keywords, family-aware, in generate-snips.mjs.",
 
-  "transport": "Transport",
+  "transport": "Transport & Underlay",
+  "load-balancing": "Transport & Underlay",
   "services": "Service Overlay",
   "interfaces": "Interfaces",
   "policy": "Policy & Routing",
   "cos": "QoS / CoS",
-  "firewall": "Firewall",
-  "apply-groups": "Apply-groups",
-  "oam": "OAM",
+  "firewall": "Firewall & Policing",
+  "ddos-mitigation": "Firewall & Policing",
+  "security": "Security & IPsec",
+  "ipsec": "Security & IPsec",
+  "nat": "NAT / CGNAT",
+  "multicast": "Multicast",
+  "high-availability": "High Availability",
+  "oam": "OAM & Telemetry",
   "subscriber-management": "Subscriber & BNG",
-  "bootstrap": "Chassis"
+  "apply-groups": "Apply-groups",
+  "bootstrap": "Chassis",
+  "chassis": "Chassis"
 }

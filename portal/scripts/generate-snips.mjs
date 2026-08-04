@@ -276,46 +276,160 @@ function interpretSnipPath(absPath) {
 // ---------------------------------------------------------------------------
 // Technology family / subfamily derivation
 // ---------------------------------------------------------------------------
+// Family comes from the snip's category (directory) via snip-tech-map.json,
+// with one semantic override: EVPN snips authored under transport/ are overlay
+// services, not underlay transport. Subfamily (2nd level) is resolved per-snip
+// against its OWN family's ordered keyword rules (first match wins); an
+// unmatched snip falls to that family's named default bucket rather than
+// echoing the family name.
 
-const SUBFAMILY_RULES = [
-  // Order matters — first match wins. Keys are case-insensitive substrings of the snip name.
-  { match: /isis-srv6/, label: "IS-IS / SRv6" },
-  { match: /isis-sr/, label: "IS-IS / SR-MPLS" },
-  { match: /isis/, label: "IS-IS" },
-  { match: /ospf/, label: "OSPF" },
-  { match: /srv6/, label: "SRv6" },
-  { match: /segment-routing|sr-mpls|mpls-sr/, label: "SR-MPLS" },
-  { match: /bgp-overlay-rr/, label: "BGP Overlay (Route Reflector)" },
-  { match: /bgp-overlay-pe/, label: "BGP Overlay (PE)" },
-  { match: /bgp-overlay/, label: "BGP Overlay" },
-  { match: /bgp-underlay|bgp-fabric/, label: "BGP Underlay" },
-  { match: /labeled-unicast|bgp-lu/, label: "BGP-LU" },
-  { match: /routing-options/, label: "Routing Options" },
-  { match: /evpn-vpws/, label: "EVPN-VPWS" },
-  { match: /evpn-elan|evpn-mac-vrf/, label: "EVPN-ELAN" },
-  { match: /evpn/, label: "EVPN" },
-  { match: /l3vpn/, label: "L3VPN" },
-  { match: /vpls/, label: "VPLS" },
-  { match: /ps-pseudowire/, label: "Pseudowire-Headend" },
-  { match: /ae-vlan-bridge|^ae[-_]/, label: "Aggregated Ethernet" },
-  { match: /^lag|lacp/, label: "LAG / LACP" },
-  { match: /chassis|fpc|tunnel-services/, label: "Chassis" },
-  { match: /dynamic-profile|dp-auto/, label: "Dynamic Profiles" },
-  { match: /radius/, label: "RADIUS" },
-  { match: /address-assignment|dhcp/, label: "DHCP / Address Assignment" },
-  { match: /bfd/, label: "BFD" },
-  { match: /telemetry|^oam/, label: "Telemetry / OAM" },
-  { match: /policer|firewall/, label: "Firewall / Policer" },
-  { match: /scheduler|classifier|rewrite|cos/, label: "CoS" },
-  { match: /^policy|prefix-list|community/, label: "Policy" },
-];
+function deriveTechFamily(name, category, techMap) {
+  if (category === "transport" && /evpn/i.test(name)) return "Service Overlay";
+  return techMap[category] || "General";
+}
 
-function deriveSubfamily(name, category) {
-  for (const r of SUBFAMILY_RULES) {
-    if (r.match.test(name)) return r.label;
+const SUBFAMILY_BY_FAMILY = {
+  "Transport & Underlay": {
+    default: "Routing & Forwarding",
+    rules: [
+      [/isis-srv6/, "IS-IS / SRv6"],
+      [/isis-sr\b|isis.*sr-mpls/, "IS-IS / SR-MPLS"],
+      [/isis|ti-lfa|node-sid/, "IS-IS"],
+      [/ospf/, "OSPF"],
+      [/srv6/, "SRv6"],
+      [/segment-routing|sr-mpls|sr-mapping/, "SR-MPLS"],
+      [/rsvp|mpls-lsp|mpls-transit|-te\b/, "RSVP / MPLS-TE"],
+      [/ldp/, "LDP"],
+      [/mpls/, "MPLS"],
+      [/pim|mvpn|multicast/, "Multicast Routing"],
+      [/underlay|-ebgp|bgp-fabric/, "BGP Underlay"],
+      [/ibgp|bgp-internal|-rr\b|rr-client|route-reflector|core-mesh|overlay/, "iBGP / Overlay"],
+      [/ecmp|load-balanc|hash|dlb|flowlet|pplb/, "ECMP / Load-Balancing"],
+      [/inter-as|scaleout|vrf/, "Inter-AS / Scale-Out"],
+    ],
+  },
+  "Service Overlay": {
+    default: "Other Services",
+    rules: [
+      [/evpn-vpws/, "EVPN-VPWS"],
+      [/evpn-elan|evpn-mac-vrf|mac-vrf/, "EVPN-ELAN"],
+      [/evpn/, "EVPN"],
+      [/l3vpn|type5|l3-interconnect/, "L3VPN"],
+      [/l2vpn|kompella/, "BGP L2VPN (Kompella)"],
+      [/l2circuit|l2ckt|pseudowire/, "L2Circuit / Pseudowire"],
+      [/vpls|bridge-domain|virtual-switch|-lsw\b/, "VPLS / Bridge"],
+      [/mvpn|oism/, "Multicast VPN"],
+      [/virtual-router|vxlan-translation/, "Virtual Router / VXLAN"],
+      [/srv6/, "SRv6"],
+    ],
+  },
+  Interfaces: {
+    default: "Physical & Logical",
+    rules: [
+      [/irb/, "IRB / Gateways"],
+      [/loopback|lo0/, "Loopback"],
+      [/vlan-ccc|ethernet-ccc/, "CCC / L2 Cross-Connect"],
+      [/vlan-bridge|vlan-vxlan|bridge/, "Bridge Domains"],
+      [/esi-lag|-ae-|^ae|dwdm-ae|lag|lacp/, "Aggregated Ethernet / LAG"],
+      [/coherent|optics|dwdm/, "Optical Ports"],
+      [/mtu/, "MTU"],
+      [/fabric|uplink|p2p|breakout|physical-/, "Fabric & Uplinks"],
+      [/pe-ce/, "PE-CE Links"],
+      [/pseudowire/, "Pseudowire-Headend"],
+      [/st0|tunnel|ike/, "Tunnel Interfaces"],
+      [/trunk|access|external-vlan|flexible-vlan|vlan-normaliz|subinterface|subunit|cpe|server|tenant/, "Access / Trunk Ports"],
+    ],
+  },
+  "Policy & Routing": {
+    default: "Routing Policy",
+    rules: [
+      [/communit/, "Communities"],
+      [/route-filter|prefix-list|-med\b/, "Route Filters"],
+      [/load-balanc|pplb|pfe-load|per-packet/, "Load-Balancing Policy"],
+      [/loop-prevention|clos-loop|allow-loopback|next-hop-self|nonzero-loopback/, "BGP Policy"],
+      [/import|export|-rt\b|rt-export|vpn-rt|redistribut|hub-spoke/, "VPN Route Policy"],
+      [/filter/, "Fabric Filters"],
+    ],
+  },
+  "QoS / CoS": {
+    default: "CoS Building Blocks",
+    rules: [
+      [/classif/, "Classifiers"],
+      [/rewrit/, "Rewrite Rules"],
+      [/scheduler|-sched|shaper|drop-profile|congestion|dcqcn/, "Schedulers & Congestion"],
+      [/rocev2|rdma|lossless/, "RoCEv2 / Lossless"],
+      [/forwarding-class/, "Forwarding Classes"],
+    ],
+  },
+  "Firewall & Policing": {
+    default: "Filters",
+    rules: [
+      [/color/, "Color / CCC Filters"],
+      [/fbf|tlb-redirect|ipsec-lb|filter-based/, "Filter-Based Forwarding"],
+      [/ecpri|fronthaul/, "Fronthaul Filters"],
+      [/multicast/, "Multicast Filters"],
+      [/policer|ddos/, "Policers / DDoS"],
+      [/stateless|ipv4|ipv6/, "Stateless Filters"],
+    ],
+  },
+  "Security & IPsec": {
+    default: "Security",
+    rules: [
+      [/ipsec|ike|st0|tunnel/, "IPsec / IKE"],
+      [/zone|screen|security-policy/, "Security Policies"],
+    ],
+  },
+  "OAM & Telemetry": {
+    default: "OAM",
+    rules: [
+      [/cfm|y1731|y-1731/, "CFM / Y.1731"],
+      [/twamp/, "TWAMP"],
+      [/lldp/, "LLDP"],
+      [/rstp|spanning-tree|\bstp\b/, "Spanning Tree"],
+      [/router-advertis|ipv6-router/, "Router Advertisement"],
+      [/telemetry|gnmi|grpc|sensor/, "Streaming Telemetry"],
+      [/bfd/, "BFD"],
+    ],
+  },
+  "Subscriber & BNG": {
+    default: "Subscriber",
+    rules: [
+      [/radius/, "RADIUS / AAA"],
+      [/dynamic-profile|dp-auto/, "Dynamic Profiles"],
+      [/dhcp|address-assignment/, "DHCP / Address Assignment"],
+      [/pppoe|ipoe/, "PPPoE / IPoE"],
+    ],
+  },
+  "Apply-groups": {
+    default: "General Groups",
+    rules: [
+      [/isis/, "IS-IS Groups"],
+      [/l3vpn|vrf/, "L3VPN Groups"],
+      [/srv6/, "SRv6 Groups"],
+      [/edge|core|intf/, "Interface Groups"],
+      [/bgp/, "BGP Groups"],
+      [/pw|fatpw|l2ckt/, "Pseudowire Groups"],
+    ],
+  },
+  Chassis: {
+    default: "Chassis",
+    rules: [
+      [/fpc|pic|tunnel-services/, "FPC / PIC"],
+      [/aggregated-devices|ae-count/, "Aggregated Devices"],
+      [/redundancy|graceful|nsr|gres/, "Redundancy"],
+    ],
+  },
+};
+
+function deriveSubfamily(name, family) {
+  const cfg = SUBFAMILY_BY_FAMILY[family];
+  // Small families (NAT / CGNAT, Multicast, High Availability, General) have no
+  // rule table — the family name is the single bucket.
+  if (!cfg) return family;
+  for (const [re, label] of cfg.rules) {
+    if (re.test(name)) return label;
   }
-  // Fallback: title-case the category
-  return category.replace(/(^|-)(\w)/g, (_, sep, c) => (sep ? " " : "") + c.toUpperCase());
+  return cfg.default;
 }
 
 // ---------------------------------------------------------------------------
@@ -567,8 +681,8 @@ async function main() {
 
     const meta = jvdMeta.get(interp.jvd) || {};
     const usecases = usecaseMap[interp.jvd] || (meta.area ? [meta.area] : []);
-    const techFamily = techMap[interp.category] || "Other";
-    const subfamily = deriveSubfamily(interp.name, interp.category);
+    const techFamily = deriveTechFamily(interp.name, interp.category, techMap);
+    const subfamily = deriveSubfamily(interp.name, techFamily);
 
     const id = `${interp.jvd}/${interp.osKey}/${interp.category}/${interp.name}`;
     indexByJvdRel.set(`${interp.jvd}::${interp.osKey}/${interp.category}/${interp.name}.conf`, id);

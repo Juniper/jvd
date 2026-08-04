@@ -4,6 +4,78 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-03
+
+A library-wide quality pass. The configuration building-block library gains more
+accurate relationships and metadata, the portal's **Technology** and **Use Case**
+browsers are redesigned to make designs and building blocks far easier to find,
+the Config Generator picks up a batch of correctness and usability fixes, and
+Metro Ethernet Business Services gains new L2 hot-standby building blocks.
+
+### Building-block library
+
+- **Accurate "pairs with" relationships** — across every design, misleading
+  building-block links were pruned so that a "pairs with" relationship now means
+  a genuine same-device dependency. The dependency graph reflects how the
+  configuration actually fits together, instead of over-connecting unrelated
+  blocks.
+- **Correct "seen on" attribution** — the list of devices each building block was
+  validated on is now reported accurately, including designs that share the same
+  configuration across Junos and Junos Evolved.
+- **Cleaner, fully-templated blocks** — remaining hardcoded identifiers in the
+  Metro-as-a-Service building blocks were replaced with clearly-named variables,
+  so every block renders cleanly for your own values.
+- **New L2Circuit hot-standby blocks** — Metro Ethernet Business Services adds
+  Hub and PE hot-standby pseudowire building blocks, aligned with the
+  Metro-as-a-Service design and documented in the variable glossary.
+
+### Browse and discovery
+
+- **Redesigned Technology browser** — every building block now sits under a
+  meaningful technology family and sub-group — EVPN, EVPN-ELAN, EVPN-VPWS, L3VPN,
+  VPLS, IS-IS / SR, IRB and bridge domains, CCC cross-connects, classifiers and
+  schedulers, firewall filters, and more. The old catch-all "Other" bucket and
+  duplicate categories are gone, so expanding a technology now leads somewhere
+  useful.
+- **Intent-based Use Case browser** — all 18 designs in the building-block library
+  are tagged by what they actually deliver — Carrier Ethernet (MEF), Business VPN
+  Services, Data Center Interconnect, CGNAT, Mobile Backhaul and Fronthaul, SRv6,
+  Coherent Optics, and more — so you can start from an outcome and find every
+  design that supports it.
+
+### Config Generator
+
+- **L2Circuit hot-standby** now generates a correct three-device configuration,
+  with a redesigned wizard — per-device cards, input validation, a per-device
+  VLAN-normalization toggle, and batch entry.
+- **Custom values accepted** — optional and enumerated fields such as MTU and
+  label-block size now accept your own values without a false "not a validated
+  value" warning; validated values remain available as suggestions.
+- **Encapsulation preserved** — the no-normalize path keeps the interface
+  encapsulation intact.
+
+### AI assistant (BYOAI)
+
+- The VS Code assistants run in a **read-only agent mode** and now fetch each
+  design's validated corpus automatically, so answers stay grounded without any
+  manual setup steps.
+- Added a companion **model-context-protocol (MCP) server** teaser and refreshed
+  the portal landing page and tools section.
+
+### Enterprise WAN
+
+- The Enterprise WAN core-and-edge design gains complete configuration and
+  documentation, and inaccurate device references were removed.
+
+### How we test before rolling out
+
+- Every change is verified by rebuilding the entire portal — **all 18 designs,
+  676 configuration building blocks, zero warnings** — and each building block is
+  reconstructed and confirmed against its validated source configuration before
+  release.
+
+---
+
 ## 2026-07-23
 
 The bring-your-own-AI (BYOAI) assistants gain a new one-click launch path for

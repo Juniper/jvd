@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 73,
+  "snip_count": 74,
   "snips": [
     {
       "path": "evo/apply-groups/gr-bgp-bcp.conf",
@@ -301,7 +301,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2312,
+      "size_bytes": 2304,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf"
     },
     {
@@ -482,20 +482,29 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-vpws.conf"
     },
     {
-      "path": "evo/services/l2circuit-hot-standby.conf",
+      "path": "evo/services/l2circuit-hsb-hub.conf",
       "os": "evo",
       "category": "services",
-      "name": "l2circuit-hot-standby",
-      "topic": "L2Circuit pseudowire with backup-neighbor hot-standby",
+      "name": "l2circuit-hsb-hub",
+      "topic": "L2circuit hot-standby \u2014 Hub (backup-neighbor toward Primary/Backup PE, MEF E-Line / EVPL)",
       "seen_on": [
-        "an3_acx7100-48l",
-        "ma1-2_acx7024",
-        "ma3_acx7100-48l",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2404,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-hub.conf"
+    },
+    {
+      "path": "evo/services/l2circuit-hsb-pe.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hsb-pe",
+      "topic": "L2circuit hot-standby \u2014 Primary / Backup PE (hot-standby-vc-on, MEF E-Line / EVPL)",
+      "seen_on": [
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2328,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hot-standby.conf"
+      "size_bytes": 2041,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-pe.conf"
     },
     {
       "path": "evo/services/l2circuit-lsw.conf",

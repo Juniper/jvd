@@ -155,7 +155,8 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 > instead — do NOT offer hot-standby as a Junos option here.
 
 **minimum** (just the service)
-- `evo/services/l2circuit-hot-standby.conf` (EVO only)
+- `evo/services/l2circuit-hsb-hub.conf` (Hub — EVO only)
+- `evo/services/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
 - `evo/interfaces/edge-vlan-normalization.conf`
 
 **with-overlay** (= minimum +)
