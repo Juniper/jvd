@@ -487,7 +487,6 @@ interfaces {
  * Pair with:
  *  - junos/firewall/mx-fbf-tlb-redirect.conf — the input filters applied here
  *  - junos/load-balancing/tlb-sfw-dsr.conf — TLB uses lo0.1/lo0.2 as health-check sources
- *  - junos/transport/gw-emulator-bgp.conf — the GW that terminates this north-side AC
  *  - junos/transport/mx-scaleout-export-policies.conf — export policies applied on this UNI's routing instance
  *
  * Variables:
@@ -1217,7 +1216,6 @@ forwarding-options {
  *  - Not a production device — it stands in for the customer CE / upstream router during validation.
  *
  * Pair with:
- *  - junos/interfaces/mx-ae-uni-flexible.conf — the MX north-side AC this emulator peers with
  *
  * JVD peer devices (observed interop):
  *   Junos: mx1_mx304
