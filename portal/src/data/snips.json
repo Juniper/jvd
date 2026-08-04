@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T01:12:51.981Z",
+  "generatedAt": "2026-08-04T02:34:03.953Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -17155,11 +17155,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/oam/twamp-server.conf                    (AP nodes run the reflector)",
-          "id": "ewan_finance/junos/oam/twamp-server",
-          "note": "AP nodes run the reflector"
-        },
-        {
           "raw": "junos/services/virtual-router-instance.conf    (VR instances where probes originate)",
           "id": "ewan_finance/junos/services/virtual-router-instance",
           "note": "VR instances where probes originate"
@@ -17240,11 +17235,6 @@
         "Port 1862 as global server port for non-VRF probes"
       ],
       "pairWith": [
-        {
-          "raw": "junos/oam/twamp-client.conf         (CR nodes probe this server)",
-          "id": "ewan_finance/junos/oam/twamp-client",
-          "note": "CR nodes probe this server"
-        },
         {
           "raw": "junos/services/mvpn-instance.conf   (VRF instances whose latency is monitored)",
           "id": "ewan_finance/junos/services/mvpn-instance",
