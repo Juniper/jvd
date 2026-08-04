@@ -5049,7 +5049,9 @@ The variables fall into a few groups.
 |------------------------|-------------------------------------------------------------|---------------|
 | `$RR1_V4` / `$RR2_V4`  | Route-reflector loopback IPv4 addresses for the iBGP overlay. | `1.1.0.99`    |
 | `$REMOTE_PE_V4`        | Remote PE loopback used in static l2circuit / LDP-VPLS neighbour lines. | `1.1.0.18` |
-| `$BACKUP_PE_V4`        | Backup PE loopback used in `backup-neighbor` for hot-standby PWs. | `1.1.0.19` |
+| `$PRIMARY_LOOPBACK`    | Primary PE loopback targeted by an HSB l2circuit Hub (`l2circuit-hsb-hub`). | `1.1.0.6` |
+| `$BACKUP_LOOPBACK`     | Backup PE loopback used in `backup-neighbor` for HSB l2circuit (`l2circuit-hsb-hub`). | `1.1.0.7` |
+| `$HUB_LOOPBACK`        | Hub loopback the PE side of an HSB l2circuit points at (`l2circuit-hsb-pe`). | `1.1.0.2` |
 
 ## Interfaces
 
@@ -5060,6 +5062,7 @@ The variables fall into a few groups.
 | `$CORE_INTF`           | Core-facing LAG unit used for ISIS+MPLS underlay.                                | `ae71.0`          |
 | `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |
 | `$LAG_MEMBER`          | A child interface of the LAG (mostly used in member templates).                  | `et-0/0/0`        |
+| `$UNIT`                | Logical-unit / VLAN id appended to `$AC_INTF` when the AC is written as `$AC_INTF.$UNIT`. | `3000`            |
 
 ## Service identifiers
 
@@ -5071,6 +5074,7 @@ The variables fall into a few groups.
 | `$VPWS_SVC_ID_LOCAL`      | EVPN-VPWS local service-id.                                      | `2`           |
 | `$VPWS_SVC_ID_REMOTE`     | EVPN-VPWS remote service-id.                                     | `1`           |
 | `$VC_ID`                  | l2circuit / VPLS virtual-circuit-id (or `vpls-id`).              | `3000`        |
+| `$VC_ID_PRIMARY`          | Primary virtual-circuit-id on an HSB l2circuit Hub.             | `3000`        |
 | `$VC_ID_BACKUP`           | Backup-neighbor virtual-circuit-id for hot-standby.              | `4000`        |
 | `$L2VPN_SITE`             | Kompella L2VPN site-name.                                        | `r2`          |
 | `$L2VPN_LOCAL_SITE_ID`    | Kompella L2VPN site-identifier.                                  | `1102`        |
@@ -5278,7 +5282,8 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 > instead — do NOT offer hot-standby as a Junos option here.
 
 **minimum** (just the service)
-- `evo/services/l2circuit-hot-standby.conf` (EVO only)
+- `evo/services/l2circuit-hsb-hub.conf` (Hub — EVO only)
+- `evo/services/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
 - `evo/interfaces/edge-vlan-normalization.conf`
 
 **with-overlay** (= minimum +)
