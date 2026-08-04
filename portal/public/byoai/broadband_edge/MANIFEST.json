@@ -208,7 +208,7 @@
         "an4_acx7100-48l",
         "an5_acx7100-48l"
       ],
-      "size_bytes": 1861,
+      "size_bytes": 1814,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-pe-an.conf"
     },
     {
@@ -220,7 +220,7 @@
       "seen_on": [
         "cr1_ptx10004"
       ],
-      "size_bytes": 3681,
+      "size_bytes": 3634,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-rr-core.conf"
     },
     {
@@ -233,7 +233,7 @@
         "agn1_acx7100-32c",
         "agn2_acx7100-32c"
       ],
-      "size_bytes": 3638,
+      "size_bytes": 3550,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-rr-fabric.conf"
     },
     {

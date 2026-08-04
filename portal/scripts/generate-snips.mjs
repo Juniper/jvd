@@ -174,10 +174,17 @@ function parseSnip(text) {
         // Also skip bare prose tokens like "—" used as a placeholder for
         // "not applicable".
         for (const tok of so[2].split(/\s+/).filter(Boolean)) {
-          if (tok.startsWith("(")) break;
+          if (tok.startsWith("(")) {
+            // A self-contained parenthetical like "(ACX7100-32C)" is a
+            // per-device platform annotation (MaaS-style Seen on:) — skip it
+            // and keep reading devices. One that doesn't close on this token
+            // begins a prose note like "(none in this JVD ...)" — stop there.
+            if (/\)[,;]?$/.test(tok)) continue;
+            break;
+          }
           // A real device token must start with a letter or digit.
           if (!/^[A-Za-z0-9]/.test(tok)) continue;
-          seenOn[bucket].push(tok);
+          seenOn[bucket].push(tok.replace(/[,;]+$/, ""));
         }
       }
       continue;

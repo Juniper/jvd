@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T02:34:03.953Z",
+  "generatedAt": "2026-08-04T02:54:53.518Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -19181,11 +19181,6 @@
           "note": "— TLB uses lo0.1/lo0.2 as health-check sources"
         },
         {
-          "raw": "junos/transport/gw-emulator-bgp.conf — the GW that terminates this north-side AC",
-          "id": "scale_out_firewall_nat/junos/transport/gw-emulator-bgp",
-          "note": "— the GW that terminates this north-side AC"
-        },
-        {
           "raw": "junos/transport/mx-scaleout-export-policies.conf — export policies applied on this UNI's routing instance",
           "id": "scale_out_firewall_nat/junos/transport/mx-scaleout-export-policies",
           "note": "— export policies applied on this UNI's routing instance"
@@ -19998,13 +19993,7 @@
         "UNTRUST_VR statically discards a default and eBGPs it to the MX UNTRUST plane, emulating the internet-facing side.",
         "Not a production device — it stands in for the customer CE / upstream router during validation."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/mx-ae-uni-flexible.conf — the MX north-side AC this emulator peers with",
-          "id": "scale_out_firewall_nat/junos/interfaces/mx-ae-uni-flexible",
-          "note": "— the MX north-side AC this emulator peers with"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$GW_TRUST_AS",
@@ -22812,11 +22801,6 @@
           "note": null
         },
         {
-          "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
-          "note": null
-        },
-        {
           "raw": "evo/transport/routing-options-pe.conf",
           "id": "broadband_edge/evo/transport/routing-options-pe",
           "note": null
@@ -22885,11 +22869,6 @@
         {
           "raw": "evo/services/l3vpn-internet.conf",
           "id": "broadband_edge/evo/services/l3vpn-internet",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
           "note": null
         }
       ],
@@ -22966,16 +22945,6 @@
         "BFD 100ms x 3."
       ],
       "pairWith": [
-        {
-          "raw": "evo/transport/bgp-overlay-pe-an.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-pe-an",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-core.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-core",
-          "note": null
-        },
         {
           "raw": "evo/policy/bgp-rr-export.conf",
           "id": "broadband_edge/evo/policy/bgp-rr-export",
@@ -30227,7 +30196,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30264,7 +30239,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30301,7 +30282,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30364,7 +30351,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30427,7 +30420,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30464,7 +30463,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30502,7 +30507,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30540,7 +30551,13 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "AN3",
+          "MA1.2",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30577,7 +30594,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -30623,7 +30641,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA1.1"
+          "MA1.1",
+          "AN3"
         ]
       },
       "highlights": [
@@ -30668,7 +30687,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA3"
+          "MA3",
+          "MEG1",
+          "MEG2",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -30713,7 +30735,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -30759,7 +30782,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -30803,7 +30827,12 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2",
+          "MEG1",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -30924,7 +30953,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -31068,7 +31098,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -31140,7 +31171,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -31456,7 +31488,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -31541,7 +31574,12 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "AN3",
+          "MEG1",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -31703,7 +31741,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG2"
+          "MEG2",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -32299,7 +32338,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -32364,7 +32406,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -32591,7 +32634,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA1.2"
+          "MA1.2",
+          "AN3"
         ]
       },
       "highlights": [
@@ -32765,7 +32809,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -32855,7 +32902,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MA1.1"
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -32944,7 +32992,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -33190,7 +33241,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -33399,7 +33451,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -33457,7 +33511,11 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2",
+          "MA1.2",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -33508,7 +33566,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -33665,7 +33725,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG2",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -33874,7 +33936,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -33973,7 +34036,11 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG1",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -34063,7 +34130,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -34302,7 +34370,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN2"
+          "AN2",
+          "AN3",
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -34396,7 +34467,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -34499,7 +34572,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -34593,7 +34669,10 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -35002,7 +35081,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.1"
         ]
       },
       "highlights": [
@@ -35104,7 +35184,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MA1.1",
+          "MA1.2"
         ]
       },
       "highlights": [
@@ -35220,7 +35302,9 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "AN3"
+          "AN3",
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -35524,7 +35608,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "MEG1"
+          "MEG1",
+          "MEG2"
         ]
       },
       "highlights": [
@@ -35942,7 +36027,13 @@
       "topic": "Class-of-service: classifiers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -35979,7 +36070,13 @@
       "topic": "Class-of-service: cos binding ieee8021p (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36047,7 +36144,13 @@
       "topic": "Class-of-service: cos binding mpls (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36115,7 +36218,13 @@
       "topic": "Class-of-service: forwarding classes (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36152,7 +36261,13 @@
       "topic": "Class-of-service: rewrite rules (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36190,7 +36305,13 @@
       "topic": "Class-of-service: scheduler map (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "AN1",
+          "AN2",
+          "AN4",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36281,7 +36402,8 @@
       "topic": "Class-of-service: schedulers legacy acx (MEF E-LAN / EVP-LAN, E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "AN2"
+          "AN2",
+          "AN4"
         ],
         "evo": []
       },
@@ -36318,7 +36440,10 @@
       "topic": "Class-of-service: schedulers (MEF E-Access, E-LAN / EP-LAN, E-LAN / EVP-LAN, E-Line / EPL, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA5"
+          "MA5",
+          "MSE1",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36493,7 +36618,10 @@
       "topic": "Firewall: filter bridge color blind (MEF E-LAN / EVP-LAN, E-Line / EVPL, E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "AN1",
+          "MSE2",
+          "MA4"
         ],
         "evo": []
       },
@@ -36720,7 +36848,8 @@
       "topic": "Firewall: filter ccc color blind (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "AN1"
         ],
         "evo": []
       },
@@ -37004,7 +37133,8 @@
       "topic": "Interface: pseudowire subscriber (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2"
         ],
         "evo": []
       },
@@ -37074,7 +37204,8 @@
       "topic": "Interface: vlan bridge esi etree root (MEF E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2"
         ],
         "evo": []
       },
@@ -37231,7 +37362,8 @@
       "topic": "Interface: vlan bridge esi (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2"
         ],
         "evo": []
       },
@@ -37388,7 +37520,8 @@
       "topic": "Interface: vlan bridge etree leaf (MEF E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MA4"
+          "MA4",
+          "MA5"
         ],
         "evo": []
       },
@@ -37468,7 +37601,13 @@
       "topic": "Interface: vlan bridge etree root (MEF E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2",
+          "variant",
+          "of",
+          "the",
+          "MH",
+          "root]"
         ],
         "evo": []
       },
@@ -38130,7 +38269,8 @@
       "topic": "Interface: vlan ccc vlan map esi (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "AN1"
+          "AN1",
+          "AN2"
         ],
         "evo": []
       },
@@ -38406,7 +38546,10 @@
       "topic": "Policy: policy vpn rt export gold (MEF E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2",
+          "MA4",
+          "MA5"
         ],
         "evo": []
       },
@@ -38956,7 +39099,8 @@
       "topic": "Service instance: evpn elan vlan based floating pw (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2"
         ],
         "evo": []
       },
@@ -39246,7 +39390,10 @@
       "topic": "Service instance: evpn etree vlan based (MEF E-Tree / EVP-Tree)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2",
+          "MA4",
+          "MA5"
         ],
         "evo": []
       },
@@ -39528,7 +39675,9 @@
       "topic": "Service instance: evpn vpws vlan based (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "AN1"
+          "AN1",
+          "AN2",
+          "AN4"
         ],
         "evo": []
       },
@@ -39634,7 +39783,8 @@
       "topic": "Service instance: l2circuit floating pw (MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [
-          "MSE1"
+          "MSE1",
+          "MSE2"
         ],
         "evo": []
       },
@@ -45964,11 +46114,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-vpws-srv6.conf  (consumes the AC unit)",
-          "id": null,
-          "note": "consumes the AC unit"
-        },
-        {
           "raw": "evo/interfaces/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
           "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
           "note": "consumes the L3 sub-IFL"
@@ -46506,11 +46651,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": null,
-          "note": null
-        },
-        {
           "raw": "evo/transport/bgp-overlay-rr-client.conf",
           "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": null
@@ -46707,11 +46847,6 @@
         {
           "raw": "evo/policy/srv6-redistribution-policy.conf",
           "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": null,
           "note": null
         },
         {
@@ -48368,23 +48503,7 @@
         "Appears in two flavors: • Multi-homed (cpe2): 2 BGP groups (TO-AN2, TO-AN3) toward two edge PEs. • Single-homed EVPN-T5 variant (cpe2): 1 BGP group (TO-AN3) toward one PE — the PE originates EVPN Type-5 for these prefixes (see l3vpn-evpn-t5-srv6.conf).",
         "cpe4 peers with MSE PEs (groups TO-MSE1, TO-MSE2)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-side VRF counterpart)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "PE-side VRF counterpart"
-        },
-        {
-          "raw": "junos/services/l3vpn-evpn-t5-srv6.conf   (PE-side EVPN-T5 VRF)",
-          "id": "srv6_core_edge/junos/services/l3vpn-evpn-t5-srv6",
-          "note": "PE-side EVPN-T5 VRF"
-        },
-        {
-          "raw": "junos/interfaces/cpe-attachment.conf     (physical trunk)",
-          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
-          "note": "physical trunk"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$VR_NAME",
@@ -48591,11 +48710,6 @@
           "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-CE BGP alternative)",
           "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
           "note": "PE-CE BGP alternative"
-        },
-        {
-          "raw": "junos/services/cpe-virtual-router.conf   (CPE-side VR counterpart)",
-          "id": "srv6_core_edge/junos/services/cpe-virtual-router",
-          "note": "CPE-side VR counterpart"
         },
         {
           "raw": "junos/interfaces/pe-ce-direct.conf       (CE-facing IFL)",
