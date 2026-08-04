@@ -143,13 +143,15 @@ export default function ByoaiSection() {
                 Beta
               </span>
             </div>
+            <p className="mt-2 text-base font-medium text-foreground">
+              Agentic AI engineering grounded in validated designs.
+            </p>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> —
-              plan and design with the AI you already use, grounded in the Juniper
-              Validated Designs. Pick a JVD, launch Claude or ChatGPT, and the
-              assistant works from that JVD&apos;s validated snip library — and,
-              increasingly, its full design documentation — to answer design and
-              scaling questions and walk you through a conversation-driven config build.
+              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> lets
+              you launch a JVD-aware assistant in Claude, ChatGPT, or VS Code &mdash;
+              grounded in validated config snippet libraries and, increasingly, full
+              design documentation &mdash; to answer design and scaling questions and
+              walk you through a conversation-driven config build.
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, Construction, PlugZap, Bell, type LucideIcon } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, PlugZap, Bell, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -38,7 +38,7 @@ const NAV = [
   { label: "Explorer", href: "#snips" },
   { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
-  { label: "About", href: "#about" },
+  { label: "Why JVDs", href: "#about" },
 ];
 
 // True when focus is in a text field, so the "/" shortcut doesn't hijack typing.
@@ -55,26 +55,33 @@ const LADDER = [
   {
     stage: "Discover",
     title: "JVD Catalog",
-    desc: "Find the validated design that fits your requirements.",
+    desc: "Find the validated architecture that fits your requirements.",
     href: "#catalog",
   },
   {
     stage: "Learn",
     title: "Config Explorer",
-    desc: "Drill into the reusable, provenance-tracked config building blocks.",
+    desc: "Explore reusable config building blocks traced to their source JVDs.",
     href: "#snips",
   },
   {
     stage: "Design",
     title: "Design & Planner",
-    desc: "Ask design and scaling questions grounded in the validated JVDs.",
+    desc: "Ask architecture, scaling, and configuration questions grounded in validated JVD content.",
     href: "#byoai",
   },
   {
     stage: "Build",
     title: "Service Config Generator",
-    desc: "Render download-ready, JVD-validated service configuration.",
+    desc: "Generate downloadable configuration deterministically from validated JVD building blocks.",
     href: "#generator",
+  },
+  {
+    stage: "Deploy",
+    title: "JVD MCP Server",
+    desc: "Bring validated designs into your AI agent \u2014 from grounded config to running network.",
+    href: "#mcp",
+    comingSoon: true,
   },
 ];
 
@@ -302,8 +309,8 @@ export default function JvdPortal() {
 
   const stats = [
     { label: "Validated Designs", value: "60+" },
-    { label: "Reusable Config Templates", value: `${Math.floor(snipBundle.counts.total / 50) * 50}+` },
-    { label: "Platforms Validated", value: "25+" },
+    { label: "Config Snippets", value: `${Math.floor(snipBundle.counts.total / 50) * 50}+` },
+    { label: "Validated Platforms", value: "25+" },
   ];
 
   const areaCounts = useMemo(() => {
@@ -385,27 +392,32 @@ export default function JvdPortal() {
             <h1 className="mt-6 text-5xl font-semibold tracking-tight md:text-6xl">
               Juniper Validated Designs
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              End-to-end designs extensively validated in Juniper labs — topology, configuration,
-              and validation guidance for data center, WAN, optical, security, and service provider
-              networks.
+            <p className="mt-2 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+              Build with Confidence.
+            </p>
+            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+              End-to-end network architectures validated in Juniper labs, with the
+              topology, configuration, and guidance teams need to deploy with confidence.
             </p>
 
             {/* Primary action: open the global search palette */}
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
-              aria-label="Search designs, snips, and technologies"
+              aria-label="Search JVDs, technologies, and config snippets"
               className="group mt-10 flex w-full max-w-2xl items-center gap-3 rounded-xl border border-border bg-surface px-5 py-4 text-left transition-colors hover:border-primary/60"
             >
               <Search className="h-5 w-5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
               <span className="flex-1 text-base text-muted-foreground">
-                Search designs, snips, technologies…
+                Search JVDs, technologies, config snippets…
               </span>
               <kbd className="hidden shrink-0 rounded border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground sm:inline">
                 ⌘K
               </kbd>
             </button>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Searches designs, config snippets, technologies, use cases, and platforms.
+            </p>
 
             <div className="mt-16 grid grid-cols-3 gap-4 md:max-w-xl">
               {stats.map((s) => (
@@ -424,17 +436,21 @@ export default function JvdPortal() {
             </div>
           </div>
 
-          {/* Journey ladder — Discover → Explore → Design → Build */}
-          <div id="how" className="mt-24 scroll-mt-24">
+          {/* Philosophy line */}
+          <p className="mt-16 text-center text-lg font-medium tracking-tight text-foreground md:text-xl">
+            AI for reasoning. Validated engineering for deployment.
+          </p>
+
+          {/* Journey ladder */}
+          <div id="how" className="mt-16 scroll-mt-24">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Find. Learn. Plan. Build.
+              Find. Learn. Design. Build. Deploy.
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">Explore Juniper Validated Designs in a new way.</span>{" "}
-              Discover the right design, learn how it&apos;s built, plan it against
-              your requirements, then generate validated config. Four stages, one path.
+              From validated architecture to validated configuration &mdash; combining
+              AI-assisted reasoning with deterministic generation. Five stages, one path.
             </p>
-            <div className="mt-8 grid gap-4 md:grid-cols-4">
+            <div className="mt-8 grid gap-4 md:grid-cols-5">
               {LADDER.map((s, i) => (
                 <a
                   key={s.href}
@@ -448,6 +464,11 @@ export default function JvdPortal() {
                     <span className="text-[11px] font-semibold uppercase tracking-wider">
                       {s.stage}
                     </span>
+                    {(s as any).comingSoon && (
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-primary">
+                        Soon
+                      </span>
+                    )}
                   </div>
                   <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
                   <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
@@ -564,19 +585,21 @@ export default function JvdPortal() {
             Stage 4 · Build
           </div>
           <div className="mt-1 flex items-center gap-2">
-            <h2 className="text-3xl font-semibold tracking-tight">Service Configuration Generator</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">Validated Service Configuration Generator</h2>
             <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-amber-600 dark:text-amber-400">
-              <Construction className="h-3 w-3" />
-              Under Construction
+              Beta
             </span>
           </div>
           <p className="mt-3 max-w-2xl text-muted-foreground">
             A deterministic config builder: pick a service, choose your
             options, fill in the parameters, and download validated Junos /
-            Junos EVO configuration rendered straight from the JVD snip library.
-            Metro-as-a-Service E-Line, E-LAN and E-Tree are live — more services
+            Junos EVO configuration generated straight from the JVD config snippet library.
+            Metro-as-a-Service E-Line, E-LAN and E-Tree are live &mdash; more services
             and JVDs are being added. Scoped to validated <em>services</em>; for
             broader design and platform questions, use the Design &amp; Planner.
+          </p>
+          <p className="mt-3 max-w-2xl text-sm font-medium text-foreground">
+            Deterministic generation from validated JVD building blocks &mdash; not AI-generated configuration.
           </p>
 
           <div className="mt-5 flex max-w-2xl items-start gap-2 rounded-md border border-border bg-surface p-3 text-xs text-muted-foreground">
@@ -597,12 +620,13 @@ export default function JvdPortal() {
       <section id="about" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight">About</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">Why JVDs</h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              Juniper Validated Designs are end-to-end, extensively-tested reference architectures
-              built and verified by Juniper engineering. Each JVD bundles topology, configuration,
-              and validation guidance so teams can deploy with confidence and reduce risk on
-              critical network rollouts.
+              Network designs are more trustworthy when architecture, configuration,
+              and expected behavior have been tested together. Juniper Validated
+              Designs package that engineering work into end-to-end reference
+              architectures that help teams reduce design uncertainty, accelerate
+              implementation, and lower rollout risk.
             </p>
             <a
               href="https://www.juniper.net/documentation/validated-designs/"
@@ -610,7 +634,7 @@ export default function JvdPortal() {
               rel="noreferrer"
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
             >
-              Read the JVD documentation <ExternalLink className="h-3.5 w-3.5" />
+              Explore the full Juniper Validated Design library <ExternalLink className="h-3.5 w-3.5" />
             </a>
           </div>
 
@@ -652,7 +676,8 @@ export default function JvdPortal() {
                   </span>
                 </div>
                 <p className="mt-3 max-w-2xl text-muted-foreground">
-                  Bring Juniper Validated Designs straight into your AI agent. Pair
+                  Bring Juniper Validated Designs straight into your AI agent &mdash;
+                  documentation, design guidance, and config snippets. Pair
                   the JVD MCP server with the Junos MCP server to pull validated
                   configs into your automation workflow &mdash; grounded design to
                   running network, without leaving your assistant.
@@ -668,7 +693,7 @@ export default function JvdPortal() {
                   Notify me &mdash; Watch on GitHub
                 </a>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  Watch the repo to get notified when it ships.
+                  Watch the repo for updates.
                 </p>
               </div>
             </div>
