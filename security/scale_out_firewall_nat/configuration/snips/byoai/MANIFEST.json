@@ -82,7 +82,7 @@
       "seen_on": [
         "mx1_mx304"
       ],
-      "size_bytes": 2948,
+      "size_bytes": 2859,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/mx-ae-uni-flexible.conf"
     },
     {
@@ -232,7 +232,7 @@
       "seen_on": [
         "gateway_emulator_mx304"
       ],
-      "size_bytes": 3489,
+      "size_bytes": 3392,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/gw-emulator-bgp.conf"
     },
     {

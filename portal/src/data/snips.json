@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T02:48:25.756Z",
+  "generatedAt": "2026-08-04T02:50:24.238Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -19181,11 +19181,6 @@
           "note": "— TLB uses lo0.1/lo0.2 as health-check sources"
         },
         {
-          "raw": "junos/transport/gw-emulator-bgp.conf — the GW that terminates this north-side AC",
-          "id": "scale_out_firewall_nat/junos/transport/gw-emulator-bgp",
-          "note": "— the GW that terminates this north-side AC"
-        },
-        {
           "raw": "junos/transport/mx-scaleout-export-policies.conf — export policies applied on this UNI's routing instance",
           "id": "scale_out_firewall_nat/junos/transport/mx-scaleout-export-policies",
           "note": "— export policies applied on this UNI's routing instance"
@@ -19998,13 +19993,7 @@
         "UNTRUST_VR statically discards a default and eBGPs it to the MX UNTRUST plane, emulating the internet-facing side.",
         "Not a production device — it stands in for the customer CE / upstream router during validation."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/mx-ae-uni-flexible.conf — the MX north-side AC this emulator peers with",
-          "id": "scale_out_firewall_nat/junos/interfaces/mx-ae-uni-flexible",
-          "note": "— the MX north-side AC this emulator peers with"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$GW_TRUST_AS",
