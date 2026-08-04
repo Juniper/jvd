@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T02:46:52.193Z",
+  "generatedAt": "2026-08-04T02:48:25.756Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -22812,11 +22812,6 @@
           "note": null
         },
         {
-          "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
-          "note": null
-        },
-        {
           "raw": "evo/transport/routing-options-pe.conf",
           "id": "broadband_edge/evo/transport/routing-options-pe",
           "note": null
@@ -22885,11 +22880,6 @@
         {
           "raw": "evo/services/l3vpn-internet.conf",
           "id": "broadband_edge/evo/services/l3vpn-internet",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-fabric.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-fabric",
           "note": null
         }
       ],
@@ -22966,16 +22956,6 @@
         "BFD 100ms x 3."
       ],
       "pairWith": [
-        {
-          "raw": "evo/transport/bgp-overlay-pe-an.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-pe-an",
-          "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay-rr-core.conf",
-          "id": "broadband_edge/evo/transport/bgp-overlay-rr-core",
-          "note": null
-        },
         {
           "raw": "evo/policy/bgp-rr-export.conf",
           "id": "broadband_edge/evo/policy/bgp-rr-export",

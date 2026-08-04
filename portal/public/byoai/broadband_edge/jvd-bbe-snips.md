@@ -818,7 +818,6 @@ routing-instances {
  * Pair with:
  *  - evo/services/evpn-vpws-an.conf
  *  - evo/services/evpn-vpws-fxc-an.conf
- *  - evo/transport/bgp-overlay-rr-fabric.conf
  *  - evo/transport/routing-options-pe.conf
  *
  * Variables (example values from an1_acx7024):
@@ -889,7 +888,6 @@ protocols {
  * Pair with:
  *  - evo/policy/bgp-rr-export.conf
  *  - evo/services/l3vpn-internet.conf
- *  - evo/transport/bgp-overlay-rr-fabric.conf
  *
  * Variables (example values from cr1_ptx10004):
  *   $LOOPBACK_V4   e.g. 192.168.0.11
@@ -1013,8 +1011,6 @@ protocols {
  *  - BFD 100ms x 3.
  *
  * Pair with:
- *  - evo/transport/bgp-overlay-pe-an.conf
- *  - evo/transport/bgp-overlay-rr-core.conf
  *  - evo/policy/bgp-rr-export.conf
  *
  * Variables (example values from agn1_acx7100-32c):
