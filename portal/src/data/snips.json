@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T23:29:54.953Z",
+  "generatedAt": "2026-08-04T00:41:13.148Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -44662,7 +44662,7 @@
       "category": "services",
       "name": "evpn-type5-anchor",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf",
-      "topic": "Apply-group: `GR-L3VPN` on Junos PEs via inherited group",
+      "topic": "Slim L3VPN IRB-anchor VRF (paired with EVPN-ELAN",
       "seenOn": {
         "junos": [
           "mse1_mx304",
@@ -44672,7 +44672,8 @@
       },
       "highlights": [
         "Same role as `evpn-type5.conf` (the L3 half of the EVPN-IRB pattern, owning the IRB and the VRF) but written in the \"slim\" form: no `protocols evpn ip-prefix-routes { ... }` block. In this JVD's METRO_L3VPN_4050 EVI the host /32s and IRB subnet are advertised as RT-2 MAC+IP routes from the paired MAC-VRF, so no RT-5 prefix routes are needed — the VRF only needs to terminate the IRB and do egress L3 lookups for ingress-replicated/MAC-routed traffic.",
-        "`vrf-table-label` + `vrf-import / vrf-export` are the only VPN-RT plumbing; routing-options is just `router-id` (the `multipath { vpn-unequal-cost; }` knob comes from"
+        "`vrf-table-label` + `vrf-import / vrf-export` are the only VPN-RT plumbing; routing-options is just `router-id` (the `multipath { vpn-unequal-cost; }` knob comes from apply-group `GR-L3VPN` on Junos PEs via inherited group inheritance).",
+        "Compat-graph family `service.evpn-type5` covers both this slim variant and the explicit `evpn-type5.conf` variant (the regex matches `evpn-type5*`)."
       ],
       "pairWith": [
         {
