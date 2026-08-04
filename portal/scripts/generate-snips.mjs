@@ -139,7 +139,10 @@ function parseSnip(text) {
     // "Apply-group" is accepted as a synonym for "Topic" — apply-group snips
     // are routinely headed with "Apply-group: GR-NAME" since the group name
     // IS the topic.
-    const sec = trimmed.match(/^(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping)\b\s*:?\s*(.*)$/i);
+    // Match on the de-starred line (not `trimmed`) so the keyword must sit at
+    // the header's own indent level; an indented highlight continuation that
+    // merely mentions e.g. "apply-group `GR-X`" must NOT be read as a header.
+    const sec = line.match(/^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping)\b\s*:?\s*(.*)$/i);
     if (sec) {
       const key = sec[1].toLowerCase();
       if (key === "topic" || key === "apply-group" || key === "apply-groups") {
