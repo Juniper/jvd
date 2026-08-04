@@ -111,7 +111,7 @@
         "mse1_mx480",
         "mse2_mx304"
       ],
-      "size_bytes": 2363,
+      "size_bytes": 2300,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/interfaces/cpe-attachment.conf"
     },
     {
@@ -229,7 +229,7 @@
         "mse2_mx304",
         "br1_ptx10002-36qdd"
       ],
-      "size_bytes": 3835,
+      "size_bytes": 3796,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/services/l3vpn-srv6-vrf.conf"
     },
     {
@@ -253,7 +253,7 @@
       "seen_on": [
         "br1_ptx10002-36qdd"
       ],
-      "size_bytes": 3897,
+      "size_bytes": 3858,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/evo/transport/bgp-overlay-rr-client.conf"
     },
     {
@@ -597,7 +597,7 @@
         "cpe2_mx240",
         "cpe4_mx240"
       ],
-      "size_bytes": 3515,
+      "size_bytes": 3309,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/cpe-virtual-router.conf"
     },
     {
@@ -627,7 +627,7 @@
         "edge2_mx480",
         "edge3_mx480"
       ],
-      "size_bytes": 2780,
+      "size_bytes": 2707,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/junos/services/l3vpn-evpn-t5-srv6.conf"
     },
     {

@@ -414,7 +414,6 @@ interfaces {
  *    service ID — per JVD convention.
  *
  * Pair with:
- *  - evo/services/evpn-vpws-srv6.conf  (consumes the AC unit)
  *  - evo/interfaces/pe-ce-direct.conf    (consumes the L3 sub-IFL)
  *  - evo/interfaces/pe-ce-irb.conf       (consumes the bridge AC)
  *
@@ -857,7 +856,6 @@ policy-options {
  *    bridge-domain stitched to L3 (see pe-ce-irb.conf).
  *
  * Pair with:
- *  - evo/services/evpn-vpws-srv6.conf
  *  - evo/transport/bgp-overlay-rr-client.conf
  *  - evo/apply-groups/gr-l3vpn.conf           (provides defaults)
  *  - evo/interfaces/pe-ce-direct.conf           (xe-*.<unit> attachment)
@@ -1007,7 +1005,6 @@ protocols {
  *
  * Pair with:
  *  - evo/policy/srv6-redistribution-policy.conf
- *  - evo/services/evpn-vpws-srv6.conf
  *  - evo/apply-groups/gr-bgp.conf            (TCP-AO, multipath, MSS)
  *  - evo/transport/bgp-overlay-rr.conf       (RR-side counterpart)
  *  - evo/services/l3vpn-srv6-vrf.conf        (per-VRF locator overrides)
@@ -2574,9 +2571,6 @@ policy-options {
  *  - cpe4 peers with MSE PEs (groups TO-MSE1, TO-MSE2).
  *
  * Pair with:
- *  - junos/services/l3vpn-srv6-vrf.conf       (PE-side VRF counterpart)
- *  - junos/services/l3vpn-evpn-t5-srv6.conf   (PE-side EVPN-T5 VRF)
- *  - junos/interfaces/cpe-attachment.conf     (physical trunk)
  *
  * JVD service mapping:
  *   1012 instances on cpe2_mx240, 12 on cpe4_mx240.
@@ -2747,7 +2741,6 @@ routing-instances {
  *
  * Pair with:
  *  - junos/services/l3vpn-srv6-vrf.conf       (PE-CE BGP alternative)
- *  - junos/services/cpe-virtual-router.conf   (CPE-side VR counterpart)
  *  - junos/interfaces/pe-ce-direct.conf       (CE-facing IFL)
  *  - junos/apply-groups/gr-l3vpn.conf         (provides defaults)
  *  - junos/transport/bgp-overlay-rr-client.conf

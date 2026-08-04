@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T02:34:03.953Z",
+  "generatedAt": "2026-08-04T02:46:52.193Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -45964,11 +45964,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-vpws-srv6.conf  (consumes the AC unit)",
-          "id": null,
-          "note": "consumes the AC unit"
-        },
-        {
           "raw": "evo/interfaces/pe-ce-direct.conf    (consumes the L3 sub-IFL)",
           "id": "srv6_core_edge/evo/interfaces/pe-ce-direct",
           "note": "consumes the L3 sub-IFL"
@@ -46506,11 +46501,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": null,
-          "note": null
-        },
-        {
           "raw": "evo/transport/bgp-overlay-rr-client.conf",
           "id": "srv6_core_edge/evo/transport/bgp-overlay-rr-client",
           "note": null
@@ -46707,11 +46697,6 @@
         {
           "raw": "evo/policy/srv6-redistribution-policy.conf",
           "id": "srv6_core_edge/evo/policy/srv6-redistribution-policy",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws-srv6.conf",
-          "id": null,
           "note": null
         },
         {
@@ -48368,23 +48353,7 @@
         "Appears in two flavors: • Multi-homed (cpe2): 2 BGP groups (TO-AN2, TO-AN3) toward two edge PEs. • Single-homed EVPN-T5 variant (cpe2): 1 BGP group (TO-AN3) toward one PE — the PE originates EVPN Type-5 for these prefixes (see l3vpn-evpn-t5-srv6.conf).",
         "cpe4 peers with MSE PEs (groups TO-MSE1, TO-MSE2)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-side VRF counterpart)",
-          "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
-          "note": "PE-side VRF counterpart"
-        },
-        {
-          "raw": "junos/services/l3vpn-evpn-t5-srv6.conf   (PE-side EVPN-T5 VRF)",
-          "id": "srv6_core_edge/junos/services/l3vpn-evpn-t5-srv6",
-          "note": "PE-side EVPN-T5 VRF"
-        },
-        {
-          "raw": "junos/interfaces/cpe-attachment.conf     (physical trunk)",
-          "id": "srv6_core_edge/junos/interfaces/cpe-attachment",
-          "note": "physical trunk"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$VR_NAME",
@@ -48591,11 +48560,6 @@
           "raw": "junos/services/l3vpn-srv6-vrf.conf       (PE-CE BGP alternative)",
           "id": "srv6_core_edge/junos/services/l3vpn-srv6-vrf",
           "note": "PE-CE BGP alternative"
-        },
-        {
-          "raw": "junos/services/cpe-virtual-router.conf   (CPE-side VR counterpart)",
-          "id": "srv6_core_edge/junos/services/cpe-virtual-router",
-          "note": "CPE-side VR counterpart"
         },
         {
           "raw": "junos/interfaces/pe-ce-direct.conf       (CE-facing IFL)",
