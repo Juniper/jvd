@@ -94,7 +94,8 @@ The same topic file exists under both `junos/` and `evo/`:
 | `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
 | `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
 | `evo/services/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
-| `evo/services/l2circuit-hot-standby.conf` | L2Circuit PW with backup-neighbor hot-standby (EVO only) |
+| `evo/services/l2circuit-hsb-hub.conf` | L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, EVO only) |
+| `evo/services/l2circuit-hsb-pe.conf` | L2circuit hot-standby — Primary/Backup PE (hot-standby-vc-on, EVO only) |
 | `services/l3vpn-bgp.conf` | L3VPN VRF with PE-CE eBGP and as-override |
 | `services/l3vpn-ospf.conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
 | `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |

@@ -955,7 +955,7 @@ interfaces {
  *  - Per-unit ingress filter (50MB_filter from firewall snippet) for
  *    rate-limiting at the UNI.
  *  - unit 3000 is the L2Circuit attachment shown in
- *    evo/services/l2circuit-hot-standby.conf
+ *    evo/services/l2circuit-hsb-hub.conf
  *
  * Edge baseline knobs (description, MTU, flex-vlan tagging,
  * encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF.
@@ -964,7 +964,7 @@ interfaces {
  *  - evo/apply-groups/gr-edge-intf.conf
  *  - evo/firewall/policers.conf
  *  - evo/services/l2circuit-lsw.conf
- *  - evo/services/l2circuit-hot-standby.conf
+ *  - evo/services/l2circuit-hsb-hub.conf
  *
  * Variables (example values from an3_acx7100-48l):
  *   $AC_PHYS    e.g. et-0/0/0   (the parent port; the per-unit
@@ -1856,20 +1856,21 @@ routing-instances {
 }
 ```
 
-## evo/services/l2circuit-hot-standby.conf
+## evo/services/l2circuit-hsb-hub.conf
 
 ```
 /*
- * Topic:   L2Circuit pseudowire with backup-neighbor hot-standby
+ * Topic:   L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, MEF E-Line / EVPL)
  * Seen on:
  *   Junos: (none)
- *   EVO:   an3_acx7100-48l ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   EVO:   an3_acx7100-48l
  *
  * Highlights:
- *  - Static (LDP-signalled) L2Circuit PWs to a primary neighbor
+ *  - LDP-signalled L2Circuit PWs to a primary neighbor
  *    (1.1.0.6) with a backup-neighbor (1.1.0.7) for hot-standby
  *    redundancy. On primary failure the standby PW is brought up
- *    immediately (switchover-delay 0 from GR-L2CKT-HS).
+ *    immediately (switchover-delay 0 from GR-L2CKT-HS). The paired
+ *    Primary/Backup PEs run hot-standby-vc-on (see l2circuit-hsb-pe.conf).
  *  - virtual-circuit-id pairs identify the PW endpoints (3000/4000,
  *    3001/4001, …)
  *  - flow-label-{transmit,receive} for FAT-PW ECMP load balancing
@@ -1878,10 +1879,9 @@ routing-instances {
  *    follow a specific BGP-CT colour underlay
  *
  * Pair with:
- *  - evo/policy/communities.conf
+ *  - evo/policy/communities.conf (CM-TC-MAP2GOLD definition)
  *  - evo/apply-groups/gr-l2ckt-hs.conf (hot-standby knobs)
  *  - evo/apply-groups/gr-fatpw-lb.conf (forwarding-options)
- *  - evo/policy/communities.conf (CM-TC-MAP2GOLD definition)
  *  - evo/interfaces/edge-vlan-normalization.conf  (the vlan-ccc
  *      AC unit this PW terminates on, e.g. et-0/0/0.3000)
  *
@@ -1893,17 +1893,18 @@ routing-instances {
  *     meg1_acx7100-32c  et-0/0/26:3.3000
  *
  * Variables (example values from an3_acx7100-48l):
- *   $REMOTE_PE_V4    e.g. 1.1.0.6
- *   $BACKUP_PE_V4    e.g. 1.1.0.7
- *   $AC_INTF         e.g. et-0/0/0.3000
- *   $VC_ID           e.g. 3000
- *   $VC_ID_BACKUP    e.g. 4000
+ *   $AC_INTF          e.g. et-0/0/0
+ *   $UNIT             e.g. 3000
+ *   $PRIMARY_LOOPBACK e.g. 1.1.0.6
+ *   $BACKUP_LOOPBACK  e.g. 1.1.0.7
+ *   $VC_ID_PRIMARY    e.g. 3000
+ *   $VC_ID_BACKUP     e.g. 4000
  */
 protocols {
     l2circuit {
-        neighbor $REMOTE_PE_V4 {
-            interface $AC_INTF {
-                virtual-circuit-id $VC_ID;
+        neighbor $PRIMARY_LOOPBACK {
+            interface $AC_INTF.$UNIT {
+                virtual-circuit-id $VC_ID_PRIMARY;
                 control-word;
                 flow-label-transmit;
                 flow-label-receive;
@@ -1911,10 +1912,69 @@ protocols {
                 encapsulation-type ethernet-vlan;
                 ignore-mtu-mismatch;
                 pseudowire-status-tlv;
-                backup-neighbor $BACKUP_PE_V4 {
+                backup-neighbor $BACKUP_LOOPBACK {
                     virtual-circuit-id $VC_ID_BACKUP;
                     community CM-TC-MAP2GOLD;
                     hot-standby;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/services/l2circuit-hsb-pe.conf
+
+```
+/*
+ * Topic:   L2circuit hot-standby — Primary / Backup PE (hot-standby-vc-on, MEF E-Line / EVPL)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - PE endpoint of a hot-standby L2Circuit. It targets the Hub's loopback
+ *    ($HUB_LOOPBACK) and signals hot-standby-vc-on so the Hub keeps this PW
+ *    hot. This same body serves BOTH the Primary PE (active VC) and the
+ *    Backup PE (standby VC); only $VC_ID and the AC differ. On the device
+ *    the hot-standby-vc-on knob is inherited from apply-group GR-L2CKT-HS.
+ *  - control-word, flow-label-{transmit,receive} (FAT-PW ECMP),
+ *    encapsulation-type ethernet-vlan, ignore-encapsulation-mismatch,
+ *    ignore-mtu-mismatch.
+ *  - Per-PW transport-class community (map2gold) lets the PW follow a
+ *    specific BGP-CT colour underlay.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/apply-groups/gr-l2ckt-hs.conf (hot-standby-vc-on knob)
+ *  - evo/apply-groups/gr-fatpw-lb.conf (forwarding-options)
+ *
+ * JVD service mapping:
+ *   2000 instances total (high 2000 / med 0 / low 0)
+ *   On devices: an3_acx7100-48l (2000), meg1_acx7100-32c (1000), meg2_acx7509 (1000)
+ *   Example: l2ckt-vc3000 (RD —, RT —)
+ *     meg1_acx7100-32c  et-0/0/26:3.3000  ->  an3_acx7100-48l (hub 1.1.0.2)
+ *
+ * Variables (example values from meg1_acx7100-32c):
+ *   $AC_INTF       e.g. et-0/0/26:3
+ *   $UNIT          e.g. 3000
+ *   $HUB_LOOPBACK  e.g. 1.1.0.2
+ *   $VC_ID         e.g. 3000
+ */
+protocols {
+    l2circuit {
+        neighbor $HUB_LOOPBACK {
+            interface $AC_INTF.$UNIT {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                flow-label-transmit;
+                flow-label-receive;
+                community map2gold;
+                encapsulation-type ethernet-vlan;
+                ignore-encapsulation-mismatch;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv {
+                    hot-standby-vc-on;
                 }
             }
         }

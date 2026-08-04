@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-04T02:54:53.518Z",
+  "generatedAt": "2026-08-04T03:16:29.428Z",
   "counts": {
-    "total": 675,
+    "total": 676,
     "junos": 344,
-    "evo": 331,
+    "evo": 332,
     "jvds": 18
   },
   "categories": [
@@ -223,8 +223,8 @@
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
         "junos": 36,
-        "evo": 37,
-        "total": 73
+        "evo": 38,
+        "total": 74
       }
     },
     {
@@ -40898,7 +40898,7 @@
         "Single-homed customer-facing port (et-0/0/0) carrying a mix of EVPN-ELAN attachment-circuits (vlan-bridge encap) and L2Circuit attachment-circuits (vlan-ccc encap, family ccc).",
         "input-vlan-map push / output-vlan-map pop  → VLAN normalization at the SP edge: the customer VLAN seen on the wire is rewritten to a service-internal VLAN before bridging / pseudowire encap.",
         "Per-unit ingress filter (50MB_filter from firewall snippet) for rate-limiting at the UNI.",
-        "unit 3000 is the L2Circuit attachment shown in evo/services/l2circuit-hot-standby.conf Edge baseline knobs (description, MTU, flex-vlan tagging, encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF."
+        "unit 3000 is the L2Circuit attachment shown in evo/services/l2circuit-hsb-hub.conf Edge baseline knobs (description, MTU, flex-vlan tagging, encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF."
       ],
       "pairWith": [
         {
@@ -40917,8 +40917,8 @@
           "note": null
         },
         {
-          "raw": "evo/services/l2circuit-hot-standby.conf",
-          "id": "metro_ethernet_business_services/evo/services/l2circuit-hot-standby",
+          "raw": "evo/services/l2circuit-hsb-hub.conf",
+          "id": "metro_ethernet_business_services/evo/services/l2circuit-hsb-hub",
           "note": null
         }
       ],
@@ -41986,28 +41986,24 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/evo/services/l2circuit-hot-standby",
+      "id": "metro_ethernet_business_services/evo/services/l2circuit-hsb-hub",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
       "area": "Service Provider",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "services",
-      "name": "l2circuit-hot-standby",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hot-standby.conf",
-      "topic": "L2Circuit pseudowire with backup-neighbor hot-standby",
+      "name": "l2circuit-hsb-hub",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-hub.conf",
+      "topic": "L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, MEF E-Line / EVPL)",
       "seenOn": {
         "junos": [],
         "evo": [
-          "an3_acx7100-48l",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "an3_acx7100-48l"
         ]
       },
       "highlights": [
-        "Static (LDP-signalled) L2Circuit PWs to a primary neighbor (1.1.0.6) with a backup-neighbor (1.1.0.7) for hot-standby redundancy. On primary failure the standby PW is brought up immediately (switchover-delay 0 from GR-L2CKT-HS).",
+        "LDP-signalled L2Circuit PWs to a primary neighbor (1.1.0.6) with a backup-neighbor (1.1.0.7) for hot-standby redundancy. On primary failure the standby PW is brought up immediately (switchover-delay 0 from GR-L2CKT-HS). The paired Primary/Backup PEs run hot-standby-vc-on (see l2circuit-hsb-pe.conf).",
         "virtual-circuit-id pairs identify the PW endpoints (3000/4000, 3001/4001, …)",
         "flow-label-{transmit,receive} for FAT-PW ECMP load balancing",
         "control-word, encapsulation-type ethernet-vlan, ignore-mtu-mismatch",
@@ -42015,9 +42011,9 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/policy/communities.conf",
+          "raw": "evo/policy/communities.conf (CM-TC-MAP2GOLD definition)",
           "id": "metro_ethernet_business_services/evo/policy/communities",
-          "note": null
+          "note": "CM-TC-MAP2GOLD definition"
         },
         {
           "raw": "evo/apply-groups/gr-l2ckt-hs.conf (hot-standby knobs)",
@@ -42030,11 +42026,6 @@
           "note": "forwarding-options"
         },
         {
-          "raw": "evo/policy/communities.conf (CM-TC-MAP2GOLD definition)",
-          "id": "metro_ethernet_business_services/evo/policy/communities",
-          "note": "CM-TC-MAP2GOLD definition"
-        },
-        {
           "raw": "evo/interfaces/edge-vlan-normalization.conf  (the vlan-ccc",
           "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
           "note": "(the vlan-ccc"
@@ -42042,19 +42033,23 @@
       ],
       "variables": [
         {
-          "name": "$REMOTE_PE_V4",
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3000"
+        },
+        {
+          "name": "$PRIMARY_LOOPBACK",
           "example": "1.1.0.6"
         },
         {
-          "name": "$BACKUP_PE_V4",
+          "name": "$BACKUP_LOOPBACK",
           "example": "1.1.0.7"
         },
         {
-          "name": "$AC_INTF",
-          "example": "et-0/0/0.3000"
-        },
-        {
-          "name": "$VC_ID",
+          "name": "$VC_ID_PRIMARY",
           "example": "3000"
         },
         {
@@ -42069,10 +42064,90 @@
         "    an3_acx7100-48l  et-0/0/0.3000",
         "    meg1_acx7100-32c  et-0/0/26:3.3000"
       ],
-      "body": "protocols {\n    l2circuit {\n        neighbor $REMOTE_PE_V4 {\n            interface $AC_INTF {\n                virtual-circuit-id $VC_ID;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                community CM-TC-MAP2GOLD;\n                encapsulation-type ethernet-vlan;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv;\n                backup-neighbor $BACKUP_PE_V4 {\n                    virtual-circuit-id $VC_ID_BACKUP;\n                    community CM-TC-MAP2GOLD;\n                    hot-standby;\n                }\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $REMOTE_PE_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                backup-neighbor $BACKUP_PE_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-circuit-id $VC_ID_BACKUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    community CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 638,
+      "body": "protocols {\n    l2circuit {\n        neighbor $PRIMARY_LOOPBACK {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID_PRIMARY;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                community CM-TC-MAP2GOLD;\n                encapsulation-type ethernet-vlan;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv;\n                backup-neighbor $BACKUP_LOOPBACK {\n                    virtual-circuit-id $VC_ID_BACKUP;\n                    community CM-TC-MAP2GOLD;\n                    hot-standby;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $PRIMARY_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID_PRIMARY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                backup-neighbor $BACKUP_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-circuit-id $VC_ID_BACKUP;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    community CM-TC-MAP2GOLD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 659,
       "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "Services",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/services/l2circuit-hsb-pe",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "services",
+      "name": "l2circuit-hsb-pe",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-pe.conf",
+      "topic": "L2circuit hot-standby — Primary / Backup PE (hot-standby-vc-on, MEF E-Line / EVPL)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "PE endpoint of a hot-standby L2Circuit. It targets the Hub's loopback ($HUB_LOOPBACK) and signals hot-standby-vc-on so the Hub keeps this PW hot. This same body serves BOTH the Primary PE (active VC) and the Backup PE (standby VC); only $VC_ID and the AC differ. On the device the hot-standby-vc-on knob is inherited from apply-group GR-L2CKT-HS.",
+        "control-word, flow-label-{transmit,receive} (FAT-PW ECMP), encapsulation-type ethernet-vlan, ignore-encapsulation-mismatch, ignore-mtu-mismatch.",
+        "Per-PW transport-class community (map2gold) lets the PW follow a specific BGP-CT colour underlay."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/communities.conf",
+          "id": "metro_ethernet_business_services/evo/policy/communities",
+          "note": null
+        },
+        {
+          "raw": "evo/apply-groups/gr-l2ckt-hs.conf (hot-standby-vc-on knob)",
+          "id": "metro_ethernet_business_services/evo/apply-groups/gr-l2ckt-hs",
+          "note": "hot-standby-vc-on knob"
+        },
+        {
+          "raw": "evo/apply-groups/gr-fatpw-lb.conf (forwarding-options)",
+          "id": "metro_ethernet_business_services/evo/apply-groups/gr-fatpw-lb",
+          "note": "forwarding-options"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/26:3"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3000"
+        },
+        {
+          "name": "$HUB_LOOPBACK",
+          "example": "1.1.0.2"
+        },
+        {
+          "name": "$VC_ID",
+          "example": "3000"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  2000 instances total (high 2000 / med 0 / low 0)",
+        "  On devices: an3_acx7100-48l (2000), meg1_acx7100-32c (1000), meg2_acx7509 (1000)",
+        "  Example: l2ckt-vc3000 (RD —, RT —)",
+        "    meg1_acx7100-32c  et-0/0/26:3.3000  ->  an3_acx7100-48l (hub 1.1.0.2)"
+      ],
+      "body": "protocols {\n    l2circuit {\n        neighbor $HUB_LOOPBACK {\n            interface $AC_INTF.$UNIT {\n                virtual-circuit-id $VC_ID;\n                control-word;\n                flow-label-transmit;\n                flow-label-receive;\n                community map2gold;\n                encapsulation-type ethernet-vlan;\n                ignore-encapsulation-mismatch;\n                ignore-mtu-mismatch;\n                pseudowire-status-tlv {\n                    hot-standby-vc-on;\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    l2circuit {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        neighbor $HUB_LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface $AC_INTF.$UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                virtual-circuit-id $VC_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community map2gold;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-encapsulation-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ignore-mtu-mismatch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                pseudowire-status-tlv {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    hot-standby-vc-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 544,
+      "lineCount": 19,
       "techFamily": "Service Overlay",
       "subfamily": "Services",
       "usecases": [
