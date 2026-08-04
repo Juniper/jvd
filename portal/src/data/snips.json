@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T01:01:20.373Z",
+  "generatedAt": "2026-08-04T01:12:51.981Z",
   "counts": {
     "total": 675,
     "junos": 344,
@@ -40780,11 +40780,6 @@
           "raw": "evo/services/l2circuit-hot-standby.conf",
           "id": "metro_ethernet_business_services/evo/services/l2circuit-hot-standby",
           "note": null
-        },
-        {
-          "raw": "junos/services/l2circuit-floating-pw.conf  (cross-OS PW head",
-          "id": "metro_ethernet_business_services/junos/services/l2circuit-floating-pw",
-          "note": "(cross-OS PW head"
         }
       ],
       "variables": [
@@ -41035,16 +41030,6 @@
           "raw": "evo/services/l3vpn-ospf.conf",
           "id": "metro_ethernet_business_services/evo/services/l3vpn-ospf",
           "note": null
-        },
-        {
-          "raw": "evo/services/evpn-fxc.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-fxc",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-type5-anchor",
-          "note": null
         }
       ],
       "variables": [
@@ -41124,11 +41109,6 @@
           "raw": "evo/apply-groups/gr-edge-intf.conf  (parent UNI family",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-edge-intf",
           "note": "(parent UNI family"
-        },
-        {
-          "raw": "junos/services/bgp-vpls.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/junos/services/bgp-vpls",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -41222,19 +41202,9 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
-          "note": null
-        },
-        {
           "raw": "evo/services/evpn-type5.conf  (IRB co-occurrence)",
           "id": "metro_ethernet_business_services/evo/services/evpn-type5",
           "note": "IRB co-occurrence"
-        },
-        {
-          "raw": "junos/services/evpn-elan-virtual-switch-irb.conf  (cross-OS",
-          "id": "metro_ethernet_business_services/junos/services/evpn-elan-virtual-switch-irb",
-          "note": "(cross-OS"
         }
       ],
       "variables": [
@@ -41433,19 +41403,9 @@
           "note": null
         },
         {
-          "raw": "evo/policy/l3vpn-export-import.conf  (vrf-export policy",
-          "id": "metro_ethernet_business_services/evo/policy/l3vpn-export-import",
-          "note": "(vrf-export policy"
-        },
-        {
           "raw": "evo/apply-groups/gr-edge-intf.conf  (parent UNI family",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-edge-intf",
           "note": "(parent UNI family"
-        },
-        {
-          "raw": "junos/services/evpn-fxc.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/junos/services/evpn-fxc",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -41554,11 +41514,6 @@
           "raw": "evo/policy/communities.conf",
           "id": "metro_ethernet_business_services/evo/policy/communities",
           "note": null
-        },
-        {
-          "raw": "junos/services/evpn-port-based.conf  (cross-OS counterpart;",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
-          "note": "(cross-OS counterpart;"
         }
       ],
       "variables": [
@@ -41641,16 +41596,6 @@
         {
           "raw": "evo/services/evpn-elan-mac-vrf-irb.conf",
           "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf-irb",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-type5-anchor.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
-          "note": "cross-OS peer"
-        },
-        {
-          "raw": "evo/policy/l3vpn-export-import.conf",
-          "id": "metro_ethernet_business_services/evo/policy/l3vpn-export-import",
           "note": null
         },
         {
@@ -42202,11 +42147,6 @@
           "raw": "evo/services/l3vpn-ospf.conf  (sibling PE-CE peering shape)",
           "id": "metro_ethernet_business_services/evo/services/l3vpn-ospf",
           "note": "sibling PE-CE peering shape"
-        },
-        {
-          "raw": "junos/services/l3vpn-bgp.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -42307,11 +42247,6 @@
           "raw": "evo/services/l3vpn-bgp.conf  (sibling PE-CE peering shape)",
           "id": "metro_ethernet_business_services/evo/services/l3vpn-bgp",
           "note": "sibling PE-CE peering shape"
-        },
-        {
-          "raw": "junos/services/l3vpn-ospf.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -43929,26 +43864,6 @@
           "raw": "junos/services/evpn-type5.conf",
           "id": "metro_ethernet_business_services/junos/services/evpn-type5",
           "note": null
-        },
-        {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-etree.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-etree",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-fxc.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-fxc",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
-          "note": null
         }
       ],
       "variables": [
@@ -44011,11 +43926,6 @@
         "The JVD does NOT deploy LDP-VPLS on Junos PEs (no `vpls-id` + `neighbor` static config exists in any Junos conf/*.conf), nor does it deploy LDP-VPLS with BGP auto-discovery (no `l2vpn-id` form). For pure LDP-VPLS see the EVO snip."
       ],
       "pairWith": [
-        {
-          "raw": "evo/services/bgp-vpls.conf",
-          "id": "metro_ethernet_business_services/evo/services/bgp-vpls",
-          "note": null
-        },
         {
           "raw": "junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label",
@@ -44146,11 +44056,6 @@
           "raw": "junos/services/evpn-type5-anchor.conf",
           "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
           "note": null
-        },
-        {
-          "raw": "evo/services/evpn-elan-mac-vrf-irb.conf  (cross-OS EVO",
-          "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf-irb",
-          "note": "(cross-OS EVO"
         }
       ],
       "variables": [
@@ -44362,11 +44267,6 @@
           "raw": "junos/policy/communities.conf  (per-EVI export communities)",
           "id": "metro_ethernet_business_services/junos/policy/communities",
           "note": "per-EVI export communities"
-        },
-        {
-          "raw": "junos/policy/l3vpn-export-import.conf  (per-EVI export",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": "(per-EVI export"
         }
       ],
       "variables": [
@@ -44464,19 +44364,9 @@
           "note": null
         },
         {
-          "raw": "junos/policy/l3vpn-export-import.conf  (vrf-export policy",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": "(vrf-export policy"
-        },
-        {
           "raw": "junos/apply-groups/gr-edge-intf.conf  (parent UNI family",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-edge-intf",
           "note": "(parent UNI family"
-        },
-        {
-          "raw": "evo/services/evpn-fxc.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/evo/services/evpn-fxc",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -44589,19 +44479,9 @@
           "note": "map2gold colour community"
         },
         {
-          "raw": "junos/policy/l3vpn-export-import.conf  (per-VRF export policy",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": "(per-VRF export policy"
-        },
-        {
           "raw": "junos/services/evpn-vpws.conf  (sibling per-port EVPN service",
           "id": "metro_ethernet_business_services/junos/services/evpn-vpws",
           "note": "(sibling per-port EVPN service"
-        },
-        {
-          "raw": "evo/services/evpn-port-based.conf  (cross-OS EVO counterpart;",
-          "id": "metro_ethernet_business_services/evo/services/evpn-port-based",
-          "note": "(cross-OS EVO counterpart;"
         }
       ],
       "variables": [
@@ -44674,7 +44554,7 @@
       "category": "services",
       "name": "evpn-type5-anchor",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf",
-      "topic": "Apply-group: `GR-L3VPN` on Junos PEs via inherited group",
+      "topic": "Slim L3VPN IRB-anchor VRF (paired with EVPN-ELAN",
       "seenOn": {
         "junos": [
           "mse1_mx304",
@@ -44684,18 +44564,14 @@
       },
       "highlights": [
         "Same role as `evpn-type5.conf` (the L3 half of the EVPN-IRB pattern, owning the IRB and the VRF) but written in the \"slim\" form: no `protocols evpn ip-prefix-routes { ... }` block. In this JVD's METRO_L3VPN_4050 EVI the host /32s and IRB subnet are advertised as RT-2 MAC+IP routes from the paired MAC-VRF, so no RT-5 prefix routes are needed — the VRF only needs to terminate the IRB and do egress L3 lookups for ingress-replicated/MAC-routed traffic.",
-        "`vrf-table-label` + `vrf-import / vrf-export` are the only VPN-RT plumbing; routing-options is just `router-id` (the `multipath { vpn-unequal-cost; }` knob comes from"
+        "`vrf-table-label` + `vrf-import / vrf-export` are the only VPN-RT plumbing; routing-options is just `router-id` (the `multipath { vpn-unequal-cost; }` knob comes from apply-group `GR-L3VPN` on Junos PEs via inherited group inheritance).",
+        "Compat-graph family `service.evpn-type5` covers both this slim variant and the explicit `evpn-type5.conf` variant (the regex matches `evpn-type5*`)."
       ],
       "pairWith": [
         {
           "raw": "junos/services/evpn-elan-virtual-switch-irb.conf  (Junos L2 peer)",
           "id": "metro_ethernet_business_services/junos/services/evpn-elan-virtual-switch-irb",
           "note": "Junos L2 peer"
-        },
-        {
-          "raw": "evo/services/evpn-elan-mac-vrf-irb.conf            (EVO L2 peer)",
-          "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf-irb",
-          "note": "EVO L2 peer"
         },
         {
           "raw": "junos/services/evpn-type5.conf                     (full RT-5 variant)",
@@ -44706,16 +44582,6 @@
           "raw": "junos/apply-groups/gr-l3vpn.conf                   (multipath + vrf-table-label inheritance)",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-l3vpn",
           "note": "multipath + vrf-table-label inheritance"
-        },
-        {
-          "raw": "junos/policy/l3vpn-export-import.conf",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-type5-anchor",
-          "note": null
         },
         {
           "raw": "junos/transport/bgp-overlay.conf                   (family evpn signaling)",
@@ -45012,11 +44878,6 @@
           "raw": "junos/interfaces/pseudowire-subscriber.conf  (the ps<N>",
           "id": "metro_ethernet_business_services/junos/interfaces/pseudowire-subscriber",
           "note": "(the ps<N>"
-        },
-        {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf  (cross-OS PW",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
-          "note": "(cross-OS PW"
         }
       ],
       "variables": [
@@ -45201,11 +45062,6 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-elan-mac-vrf-irb.conf",
-          "id": null,
-          "note": null
-        },
-        {
           "raw": "junos/transport/bgp-overlay.conf  (family inet-vpn signaling)",
           "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
           "note": "family inet-vpn signaling"
@@ -45214,11 +45070,6 @@
           "raw": "junos/services/l3vpn-ospf.conf  (sibling PE-CE peering shape;",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
           "note": "(sibling PE-CE peering shape;"
-        },
-        {
-          "raw": "evo/services/l3vpn-bgp.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/evo/services/l3vpn-bgp",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [
@@ -45314,11 +45165,6 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-elan-mac-vrf-irb.conf",
-          "id": null,
-          "note": null
-        },
-        {
           "raw": "junos/transport/bgp-overlay.conf  (family inet-vpn signaling)",
           "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
           "note": "family inet-vpn signaling"
@@ -45327,11 +45173,6 @@
           "raw": "junos/services/l3vpn-bgp.conf  (sibling PE-CE peering shape;",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
           "note": "(sibling PE-CE peering shape;"
-        },
-        {
-          "raw": "evo/services/l3vpn-ospf.conf  (cross-OS peer)",
-          "id": "metro_ethernet_business_services/evo/services/l3vpn-ospf",
-          "note": "cross-OS peer"
         }
       ],
       "variables": [

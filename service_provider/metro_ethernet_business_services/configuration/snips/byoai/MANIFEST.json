@@ -301,7 +301,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2498,
+      "size_bytes": 2312,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf"
     },
     {
@@ -360,7 +360,7 @@
         "mse2_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2327,
+      "size_bytes": 2252,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/l3vpn-export-import.conf"
     },
     {
@@ -375,7 +375,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2828,
+      "size_bytes": 2776,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/bgp-vpls.conf"
     },
     {
@@ -389,7 +389,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2613,
+      "size_bytes": 2458,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf-irb.conf"
     },
     {
@@ -417,7 +417,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2311,
+      "size_bytes": 2134,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-fxc.conf"
     },
     {
@@ -433,7 +433,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2466,
+      "size_bytes": 2298,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
     },
     {
@@ -446,7 +446,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2012,
+      "size_bytes": 1909,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf"
     },
     {
@@ -535,7 +535,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2430,
+      "size_bytes": 2377,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-bgp.conf"
     },
     {
@@ -548,7 +548,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2276,
+      "size_bytes": 2222,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-ospf.conf"
     },
     {
@@ -986,7 +986,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 3036,
+      "size_bytes": 2878,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
     },
     {
@@ -998,7 +998,7 @@
       "seen_on": [
         "ma5_mx204"
       ],
-      "size_bytes": 2879,
+      "size_bytes": 2846,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/bgp-vpls.conf"
     },
     {
@@ -1011,7 +1011,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3609,
+      "size_bytes": 3489,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf"
     },
     {
@@ -1038,7 +1038,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2581,
+      "size_bytes": 2498,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-etree.conf"
     },
     {
@@ -1051,7 +1051,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3110,
+      "size_bytes": 2933,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf"
     },
     {
@@ -1063,7 +1063,7 @@
       "seen_on": [
         "an1_mx204"
       ],
-      "size_bytes": 3286,
+      "size_bytes": 3004,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
     },
     {
@@ -1076,7 +1076,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2690,
+      "size_bytes": 2533,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf"
     },
     {
@@ -1115,7 +1115,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2860,
+      "size_bytes": 2691,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf"
     },
     {
@@ -1140,7 +1140,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2905,
+      "size_bytes": 2806,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-bgp.conf"
     },
     {
@@ -1153,7 +1153,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2409,
+      "size_bytes": 2309,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-ospf.conf"
     },
     {

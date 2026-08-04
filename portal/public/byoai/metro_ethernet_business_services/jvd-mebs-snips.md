@@ -965,9 +965,6 @@ interfaces {
  *  - evo/firewall/policers.conf
  *  - evo/services/l2circuit-lsw.conf
  *  - evo/services/l2circuit-hot-standby.conf
- *  - junos/services/l2circuit-floating-pw.conf  (cross-OS PW head
- *      on MX; the EVO AC unit on this interface is the customer-
- *      facing tail of the same floating pseudowire)
  *
  * Variables (example values from an3_acx7100-48l):
  *   $AC_PHYS    e.g. et-0/0/0   (the parent port; the per-unit
@@ -1264,8 +1261,6 @@ policy-options {
  *  - evo/services/evpn-type5.conf
  *  - evo/services/l3vpn-bgp.conf
  *  - evo/services/l3vpn-ospf.conf
- *  - evo/services/evpn-fxc.conf
- *  - evo/services/evpn-type5-anchor.conf
  *
  * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_2101
@@ -1342,7 +1337,6 @@ policy-options {
  *  - evo/policy/communities.conf
  *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging — supplies the AC interface plumbing)
- *  - junos/services/bgp-vpls.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
@@ -1413,10 +1407,7 @@ routing-instances {
  *
  * Pair with:
  *  - evo/services/evpn-type5-anchor.conf
- *  - junos/services/evpn-type5-anchor.conf
  *  - evo/services/evpn-type5.conf  (IRB co-occurrence)
- *  - junos/services/evpn-elan-virtual-switch-irb.conf  (cross-OS
- *      MX counterpart on the same VLAN/IRB)
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -1557,11 +1548,8 @@ routing-instances {
  * Pair with:
  *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
  *  - evo/policy/communities.conf
- *  - evo/policy/l3vpn-export-import.conf  (vrf-export policy
- *      shape — points at a per-EVI policy of the same name)
  *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging on the FXC ACs)
- *  - junos/services/evpn-fxc.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   500 instances total (high 500 / med 0 / low 0)
@@ -1635,9 +1623,6 @@ routing-instances {
  * Pair with:
  *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
  *  - evo/policy/communities.conf
- *  - junos/services/evpn-port-based.conf  (cross-OS counterpart;
- *      Junos uses `instance-type evpn + vlan-id none +
- *      no-normalization` instead of mac-vrf)
  *
  * JVD service mapping:
  *   201 instances total (high 101 / med 100 / low 0)
@@ -1698,8 +1683,6 @@ routing-instances {
  *
  * Pair with:
  *  - evo/services/evpn-elan-mac-vrf-irb.conf
- *  - junos/services/evpn-type5-anchor.conf  (cross-OS peer)
- *  - evo/policy/l3vpn-export-import.conf
  *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
  *
  * JVD service mapping:
@@ -2078,7 +2061,6 @@ routing-instances {
  *  - evo/policy/communities.conf
  *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
  *  - evo/services/l3vpn-ospf.conf  (sibling PE-CE peering shape)
- *  - junos/services/l3vpn-bgp.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   200 instances total (high 200 / med 0 / low 0)
@@ -2153,7 +2135,6 @@ routing-instances {
  *  - evo/policy/communities.conf
  *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
  *  - evo/services/l3vpn-bgp.conf  (sibling PE-CE peering shape)
- *  - junos/services/l3vpn-ospf.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   100 instances total (high 100 / med 0 / low 0)
@@ -3681,10 +3662,6 @@ policy-options {
  *  - junos/services/l3vpn-ospf.conf
  *  - junos/apply-groups/gr-l3vpn.conf
  *  - junos/services/evpn-type5.conf
- *  - junos/services/evpn-port-based.conf
- *  - junos/services/evpn-etree.conf
- *  - junos/services/evpn-fxc.conf
- *  - junos/services/evpn-type5-anchor.conf
  *
  * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_1001
@@ -3761,7 +3738,6 @@ policy-options {
  *    `l2vpn-id` form). For pure LDP-VPLS see the EVO snip.
  *
  * Pair with:
- *  - evo/services/bgp-vpls.conf
  *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
  *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
  *
@@ -3855,8 +3831,6 @@ routing-instances {
  *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
  *  - junos/policy/communities.conf
  *  - junos/services/evpn-type5-anchor.conf
- *  - evo/services/evpn-elan-mac-vrf-irb.conf  (cross-OS EVO
- *      counterpart on the same VLAN/IRB; mac-vrf flavour)
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -4001,8 +3975,6 @@ routing-instances {
  *  - junos/interfaces/ethernet-bridge.conf  (vlan-bridge UNI
  *      that the E-Tree EVI binds via `interface <ae>.<unit>;`)
  *  - junos/policy/communities.conf  (per-EVI export communities)
- *  - junos/policy/l3vpn-export-import.conf  (per-EVI export
- *      policy shape)
  *
  * JVD service mapping:
  *   1050 instances total (high 1050 / med 0 / low 0)
@@ -4071,11 +4043,8 @@ routing-instances {
  * Pair with:
  *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
  *  - junos/policy/communities.conf
- *  - junos/policy/l3vpn-export-import.conf  (vrf-export policy
- *      shape — points at a per-EVI policy of the same name)
  *  - junos/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging on the FXC ACs)
- *  - evo/services/evpn-fxc.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   500 instances total (high 500 / med 0 / low 0)
@@ -4156,13 +4125,8 @@ routing-instances {
  *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
  *  - junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)
  *  - junos/policy/communities.conf  (map2gold colour community)
- *  - junos/policy/l3vpn-export-import.conf  (per-VRF export policy
- *      shape; this snip's vrf-export points at a per-EVI policy
- *      of the same name)
  *  - junos/services/evpn-vpws.conf  (sibling per-port EVPN service
  *      type — VPWS P2P co-deploys with ELAN E-LAN on the same PE)
- *  - evo/services/evpn-port-based.conf  (cross-OS EVO counterpart;
- *      mac-vrf + service-type vlan-bundle equivalent)
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -4234,11 +4198,8 @@ routing-instances {
  *
  * Pair with:
  *  - junos/services/evpn-elan-virtual-switch-irb.conf  (Junos L2 peer)
- *  - evo/services/evpn-elan-mac-vrf-irb.conf            (EVO L2 peer)
  *  - junos/services/evpn-type5.conf                     (full RT-5 variant)
  *  - junos/apply-groups/gr-l3vpn.conf                   (multipath + vrf-table-label inheritance)
- *  - junos/policy/l3vpn-export-import.conf
- *  - evo/services/evpn-type5-anchor.conf
  *  - junos/transport/bgp-overlay.conf                   (family evpn signaling)
  *
  * JVD service mapping:
@@ -4463,9 +4424,6 @@ routing-instances {
  *  - junos/interfaces/pseudowire-subscriber.conf  (the ps<N>
  *      logical interface this PW terminates on, via ps<N>.0 with
  *      encapsulation ethernet-ccc)
- *  - evo/interfaces/edge-vlan-normalization.conf  (cross-OS PW
- *      tail on the EVO access node, where the PW lands on the
- *      customer-facing vlan-ccc AC unit)
  *
  * JVD service mapping:
  *   20 instances total (high 20 / med 0 / low 0)
@@ -4596,11 +4554,9 @@ routing-instances {
  *  - junos/policy/l3vpn-export-import.conf
  *  - junos/policy/communities.conf
  *  - junos/apply-groups/gr-l3vpn.conf
- *  - junos/services/evpn-elan-mac-vrf-irb.conf
  *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
  *  - junos/services/l3vpn-ospf.conf  (sibling PE-CE peering shape;
  *      same VRF infra, OSPF instead of BGP)
- *  - evo/services/l3vpn-bgp.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   2200 instances total (high 2200 / med 0 / low 0)
@@ -4674,11 +4630,9 @@ routing-instances {
  *  - junos/policy/l3vpn-export-import.conf
  *  - junos/policy/communities.conf
  *  - junos/apply-groups/gr-l3vpn.conf
- *  - junos/services/evpn-elan-mac-vrf-irb.conf
  *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
  *  - junos/services/l3vpn-bgp.conf  (sibling PE-CE peering shape;
  *      same VRF infra, BGP instead of OSPF)
- *  - evo/services/l3vpn-ospf.conf  (cross-OS peer)
  *
  * JVD service mapping:
  *   1100 instances total (high 1100 / med 0 / low 0)
