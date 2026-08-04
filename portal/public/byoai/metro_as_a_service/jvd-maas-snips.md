@@ -3104,6 +3104,7 @@ routing-instances {
  *   $ROUTER_ID      e.g. 10.0.0.6
  *   $UNIT           e.g. 4075
  *   $VLAN           e.g. 4075
+ *   $VRF_NAME       e.g. METRO_L3VPN_4075
  *   $VRF_TARGET_1   e.g. 61535:14075
  *   $VRF_TARGET_2   e.g. 61535:13075
  */
@@ -3129,7 +3130,7 @@ routing-instances {
             }
         }
     }
-    METRO_L3VPN_4075 {
+    $VRF_NAME {
         instance-type vrf;
         routing-options {
             router-id $ROUTER_ID;
@@ -3144,8 +3145,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD_2;
-        vrf-import PS-METRO_L3VPN_4075-IMPORT;
-        vrf-export PS-METRO_L3VPN_4075-EXPORT;
+        vrf-import PS-${VRF_NAME}-IMPORT;
+        vrf-export PS-${VRF_NAME}-EXPORT;
         vrf-target target:$VRF_TARGET_2;
         vrf-table-label;
     }
@@ -3193,6 +3194,7 @@ routing-instances {
  *   $ROUTER_ID      e.g. 10.0.0.2
  *   $UNIT           e.g. 4075
  *   $VLAN           e.g. 4075
+ *   $VRF_NAME       e.g. METRO_L3VPN_4075
  *   $VRF_TARGET     e.g. 61535:14075
  */
 routing-instances {
@@ -3217,7 +3219,7 @@ routing-instances {
             }
         }
     }
-    METRO_L3VPN_4075 {
+    $VRF_NAME {
         instance-type vrf;
         routing-options {
             router-id $ROUTER_ID;
@@ -3232,8 +3234,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD_2;
-        vrf-import PS-METRO_L3VPN_4075-IMPORT;
-        vrf-export PS-METRO_L3VPN_4075-EXPORT;
+        vrf-import PS-${VRF_NAME}-IMPORT;
+        vrf-export PS-${VRF_NAME}-EXPORT;
         vrf-table-label;
     }
 }
@@ -7266,6 +7268,7 @@ routing-instances {
  *   $ROUTER_ID      e.g. 10.0.0.10
  *   $UNIT           e.g. 4075
  *   $VLAN           e.g. 4075
+ *   $VRF_NAME       e.g. METRO_L3VPN_4075
  *   $VRF_TARGET     e.g. 61535:14075
  */
 routing-instances {
@@ -7275,12 +7278,12 @@ routing-instances {
             evpn {
                 encapsulation mpls;
                 default-gateway do-not-advertise;
-                extended-vlan-list 4075;
+                extended-vlan-list $VLAN;
                 no-control-word;
             }
         }
         bridge-domains {
-            BD_evpn_group_60_4075 {
+            BD_${INSTANCE_NAME} {
                 vlan-id $VLAN;
                 interface $AC_INTF.$UNIT;
                 routing-interface irb.$IRB_UNIT;
@@ -7289,7 +7292,7 @@ routing-instances {
         route-distinguisher $RD_1;
         vrf-target target:$VRF_TARGET;
     }
-    METRO_L3VPN_4075 {
+    $VRF_NAME {
         instance-type vrf;
         routing-options {
             router-id $ROUTER_ID;
@@ -7305,8 +7308,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD_2;
-        vrf-import PS-METRO_L3VPN_4075-IMPORT;
-        vrf-export PS-METRO_L3VPN_4075-EXPORT;
+        vrf-import PS-${VRF_NAME}-IMPORT;
+        vrf-export PS-${VRF_NAME}-EXPORT;
         vrf-table-label;
     }
 }

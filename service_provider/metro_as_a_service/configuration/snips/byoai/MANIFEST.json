@@ -1317,7 +1317,7 @@
           "platform": "ACX7509"
         }
       ],
-      "size_bytes": 2476,
+      "size_bytes": 2502,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-type5-v2.conf"
     },
     {
@@ -1332,7 +1332,7 @@
           "platform": "ACX7100-48L"
         }
       ],
-      "size_bytes": 2419,
+      "size_bytes": 2445,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-elan-type5.conf"
     },
     {
@@ -2680,7 +2680,7 @@
           "platform": "MX304"
         }
       ],
-      "size_bytes": 2432,
+      "size_bytes": 2457,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/evpn-elan-type5.conf"
     },
     {
