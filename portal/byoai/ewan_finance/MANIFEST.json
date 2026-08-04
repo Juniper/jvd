@@ -411,7 +411,7 @@
         "cr2_mx480",
         "cr1_acx7100-48l"
       ],
-      "size_bytes": 1904,
+      "size_bytes": 1822,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/oam/twamp-client.conf"
     },
     {
@@ -424,7 +424,7 @@
         "ap1_mx304",
         "ap2_mx10004"
       ],
-      "size_bytes": 1760,
+      "size_bytes": 1689,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/oam/twamp-server.conf"
     },
     {

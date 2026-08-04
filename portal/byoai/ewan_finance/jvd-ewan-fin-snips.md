@@ -1421,7 +1421,6 @@ protocols {
  *  - destination-port per connection matches server routing-instance-list port mapping
  *
  * Pair with:
- *  - junos/oam/twamp-server.conf                    (AP nodes run the reflector)
  *  - junos/services/virtual-router-instance.conf    (VR instances where probes originate)
  *  - junos/interfaces/flexible-vlan-subinterface.conf (PE-CE links carrying probes)
  *
@@ -1475,7 +1474,6 @@ services {
  *  - Port 1862 as global server port for non-VRF probes
  *
  * Pair with:
- *  - junos/oam/twamp-client.conf         (CR nodes probe this server)
  *  - junos/services/mvpn-instance.conf   (VRF instances whose latency is monitored)
  *
  * Variables (example values from ap1_mx304):
