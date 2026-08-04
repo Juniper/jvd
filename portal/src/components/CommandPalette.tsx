@@ -21,7 +21,7 @@ const KIND_ICON: Record<ResultKind, typeof Search> = {
 
 const GROUP_LABEL: Record<ResultKind, string> = {
   jvd: "Validated Designs",
-  snip: "Config Snips",
+  snip: "Config Snippets",
   tech: "Technologies",
   usecase: "Use Cases",
 };
@@ -169,8 +169,8 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Search designs, snips, technologies…"
-            aria-label="Search designs, snips, technologies"
+            placeholder="Search JVDs, technologies, config snippets…"
+            aria-label="Search JVDs, technologies, config snippets"
             className="h-12 w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
           <kbd className="hidden shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground sm:block">
@@ -235,7 +235,7 @@ export default function CommandPalette({ open, onClose, onPickJvd }: Props) {
                   className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-xs font-medium text-primary transition-colors hover:bg-surface-2"
                 >
                   <ArrowRight className="h-3.5 w-3.5" />
-                  See all {snipTotal} config snips in the Explorer
+                  See all {snipTotal} config snippets in the Explorer
                 </button>
               )}
               {renderGroup("tech", grouped.techs)}
