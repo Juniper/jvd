@@ -6,6 +6,7 @@ import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
 import ConfigGenerator from "@/components/ConfigGenerator";
 import CommandPalette from "@/components/CommandPalette";
+import { CatalogCarousel } from "@/components/CatalogCarousel";
 import { snipBundle } from "@/lib/snips";
 import { track } from "@/lib/analytics";
 import { searchJvdIds, didYouMean, type SearchHit } from "@/lib/search";
@@ -38,6 +39,7 @@ const NAV = [
   { label: "Explorer", href: "#snips" },
   { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
+  { label: "Deploy", href: "#mcp" },
   { label: "Why JVDs", href: "#about" },
 ];
 
@@ -475,7 +477,7 @@ export default function JvdPortal() {
                 </a>
               ))}
             </div>
-            <p className="mt-9 text-center text-lg font-medium tracking-tight text-foreground md:text-xl">
+            <p className="mt-6 text-center text-lg font-medium tracking-tight text-foreground md:text-xl">
               AI for reasoning. Validated engineering for deployment.
             </p>
           </div>
@@ -561,13 +563,10 @@ export default function JvdPortal() {
               )}
             </>
           ) : (
-            <div className="marquee-pause mt-12 overflow-hidden">
-              <div className="marquee-track marquee-cards flex w-max">
-                {[...shuffledData, ...shuffledData].map((j, i) => (
-                  <JvdCard key={`${j.id}-${i}`} j={j} className="mr-5 w-80 shrink-0" />
-                ))}
-              </div>
-            </div>
+            <CatalogCarousel
+              items={[...shuffledData, ...shuffledData]}
+              renderCard={(j) => <JvdCard j={j} className="w-full" />}
+            />
           )}
         </div>
       </section>
@@ -648,11 +647,8 @@ export default function JvdPortal() {
                   className="mt-5 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
                   <Bell className="h-4 w-4" />
-                  Notify me &mdash; Watch on GitHub
+                  Watch on GitHub for Updates
                 </a>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  Watch the repo for updates.
-                </p>
               </div>
             </div>
           </div>
