@@ -622,8 +622,8 @@ export default function SnipLibrary() {
             </div>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Explore {snipBundle.counts.total} reusable configuration building blocks extracted from{" "}
-              {snipBundle.counts.jvds} JVD libraries — Junos and Junos EVO. Each carries its
-              source provenance, variable glossary, and pair-with references back to GitHub.
+              {snipBundle.counts.jvds} JVD libraries. Every snippet includes source lineage,
+              reusable variables, glossary context, and links back to its originating JVD.
             </p>
           </div>
           <div className="text-sm text-muted-foreground">
@@ -640,7 +640,7 @@ export default function SnipLibrary() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search topic, variable, body…"
+              placeholder="Search topics, variables, or config text…"
               className="h-9 w-full rounded-lg border border-border bg-surface pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary/60 focus:outline-none"
             />
             {query && (
