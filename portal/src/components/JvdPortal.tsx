@@ -59,24 +59,28 @@ const LADDER = [
     title: "JVD Catalog",
     desc: "Find the validated architecture that fits your requirements.",
     href: "#catalog",
+    cta: "Discover JVDs",
   },
   {
     stage: "Explore",
     title: "Config Explorer",
     desc: "Explore reusable config building blocks traced to their source JVDs.",
     href: "#snips",
+    cta: "Explore Configs",
   },
   {
     stage: "Learn & Design",
     title: "Design & Planner",
     desc: "Ask architecture, scaling, and configuration questions grounded in validated JVD content.",
     href: "#byoai",
+    cta: "Start Designing",
   },
   {
     stage: "Build",
     title: "Service Config Generator",
     desc: "Generate downloadable configuration deterministically from JVD building blocks.",
     href: "#generator",
+    cta: "Build Something",
   },
   {
     stage: "Deploy",
@@ -84,6 +88,7 @@ const LADDER = [
     desc: "Access validated designs from your AI agent and carry grounded configuration into automation.",
     href: "#mcp",
     comingSoon: true,
+    cta: "Deploy It!",
   },
 ];
 
@@ -346,14 +351,23 @@ export default function JvdPortal() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      {/* Technologies marquee */}
+      <div className="marquee-pause overflow-hidden border-b border-border bg-surface">
+        <div className="marquee-track flex w-max whitespace-nowrap py-2">
+          {[...MARQUEE_TAGS, ...MARQUEE_TAGS].map((t, i) => (
+            <MarqueeTag key={`${t}-${i}`} label={t} />
+          ))}
+        </div>
+      </div>
+
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <a href="#home" className="flex items-center gap-2 font-semibold tracking-tight">
+          <a href="#home" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight">
             <img src={brandLogo} alt="" className="h-7 w-auto" style={{ filter: "invert(1) brightness(1.1)" }} />
-            <span>JVD Portal</span>
+            <span className="whitespace-nowrap">JVD Portal</span>
           </a>
-          <nav className="hidden items-center gap-7 lg:flex">
+          <nav className="hidden items-center gap-5 md:flex">
             {NAV.map((n) => (
               <a
                 key={n.href}
@@ -365,7 +379,7 @@ export default function JvdPortal() {
               </a>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
@@ -373,8 +387,8 @@ export default function JvdPortal() {
               className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/60 hover:text-foreground"
             >
               <Search className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Search</span>
-              <kbd className="hidden rounded border border-border px-1 text-[10px] md:inline">⌘K</kbd>
+              <span className="hidden xl:inline">Search</span>
+              <kbd className="hidden rounded border border-border px-1 text-[10px] xl:inline">⌘K</kbd>
             </button>
             <a
               href="https://github.com/Juniper/jvd"
@@ -382,7 +396,7 @@ export default function JvdPortal() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60"
             >
-              <Github className="h-3.5 w-3.5" /> GitHub
+              <Github className="h-3.5 w-3.5" /> <span className="hidden xl:inline">GitHub</span>
             </a>
           </div>
         </div>
@@ -486,8 +500,10 @@ export default function JvdPortal() {
                   </span>
                   <div className="mt-2 font-semibold tracking-tight text-foreground">{s.title}</div>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                    Open <ArrowRight className="h-3 w-3" />
+                  <div className="flex-1" />
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+                    {s.cta}
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </a>
               ))}
@@ -498,15 +514,6 @@ export default function JvdPortal() {
           </div>
         </div>
       </section>
-
-      {/* Technologies marquee */}
-      <div className="marquee-pause overflow-hidden border-b border-border bg-surface">
-        <div className="marquee-track flex w-max whitespace-nowrap py-2">
-          {[...MARQUEE_TAGS, ...MARQUEE_TAGS].map((t, i) => (
-            <MarqueeTag key={`${t}-${i}`} label={t} />
-          ))}
-        </div>
-      </div>
 
       {/* Catalog */}
       <section id="catalog" className="border-b border-border">
@@ -589,7 +596,7 @@ export default function JvdPortal() {
           ) : (
             <CatalogCarousel
               items={[...shuffledData, ...shuffledData]}
-              renderCard={(j) => <JvdCard j={j} className="w-full" />}
+              renderCard={(j) => <JvdCard j={j} className="h-full w-full" />}
             />
           )}
         </div>

@@ -85,6 +85,28 @@ function pickDefaultJvd(items: { id: string }[]): string {
   return items[items.length - 1].id;
 }
 
+// Example questions shown when the Ask field is focused. Reshuffled each time and
+// lightly personalized with the selected JVD's name.
+const QUESTION_TEMPLATES = [
+  "Walk me through the {jvd} architecture.",
+  "How do I scale {jvd} for a larger deployment?",
+  "What platforms and device roles does {jvd} use?",
+  "Generate a starter configuration for {jvd}.",
+  "What are the key design decisions behind {jvd}?",
+  "How does {jvd} handle redundancy and failover?",
+  "What should I watch out for when deploying {jvd}?",
+  "Which services does {jvd} support?",
+];
+
+function shuffledSuggestions(jvdName: string, n = 3): string[] {
+  const pool = [...QUESTION_TEMPLATES];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const k = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[k]] = [pool[k], pool[i]];
+  }
+  return pool.slice(0, n).map((t) => t.replace(/\{jvd\}/g, jvdName || "this JVD"));
+}
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -112,6 +134,8 @@ export default function ByoaiSection() {
   const [mode, setMode] = useState<ByoaiMode>("");
   const [question, setQuestion] = useState("");
   const hasQuestion = question.trim().length > 0;
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
   useEffect(() => {
@@ -235,11 +259,34 @@ export default function ByoaiSection() {
               <textarea
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
+                onFocus={() => {
+                  setSuggestions(shuffledSuggestions(selected?.label ?? ""));
+                  setShowSuggest(true);
+                }}
+                onBlur={() => setShowSuggest(false)}
                 rows={2}
                 placeholder="Pick a JVD and launch — or ask a question…"
                 aria-label="Question for the assistant"
                 className="search-accent mt-2 w-full resize-none rounded-md border px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
+              {showSuggest && !hasQuestion && suggestions.length > 0 && (
+                <div className="mt-2 flex flex-col gap-1.5">
+                  {suggestions.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setQuestion(q);
+                        setShowSuggest(false);
+                      }}
+                      className="rounded-md border border-border bg-background px-3 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              )}
               <p className="mt-2 text-xs text-muted-foreground">
                 {hasQuestion
                   ? "Your question launches with the JVD prompt in Claude or ChatGPT. VS Code install can’t carry a question."
@@ -294,8 +341,8 @@ export default function ByoaiSection() {
             <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <AiTile
                 name="Claude"
-                description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
-                tip="Tip: works with any browsing-capable model."
+                description="Anthropic's Claude — reliable for config and multi-turn design."
+                tip="Works well on Claude Haiku (fast)."
                 href={claudeUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-claude-${selected?.id ?? "none"}`)}
@@ -304,8 +351,8 @@ export default function ByoaiSection() {
               />
               <AiTile
                 name="ChatGPT"
-                description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
-                tip="Tip: Instant mode often can't fetch — use a Thinking mode, or attach the prompt."
+                description="OpenAI's ChatGPT — quick, single-shot configs."
+                tip="Try GPT-5.5. If the first fetch fails, just resend."
                 href={chatGptUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-chatgpt-${selected?.id ?? "none"}`)}
@@ -315,8 +362,8 @@ export default function ByoaiSection() {
               <AiTile
                 name="VS Code"
                 launchLabel="Install in VS Code"
-                description="GitHub Copilot Chat. Installs the JVD prompt as a reusable /slash-command — no copy-paste, kept for every future session."
-                tip={`Tip: after installing, run it with ${vscodeCmd} in Copilot Chat.`}
+                description="GitHub Copilot Chat — installs a reusable /slash-command."
+                tip={`Experimental. Run it with ${vscodeCmd} after installing.`}
                 href={vscodeUrl}
                 disabled={!selected?.vscodePromptUrl || hasQuestion}
                 disabledLabel={hasQuestion ? "Ask via Claude or ChatGPT" : "Coming soon"}
@@ -353,12 +400,11 @@ export default function ByoaiSection() {
                 <div>
                   <div className="font-medium text-foreground">How does the VS Code option work?</div>
                   <p className="mt-1">
-                    It requires VS Code with a GitHub Copilot subscription. The button installs the
+                    Experimental — it needs VS Code with GitHub Copilot. The button installs the JVD
                     prompt as a reusable{" "}
                     <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-xs">{vscodeCmd}</code>{" "}
-                    slash-command (it doesn’t pre-fill the chat) and runs read-only. After you approve
-                    it, pick a destination outside your repo. Using Insiders? Swap the scheme to{" "}
-                    <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-xs">vscode-insiders:</code>.
+                    slash-command (it doesn’t pre-fill the chat); run it after installing. Behavior can
+                    vary by version.
                   </p>
                 </div>
               </div>
