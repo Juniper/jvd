@@ -105,32 +105,38 @@ do this (some free "fast" modes cannot browse). Two paths:
 ## Tested & confirmed working
 
 Model behavior changes over time, so this table is **date-stamped** and reflects
-hands-on testing. "Launch-fetch" = the AI fetched the prompt from the URL at
-launch. "Attach/paste" = the prompt was downloaded and attached or pasted.
+hands-on testing. "Prompt pull" = the AI fetched the full prompt from the URL at
+launch. "Design mode" / "Config mode" = that BYOAI mode was exercised end-to-end.
+"Attach/paste" = the prompt was downloaded and attached or pasted.
 
-_Last updated: 2026-07-15_
+_Last updated: 2026-08-05_
 
-> **Bottom line:** ChatGPT **Instant** mode can't reliably fetch the launch prompt
-> — use a **Thinking / Medium** mode, or **download & attach** the prompt (always
-> works). Claude works in every mode tested.
+> **Bottom line:** ChatGPT **Instant** (5.5) can’t reliably fetch the launch
+> prompt. GPT‑5.6 **Sol-High** may fail on the first attempt but succeeds on
+> retry. **Sol Light**, **Medium / Thinking**, and all Claude modes work reliably.
+> When in doubt, **download & attach** the prompt (always works).
 
-| AI | Tier | Model / mode | Launch-fetch | Attach / paste | Last tested | Notes |
-|----|------|--------------|:------------:|:--------------:|-------------|-------|
-| ChatGPT | Pro | GPT‑5.5 · Medium (Thinking) | ✅ | ✅ | 2026-07-15 | Full launch fetches and greets cleanly. |
-| ChatGPT | Pro | GPT‑5.5 · Instant | ⚠️ | ✅ | 2026-07-15 | Fetched a tiny test file, but **failed the full ~18 KB launch prompt** (“you can't perform that action at this time”). Use Medium or attach. |
-| ChatGPT | Free | Instant (model not disclosed) | ⚠️ | ✅ | 2026-07-15 | Same as Pro Instant — unreliable browsing on the full prompt. Switch to a Thinking mode or attach. |
-| Claude | Pro | Sonnet 5 (app / web) | ✅ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
-| Claude | Pro | Haiku 4.5 (app / web) | ✅ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
-| Claude | Pro | Opus 4.6 (web) | ✅ | ✅ | 2026-07-15 | Full launch works. |
-| Gemini | — | — | n/a | ❓ | — | No URL pre-fill; paste/attach the prompt manually. |
+| AI | Tier | Model / mode | Prompt pull | Design mode | Config mode | Attach / paste | Last tested | Notes |
+|----|------|--------------|:-----------:|:-----------:|:-----------:|:--------------:|-------------|-------|
+| ChatGPT | Plus | GPT‑5.6 Sol Light | ✅ | ✅ | ❓ | ✅ | 2026-08-05 | Transient error on initial fetch resolved without intervention. Design mode confirmed working. |
+| ChatGPT | Plus | GPT‑5.6 Sol-High | ⚠️ | ✅ | ❓ | ✅ | 2026-08-05 | First attempt failed to pull prompt; second attempt succeeded. Design mode confirmed working. |
+| ChatGPT | Pro | GPT‑5.5 · Medium (Thinking) | ✅ | ❓ | ❓ | ✅ | 2026-07-15 | Full launch fetches and greets cleanly. |
+| ChatGPT | Pro | GPT‑5.5 · Instant | ⚠️ | ❓ | ❓ | ✅ | 2026-07-15 | Fetched a tiny test file, but **failed the full ~18 KB launch prompt** ("you can’t perform that action at this time"). Use Medium or attach. |
+| ChatGPT | Free | Instant (model not disclosed) | ⚠️ | ❓ | ❓ | ✅ | 2026-07-15 | Same as Pro Instant — unreliable browsing on the full prompt. Switch to a Thinking mode or attach. |
+| Claude | Pro | Sonnet 5 (app / web) | ✅ | ❓ | ❓ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
+| Claude | Pro | Haiku 4.5 (app / web) | ✅ | ❓ | ❓ | ✅ | 2026-07-15 | Full launch works. See injection note below. |
+| Claude | Pro | Opus 4.6 (web) | ✅ | ❓ | ❓ | ✅ | 2026-07-15 | Full launch works. |
+| Gemini | — | — | n/a | ❓ | ❓ | ❓ | — | No URL pre-fill; paste/attach the prompt manually. |
 
 Legend: ✅ works · ⚠️ unreliable / partial · ❌ does not work · ❓ untested · — not applicable.
 
-> **Why Instant differs.** A tiny probe file can fetch on Instant, but the full
-> launch prompt (~18 KB) often fails with “you can't perform that action at this
-> time” — that's ChatGPT's fast **Instant** tier declining / throttling the web
-> tool, not a problem with the prompt (it's served as `text/plain` from both the
-> CDN and raw GitHub). The fix is a browsing-capable mode or the attach path.
+> **Why some modes are flaky.** ChatGPT’s fast **Instant** tier (5.5) declines /
+> throttles the web tool on large files (~18 KB), returning "you can’t perform
+> that action at this time." GPT‑5.6 **Sol-High** can also fail on the first
+> fetch attempt but succeeds on retry — likely the same throttle with a higher
+> success ceiling. **Sol Light** handles it cleanly. The prompt itself is fine
+> (served as `text/plain` from both CDN and raw GitHub). The fix is a
+> browsing-capable mode or the attach path.
 
 > **Injection note.** Some assistants (notably Claude) will **decline to obey an
 > instruction that lives inside a fetched file** — that's correct prompt-injection
