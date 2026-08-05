@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
   <rect width="720" height="200" fill="#0d1117" rx="8"/>
   <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Page Views</text>
-  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 33 days</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 36 days</text>
   <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
   <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
-  <polyline points="50.0,147.8 70.3,148.3 90.6,147.7 110.9,147.6 131.2,149.7 151.6,149.1 171.9,147.8 192.2,146.1 212.5,144.5 232.8,147.4 253.1,40.0 273.4,144.9 293.8,148.7 314.1,148.4 334.4,147.0 354.7,145.2 375.0,147.0 395.3,147.9 415.6,149.1 435.9,149.5 456.2,147.8 476.6,146.2 496.9,146.1 517.2,146.9 537.5,148.6 557.8,148.7 578.1,147.7 598.4,148.3 618.8,142.9 639.1,147.2 659.4,148.2 679.7,148.3 700.0,148.9" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="50.0,149.4 70.3,149.2 90.6,149.2 110.9,149.6 131.2,149.9 151.6,149.7 171.9,149.2 192.2,149.4 212.5,149.2 232.8,149.5 253.1,45.4 273.4,149.7 293.8,149.6 314.1,149.4 334.4,149.5 354.7,149.3 375.0,149.4 395.3,149.6 415.6,149.8 435.9,149.7 456.2,149.5 476.6,149.4 496.9,149.5 517.2,149.5 537.5,149.4 557.8,149.5 578.1,149.7 598.4,149.4 618.8,149.4 639.1,149.3 659.4,149.5 679.7,149.5 700.0,149.8" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
-  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 30</text>
-  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 6</text>
+  <polyline points="50.0,147.8 68.6,148.3 87.1,147.7 105.7,147.6 124.3,149.7 142.9,149.1 161.4,147.8 180.0,146.1 198.6,144.5 217.1,147.4 235.7,40.0 254.3,144.9 272.9,148.7 291.4,148.4 310.0,147.0 328.6,145.2 347.1,147.0 365.7,147.9 384.3,149.1 402.9,149.5 421.4,147.8 440.0,146.2 458.6,146.1 477.1,146.9 495.7,148.6 514.3,148.7 532.9,147.7 551.4,148.3 570.0,142.9 588.6,147.2 607.1,148.2 625.7,148.3 644.3,148.9 662.9,149.8 681.4,144.9 700.0,146.5" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,149.4 68.6,149.2 87.1,149.2 105.7,149.6 124.3,149.9 142.9,149.7 161.4,149.2 180.0,149.4 198.6,149.2 217.1,149.5 235.7,45.4 254.3,149.7 272.9,149.6 291.4,149.4 310.0,149.5 328.6,149.3 347.1,149.4 365.7,149.6 384.3,149.8 402.9,149.7 421.4,149.5 440.0,149.4 458.6,149.5 477.1,149.5 495.7,149.4 514.3,149.5 532.9,149.7 551.4,149.4 570.0,149.4 588.6,149.3 607.1,149.5 625.7,149.5 644.3,149.8 662.9,149.8 681.4,149.1 700.0,149.1" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 97</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 25</text>
   <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
-<text x="192.2" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
-<text x="334.4" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
-<text x="476.6" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
-<text x="618.8" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
-<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-01</text>
+<text x="180.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="310.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
+<text x="440.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
+<text x="570.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-04</text>
 
   <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">3057</text>
   <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
