@@ -61,13 +61,13 @@ const LADDER = [
     href: "#catalog",
   },
   {
-    stage: "Learn",
+    stage: "Explore",
     title: "Config Explorer",
     desc: "Explore reusable config building blocks traced to their source JVDs.",
     href: "#snips",
   },
   {
-    stage: "Design",
+    stage: "Learn & Design",
     title: "Design & Planner",
     desc: "Ask architecture, scaling, and configuration questions grounded in validated JVD content.",
     href: "#byoai",
@@ -155,7 +155,7 @@ function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
   return (
     <article
       className={
-        "group flex flex-col rounded-lg border border-border bg-surface p-6 transition-colors hover:border-primary/50 " +
+        "premium-card lift group flex flex-col rounded-xl border border-border bg-surface p-6 " +
         className
       }
     >
@@ -236,6 +236,7 @@ export default function JvdPortal() {
   const [osF, setOsF] = useState<string | null>(null);
   const [queryF, setQueryF] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   // Global shortcut: ⌘K / Ctrl+K toggles search; "/" opens it (unless typing).
   useEffect(() => {
@@ -250,6 +251,25 @@ export default function JvdPortal() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Scrollspy: highlight the nav entry for whichever section owns the viewport.
+  useEffect(() => {
+    const sections = NAV.map((n) => document.getElementById(n.href.slice(1))).filter(
+      (el): el is HTMLElement => !!el,
+    );
+    if (sections.length === 0) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const top = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (top) setActiveSection(top.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }, []);
 
   // A JVD chosen from the palette: clear filters, pre-fill the catalog search
@@ -326,15 +346,6 @@ export default function JvdPortal() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Marquee */}
-      <div className="marquee-pause overflow-hidden border-b border-border bg-surface">
-        <div className="marquee-track flex w-max whitespace-nowrap py-2">
-          {[...MARQUEE_TAGS, ...MARQUEE_TAGS].map((t, i) => (
-            <MarqueeTag key={`${t}-${i}`} label={t} />
-          ))}
-        </div>
-      </div>
-
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -342,12 +353,13 @@ export default function JvdPortal() {
             <img src={brandLogo} alt="" className="h-7 w-auto" style={{ filter: "invert(1) brightness(1.1)" }} />
             <span>JVD Portal</span>
           </a>
-          <nav className="hidden gap-8 md:flex">
+          <nav className="hidden items-center gap-7 lg:flex">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                data-active={activeSection === n.href.slice(1)}
+                className="nav-link whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
                 {n.label}
               </a>
@@ -425,12 +437,12 @@ export default function JvdPortal() {
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-lg border border-border bg-surface px-5 py-5"
+                  className="premium-card rounded-xl border border-border bg-surface px-5 py-6"
                 >
-                  <div className="text-3xl font-semibold tracking-tight text-primary">
+                  <div className="text-4xl font-semibold tracking-tight text-primary">
                     {s.value}
                   </div>
-                  <div className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
+                  <div className="mt-1.5 text-xs uppercase tracking-wider text-muted-foreground">
                     {s.label}
                   </div>
                 </div>
@@ -440,38 +452,41 @@ export default function JvdPortal() {
 
           {/* Journey ladder */}
           <div id="how" className="mt-24 scroll-mt-24">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Find. Learn. Design. Build. Deploy.
+            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+              Learn. Design. Automate.
             </h2>
-            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            <p className="mt-3 max-w-2xl text-base text-muted-foreground">
               <span className="font-medium text-foreground">Explore Juniper Validated Designs in a new way.</span>{" "}
-              Discover the right architecture, learn how it is built, design against
+              Find the right architecture, examine how it is built, design against
               your requirements, generate validated configuration, and connect it to
-              automation. Five stages, one path.
+              automation. Five stages, one journey.
             </p>
             <div className="mt-8 grid gap-4 md:grid-cols-5">
               {LADDER.map((s, i) => (
                 <a
                   key={s.href}
                   href={s.href}
-                  className="group relative rounded-lg border border-border bg-surface p-5 transition-colors hover:border-primary/60"
+                  className={
+                    "premium-card lift group relative flex flex-col rounded-xl border border-border bg-surface p-5 " +
+                    ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
+                  }
                 >
-                  <div className="flex items-center gap-2 text-primary">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full border border-primary/40 text-xs font-semibold">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
                       {i + 1}
                     </span>
-                    <span className="text-[11px] font-semibold uppercase tracking-wider">
-                      {s.stage}
-                    </span>
                     {(s as any).comingSoon && (
-                      <span className="rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-primary">
+                      <span className="ml-auto rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                         Soon
                       </span>
                     )}
                   </div>
-                  <div className="mt-3 font-semibold tracking-tight">{s.title}</div>
-                  <p className="mt-1 text-sm text-muted-foreground">{s.desc}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="mt-3 text-base font-bold uppercase tracking-wide text-primary md:text-lg">
+                    {s.stage}
+                  </span>
+                  <div className="mt-2 font-semibold tracking-tight text-foreground">{s.title}</div>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
                     Open <ArrowRight className="h-3 w-3" />
                   </span>
                 </a>
@@ -483,6 +498,15 @@ export default function JvdPortal() {
           </div>
         </div>
       </section>
+
+      {/* Technologies marquee */}
+      <div className="marquee-pause overflow-hidden border-b border-border bg-surface">
+        <div className="marquee-track flex w-max whitespace-nowrap py-2">
+          {[...MARQUEE_TAGS, ...MARQUEE_TAGS].map((t, i) => (
+            <MarqueeTag key={`${t}-${i}`} label={t} />
+          ))}
+        </div>
+      </div>
 
       {/* Catalog */}
       <section id="catalog" className="border-b border-border">
@@ -514,16 +538,16 @@ export default function JvdPortal() {
           </div>
 
           <div className="mt-10 space-y-4">
-            <div className="relative max-w-xl">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <div className="search-accent relative max-w-xl rounded-lg border">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-primary" />
               <input
                 type="search"
                 value={queryF}
                 onChange={(e) => setQueryF(e.target.value)}
                 onFocus={() => track("catalog-search")}
-                placeholder="Search by tech, use case, platform…"
+                placeholder="Search designs by tech, use case, or platform…"
                 aria-label="Search the JVD catalog"
-                className="w-full rounded-md border border-border bg-surface py-2.5 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60"
+                className="w-full rounded-lg border-0 bg-transparent py-3 pl-11 pr-3 text-base outline-none placeholder:text-muted-foreground"
               />
             </div>
             <FilterRow label="Area" options={AREAS} value={areaF} onChange={setAreaF} />
@@ -684,7 +708,7 @@ export default function JvdPortal() {
                 href={AREA_DOC_LINKS[a]}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-lg border border-border bg-surface p-4 text-left transition-colors hover:border-primary/60"
+                className="premium-card lift rounded-xl border border-border bg-surface p-4 text-left"
               >
                 <div className="text-2xl font-semibold tracking-tight text-primary">
                   {areaCounts[a]}

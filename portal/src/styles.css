@@ -49,7 +49,7 @@
   --secondary: oklch(0.26 0.02 255);
   --secondary-foreground: oklch(0.97 0.01 250);
   --muted: oklch(0.26 0.02 255);
-  --muted-foreground: oklch(0.7 0.02 255);
+  --muted-foreground: oklch(0.76 0.02 255);   /* raised for large-room / small-text legibility */
   --accent: oklch(0.72 0.17 130);
   --accent-foreground: oklch(0.16 0.02 255);
   --destructive: oklch(0.6 0.22 25);
@@ -57,6 +57,9 @@
   --border: oklch(0.3 0.02 255);
   --input: oklch(0.3 0.02 255);
   --ring: oklch(0.72 0.17 130);
+  /* Depth tokens for the premium card system */
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.28), 0 10px 30px -14px oklch(0 0 0 / 0.6);
+  --shadow-card-hover: 0 2px 6px oklch(0 0 0 / 0.34), 0 22px 48px -18px oklch(0 0 0 / 0.7);
 }
 
 @layer base {
@@ -72,9 +75,22 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    /* Faint accent glow anchored to the top of the page for depth */
+    background-image: radial-gradient(
+      ellipse 70% 45% at 50% -5%,
+      color-mix(in oklab, var(--color-primary) 5%, transparent),
+      transparent 70%
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
   section[id] {
     scroll-margin-top: 5rem;
+  }
+  /* Consistent, on-brand keyboard focus */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--color-primary) 75%, transparent);
+    outline-offset: 2px;
   }
 }
 
@@ -103,4 +119,61 @@
 }
 .snip-body pre.shiki code {
   font-family: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+ * Premium design system — elevation, micro-interactions, accented controls.
+ * Applied via className on cards, the stage ladder, nav links, and search.
+ * ------------------------------------------------------------------------- */
+
+/* Elevated surface: soft outer shadow + a 1px top-edge highlight ("card lip"). */
+.premium-card {
+  box-shadow: var(--shadow-card), inset 0 1px 0 0 oklch(1 0 0 / 0.05);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+/* Lift on hover for interactive cards. */
+.premium-card.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover), inset 0 1px 0 0 oklch(1 0 0 / 0.08);
+  border-color: color-mix(in oklab, var(--color-primary) 45%, var(--color-border));
+}
+
+/* Animated active/hover underline for top-nav links. */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 200ms ease;
+}
+.nav-link:hover::after,
+.nav-link[data-active="true"]::after {
+  transform: scaleX(1);
+}
+.nav-link[data-active="true"] {
+  color: var(--color-foreground);
+}
+
+/* Accented search field: tinted at rest (not grey), glows on hover/focus. */
+.search-accent {
+  background: color-mix(in oklab, var(--color-primary) 6%, var(--color-surface));
+  border-color: color-mix(in oklab, var(--color-primary) 32%, transparent);
+  transition: box-shadow 200ms ease, border-color 200ms ease, background 200ms ease;
+}
+.search-accent:hover {
+  border-color: color-mix(in oklab, var(--color-primary) 55%, transparent);
+}
+.search-accent:focus-within {
+  border-color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 9%, var(--color-surface));
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-primary) 16%, transparent);
 }
