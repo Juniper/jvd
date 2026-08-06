@@ -170,7 +170,7 @@ export default function ByoaiSection() {
             </div>
             <div className="mt-1 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <h2 className="text-3xl font-semibold tracking-tight">Design &amp; Planner</h2>
+              <h2 className="text-3xl font-semibold tracking-tight">JVD AI Assistant</h2>
               <span className="ml-1 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
                 Available now
               </span>
@@ -182,11 +182,10 @@ export default function ByoaiSection() {
               AI-assisted engineering grounded in validated designs.
             </p>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> launches
-              a JVD-aware assistant in Claude, ChatGPT, or VS Code. Using complete JVD
-              documentation and validated config snippet libraries, it supports Learn &amp; Design
-              and Configure modes to answer architecture, scale, and design questions,
-              cite its sources, and guide conversation-driven configuration builds.
+              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> to
+              launch a JVD-aware assistant in Claude, ChatGPT, or VS Code. Use Learn &amp; Design
+              or Configure mode to explore architecture, evaluate design choices, cite JVD
+              sources, and guide configuration builds.
             </p>
           </div>
         </div>

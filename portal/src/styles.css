@@ -137,6 +137,15 @@
   box-shadow: var(--shadow-card-hover), inset 0 1px 0 0 oklch(1 0 0 / 0.08);
   border-color: color-mix(in oklab, var(--color-primary) 45%, var(--color-border));
 }
+/* Extra-poppy hover for the stage tiles: bright primary outline + accent glow. */
+.premium-card.lift.glow:hover {
+  border-color: var(--color-primary);
+  box-shadow:
+    var(--shadow-card-hover),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.1),
+    0 0 0 1px color-mix(in oklab, var(--color-primary) 60%, transparent),
+    0 10px 34px -10px color-mix(in oklab, var(--color-primary) 40%, transparent);
+}
 
 /* Animated active/hover underline for top-nav links. */
 .nav-link {

@@ -37,7 +37,7 @@ const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
   { label: "Explorer", href: "#snips" },
-  { label: "Design", href: "#byoai" },
+  { label: "Assistant", href: "#byoai" },
   { label: "Generator", href: "#generator" },
   { label: "Deploy", href: "#mcp" },
   { label: "Why JVDs", href: "#about" },
@@ -70,22 +70,22 @@ const LADDER = [
   },
   {
     stage: "Learn & Design",
-    title: "Design & Planner",
-    desc: "Ask architecture, scaling, and configuration questions grounded in validated JVD content.",
+    title: "JVD AI Assistant",
+    desc: "Explore architecture and design with AI grounded in complete JVD content.",
     href: "#byoai",
     cta: "Start Designing",
   },
   {
     stage: "Build",
-    title: "Service Config Generator",
-    desc: "Generate downloadable configuration deterministically from JVD building blocks.",
+    title: "Config Generator",
+    desc: "Generate deterministic configuration from validated JVD building blocks.",
     href: "#generator",
     cta: "Build Something",
   },
   {
     stage: "Deploy",
     title: "JVD MCP Server",
-    desc: "Access validated designs from your AI agent and carry grounded configuration into automation.",
+    desc: "Bring validated JVD knowledge and configuration into AI automation.",
     href: "#mcp",
     comingSoon: true,
     cta: "Deploy It!",
@@ -481,7 +481,7 @@ export default function JvdPortal() {
                   key={s.href}
                   href={s.href}
                   className={
-                    "premium-card lift group relative flex flex-col rounded-xl border border-border bg-surface p-5 " +
+                    "premium-card lift glow group relative flex flex-col rounded-xl border border-border bg-surface p-5 " +
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >
@@ -495,13 +495,13 @@ export default function JvdPortal() {
                       </span>
                     )}
                   </div>
-                  <span className="mt-3 text-base font-bold uppercase tracking-wide text-primary md:text-lg">
+                  <span className="mt-3 text-base font-bold uppercase tracking-wide text-primary">
                     {s.stage}
                   </span>
-                  <div className="mt-2 font-semibold tracking-tight text-foreground">{s.title}</div>
+                  <div className="mt-2 text-[15px] font-semibold tracking-tight text-foreground">{s.title}</div>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                   <div className="flex-1" />
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary">
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                     {s.cta}
                     <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </span>
