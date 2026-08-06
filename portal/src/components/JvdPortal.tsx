@@ -37,7 +37,7 @@ const NAV = [
   { label: "Home", href: "#home" },
   { label: "Catalog", href: "#catalog" },
   { label: "Explorer", href: "#snips" },
-  { label: "Assistant", href: "#byoai" },
+  { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
   { label: "Deploy", href: "#mcp" },
   { label: "Why JVDs", href: "#about" },
