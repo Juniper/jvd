@@ -485,20 +485,20 @@ export default function JvdPortal() {
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
                       {i + 1}
                     </span>
+                    <span className="text-base font-bold uppercase tracking-wide text-primary">
+                      {s.stage}
+                    </span>
                     {(s as any).comingSoon && (
-                      <span className="ml-auto rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                      <span className="ml-auto shrink-0 rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                         Soon
                       </span>
                     )}
                   </div>
-                  <span className="mt-3 text-base font-bold uppercase tracking-wide text-primary">
-                    {s.stage}
-                  </span>
-                  <div className="mt-2 text-[15px] font-semibold tracking-tight text-foreground">{s.title}</div>
+                  <div className="mt-3 text-[15px] font-semibold tracking-tight text-foreground">{s.title}</div>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                   <div className="flex-1" />
                   <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
