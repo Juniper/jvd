@@ -148,6 +148,58 @@ function MarqueeTag({ label }: { label: string }) {
   );
 }
 
+// Decorative animated network mesh for the hero right side (pure SVG + CSS).
+function HeroNetwork() {
+  const nodes: [number, number][] = [
+    [80, 90], [210, 60], [360, 120], [140, 210], [280, 230],
+    [420, 260], [90, 340], [230, 370], [380, 400], [320, 320],
+  ];
+  const links: [number, number][] = [
+    [0, 1], [1, 2], [0, 3], [1, 4], [2, 5], [3, 4], [4, 5],
+    [3, 6], [4, 7], [5, 8], [6, 7], [7, 9], [9, 8], [4, 9], [2, 4],
+  ];
+  const accent = new Set([1, 4, 8]);
+  return (
+    <svg viewBox="0 0 500 500" fill="none" className="h-full w-full">
+      <g className="hero-net text-primary">
+        {links.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={nodes[a][0]} y1={nodes[a][1]}
+            x2={nodes[b][0]} y2={nodes[b][1]}
+            stroke="currentColor"
+            strokeWidth={1.2}
+            strokeOpacity={0.3}
+          />
+        ))}
+        {nodes.map(([x, y], i) => (
+          <g key={i}>
+            {accent.has(i) && (
+              <>
+                <circle cx={x} cy={y} r={16} fill="currentColor" opacity={0.08} />
+                <circle
+                  cx={x} cy={y} r={10}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeOpacity={0.4}
+                  className="hero-ping"
+                  style={{ animationDelay: `${i * 0.6}s` }}
+                />
+              </>
+            )}
+            <circle
+              cx={x} cy={y} r={accent.has(i) ? 5.5 : 3}
+              fill="currentColor"
+              className="hero-node"
+              style={{ animationDelay: `${(i % 5) * 0.7}s` }}
+            />
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
 function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
   const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
   const steps: StepPill[] = [];
@@ -411,7 +463,17 @@ export default function JvdPortal() {
             "radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklab, var(--color-primary) 18%, transparent), transparent)",
         }}
       >
-        <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-0 hidden h-[620px] w-[620px] md:block"
+          style={{
+            WebkitMaskImage: "radial-gradient(circle at 70% 35%, white, transparent 72%)",
+            maskImage: "radial-gradient(circle at 70% 35%, white, transparent 72%)",
+          }}
+        >
+          <HeroNetwork />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 md:py-36">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />

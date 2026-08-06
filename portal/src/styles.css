@@ -186,3 +186,32 @@
   background: color-mix(in oklab, var(--color-primary) 9%, var(--color-surface));
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-primary) 16%, transparent);
 }
+
+/* Ambient hero network mesh (decorative). */
+.hero-net {
+  animation: hero-drift 22s ease-in-out infinite;
+}
+.hero-node {
+  animation: hero-node-pulse 4s ease-in-out infinite;
+}
+.hero-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-ping 3.8s ease-out infinite;
+}
+@keyframes hero-node-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+@keyframes hero-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-10px, 8px, 0); }
+}
+@keyframes hero-ping {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  70% { opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-net, .hero-node, .hero-ping { animation: none; }
+}
