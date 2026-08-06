@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, PlugZap, Bell, type LucideIcon } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, PlugZap, Bell, Menu, X, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -294,6 +294,7 @@ export default function JvdPortal() {
   const [queryF, setQueryF] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Global shortcut: ⌘K / Ctrl+K toggles search; "/" opens it (unless typing).
   useEffect(() => {
@@ -450,8 +451,38 @@ export default function JvdPortal() {
             >
               <Github className="h-3.5 w-3.5" /> <span className="hidden xl:inline">GitHub</span>
             </a>
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="inline-flex items-center justify-center rounded-md border border-border bg-surface p-1.5 text-muted-foreground hover:border-primary/60 hover:text-foreground md:hidden"
+            >
+              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
           </div>
         </div>
+        {mobileOpen && (
+          <nav className="border-t border-border bg-background/95 px-6 py-3 md:hidden">
+            <div className="flex flex-col gap-1">
+              {NAV.map((n) => (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={
+                    "rounded-md px-3 py-2 text-sm transition-colors hover:bg-surface hover:text-foreground " +
+                    (activeSection === n.href.slice(1)
+                      ? "bg-surface text-foreground"
+                      : "text-muted-foreground")
+                  }
+                >
+                  {n.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
