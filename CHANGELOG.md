@@ -4,6 +4,40 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-06
+
+A portal experience redesign. The JVD Portal gets a cleaner, more premium look, a
+clearer five-stage journey, and a faster way to put your own AI to work — plus
+mobile support and sharper copy throughout.
+
+### The portal, redesigned
+
+- **A clear five-stage journey** — Discover → Explore → Learn & Design → Build →
+  Deploy is now front and center, with bold stage labels and an inviting
+  call-to-action on each step, so it's obvious where to start and where to go next.
+- **Clearer names** — the configuration browser is the **Explore** stage (Config
+  Explorer), and the assistant is the **JVD AI Assistant**, grouped under a single
+  **Learn & Design** stage.
+- **A more premium look** — elevated cards with real depth and richer hover, an
+  accent-highlighted catalog search that's easy to spot, refined typography and
+  spacing, and a subtle animated network graphic on the landing page.
+- **Works on mobile** — a new menu makes the full navigation available on phones
+  and tablets.
+
+### Ask your AI a question — right from the portal
+
+- **Ask-a-question launch** — the **JVD AI Assistant** section adds an optional
+  question box: type what you need and, if you like, choose **Learn & Design** or
+  **Configure**, then launch straight into Claude or ChatGPT already loaded with
+  the design's validated prompt and your question.
+- **Guidance on model choice** — a new FAQ explains that most everyday
+  ("utility-tier") models work well, with quick recommendations, and the fine
+  print is consolidated into readable, normal-size answers.
+- **Smoother browsing** — the design catalog is now swipeable, and copy across
+  every section has been sharpened to make each tool's purpose clearer.
+
+---
+
 ## 2026-08-03
 
 A library-wide quality pass. The configuration building-block library gains more
