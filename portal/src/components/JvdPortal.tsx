@@ -485,7 +485,12 @@ export default function JvdPortal() {
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >
-                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                  <div
+                    className={
+                      "flex gap-x-2.5 " +
+                      ((s as any).comingSoon ? "flex-wrap items-center gap-y-1.5" : "items-start")
+                    }
+                  >
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
                       {i + 1}
                     </span>
