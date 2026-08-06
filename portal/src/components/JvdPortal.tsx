@@ -78,7 +78,7 @@ const LADDER = [
   {
     stage: "Build",
     title: "Config Generator",
-    desc: "Generate deterministic configuration from validated JVD building blocks.",
+    desc: "Create deterministic configuration from validated JVD building blocks.",
     href: "#generator",
     cta: "Build Something",
   },
@@ -481,7 +481,7 @@ export default function JvdPortal() {
                   key={s.href}
                   href={s.href}
                   className={
-                    "premium-card lift glow group relative flex flex-col rounded-xl border border-border bg-surface p-5 " +
+                    "premium-card lift glow group relative flex flex-col rounded-xl border border-border bg-surface px-5 pt-5 pb-4 " +
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >

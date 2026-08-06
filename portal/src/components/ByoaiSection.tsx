@@ -340,8 +340,8 @@ export default function ByoaiSection() {
             <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <AiTile
                 name="Claude"
-                description="Anthropic's Claude — reliable for config and multi-turn design."
-                tip="Works well on Claude Haiku (fast)."
+                description="Launch the selected JVD prompt in Anthropic’s Claude."
+                tip="Haiku is currently a fast, consistent option."
                 href={claudeUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-claude-${selected?.id ?? "none"}`)}
@@ -350,8 +350,8 @@ export default function ByoaiSection() {
               />
               <AiTile
                 name="ChatGPT"
-                description="OpenAI's ChatGPT — quick, single-shot configs."
-                tip="Try GPT-5.5. If the first fetch fails, just resend."
+                description="Launch the selected JVD prompt in OpenAI’s ChatGPT."
+                tip="Fast mode is usually sufficient for most workflows."
                 href={chatGptUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-chatgpt-${selected?.id ?? "none"}`)}
