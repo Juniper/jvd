@@ -42,7 +42,7 @@ export function CatalogCarousel({
     <div className="mt-12 overflow-hidden" ref={emblaRef}>
       <div className="flex">
         {items.map((j, i) => (
-          <div key={`${j.id}-${i}`} className="mr-5 min-w-0 shrink-0 basis-80">
+          <div key={`${j.id}-${i}`} className="mr-5 flex min-w-0 shrink-0 basis-80">
             {renderCard(j, i)}
           </div>
         ))}

@@ -21,24 +21,32 @@ type JvdEntry = {
   area: string;
 };
 
-function buildBootstrapMessage(promptUrl: string): string {
-  return (
+type ByoaiMode = "" | "learn" | "configure";
+
+function buildBootstrapMessage(promptUrl: string, mode: ByoaiMode, question: string): string {
+  let msg =
     "Please fetch this URL and use its contents as task instructions for our " +
     "conversation — it is a public, user-authored guide that tells you how to " +
     "help me generate Juniper network configuration from a published library " +
     "of validated config snippets. After fetching, follow its instructions to " +
-    `greet me. URL: ${promptUrl}`
-  );
+    `greet me. URL: ${promptUrl}`;
+  // Optional mode hint maps to the prompt's built-in modes (portal labels the
+  // "Design" mode "Learn & Design" for users; the keyword stays for the prompt).
+  if (mode === "learn")
+    msg += " Begin in Design mode — help me learn and reason about this JVD.";
+  else if (mode === "configure")
+    msg += " Begin in Configuration mode — help me build config.";
+  const q = question.trim();
+  if (q) msg += ` My first question: ${q}`;
+  return msg;
 }
 
-function buildClaudeUrl(promptUrl: string): string {
-  const msg = buildBootstrapMessage(promptUrl);
-  return `https://claude.ai/new?q=${encodeURIComponent(msg)}`;
+function buildClaudeUrl(promptUrl: string, mode: ByoaiMode, question: string): string {
+  return `https://claude.ai/new?q=${encodeURIComponent(buildBootstrapMessage(promptUrl, mode, question))}`;
 }
 
-function buildChatGptUrl(promptUrl: string): string {
-  const msg = buildBootstrapMessage(promptUrl);
-  return `https://chatgpt.com/?q=${encodeURIComponent(msg)}`;
+function buildChatGptUrl(promptUrl: string, mode: ByoaiMode, question: string): string {
+  return `https://chatgpt.com/?q=${encodeURIComponent(buildBootstrapMessage(promptUrl, mode, question))}`;
 }
 
 // VS Code + Copilot: install the JVD's .prompt.md as a reusable /slash-command.
@@ -77,6 +85,28 @@ function pickDefaultJvd(items: { id: string }[]): string {
   return items[items.length - 1].id;
 }
 
+// Example questions shown when the Ask field is focused. Reshuffled each time and
+// lightly personalized with the selected JVD's name.
+const QUESTION_TEMPLATES = [
+  "Walk me through the {jvd} architecture.",
+  "How do I scale {jvd} for a larger deployment?",
+  "What platforms and device roles does {jvd} use?",
+  "Generate a starter configuration for {jvd}.",
+  "What are the key design decisions behind {jvd}?",
+  "How does {jvd} handle redundancy and failover?",
+  "What should I watch out for when deploying {jvd}?",
+  "Which services does {jvd} support?",
+];
+
+function shuffledSuggestions(jvdName: string, n = 3): string[] {
+  const pool = [...QUESTION_TEMPLATES];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const k = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[k]] = [pool[k], pool[i]];
+  }
+  return pool.slice(0, n).map((t) => t.replace(/\{jvd\}/g, jvdName || "this JVD"));
+}
+
 export default function ByoaiSection() {
   const allJvds = jvds as JvdEntry[];
   const byoaiJvds = snipBundle.byoaiJvds || [];
@@ -101,6 +131,11 @@ export default function ByoaiSection() {
 
   const [selectedId, setSelectedId] = useState<string>(() => pickDefaultJvd(pickerItems));
   const selected = pickerItems.find((p) => p.id === selectedId) ?? pickerItems[0];
+  const [mode, setMode] = useState<ByoaiMode>("");
+  const [question, setQuestion] = useState("");
+  const hasQuestion = question.trim().length > 0;
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
   useEffect(() => {
@@ -117,8 +152,8 @@ export default function ByoaiSection() {
     return () => window.removeEventListener("hashchange", applyHash);
   }, [pickerItems]);
 
-  const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl) : "#";
-  const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl) : "#";
+  const claudeUrl = selected ? buildClaudeUrl(selected.promptUrl, mode, question) : "#";
+  const chatGptUrl = selected ? buildChatGptUrl(selected.promptUrl, mode, question) : "#";
   const vscodeUrl = selected?.vscodePromptUrl
     ? buildVscodeInstallUrl(selected.vscodePromptUrl)
     : "#";
@@ -131,11 +166,11 @@ export default function ByoaiSection() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-              Stage 3 · Design
+              Stage 3 · Learn & Design
             </div>
             <div className="mt-1 flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
-              <h2 className="text-3xl font-semibold tracking-tight">Design &amp; Planner</h2>
+              <h2 className="text-3xl font-semibold tracking-tight">JVD AI Assistant</h2>
               <span className="ml-1 inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
                 Available now
               </span>
@@ -147,11 +182,10 @@ export default function ByoaiSection() {
               AI-assisted engineering grounded in validated designs.
             </p>
             <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> launches
-              a JVD-aware assistant in Claude, ChatGPT, or VS Code. Using complete JVD
-              documentation and validated config snippet libraries, it supports Design
-              and Configuration modes to answer architecture, scale, and design questions,
-              cite its sources, and guide conversation-driven configuration builds.
+              <span className="font-medium text-foreground">Bring Your Own AI (BYOAI)</span> to
+              launch a JVD-aware assistant in Claude, ChatGPT, or VS Code. Use Learn &amp; Design
+              or Configure mode to explore architecture, evaluate design choices, cite JVD
+              sources, and guide configuration builds.
             </p>
           </div>
         </div>
@@ -206,12 +240,57 @@ export default function ByoaiSection() {
               </>
             )}
 
-            <div className="mt-6 flex items-start gap-2 rounded-md border border-border bg-background p-3 text-[11px] text-muted-foreground">
-              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-              <span>
-                Both providers accept a query-param to pre-fill the chat. The assistant fetches the
-                public BYOAI prompt at launch and adopts it as task instructions.
-              </span>
+            {/* Optional: ask a question up front + pick a mode (both blank by default) */}
+            <div className="mt-6 rounded-lg border border-primary/25 bg-primary/5 p-4">
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Ask your AI — optional
+              </div>
+              <select
+                value={mode}
+                onChange={(e) => setMode(e.target.value as ByoaiMode)}
+                aria-label="Assistant mode"
+                className="mt-2 h-10 w-full rounded-md border border-border bg-background px-3 text-sm text-foreground focus:border-primary/60 focus:outline-none"
+              >
+                <option value="">Any mode — let the assistant guide me</option>
+                <option value="learn">Learn &amp; Design</option>
+                <option value="configure">Configure</option>
+              </select>
+              <textarea
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                onFocus={() => {
+                  setSuggestions(shuffledSuggestions(selected?.label ?? ""));
+                  setShowSuggest(true);
+                }}
+                onBlur={() => setShowSuggest(false)}
+                rows={2}
+                placeholder="Pick a JVD and launch — or ask a question…"
+                aria-label="Question for the assistant"
+                className="search-accent mt-2 w-full resize-none rounded-md border px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
+              />
+              {showSuggest && !hasQuestion && suggestions.length > 0 && (
+                <div className="mt-2 flex flex-col gap-1.5">
+                  {suggestions.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setQuestion(q);
+                        setShowSuggest(false);
+                      }}
+                      className="rounded-md border border-border bg-background px-3 py-1.5 text-left text-xs text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <p className="mt-2 text-xs text-muted-foreground">
+                {hasQuestion
+                  ? "Your question launches with the JVD prompt in Claude or ChatGPT. VS Code install can’t carry a question."
+                  : "Optionally send a question with the JVD prompt to Claude or ChatGPT."}
+              </p>
             </div>
 
             {/* Help / troubleshooting — discoverable entry point */}
@@ -261,8 +340,8 @@ export default function ByoaiSection() {
             <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <AiTile
                 name="Claude"
-                description="Anthropic's web app. Best for nuanced config refactoring and long, multi-turn JVD walk-throughs."
-                tip="Tip: works with any browsing-capable model."
+                description="Launch the selected JVD prompt in Anthropic’s Claude."
+                tip="Haiku is currently a fast, consistent option."
                 href={claudeUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-claude-${selected?.id ?? "none"}`)}
@@ -271,8 +350,8 @@ export default function ByoaiSection() {
               />
               <AiTile
                 name="ChatGPT"
-                description="OpenAI's web app. Wide reach and good for quick, single-shot config snippets."
-                tip="Tip: Instant mode often can't fetch — use a Thinking mode, or attach the prompt."
+                description="Launch the selected JVD prompt in OpenAI’s ChatGPT."
+                tip="Fast mode is usually sufficient for most workflows."
                 href={chatGptUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-chatgpt-${selected?.id ?? "none"}`)}
@@ -282,45 +361,53 @@ export default function ByoaiSection() {
               <AiTile
                 name="VS Code"
                 launchLabel="Install in VS Code"
-                description="GitHub Copilot Chat. Installs the JVD prompt as a reusable /slash-command — no copy-paste, kept for every future session."
-                tip={`Tip: after installing, run it with ${vscodeCmd} in Copilot Chat.`}
+                description="GitHub Copilot Chat — installs a reusable /slash-command."
+                tip={`Experimental. Run it with ${vscodeCmd} after installing.`}
                 href={vscodeUrl}
-                disabled={!selected?.vscodePromptUrl}
-                disabledLabel="Coming soon"
+                disabled={!selected?.vscodePromptUrl || hasQuestion}
+                disabledLabel={hasQuestion ? "Ask via Claude or ChatGPT" : "Coming soon"}
                 onLaunch={() => track(`byoai-launch-vscode-${selected?.id ?? "none"}`)}
                 logo={<VsCodeLogo />}
                 accentClass="hover:border-[#0098ff]/60"
               />
             </div>
 
-            <div className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              <p>
-                <strong className="font-semibold text-foreground/80">Requires web access:</strong>{" "}
-                the AI must be able to fetch a URL to load the prompt. Most current tiers —
-                including many free ones — can; a few will decline. If yours can&apos;t, attach the
-                prompt instead. See{" "}
-                <a href={GUIDE_URL} target="_blank" rel="noreferrer" className="underline hover:text-primary">
-                  what&apos;s tested &amp; working
-                </a>
-                .
-              </p>
-              <p>
-                <strong className="font-semibold text-foreground/80">Note:</strong> Gemini doesn&apos;t
-                currently support pre-filled prompts via URL; it&apos;s omitted here. The same BYOAI
-                prompt works on Gemini if pasted manually.
-              </p>
-              <p>
-                <strong className="font-semibold text-foreground/80">VS Code:</strong> requires VS Code
-                with a GitHub Copilot subscription. The button installs the prompt (it doesn&apos;t
-                pre-fill the chat) — run it with{" "}
-                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">{vscodeCmd}</code>.
-                It runs in read-only <em>ask</em> mode. After you approve VS Code&apos;s prompt, it asks for a
-                destination — pick a location outside your repo (the default is the open project&apos;s{" "}
-                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">.github/prompts/</code>).
-                Using Insiders? Swap the scheme to{" "}
-                <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-[10px]">vscode-insiders:</code>.
-              </p>
-            </div>
+            <details className="mt-6 rounded-lg border border-border bg-surface p-4">
+              <summary className="cursor-pointer select-none text-sm font-medium text-foreground">
+                BYOAI — frequently asked questions
+              </summary>
+              <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <div>
+                  <div className="font-medium text-foreground">Does my AI need web access?</div>
+                  <p className="mt-1">
+                    Yes — it must fetch a URL to load the prompt. Most current tiers, including many
+                    free ones, can; a few will decline. If yours can’t, download the prompt (left) and
+                    paste it in. See{" "}
+                    <a href={GUIDE_URL} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                      what’s tested &amp; working
+                    </a>
+                    .
+                  </p>
+                </div>
+                <div>
+                  <div className="font-medium text-foreground">What about Gemini?</div>
+                  <p className="mt-1">
+                    Gemini doesn’t currently support pre-filled prompts via URL, so it’s omitted from
+                    the launch tiles. The same BYOAI prompt works on Gemini if you paste it manually.
+                  </p>
+                </div>
+                <div>
+                  <div className="font-medium text-foreground">How does the VS Code option work?</div>
+                  <p className="mt-1">
+                    Experimental — it needs VS Code with GitHub Copilot. The button installs the JVD
+                    prompt as a reusable{" "}
+                    <code className="rounded bg-surface-2 px-1 py-0.5 font-mono text-xs">{vscodeCmd}</code>{" "}
+                    slash-command (it doesn’t pre-fill the chat); run it after installing. Behavior can
+                    vary by version.
+                  </p>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
