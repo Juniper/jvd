@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import jvds from "@/data/jvds.json";
-import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, PlugZap, Bell, type LucideIcon } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Network, Layers, Info, Search, Sparkles, Wrench, PlugZap, Bell, Menu, X, type LucideIcon } from "lucide-react";
 import brandLogo from "@/assets/hpe-juniper-networking.avif";
 import SnipLibrary from "@/components/SnipLibrary";
 import ByoaiSection from "@/components/ByoaiSection";
@@ -148,6 +148,58 @@ function MarqueeTag({ label }: { label: string }) {
   );
 }
 
+// Decorative animated network mesh for the hero right side (pure SVG + CSS).
+function HeroNetwork() {
+  const nodes: [number, number][] = [
+    [80, 90], [210, 60], [360, 120], [140, 210], [280, 230],
+    [420, 260], [90, 340], [230, 370], [380, 400], [320, 320],
+  ];
+  const links: [number, number][] = [
+    [0, 1], [1, 2], [0, 3], [1, 4], [2, 5], [3, 4], [4, 5],
+    [3, 6], [4, 7], [5, 8], [6, 7], [7, 9], [9, 8], [4, 9], [2, 4],
+  ];
+  const accent = new Set([1, 4, 8]);
+  return (
+    <svg viewBox="0 0 500 500" fill="none" className="h-full w-full">
+      <g className="hero-net text-primary">
+        {links.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={nodes[a][0]} y1={nodes[a][1]}
+            x2={nodes[b][0]} y2={nodes[b][1]}
+            stroke="currentColor"
+            strokeWidth={1.2}
+            strokeOpacity={0.3}
+          />
+        ))}
+        {nodes.map(([x, y], i) => (
+          <g key={i}>
+            {accent.has(i) && (
+              <>
+                <circle cx={x} cy={y} r={16} fill="currentColor" opacity={0.08} />
+                <circle
+                  cx={x} cy={y} r={10}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeOpacity={0.4}
+                  className="hero-ping"
+                  style={{ animationDelay: `${i * 0.6}s` }}
+                />
+              </>
+            )}
+            <circle
+              cx={x} cy={y} r={accent.has(i) ? 5.5 : 3}
+              fill="currentColor"
+              className="hero-node"
+              style={{ animationDelay: `${(i % 5) * 0.7}s` }}
+            />
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
 function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
   const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
   const steps: StepPill[] = [];
@@ -242,6 +294,7 @@ export default function JvdPortal() {
   const [queryF, setQueryF] = useState("");
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Global shortcut: ⌘K / Ctrl+K toggles search; "/" opens it (unless typing).
   useEffect(() => {
@@ -398,8 +451,38 @@ export default function JvdPortal() {
             >
               <Github className="h-3.5 w-3.5" /> <span className="hidden xl:inline">GitHub</span>
             </a>
+            <button
+              type="button"
+              onClick={() => setMobileOpen((v) => !v)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="inline-flex items-center justify-center rounded-md border border-border bg-surface p-1.5 text-muted-foreground hover:border-primary/60 hover:text-foreground md:hidden"
+            >
+              {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
           </div>
         </div>
+        {mobileOpen && (
+          <nav className="border-t border-border bg-background/95 px-6 py-3 md:hidden">
+            <div className="flex flex-col gap-1">
+              {NAV.map((n) => (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={
+                    "rounded-md px-3 py-2 text-sm transition-colors hover:bg-surface hover:text-foreground " +
+                    (activeSection === n.href.slice(1)
+                      ? "bg-surface text-foreground"
+                      : "text-muted-foreground")
+                  }
+                >
+                  {n.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
       {/* Hero */}
@@ -411,7 +494,17 @@ export default function JvdPortal() {
             "radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklab, var(--color-primary) 18%, transparent), transparent)",
         }}
       >
-        <div className="mx-auto max-w-7xl px-6 py-28 md:py-36">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-0 hidden h-[620px] w-[620px] md:block"
+          style={{
+            WebkitMaskImage: "radial-gradient(circle at 70% 35%, white, transparent 72%)",
+            maskImage: "radial-gradient(circle at 70% 35%, white, transparent 72%)",
+          }}
+        >
+          <HeroNetwork />
+        </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-6 py-28 md:py-36">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -485,20 +578,25 @@ export default function JvdPortal() {
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
+                  <div
+                    className={
+                      "flex gap-x-2.5 " +
+                      ((s as any).comingSoon ? "flex-wrap items-center gap-y-1.5" : "items-start")
+                    }
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
                       {i + 1}
                     </span>
+                    <span className="text-base font-bold uppercase tracking-wide text-primary">
+                      {s.stage}
+                    </span>
                     {(s as any).comingSoon && (
-                      <span className="ml-auto rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                         Soon
                       </span>
                     )}
                   </div>
-                  <span className="mt-3 text-base font-bold uppercase tracking-wide text-primary">
-                    {s.stage}
-                  </span>
-                  <div className="mt-2 text-[15px] font-semibold tracking-tight text-foreground">{s.title}</div>
+                  <div className="mt-3 text-[15px] font-semibold tracking-tight text-foreground">{s.title}</div>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                   <div className="flex-1" />
                   <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-primary opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">

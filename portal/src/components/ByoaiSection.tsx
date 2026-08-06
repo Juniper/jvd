@@ -378,6 +378,16 @@ export default function ByoaiSection() {
               </summary>
               <div className="mt-3 space-y-3 text-sm leading-relaxed text-muted-foreground">
                 <div>
+                  <div className="font-medium text-foreground">Which model should I use?</div>
+                  <p className="mt-1">
+                    Most current models work well — the assistant does grounded retrieval and
+                    assembly, not heavy reasoning, so a fast utility-tier model (e.g. Claude Haiku or
+                    ChatGPT’s lighter modes) is usually plenty. The main exception is a few ultra-fast
+                    “instant” modes that can’t browse to fetch the prompt — use a standard/thinking
+                    mode, or download and attach the prompt.
+                  </p>
+                </div>
+                <div>
                   <div className="font-medium text-foreground">Does my AI need web access?</div>
                   <p className="mt-1">
                     Yes — it must fetch a URL to load the prompt. Most current tiers, including many
