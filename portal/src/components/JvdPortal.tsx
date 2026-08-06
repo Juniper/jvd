@@ -485,7 +485,7 @@ export default function JvdPortal() {
                     ((s as any).comingSoon ? "opacity-75 hover:opacity-100" : "")
                   }
                 >
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary/40 bg-primary/10 text-sm font-bold text-primary">
                       {i + 1}
                     </span>
@@ -493,7 +493,7 @@ export default function JvdPortal() {
                       {s.stage}
                     </span>
                     {(s as any).comingSoon && (
-                      <span className="ml-auto shrink-0 rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
+                      <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-primary">
                         Soon
                       </span>
                     )}
