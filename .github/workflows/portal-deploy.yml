@@ -60,7 +60,11 @@ jobs:
 
   deploy:
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Publish on a push to main, or when manually re-run (workflow_dispatch) —
+    # the latter is needed to recover a deploy after a GitHub Actions/Pages incident.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact
