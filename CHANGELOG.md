@@ -4,6 +4,23 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-12
+
+A reliability fix for the one-click **Bring Your Own AI (BYOAI)** launch.
+
+### One-click BYOAI launch works again on Claude and ChatGPT
+
+- **What happened** — Claude and ChatGPT recently tightened their web-fetch
+  tools to refuse a URL unless it first appeared in a search. That safety check
+  (not a blocked domain) caused the one-click launch to fail when the assistant
+  tried to fetch the JVD prompt.
+- **The fix** — the launch message now tells the assistant to search for the
+  prompt and retry (or fetch it directly) if the first attempt is refused, and
+  the prompts themselves no longer construct file URLs by hand. Confirmed
+  working again on both Claude and ChatGPT across all BYOAI-equipped JVDs.
+- **If you ever hit a snag** — you can still download the prompt and attach it,
+  or use the portal's **Config Generator** (Stage 4 · Build), which needs no AI.
+
 ## 2026-08-06
 
 A portal experience redesign. The JVD Portal gets a cleaner, more premium look, a

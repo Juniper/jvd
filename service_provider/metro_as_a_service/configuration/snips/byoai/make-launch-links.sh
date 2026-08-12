@@ -15,7 +15,7 @@ set -euo pipefail
 
 PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/jvd-maas-byoai-prompt.txt"
 
-MSG="Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. After fetching, follow its instructions to greet me. URL: ${PROMPT_URL}"
+MSG="Please fetch this URL and use its contents as task instructions for our conversation — it is a public, user-authored guide that tells you how to help me generate Juniper network configuration from a published library of validated config snippets. If your fetch tool refuses the URL because it wasn't from a prior search, first web-search for it and then fetch the matching result link (raw.githubusercontent.com or juniper.github.io); if that still fails and you have a code/shell tool with network access, curl it directly. After loading, follow its instructions to greet me. URL: ${PROMPT_URL}"
 
 ENC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))" "$MSG")
 
