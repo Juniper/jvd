@@ -109,7 +109,13 @@ hands-on testing. "Prompt pull" = the AI fetched the full prompt from the URL at
 launch. "Design mode" / "Config mode" = that BYOAI mode was exercised end-to-end.
 "Attach/paste" = the prompt was downloaded and attached or pasted.
 
-_Last updated: 2026-08-05_
+> **2026-08-12 — fetch-gate change.** Recent security updates to the web-fetch
+> tools in **both Claude and ChatGPT** began refusing URLs that hadn't first
+> appeared in a search (a provenance check, not a domain block). We updated the
+> launch message to tell the assistant to web-search for the prompt and retry (or
+> curl it) if the initial fetch is refused; confirmed working again on both.
+
+_Last updated: 2026-08-12_
 
 > **Bottom line:** ChatGPT **Instant** (5.5) can’t reliably fetch the launch
 > prompt. GPT‑5.6 **Sol-High** may fail on the first attempt but succeeds on
