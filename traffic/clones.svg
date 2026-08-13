@@ -1,20 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
   <rect width="720" height="200" fill="#0d1117" rx="8"/>
   <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Git Clones</text>
-  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 42 days</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 43 days</text>
   <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
   <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
-  <polyline points="50.0,148.7 65.9,149.1 81.7,149.1 97.6,150.0 113.4,149.6 129.3,137.9 145.1,99.5 161.0,40.0 176.8,52.1 192.7,144.0 208.5,84.4 224.4,113.8 240.2,149.1 256.1,149.1 272.0,103.0 287.8,55.5 303.7,134.9 319.5,140.5 335.4,149.6 351.2,148.3 367.1,125.4 382.9,72.4 398.8,96.5 414.6,111.6 430.5,125.4 446.3,146.1 462.2,148.3 478.0,147.4 493.9,117.2 509.8,147.4 525.6,123.7 541.5,144.8 557.3,147.0 573.2,145.3 589.0,87.9 604.9,101.7 620.7,127.6 636.6,130.6 652.4,137.9 668.3,141.8 684.1,132.7 700.0,144.8" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="50.0,148.7 65.9,149.1 81.7,149.1 97.6,150.0 113.4,149.6 129.3,148.7 145.1,129.3 161.0,111.2 176.8,111.6 192.7,146.5 208.5,127.6 224.4,132.3 240.2,149.1 256.1,149.1 272.0,130.6 287.8,115.5 303.7,144.8 319.5,145.7 335.4,149.6 351.2,148.3 367.1,138.4 382.9,117.6 398.8,122.4 414.6,131.0 430.5,139.2 446.3,147.0 462.2,148.3 478.0,147.4 493.9,134.5 509.8,147.4 525.6,136.2 541.5,145.7 557.3,147.4 573.2,147.0 589.0,123.7 604.9,129.3 620.7,135.3 636.6,139.6 652.4,142.2 668.3,144.8 684.1,133.6 700.0,146.1" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
-  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">clones: 12</text>
-  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_cloners: 9</text>
+  <polyline points="50.0,148.7 65.5,149.1 81.0,149.1 96.4,150.0 111.9,149.6 127.4,137.9 142.9,99.5 158.3,40.0 173.8,52.1 189.3,144.0 204.8,84.4 220.2,113.8 235.7,149.1 251.2,149.1 266.7,103.0 282.1,55.5 297.6,134.9 313.1,140.5 328.6,149.6 344.0,148.3 359.5,125.4 375.0,72.4 390.5,96.5 406.0,111.6 421.4,125.4 436.9,146.1 452.4,148.3 467.9,147.4 483.3,117.2 498.8,147.4 514.3,123.7 529.8,144.8 545.2,147.0 560.7,145.3 576.2,87.9 591.7,101.7 607.1,127.6 622.6,130.6 638.1,137.9 653.6,141.8 669.0,132.7 684.5,144.8 700.0,144.4" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,148.7 65.5,149.1 81.0,149.1 96.4,150.0 111.9,149.6 127.4,148.7 142.9,129.3 158.3,111.2 173.8,111.6 189.3,146.5 204.8,127.6 220.2,132.3 235.7,149.1 251.2,149.1 266.7,130.6 282.1,115.5 297.6,144.8 313.1,145.7 328.6,149.6 344.0,148.3 359.5,138.4 375.0,117.6 390.5,122.4 406.0,131.0 421.4,139.2 436.9,147.0 452.4,148.3 467.9,147.4 483.3,134.5 498.8,147.4 514.3,136.2 529.8,145.7 545.2,147.4 560.7,147.0 576.2,123.7 591.7,129.3 607.1,135.3 622.6,139.6 638.1,142.2 653.6,144.8 669.0,133.6 684.5,146.1 700.0,145.7" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">clones: 13</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_cloners: 10</text>
   <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
-<text x="161.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
-<text x="272.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
-<text x="382.9" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
-<text x="493.9" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
-<text x="604.9" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-04</text>
-<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-10</text>
+<text x="158.3" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="266.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
+<text x="375.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
+<text x="483.3" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
+<text x="591.7" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-04</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-11</text>
 
   <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">255</text>
   <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
