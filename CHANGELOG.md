@@ -4,6 +4,73 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-13
+
+Reliability and usability improvements to the Bring Your Own AI (BYOAI) launch
+across every JVD, plus a configuration-accuracy fix in the Metro-as-a-Service
+L2VPN snippets.
+
+### Improvements
+
+- **Faster, more reliable one-click launch** — the launch instructions now guide
+  the assistant to recover gracefully when its browser tool declines the first
+  fetch, so ChatGPT and Claude reach the JVD assistant with less delay. This
+  applies to every JVD's assistant. The date-stamped, per-model behavior is
+  documented in [USING-BYOAI.md](portal/public/USING-BYOAI.md).
+- **Suggested questions match your mode** — in the JVD AI Assistant, the example
+  questions now follow whether you pick **Learn & Design** or **Configure**,
+  instead of showing the same generic set regardless of mode.
+- **Quicker launch, clearer default** — press **Enter** in the question box to
+  launch, and **Claude** is now flagged as the recommended, fastest-to-launch
+  option.
+- **Metro-as-a-Service L2VPN accuracy** — the BGP L2VPN (Kompella) service
+  snippets now emit a distinct route-distinguisher and route-target, matching the
+  validated per-PE convention (a unique route-distinguisher per PE, a shared
+  route-target). See
+  [l2vpn-kompella-vlan-based.conf](service_provider/metro_as_a_service/configuration/snips/evo/services/l2vpn-kompella-vlan-based.conf)
+  and
+  [l2vpn-kompella-port-based.conf](service_provider/metro_as_a_service/configuration/snips/junos/services/l2vpn-kompella-port-based.conf).
+
+### What this means for you
+
+- Pull the latest `main` — the BYOAI one-click launch is more resilient across AI
+  providers, and the assistant's suggested questions now track your chosen mode.
+- If you generate Metro-as-a-Service L2VPN configuration, regenerate it to pick up
+  the corrected route-distinguisher / route-target handling.
+- When choosing an assistant, start with Claude for the fastest, most consistent
+  launch.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Net lines changed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| portal | 369 | 255 | +114 |
+| service_provider | 85 | 57 | +28 |
+| data_center | 77 | 63 | +14 |
+| enterprise_wan | 33 | 27 | +6 |
+| security | 22 | 18 | +4 |
+| optical | 11 | 9 | +2 |
+| **Total** | **597** | **429** | **+168** |
+
+</details>
+
+<details>
+<summary>What changed</summary>
+
+Portal: mode-aware suggested questions, Enter-to-launch, a "recommended" marker,
+and the refreshed BYOAI usage guide. Every JVD: a uniform update to the assistant
+launch instructions. Metro-as-a-Service: the two BGP L2VPN (Kompella) snippets
+corrected for distinct route-distinguisher / route-target.
+
+</details>
+
+---
+
 ## 2026-08-12
 
 A reliability fix for the one-click **Bring Your Own AI (BYOAI)** launch.
