@@ -49,10 +49,11 @@ fails or you have no web access, silently continue with the copy below.
 Do this at most once — never loop.
 
 FETCHING (applies to every fetch in this conversation): if your fetch
-tool refuses a URL because it "was not from a prior search," first
-web-search for the document, then fetch the matching result link
-(raw.githubusercontent.com or juniper.github.io). If that still fails
-and you have a code/shell tool with network access, curl it directly.
+tool refuses a URL because it "was not from a prior search," do ONE
+quick web-search for the JVD by name to establish provenance, then
+fetch the exact URL directly — do not try to find the file itself in
+the search results. If that still fails and you have a code/shell tool
+with network access, curl it directly.
 Only fetch full URLs that appear in this prompt or in a file you have
 already fetched — never hand-build a raw URL from a filename.
 

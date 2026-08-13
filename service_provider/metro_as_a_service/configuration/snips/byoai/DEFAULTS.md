@@ -22,6 +22,13 @@ MaaS instance names encode the MEF service group. Use this shape:
 | vpws-service-id | local `1`, remote `2` (mirror on the far PE) | EVPN-VPWS |
 | Bandwidth-profile RT community | `METRO_L3VPN_<S>` | Type-5 / L3 services |
 
+> **L2VPN / VPLS (BGP Kompella) RD exception:** these instances use an
+> ASN-style route-distinguisher `63535:<val>` (not the loopback-style RD in the
+> table), still **unique per PE** — vary it per PE (the JVD lab bumps a digit,
+> e.g. `63535:102000` on one PE and `63535:112000` on the other). The
+> `vrf-target` stays **shared** across PEs. See the `l2vpn-kompella-*` and
+> `bgp-vpls*` snip examples for the exact values.
+
 Sequence for N services: increment S by 1 each (`4001`, `4002`, …). The
 E-Tree JVD example uses the `80` sub-group (`evpn_group_80_4080`); keep
 that shape for E-Tree.
