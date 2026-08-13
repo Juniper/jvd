@@ -121,9 +121,17 @@ _Last updated: 2026-08-12_
 > prompt. GPT‑5.6 **Sol-High** may fail on the first attempt but succeeds on
 > retry. **Sol Light**, **Medium / Thinking**, and all Claude modes work reliably.
 > When in doubt, **download & attach** the prompt (always works).
+>
+> As of **2026-08-12** the launch is **gate-aware**: if a model’s fetch tool
+> refuses the URL (a provenance safety check), it recovers via a search-first
+> fallback. **Claude Haiku 4.5** fetches the prompt directly and is the fastest,
+> most consistent option; **GPT‑5.6 Sol** works but spends ~1 minute on the
+> search recovery.
 
 | AI | Tier | Model / mode | Prompt pull | Design mode | Config mode | Attach / paste | Last tested | Notes |
 |----|------|--------------|:-----------:|:-----------:|:-----------:|:--------------:|-------------|-------|
+| Claude | Pro | Haiku 4.5 (app / web) | ✅ | ❓ | ✅ | ✅ | 2026-08-12 | Gate-aware launch: fetches the Pages URL directly, clean/instant. Config mode (SRv6 EVPN‑VPWS, MaaS L2VPN) confirmed end-to-end incl. snip-bundle fetch. **Recommended.** |
+| ChatGPT | Plus | GPT‑5.6 Sol | ⚠️ | ❓ | ✅ | ✅ | 2026-08-12 | Gate-aware launch: refuses the direct fetch, recovers via search-first (~1 min). Config mode (SRv6 EVPN‑VPWS) confirmed end-to-end. |
 | ChatGPT | Plus | GPT‑5.6 Sol Light | ✅ | ✅ | ❓ | ✅ | 2026-08-05 | Transient error on initial fetch resolved without intervention. Design mode confirmed working. |
 | ChatGPT | Plus | GPT‑5.6 Sol-High | ⚠️ | ✅ | ❓ | ✅ | 2026-08-05 | First attempt failed to pull prompt; second attempt succeeded. Design mode confirmed working. |
 | ChatGPT | Pro | GPT‑5.5 · Medium (Thinking) | ✅ | ❓ | ❓ | ✅ | 2026-07-15 | Full launch fetches and greets cleanly. |

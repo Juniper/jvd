@@ -1640,7 +1640,7 @@
           "platform": "ACX7100-48L"
         }
       ],
-      "size_bytes": 1517,
+      "size_bytes": 1565,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/evo/services/l2vpn-kompella-vlan-based.conf"
     },
     {
@@ -2843,7 +2843,7 @@
           "platform": "MX204"
         }
       ],
-      "size_bytes": 1562,
+      "size_bytes": 1610,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/junos/services/l2vpn-kompella-port-based.conf"
     },
     {

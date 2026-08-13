@@ -29,11 +29,11 @@ function buildBootstrapMessage(promptUrl: string, mode: ByoaiMode, question: str
     "conversation — it is a public, user-authored guide that tells you how to " +
     "help me generate Juniper network configuration from a published library " +
     "of validated config snippets. If your fetch tool refuses the URL because " +
-    "it wasn't from a prior search, first web-search for it and then fetch the " +
-    "matching result link (raw.githubusercontent.com or juniper.github.io); if " +
-    "that still fails and you have a code/shell tool with network access, curl " +
-    "it directly. After loading, follow its instructions to " +
-    `greet me. URL: ${promptUrl}`;
+    "it wasn't from a prior search, do ONE quick web-search for the JVD by name " +
+    "to establish provenance, then fetch this exact URL directly — do not try " +
+    "to find the file itself in the search results. If that still fails and you " +
+    "have a code/shell tool with network access, curl it directly. After " +
+    `loading, follow its instructions to greet me. URL: ${promptUrl}`;
   // Optional mode hint maps to the prompt's built-in modes (portal labels the
   // "Design" mode "Learn & Design" for users; the keyword stays for the prompt).
   if (mode === "learn")
@@ -89,21 +89,30 @@ function pickDefaultJvd(items: { id: string }[]): string {
   return items[items.length - 1].id;
 }
 
-// Example questions shown when the Ask field is focused. Reshuffled each time and
-// lightly personalized with the selected JVD's name.
-const QUESTION_TEMPLATES = [
+// Example questions shown when the Ask field is focused. Bucketed by mode so the
+// chips match the selected mode; lightly personalized with the JVD's name.
+const DESIGN_TEMPLATES = [
   "Walk me through the {jvd} architecture.",
-  "How do I scale {jvd} for a larger deployment?",
-  "What platforms and device roles does {jvd} use?",
-  "Generate a starter configuration for {jvd}.",
   "What are the key design decisions behind {jvd}?",
   "How does {jvd} handle redundancy and failover?",
+  "What platforms and device roles does {jvd} use?",
+  "How do I scale {jvd} for a larger deployment?",
   "What should I watch out for when deploying {jvd}?",
+];
+const CONFIG_TEMPLATES = [
+  "Generate a starter configuration for {jvd}.",
   "Which services does {jvd} support?",
+  "Build a minimal, deployable {jvd} service config.",
+  "Show me the config for a basic {jvd} service.",
 ];
 
-function shuffledSuggestions(jvdName: string, n = 3): string[] {
-  const pool = [...QUESTION_TEMPLATES];
+function shuffledSuggestions(jvdName: string, mode: ByoaiMode, n = 3): string[] {
+  const pool =
+    mode === "learn"
+      ? [...DESIGN_TEMPLATES]
+      : mode === "configure"
+        ? [...CONFIG_TEMPLATES]
+        : [...DESIGN_TEMPLATES, ...CONFIG_TEMPLATES];
   for (let i = pool.length - 1; i > 0; i--) {
     const k = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[k]] = [pool[k], pool[i]];
@@ -139,7 +148,12 @@ export default function ByoaiSection() {
   const [question, setQuestion] = useState("");
   const hasQuestion = question.trim().length > 0;
   const [showSuggest, setShowSuggest] = useState(false);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  // Suggestions reshuffle whenever the JVD or mode changes, so the chips always
+  // match the selected mode (Design vs Configure).
+  const suggestions = useMemo(
+    () => shuffledSuggestions(selected?.label ?? "", mode),
+    [selected?.label, mode],
+  );
 
   // Deep link: "#byoai?jvd=<id>" from the Catalog pre-selects that JVD here.
   useEffect(() => {
@@ -262,13 +276,19 @@ export default function ByoaiSection() {
               <textarea
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
-                onFocus={() => {
-                  setSuggestions(shuffledSuggestions(selected?.label ?? ""));
-                  setShowSuggest(true);
-                }}
+                onFocus={() => setShowSuggest(true)}
                 onBlur={() => setShowSuggest(false)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    if (selected && claudeUrl !== "#") {
+                      track(`byoai-launch-claude-${selected.id}`);
+                      window.open(claudeUrl, "_blank", "noopener,noreferrer");
+                    }
+                  }
+                }}
                 rows={2}
-                placeholder="Pick a JVD and launch — or ask a question…"
+                placeholder="Ask a question, then press Enter to launch Claude — or pick a tile…"
                 aria-label="Question for the assistant"
                 className="search-accent mt-2 w-full resize-none rounded-md border px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
@@ -292,8 +312,8 @@ export default function ByoaiSection() {
               )}
               <p className="mt-2 text-xs text-muted-foreground">
                 {hasQuestion
-                  ? "Your question launches with the JVD prompt in Claude or ChatGPT. VS Code install can’t carry a question."
-                  : "Optionally send a question with the JVD prompt to Claude or ChatGPT."}
+                  ? "Press Enter to launch Claude, or pick a tile. Your question launches with the JVD prompt in Claude or ChatGPT. VS Code install can’t carry a question."
+                  : "Optionally send a question with the JVD prompt to Claude or ChatGPT. Press Enter to launch Claude."}
               </p>
             </div>
 
@@ -344,8 +364,9 @@ export default function ByoaiSection() {
             <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <AiTile
                 name="Claude"
+                recommended
                 description="Launch the selected JVD prompt in Anthropic’s Claude."
-                tip="Haiku is currently a fast, consistent option."
+                tip="Recommended — fastest to launch. Haiku is a fast, consistent option."
                 href={claudeUrl}
                 disabled={!selected}
                 onLaunch={() => track(`byoai-launch-claude-${selected?.id ?? "none"}`)}
@@ -431,6 +452,7 @@ export default function ByoaiSection() {
 
 function AiTile({
   name,
+  recommended,
   description,
   tip,
   href,
@@ -442,6 +464,7 @@ function AiTile({
   disabledLabel,
 }: {
   name: string;
+  recommended?: boolean;
   description: string;
   tip?: string;
   href: string;
@@ -464,6 +487,11 @@ function AiTile({
           {logo}
         </div>
         <div className="text-base font-semibold">{name}</div>
+        {recommended && (
+          <span className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-primary">
+            Recommended
+          </span>
+        )}
         <div className="ml-auto text-muted-foreground transition-colors group-hover:text-primary">
           <ExternalLink className="h-4 w-4" />
         </div>
