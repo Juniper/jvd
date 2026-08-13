@@ -870,7 +870,7 @@ export default function JvdPortal() {
           <div className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <span>© {new Date().getFullYear()} Juniper Networks, Inc.</span>
             <span>
-              Built and maintained by the Juniper Validated Design team.{" "}
+              Built and maintained by HPE Juniper RIS TME.{" "}
               <a
                 href="https://github.com/Juniper/jvd/issues/new/choose"
                 target="_blank"
