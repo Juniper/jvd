@@ -1,21 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" width="720" height="200">
   <rect width="720" height="200" fill="#0d1117" rx="8"/>
   <text x="50" y="24" font-size="14" font-weight="600" fill="#e6edf3">Page Views</text>
-  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 49 days</text>
+  <text x="700" y="24" text-anchor="end" font-size="11" fill="#9ca3af">Last 52 days</text>
   <line x1="50" y1="40" x2="50" y2="150" stroke="#21262d"/>
   <line x1="50" y1="150" x2="700" y2="150" stroke="#21262d"/>
-  <polyline points="50.0,148.6 63.5,148.9 77.1,148.5 90.6,148.5 104.2,149.8 117.7,149.4 131.2,148.6 144.8,147.5 158.3,146.5 171.9,148.4 185.4,79.7 199.0,146.7 212.5,149.1 226.0,149.0 239.6,148.1 253.1,146.9 266.7,148.1 280.2,148.7 293.8,149.4 307.3,149.7 320.8,148.6 334.4,147.6 347.9,147.5 361.5,148.0 375.0,149.1 388.5,149.1 402.1,148.5 415.6,148.9 429.2,145.5 442.7,148.2 456.2,148.9 469.8,148.9 483.3,149.3 496.9,149.9 510.4,146.7 524.0,147.8 537.5,148.5 551.0,146.2 564.6,148.4 578.1,149.8 591.7,149.5 605.2,147.0 618.8,147.3 632.3,145.4 645.8,40.0 659.4,147.2 672.9,148.8 686.5,149.6 700.0,147.3" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <polyline points="50.0,149.6 63.5,149.5 77.1,149.5 90.6,149.7 104.2,149.9 117.7,149.8 131.2,149.5 144.8,149.6 158.3,149.5 171.9,149.7 185.4,83.2 199.0,149.8 212.5,149.7 226.0,149.6 239.6,149.7 253.1,149.5 266.7,149.6 280.2,149.7 293.8,149.9 307.3,149.8 320.8,149.7 334.4,149.6 347.9,149.7 361.5,149.7 375.0,149.6 388.5,149.7 402.1,149.8 415.6,149.6 429.2,149.6 442.7,149.6 456.2,149.7 469.8,149.7 483.3,149.9 496.9,149.9 510.4,149.4 524.0,149.4 537.5,149.7 551.0,149.5 564.6,149.6 578.1,149.8 591.7,149.8 605.2,149.5 618.8,149.6 632.3,149.3 645.8,44.0 659.4,149.5 672.9,149.7 686.5,149.9 700.0,149.2" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
-  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 117</text>
-  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 33</text>
+  <polyline points="50.0,148.6 62.7,148.9 75.5,148.5 88.2,148.5 101.0,149.8 113.7,149.4 126.5,148.6 139.2,147.5 152.0,146.5 164.7,148.4 177.5,79.7 190.2,146.7 202.9,149.1 215.7,149.0 228.4,148.1 241.2,146.9 253.9,148.1 266.7,148.7 279.4,149.4 292.2,149.7 304.9,148.6 317.6,147.6 330.4,147.5 343.1,148.0 355.9,149.1 368.6,149.1 381.4,148.5 394.1,148.9 406.9,145.5 419.6,148.2 432.4,148.9 445.1,148.9 457.8,149.3 470.6,149.9 483.3,146.7 496.1,147.8 508.8,148.5 521.6,146.2 534.3,148.4 547.1,149.8 559.8,149.5 572.5,147.0 585.3,147.3 598.0,145.4 610.8,40.0 623.5,147.2 636.3,148.8 649.0,149.6 661.8,147.3 674.5,146.0 687.3,148.6 700.0,147.5" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="50.0,149.6 62.7,149.5 75.5,149.5 88.2,149.7 101.0,149.9 113.7,149.8 126.5,149.5 139.2,149.6 152.0,149.5 164.7,149.7 177.5,83.2 190.2,149.8 202.9,149.7 215.7,149.6 228.4,149.7 241.2,149.5 253.9,149.6 266.7,149.7 279.4,149.9 292.2,149.8 304.9,149.7 317.6,149.6 330.4,149.7 343.1,149.7 355.9,149.6 368.6,149.7 381.4,149.8 394.1,149.6 406.9,149.6 419.6,149.6 432.4,149.7 445.1,149.7 457.8,149.9 470.6,149.9 483.3,149.4 496.1,149.4 508.8,149.7 521.6,149.5 534.3,149.6 547.1,149.8 559.8,149.8 572.5,149.5 585.3,149.6 598.0,149.3 610.8,44.0 623.5,149.5 636.3,149.7 649.0,149.9 661.8,149.2 674.5,149.2 687.3,149.4 700.0,149.4" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3"/>
+  <circle cx="60" cy="168" r="4" fill="#4ade80"/><text x="70" y="172" font-size="11" fill="#e6edf3">views: 109</text>
+  <circle cx="200" cy="168" r="4" fill="#60a5fa"/><text x="210" y="172" font-size="11" fill="#e6edf3">unique_visitors: 24</text>
   <text x="50.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">06-30</text>
-<text x="144.8" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
-<text x="239.6" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
-<text x="334.4" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
-<text x="429.2" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
-<text x="524.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-04</text>
-<text x="618.8" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-11</text>
-<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-17</text>
+<text x="139.2" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-07</text>
+<text x="228.4" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-14</text>
+<text x="317.6" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-21</text>
+<text x="406.9" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">07-28</text>
+<text x="496.1" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-04</text>
+<text x="585.3" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-11</text>
+<text x="674.5" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-18</text>
+<text x="700.0" y="190" text-anchor="middle" font-size="11" fill="#9ca3af">08-20</text>
 
   <text x="45" y="44" text-anchor="end" font-size="11" fill="#9ca3af">4786</text>
   <text x="45" y="150" text-anchor="end" font-size="11" fill="#9ca3af">0</text>
