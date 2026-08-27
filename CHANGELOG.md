@@ -6,43 +6,41 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-27
 
-Restored the Security design guides to full-fidelity conversions of their
-published designs. Each had been reduced to a short summary that dropped most of
-the design detail, tables, and diagrams; the complete content is now back in the
-repository, so the design guides — and the JVD AI Assistant that reads them —
-reflect the published designs faithfully. In these guides the exhaustive
-per-device configuration-example sections are summarized and linked to the
-device configurations under `configuration/conf` rather than duplicated inline.
+Restored the JVD design guides across **all four solution areas** — Service
+Provider, data center, security, and Enterprise WAN — to full-fidelity
+conversions of their published designs. Every one of these guides had previously
+been reduced to a short summary that dropped most of the design detail, tables,
+and diagrams. The complete content is now back in the repository, so the design
+guides — and the JVD AI Assistant that reads them — reflect the published designs
+faithfully.
+
+In total, **19 design guides across 15 JVDs** were restored, adding back more
+than **18,800 net lines** of design content — the solution rationale, validation
+frameworks, deployment walkthroughs, command-line verification, and every table
+and diagram from the published documents.
 
 ### Improvements
 
-- **Scale-Out Stateful Firewall and NAT — full design guides** — the
-  [Enterprise (SFW + Source NAT)](security/scale_out_firewall_nat/documentation/design-guide-enterprise.md)
-  and [Service Provider (SFW + CGNAT)](security/scale_out_firewall_nat/documentation/design-guide-service-provider.md)
-  guides now carry the complete reference architecture, validated topologies,
-  validation and event-testing frameworks, and the load-balancing solution
-  details (ECMP consistent hashing and the Traffic Load Balancer), with all
-  feature and traffic-profile tables reproduced.
-- **Scale-Out IPsec — full design guides** — the
-  [Enterprise](security/scale_out_ipsec/documentation/design-guide-enterprise.md)
-  and [Mobile Service Provider](security/scale_out_ipsec/documentation/design-guide-mobile-sp.md)
-  guides now include the complete use-case and reference architecture,
-  deployment scenarios, validation framework, and the solution-architecture
-  detail (traffic path, SRX MNHA, ECMP consistent hashing, and the Traffic Load
-  Balancer for scale-out IPsec), with all validated-features and traffic-profile
-  tables reproduced.
+#### Service Provider
 
----
+- **Metro Ethernet Business Services — full design guide** — the
+  [design guide](service_provider/metro_ethernet_business_services/documentation/design-guide.md)
+  is restored with its complete narrative, all 7 tables, and 13 figures, including
+  the Metro Ring / Flexible Algorithm and inter-ring leaking design rationale.
+- **5G xHaul Low-Latency Queueing — full design guide** — the
+  [design guide](service_provider/low_latency_queueing/documentation/design-guide.md)
+  now carries the complete CoS/latency design, all 38 tables (including the
+  per-topology latency matrices), and all 32 figures.
+- **Metro Fabric + Broadband Edge — full design guide** — the
+  [design guide](service_provider/broadband_edge/documentation/design-guide.md) is
+  restored with all 16 figures, all 12 tables, and the BNG redundancy and
+  EVPN-VPWS service detail.
+- **SP Core & Edge SRv6 — full design guide** — the
+  [design guide](service_provider/srv6_core_edge/documentation/design-guide.md) now
+  includes the complete IS-IS/BGP/Flex-Algo design, all 6 figures and tables, and
+  the full per-device test-bed configuration reproduced inline.
 
-## 2026-08-27
-
-Restored the data center design guides to full-fidelity conversions of their
-published designs. As with the Service Provider guides, each had been reduced to a
-short summary that dropped most of the design detail, tables, and diagrams; the
-complete content is now back in the repository, so the design guides — and the JVD
-AI Assistant that reads them — reflect the published designs faithfully.
-
-### Improvements
+#### Data center
 
 - **Collapsed Data Center Fabric (with and without access switches) — full design
   guides** — the
@@ -75,22 +73,98 @@ AI Assistant that reads them — reflect the published designs faithfully.
   and the [IPv6-underlay guide](data_center/adc/3stage_dc/documentation/design-guide-ipv6-underlay.md)
   are all restored with their complete walkthroughs, validation results, and tables.
 
+#### Security
+
+- **Scale-Out Stateful Firewall and NAT — full design guides** — the
+  [Enterprise (SFW + Source NAT)](security/scale_out_firewall_nat/documentation/design-guide-enterprise.md)
+  and [Service Provider (SFW + CGNAT)](security/scale_out_firewall_nat/documentation/design-guide-service-provider.md)
+  guides now carry the complete reference architecture, validated topologies,
+  validation and event-testing frameworks, and the load-balancing solution
+  details (ECMP consistent hashing and the Traffic Load Balancer), with all
+  feature and traffic-profile tables reproduced.
+- **Scale-Out IPsec — full design guides** — the
+  [Enterprise](security/scale_out_ipsec/documentation/design-guide-enterprise.md)
+  and [Mobile Service Provider](security/scale_out_ipsec/documentation/design-guide-mobile-sp.md)
+  guides now include the complete use-case and reference architecture, deployment
+  scenarios, validation framework, and the solution-architecture detail (traffic
+  path, SRX MNHA, ECMP consistent hashing, and the Traffic Load Balancer for
+  scale-out IPsec), with all validated-features and traffic-profile tables
+  reproduced.
+
+#### Enterprise WAN
+
+- **Enterprise WAN for Finance and Stock Exchange — full design guide** — the
+  [Finance/Stock guide](enterprise_wan/ewan_finance/documentation/design-guide.md)
+  now carries the complete solution architecture (NG-MVPN with MPLS/RSVP-TE, RP
+  redundancy and Anycast RP, EVPN single-active, L3VPN, TWAMP SLA monitoring, and
+  Class of Service), the network-deployment model, and the validation framework,
+  with the architecture, topology, and traffic-flow diagrams placed and the
+  queue-priority and scaling tables reproduced.
+- **Enterprise WAN — Advanced Core and Edge Services — full design guide** — the
+  [Advanced Core & Edge guide](enterprise_wan/ewan_adv_core_edge/documentation/design-guide.md)
+  now includes the layered solution architecture (underlay MPLS transport, EVPN
+  overlay services — VPWS/ELAN/Type 5, and the network security layer), the key
+  feature list, and the full validation framework, with the reference and
+  validation topologies placed and the platform-summary, scale/performance, and
+  network-convergence tables reproduced.
+
+#### Portal
+
+- **Config Explorer label** — the Config Explorer card action now reads **Explore**
+  to match the navigation and journey ladder used elsewhere in the portal.
+
 ### What this means for you
 
-- Pull the latest `main` to get the complete data center design guides, with their
-  full tables and diagrams.
+- Pull the latest `main` to get the complete design guides across every solution
+  area, with their full tables and diagrams.
 - If you use the JVD AI Assistant in **Learn & Design** mode, its answers for the
-  data center JVDs are now grounded in the complete published content.
+  restored JVDs are now grounded in the complete published content instead of a
+  short summary.
 - For the deployment guides, the Apstra UI screenshots are referenced by figure
-  number and linked to the published documents; the resulting validated device
-  configurations remain in each JVD's `configuration/conf/` directory.
+  number and the resulting validated device configurations remain in each JVD's
+  `configuration/conf/` directory. The SRv6 guide's inline test-bed configuration
+  is a ready reference for the validated Apply-Groups, interfaces, IS-IS, BGP, and
+  services stanzas, while the security guides link their exhaustive per-device
+  configuration examples to `configuration/conf/` to stay readable.
 
 ---
 
 ### By the numbers
 
+Nineteen design guides across fifteen JVDs restored to full-fidelity conversions
+of their published designs, adding back **+18,848 net lines** of design content.
+
 <details>
-<summary>Design-guide content restored, by JVD</summary>
+<summary>Net content restored, by area</summary>
+
+| Area | Design guides | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: | ---: |
+| Data center | 9 | 11,492 | 685 | +10,807 |
+| Service Provider | 4 | 7,152 | 1,212 | +5,940 |
+| Security | 4 | 2,813 | 1,441 | +1,372 |
+| Enterprise WAN | 2 | 1,051 | 322 | +729 |
+| Portal | — | 1 | 1 | 0 |
+| **Total** | **19** | **22,509** | **3,661** | **+18,848** |
+
+</details>
+
+<details>
+<summary>Service Provider — by JVD</summary>
+
+| JVD | Lines added | Lines removed | Net | Figures |
+| --- | ---: | ---: | ---: | ---: |
+| Metro Ethernet Business Services | 1,142 | 216 | +926 | 13 |
+| 5G xHaul Low-Latency Queueing | 2,165 | 521 | +1,644 | 32 |
+| Metro Fabric + Broadband Edge | 1,128 | 390 | +738 | 16 |
+| SP Core & Edge SRv6 | 2,717 | 85 | +2,632 | 6 |
+| **Total** | **7,152** | **1,212** | **+5,940** | **67** |
+
+51 new figure images were wired in and 16 SRv6 figures reused existing repo images.
+
+</details>
+
+<details>
+<summary>Data center — by JVD</summary>
 
 | JVD | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
@@ -101,96 +175,34 @@ AI Assistant that reads them — reflect the published designs faithfully.
 | AI Inference Frontend | 476 | 129 | +347 |
 | AI GPU Multitenancy | 911 | 98 | +813 |
 | 3-Stage EVPN/VXLAN (three guides) | 3,721 | 215 | +3,506 |
-| **Total (design guides)** | **11,492** | **685** | **+10,807** |
+| **Total** | **11,492** | **685** | **+10,807** |
 
 </details>
 
 <details>
-<summary>What changed</summary>
+<summary>Security — by JVD</summary>
 
-Data center: nine design guides across seven JVDs restored to full-fidelity
-conversions of their published designs, with all tables and diagrams, plus small
-datasheet cross-reference corrections. The screenshot-heavy Apstra deployment
-walkthroughs stay lean by linking device configurations to each JVD's
-`configuration/conf/` directory.
-
-</details>
-
----
-
-## 2026-08-27
-
-Restored the Service Provider design guides to full-fidelity conversions of their
-published PDFs. Each guide had been reduced to a short summary that dropped most
-of the design rationale, tables, and diagrams; the complete content is now back in
-the repository, so the design guides — and the JVD AI Assistant that reads them —
-reflect the published designs faithfully.
-
-### Improvements
-
-- **Metro Ethernet Business Services — full design guide** — the
-  [design guide](service_provider/metro_ethernet_business_services/documentation/design-guide.md)
-  is restored with its complete narrative, all 7 tables, and 13 figures, including
-  the Metro Ring / Flexible Algorithm and inter-ring leaking design rationale.
-- **5G xHaul Low-Latency Queueing — full design guide** — the
-  [design guide](service_provider/low_latency_queueing/documentation/design-guide.md)
-  now carries the complete CoS/latency design, all 38 tables (including the
-  per-topology latency matrices), and all 32 figures.
-- **Metro Fabric + Broadband Edge — full design guide** — the
-  [design guide](service_provider/broadband_edge/documentation/design-guide.md) is
-  restored with all 16 figures, all 12 tables, and the BNG redundancy and
-  EVPN-VPWS service detail.
-- **SP Core & Edge SRv6 — full design guide** — the
-  [design guide](service_provider/srv6_core_edge/documentation/design-guide.md) now
-  includes the complete IS-IS/BGP/Flex-Algo design, all 6 figures and tables, and
-  the full per-device test-bed configuration reproduced inline.
-- **Config Explorer label** — the Config Explorer card action now reads **Explore**
-  to match the navigation and journey ladder used elsewhere in the portal.
-
-### What this means for you
-
-- Pull the latest `main` to get the complete Service Provider design guides, with
-  their full tables and diagrams.
-- If you use the JVD AI Assistant in **Learn & Design** mode, its answers for the
-  Service Provider JVDs are now grounded in the complete published content.
-- The SRv6 guide's inline test-bed configuration is a ready reference for the
-  validated Apply-Groups, interfaces, IS-IS, BGP, and services stanzas.
-
----
-
-### By the numbers
-
-<details>
-<summary>Design-guide content restored, by JVD</summary>
-
-| JVD | Lines added | Lines removed | Net | Figures |
-| --- | ---: | ---: | ---: | ---: |
-| Metro Ethernet Business Services | 1,142 | 216 | +926 | 13 |
-| 5G xHaul Low-Latency Queueing | 2,165 | 521 | +1,644 | 32 |
-| Metro Fabric + Broadband Edge | 1,128 | 390 | +738 | 16 |
-| SP Core & Edge SRv6 | 2,717 | 85 | +2,632 | 6 |
-| **Total** | **7,152** | **1,212** | **+5,940** | **67** |
-
-</details>
-
-<details>
-<summary>Net lines changed by area</summary>
-
-| Area | Lines added | Lines removed | Net |
+| JVD | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| service_provider | 7,152 | 1,212 | +5,940 |
-| portal | 1 | 1 | 0 |
-| **Total** | **7,153** | **1,213** | **+5,940** |
+| Scale-Out SFW+NAT — Enterprise (SNAT) | 699 | 424 | +275 |
+| Scale-Out SFW+NAT — Service Provider (CGNAT) | 773 | 410 | +363 |
+| Scale-Out IPsec — Enterprise | 672 | 346 | +326 |
+| Scale-Out IPsec — Mobile SP | 669 | 261 | +408 |
+| **Total** | **2,813** | **1,441** | **+1,372** |
+
+The exhaustive per-device configuration-example sections are summarized and linked
+to `configuration/conf/` rather than duplicated inline.
 
 </details>
 
 <details>
-<summary>What changed</summary>
+<summary>Enterprise WAN — by JVD</summary>
 
-Service Provider: four design guides restored to full-fidelity conversions of
-their published PDFs, with all tables and 51 newly added figure images wired in
-(16 SRv6 figures reused existing repo images). Portal: the Config Explorer card
-action relabeled to Explore.
+| JVD | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| EWAN Finance & Stock Exchange | 674 | 179 | +495 |
+| EWAN Advanced Core & Edge Services | 377 | 143 | +234 |
+| **Total** | **1,051** | **322** | **+729** |
 
 </details>
 
