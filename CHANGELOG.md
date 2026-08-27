@@ -6,6 +6,33 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-27
 
+Restored the Enterprise WAN design guides to full-fidelity conversions of their
+published designs. Each had been reduced to a short summary that dropped most of
+the design detail, tables, and diagrams; the complete content is now back in the
+repository, so the design guides — and the JVD AI Assistant that reads them —
+reflect the published designs faithfully.
+
+### Improvements
+
+- **Enterprise WAN for Finance and Stock Exchange — full design guide** — the
+  [Finance/Stock guide](enterprise_wan/ewan_finance/documentation/design-guide.md)
+  now carries the complete solution architecture (NG-MVPN with MPLS/RSVP-TE, RP
+  redundancy and Anycast RP, EVPN single-active, L3VPN, TWAMP SLA monitoring, and
+  Class of Service), the network-deployment model, and the validation framework,
+  with the architecture, topology, and traffic-flow diagrams placed and the
+  queue-priority and scaling tables reproduced.
+- **Enterprise WAN — Advanced Core and Edge Services — full design guide** — the
+  [Advanced Core & Edge guide](enterprise_wan/ewan_adv_core_edge/documentation/design-guide.md)
+  now includes the layered solution architecture (underlay MPLS transport, EVPN
+  overlay services — VPWS/ELAN/Type 5, and the network security layer), the key
+  feature list, and the full validation framework, with the reference and
+  validation topologies placed and the platform-summary, scale/performance, and
+  network-convergence tables reproduced.
+
+---
+
+## 2026-08-27
+
 Restored the data center design guides to full-fidelity conversions of their
 published designs. As with the Service Provider guides, each had been reduced to a
 short summary that dropped most of the design detail, tables, and diagrams; the
