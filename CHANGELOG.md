@@ -6,6 +6,36 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-27
 
+Restored the Security design guides to full-fidelity conversions of their
+published designs. Each had been reduced to a short summary that dropped most of
+the design detail, tables, and diagrams; the complete content is now back in the
+repository, so the design guides — and the JVD AI Assistant that reads them —
+reflect the published designs faithfully. In these guides the exhaustive
+per-device configuration-example sections are summarized and linked to the
+device configurations under `configuration/conf` rather than duplicated inline.
+
+### Improvements
+
+- **Scale-Out Stateful Firewall and NAT — full design guides** — the
+  [Enterprise (SFW + Source NAT)](security/scale_out_firewall_nat/documentation/design-guide-enterprise.md)
+  and [Service Provider (SFW + CGNAT)](security/scale_out_firewall_nat/documentation/design-guide-service-provider.md)
+  guides now carry the complete reference architecture, validated topologies,
+  validation and event-testing frameworks, and the load-balancing solution
+  details (ECMP consistent hashing and the Traffic Load Balancer), with all
+  feature and traffic-profile tables reproduced.
+- **Scale-Out IPsec — full design guides** — the
+  [Enterprise](security/scale_out_ipsec/documentation/design-guide-enterprise.md)
+  and [Mobile Service Provider](security/scale_out_ipsec/documentation/design-guide-mobile-sp.md)
+  guides now include the complete use-case and reference architecture,
+  deployment scenarios, validation framework, and the solution-architecture
+  detail (traffic path, SRX MNHA, ECMP consistent hashing, and the Traffic Load
+  Balancer for scale-out IPsec), with all validated-features and traffic-profile
+  tables reproduced.
+
+---
+
+## 2026-08-27
+
 Restored the data center design guides to full-fidelity conversions of their
 published designs. As with the Service Provider guides, each had been reduced to a
 short summary that dropped most of the design detail, tables, and diagrams; the
