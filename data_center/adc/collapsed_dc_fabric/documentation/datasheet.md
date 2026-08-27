@@ -55,7 +55,7 @@ The configurations in [`../configuration/conf/`](../configuration/conf/) cover t
 ## Design concepts (jump-to)
 
 - **Collapsed spine / direct peering** → [design guide § Use case and reference architecture](design-guide.md#use-case-and-reference-architecture).
-- **Fabric characteristics** → [design guide § Fabric characteristics](design-guide.md#fabric-characteristics).
+- **Fabric characteristics** → [design guide § Use case and reference architecture](design-guide.md#use-case-and-reference-architecture).
 - **Features & scale** → [test report brief § High-level features tested](test-report-brief.md#high-level-features-tested).
 
 ## References
