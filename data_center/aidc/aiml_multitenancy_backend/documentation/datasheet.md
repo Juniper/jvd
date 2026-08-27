@@ -54,10 +54,10 @@ Software = minimum validated release; regression re-validates on newer releases 
 
 ## Design concepts (jump-to)
 
-- **Rail-optimized stripe** — rails, stripes, 1:1 subscription, max GPUs/stripe → [design guide § Solution architecture](design-guide.md#rail-optimized-stripe-architecture).
-- **Multitenancy** — Server vs GPU isolation → [design guide § Multitenancy models](design-guide.md#multitenancy-models).
-- **Type-5 EVPN/VXLAN** — IP-VRF per tenant, IPv6 underlay + RFC 5549 → [design guide § Solution implementation](design-guide.md#solution-implementation-type-5-evpnvxlan).
-- **Congestion & load balancing** — DCQCN (PFC/ECN), DLB → [design guide § Recommendations](design-guide.md#recommendations).
+- **Rail-optimized stripe** — rails, stripes, 1:1 subscription, max GPUs/stripe → [design guide § Backend GPU Rail Optimized Stripe Architecture](design-guide.md#backend-gpu-rail-optimized-stripe-architecture).
+- **Multitenancy** — Server vs GPU isolation → [design guide § Types of GPU multitenancy](design-guide.md#types-of-gpu-multitenancy).
+- **Type-5 EVPN/VXLAN** — IP-VRF per tenant, IPv6 underlay + RFC 5549 → [design guide § Implementation Options](design-guide.md#evpnvxlan-gpu-backend-fabric-for-multitenancy--implementation-options).
+- **Congestion & load balancing** — DCQCN (PFC/ECN), DLB → [design guide § Recommendations Summary](design-guide.md#recommendations-summary).
 
 ## References
 
