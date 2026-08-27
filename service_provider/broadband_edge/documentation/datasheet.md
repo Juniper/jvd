@@ -122,7 +122,7 @@ BNG failure, ESI-LAG failover, and AN-to-core link failure; see the
 - **Distributed spine-leaf fabric** — [DBAS reference architecture](design-guide.md#use-case-and-reference-architecture)
 - **SR-MPLS underlay + per-domain IS-IS** — [network architecture](design-guide.md#network-architecture)
 - **EVPN-VPWS PWHT overlay (with/without FXC)** — [architecture functional layers](design-guide.md#architecture-functional-layers)
-- **BNG redundancy (Stateless RR / N:1 Stateful)** — [redundancy models](design-guide.md#bbebng-redundancy-models)
+- **BNG redundancy (Stateless RR / N:1 Stateful)** — [redundancy models](design-guide.md#bbebng-solution)
 - **Per-subscriber H-QoS** — [QoS consideration](design-guide.md#qos-consideration-for-bng-subscribers)
 
 ## References
