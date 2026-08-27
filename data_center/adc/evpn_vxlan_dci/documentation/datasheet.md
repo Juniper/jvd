@@ -81,8 +81,8 @@ Software = minimum validated release; regression re-validates on newer releases 
 ## Design concepts (jump-to)
 
 - **Three DCI techniques** → [design guide § Use case and reference architecture](design-guide.md#use-case-and-reference-architecture).
-- **Seamless stitching essentials** (full mesh, translation VNI, Type 5) → [design guide § Seamless stitching essentials](design-guide.md#seamless-stitching-essentials).
-- **MACSEC / BFD configlets** → [design guide § Additional configurations](design-guide.md#additional-configurations).
+- **Seamless stitching essentials** (full mesh, translation VNI, Type 5) → [design guide § EVPN-VXLAN (Type 2 and Type 5) Seamless Stitching](design-guide.md#evpn-vxlan-type-2-and-type-5-seamless-stitching).
+- **MACSEC / BFD configlets** → [design guide § Additional Configurations Applied](design-guide.md#additional-configurations-applied).
 - **Flow-path behavior & scale** → [test report brief § Flow-path behavior](test-report-brief.md#flow-path-behavior).
 
 ## References

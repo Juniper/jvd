@@ -6,6 +6,90 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-27
 
+Restored the data center design guides to full-fidelity conversions of their
+published designs. As with the Service Provider guides, each had been reduced to a
+short summary that dropped most of the design detail, tables, and diagrams; the
+complete content is now back in the repository, so the design guides — and the JVD
+AI Assistant that reads them — reflect the published designs faithfully.
+
+### Improvements
+
+- **Collapsed Data Center Fabric (with and without access switches) — full design
+  guides** — the
+  [Collapsed Fabric with Access Switches](data_center/adc/collapsed_dc_fabric_with_access/documentation/design-guide.md)
+  and [Collapsed DC Fabric](data_center/adc/collapsed_dc_fabric/documentation/design-guide.md)
+  guides now carry the complete Apstra deployment walkthrough, command-line
+  verification, and all tables, with the topology and test-environment diagrams
+  placed.
+- **5-Stage EVPN-VXLAN — full design guide** — the
+  [5-Stage guide](data_center/adc/5stage_evpn_vxlan/documentation/design-guide.md) is
+  restored with the complete solution architecture, validated-functionality list,
+  optics and scaling tables, and the architecture and lab-network diagrams.
+- **EVPN-VXLAN Data Center Interconnect — full design guide** — the
+  [DCI guide](data_center/adc/evpn_vxlan_dci/documentation/design-guide.md) now
+  includes the three DCI methods (OTT, Type 2 and Type 2/Type 5 seamless stitching),
+  the CLI flow-verification, and all nine tables.
+- **AI Inference Frontend Fabric — full design guide** — the
+  [AI Inference guide](data_center/aidc/aiml_inference_frontend/documentation/design-guide.md)
+  is restored with the complete benchmark methodology, traffic-flow descriptions, and
+  all fifteen tables.
+- **AI GPU Multitenancy — design narrative restored** — the
+  [AI GPU Multitenancy guide](data_center/aidc/aiml_multitenancy_backend/documentation/design-guide.md)
+  now carries the full design narrative (server- vs GPU-level isolation, pure Type-5
+  vs VLAN-aware implementation options, Type-5 control/forwarding-plane design, and
+  the rail-optimized stripe architecture); the per-device configuration and
+  appendices are linked to the validated configurations.
+- **3-Stage EVPN/VXLAN Fabric — three full design guides** — the
+  [base 3-Stage guide](data_center/adc/3stage_dc/documentation/design-guide.md), the
+  [VMware NSX-T integration guide](data_center/adc/3stage_dc/documentation/design-guide-nsxt-integration.md),
+  and the [IPv6-underlay guide](data_center/adc/3stage_dc/documentation/design-guide-ipv6-underlay.md)
+  are all restored with their complete walkthroughs, validation results, and tables.
+
+### What this means for you
+
+- Pull the latest `main` to get the complete data center design guides, with their
+  full tables and diagrams.
+- If you use the JVD AI Assistant in **Learn & Design** mode, its answers for the
+  data center JVDs are now grounded in the complete published content.
+- For the deployment guides, the Apstra UI screenshots are referenced by figure
+  number and linked to the published documents; the resulting validated device
+  configurations remain in each JVD's `configuration/conf/` directory.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Design-guide content restored, by JVD</summary>
+
+| JVD | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Collapsed Fabric with Access Switches | 2,272 | 31 | +2,241 |
+| Collapsed DC Fabric | 1,292 | 43 | +1,249 |
+| 5-Stage EVPN-VXLAN | 1,063 | 68 | +995 |
+| EVPN-VXLAN DCI | 1,757 | 101 | +1,656 |
+| AI Inference Frontend | 476 | 129 | +347 |
+| AI GPU Multitenancy | 911 | 98 | +813 |
+| 3-Stage EVPN/VXLAN (three guides) | 3,721 | 215 | +3,506 |
+| **Total (design guides)** | **11,492** | **685** | **+10,807** |
+
+</details>
+
+<details>
+<summary>What changed</summary>
+
+Data center: nine design guides across seven JVDs restored to full-fidelity
+conversions of their published designs, with all tables and diagrams, plus small
+datasheet cross-reference corrections. The screenshot-heavy Apstra deployment
+walkthroughs stay lean by linking device configurations to each JVD's
+`configuration/conf/` directory.
+
+</details>
+
+---
+
+## 2026-08-27
+
 Restored the Service Provider design guides to full-fidelity conversions of their
 published PDFs. Each guide had been reduced to a short summary that dropped most
 of the design rationale, tables, and diagrams; the complete content is now back in

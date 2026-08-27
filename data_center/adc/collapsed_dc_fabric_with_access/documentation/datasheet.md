@@ -51,8 +51,8 @@ A **JVD Extension** that adds an **EX4400-48MP access-switch layer** to the [Col
 
 ## Design concepts (jump-to)
 
-- **Two-tier direct EVPN fabrics** → [design guide § Fabric characteristics](design-guide.md#fabric-characteristics).
-- **EX4400 access VTEP + ESI-LAG interconnect** → [design guide § Fabric characteristics](design-guide.md#fabric-characteristics).
+- **Two-tier direct EVPN fabrics** → [design guide § Use Case and Reference Architecture](design-guide.md#use-case-and-reference-architecture).
+- **EX4400 access VTEP + ESI-LAG interconnect** → [design guide § Use Case and Reference Architecture](design-guide.md#use-case-and-reference-architecture).
 - **Convergence & scale** → [test report brief § Performance](test-report-brief.md#performance).
 
 ## References
