@@ -63,7 +63,7 @@ Software = minimum validated release; regression re-validates on newer releases 
 
 - **Frontend fabric topology** — 3-stage Clos, 3:1 subscription, eBGP underlay → [design guide § Frontend fabric topology](design-guide.md#frontend-fabric-topology).
 - **Validated inference flows** — single node vs multinode Envoy, SGLang Router/worker behavior → [design guide § Validated inference flows](design-guide.md#validated-inference-flows).
-- **Benchmark methodology** — GenAI-Perf parameters and metrics → [design guide § Benchmark testing methodology](design-guide.md#benchmark-testing-methodology).
+- **Benchmark methodology** — GenAI-Perf parameters and metrics → [design guide § Benchmarking Testing Methodology](design-guide.md#benchmarking-testing-methodology).
 - **Results** — TTFT and TPS comparison → [test report brief § Inference performance results](test-report-brief.md#inference-performance-results).
 
 ## References
