@@ -63,8 +63,8 @@ The configurations in [`../configuration/conf/`](../configuration/conf/) cover t
 ## Design concepts (jump-to)
 
 - **Lean super spines / PODs** → [design guide § Use case and reference architecture](design-guide.md#use-case-and-reference-architecture).
-- **Enhanced OISM (BDNE)** → [design guide § Optimized Intersubnet Multicast (OISM)](design-guide.md#optimized-intersubnet-multicast-oism).
-- **RoCEv2 DCQCN** → [design guide § RoCEv2 congestion management (DCQCN)](design-guide.md#rocev2-congestion-management-dcqcn).
+- **Enhanced OISM (BDNE)** → [design guide § Configuring Optimized Intersubnet Multicast (OISM)](design-guide.md#configuring-optimized-intersubnet-multicast-oism).
+- **RoCEv2 DCQCN** → [design guide § Congestion Management with RDMA Over Converged Ethernet v2](design-guide.md#congestion-management-with-rdma-over-converged-ethernet-v2).
 - **Scale results** → [test report brief § Performance and scale](test-report-brief.md#performance-and-scale).
 
 ## References
