@@ -3,8 +3,9 @@
 > Faithful markdown conversion of the published *Metro Ethernet Business
 > Services — Juniper Validated Design (JVD)* Design Guide
 > (JVD-METRO-EBS-03-03, published 2025-09-05). The PDF on juniper.net is the
-> authoritative source of truth. Exhaustive per-requirement conformance
-> matrices are summarized; full per-device configurations live under
+> authoritative source of truth. This is a complete transcription — all
+> narrative, tables, and figures from the design guide are preserved; full
+> per-device configurations live under
 > [`../configuration/`](../configuration/). Figures are in
 > [`images/`](images/).
 
