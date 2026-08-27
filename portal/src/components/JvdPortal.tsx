@@ -204,7 +204,7 @@ function JvdCard({ j, className = "" }: { j: Jvd; className?: string }) {
   const families = Array.from(new Set(j.platforms.map(familyOf))).filter(Boolean);
   const steps: StepPill[] = [];
   if (SNIP_JVD_IDS.has(j.id))
-    steps.push({ href: `#snips?jvd=${j.id}`, label: "Learn", Icon: Layers });
+    steps.push({ href: `#snips?jvd=${j.id}`, label: "Explore", Icon: Layers });
   if (BYOAI_JVD_IDS.has(j.id))
     steps.push({ href: `#byoai?jvd=${j.id}`, label: "Design", Icon: Sparkles });
   if (BUILD_JVD_IDS.has(j.id))

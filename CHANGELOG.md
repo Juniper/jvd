@@ -4,6 +4,84 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-27
+
+Restored the Service Provider design guides to full-fidelity conversions of their
+published PDFs. Each guide had been reduced to a short summary that dropped most
+of the design rationale, tables, and diagrams; the complete content is now back in
+the repository, so the design guides — and the JVD AI Assistant that reads them —
+reflect the published designs faithfully.
+
+### Improvements
+
+- **Metro Ethernet Business Services — full design guide** — the
+  [design guide](service_provider/metro_ethernet_business_services/documentation/design-guide.md)
+  is restored with its complete narrative, all 7 tables, and 13 figures, including
+  the Metro Ring / Flexible Algorithm and inter-ring leaking design rationale.
+- **5G xHaul Low-Latency Queueing — full design guide** — the
+  [design guide](service_provider/low_latency_queueing/documentation/design-guide.md)
+  now carries the complete CoS/latency design, all 38 tables (including the
+  per-topology latency matrices), and all 32 figures.
+- **Metro Fabric + Broadband Edge — full design guide** — the
+  [design guide](service_provider/broadband_edge/documentation/design-guide.md) is
+  restored with all 16 figures, all 12 tables, and the BNG redundancy and
+  EVPN-VPWS service detail.
+- **SP Core & Edge SRv6 — full design guide** — the
+  [design guide](service_provider/srv6_core_edge/documentation/design-guide.md) now
+  includes the complete IS-IS/BGP/Flex-Algo design, all 6 figures and tables, and
+  the full per-device test-bed configuration reproduced inline.
+- **Config Explorer label** — the Config Explorer card action now reads **Explore**
+  to match the navigation and journey ladder used elsewhere in the portal.
+
+### What this means for you
+
+- Pull the latest `main` to get the complete Service Provider design guides, with
+  their full tables and diagrams.
+- If you use the JVD AI Assistant in **Learn & Design** mode, its answers for the
+  Service Provider JVDs are now grounded in the complete published content.
+- The SRv6 guide's inline test-bed configuration is a ready reference for the
+  validated Apply-Groups, interfaces, IS-IS, BGP, and services stanzas.
+
+---
+
+### By the numbers
+
+<details>
+<summary>Design-guide content restored, by JVD</summary>
+
+| JVD | Lines added | Lines removed | Net | Figures |
+| --- | ---: | ---: | ---: | ---: |
+| Metro Ethernet Business Services | 1,142 | 216 | +926 | 13 |
+| 5G xHaul Low-Latency Queueing | 2,165 | 521 | +1,644 | 32 |
+| Metro Fabric + Broadband Edge | 1,128 | 390 | +738 | 16 |
+| SP Core & Edge SRv6 | 2,717 | 85 | +2,632 | 6 |
+| **Total** | **7,152** | **1,212** | **+5,940** | **67** |
+
+</details>
+
+<details>
+<summary>Net lines changed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| service_provider | 7,152 | 1,212 | +5,940 |
+| portal | 1 | 1 | 0 |
+| **Total** | **7,153** | **1,213** | **+5,940** |
+
+</details>
+
+<details>
+<summary>What changed</summary>
+
+Service Provider: four design guides restored to full-fidelity conversions of
+their published PDFs, with all tables and 51 newly added figure images wired in
+(16 SRv6 figures reused existing repo images). Portal: the Config Explorer card
+action relabeled to Explore.
+
+</details>
+
+---
+
 ## 2026-08-13
 
 Reliability and usability improvements to the Bring Your Own AI (BYOAI) launch
