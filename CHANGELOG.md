@@ -6,16 +6,16 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-27
 
-Restored the JVD design guides across **all four solution areas** — Service
-Provider, data center, security, and Enterprise WAN — to full-fidelity
-conversions of their published designs. Every one of these guides had previously
-been reduced to a short summary that dropped most of the design detail, tables,
-and diagrams. The complete content is now back in the repository, so the design
-guides — and the JVD AI Assistant that reads them — reflect the published designs
-faithfully.
+Restored the JVD design guides across **all five solution areas** — Service
+Provider, data center, security, Enterprise WAN, and optical transport — to
+full-fidelity conversions of their published designs. Every one of these guides
+had previously been reduced to a short summary that dropped most of the design
+detail, tables, and diagrams. The complete content is now back in the repository,
+so the design guides — and the JVD AI Assistant that reads them — reflect the
+published designs faithfully.
 
-In total, **19 design guides across 15 JVDs** were restored, adding back more
-than **18,800 net lines** of design content — the solution rationale, validation
+In total, **21 design guides across 17 JVDs** were restored, adding back more
+than **19,000 net lines** of design content — the solution rationale, validation
 frameworks, deployment walkthroughs, command-line verification, and every table
 and diagram from the published documents.
 
@@ -107,6 +107,23 @@ and diagram from the published documents.
   feature list, and the full validation framework, with the reference and
   validation topologies placed and the platform-summary, scale/performance, and
   network-convergence tables reproduced.
+- **Enterprise WAN Edge and Core — full design guide** — the
+  [EWAN Core & Edge guide](enterprise_wan/ewan_core_edge/documentation/design-guide.md)
+  now carries the complete MPLS-backbone design (VPLS, L2 Circuit, and L3VPN with
+  VRRP, NG-MVPN with S-PMSI, LDP, LFA/FRR, BFD, and ECMP), the key feature list,
+  and the full validation goals/non-goals, with the typical-enterprise, design,
+  and test-bed topology diagrams placed and the traffic-flow and scale-summary
+  tables reproduced.
+
+#### Optical transport
+
+- **Data Center Interconnect over IPoDWDM (CORA) — full design guide** — the
+  [DCI over IPoDWDM guide](optical/dci_over_ipodwdm/documentation/design-guide.md)
+  now carries the complete Converged Optical Routing Architecture (CORA) rationale,
+  the amplified and unamplified coherent-optics test beds, the validation
+  framework for Juniper 400G Coherent Optics (JCO400), and the Junos, Junos
+  Evolved, and ADTRAN FSP3000C Open Line System configuration templates reproduced
+  inline.
 
 #### Portal
 
@@ -131,8 +148,9 @@ and diagram from the published documents.
 
 ### By the numbers
 
-Nineteen design guides across fifteen JVDs restored to full-fidelity conversions
-of their published designs, adding back **+18,848 net lines** of design content.
+Twenty-one design guides across seventeen JVDs restored to full-fidelity
+conversions of their published designs, adding back **+19,090 net lines** of
+design content.
 
 <details>
 <summary>Net content restored, by area</summary>
@@ -142,9 +160,10 @@ of their published designs, adding back **+18,848 net lines** of design content.
 | Data center | 9 | 11,492 | 685 | +10,807 |
 | Service Provider | 4 | 7,152 | 1,212 | +5,940 |
 | Security | 4 | 2,813 | 1,441 | +1,372 |
-| Enterprise WAN | 2 | 1,051 | 322 | +729 |
+| Enterprise WAN | 3 | 1,236 | 382 | +854 |
+| Optical transport | 1 | 245 | 128 | +117 |
 | Portal | — | 1 | 1 | 0 |
-| **Total** | **19** | **22,509** | **3,661** | **+18,848** |
+| **Total** | **21** | **22,939** | **3,849** | **+19,090** |
 
 </details>
 
@@ -202,7 +221,18 @@ to `configuration/conf/` rather than duplicated inline.
 | --- | ---: | ---: | ---: |
 | EWAN Finance & Stock Exchange | 674 | 179 | +495 |
 | EWAN Advanced Core & Edge Services | 377 | 143 | +234 |
-| **Total** | **1,051** | **322** | **+729** |
+| EWAN Core & Edge | 185 | 60 | +125 |
+| **Total** | **1,236** | **382** | **+854** |
+
+</details>
+
+<details>
+<summary>Optical transport — by JVD</summary>
+
+| JVD | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| DCI over IPoDWDM (CORA) | 245 | 128 | +117 |
+| **Total** | **245** | **128** | **+117** |
 
 </details>
 
