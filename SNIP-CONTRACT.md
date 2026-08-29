@@ -176,7 +176,7 @@ Severity is applied on change:
   is an error.
 - A **legacy (unchanged)** snip is grandfathered while its JVD is `partial`
   (findings warn); once its JVD is `complete`, its Seen-on applicability findings
-  (`SEEN_ON_*`, `MISSING_SEEN_ON_*`) are held strict.
+  (`MISSING_HEADER`, `SEEN_ON_*`, `MISSING_SEEN_ON_*`) are held strict.
 
 Run locally:
 
