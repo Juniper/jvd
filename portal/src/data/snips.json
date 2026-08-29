@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T18:37:34.442Z",
+  "generatedAt": "2026-08-29T23:15:40.469Z",
   "counts": {
     "total": 686,
     "junos": 349,
@@ -41848,31 +41848,34 @@
           "mse2_mx304"
         ],
         "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
           "mdr1_acx7509",
+          "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
       },
       "highlights": [
         "Single unconditional term: `load-balance per-packet; accept;`.",
-        "Applied via `routing-options forwarding-table export pplb` (transport/forwarding-table.conf)."
+        "Applied via `routing-options forwarding-table export $PPLB_NAME` (transport/forwarding-table.conf). The policy name is `pplb` on most nodes and `PS-PPLB` on some EVO nodes."
       ],
-      "pairWith": [
+      "pairWith": [],
+      "variables": [
         {
-          "raw": "evo/transport/forwarding-table.conf  (applies this policy)",
-          "id": "metro_ethernet_business_services/evo/transport/forwarding-table",
-          "note": "applies this policy"
+          "name": "$PPLB_NAME",
+          "example": "pplb"
         }
       ],
-      "variables": [],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement pplb {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement pplb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 134,
+      "body": "policy-options {\n    policy-statement $PPLB_NAME {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $PPLB_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 140,
       "lineCount": 8,
       "techFamily": "Policy & Routing",
       "subfamily": "Load-Balancing Policy",
@@ -43483,6 +43486,8 @@
           "mdr2_mx10003"
         ],
         "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma3_acx7100-48l",
@@ -43490,26 +43495,26 @@
         ]
       },
       "highlights": [
-        "This is the minimal EVO form (`export pplb` only). The forwarding-table stanza is strongly role-dependent: other EVO nodes add a `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block (see the Junos PE variant), and an3/meg1 export `PS-PPLB` instead of `pplb` (see policy/per-packet-load-balance variants). A full role- variant model is a post-extraction follow-up.",
-        "`export pplb` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths)."
+        "This is the minimal EVO form (`export $PPLB_NAME` only). The forwarding- table stanza is strongly role-dependent: other EVO nodes add a `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block (see the Junos PE variant), and an3/meg1 carry that block too. A full role-variant model is a post-extraction follow-up.",
+        "`export $PPLB_NAME` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths). The policy name is `pplb` on most nodes and `PS-PPLB` on ag1-1/ag1-2."
       ],
       "pairWith": [
         {
           "raw": "evo/policy/per-packet-load-balance.conf  (defines the pplb policy)",
           "id": "metro_ethernet_business_services/evo/policy/per-packet-load-balance",
           "note": "defines the pplb policy"
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf           (provides the ECMP paths)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "provides the ECMP paths"
         }
       ],
-      "variables": [],
+      "variables": [
+        {
+          "name": "$PPLB_NAME",
+          "example": "pplb"
+        }
+      ],
       "jvdServiceMapping": [],
-      "body": "routing-options {\n    forwarding-table {\n        export pplb;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> pplb;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 69,
+      "body": "routing-options {\n    forwarding-table {\n        export $PPLB_NAME;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> $PPLB_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 75,
       "lineCount": 5,
       "techFamily": "Transport & Underlay",
       "subfamily": "Routing & Forwarding",
@@ -45147,31 +45152,34 @@
           "mse2_mx304"
         ],
         "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
           "mdr1_acx7509",
+          "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
       },
       "highlights": [
         "Single unconditional term: `load-balance per-packet; accept;`.",
-        "Applied via `routing-options forwarding-table export pplb` (transport/forwarding-table.conf)."
+        "Applied via `routing-options forwarding-table export $PPLB_NAME` (transport/forwarding-table.conf). The policy name is `pplb` on most nodes and `PS-PPLB` on some EVO nodes."
       ],
-      "pairWith": [
+      "pairWith": [],
+      "variables": [
         {
-          "raw": "junos/transport/forwarding-table.conf  (applies this policy)",
-          "id": "metro_ethernet_business_services/junos/transport/forwarding-table",
-          "note": "applies this policy"
+          "name": "$PPLB_NAME",
+          "example": "pplb"
         }
       ],
-      "variables": [],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement pplb {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement pplb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 134,
+      "body": "policy-options {\n    policy-statement $PPLB_NAME {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement $PPLB_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 140,
       "lineCount": 8,
       "techFamily": "Policy & Routing",
       "subfamily": "Load-Balancing Policy",
@@ -46735,7 +46743,7 @@
       },
       "highlights": [
         "This is the services-edge PE form (the richest variant). The forwarding-table stanza is strongly role-dependent across this JVD; other roles carry reduced subsets (e.g. mdr2_mx10003 carries only `export pplb`; access nodes omit dynamic-list-next-hop / ecmp-fast- reroute / evpn-egress-link-protection). A full role-variant model is a post-extraction follow-up.",
-        "`export pplb` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths).",
+        "`export $PPLB_NAME` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths). The policy name is `pplb` on most nodes and `PS-PPLB` on some EVO nodes.",
         "`ecmp-fast-reroute` + `evpn-egress-link-protection` for fast local repair.",
         "`chained-composite-next-hop ingress` enables scalable next-hop sharing for l2vpn / l2ckt / evpn / l3vpn service families."
       ],
@@ -46744,18 +46752,18 @@
           "raw": "junos/policy/per-packet-load-balance.conf  (defines the pplb policy)",
           "id": "metro_ethernet_business_services/junos/policy/per-packet-load-balance",
           "note": "defines the pplb policy"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf           (provides the ECMP paths)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "provides the ECMP paths"
         }
       ],
-      "variables": [],
+      "variables": [
+        {
+          "name": "$PPLB_NAME",
+          "example": "pplb"
+        }
+      ],
       "jvdServiceMapping": [],
-      "body": "routing-options {\n    forwarding-table {\n        export pplb;\n        dynamic-list-next-hop;\n        evpn-egress-link-protection;\n        ecmp-fast-reroute;\n        chained-composite-next-hop {\n            ingress {\n                l2vpn;\n                l2ckt;\n                evpn;\n                l3vpn;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> pplb;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dynamic-list-next-hop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        evpn-egress-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-fast-reroute;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chained-composite-next-hop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2ckt;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 338,
+      "body": "routing-options {\n    forwarding-table {\n        export $PPLB_NAME;\n        dynamic-list-next-hop;\n        evpn-egress-link-protection;\n        ecmp-fast-reroute;\n        chained-composite-next-hop {\n            ingress {\n                l2vpn;\n                l2ckt;\n                evpn;\n                l3vpn;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> $PPLB_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dynamic-list-next-hop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        evpn-egress-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-fast-reroute;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chained-composite-next-hop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2ckt;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 344,
       "lineCount": 16,
       "techFamily": "Transport & Underlay",
       "subfamily": "Routing & Forwarding",
