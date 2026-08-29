@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-29T23:15:40.469Z",
+  "generatedAt": "2026-08-29T23:34:01.978Z",
   "counts": {
-    "total": 686,
-    "junos": 349,
-    "evo": 337,
+    "total": 688,
+    "junos": 350,
+    "evo": 338,
     "jvds": 18
   },
   "categories": [
@@ -225,9 +225,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 41,
-        "evo": 43,
-        "total": 84
+        "junos": 42,
+        "evo": 44,
+        "total": 86
       }
     },
     {
@@ -41824,6 +41824,69 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/policy/loopback-rib-leak",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "loopback-rib-leak",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/loopback-rib-leak.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy/loopback-rib-leak",
+      "topic": "Loopback RIB-leak policies (PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS) imported by the loopback RIB groups.",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "PS-LOCAL-LOOPBACK accepts local lo0 /32s from the JVD loopback supernet and tags them CM-LOOPBACK; imported into RG-LOCAL-LOOPBACK.",
+        "PS-REMOTE-LOOPBACKS accepts BGP-learned loopbacks and tags them CM-NO-ADVERTISE; imported into RG-REMOTE-LOOPBACKS.",
+        "Both policies end with an explicit `term REJECT`."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$LOOPBACK_SUPERNET",
+          "example": "1.1.0.0/16"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement PS-LOCAL-LOOPBACK {\n        term LOCAL-LOOPBACK {\n            from {\n                protocol direct;\n                interface lo0.0;\n                route-filter $LOOPBACK_SUPERNET prefix-length-range /32-/32;\n            }\n            then {\n                community add CM-LOOPBACK;\n                accept;\n            }\n        }\n        term REJECT {\n            then reject;\n        }\n    }\n    policy-statement PS-REMOTE-LOOPBACKS {\n        term ALL-LOOPBACKS {\n            from protocol bgp;\n            then {\n                community add CM-NO-ADVERTISE;\n                accept;\n            }\n        }\n        term REJECT {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement PS-LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter $LOOPBACK_SUPERNET prefix-length-range /</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term REJECT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement PS-REMOTE-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term ALL-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-NO-ADVERTISE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term REJECT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 718,
+      "lineCount": 30,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Routing Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/policy/per-packet-load-balance",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -43749,7 +43812,7 @@
         },
         {
           "raw": "evo/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
-          "id": null,
+          "id": "metro_ethernet_business_services/evo/policy/loopback-rib-leak",
           "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
         },
         {
@@ -45117,6 +45180,69 @@
       "lineCount": 34,
       "techFamily": "Policy & Routing",
       "subfamily": "VPN Route Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/policy/loopback-rib-leak",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "loopback-rib-leak",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/loopback-rib-leak.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy/loopback-rib-leak",
+      "topic": "Loopback RIB-leak policies (PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS) imported by the loopback RIB groups.",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "PS-LOCAL-LOOPBACK accepts local lo0 /32s from the JVD loopback supernet and tags them CM-LOOPBACK; imported into RG-LOCAL-LOOPBACK.",
+        "PS-REMOTE-LOOPBACKS accepts BGP-learned loopbacks and tags them CM-NO-ADVERTISE; imported into RG-REMOTE-LOOPBACKS.",
+        "Both policies end with an explicit `term REJECT`."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$LOOPBACK_SUPERNET",
+          "example": "1.1.0.0/16"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement PS-LOCAL-LOOPBACK {\n        term LOCAL-LOOPBACK {\n            from {\n                protocol direct;\n                interface lo0.0;\n                route-filter $LOOPBACK_SUPERNET prefix-length-range /32-/32;\n            }\n            then {\n                community add CM-LOOPBACK;\n                accept;\n            }\n        }\n        term REJECT {\n            then reject;\n        }\n    }\n    policy-statement PS-REMOTE-LOOPBACKS {\n        term ALL-LOOPBACKS {\n            from protocol bgp;\n            then {\n                community add CM-NO-ADVERTISE;\n                accept;\n            }\n        }\n        term REJECT {\n            then reject;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement PS-LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocol direct;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                route-filter $LOOPBACK_SUPERNET prefix-length-range /</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">-/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term REJECT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement PS-REMOTE-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term ALL-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">            from</span><span style=\"color:#E6EDF3\"> protocol bgp;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                community add CM-NO-ADVERTISE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        term REJECT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            then reject;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 718,
+      "lineCount": 30,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Routing Policy",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -46953,7 +47079,7 @@
         },
         {
           "raw": "junos/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
-          "id": null,
+          "id": "metro_ethernet_business_services/junos/policy/loopback-rib-leak",
           "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
         },
         {
