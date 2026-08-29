@@ -1,0 +1,31 @@
+name: Snip contract
+
+on:
+  pull_request:
+    paths:
+      - '**/configuration/snips/**'
+      - 'portal/scripts/snip-parse.mjs'
+      - 'portal/scripts/snip-validate.mjs'
+      - 'portal/scripts/snip-validate.test.mjs'
+      - 'portal/scripts/generate-snips.mjs'
+      - 'SNIP-CONTRACT.md'
+      - '.github/workflows/snip-contract.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so the changed-snip diff against the PR base resolves
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.13
+      - run: bun install --frozen-lockfile
+        working-directory: portal
+      - name: Contract unit tests
+        run: node --test portal/scripts/snip-validate.test.mjs
+      - name: snips.json is up to date
+        run: node portal/scripts/generate-snips.mjs --check
+      - name: Validate changed snips against the contract
+        run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}

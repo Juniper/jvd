@@ -24,19 +24,27 @@ import { parseSnip, CODES } from "./snip-parse.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 
-// Codes that are coverage/quality (approximation, unused var). Everything else
-// is structural. The distinction only matters for legacy snips under "partial".
-const COVERAGE_CODES = new Set([CODES.SEEN_ON_APPROXIMATION, CODES.VARIABLE_UNUSED]);
+// The seenOnValidation ratchet governs Seen-on APPLICABILITY only. Other
+// contract debt (Topic, Variables, Pair-with, ...) is enforced on change, not
+// escalated by flipping a JVD to "complete".
+const APPLICABILITY_CODES = new Set([
+  CODES.SEEN_ON_APPROXIMATION,
+  CODES.SEEN_ON_UNKNOWN_DEVICE,
+  CODES.SEEN_ON_NON_DEVICE_TOKEN,
+  CODES.MISSING_SEEN_ON_BUCKET,
+  CODES.MISSING_SEEN_ON_SECTION,
+]);
 
 /**
  * severity(code, { changed, seenOnValidation }) -> "error" | "warn".
  * - changed/new snip: any finding is an error (must satisfy the full contract).
  * - legacy + partial: warn (grandfathered).
- * - legacy + complete: error (the JVD has declared its Seen-on clean).
+ * - legacy + complete: only Seen-on applicability findings escalate to error;
+ *   the flag describes Seen-on integrity, not the whole contract.
  */
-export function severity(_code, { changed, seenOnValidation }) {
+export function severity(code, { changed, seenOnValidation }) {
   if (changed) return "error";
-  if (seenOnValidation === "complete") return "error";
+  if (seenOnValidation === "complete" && APPLICABILITY_CODES.has(code)) return "error";
   return "warn";
 }
 
@@ -112,7 +120,7 @@ export function validateSnipText(text, { inventory, snipIndex } = {}) {
   if (inventory) {
     for (const bucket of ["junos", "evo"]) {
       for (const tok of header.seenOn[bucket]) {
-        if (tok === "see" || tok.includes("/") || tok.endsWith(".conf")) continue; // already SEEN_ON_NON_DEVICE_TOKEN
+        if (tok === "see" || tok.endsWith(".conf")) continue; // already SEEN_ON_NON_DEVICE_TOKEN
         const r = resolveToken(tok, inventory);
         if (r !== "ok") findings.push({ code: CODES.SEEN_ON_UNKNOWN_DEVICE, detail: `${bucket}: ${tok} (${r})` });
       }
@@ -155,15 +163,31 @@ function jvdRootForSnip(absPath) {
   return parts.slice(0, ci).join(path.sep);
 }
 
-async function readSeenOnValidation(jvdRoot) {
+/** Parse + validate _snip-library.json content. Throws on malformed metadata. */
+export function parseSnipLibraryMeta(raw, label = "_snip-library.json") {
+  let meta;
   try {
-    const meta = JSON.parse(
-      await fs.readFile(path.join(jvdRoot, "configuration", "snips", "_snip-library.json"), "utf8"),
-    );
-    return meta.seenOnValidation === "complete" ? "complete" : "partial";
-  } catch {
-    return "partial"; // absence = default partial
+    meta = JSON.parse(raw);
+  } catch (e) {
+    throw new Error(`${label}: invalid JSON (${e.message})`);
   }
+  if (meta.schemaVersion !== 1) throw new Error(`${label}: unsupported schemaVersion ${JSON.stringify(meta.schemaVersion)}`);
+  if (meta.seenOnValidation !== "partial" && meta.seenOnValidation !== "complete") {
+    throw new Error(`${label}: invalid seenOnValidation ${JSON.stringify(meta.seenOnValidation)}`);
+  }
+  return meta.seenOnValidation;
+}
+
+async function readSeenOnValidation(jvdRoot) {
+  const p = path.join(jvdRoot, "configuration", "snips", "_snip-library.json");
+  let raw;
+  try {
+    raw = await fs.readFile(p, "utf8");
+  } catch (e) {
+    if (e.code === "ENOENT") return "partial"; // genuinely absent = default partial
+    throw e;
+  }
+  return parseSnipLibraryMeta(raw, p);
 }
 
 async function walkSnips(dir, out = []) {
@@ -185,26 +209,43 @@ async function walkSnips(dir, out = []) {
   return out;
 }
 
-function changedSet(base) {
+function changedSet(base, { explicitBase } = {}) {
+  const names = new Set();
+  const add = (out) => out.split("\n").filter(Boolean).forEach((f) => names.add(f));
   try {
-    const out = execFileSync("git", ["diff", "--name-only", "--diff-filter=d", `${base}...HEAD`], {
+    add(execFileSync("git", ["diff", "--name-only", "--diff-filter=d", `${base}...HEAD`], {
       cwd: REPO_ROOT,
       encoding: "utf8",
-    });
-    return new Set(out.split("\n").filter(Boolean));
-  } catch {
-    return null; // base unavailable (e.g. shallow/local) — treat all as legacy
+    }));
+  } catch (e) {
+    // Fail closed when a base was explicitly requested but cannot be resolved.
+    if (explicitBase) throw new Error(`cannot resolve --base ${base}: ${e.message}`);
+    return null; // no resolvable base — caller treats all as legacy
   }
+  // Include staged + unstaged working-tree changes and untracked files, so a
+  // snip being authored is validated strictly regardless of commit state.
+  try {
+    add(execFileSync("git", ["diff", "--name-only", "--diff-filter=d", "HEAD"], { cwd: REPO_ROOT, encoding: "utf8" }));
+  } catch {
+    /* HEAD may be unborn */
+  }
+  try {
+    add(execFileSync("git", ["ls-files", "--others", "--exclude-standard"], { cwd: REPO_ROOT, encoding: "utf8" }));
+  } catch {
+    /* ignore */
+  }
+  return names;
 }
 
 async function main() {
   const argv = process.argv.slice(2);
   const allStrict = argv.includes("--all-strict");
   const baseIdx = argv.indexOf("--base");
-  const base = baseIdx >= 0 ? argv[baseIdx + 1] : "origin/main";
+  const explicitBase = baseIdx >= 0;
+  const base = explicitBase ? argv[baseIdx + 1] : "origin/main";
 
   const files = await walkSnips(REPO_ROOT);
-  const changed = allStrict ? null : changedSet(base);
+  const changed = allStrict ? null : changedSet(base, { explicitBase });
 
   const invCache = new Map();
   const sovCache = new Map();

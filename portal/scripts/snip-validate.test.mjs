@@ -6,7 +6,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseSnip, CODES } from "./snip-parse.mjs";
-import { validateSnipText, resolveToken, severity } from "./snip-validate.mjs";
+import { validateSnipText, resolveToken, severity, parseSnipLibraryMeta } from "./snip-validate.mjs";
 
 const codes = (findings) => findings.map((f) => f.code);
 
@@ -77,4 +77,48 @@ test("severity: changed is always error; legacy is partial-warn / complete-error
   assert.equal(severity(CODES.SEEN_ON_APPROXIMATION, { changed: true, seenOnValidation: "partial" }), "error");
   assert.equal(severity(CODES.SEEN_ON_APPROXIMATION, { changed: false, seenOnValidation: "partial" }), "warn");
   assert.equal(severity(CODES.SEEN_ON_APPROXIMATION, { changed: false, seenOnValidation: "complete" }), "error");
+});
+
+test("scenario-qualified path token resolves end-to-end (no non-device / unknown finding)", () => {
+  const text = snip({ seenJunos: "dc1-dc2_ott/dc1_borderleaf1" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.SEEN_ON_NON_DEVICE_TOKEN));
+  assert.ok(!found.includes(CODES.SEEN_ON_UNKNOWN_DEVICE));
+});
+
+test("a reserved field after Pair with does not leak its bullets into dependencies", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Pair with:\n *  - junos/policy/real.conf\n * Peers with:\n *  - junos/other/leaked.conf\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  const parsed = parseSnip(text);
+  assert.ok(codes(parsed.diagnostics).includes(CODES.UNKNOWN_HEADER_SECTION));
+  assert.deepEqual(parsed.header.pairWith, ["junos/policy/real.conf"]);
+});
+
+test("a completely absent Seen on section is flagged", () => {
+  const text = `/*\n * Topic:   no seen on\n * Highlights:\n *  - stuff\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.MISSING_SEEN_ON_SECTION));
+});
+
+test("the complete ratchet escalates only Seen-on applicability findings", () => {
+  // Non-applicability debt stays a warning even under complete.
+  assert.equal(severity(CODES.TOPIC_MULTILINE, { changed: false, seenOnValidation: "complete" }), "warn");
+  assert.equal(severity(CODES.VARIABLE_UNUSED, { changed: false, seenOnValidation: "complete" }), "warn");
+  // Applicability debt escalates.
+  assert.equal(severity(CODES.SEEN_ON_UNKNOWN_DEVICE, { changed: false, seenOnValidation: "complete" }), "error");
+});
+
+test("a bare variable declaration (no example) is accepted", () => {
+  const text = snip({ vars: "Variables:\n *   $BARE", body: "routing-options {\n    router-id $BARE;\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+test("_snip-library.json metadata: valid parses, malformed throws", () => {
+  assert.equal(parseSnipLibraryMeta('{"schemaVersion":1,"seenOnValidation":"complete"}'), "complete");
+  assert.throws(() => parseSnipLibraryMeta("{ not json"));
+  assert.throws(() => parseSnipLibraryMeta('{"schemaVersion":2,"seenOnValidation":"partial"}'));
+  assert.throws(() => parseSnipLibraryMeta('{"schemaVersion":1,"seenOnValidation":"typo"}'));
 });

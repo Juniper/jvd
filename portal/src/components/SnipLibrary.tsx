@@ -337,11 +337,13 @@ function CopyButton({ text }: { text: string }) {
 function SnipDetail({
   snip,
   onSelectSnip,
+  onSelectCrossOs,
   onClose,
   snipById,
 }: {
   snip: SnipRecord;
   onSelectSnip: (id: string) => void;
+  onSelectCrossOs: (id: string) => void;
   onClose: () => void;
   snipById: Map<string, SnipRecord>;
 }) {
@@ -391,7 +393,7 @@ function SnipDetail({
           </a>
           {snip.otherOsFormId && snipById.get(snip.otherOsFormId) && (
             <button
-              onClick={() => onSelectSnip(snip.otherOsFormId!)}
+              onClick={() => onSelectCrossOs(snip.otherOsFormId!)}
               title="View the other-OS form of this snip"
               className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60 hover:text-primary"
             >
@@ -730,6 +732,11 @@ export default function SnipLibrary() {
               <SnipDetail
                 snip={selectedSnip}
                 onSelectSnip={setSelectedId}
+                onSelectCrossOs={(id) => {
+                  const target = snipById.get(id);
+                  if (target && osKey && osKey !== target.osKey) setOsKey(target.osKey);
+                  setSelectedId(id);
+                }}
                 onClose={() => setSelectedId("")}
                 snipById={snipById}
               />

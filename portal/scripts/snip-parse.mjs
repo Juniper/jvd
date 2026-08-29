@@ -13,6 +13,7 @@ export const CODES = {
   MISSING_TOPIC: "MISSING_TOPIC",
   TOPIC_MULTILINE: "TOPIC_MULTILINE",
   MISSING_SEEN_ON_BUCKET: "MISSING_SEEN_ON_BUCKET",
+  MISSING_SEEN_ON_SECTION: "MISSING_SEEN_ON_SECTION",
   SEEN_ON_NON_DEVICE_TOKEN: "SEEN_ON_NON_DEVICE_TOKEN",
   SEEN_ON_APPROXIMATION: "SEEN_ON_APPROXIMATION",
   SEEN_ON_UNKNOWN_DEVICE: "SEEN_ON_UNKNOWN_DEVICE",
@@ -89,10 +90,19 @@ export function parseSnip(text) {
       continue;
     }
 
+    // Reserved relationship fields have no schema yet and MUST NOT appear.
+    // Detect them regardless of the current section and drop out so their
+    // bullets are not miscaptured as dependencies.
+    if (/^\s{0,1}(Peers with|Augments with|Variant group)\b\s*:/i.test(line)) {
+      diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
+      section = null;
+      continue;
+    }
+
     // Section headers (case-insensitive on the keyword). Match on the de-starred
     // line so the keyword must sit at the header's own indent level.
     const sec = line.match(
-      /^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping)\b\s*:?\s*(.*)$/i,
+      /^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping|Variant|Role)\b\s*:?\s*(.*)$/i,
     );
     if (sec) {
       const key = sec[1].toLowerCase();
@@ -110,6 +120,9 @@ export function parseSnip(text) {
         section = "variables";
       } else if (key === "jvd service mapping") {
         section = "jvd-service-mapping";
+      } else if (key === "variant" || key === "role") {
+        // Recognised, tolerated legacy fields — consumed but not captured.
+        section = null;
       }
       const orderIdx = SECTION_ORDER.indexOf(section);
       if (orderIdx >= 0) {
@@ -146,7 +159,8 @@ export function parseSnip(text) {
           if (!/^[A-Za-z0-9]/.test(tok)) continue;
           const clean = tok.replace(/[,;]+$/, "");
           // Contract findings — do NOT alter what gets pushed (keeps snips.json stable).
-          if (clean === "see" || clean.includes("/") || clean.endsWith(".conf")) {
+          // `/` is left for inventory resolution (scenario-qualified identities are valid).
+          if (clean === "see" || clean.endsWith(".conf")) {
             diag(CODES.SEEN_ON_NON_DEVICE_TOKEN, `${bucket}: ${clean}`);
           } else if (APPROX_WORDS.test(clean)) {
             diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: ${clean}`);
@@ -171,9 +185,9 @@ export function parseSnip(text) {
     }
 
     if (section === "variables") {
-      const v = trimmed.match(/^(\$[A-Z0-9_]+(?:\s*\/\s*\$[A-Z0-9_]+)*)\s+(.*)$/);
+      const v = trimmed.match(/^(\$[A-Z0-9_]+(?:\s*\/\s*\$[A-Z0-9_]+)*)(?:\s+(.*))?$/);
       if (v) {
-        const example = v[2].replace(/^e\.g\.\s*/i, "").trim();
+        const example = (v[2] || "").replace(/^e\.g\.\s*/i, "").trim();
         variables.push({ name: v[1].trim(), example });
       }
       continue;
@@ -182,13 +196,6 @@ export function parseSnip(text) {
     if (section === "jvd-service-mapping") {
       jvdServiceMapping.push(line.replace(/\s+$/, ""));
       continue;
-    }
-
-    // Not inside any recognised section: a "Word:" line here is an unknown
-    // header section (device rows Junos:/EVO: sit at deeper indent and are
-    // handled above, so they never reach here).
-    if (section === null && /^\s{0,1}[A-Za-z][A-Za-z0-9 /-]*\s*:/.test(line)) {
-      diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
     }
   }
 
@@ -200,8 +207,10 @@ export function parseSnip(text) {
     warnings.push("missing-topic");
     diag(CODES.MISSING_TOPIC);
   }
-  // Both OS buckets are required once a Seen-on section exists.
-  if (seenOnSectionPresent) {
+  // Seen-on is required; once present, both OS buckets must appear.
+  if (!seenOnSectionPresent) {
+    diag(CODES.MISSING_SEEN_ON_SECTION);
+  } else {
     if (!seenOnRows.junos) diag(CODES.MISSING_SEEN_ON_BUCKET, "Junos");
     if (!seenOnRows.evo) diag(CODES.MISSING_SEEN_ON_BUCKET, "EVO");
   }

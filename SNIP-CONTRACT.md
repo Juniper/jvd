@@ -157,18 +157,19 @@ and independent of role support (`_roles.json`).
 
 ## Enforcement
 
-`snip-validate.mjs` reports stable error codes: `MISSING_TOPIC`,
-`TOPIC_MULTILINE`, `MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`,
-`SEEN_ON_UNKNOWN_DEVICE`, `SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`,
-`VARIABLE_UNDECLARED`, `VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`,
-`INVALID_SECTION_ORDER`.
+`snip-validate.mjs` reports stable error codes: `MISSING_HEADER`,
+`MISSING_TOPIC`, `TOPIC_MULTILINE`, `MISSING_SEEN_ON_SECTION`,
+`MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
+`SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
+`VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `INVALID_SECTION_ORDER`.
 
 Severity is applied on change:
 
 - A **new or modified** snip **MUST** satisfy this contract in full; any finding
   is an error.
 - A **legacy (unchanged)** snip is grandfathered while its JVD is `partial`
-  (findings warn), and is held strict once its JVD is `complete`.
+  (findings warn); once its JVD is `complete`, its Seen-on applicability findings
+  (`SEEN_ON_*`, `MISSING_SEEN_ON_*`) are held strict.
 
 Run locally:
 
