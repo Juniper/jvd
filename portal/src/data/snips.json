@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T16:01:43.356Z",
+  "generatedAt": "2026-08-29T18:37:34.442Z",
   "counts": {
     "total": 686,
     "junos": 349,
@@ -40620,13 +40620,19 @@
       "topic": "BGP best-current-practice timers (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
-          "an3_acx7100-48l",
-          "an4_acx710",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
@@ -40684,13 +40690,20 @@
       "topic": "Core-facing interface baseline (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
           "an3_acx7100-48l",
-          "an4_acx710",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
@@ -40756,19 +40769,17 @@
       "topic": "Customer-facing interface baseline — multihomed variant (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
-          "an3_acx7100-48l",
-          "an4_acx710",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
           "ma3_acx7100-48l",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "mdr1_acx7509"
         ]
       },
       "highlights": [
@@ -40819,14 +40830,14 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/apply-groups/gr-edge-intf",
       "topic": "Customer-facing interface baseline (EVO)",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "an2_acx5448",
+          "an4_acx710"
+        ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
           "an3_acx7100-48l",
-          "an4_acx710",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
@@ -40900,17 +40911,9 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label",
       "topic": "Apply-group: GR-FATPW-LABEL",
       "seenOn": {
-        "junos": [
-          "ma5_mx204",
-          "mse1_mx304",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
-          "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "an3_acx7100-48l"
         ]
       },
       "highlights": [],
@@ -40947,6 +40950,8 @@
       "topic": "Apply-group: GR-FATPW-LB",
       "seenOn": {
         "junos": [
+          "an1_mx204",
+          "an2_acx5448",
           "ma5_mx204",
           "mse1_mx304",
           "mse2_mx304"
@@ -40993,11 +40998,15 @@
       "topic": "ISIS best-current-practice timers (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "an3_acx7100-48l",
-          "an4_acx710",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
@@ -41005,9 +41014,7 @@
           "ma3_acx7100-48l",
           "mdr1_acx7509",
           "meg1_acx7100-32c",
-          "meg2_acx7509",
-          "ag1-1_acx7100-32c",
-          "ag1-2_acx7100-32c"
+          "meg2_acx7509"
         ]
       },
       "highlights": [
@@ -41169,8 +41176,28 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/apply-groups/gr-lag-member",
       "topic": "Apply-group: LAG-MEMBER variants",
       "seenOn": {
-        "junos": [],
-        "evo": []
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [],
@@ -41206,13 +41233,19 @@
       "topic": "6-class forwarding-classes (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
-          "an3_acx7100-48l",
-          "an4_acx710",
           "cr1_ptx10001-36mr",
           "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
@@ -41267,15 +41300,13 @@
       "topic": "Schedulers and scheduler-map for the 6-class model (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an2_acx5448",
+          "an4_acx710"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
           "an3_acx7100-48l",
-          "an4_acx710",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
@@ -41328,11 +41359,14 @@
       "topic": "Rate-limit policers (EVO)",
       "seenOn": {
         "junos": [
-          "an1_mx204"
+          "an2_acx5448",
+          "an4_acx710",
+          "ma5_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "an3_acx7100-48l",
-          "an4_acx710",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "meg1_acx7100-32c",
@@ -41721,11 +41755,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
       "topic": "L3VPN per-VRF export/import policies",
       "seenOn": {
-        "junos": [
-          "ma4_mx204",
-          "mse1_mx304",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l"
         ]
@@ -42374,9 +42404,12 @@
       "name": "evpn-type5-anchor",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
-      "topic": "Slim L3VPN IRB-anchor VRF (EVO ACX) — paired with EVPN-ELAN",
+      "topic": "Slim L3VPN IRB-anchor VRF (EVO ACX) — paired with EVPN-ELAN MAC-VRF; no explicit `protocols evpn ip-prefix-routes` block",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
         "evo": [
           "meg1_acx7100-32c",
           "meg2_acx7509"
@@ -42464,12 +42497,10 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-type5",
       "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)",
       "seenOn": {
-        "junos": [],
-        "evo": [
-          "an3_acx7100-48l",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "junos": [
+          "mse1_mx304"
+        ],
+        "evo": []
       },
       "highlights": [
         "This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern. In this JVD, Type-5 is ALWAYS paired with a matching EVPN-ELAN MAC-VRF (`evpn-elan-mac-vrf-irb.conf`) on the same `irb.<N>`, so the EVI advertises both RT-2 (MAC+IP from learned hosts via the MAC-VRF) and RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes via this VRF). \"Pure\" RT-5 (VRF only, no MAC-VRF) is not deployed here.",
@@ -42557,13 +42588,15 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-vpws",
       "topic": "EVPN-VPWS routing-instance (MEF E-Line) — EVO",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710"
+        ],
         "evo": [
           "an3_acx7100-48l",
-          "an4_acx710",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
-          "ma3_acx7100-48l",
           "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
@@ -42753,7 +42786,6 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
       },
@@ -42830,15 +42862,11 @@
       "name": "l2circuit-lsw",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-lsw.conf",
       "otherOsFormId": null,
-      "topic": "L2Circuit local-switching (port-to-port cross-connect on",
+      "topic": "L2Circuit local-switching (port-to-port cross-connect on a single PE; MEF E-Access hand-off pattern) (EVO)",
       "seenOn": {
         "junos": [],
         "evo": [
-          "an3_acx7100-48l",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "ma3_acx7100-48l"
         ]
       },
       "highlights": [
@@ -42908,7 +42936,9 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/services/l2vpn-kompella",
       "topic": "BGP-signalled L2VPN (Kompella) routing-instance, port-based",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "ma5_mx204"
+        ],
         "evo": [
           "an3_acx7100-48l"
         ]
@@ -42993,9 +43023,10 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
       "topic": "L3VPN VRF with PE-CE eBGP and as-override (EVO ACX)",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "ma4_mx204"
+        ],
         "evo": [
-          "an3_acx7100-48l",
           "ma3_acx7100-48l"
         ]
       },
@@ -43094,7 +43125,10 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
       "topic": "L3VPN VRF with PE-CE OSPF (EVO ACX)",
       "seenOn": {
-        "junos": [],
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
         "evo": [
           "an3_acx7100-48l",
           "ma3_acx7100-48l"
@@ -43262,16 +43296,8 @@
       "seenOn": {
         "junos": [],
         "evo": [
-          "an3_acx7100-48l",
-          "an4_acx710",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "ma1-2_acx7024"
         ]
       },
       "highlights": [
@@ -43622,16 +43648,13 @@
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003",
-          "mse1_mx304",
           "mse2_mx304"
         ],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
           "an3_acx7100-48l",
-          "an4_acx710",
           "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
@@ -43841,6 +43864,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
+          "an4_acx710",
           "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
@@ -43848,7 +43872,18 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [],
@@ -43886,6 +43921,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
+          "an4_acx710",
           "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
@@ -43893,7 +43929,19 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [],
@@ -43930,15 +43978,15 @@
       "seenOn": {
         "junos": [
           "an1_mx204",
-          "an2_acx5448",
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003",
-          "mse1_mx304",
-          "mse2_mx304"
+          "an2_acx5448"
         ],
-        "evo": []
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [],
@@ -43975,7 +44023,6 @@
       "seenOn": {
         "junos": [
           "an1_mx204",
-          "an2_acx5448",
           "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
@@ -44019,17 +44066,9 @@
       "topic": "Per-instance FAT-PW flow-label knob (Junos)",
       "seenOn": {
         "junos": [
-          "ma5_mx204",
-          "mse1_mx304",
-          "mse2_mx304"
+          "ma5_mx204"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "highlights": [
         "Junos uses wildcard routing-instance names (<l2vpn_*>, <vpls_*>, plus the singleton L2VPN_PORT_BASED) to enable flow-label-transmit / flow-label-receive on every L2VPN and VPLS instance via apply-groups inheritance.",
@@ -44145,12 +44184,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003",
-          "mse1_mx304",
-          "mse2_mx304"
+          "an4_acx710"
         ],
         "evo": []
       },
@@ -44192,7 +44226,12 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [
         "Identical to evo/apply-groups/gr-l3vpn.conf — Junos and EVO share this VRF baseline.",
@@ -44262,6 +44301,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
+          "an4_acx710",
           "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
@@ -44270,7 +44310,15 @@
           "mse2_mx304"
         ],
         "evo": [
-          "ma1-1_acx7024"
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
         ]
       },
       "highlights": [
@@ -44333,7 +44381,19 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [],
@@ -44370,7 +44430,6 @@
       "seenOn": {
         "junos": [
           "an1_mx204",
-          "an2_acx5448",
           "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
@@ -44378,7 +44437,10 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr"
+        ]
       },
       "highlights": [],
       "pairWith": [
@@ -44420,20 +44482,9 @@
       "topic": "Firewall policers and rate-limit filter",
       "seenOn": {
         "junos": [
-          "an1_mx204",
-          "an2_acx5448",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mse1_mx304",
-          "mse2_mx304"
+          "an1_mx204"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "highlights": [],
       "pairWith": [],
@@ -44756,7 +44807,7 @@
       "name": "pseudowire-subscriber",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/pseudowire-subscriber.conf",
       "otherOsFormId": null,
-      "topic": "Pseudowire-subscriber logical interface (`ps<N>`) for",
+      "topic": "Pseudowire-subscriber logical interface (`ps<N>`) for floating L2Circuit PWs stitched into EVPN (Junos MX)",
       "seenOn": {
         "junos": [
           "mse1_mx304",
@@ -45001,12 +45052,7 @@
         "junos": [
           "ma4_mx204"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma3_acx7100-48l",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "highlights": [
         "Identical structure to evo/policy/l3vpn-export-import.conf — Junos and EVO share the same policy-options syntax for L3VPN.",
@@ -45581,13 +45627,12 @@
       "name": "evpn-fxc",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf",
       "otherOsFormId": "metro_ethernet_business_services/evo/services/evpn-fxc",
-      "topic": "EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC",
+      "topic": "EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC UNIs aggregated into a single EVPN-VPWS service-id (MX)",
       "seenOn": {
-        "junos": [
-          "mse1_mx304",
-          "mse2_mx304"
-        ],
-        "evo": []
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
       },
       "highlights": [
         "`instance-type evpn-vpws` with the FXC knob `flexible-cross-connect-vlan-unaware` and a single `group fxc { ... }` block. Every `interface <ifd.unit>` line inside the group is a UNI bundled into the same service-id; the bundle is VLAN-unaware so the customer 802.1Q tags are preserved end-to-end.",
@@ -45799,13 +45844,16 @@
       "name": "evpn-type5-anchor",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf",
       "otherOsFormId": "metro_ethernet_business_services/evo/services/evpn-type5-anchor",
-      "topic": "Slim L3VPN IRB-anchor VRF (paired with EVPN-ELAN",
+      "topic": "Slim L3VPN IRB-anchor VRF (paired with EVPN-ELAN MAC-VRF; no explicit `protocols evpn ip-prefix-routes` block — RT-2 MAC+IP is sufficient for this EVI)",
       "seenOn": {
         "junos": [
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [
         "Same role as `evpn-type5.conf` (the L3 half of the EVPN-IRB pattern, owning the IRB and the VRF) but written in the \"slim\" form: no `protocols evpn ip-prefix-routes { ... }` block. In this JVD's METRO_L3VPN_4050 EVI the host /32s and IRB subnet are advertised as RT-2 MAC+IP routes from the paired MAC-VRF, so no RT-5 prefix routes are needed — the VRF only needs to terminate the IRB and do egress L3 lookups for ingress-replicated/MAC-routed traffic.",
@@ -45900,8 +45948,7 @@
       "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)",
       "seenOn": {
         "junos": [
-          "mse1_mx304",
-          "mse2_mx304"
+          "mse1_mx304"
         ],
         "evo": []
       },
@@ -45998,9 +46045,16 @@
       "seenOn": {
         "junos": [
           "an1_mx204",
-          "an2_acx5448"
+          "an2_acx5448",
+          "an4_acx710"
         ],
-        "evo": []
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [
         "instance-type evpn-vpws",
@@ -46101,7 +46155,7 @@
       "name": "l2circuit-floating-pw",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf",
       "otherOsFormId": null,
-      "topic": "Static targeted-LDP L2Circuit pseudowire landing on a",
+      "topic": "Static targeted-LDP L2Circuit pseudowire landing on a pseudowire-subscriber interface (Junos, floating-PW pattern)",
       "seenOn": {
         "junos": [
           "mse1_mx304",
@@ -46391,7 +46445,9 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": []
+        "evo": [
+          "ma3_acx7100-48l"
+        ]
       },
       "highlights": [
         "`instance-type vrf` carrying customer routes; PE-CE OSPF under `protocols ospf area 0.0.0.0 interface <AC>` with `interface-type p2p` (no DR/BDR election on the PE-CE link).",
@@ -46483,12 +46539,7 @@
       "seenOn": {
         "junos": [
           "an1_mx204",
-          "an2_acx5448",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003",
-          "mse1_mx304",
-          "mse2_mx304"
+          "an2_acx5448"
         ],
         "evo": []
       },
@@ -46732,28 +46783,9 @@
       "topic": "ISIS underlay with SR-MPLS, TI-LFA, and Flex-Algo",
       "seenOn": {
         "junos": [
-          "an1_mx204",
-          "an2_acx5448",
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003",
-          "mse1_mx304",
-          "mse2_mx304"
+          "an1_mx204"
         ],
-        "evo": [
-          "ag1-1_acx7100-32c",
-          "ag1-2_acx7100-32c",
-          "an3_acx7100-48l",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "highlights": [
         "source-packet-routing (Segment Routing) with SRGB 16000-24000 (set in the mpls stanza) and node-segment indices (v4=0, v6=100)",
@@ -46827,7 +46859,6 @@
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003",
-          "mse1_mx304",
           "mse2_mx304"
         ],
         "evo": [
@@ -46835,7 +46866,6 @@
           "ag1-2_acx7100-32c",
           "an3_acx7100-48l",
           "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
