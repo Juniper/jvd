@@ -1,8 +1,9 @@
 # Snippet variable glossary
 
 All `.conf` files under `junos/` and `evo/` are templates: identifiers
-that vary between deployments are written as `$VAR`. Render with the
-same `snips_render.py` tool used elsewhere in the JVD repo.
+that vary between deployments are written as `$VAR`. Render a snippet by
+substituting each `$VAR` / `${VAR}` placeholder with your deployment's value;
+the placeholders each snippet uses are listed in its `Variables:` header.
 
 Constants left as literals on purpose:
 - Apply-group / policy / community names (PS-ISIS-EXPORT, PS-PPLB,

@@ -5,9 +5,9 @@ that vary between deployments are written as `$VAR` (or `${VAR}` only
 when the placeholder is glued to an adjacent letter or digit and the
 boundary would otherwise be ambiguous).
 
-Render with:
-
-    ~/git-scripts/snips_render.py <snip>.conf <vars.json>  > rendered.conf
+Render a snippet by substituting each `$VAR` / `${VAR}` placeholder with your
+deployment's value. The placeholders each snippet uses are listed in its
+`Variables:` header and in the glossary below.
 
 The variables fall into a few groups.
 

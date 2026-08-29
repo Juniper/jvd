@@ -86,17 +86,9 @@ Each snippet header includes a `Variables:` section listing the placeholders it
 uses, with example values from the device the snippet was extracted from. See
 [`_variables.md`](_variables.md) for the full glossary.
 
-To render a snippet with concrete values:
-
-```bash
-~/git-scripts/snips_render.py evo/transport/bgp-ebgp-fabric-underlay.conf vars.json > rendered.conf
-```
-
-To list every placeholder a snippet uses:
-
-```bash
-~/git-scripts/snips_render.py --extract evo/transport/bgp-ebgp-fabric-underlay.conf
-```
+To render a snippet, substitute each `$VAR` / `${VAR}` placeholder with your
+deployment's value. Every placeholder a snippet uses is listed in its
+`Variables:` header and in [`_variables.md`](_variables.md).
 
 ## Snip index
 

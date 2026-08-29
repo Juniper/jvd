@@ -1514,9 +1514,9 @@ All `.conf` files under `junos/` are **templates**: identifiers that vary betwee
 deployments are written as `$VAR`. Secrets (`## SECRET-DATA`) are replaced with
 `$*_PSK` placeholders — supply your own encrypted values.
 
-Render with:
-
-    ~/git-scripts/snips_render.py <snip>.conf <vars.json>  > rendered.conf
+Render a snippet by substituting each `$VAR` / `${VAR}` placeholder with your
+deployment's value. The placeholders each snippet uses are listed in its
+`Variables:` header and in the glossary below.
 
 Example values are drawn from the validated lab configs under `configuration/conf/`.
 

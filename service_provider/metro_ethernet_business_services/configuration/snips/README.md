@@ -53,17 +53,9 @@ Each snippet header includes a `Variables:` section listing the placeholders it 
 
 The leading `/* ... */` header block is treated as documentation — placeholder text inside the header survives rendering verbatim, so the doc remains readable in both source and rendered form.
 
-To render a snippet with concrete values:
-
-```bash
-~/git-scripts/snips_render.py services/evpn-vpws.conf vars.json > rendered.conf
-```
-
-To list every placeholder a snippet uses:
-
-```bash
-~/git-scripts/snips_render.py --extract services/evpn-vpws.conf
-```
+To render a snippet, substitute each `$VAR` / `${VAR}` placeholder with your
+deployment's value. Every placeholder a snippet uses is listed in its
+`Variables:` header and in [`_variables.md`](_variables.md).
 
 ## Topic Index
 
