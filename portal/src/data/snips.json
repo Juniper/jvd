@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-13T14:43:42.965Z",
+  "generatedAt": "2026-08-29T04:19:42.357Z",
   "counts": {
-    "total": 676,
-    "junos": 344,
-    "evo": 332,
+    "total": 686,
+    "junos": 349,
+    "evo": 337,
     "jvds": 18
   },
   "categories": [
@@ -225,9 +225,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 36,
-        "evo": 38,
-        "total": 74
+        "junos": 41,
+        "evo": 43,
+        "total": 84
       }
     },
     {
@@ -41219,6 +41219,61 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/policy/per-packet-load-balance",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/per-packet-load-balance.conf",
+      "topic": "Per-packet load-balance policy (pplb) — exported to the",
+      "seenOn": {
+        "junos": [
+          "see",
+          "junos/policy/per-packet-load-balance.conf"
+        ],
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "Single unconditional term: `load-balance per-packet; accept;`.",
+        "Applied via `routing-options forwarding-table export pplb` (transport/forwarding-table.conf)."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/forwarding-table.conf  (applies this policy)",
+          "id": "metro_ethernet_business_services/evo/transport/forwarding-table",
+          "note": "applies this policy"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement pplb {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement pplb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 134,
+      "lineCount": 8,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Load-Balancing Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/services/bgp-vpls",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -42720,6 +42775,127 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/transport/flex-algorithm",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "flex-algorithm",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/flex-algorithm.conf",
+      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129",
+      "seenOn": {
+        "junos": [
+          "see",
+          "junos/transport/flex-algorithm.conf"
+        ],
+        "evo": [
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.",
+        "FA 129: te-metric SPF, includes admin-group `blue`, colour 6000.",
+        "This is the Flex-Algo DEFINITION carried by the FAD-advertiser nodes (metro-core); other transport nodes carry only the slim reference (`colour` + `use-transport-class`) without the definition.",
+        "`use-flex-algorithm-prefix-metric` + `use-transport-class` install the FA-derived path so a service's colour community resolves over it.",
+        "The `green`/`blue` admin-groups are defined in transport/mpls-segment- routing.conf; ISIS advertises participation in transport/isis-srmpls-tilfa.conf."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/transport-class.conf    (maps colour 4000/6000 to gold/bronze)",
+          "id": "metro_ethernet_business_services/evo/transport/transport-class",
+          "note": "maps colour 4000/6000 to gold/bronze"
+        },
+        {
+          "raw": "evo/transport/mpls-segment-routing.conf (defines admin-groups green/blue)",
+          "id": "metro_ethernet_business_services/evo/transport/mpls-segment-routing",
+          "note": "defines admin-groups green/blue"
+        },
+        {
+          "raw": "evo/transport/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])",
+          "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa",
+          "note": "ISIS carries flex-algorithm [128 129]"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    flex-algorithm 128 {\n        definition {\n            metric-type delay-metric;\n            spf;\n            use-flex-algorithm-prefix-metric;\n            priority 0;\n            admin-group include-any green;\n        }\n        color 4000;\n        use-transport-class;\n    }\n    flex-algorithm 129 {\n        definition {\n            metric-type te-metric;\n            spf;\n            use-flex-algorithm-prefix-metric;\n            priority 0;\n            admin-group include-any blue;\n        }\n        color 6000;\n        use-transport-class;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flex-algorithm </span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        definition {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            metric-type delay-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            spf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            use-flex-algorithm-prefix-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            admin-group include-any green;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        color </span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        use-transport-class;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flex-algorithm </span><span style=\"color:#79C0FF\">129</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        definition {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            metric-type te-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            spf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            use-flex-algorithm-prefix-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            admin-group include-any blue;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        color </span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        use-transport-class;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 573,
+      "lineCount": 24,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/transport/forwarding-table",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "forwarding-table",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/forwarding-table.conf",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour — installs",
+      "seenOn": {
+        "junos": [
+          "see",
+          "junos/transport/forwarding-table.conf"
+        ],
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509"
+        ]
+      },
+      "highlights": [
+        "This is the minimal EVO form (`export pplb` only). The forwarding-table stanza is strongly role-dependent: other EVO nodes add a `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block (see the Junos PE variant), and an3/meg1 export `PS-PPLB` instead of `pplb` (see policy/per-packet-load-balance variants). A full role- variant model is a post-extraction follow-up.",
+        "`export pplb` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths)."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy/per-packet-load-balance.conf  (defines the pplb policy)",
+          "id": "metro_ethernet_business_services/evo/policy/per-packet-load-balance",
+          "note": "defines the pplb policy"
+        },
+        {
+          "raw": "evo/transport/bgp-overlay.conf           (provides the ECMP paths)",
+          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
+          "note": "provides the ECMP paths"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    forwarding-table {\n        export pplb;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> pplb;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 69,
+      "lineCount": 5,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -42886,6 +43062,147 @@
       "lineCount": 15,
       "techFamily": "Transport & Underlay",
       "subfamily": "SR-MPLS",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/transport/rib-groups",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "rib-groups",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/rib-groups.conf",
+      "topic": "RIB groups — leak local and remote loopbacks (plus the colour",
+      "seenOn": {
+        "junos": [
+          "see",
+          "junos/transport/rib-groups.conf"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using PS-LOCAL-LOOPBACK. (Unlike the Junos MSE variant, EVO nodes do not import the per-colour transport-class RIBs into this group.)",
+        "RG-REMOTE-LOOPBACKS leaks BGP-learned remote loopbacks across inet.3/inet.0/inet6.3 using PS-REMOTE-LOOPBACKS."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/transport-class.conf   (defines the colour transport classes)",
+          "id": "metro_ethernet_business_services/evo/transport/transport-class",
+          "note": "defines the colour transport classes"
+        },
+        {
+          "raw": "evo/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
+          "id": null,
+          "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
+        },
+        {
+          "raw": "evo/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)",
+          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
+          "note": "learns the remote loopbacks leaked here"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    rib-groups {\n        RG-LOCAL-LOOPBACK {\n            import-rib [ inet.0 inet.3 ];\n            import-policy PS-LOCAL-LOOPBACK;\n        }\n        RG-REMOTE-LOOPBACKS {\n            import-rib [ inet.3 inet.0 inet6.3 ];\n            import-policy PS-REMOTE-LOOPBACKS;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    rib-groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        RG-LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-rib [ inet.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> inet.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-policy PS-LOCAL-LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        RG-REMOTE-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-rib [ inet.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> inet.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> inet6.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-policy PS-REMOTE-LOOPBACKS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 304,
+      "lineCount": 12,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/transport/transport-class",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "transport",
+      "name": "transport-class",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/transport-class.conf",
+      "topic": "Transport-class definitions — bind BGP colour communities to",
+      "seenOn": {
+        "junos": [
+          "see",
+          "junos/transport/transport-class.conf"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000). `auto-create` lets additional colours map without an explicit stanza.",
+        "Each class's `tunnel-egress end-point` is the local transport loopback the colour-tagged path terminates on.",
+        "Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over Flex-Algo 129 (TE) — see transport/flex-algorithm.conf.",
+        "Core PEs anchoring a shared egress add a second anycast `end-point` under the bronze class (see the Junos MSE variant)."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/transport/flex-algorithm.conf     (defines FA 128/129 + use-transport-class)",
+          "id": "metro_ethernet_business_services/evo/transport/flex-algorithm",
+          "note": "defines FA 128/129 + use-transport-class"
+        },
+        {
+          "raw": "evo/transport/isis-srmpls-tilfa.conf  (ISIS carries FA 128/129)",
+          "id": "metro_ethernet_business_services/evo/transport/isis-srmpls-tilfa",
+          "note": "ISIS carries FA 128/129"
+        },
+        {
+          "raw": "evo/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)",
+          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
+          "note": "service routes tagged colour 4000/6000"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$TC_EGRESS",
+          "example": "1.1.0.17   (this node's transport-class egress loopback)"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    transport-class {\n        auto-create;\n        name gold {\n            color 4000;\n            tunnel-egress {\n                end-point $TC_EGRESS;\n            }\n        }\n        name bronze {\n            color 6000;\n            tunnel-egress {\n                end-point $TC_EGRESS;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    transport-class {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        auto-create;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        name gold {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            color </span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                end-point $TC_EGRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        name bronze {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            color </span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                end-point $TC_EGRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 338,
+      "lineCount": 17,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -44117,6 +44434,62 @@
       "lineCount": 34,
       "techFamily": "Policy & Routing",
       "subfamily": "VPN Route Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/policy/per-packet-load-balance",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/per-packet-load-balance.conf",
+      "topic": "Per-packet load-balance policy (pplb) — exported to the",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "see",
+          "evo/policy/per-packet-load-balance.conf"
+        ]
+      },
+      "highlights": [
+        "Single unconditional term: `load-balance per-packet; accept;`.",
+        "Applied via `routing-options forwarding-table export pplb` (transport/forwarding-table.conf)."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/forwarding-table.conf  (applies this policy)",
+          "id": "metro_ethernet_business_services/junos/transport/forwarding-table",
+          "note": "applies this policy"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement pplb {\n        then {\n            load-balance per-packet;\n            accept;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    policy-statement pplb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        then {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            load-balance per-packet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            accept;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 134,
+      "lineCount": 8,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Load-Balancing Policy",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -45572,6 +45945,127 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/junos/transport/flex-algorithm",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "flex-algorithm",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/flex-algorithm.conf",
+      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129",
+      "seenOn": {
+        "junos": [
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "see",
+          "evo/transport/flex-algorithm.conf"
+        ]
+      },
+      "highlights": [
+        "FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.",
+        "FA 129: te-metric SPF, includes admin-group `blue`, colour 6000.",
+        "This is the Flex-Algo DEFINITION carried by the FAD-advertiser nodes (metro-core / MSE); other transport nodes carry only the slim reference (`colour` + `use-transport-class`) without the definition.",
+        "`use-flex-algorithm-prefix-metric` + `use-transport-class` install the FA-derived path so a service's colour community resolves over it.",
+        "The `green`/`blue` admin-groups are defined in transport/mpls-segment- routing.conf; ISIS advertises participation in transport/isis-srmpls-tilfa.conf."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/transport-class.conf    (maps colour 4000/6000 to gold/bronze)",
+          "id": "metro_ethernet_business_services/junos/transport/transport-class",
+          "note": "maps colour 4000/6000 to gold/bronze"
+        },
+        {
+          "raw": "junos/transport/mpls-segment-routing.conf (defines admin-groups green/blue)",
+          "id": "metro_ethernet_business_services/junos/transport/mpls-segment-routing",
+          "note": "defines admin-groups green/blue"
+        },
+        {
+          "raw": "junos/transport/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])",
+          "id": "metro_ethernet_business_services/junos/transport/isis-srmpls-tilfa",
+          "note": "ISIS carries flex-algorithm [128 129]"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    flex-algorithm 128 {\n        definition {\n            metric-type delay-metric;\n            spf;\n            use-flex-algorithm-prefix-metric;\n            priority 0;\n            admin-group include-any green;\n        }\n        color 4000;\n        use-transport-class;\n    }\n    flex-algorithm 129 {\n        definition {\n            metric-type te-metric;\n            spf;\n            use-flex-algorithm-prefix-metric;\n            priority 0;\n            admin-group include-any blue;\n        }\n        color 6000;\n        use-transport-class;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flex-algorithm </span><span style=\"color:#79C0FF\">128</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        definition {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            metric-type delay-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            spf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            use-flex-algorithm-prefix-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            admin-group include-any green;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        color </span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        use-transport-class;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    flex-algorithm </span><span style=\"color:#79C0FF\">129</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        definition {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            metric-type te-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            spf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            use-flex-algorithm-prefix-metric;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            admin-group include-any blue;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        color </span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        use-transport-class;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 573,
+      "lineCount": 24,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/transport/forwarding-table",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "forwarding-table",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/forwarding-table.conf",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour — installs",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "see",
+          "evo/transport/forwarding-table.conf"
+        ]
+      },
+      "highlights": [
+        "This is the services-edge PE form (the richest variant). The forwarding-table stanza is strongly role-dependent across this JVD; other roles carry reduced subsets (e.g. mdr2_mx10003 carries only `export pplb`; access nodes omit dynamic-list-next-hop / ecmp-fast- reroute / evpn-egress-link-protection). A full role-variant model is a post-extraction follow-up.",
+        "`export pplb` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths).",
+        "`ecmp-fast-reroute` + `evpn-egress-link-protection` for fast local repair.",
+        "`chained-composite-next-hop ingress` enables scalable next-hop sharing for l2vpn / l2ckt / evpn / l3vpn service families."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy/per-packet-load-balance.conf  (defines the pplb policy)",
+          "id": "metro_ethernet_business_services/junos/policy/per-packet-load-balance",
+          "note": "defines the pplb policy"
+        },
+        {
+          "raw": "junos/transport/bgp-overlay.conf           (provides the ECMP paths)",
+          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
+          "note": "provides the ECMP paths"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    forwarding-table {\n        export pplb;\n        dynamic-list-next-hop;\n        evpn-egress-link-protection;\n        ecmp-fast-reroute;\n        chained-composite-next-hop {\n            ingress {\n                l2vpn;\n                l2ckt;\n                evpn;\n                l3vpn;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-table {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">        export</span><span style=\"color:#E6EDF3\"> pplb;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dynamic-list-next-hop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        evpn-egress-link-protection;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ecmp-fast-reroute;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chained-composite-next-hop {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ingress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l2ckt;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 338,
+      "lineCount": 16,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/junos/transport/isis-srmpls-tilfa",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -45710,6 +46204,141 @@
       "lineCount": 15,
       "techFamily": "Transport & Underlay",
       "subfamily": "SR-MPLS",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/transport/rib-groups",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "rib-groups",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/rib-groups.conf",
+      "topic": "RIB groups — leak local and remote loopbacks so coloured service",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": [
+          "see",
+          "evo/transport/rib-groups.conf"
+        ]
+      },
+      "highlights": [
+        "RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using PS-LOCAL-LOOPBACK. This is the JVD-wide common form.",
+        "RG-REMOTE-LOOPBACKS leaks BGP-learned remote loopbacks across inet.3/inet.0/inet6.3 using PS-REMOTE-LOOPBACKS.",
+        "Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) also import the per-colour transport-class RIBs (junos-rti-tc-4000/6000.inet.3) into RG-LOCAL-LOOPBACK; captured for a future PE-role snip."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/transport-class.conf   (defines the colour transport classes)",
+          "id": "metro_ethernet_business_services/junos/transport/transport-class",
+          "note": "defines the colour transport classes"
+        },
+        {
+          "raw": "junos/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
+          "id": null,
+          "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
+        },
+        {
+          "raw": "junos/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)",
+          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
+          "note": "learns the remote loopbacks leaked here"
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    rib-groups {\n        RG-LOCAL-LOOPBACK {\n            import-rib [ inet.0 inet.3 ];\n            import-policy PS-LOCAL-LOOPBACK;\n        }\n        RG-REMOTE-LOOPBACKS {\n            import-rib [ inet.3 inet.0 inet6.3 ];\n            import-policy PS-REMOTE-LOOPBACKS;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    rib-groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        RG-LOCAL-LOOPBACK {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-rib [ inet.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> inet.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-policy PS-LOCAL-LOOPBACK;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        RG-REMOTE-LOOPBACKS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-rib [ inet.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> inet.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> inet6.</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            import-policy PS-REMOTE-LOOPBACKS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 304,
+      "lineCount": 12,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/transport/transport-class",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "transport",
+      "name": "transport-class",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/transport-class.conf",
+      "topic": "Transport-class definitions — bind BGP colour communities to",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": [
+          "see",
+          "evo/transport/transport-class.conf"
+        ]
+      },
+      "highlights": [
+        "Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000). `auto-create` lets additional colours map without an explicit stanza.",
+        "Each class's `tunnel-egress end-point` is the local transport loopback the colour-tagged path terminates on. This is the JVD-wide common form.",
+        "Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over Flex-Algo 129 (TE) — see transport/flex-algorithm.conf.",
+        "Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) add a second anycast `end-point` under the bronze class to anchor a shared egress; captured for a future PE-role snip, not in this common form."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/transport/flex-algorithm.conf     (defines FA 128/129 + use-transport-class)",
+          "id": "metro_ethernet_business_services/junos/transport/flex-algorithm",
+          "note": "defines FA 128/129 + use-transport-class"
+        },
+        {
+          "raw": "junos/transport/isis-srmpls-tilfa.conf  (ISIS carries FA 128/129)",
+          "id": "metro_ethernet_business_services/junos/transport/isis-srmpls-tilfa",
+          "note": "ISIS carries FA 128/129"
+        },
+        {
+          "raw": "junos/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)",
+          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
+          "note": "service routes tagged colour 4000/6000"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$TC_EGRESS",
+          "example": "1.1.0.16   (this node's transport-class egress loopback)"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    transport-class {\n        auto-create;\n        name gold {\n            color 4000;\n            tunnel-egress {\n                end-point $TC_EGRESS;\n            }\n        }\n        name bronze {\n            color 6000;\n            tunnel-egress {\n                end-point $TC_EGRESS;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    transport-class {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        auto-create;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        name gold {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            color </span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                end-point $TC_EGRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        name bronze {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            color </span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            tunnel-egress {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                end-point $TC_EGRESS;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 338,
+      "lineCount": 17,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 74,
+  "snip_count": 84,
   "snips": [
     {
       "path": "evo/apply-groups/gr-bgp-bcp.conf",
@@ -364,6 +364,24 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/l3vpn-export-import.conf"
     },
     {
+      "path": "evo/policy/per-packet-load-balance.conf",
+      "os": "evo",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the",
+      "seen_on": [
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 760,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/per-packet-load-balance.conf"
+    },
+    {
       "path": "evo/services/bgp-vpls.conf",
       "os": "evo",
       "category": "services",
@@ -594,6 +612,35 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/bgp-overlay.conf"
     },
     {
+      "path": "evo/transport/flex-algorithm.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "flex-algorithm",
+      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129",
+      "seen_on": [
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1952,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/flex-algorithm.conf"
+    },
+    {
+      "path": "evo/transport/forwarding-table.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "forwarding-table",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour \u2014 installs",
+      "seen_on": [
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509"
+      ],
+      "size_bytes": 1168,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/forwarding-table.conf"
+    },
+    {
       "path": "evo/transport/isis-srmpls-tilfa.conf",
       "os": "evo",
       "category": "transport",
@@ -656,6 +703,46 @@
       ],
       "size_bytes": 1410,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/mpls-segment-routing.conf"
+    },
+    {
+      "path": "evo/transport/rib-groups.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "rib-groups",
+      "topic": "RIB groups \u2014 leak local and remote loopbacks (plus the colour",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1438,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/rib-groups.conf"
+    },
+    {
+      "path": "evo/transport/transport-class.conf",
+      "os": "evo",
+      "category": "transport",
+      "name": "transport-class",
+      "topic": "Transport-class definitions \u2014 bind BGP colour communities to",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1664,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/transport-class.conf"
     },
     {
       "path": "junos/apply-groups/gr-bgp-bcp.conf",
@@ -999,6 +1086,25 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/l3vpn-export-import.conf"
     },
     {
+      "path": "junos/policy/per-packet-load-balance.conf",
+      "os": "junos",
+      "category": "policy",
+      "name": "per-packet-load-balance",
+      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 742,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/per-packet-load-balance.conf"
+    },
+    {
       "path": "junos/services/bgp-vpls.conf",
       "os": "junos",
       "category": "services",
@@ -1184,6 +1290,33 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/bgp-overlay.conf"
     },
     {
+      "path": "junos/transport/flex-algorithm.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "flex-algorithm",
+      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129",
+      "seen_on": [
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1954,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/flex-algorithm.conf"
+    },
+    {
+      "path": "junos/transport/forwarding-table.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "forwarding-table",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour \u2014 installs",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1591,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/forwarding-table.conf"
+    },
+    {
       "path": "junos/transport/isis-srmpls-tilfa.conf",
       "os": "junos",
       "category": "transport",
@@ -1243,6 +1376,39 @@
       ],
       "size_bytes": 1084,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/mpls-segment-routing.conf"
+    },
+    {
+      "path": "junos/transport/rib-groups.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "rib-groups",
+      "topic": "RIB groups \u2014 leak local and remote loopbacks so coloured service",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003"
+      ],
+      "size_bytes": 1473,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/rib-groups.conf"
+    },
+    {
+      "path": "junos/transport/transport-class.conf",
+      "os": "junos",
+      "category": "transport",
+      "name": "transport-class",
+      "topic": "Transport-class definitions \u2014 bind BGP colour communities to",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003"
+      ],
+      "size_bytes": 1710,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/transport-class.conf"
     }
   ],
   "reference_files": [
