@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T15:19:29.468Z",
+  "generatedAt": "2026-08-29T16:01:43.356Z",
   "counts": {
     "total": 686,
     "junos": 349,
@@ -44672,7 +44672,7 @@
       "name": "lag-esi-multihoming",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/lag-esi-multihoming.conf",
       "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
-      "topic": "Apply-group: GR-EDGE-INTF-MH (see apply-groups/gr-edge-intf-mh).",
+      "topic": "Edge LAG with EVPN ESI multihoming (active/active)",
       "seenOn": {
         "junos": [
           "an1_mx204",
