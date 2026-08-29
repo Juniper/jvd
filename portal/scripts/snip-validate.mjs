@@ -28,6 +28,7 @@ const REPO_ROOT = path.resolve(__dirname, "..", "..");
 // contract debt (Topic, Variables, Pair-with, ...) is enforced on change, not
 // escalated by flipping a JVD to "complete".
 const APPLICABILITY_CODES = new Set([
+  CODES.MISSING_HEADER,
   CODES.SEEN_ON_APPROXIMATION,
   CODES.SEEN_ON_UNKNOWN_DEVICE,
   CODES.SEEN_ON_NON_DEVICE_TOKEN,
@@ -209,7 +210,7 @@ async function walkSnips(dir, out = []) {
   return out;
 }
 
-function changedSet(base, { explicitBase } = {}) {
+function changedSet(base) {
   const names = new Set();
   const add = (out) => out.split("\n").filter(Boolean).forEach((f) => names.add(f));
   try {
@@ -218,9 +219,8 @@ function changedSet(base, { explicitBase } = {}) {
       encoding: "utf8",
     }));
   } catch (e) {
-    // Fail closed when a base was explicitly requested but cannot be resolved.
-    if (explicitBase) throw new Error(`cannot resolve --base ${base}: ${e.message}`);
-    return null; // no resolvable base — caller treats all as legacy
+    // Fail closed: an enforcement command must not silently grandfather everything.
+    throw new Error(`cannot resolve validation base '${base}': ${e.message}. Pass --base <ref> or --all-strict.`);
   }
   // Include staged + unstaged working-tree changes and untracked files, so a
   // snip being authored is validated strictly regardless of commit state.
@@ -241,11 +241,10 @@ async function main() {
   const argv = process.argv.slice(2);
   const allStrict = argv.includes("--all-strict");
   const baseIdx = argv.indexOf("--base");
-  const explicitBase = baseIdx >= 0;
-  const base = explicitBase ? argv[baseIdx + 1] : "origin/main";
+  const base = baseIdx >= 0 ? argv[baseIdx + 1] : "origin/main";
 
   const files = await walkSnips(REPO_ROOT);
-  const changed = allStrict ? null : changedSet(base, { explicitBase });
+  const changed = allStrict ? null : changedSet(base);
 
   const invCache = new Map();
   const sovCache = new Map();

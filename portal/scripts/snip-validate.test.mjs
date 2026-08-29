@@ -122,3 +122,35 @@ test("_snip-library.json metadata: valid parses, malformed throws", () => {
   assert.throws(() => parseSnipLibraryMeta('{"schemaVersion":2,"seenOnValidation":"partial"}'));
   assert.throws(() => parseSnipLibraryMeta('{"schemaVersion":1,"seenOnValidation":"typo"}'));
 });
+
+function seenOnText(junosRow, evoRow) {
+  return `/*\n * Topic:   x\n * Seen on:\n *   Junos: ${junosRow}\n *   EVO:   ${evoRow}\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+}
+
+test("Seen on: empty bucket, (none) with a device, and (all) are all flagged", () => {
+  assert.ok(codes(parseSnip(seenOnText("", "(none)")).diagnostics).includes(CODES.SEEN_ON_APPROXIMATION));
+  assert.ok(codes(parseSnip(seenOnText("(none) mse1_mx304", "(none)")).diagnostics).includes(CODES.SEEN_ON_APPROXIMATION));
+  assert.ok(codes(parseSnip(seenOnText("(all)", "(none)")).diagnostics).includes(CODES.SEEN_ON_APPROXIMATION));
+  // A lone (none) bucket is valid.
+  const clean = codes(parseSnip(seenOnText("mse1_mx304", "(none)")).diagnostics);
+  assert.ok(!clean.includes(CODES.SEEN_ON_APPROXIMATION));
+});
+
+test("deprecated Variant/Role fields are reported as LEGACY_HEADER_SECTION", () => {
+  const text = `/*\n * Topic:   x\n * Variant: Junos OS\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.LEGACY_HEADER_SECTION));
+});
+
+test("a misspelled known field is flagged and does not leak bullets", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Pair with:\n *  - junos/policy/real.conf\n * Highlihgts:\n *  - junos/other/leaked.conf\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  const parsed = parseSnip(text);
+  assert.ok(codes(parsed.diagnostics).includes(CODES.UNKNOWN_HEADER_SECTION));
+  assert.deepEqual(parsed.header.pairWith, ["junos/policy/real.conf"]);
+});
+
+test("MISSING_HEADER escalates under a complete library", () => {
+  assert.equal(severity(CODES.MISSING_HEADER, { changed: false, seenOnValidation: "complete" }), "error");
+});

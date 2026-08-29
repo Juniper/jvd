@@ -21,6 +21,7 @@ export const CODES = {
   VARIABLE_UNDECLARED: "VARIABLE_UNDECLARED",
   VARIABLE_UNUSED: "VARIABLE_UNUSED",
   UNKNOWN_HEADER_SECTION: "UNKNOWN_HEADER_SECTION",
+  LEGACY_HEADER_SECTION: "LEGACY_HEADER_SECTION",
   INVALID_SECTION_ORDER: "INVALID_SECTION_ORDER",
 };
 
@@ -35,6 +36,23 @@ const SECTION_ORDER = [
 
 // Bare prose words that must never be read as device tokens.
 const APPROX_WORDS = /^(all|other|others|remaining|various|etc|devices|nodes|node|pes|pe|routers|router)$/i;
+
+// Canonical field labels for fuzzy misspelling detection.
+const KNOWN_LABELS = ["topic", "seen on", "highlights", "pair with", "variables", "jvd service mapping"];
+
+/** Bounded Levenshtein distance for short header labels. */
+function editDistance(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 3;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
 
 /**
  * Parse the standard snip header. Returns { header, body, warnings, diagnostics }.
@@ -121,7 +139,8 @@ export function parseSnip(text) {
       } else if (key === "jvd service mapping") {
         section = "jvd-service-mapping";
       } else if (key === "variant" || key === "role") {
-        // Recognised, tolerated legacy fields — consumed but not captured.
+        // Deprecated legacy fields: consumed (not captured) and flagged for migration.
+        diag(CODES.LEGACY_HEADER_SECTION, trimmed);
         section = null;
       }
       const orderIdx = SECTION_ORDER.indexOf(section);
@@ -130,6 +149,18 @@ export function parseSnip(text) {
         if (orderIdx > maxOrderSeen) maxOrderSeen = orderIdx;
       }
       continue;
+    }
+
+    // A misspelling of a known field (edit distance <= 2) — flag it and leave the
+    // current section so its bullets are not miscaptured. Device rows excluded.
+    const labelMatch = line.match(/^\s{0,1}([A-Za-z][A-Za-z0-9 -]{1,24})\s*:/);
+    if (labelMatch && !/^\s{0,2}(Junos|EVO)\s*:/i.test(line)) {
+      const label = labelMatch[1].trim().toLowerCase().replace(/\s+/g, " ");
+      if (KNOWN_LABELS.some((k) => editDistance(label, k) <= 2)) {
+        diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
+        section = null;
+        continue;
+      }
     }
 
     if (section === "topic") {
@@ -147,18 +178,26 @@ export function parseSnip(text) {
       if (so) {
         const bucket = so[1].toLowerCase() === "evo" ? "evo" : "junos";
         seenOnRows[bucket] = true;
+        let noneMarker = false;
+        let hadParen = false;
+        let deviceCount = 0;
         for (const tok of so[2].split(/\s+/).filter(Boolean)) {
           if (tok.startsWith("(")) {
-            // Self-contained parenthetical like "(ACX7100-32C)" is a per-device
-            // platform annotation — skip and keep reading. Otherwise it begins a
-            // prose note like "(all EVO PEs)" — an approximation; stop there.
-            if (/\)[,;]?$/.test(tok)) continue;
-            if (!/^\(none\)?$/i.test(tok)) diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: ${so[2].trim()}`);
+            const selfClosing = /\)[,;]?$/.test(tok);
+            if (/^\(none\)[,;]?$/i.test(tok)) {
+              noneMarker = true;
+              continue;
+            }
+            // Any non-(none) parenthetical (platform annotation or prose) is an
+            // approximation. Device capture is preserved: a self-closing token
+            // keeps reading, a prose note stops the line (unchanged behaviour).
+            hadParen = true;
+            diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: ${tok}`);
+            if (selfClosing) continue;
             break;
           }
           if (!/^[A-Za-z0-9]/.test(tok)) continue;
           const clean = tok.replace(/[,;]+$/, "");
-          // Contract findings — do NOT alter what gets pushed (keeps snips.json stable).
           // `/` is left for inventory resolution (scenario-qualified identities are valid).
           if (clean === "see" || clean.endsWith(".conf")) {
             diag(CODES.SEEN_ON_NON_DEVICE_TOKEN, `${bucket}: ${clean}`);
@@ -166,7 +205,11 @@ export function parseSnip(text) {
             diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: ${clean}`);
           }
           seenOn[bucket].push(clean);
+          deviceCount++;
         }
+        // `(none)` must stand alone; a bucket must not be empty.
+        if (noneMarker && deviceCount > 0) diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: (none) with devices`);
+        if (!noneMarker && !hadParen && deviceCount === 0) diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: empty`);
       }
       continue;
     }

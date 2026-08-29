@@ -65,9 +65,10 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
   roundtrips on a device of the other OS family, that device **MUST** still be
   listed in its bucket.
 - `(none)` is the only valid empty value. (`SEEN_ON_APPROXIMATION`)
-- It **MUST NOT** contain: `see`, paths, `.conf` filenames, `all`/`all PEs`/
-  `other devices`, inferred applicability, prose notes, or cross-file
-  navigation. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
+- It **MUST NOT** contain: `see`, snip or navigation paths, `.conf` filenames,
+  `all`/`all PEs`/`other devices`, inferred applicability, prose notes, or
+  cross-file navigation. Scenario-qualified **device** identities (see *Device
+  identity*) are permitted. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
 
 ### Device identity
 
@@ -130,6 +131,11 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 Until their parser, schema, and portal behaviour exist, headers **MUST NOT**
 author `Augments with:`, `Peers with:`, or `Variant group:`.
 
+The free-form `Variant:` and `Role:` fields are **deprecated** legacy metadata:
+they are recognised but not retained, and are reported as `LEGACY_HEADER_SECTION`
+(a warning on legacy snips, an error once a snip is changed). Device role is
+derived from `_roles.json`; the future construct is `Variant group:`.
+
 ## Cross-OS navigation
 
 When a snip of the same `jvd` + `category` + `name` exists under the other OS
@@ -161,7 +167,8 @@ and independent of role support (`_roles.json`).
 `MISSING_TOPIC`, `TOPIC_MULTILINE`, `MISSING_SEEN_ON_SECTION`,
 `MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
 `SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
-`VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `INVALID_SECTION_ORDER`.
+`VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `LEGACY_HEADER_SECTION`,
+`INVALID_SECTION_ORDER`.
 
 Severity is applied on change:
 
