@@ -21,6 +21,8 @@ export type SnipRecord = {
   category: string;
   name: string;
   path: string;
+  /** Cross-OS sibling snip id (same jvd+category+name, other OS) — navigation only, not a body-identity claim. */
+  otherOsFormId: string | null;
   topic: string;
   seenOn: { junos: string[]; evo: string[] };
   highlights: string[];
