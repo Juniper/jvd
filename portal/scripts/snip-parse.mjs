@@ -22,6 +22,7 @@ export const CODES = {
   VARIABLE_UNUSED: "VARIABLE_UNUSED",
   UNKNOWN_HEADER_SECTION: "UNKNOWN_HEADER_SECTION",
   LEGACY_HEADER_SECTION: "LEGACY_HEADER_SECTION",
+  LEGACY_HEADER_SYNTAX: "LEGACY_HEADER_SYNTAX",
   INVALID_SECTION_ORDER: "INVALID_SECTION_ORDER",
 };
 
@@ -30,8 +31,8 @@ const SECTION_ORDER = [
   "seen-on",
   "highlights",
   "pair-with",
-  "variables",
   "jvd-service-mapping",
+  "variables",
 ];
 
 // Bare prose words that must never be read as device tokens.
@@ -118,14 +119,23 @@ export function parseSnip(text) {
     }
 
     // Section headers (case-insensitive on the keyword). Match on the de-starred
-    // line so the keyword must sit at the header's own indent level.
+    // line so the keyword must sit at the header's own indent level. Canonical
+    // grammar is `Field:` or `Field (annotation):` — a colon is required, with an
+    // optional immediate `(…)` annotation. Because a colon or an abutting `(`
+    // must follow the keyword, ordinary body prose (an `apply-groups GR (see …)`
+    // line, a `Variant of …` note, a `Pair with junos/…` sentence) is never
+    // mistaken for metadata. A colonless annotated field (e.g. `Variables (none —
+    // literal)`) parses for backward compatibility but is flagged for migration.
     const sec = line.match(
-      /^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping|Variant|Role)\b\s*:?\s*(.*)$/i,
+      /^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping|Variant|Role)\s*(?:(\([^)]*\))\s*(:)?|(:))\s*(.*)$/i,
     );
     if (sec) {
       const key = sec[1].toLowerCase();
+      const value = sec[5];
+      // Annotated but colonless: legacy syntax — tolerated, not canonical.
+      if (sec[2] && !sec[3]) diag(CODES.LEGACY_HEADER_SYNTAX, trimmed);
       if (key === "topic" || key === "apply-group" || key === "apply-groups") {
-        topic = key.startsWith("apply-group") ? `Apply-group: ${sec[2].trim()}` : sec[2].trim();
+        topic = key.startsWith("apply-group") ? `Apply-group: ${value.trim()}` : value.trim();
         section = "topic";
       } else if (key === "seen on") {
         section = "seen-on";

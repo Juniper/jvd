@@ -154,3 +154,87 @@ test("a misspelled known field is flagged and does not leak bullets", () => {
 test("MISSING_HEADER escalates under a complete library", () => {
   assert.equal(severity(CODES.MISSING_HEADER, { changed: false, seenOnValidation: "complete" }), "error");
 });
+
+test("canonical order: JVD service mapping before Variables is valid", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * JVD service mapping:\n *   E-Line -> evpn-vpws\n * Variables: none\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(!codes(parseSnip(text).diagnostics).includes(CODES.INVALID_SECTION_ORDER));
+});
+
+test("Variables before JVD service mapping is out of order", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Variables: none\n * JVD service mapping:\n *   E-Line -> evpn-vpws\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.INVALID_SECTION_ORDER));
+});
+
+test("body prose beginning `apply-groups ` does not overwrite Topic", () => {
+  const text =
+    `/*\n * Topic:   Edge LAG with EVPN ESI multihoming\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` *\n * Common edge knobs come from\n * apply-groups GR-EDGE-INTF-MH (see apply-groups/gr-edge-intf-mh).\n */\n` +
+    `interfaces {\n    ae11 {\n    }\n}\n`;
+  const parsed = parseSnip(text);
+  assert.equal(parsed.header.topic, "Edge LAG with EVPN ESI multihoming");
+  assert.ok(!codes(parsed.diagnostics).includes(CODES.INVALID_SECTION_ORDER));
+});
+
+test("body prose beginning `Variant of ` is not a legacy field", () => {
+  const text =
+    `/*\n * Apply-group: GR-EDGE-INTF-MH\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` *\n * Variant of GR-EDGE-INTF for multi-homed edge interfaces (no\n * hold-time configured).\n */\n` +
+    `groups {\n    GR-EDGE-INTF-MH {\n    }\n}\n`;
+  assert.ok(!codes(parseSnip(text).diagnostics).includes(CODES.LEGACY_HEADER_SECTION));
+});
+
+test("real Apply-group: and Variant: fields are still recognized", () => {
+  const apply = `/*\n * Apply-group: GR-EDGE-INTF\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\ngroups {\n    GR-EDGE-INTF {\n    }\n}\n`;
+  assert.equal(parseSnip(apply).header.topic, "Apply-group: GR-EDGE-INTF");
+  const variant = `/*\n * Topic:   x\n * Variant: Junos OS\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(variant).diagnostics).includes(CODES.LEGACY_HEADER_SECTION));
+});
+
+test("Variables with a `(...)` annotation and no colon parses but is legacy syntax", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Variables (none \u2014 literal)\n */\nforwarding-options {\n    multicast-replication;\n}\n`;
+  const found = codes(parseSnip(text).diagnostics);
+  assert.ok(found.includes(CODES.LEGACY_HEADER_SYNTAX));
+  assert.ok(!found.includes(CODES.UNKNOWN_HEADER_SECTION));
+  assert.ok(!found.includes(CODES.LEGACY_HEADER_SECTION));
+});
+
+test("a `(annotation):` header (colon present) is canonical, not legacy syntax", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Variables (example values from mse1_mx304):\n *   $VAR   e.g. 1\n */\n` +
+    `routing-options {\n    router-id $VAR;\n}\n`;
+  assert.ok(!codes(parseSnip(text).diagnostics).includes(CODES.LEGACY_HEADER_SYNTAX));
+});
+
+test("LEGACY_HEADER_SYNTAX errors on change, warns when legacy", () => {
+  assert.equal(severity(CODES.LEGACY_HEADER_SYNTAX, { changed: true, seenOnValidation: "partial" }), "error");
+  assert.equal(severity(CODES.LEGACY_HEADER_SYNTAX, { changed: false, seenOnValidation: "partial" }), "warn");
+  // Not an applicability code: stays a warning even under complete.
+  assert.equal(severity(CODES.LEGACY_HEADER_SYNTAX, { changed: false, seenOnValidation: "complete" }), "warn");
+});
+
+test("Pair with carries a `(...)` annotation before its colon", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Highlights:\n *  - a highlight\n * Pair with (same-device dependencies):\n *  - junos/policy/real.conf\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  const parsed = parseSnip(text);
+  assert.deepEqual(parsed.header.highlights, ["a highlight"]);
+  assert.deepEqual(parsed.header.pairWith, ["junos/policy/real.conf"]);
+});
+
+test("a `Pair with junos/...` prose sentence is not a Pair with header", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` *\n * Pair with junos/cos/schedulers.conf for the matching\n * scheduler-map definitions.\n` +
+    ` * Pair with:\n *  - junos/cos/schedulers.conf\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.deepEqual(parseSnip(text).header.pairWith, ["junos/cos/schedulers.conf"]);
+});

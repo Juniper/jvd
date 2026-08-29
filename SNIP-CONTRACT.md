@@ -25,11 +25,26 @@ followed by the templated configuration body.
  *  - <bullet>
  * Pair with:             (optional)
  *  - <snip path> (<optional reason>)
+ * JVD service mapping:   (optional)
  * Variables:             (optional)
  *   $VAR   e.g. <example>
  */
 <body>
 ```
+
+Sections, when present, **MUST** appear in this order: `Topic`, `Seen on`,
+`Highlights`, `Pair with`, `JVD service mapping`, `Variables`. `Variables` is
+last, adjacent to the templated body it declares. Any other order is reported as
+`INVALID_SECTION_ORDER`.
+
+A formal field header **MUST** end its keyword with a colon, optionally after an
+immediate `(…)` annotation — `Field:` or `Field (annotation):` (e.g. `Pair with
+(same-device dependencies):`, `Variables (example values from mse1_mx304):`). A
+colonless line is body prose, not metadata. A colonless **annotated** field
+(e.g. `Variables (none — literal)`) is tolerated for backward compatibility but
+is **deprecated**: it parses, yet is reported as `LEGACY_HEADER_SYNTAX` (a
+warning on legacy snips, an error once the snip is changed). New fields **MUST**
+use the colon form.
 
 Junos and EVO forms of the same construct live in **separate** files under
 `snips/junos/` and `snips/evo/`. They are **not** consolidated; the file's
@@ -118,6 +133,9 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 - Native Junos runtime variables (lower-case, e.g. `$junos-interface-unit`) are
   not JVD template variables and are not declared here.
 - Use `Variables: none` when there are none.
+- The keyword **MAY** carry an immediate `(…)` annotation before its colon (e.g.
+  `Variables (example values from mse1_mx304):`). The colonless annotated form
+  (`Variables (none — literal)`) is deprecated (`LEGACY_HEADER_SYNTAX`).
 
 ### JVD service mapping (optional)
 
@@ -168,7 +186,7 @@ and independent of role support (`_roles.json`).
 `MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
 `SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
 `VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `LEGACY_HEADER_SECTION`,
-`INVALID_SECTION_ORDER`.
+`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`.
 
 Severity is applied on change:
 
