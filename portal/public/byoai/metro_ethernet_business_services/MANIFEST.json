@@ -368,8 +368,17 @@
       "os": "evo",
       "category": "policy",
       "name": "per-packet-load-balance",
-      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the",
+      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the forwarding table so ECMP paths are used per-flow.",
       "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
         "cr1_ptx10001-36mr",
         "cr2_ptx10001-36mr",
         "ma1-1_acx7024",
@@ -378,7 +387,7 @@
         "mdr1_acx7509",
         "meg2_acx7509"
       ],
-      "size_bytes": 760,
+      "size_bytes": 800,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/per-packet-load-balance.conf"
     },
     {
@@ -616,13 +625,16 @@
       "os": "evo",
       "category": "transport",
       "name": "flex-algorithm",
-      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129",
+      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.",
       "seen_on": [
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
         "mdr1_acx7509",
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1952,
+      "size_bytes": 1935,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/flex-algorithm.conf"
     },
     {
@@ -630,14 +642,16 @@
       "os": "evo",
       "category": "transport",
       "name": "forwarding-table",
-      "topic": "Forwarding-table export + ECMP/next-hop behaviour \u2014 installs",
+      "topic": "Forwarding-table export \u2014 per-packet load-balance applied to the forwarding table (minimal EVO form).",
       "seen_on": [
+        "ma2_mx204",
+        "mdr2_mx10003",
         "cr1_ptx10001-36mr",
         "cr2_ptx10001-36mr",
         "ma3_acx7100-48l",
         "mdr1_acx7509"
       ],
-      "size_bytes": 1168,
+      "size_bytes": 1119,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/forwarding-table.conf"
     },
     {
@@ -709,8 +723,14 @@
       "os": "evo",
       "category": "transport",
       "name": "rib-groups",
-      "topic": "RIB groups \u2014 leak local and remote loopbacks (plus the colour",
+      "topic": "RIB groups \u2014 leak local and remote loopbacks so coloured service next-hops resolve.",
       "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
         "an3_acx7100-48l",
         "cr1_ptx10001-36mr",
         "cr2_ptx10001-36mr",
@@ -721,7 +741,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1438,
+      "size_bytes": 1417,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/rib-groups.conf"
     },
     {
@@ -729,19 +749,23 @@
       "os": "evo",
       "category": "transport",
       "name": "transport-class",
-      "topic": "Transport-class definitions \u2014 bind BGP colour communities to",
+      "topic": "Transport-class definitions \u2014 bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.",
       "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
         "an3_acx7100-48l",
         "cr1_ptx10001-36mr",
         "cr2_ptx10001-36mr",
         "ma1-1_acx7024",
         "ma1-2_acx7024",
         "ma3_acx7100-48l",
-        "mdr1_acx7509",
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1664,
+      "size_bytes": 1653,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/transport-class.conf"
     },
     {
@@ -1090,18 +1114,26 @@
       "os": "junos",
       "category": "policy",
       "name": "per-packet-load-balance",
-      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the",
+      "topic": "Per-packet load-balance policy (pplb) \u2014 exported to the forwarding table so ECMP paths are used per-flow.",
       "seen_on": [
         "an1_mx204",
         "an2_acx5448",
         "an4_acx710",
+        "ma2_mx204",
         "ma4_mx204",
         "ma5_mx204",
         "mdr2_mx10003",
         "mse1_mx304",
-        "mse2_mx304"
+        "mse2_mx304",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg2_acx7509"
       ],
-      "size_bytes": 742,
+      "size_bytes": 802,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/per-packet-load-balance.conf"
     },
     {
@@ -1294,13 +1326,16 @@
       "os": "junos",
       "category": "transport",
       "name": "flex-algorithm",
-      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129",
+      "topic": "Flex-Algo definitions \u2014 FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.",
       "seen_on": [
         "mdr2_mx10003",
         "mse1_mx304",
-        "mse2_mx304"
+        "mse2_mx304",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
       ],
-      "size_bytes": 1954,
+      "size_bytes": 1947,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/flex-algorithm.conf"
     },
     {
@@ -1308,12 +1343,12 @@
       "os": "junos",
       "category": "transport",
       "name": "forwarding-table",
-      "topic": "Forwarding-table export + ECMP/next-hop behaviour \u2014 installs",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour \u2014 installs per-packet load balancing and chained composite next-hops.",
       "seen_on": [
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 1591,
+      "size_bytes": 1546,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/forwarding-table.conf"
     },
     {
@@ -1382,16 +1417,25 @@
       "os": "junos",
       "category": "transport",
       "name": "rib-groups",
-      "topic": "RIB groups \u2014 leak local and remote loopbacks so coloured service",
+      "topic": "RIB groups \u2014 leak local and remote loopbacks so coloured service next-hops resolve.",
       "seen_on": [
         "an1_mx204",
         "an2_acx5448",
         "an4_acx710",
         "ma4_mx204",
         "ma5_mx204",
-        "mdr2_mx10003"
+        "mdr2_mx10003",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
       ],
-      "size_bytes": 1473,
+      "size_bytes": 1566,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/rib-groups.conf"
     },
     {
@@ -1399,15 +1443,23 @@
       "os": "junos",
       "category": "transport",
       "name": "transport-class",
-      "topic": "Transport-class definitions \u2014 bind BGP colour communities to",
+      "topic": "Transport-class definitions \u2014 bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.",
       "seen_on": [
         "an1_mx204",
         "an2_acx5448",
         "ma4_mx204",
         "ma5_mx204",
-        "mdr2_mx10003"
+        "mdr2_mx10003",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
       ],
-      "size_bytes": 1710,
+      "size_bytes": 1785,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/transport-class.conf"
     }
   ],

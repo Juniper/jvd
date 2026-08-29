@@ -1308,10 +1308,9 @@ policy-options {
 
 ```
 /*
- * Topic:   Per-packet load-balance policy (pplb) — exported to the
- *          forwarding table so ECMP paths are used per-flow.
+ * Topic:   Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.
  * Seen on:
- *   Junos: see junos/policy/per-packet-load-balance.conf
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
  *
  * Highlights:
@@ -2457,10 +2456,9 @@ protocols {
 
 ```
 /*
- * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129
- *          (TE-metric), each bound to a transport class by colour.
+ * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.
  * Seen on:
- *   Junos: see junos/transport/flex-algorithm.conf
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -2512,10 +2510,9 @@ routing-options {
 
 ```
 /*
- * Topic:   Forwarding-table export + ECMP/next-hop behaviour — installs
- *          per-packet load balancing and chained composite next-hops.
+ * Topic:   Forwarding-table export — per-packet load-balance applied to the forwarding table (minimal EVO form).
  * Seen on:
- *   Junos: see junos/transport/forwarding-table.conf
+ *   Junos: ma2_mx204 mdr2_mx10003
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l mdr1_acx7509
  *
  * Highlights:
@@ -2696,10 +2693,9 @@ protocols {
 
 ```
 /*
- * Topic:   RIB groups — leak local and remote loopbacks (plus the colour
- *          transport-class RIBs) so coloured service next-hops resolve.
+ * Topic:   RIB groups — leak local and remote loopbacks so coloured service next-hops resolve.
  * Seen on:
- *   Junos: see junos/transport/rib-groups.conf
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
@@ -2735,11 +2731,10 @@ routing-options {
 
 ```
 /*
- * Topic:   Transport-class definitions — bind BGP colour communities to
- *          Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Topic:   Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.
  * Seen on:
- *   Junos: see junos/transport/transport-class.conf
- *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).
@@ -3977,11 +3972,10 @@ policy-options {
 
 ```
 /*
- * Topic:   Per-packet load-balance policy (pplb) — exported to the
- *          forwarding table so ECMP paths are used per-flow.
+ * Topic:   Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
- *   EVO:   see evo/policy/per-packet-load-balance.conf
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
  *
  * Highlights:
  *  - Single unconditional term: `load-balance per-packet; accept;`.
@@ -5088,11 +5082,10 @@ protocols {
 
 ```
 /*
- * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129
- *          (TE-metric), each bound to a transport class by colour.
+ * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
- *   EVO:   see evo/transport/flex-algorithm.conf
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.
@@ -5143,11 +5136,10 @@ routing-options {
 
 ```
 /*
- * Topic:   Forwarding-table export + ECMP/next-hop behaviour — installs
- *          per-packet load balancing and chained composite next-hops.
+ * Topic:   Forwarding-table export + ECMP/next-hop behaviour — installs per-packet load balancing and chained composite next-hops.
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
- *   EVO:   see evo/transport/forwarding-table.conf
+ *   EVO:   (none)
  *
  * Highlights:
  *  - This is the services-edge PE form (the richest variant). The
@@ -5356,11 +5348,10 @@ protocols {
 
 ```
 /*
- * Topic:   RIB groups — leak local and remote loopbacks so coloured service
- *          next-hops resolve.
+ * Topic:   RIB groups — leak local and remote loopbacks so coloured service next-hops resolve.
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
- *   EVO:   see evo/transport/rib-groups.conf
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using
@@ -5397,11 +5388,10 @@ routing-options {
 
 ```
 /*
- * Topic:   Transport-class definitions — bind BGP colour communities to
- *          Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Topic:   Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
- *   EVO:   see evo/transport/transport-class.conf
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).

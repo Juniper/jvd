@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T04:19:42.357Z",
+  "generatedAt": "2026-08-29T13:58:37.168Z",
   "counts": {
     "total": 686,
     "junos": 349,
@@ -41228,11 +41228,18 @@
       "category": "policy",
       "name": "per-packet-load-balance",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/per-packet-load-balance.conf",
-      "topic": "Per-packet load-balance policy (pplb) — exported to the",
+      "topic": "Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.",
       "seenOn": {
         "junos": [
-          "see",
-          "junos/policy/per-packet-load-balance.conf"
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "cr1_ptx10001-36mr",
@@ -42784,11 +42791,12 @@
       "category": "transport",
       "name": "flex-algorithm",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/flex-algorithm.conf",
-      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129",
+      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.",
       "seenOn": {
         "junos": [
-          "see",
-          "junos/transport/flex-algorithm.conf"
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
         ],
         "evo": [
           "mdr1_acx7509",
@@ -42848,11 +42856,11 @@
       "category": "transport",
       "name": "forwarding-table",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/forwarding-table.conf",
-      "topic": "Forwarding-table export + ECMP/next-hop behaviour — installs",
+      "topic": "Forwarding-table export — per-packet load-balance applied to the forwarding table (minimal EVO form).",
       "seenOn": {
         "junos": [
-          "see",
-          "junos/transport/forwarding-table.conf"
+          "ma2_mx204",
+          "mdr2_mx10003"
         ],
         "evo": [
           "cr1_ptx10001-36mr",
@@ -43082,11 +43090,15 @@
       "category": "transport",
       "name": "rib-groups",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/rib-groups.conf",
-      "topic": "RIB groups — leak local and remote loopbacks (plus the colour",
+      "topic": "RIB groups — leak local and remote loopbacks so coloured service next-hops resolve.",
       "seenOn": {
         "junos": [
-          "see",
-          "junos/transport/rib-groups.conf"
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
         ],
         "evo": [
           "an3_acx7100-48l",
@@ -43149,11 +43161,14 @@
       "category": "transport",
       "name": "transport-class",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/transport/transport-class.conf",
-      "topic": "Transport-class definitions — bind BGP colour communities to",
+      "topic": "Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.",
       "seenOn": {
         "junos": [
-          "see",
-          "junos/transport/transport-class.conf"
+          "an1_mx204",
+          "an2_acx5448",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
         ],
         "evo": [
           "an3_acx7100-48l",
@@ -43162,7 +43177,6 @@
           "ma1-1_acx7024",
           "ma1-2_acx7024",
           "ma3_acx7100-48l",
-          "mdr1_acx7509",
           "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
@@ -44454,12 +44468,13 @@
       "category": "policy",
       "name": "per-packet-load-balance",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/per-packet-load-balance.conf",
-      "topic": "Per-packet load-balance policy (pplb) — exported to the",
+      "topic": "Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.",
       "seenOn": {
         "junos": [
           "an1_mx204",
           "an2_acx5448",
           "an4_acx710",
+          "ma2_mx204",
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003",
@@ -44467,8 +44482,13 @@
           "mse2_mx304"
         ],
         "evo": [
-          "see",
-          "evo/policy/per-packet-load-balance.conf"
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg2_acx7509"
         ]
       },
       "highlights": [
@@ -45954,7 +45974,7 @@
       "category": "transport",
       "name": "flex-algorithm",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/flex-algorithm.conf",
-      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129",
+      "topic": "Flex-Algo definitions — FA 128 (delay-optimised) and FA 129 (TE-metric), each bound to a transport class by colour.",
       "seenOn": {
         "junos": [
           "mdr2_mx10003",
@@ -45962,8 +45982,9 @@
           "mse2_mx304"
         ],
         "evo": [
-          "see",
-          "evo/transport/flex-algorithm.conf"
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
         ]
       },
       "highlights": [
@@ -46018,16 +46039,13 @@
       "category": "transport",
       "name": "forwarding-table",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/forwarding-table.conf",
-      "topic": "Forwarding-table export + ECMP/next-hop behaviour — installs",
+      "topic": "Forwarding-table export + ECMP/next-hop behaviour — installs per-packet load balancing and chained composite next-hops.",
       "seenOn": {
         "junos": [
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "see",
-          "evo/transport/forwarding-table.conf"
-        ]
+        "evo": []
       },
       "highlights": [
         "This is the services-edge PE form (the richest variant). The forwarding-table stanza is strongly role-dependent across this JVD; other roles carry reduced subsets (e.g. mdr2_mx10003 carries only `export pplb`; access nodes omit dynamic-list-next-hop / ecmp-fast- reroute / evpn-egress-link-protection). A full role-variant model is a post-extraction follow-up.",
@@ -46224,7 +46242,7 @@
       "category": "transport",
       "name": "rib-groups",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/rib-groups.conf",
-      "topic": "RIB groups — leak local and remote loopbacks so coloured service",
+      "topic": "RIB groups — leak local and remote loopbacks so coloured service next-hops resolve.",
       "seenOn": {
         "junos": [
           "an1_mx204",
@@ -46235,8 +46253,15 @@
           "mdr2_mx10003"
         ],
         "evo": [
-          "see",
-          "evo/transport/rib-groups.conf"
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
         ]
       },
       "highlights": [
@@ -46289,7 +46314,7 @@
       "category": "transport",
       "name": "transport-class",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/transport/transport-class.conf",
-      "topic": "Transport-class definitions — bind BGP colour communities to",
+      "topic": "Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.",
       "seenOn": {
         "junos": [
           "an1_mx204",
@@ -46299,8 +46324,14 @@
           "mdr2_mx10003"
         ],
         "evo": [
-          "see",
-          "evo/transport/transport-class.conf"
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
         ]
       },
       "highlights": [
