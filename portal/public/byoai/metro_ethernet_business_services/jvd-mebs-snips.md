@@ -1304,6 +1304,36 @@ policy-options {
 }
 ```
 
+## evo/policy/per-packet-load-balance.conf
+
+```
+/*
+ * Topic:   Per-packet load-balance policy (pplb) — exported to the
+ *          forwarding table so ECMP paths are used per-flow.
+ * Seen on:
+ *   Junos: see junos/policy/per-packet-load-balance.conf
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
+ *
+ * Highlights:
+ *  - Single unconditional term: `load-balance per-packet; accept;`.
+ *  - Applied via `routing-options forwarding-table export pplb`
+ *    (transport/forwarding-table.conf).
+ *
+ * Pair with:
+ *  - evo/transport/forwarding-table.conf  (applies this policy)
+ *
+ * Variables: none.
+ */
+policy-options {
+    policy-statement pplb {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+}
+```
+
 ## evo/services/bgp-vpls.conf
 
 ```
@@ -2423,6 +2453,94 @@ protocols {
 }
 ```
 
+## evo/transport/flex-algorithm.conf
+
+```
+/*
+ * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129
+ *          (TE-metric), each bound to a transport class by colour.
+ * Seen on:
+ *   Junos: see junos/transport/flex-algorithm.conf
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.
+ *  - FA 129: te-metric SPF, includes admin-group `blue`, colour 6000.
+ *  - This is the Flex-Algo DEFINITION carried by the FAD-advertiser nodes
+ *    (metro-core); other transport nodes carry only the slim reference
+ *    (`colour` + `use-transport-class`) without the definition.
+ *  - `use-flex-algorithm-prefix-metric` + `use-transport-class` install the
+ *    FA-derived path so a service's colour community resolves over it.
+ *  - The `green`/`blue` admin-groups are defined in transport/mpls-segment-
+ *    routing.conf; ISIS advertises participation in transport/isis-srmpls-tilfa.conf.
+ *
+ * Pair with:
+ *  - evo/transport/transport-class.conf    (maps colour 4000/6000 to gold/bronze)
+ *  - evo/transport/mpls-segment-routing.conf (defines admin-groups green/blue)
+ *  - evo/transport/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])
+ *
+ * Variables: none. FA numbers, metric types, admin-group colours, and the
+ *            colour values are the JVD-wide abstraction and are left literal.
+ */
+routing-options {
+    flex-algorithm 128 {
+        definition {
+            metric-type delay-metric;
+            spf;
+            use-flex-algorithm-prefix-metric;
+            priority 0;
+            admin-group include-any green;
+        }
+        color 4000;
+        use-transport-class;
+    }
+    flex-algorithm 129 {
+        definition {
+            metric-type te-metric;
+            spf;
+            use-flex-algorithm-prefix-metric;
+            priority 0;
+            admin-group include-any blue;
+        }
+        color 6000;
+        use-transport-class;
+    }
+}
+```
+
+## evo/transport/forwarding-table.conf
+
+```
+/*
+ * Topic:   Forwarding-table export + ECMP/next-hop behaviour — installs
+ *          per-packet load balancing and chained composite next-hops.
+ * Seen on:
+ *   Junos: see junos/transport/forwarding-table.conf
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l mdr1_acx7509
+ *
+ * Highlights:
+ *  - This is the minimal EVO form (`export pplb` only). The forwarding-table
+ *    stanza is strongly role-dependent: other EVO nodes add a
+ *    `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block
+ *    (see the Junos PE variant), and an3/meg1 export `PS-PPLB` instead of
+ *    `pplb` (see policy/per-packet-load-balance variants). A full role-
+ *    variant model is a post-extraction follow-up.
+ *  - `export pplb` applies the per-packet load-balance policy to the
+ *    forwarding table (ECMP across equal-cost paths).
+ *
+ * Pair with:
+ *  - evo/policy/per-packet-load-balance.conf  (defines the pplb policy)
+ *  - evo/transport/bgp-overlay.conf           (provides the ECMP paths)
+ *
+ * Variables: none. All knobs here are JVD-wide behaviour and left literal.
+ */
+routing-options {
+    forwarding-table {
+        export pplb;
+    }
+}
+```
+
 ## evo/transport/isis-srmpls-tilfa.conf
 
 ```
@@ -2570,6 +2688,92 @@ protocols {
             srgb-label-range 16000 24000;
         }
         ipv6-tunneling;
+    }
+}
+```
+
+## evo/transport/rib-groups.conf
+
+```
+/*
+ * Topic:   RIB groups — leak local and remote loopbacks (plus the colour
+ *          transport-class RIBs) so coloured service next-hops resolve.
+ * Seen on:
+ *   Junos: see junos/transport/rib-groups.conf
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using
+ *    PS-LOCAL-LOOPBACK. (Unlike the Junos MSE variant, EVO nodes do not
+ *    import the per-colour transport-class RIBs into this group.)
+ *  - RG-REMOTE-LOOPBACKS leaks BGP-learned remote loopbacks across
+ *    inet.3/inet.0/inet6.3 using PS-REMOTE-LOOPBACKS.
+ *
+ * Pair with:
+ *  - evo/transport/transport-class.conf   (defines the colour transport classes)
+ *  - evo/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)
+ *  - evo/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)
+ *
+ * Variables: none. RIB-group names, RIB names, and import-policy names are
+ *            the JVD-wide abstraction and are left literal.
+ */
+routing-options {
+    rib-groups {
+        RG-LOCAL-LOOPBACK {
+            import-rib [ inet.0 inet.3 ];
+            import-policy PS-LOCAL-LOOPBACK;
+        }
+        RG-REMOTE-LOOPBACKS {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy PS-REMOTE-LOOPBACKS;
+        }
+    }
+}
+```
+
+## evo/transport/transport-class.conf
+
+```
+/*
+ * Topic:   Transport-class definitions — bind BGP colour communities to
+ *          Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Seen on:
+ *   Junos: see junos/transport/transport-class.conf
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).
+ *    `auto-create` lets additional colours map without an explicit stanza.
+ *  - Each class's `tunnel-egress end-point` is the local transport loopback
+ *    the colour-tagged path terminates on.
+ *  - Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over
+ *    Flex-Algo 129 (TE) — see transport/flex-algorithm.conf.
+ *  - Core PEs anchoring a shared egress add a second anycast `end-point`
+ *    under the bronze class (see the Junos MSE variant).
+ *
+ * Pair with:
+ *  - evo/transport/flex-algorithm.conf     (defines FA 128/129 + use-transport-class)
+ *  - evo/transport/isis-srmpls-tilfa.conf  (ISIS carries FA 128/129)
+ *  - evo/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)
+ *
+ * Variables (example values from ma1-1_acx7024):
+ *   $TC_EGRESS   e.g. 1.1.0.17   (this node's transport-class egress loopback)
+ */
+routing-options {
+    transport-class {
+        auto-create;
+        name gold {
+            color 4000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
+        name bronze {
+            color 6000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
     }
 }
 ```
@@ -3769,6 +3973,36 @@ policy-options {
 }
 ```
 
+## junos/policy/per-packet-load-balance.conf
+
+```
+/*
+ * Topic:   Per-packet load-balance policy (pplb) — exported to the
+ *          forwarding table so ECMP paths are used per-flow.
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   see evo/policy/per-packet-load-balance.conf
+ *
+ * Highlights:
+ *  - Single unconditional term: `load-balance per-packet; accept;`.
+ *  - Applied via `routing-options forwarding-table export pplb`
+ *    (transport/forwarding-table.conf).
+ *
+ * Pair with:
+ *  - junos/transport/forwarding-table.conf  (applies this policy)
+ *
+ * Variables: none.
+ */
+policy-options {
+    policy-statement pplb {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+}
+```
+
 ## junos/services/bgp-vpls.conf
 
 ```
@@ -4850,6 +5084,108 @@ protocols {
 }
 ```
 
+## junos/transport/flex-algorithm.conf
+
+```
+/*
+ * Topic:   Flex-Algo definitions — FA 128 (delay-optimised) and FA 129
+ *          (TE-metric), each bound to a transport class by colour.
+ * Seen on:
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   see evo/transport/flex-algorithm.conf
+ *
+ * Highlights:
+ *  - FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.
+ *  - FA 129: te-metric SPF, includes admin-group `blue`, colour 6000.
+ *  - This is the Flex-Algo DEFINITION carried by the FAD-advertiser nodes
+ *    (metro-core / MSE); other transport nodes carry only the slim
+ *    reference (`colour` + `use-transport-class`) without the definition.
+ *  - `use-flex-algorithm-prefix-metric` + `use-transport-class` install the
+ *    FA-derived path so a service's colour community resolves over it.
+ *  - The `green`/`blue` admin-groups are defined in transport/mpls-segment-
+ *    routing.conf; ISIS advertises participation in transport/isis-srmpls-tilfa.conf.
+ *
+ * Pair with:
+ *  - junos/transport/transport-class.conf    (maps colour 4000/6000 to gold/bronze)
+ *  - junos/transport/mpls-segment-routing.conf (defines admin-groups green/blue)
+ *  - junos/transport/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])
+ *
+ * Variables: none. FA numbers, metric types, admin-group colours, and the
+ *            colour values are the JVD-wide abstraction and are left literal.
+ */
+routing-options {
+    flex-algorithm 128 {
+        definition {
+            metric-type delay-metric;
+            spf;
+            use-flex-algorithm-prefix-metric;
+            priority 0;
+            admin-group include-any green;
+        }
+        color 4000;
+        use-transport-class;
+    }
+    flex-algorithm 129 {
+        definition {
+            metric-type te-metric;
+            spf;
+            use-flex-algorithm-prefix-metric;
+            priority 0;
+            admin-group include-any blue;
+        }
+        color 6000;
+        use-transport-class;
+    }
+}
+```
+
+## junos/transport/forwarding-table.conf
+
+```
+/*
+ * Topic:   Forwarding-table export + ECMP/next-hop behaviour — installs
+ *          per-packet load balancing and chained composite next-hops.
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   see evo/transport/forwarding-table.conf
+ *
+ * Highlights:
+ *  - This is the services-edge PE form (the richest variant). The
+ *    forwarding-table stanza is strongly role-dependent across this JVD;
+ *    other roles carry reduced subsets (e.g. mdr2_mx10003 carries only
+ *    `export pplb`; access nodes omit dynamic-list-next-hop / ecmp-fast-
+ *    reroute / evpn-egress-link-protection). A full role-variant model is
+ *    a post-extraction follow-up.
+ *  - `export pplb` applies the per-packet load-balance policy to the
+ *    forwarding table (ECMP across equal-cost paths).
+ *  - `ecmp-fast-reroute` + `evpn-egress-link-protection` for fast local repair.
+ *  - `chained-composite-next-hop ingress` enables scalable next-hop sharing
+ *    for l2vpn / l2ckt / evpn / l3vpn service families.
+ *
+ * Pair with:
+ *  - junos/policy/per-packet-load-balance.conf  (defines the pplb policy)
+ *  - junos/transport/bgp-overlay.conf           (provides the ECMP paths)
+ *
+ * Variables: none. All knobs here are JVD-wide behaviour and left literal.
+ */
+routing-options {
+    forwarding-table {
+        export pplb;
+        dynamic-list-next-hop;
+        evpn-egress-link-protection;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                l2vpn;
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
 ## junos/transport/isis-srmpls-tilfa.conf
 
 ```
@@ -5012,6 +5348,95 @@ protocols {
             srgb-label-range 16000 24000;
         }
         ipv6-tunneling;
+    }
+}
+```
+
+## junos/transport/rib-groups.conf
+
+```
+/*
+ * Topic:   RIB groups — leak local and remote loopbacks so coloured service
+ *          next-hops resolve.
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   see evo/transport/rib-groups.conf
+ *
+ * Highlights:
+ *  - RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using
+ *    PS-LOCAL-LOOPBACK. This is the JVD-wide common form.
+ *  - RG-REMOTE-LOOPBACKS leaks BGP-learned remote loopbacks across
+ *    inet.3/inet.0/inet6.3 using PS-REMOTE-LOOPBACKS.
+ *  - Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) also
+ *    import the per-colour transport-class RIBs (junos-rti-tc-4000/6000.inet.3)
+ *    into RG-LOCAL-LOOPBACK; captured for a future PE-role snip.
+ *
+ * Pair with:
+ *  - junos/transport/transport-class.conf   (defines the colour transport classes)
+ *  - junos/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)
+ *  - junos/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)
+ *
+ * Variables: none. RIB-group names, RIB names, and import-policy names are
+ *            the JVD-wide abstraction and are left literal.
+ */
+routing-options {
+    rib-groups {
+        RG-LOCAL-LOOPBACK {
+            import-rib [ inet.0 inet.3 ];
+            import-policy PS-LOCAL-LOOPBACK;
+        }
+        RG-REMOTE-LOOPBACKS {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy PS-REMOTE-LOOPBACKS;
+        }
+    }
+}
+```
+
+## junos/transport/transport-class.conf
+
+```
+/*
+ * Topic:   Transport-class definitions — bind BGP colour communities to
+ *          Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   see evo/transport/transport-class.conf
+ *
+ * Highlights:
+ *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).
+ *    `auto-create` lets additional colours map without an explicit stanza.
+ *  - Each class's `tunnel-egress end-point` is the local transport loopback
+ *    the colour-tagged path terminates on. This is the JVD-wide common form.
+ *  - Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over
+ *    Flex-Algo 129 (TE) — see transport/flex-algorithm.conf.
+ *  - Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) add a
+ *    second anycast `end-point` under the bronze class to anchor a shared
+ *    egress; captured for a future PE-role snip, not in this common form.
+ *
+ * Pair with:
+ *  - junos/transport/flex-algorithm.conf     (defines FA 128/129 + use-transport-class)
+ *  - junos/transport/isis-srmpls-tilfa.conf  (ISIS carries FA 128/129)
+ *  - junos/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)
+ *
+ * Variables (example values from ma4_mx204):
+ *   $TC_EGRESS   e.g. 1.1.0.16   (this node's transport-class egress loopback)
+ */
+routing-options {
+    transport-class {
+        auto-create;
+        name gold {
+            color 4000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
+        name bronze {
+            color 6000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
     }
 }
 ```
