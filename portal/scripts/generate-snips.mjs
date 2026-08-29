@@ -22,6 +22,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseSnip } from "./snip-parse.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -80,164 +81,9 @@ function slug(s) {
 // ---------------------------------------------------------------------------
 // Parser for the 5-section header
 // ---------------------------------------------------------------------------
-
-/**
- * Parse the standard snip header. Returns { header, body, warnings }.
- *
- * Header format (C-style block at the very top of the file):
- *   /\*
- *    * Topic:   <one-liner>
- *    * Seen on:
- *    *   Junos: <space-separated device tokens>
- *    *   EVO:   <space-separated device tokens>
- *    *
- *    * Highlights:        (optional)
- *    *  - bullet
- *    *
- *    * Pair with:         (optional)
- *    *  - <relpath under snips/>
- *    *
- *    * Variables (...):    (optional)
- *    *   $VAR    e.g. <example>
- *    *\/
- *   <body>
- */
-function parseSnip(text) {
-  const warnings = [];
-  // Find the leading /* ... */ block. Must start at byte 0 (allowing leading whitespace lines).
-  const m = text.match(/^\s*\/\*([\s\S]*?)\*\/\s*\n?/);
-  if (!m) {
-    return { warnings: ["missing-header"], header: null, body: text.trim() };
-  }
-  const headerBlock = m[1];
-  const body = text.slice(m[0].length).trimEnd();
-
-  // Strip the leading " * " from each header line.
-  const rawLines = headerBlock.split("\n").map((l) => l.replace(/^\s*\*\s?/, ""));
-
-  // Walk lines, classifying by section.
-  let section = null;
-  let topic = "";
-  const seenOn = { junos: [], evo: [] };
-  const highlights = [];
-  const pairWith = [];
-  const variables = [];
-  const jvdServiceMapping = [];
-
-  for (const line of rawLines) {
-    const trimmed = line.trim();
-    if (!trimmed) {
-      // Preserve blank lines inside the JVD service mapping block so the
-      // rendered text keeps its visual grouping.
-      if (section === "jvd-service-mapping" && jvdServiceMapping.length) {
-        jvdServiceMapping.push("");
-      }
-      continue;
-    }
-
-    // Section headers (case-insensitive on the keyword).
-    // "Apply-group" is accepted as a synonym for "Topic" — apply-group snips
-    // are routinely headed with "Apply-group: GR-NAME" since the group name
-    // IS the topic.
-    // Match on the de-starred line (not `trimmed`) so the keyword must sit at
-    // the header's own indent level; an indented highlight continuation that
-    // merely mentions e.g. "apply-group `GR-X`" must NOT be read as a header.
-    const sec = line.match(/^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping)\b\s*:?\s*(.*)$/i);
-    if (sec) {
-      const key = sec[1].toLowerCase();
-      if (key === "topic" || key === "apply-group" || key === "apply-groups") {
-        topic = key.startsWith("apply-group") ? `Apply-group: ${sec[2].trim()}` : sec[2].trim();
-        section = "topic";
-      } else if (key === "seen on") {
-        section = "seen-on";
-      } else if (key === "highlights") {
-        section = "highlights";
-      } else if (key === "pair with") {
-        section = "pair-with";
-      } else if (key === "variables") {
-        section = "variables";
-      } else if (key === "jvd service mapping") {
-        section = "jvd-service-mapping";
-      }
-      continue;
-    }
-
-    if (section === "seen-on") {
-      const so = trimmed.match(/^(Junos|EVO)\s*:\s*(.*)$/i);
-      if (so) {
-        const bucket = so[1].toLowerCase() === "evo" ? "evo" : "junos";
-        // Stop at the first token that begins a parenthetical note like
-        // "(none in this JVD ...)" or "(and all other EVO PEs ...)". Only
-        // tokens before the note are real device names. Authors sometimes
-        // use these notes to indicate "no devices on this OS" or
-        // "+ implicit others"; either way the prose should not become chips.
-        // Also skip bare prose tokens like "—" used as a placeholder for
-        // "not applicable".
-        for (const tok of so[2].split(/\s+/).filter(Boolean)) {
-          if (tok.startsWith("(")) {
-            // A self-contained parenthetical like "(ACX7100-32C)" is a
-            // per-device platform annotation (MaaS-style Seen on:) — skip it
-            // and keep reading devices. One that doesn't close on this token
-            // begins a prose note like "(none in this JVD ...)" — stop there.
-            if (/\)[,;]?$/.test(tok)) continue;
-            break;
-          }
-          // A real device token must start with a letter or digit.
-          if (!/^[A-Za-z0-9]/.test(tok)) continue;
-          seenOn[bucket].push(tok.replace(/[,;]+$/, ""));
-        }
-      }
-      continue;
-    }
-
-    if (section === "highlights") {
-      const b = trimmed.match(/^-\s*(.*)$/);
-      if (b) highlights.push(b[1].trim());
-      else if (highlights.length) highlights[highlights.length - 1] += " " + trimmed;
-      continue;
-    }
-
-    if (section === "pair-with") {
-      const b = trimmed.match(/^-\s*(.*)$/);
-      if (b) pairWith.push(b[1].trim());
-      continue;
-    }
-
-    if (section === "variables") {
-      // e.g.  "$LOOPBACK_V4         e.g. 192.168.0.7"
-      // or    "$RR_AGN1_V4 / $RR_AGN2_V4   e.g. 192.168.0.5 / 192.168.0.6"
-      const v = trimmed.match(/^(\$[A-Z0-9_]+(?:\s*\/\s*\$[A-Z0-9_]+)*)\s+(.*)$/);
-      if (v) {
-        const example = v[2].replace(/^e\.g\.\s*/i, "").trim();
-        variables.push({ name: v[1].trim(), example });
-      }
-      continue;
-    }
-
-    if (section === "jvd-service-mapping") {
-      // Preserve leading indentation relative to the section so the rendered
-      // block keeps its visual structure (instance line vs. role bullets).
-      // `line` here has had " * " already stripped, so leading spaces are the
-      // author's intentional indent.
-      jvdServiceMapping.push(line.replace(/\s+$/, ""));
-      continue;
-    }
-  }
-
-  // Trim a trailing blank line that may have been pushed into the mapping
-  // block by the blank-line preservation rule above.
-  while (jvdServiceMapping.length && jvdServiceMapping[jvdServiceMapping.length - 1] === "") {
-    jvdServiceMapping.pop();
-  }
-
-  if (!topic) warnings.push("missing-topic");
-
-  return {
-    warnings,
-    header: { topic, seenOn, highlights, pairWith, variables, jvdServiceMapping },
-    body,
-  };
-}
+// `parseSnip` lives in ./snip-parse.mjs — the single source of truth shared
+// with snip-validate.mjs. The generator uses { header, body, warnings }; the
+// separate { diagnostics } channel is consumed only by the validator.
 
 // ---------------------------------------------------------------------------
 // Path interpretation: snips/{junos|evo}/<category>/<name>.conf
@@ -697,6 +543,7 @@ async function main() {
       category: interp.category,
       name: interp.name,
       path: interp.relPath,
+      otherOsFormId: null, // filled in pass 2 (cross-OS sibling by jvd+category+name)
       topic: header?.topic || "",
       seenOn: header?.seenOn || { junos: [], evo: [] },
       highlights: header?.highlights || [],
@@ -720,6 +567,9 @@ async function main() {
     const text = await fs.readFile(path.join(REPO_ROOT, r.path), "utf8");
     const parsed = parseSnip(text);
     r.pairWith = resolvePairWith(parsed.header?.pairWith || [], r.jvd, indexByJvdRel);
+    // Derived cross-OS navigation only — NOT an assertion that bodies are identical.
+    const otherOs = r.osKey === "junos" ? "evo" : "junos";
+    r.otherOsFormId = indexByJvdRel.get(`${r.jvd}::${otherOs}/${r.category}/${r.name}.conf`) || null;
     r.bodyHtml = await highlightBody(r.body);
   }
 

@@ -389,6 +389,15 @@ function SnipDetail({
           >
             <Github className="h-3.5 w-3.5" /> View on GitHub <ExternalLink className="h-3 w-3" />
           </a>
+          {snip.otherOsFormId && snipById.get(snip.otherOsFormId) && (
+            <button
+              onClick={() => onSelectSnip(snip.otherOsFormId!)}
+              title="View the other-OS form of this snip"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60 hover:text-primary"
+            >
+              Other OS form: {snipById.get(snip.otherOsFormId)!.os}
+            </button>
+          )}
         </div>
       </div>
 

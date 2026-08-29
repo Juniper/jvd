@@ -9,7 +9,11 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "snips": "node scripts/generate-snips.mjs",
+    "snips:check": "node scripts/generate-snips.mjs --check",
+    "snips:validate": "node scripts/snip-validate.mjs",
+    "snips:test": "node --test scripts/snip-validate.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
