@@ -91,17 +91,9 @@ The leading `/* ... */` header block is treated as documentation —
 placeholder text inside the header survives rendering verbatim, so the doc
 remains readable in both source and rendered form.
 
-To render a snippet with concrete values:
-
-```bash
-~/git-scripts/snips_render.py evo/transport/bgp-ebgp-fabric-underlay.conf vars.json > rendered.conf
-```
-
-To list every placeholder a snippet uses:
-
-```bash
-~/git-scripts/snips_render.py --extract evo/transport/bgp-ebgp-fabric-underlay.conf
-```
+To render a snippet, substitute each `$VAR` / `${VAR}` placeholder with your
+deployment's value. Every placeholder a snippet uses is listed in its
+`Variables:` header and in [`_variables.md`](_variables.md).
 
 ## Snip index
 

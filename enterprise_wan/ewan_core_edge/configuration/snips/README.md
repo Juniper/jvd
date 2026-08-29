@@ -84,11 +84,9 @@ Every snip uses the standard 5-section header:
 
 Variables follow the `$UPPER_SNAKE_CASE` convention. See [`_variables.md`](_variables.md) for the full glossary.
 
-To render a snip with example values:
-```bash
-python3 /Users/ksbrown/git-jvd-builder/engine/snips_render.py \
-    enterprise_wan/ewan_core_edge/configuration/snips/junos/services/l3vpn-vrf-vrrp.conf
-```
+To render a snip, substitute each `$VAR` / `${VAR}` placeholder with your
+deployment's value. The placeholders each snip uses are listed in its
+`Variables:` header and in [`_variables.md`](_variables.md).
 
 ## Snip index
 

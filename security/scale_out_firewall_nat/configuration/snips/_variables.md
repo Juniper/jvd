@@ -5,9 +5,9 @@ deployments are written as `$VAR`. This JVD's validated lab configs contain **no
 secret material** (no `## SECRET-DATA`, PSKs, or encrypted passwords), so there are
 no secret placeholders to supply.
 
-Render with:
-
-    ~/git-scripts/snips_render.py <snip>.conf <vars.json>  > rendered.conf
+Render a snippet by substituting each `$VAR` / `${VAR}` placeholder with your
+deployment's value. The placeholders each snippet uses are listed in its
+`Variables:` header and in the glossary below.
 
 Example values are drawn from the validated lab configs under configuration/conf/
 (the SRX examples use `srx1a_srx4600`, the MX examples use `mx1_mx304`, the gateway

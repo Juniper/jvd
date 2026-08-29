@@ -183,20 +183,9 @@ The AI will acknowledge the fetch ("Loaded jvd-mebs-snips.md from the JVD repo o
 
 If your AI has no fetch tool (free-tier ChatGPT, local Ollama, Claude without web search, API calls without tools), it will fall back to asking you to attach the file — in which case use Pattern 1.
 
-### Pattern 3 — Render directly with the snip renderer (no AI required)
+### Pattern 3 — Render directly (no AI required)
 
-For deterministic substitution when you already know exactly which snips and which values, skip the AI entirely:
-
-```bash
-# List variables a snip needs:
-~/git-scripts/snips_render.py --extract \
-  service_provider/.../snips/junos/services/l3vpn-vrf.conf
-
-# Render with concrete values from a JSON dict:
-~/git-scripts/snips_render.py \
-  service_provider/.../snips/junos/services/l3vpn-vrf.conf \
-  vars.json > rendered.conf
-```
+For deterministic substitution when you already know exactly which snips and which values, skip the AI entirely: substitute each `$VAR` / `${VAR}` placeholder in the snip with your value. Every placeholder a snip uses is listed in its `Variables:` header and in [`_variables.md`](../_variables.md).
 
 Use the AI for **selection + parameter inference from natural language**; use the renderer for **deterministic substitution**. The two are complementary.
 

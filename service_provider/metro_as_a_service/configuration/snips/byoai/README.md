@@ -146,20 +146,9 @@ Best for AI tools with web fetch (ChatGPT with browsing, Claude with web search,
 
 If your AI has no fetch tool, it falls back to asking you to attach the bundle — use Pattern 1.
 
-### Pattern 3 — Render directly with the snip renderer (no AI required)
+### Pattern 3 — Render directly (no AI required)
 
-For deterministic substitution when you already know the snips and values, skip the AI:
-
-```bash
-# List variables a snip needs:
-~/git-scripts/snips_render.py --extract \
-  service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-vlan-based.conf
-
-# Render with concrete values from a JSON dict:
-~/git-scripts/snips_render.py \
-  service_provider/metro_as_a_service/configuration/snips/evo/services/evpn-vpws-vlan-based.conf \
-  vars.json > rendered.conf
-```
+For deterministic substitution when you already know the snips and values, skip the AI: substitute each `$VAR` / `${VAR}` placeholder in the snip with your value. Every placeholder a snip uses is listed in its `Variables:` header and in [`_variables.md`](../_variables.md).
 
 Use the AI for **selection + parameter inference from natural language**; use the renderer for **deterministic substitution**. The two are complementary.
 
