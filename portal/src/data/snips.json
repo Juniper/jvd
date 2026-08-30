@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-30T00:21:30.233Z",
+  "generatedAt": "2026-08-30T05:53:24.530Z",
   "counts": {
-    "total": 688,
-    "junos": 350,
-    "evo": 338,
+    "total": 694,
+    "junos": 353,
+    "evo": 341,
     "jvds": 18
   },
   "categories": [
@@ -225,9 +225,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 42,
-        "evo": 44,
-        "total": 86
+        "junos": 45,
+        "evo": 47,
+        "total": 92
       }
     },
     {
@@ -41715,19 +41715,222 @@
       "name": "communities",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/communities.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/policy/communities",
-      "topic": "Communities — transport-class colors and L3VPN service tags",
+      "topic": "Common BGP community palette (fabric + service topology tags) (EVO)",
       "seenOn": {
-        "junos": [],
-        "evo": []
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
-      "highlights": [],
+      "highlights": [
+        "The eleven standard/extended communities defined on every node in the JVD. Junos and EVO use identical `community NAME members ...` syntax.",
+        "Fabric tags (CM-ACCESS-FABRIC, CM-METRO-FABRIC, CM-REGIONAL-BORDER) use the fabric community administrator $FABRIC_COMMUNITY_AS.",
+        "Ring-region tags (CM-METRO-RING, CM-REGION-EDGE, CM-SERVICE-EDGE) and the L3VPN helper RTs (CM-INET-PRIMARY/DEFAULT/BACKUP, CM-L3VPN-PUB) use the metro ring-region community administrator $RING_COMMUNITY_AS.",
+        "CM-NO-ADVERTISE is the well-known no-advertise community.",
+        "Role/service-specific communities are defined separately: CM-LOOPBACK in policy/community-loopback.conf, CM-TC-MAP2GOLD in policy/community-tc-gold.conf, and per-VRF METRO_BGPv4_L3VPN_<id> in policy/community-l3vpn.conf."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$FABRIC_COMMUNITY_AS",
+          "example": "63535"
+        },
+        {
+          "name": "$RING_COMMUNITY_AS",
+          "example": "63536"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-ACCESS-FABRIC members $FABRIC_COMMUNITY_AS:2;\n    community CM-INET-BACKUP members target:$RING_COMMUNITY_AS:99999;\n    community CM-INET-DEFAULT members target:$RING_COMMUNITY_AS:11111;\n    community CM-INET-PRIMARY members target:$RING_COMMUNITY_AS:00000;\n    community CM-L3VPN-PUB members target:$RING_COMMUNITY_AS:22222;\n    community CM-METRO-FABRIC members $FABRIC_COMMUNITY_AS:1;\n    community CM-METRO-RING members $RING_COMMUNITY_AS:20;\n    community CM-NO-ADVERTISE members no-advertise;\n    community CM-REGION-EDGE members $RING_COMMUNITY_AS:30;\n    community CM-REGIONAL-BORDER members $FABRIC_COMMUNITY_AS:3;\n    community CM-SERVICE-EDGE members $RING_COMMUNITY_AS:10;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-ACCESS-FABRIC members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-BACKUP members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">99999</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-DEFAULT members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">11111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-PRIMARY members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">00000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-L3VPN-PUB members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">22222</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-FABRIC members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-RING members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-NO-ADVERTISE members no-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGION-EDGE members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGIONAL-BORDER members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-SERVICE-EDGE members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 720,
+      "lineCount": 13,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/policy/community-l3vpn",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "community-l3vpn",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/community-l3vpn.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy/community-l3vpn",
+      "topic": "Per-VRF L3VPN route-target community (METRO_BGPv4_L3VPN_<id>).",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "One community per L3VPN service: name METRO_BGPv4_L3VPN_$L3VPN_ID with a matching route-target target:$L3VPN_RT_AS:$L3VPN_ID. The service id is the same in the name and the RT tail.",
+        "$L3VPN_RT_AS is the L3VPN's originating-domain AS and varies per VRF (a node may carry both its own and imported VRFs), so it is a service-instance variable, not a device-wide one.",
+        "Referenced by l3vpn-bgp and l3vpn-export-import."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$L3VPN_ID",
+          "example": "1001"
+        },
+        {
+          "name": "$L3VPN_RT_AS",
+          "example": "63536"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community METRO_BGPv4_L3VPN_${L3VPN_ID} members target:$L3VPN_RT_AS:$L3VPN_ID;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_${L3VPN_ID} members target:$L3VPN_RT_AS:$L3VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 101,
+      "lineCount": 3,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/policy/community-loopback",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "community-loopback",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/community-loopback.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy/community-loopback",
+      "topic": "CM-LOOPBACK community definition (tags local loopbacks for RIB leak).",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "CM-LOOPBACK tags local lo0 /32s; imported by PS-LOCAL-LOOPBACK (see policy/loopback-rib-leak.conf).",
+        "The community value is role-dependent (the administrator follows the node's regional AS), so it is carried whole in $LOOPBACK_COMMUNITY."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$LOOPBACK_COMMUNITY",
+          "example": "63535:10000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-LOOPBACK members $LOOPBACK_COMMUNITY;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-LOOPBACK members $LOOPBACK_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 73,
+      "lineCount": 3,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/policy/community-tc-gold",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy",
+      "name": "community-tc-gold",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy/community-tc-gold.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy/community-tc-gold",
+      "topic": "CM-TC-MAP2GOLD colour community (maps matching routes to gold TC).",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "CM-TC-MAP2GOLD is a colour community that steers matching routes onto the gold transport-class; referenced by l2circuit-hsb-hub and l3vpn-export-import."
+      ],
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    community CM-ACCESS-FABRIC members 63535:2;\n    community CM-INET-BACKUP members target:63536:99999;\n    community CM-INET-DEFAULT members target:63536:11111;\n    community CM-INET-PRIMARY members target:63536:00000;\n    community CM-L3VPN-PUB members target:63536:22222;\n    community CM-LOOPBACK members 63535:10000;\n    community CM-METRO-FABRIC members 63535:1;\n    community CM-METRO-RING members 63536:20;\n    community CM-NO-ADVERTISE members no-advertise;\n    community CM-REGION-EDGE members 63536:30;\n    community CM-REGIONAL-BORDER members 63535:3;\n    community CM-SERVICE-EDGE members 63536:10;\n    community CM-TC-MAP2BRONZE members color:0:6000;\n    community CM-TC-MAP2GOLD members color:0:4000;\n    community METRO_BGPv4_L3VPN_2101 members target:63535:2101;\n    community METRO_BGPv4_L3VPN_2102 members target:63535:2102;\n    /* ... per-VRF community continues for every METRO_BGPv4_L3VPN_NNNN ... */\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-ACCESS-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-BACKUP members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">99999</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-DEFAULT members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-PRIMARY members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-L3VPN-PUB members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">22222</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-LOOPBACK members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-RING members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-NO-ADVERTISE members no-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGION-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGIONAL-BORDER members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-SERVICE-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_2101 members target:</span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_2102 members target:</span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* ... per-VRF community continues for every METRO_BGPv4_L3VPN_NNNN ... */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 942,
-      "lineCount": 19,
+      "body": "policy-options {\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 69,
+      "lineCount": 3,
       "techFamily": "Policy & Routing",
       "subfamily": "Communities",
       "usecases": [
@@ -41860,7 +42063,18 @@
         "PS-REMOTE-LOOPBACKS accepts BGP-learned loopbacks and tags them CM-NO-ADVERTISE; imported into RG-REMOTE-LOOPBACKS.",
         "Both policies end with an explicit `term REJECT`."
       ],
-      "pairWith": [],
+      "pairWith": [
+        {
+          "raw": "evo/policy/communities.conf        (CM-NO-ADVERTISE)",
+          "id": "metro_ethernet_business_services/evo/policy/communities",
+          "note": "CM-NO-ADVERTISE"
+        },
+        {
+          "raw": "evo/policy/community-loopback.conf (CM-LOOPBACK)",
+          "id": "metro_ethernet_business_services/evo/policy/community-loopback",
+          "note": "CM-LOOPBACK"
+        }
+      ],
       "variables": [
         {
           "name": "$LOOPBACK_SUPERNET",
@@ -42764,8 +42978,8 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/policy/communities.conf (CM-TC-MAP2GOLD definition)",
-          "id": "metro_ethernet_business_services/evo/policy/communities",
+          "raw": "evo/policy/community-tc-gold.conf (CM-TC-MAP2GOLD definition)",
+          "id": "metro_ethernet_business_services/evo/policy/community-tc-gold",
           "note": "CM-TC-MAP2GOLD definition"
         },
         {
@@ -45039,68 +45253,222 @@
       "name": "communities",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/communities.conf",
       "otherOsFormId": "metro_ethernet_business_services/evo/policy/communities",
-      "topic": "BGP communities — fabric tags, BGP-CT colors, L3VPN RTs (Junos)",
+      "topic": "Common BGP community palette (fabric + service topology tags) (Junos)",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "The eleven standard/extended communities defined on every node in the JVD. Junos and EVO use identical `community NAME members ...` syntax.",
+        "Fabric tags (CM-ACCESS-FABRIC, CM-METRO-FABRIC, CM-REGIONAL-BORDER) use the fabric community administrator $FABRIC_COMMUNITY_AS.",
+        "Ring-region tags (CM-METRO-RING, CM-REGION-EDGE, CM-SERVICE-EDGE) and the L3VPN helper RTs (CM-INET-PRIMARY/DEFAULT/BACKUP, CM-L3VPN-PUB) use the metro ring-region community administrator $RING_COMMUNITY_AS.",
+        "CM-NO-ADVERTISE is the well-known no-advertise community.",
+        "Role/service-specific communities are defined separately: CM-LOOPBACK in policy/community-loopback.conf, CM-TC-MAP2GOLD in policy/community-tc-gold.conf, and per-VRF METRO_BGPv4_L3VPN_<id> in policy/community-l3vpn.conf."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$FABRIC_COMMUNITY_AS",
+          "example": "63535"
+        },
+        {
+          "name": "$RING_COMMUNITY_AS",
+          "example": "63536"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-ACCESS-FABRIC members $FABRIC_COMMUNITY_AS:2;\n    community CM-INET-BACKUP members target:$RING_COMMUNITY_AS:99999;\n    community CM-INET-DEFAULT members target:$RING_COMMUNITY_AS:11111;\n    community CM-INET-PRIMARY members target:$RING_COMMUNITY_AS:00000;\n    community CM-L3VPN-PUB members target:$RING_COMMUNITY_AS:22222;\n    community CM-METRO-FABRIC members $FABRIC_COMMUNITY_AS:1;\n    community CM-METRO-RING members $RING_COMMUNITY_AS:20;\n    community CM-NO-ADVERTISE members no-advertise;\n    community CM-REGION-EDGE members $RING_COMMUNITY_AS:30;\n    community CM-REGIONAL-BORDER members $FABRIC_COMMUNITY_AS:3;\n    community CM-SERVICE-EDGE members $RING_COMMUNITY_AS:10;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-ACCESS-FABRIC members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-BACKUP members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">99999</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-DEFAULT members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">11111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-PRIMARY members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">00000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-L3VPN-PUB members target:$RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">22222</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-FABRIC members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-RING members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-NO-ADVERTISE members no-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGION-EDGE members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGIONAL-BORDER members $FABRIC_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-SERVICE-EDGE members $RING_COMMUNITY_AS:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 720,
+      "lineCount": 13,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/policy/community-l3vpn",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "community-l3vpn",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/community-l3vpn.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy/community-l3vpn",
+      "topic": "Per-VRF L3VPN route-target community (METRO_BGPv4_L3VPN_<id>).",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "One community per L3VPN service: name METRO_BGPv4_L3VPN_$L3VPN_ID with a matching route-target target:$L3VPN_RT_AS:$L3VPN_ID. The service id is the same in the name and the RT tail.",
+        "$L3VPN_RT_AS is the L3VPN's originating-domain AS and varies per VRF (a node may carry both its own and imported VRFs), so it is a service-instance variable, not a device-wide one.",
+        "Referenced by l3vpn-bgp and l3vpn-export-import."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$L3VPN_ID",
+          "example": "1001"
+        },
+        {
+          "name": "$L3VPN_RT_AS",
+          "example": "63536"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community METRO_BGPv4_L3VPN_${L3VPN_ID} members target:$L3VPN_RT_AS:$L3VPN_ID;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_${L3VPN_ID} members target:$L3VPN_RT_AS:$L3VPN_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 101,
+      "lineCount": 3,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/policy/community-loopback",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "community-loopback",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/community-loopback.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy/community-loopback",
+      "topic": "CM-LOOPBACK community definition (tags local loopbacks for RIB leak).",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "CM-LOOPBACK tags local lo0 /32s; imported by PS-LOCAL-LOOPBACK (see policy/loopback-rib-leak.conf).",
+        "The community value is role-dependent (the administrator follows the node's regional AS), so it is carried whole in $LOOPBACK_COMMUNITY."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$LOOPBACK_COMMUNITY",
+          "example": "63535:10000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community CM-LOOPBACK members $LOOPBACK_COMMUNITY;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-LOOPBACK members $LOOPBACK_COMMUNITY;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 73,
+      "lineCount": 3,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Communities",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/policy/community-tc-gold",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy",
+      "name": "community-tc-gold",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy/community-tc-gold.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy/community-tc-gold",
+      "topic": "CM-TC-MAP2GOLD colour community (maps matching routes to gold TC).",
       "seenOn": {
         "junos": [
           "ma4_mx204"
         ],
         "evo": [
           "an3_acx7100-48l",
-          "ma3_acx7100-48l",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l"
         ]
       },
       "highlights": [
-        "Identical to evo/policy/communities.conf — Junos and EVO use the same `community NAME members ...` syntax for standard, extended and color communities.",
-        "**Topology tags** (CM-METRO-FABRIC, CM-METRO-RING, CM-REGION-EDGE, CM-REGIONAL-BORDER, CM-SERVICE-EDGE, CM-ACCESS-FABRIC, CM-LOOPBACK) — standard communities used in transport-export policies to identify which part of the network a prefix came from (used for hierarchical RR / route filtering).",
-        "**BGP-CT color communities** (CM-TC-MAP2GOLD = color:0:4000, CM-TC-MAP2BRONZE = color:0:6000) — RFC 9012 color extended communities that map a service onto a transport-class / flex-algorithm. Setting CM-TC-MAP2GOLD on a service route causes its next-hop to resolve via the Gold transport plane (typically flex-algo 128, low-delay).",
-        "**L3VPN service RTs** (CM-INET-PRIMARY, CM-INET-DEFAULT, CM-INET-BACKUP, CM-L3VPN-PUB) — `target:` extended communities used by per-VRF policies in junos/policy/l3vpn-export-import.conf.",
-        "CM-NO-ADVERTISE — the well-known no-advertise community for leak-prevention."
+        "CM-TC-MAP2GOLD is a colour community that steers matching routes onto the gold transport-class; referenced by l2circuit-hsb-hub and l3vpn-export-import."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/policy/l3vpn-export-import.conf",
-          "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-bgp.conf",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-ospf.conf",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-elan-virtual-switch-irb.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-elan-virtual-switch-irb",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-etree.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-etree",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-fxc.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-fxc",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
-      "body": "policy-options {\n    community CM-ACCESS-FABRIC members 63535:2;\n    community CM-INET-BACKUP members target:63536:99999;\n    community CM-INET-DEFAULT members target:63536:11111;\n    community CM-INET-PRIMARY members target:63536:00000;\n    community CM-L3VPN-PUB members target:63536:22222;\n    community CM-LOOPBACK members 63536:10000;\n    community CM-METRO-FABRIC members 63535:1;\n    community CM-METRO-RING members 63536:20;\n    community CM-NO-ADVERTISE members no-advertise;\n    community CM-REGION-EDGE members 63536:30;\n    community CM-REGIONAL-BORDER members 63535:3;\n    community CM-SERVICE-EDGE members 63536:10;\n    community CM-TC-MAP2BRONZE members color:0:6000;\n    community CM-TC-MAP2GOLD members color:0:4000;\n    /* Per-VRF route-target communities (one per L3VPN service): */\n    community METRO_BGPv4_L3VPN_1001 members target:63536:1001;\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-ACCESS-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-BACKUP members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">99999</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-DEFAULT members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11111</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-INET-PRIMARY members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-L3VPN-PUB members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">22222</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-LOOPBACK members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-FABRIC members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-METRO-RING members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-NO-ADVERTISE members no-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGION-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-REGIONAL-BORDER members </span><span style=\"color:#79C0FF\">63535</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-SERVICE-EDGE members </span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2BRONZE members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">6000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    /* Per-VRF route-target communities (one per L3VPN service): */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community METRO_BGPv4_L3VPN_1001 members target:</span><span style=\"color:#79C0FF\">63536</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">1001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 867,
-      "lineCount": 18,
+      "body": "policy-options {\n    community CM-TC-MAP2GOLD members color:0:4000;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">policy-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    community CM-TC-MAP2GOLD members color:</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">4000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 69,
+      "lineCount": 3,
       "techFamily": "Policy & Routing",
       "subfamily": "Communities",
       "usecases": [
@@ -45141,6 +45509,16 @@
         {
           "raw": "junos/policy/communities.conf",
           "id": "metro_ethernet_business_services/junos/policy/communities",
+          "note": null
+        },
+        {
+          "raw": "junos/policy/community-l3vpn.conf",
+          "id": "metro_ethernet_business_services/junos/policy/community-l3vpn",
+          "note": null
+        },
+        {
+          "raw": "junos/policy/community-tc-gold.conf",
+          "id": "metro_ethernet_business_services/junos/policy/community-tc-gold",
           "note": null
         },
         {
@@ -45238,7 +45616,18 @@
         "PS-REMOTE-LOOPBACKS accepts BGP-learned loopbacks and tags them CM-NO-ADVERTISE; imported into RG-REMOTE-LOOPBACKS.",
         "Both policies end with an explicit `term REJECT`."
       ],
-      "pairWith": [],
+      "pairWith": [
+        {
+          "raw": "junos/policy/communities.conf        (CM-NO-ADVERTISE)",
+          "id": "metro_ethernet_business_services/junos/policy/communities",
+          "note": "CM-NO-ADVERTISE"
+        },
+        {
+          "raw": "junos/policy/community-loopback.conf (CM-LOOPBACK)",
+          "id": "metro_ethernet_business_services/junos/policy/community-loopback",
+          "note": "CM-LOOPBACK"
+        }
+      ],
       "variables": [
         {
           "name": "$LOOPBACK_SUPERNET",
@@ -46501,6 +46890,11 @@
         {
           "raw": "junos/policy/communities.conf",
           "id": "metro_ethernet_business_services/junos/policy/communities",
+          "note": null
+        },
+        {
+          "raw": "junos/policy/community-l3vpn.conf",
+          "id": "metro_ethernet_business_services/junos/policy/community-l3vpn",
           "note": null
         },
         {
@@ -51315,7 +51709,7 @@
     },
     {
       "jvd": "metro_ethernet_business_services",
-      "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers\nthat vary between deployments are written as `$VAR` (or `${VAR}` only\nwhen the placeholder is glued to an adjacent letter or digit and the\nboundary would otherwise be ambiguous).\n\nRender a snippet by substituting each `$VAR` / `${VAR}` placeholder with your\ndeployment's value. The placeholders each snippet uses are listed in its\n`Variables:` header and in the glossary below.\n\nThe variables fall into a few groups.\n\n## Identity / topology\n\n| Variable               | What it is                                                                           | Example value                |\n|------------------------|--------------------------------------------------------------------------------------|------------------------------|\n| `$AS_LOCAL`            | This PE's iBGP / overlay AS (always `63535` in the JVD).                              | `63535`                      |\n| `$AS_CUST`             | Customer-facing eBGP AS used by PE-CE BGP and as-override.                           | `64514`                      |\n| `$LOOPBACK_V4`         | This PE's lo0 IPv4 (used as RD-prefix and BGP next-hop).                             | `1.1.0.17`                   |\n| `$LOOPBACK_V6`         | This PE's lo0 IPv6.                                                                  | `2001:db8::17`               |\n| `$ROUTER_ID`           | router-id (usually equal to `$LOOPBACK_V4`).                                          | `1.1.0.17`                   |\n| `$NODE_SID_V4`         | ISIS source-packet-routing IPv4 node-segment index.                                  | `17`                         |\n| `$NODE_SID_V6`         | ISIS source-packet-routing IPv6 node-segment index.                                  | `117`                        |\n| `$LOOPBACK_SUPERNET`   | IPv4 aggregate that contains the deployment's loopback `/32` addresses (loopback route-leak match). | `1.1.0.0/16` |\n| `$LOOPBACK_V4_PFX`     | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `1.1.0.17/32` |\n| `$LOOPBACK_V6_PFX`     | This node's lo0 IPv6 written with its `/128` prefix length. | `2001::1:1:0:11/128` |\n| `$ISIS_NET`            | ISIS NET (area + system-id) configured on lo0. | `49.0001.0010.0100.0017.00` |\n\n## Neighbours / route reflectors\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$RR1_V4` / `$RR2_V4`  | Route-reflector loopback IPv4 addresses for the iBGP overlay. | `1.1.0.99`    |\n| `$REMOTE_PE_V4`        | Remote PE loopback used in static l2circuit / LDP-VPLS neighbour lines. | `1.1.0.18` |\n| `$PRIMARY_LOOPBACK`    | Primary PE loopback targeted by an HSB l2circuit Hub (`l2circuit-hsb-hub`). | `1.1.0.6` |\n| `$BACKUP_LOOPBACK`     | Backup PE loopback used in `backup-neighbor` for HSB l2circuit (`l2circuit-hsb-hub`). | `1.1.0.7` |\n| `$HUB_LOOPBACK`        | Hub loopback the PE side of an HSB l2circuit points at (`l2circuit-hsb-pe`). | `1.1.0.2` |\n| `$TRANSPORT_RR1_V4` / `$TRANSPORT_RR2_V4` | Transport-plane (coloured underlay) route-reflector loopbacks. | `1.1.0.12` |\n| `$SVC_RR1_V4` / `$SVC_RR2_V4` | Service-plane (overlay / EVPN) route-reflector loopbacks. | `1.1.0.10` |\n| `$TC_EGRESS`          | This node's transport-class egress endpoint loopback. | `1.1.0.17` |\n\n## Interfaces\n\n| Variable               | What it is                                                                       | Example value     |\n|------------------------|----------------------------------------------------------------------------------|-------------------|\n| `$AC_INTF`             | Customer-facing attachment-circuit unit (with VLAN id when tagged).               | `ae12.2400`       |\n| `$AC_PHYS`             | The physical/parent interface the AC unit lives on.                              | `ae12`            |\n| `$CORE_INTF`           | Core-facing LAG unit used for ISIS+MPLS underlay.                                | `ae71.0`          |\n| `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |\n| `$LAG_MEMBER`          | A child interface of the LAG (mostly used in member templates).                  | `et-0/0/0`        |\n| `$UNIT`                | Logical-unit / VLAN id appended to `$AC_INTF` when the AC is written as `$AC_INTF.$UNIT`. | `3000`            |\n| `$UNI_INTF`           | Customer UNI physical interface. | `xe-0/0/3:1` |\n| `$AC_INTF_1` / `$AC_INTF_2` | The two attachment-circuit interfaces cross-connected by l2circuit local-switching. | `et-0/0/5` |\n| `$PS_INTF`            | Pseudowire-subscriber logical interface. | `ps0` |\n| `$ANCHOR_PIC`         | Anchor tunnel PIC (`lt-`) hosting the pseudowire-subscriber device. | `lt-0/0/0` |\n| `$CORE_INTF_1` / `$CORE_INTF_2` | Per-core-neighbour core interface units (repeat the stanza per neighbour). | `ae71.0` |\n| `$CORE_V4_ADDR` / `$CORE_V6_ADDR` | Core interface IPv4 / IPv6 address. | `10.10.1.121/30` |\n| `$CORE_DESC`          | Core interface description. | `\"to MA2 ... ae83\"` |\n| `$LO0_DESC`           | lo0 interface description. | `\"MA1.1 Metro Ring Blue\"` |\n| `$LACP_SYS_ID`        | LACP system-id on a multihomed LAG. | `00:00:00:00:00:01` |\n| `$VLAN`               | VLAN id on a tagged unit. | `3000` |\n| `$VLAN_BRIDGE`        | vlan-id on a bridge (vlan-bridge) unit. | `300` |\n| `$VLAN_UNIT`          | Selects `ae11.<unit>` on the shared edge LAG. | `700` |\n| `$UNIT_BRIDGE` / `$UNIT_CCC` | Logical-unit numbers for the bridge / ccc encapsulation units. | `300` / `0` |\n\n## Service identifiers\n\n| Variable                  | What it is                                                       | Example value |\n|---------------------------|------------------------------------------------------------------|---------------|\n| `$INSTANCE_NAME`          | The routing-instance name (per-service, often encodes IDs).      | `evpn_group_30_2400` |\n| `$RD_ID`                  | Route-distinguisher tail (RD = `$LOOPBACK_V4:$RD_ID`).            | `2400`        |\n| `$RT_ID`                  | Route-target tail (RT = `target:$AS_LOCAL:$RT_ID`).               | `2400`        |\n| `$VPWS_SVC_ID_LOCAL`      | EVPN-VPWS local service-id.                                      | `2`           |\n| `$VPWS_SVC_ID_REMOTE`     | EVPN-VPWS remote service-id.                                     | `1`           |\n| `$VC_ID`                  | l2circuit / VPLS virtual-circuit-id (or `vpls-id`).              | `3000`        |\n| `$VC_ID_PRIMARY`          | Primary virtual-circuit-id on an HSB l2circuit Hub.             | `3000`        |\n| `$VC_ID_BACKUP`           | Backup-neighbor virtual-circuit-id for hot-standby.              | `4000`        |\n| `$L2VPN_SITE`             | Kompella L2VPN site-name.                                        | `r2`          |\n| `$L2VPN_LOCAL_SITE_ID`    | Kompella L2VPN site-identifier.                                  | `1102`        |\n| `$L2VPN_REMOTE_SITE_ID`   | Kompella L2VPN remote-site-id.                                   | `1119`        |\n| `$VLAN_CUST`              | Customer-side (untranslated) VLAN id.                            | `200`         |\n| `$VLAN_SP`                | Service-internal (normalised) VLAN id.                           | `2400`        |\n| `$VLAN_BD`                | bridge-domain or mac-vrf vlan-id.                                | `4000`        |\n| `$ESI`                    | 10-byte ESI (for EVPN multihoming).                              | `00:11:22:33:44:55:66:77:88:01` |\n| `$IRB_UNIT`               | irb.X unit number for IRB integration.                           | `4000`        |\n| `$BD_NAME`               | bridge-domain / MAC-VRF bridge-domain name. | `V4000` |\n| `$SITE_ID`               | Per-site identifier encoded into service instances. | `5` |\n| `$SVC_ID_LOCAL` / `$SVC_ID_REMOTE` | FXC / VPWS local & remote service-ids. | `1` / `2` |\n| `$UNIT_1` / `$UNIT_2`    | Logical-unit numbers for a two-AC service. | `3000` |\n| `$UNIT_A` / `$UNIT_B` / `$UNIT_C` | Logical-unit numbers for a multi-AC service. | `800` |\n| `$LABEL_IN` / `$LABEL_OUT` | Static MPLS in / out labels (floating pseudowire). | `1000001` |\n| `$RD` / `$RT`            | Full route-distinguisher / route-target value (`AS:id`). | `63535:6500` |\n| `$EXPORT_POL` / `$IMPORT_POL` | Per-VRF export / import policy names. | `PS-METRO_L3VPN_2001-EXPORT` |\n| `$VRF_EXPORT_POL`        | vrf-export policy name on an EVPN Type-5 VRF. | `evpn_group_90_700` |\n| `$CE_PEER_V4` / `$PE_LOCAL_V4` | PE-CE eBGP peer / local IPv4 addresses. | `115.2.0.2` / `115.2.0.1` |\n| `$CE_PREFIX_1` / `$CE_PREFIX_2` / `$CE_PREFIX_3` | Customer prefixes matched by per-VRF import/export route-filters. | `13.2.0.0/16` |\n\n## OAM (CFM)\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$MD_NAME`             | CFM maintenance-domain name. | `MD_63535` |\n| `$MA_ID`               | CFM maintenance-association identifier. | `100` |\n| `$MEP_LOCAL`           | Local MEP identifier. | `1002` |\n| `$MEP_REMOTE`          | Remote MEP identifier (single-remote form). | `1003` |\n| `$MEP_REMOTE_1` / `$MEP_REMOTE_2` | Remote MEP identifiers (multi-remote form). | `1002` / `1006` |\n\n## Group / policy names\n\nNames that are part of the architectural model the JVD documents stay\n**literal** — their meaning *is* the abstraction. A label that is proven to\nvary across otherwise-identical deployed forms is parameterised instead (see\n`$PPLB_NAME`). Kept literal:\n\n- Apply groups: `GR-EDGE-INTF`, `GR-EDGE-INTF-MH`, `GR-CORE-INTF`,\n  `GR-ISIS-BCP`, `GR-BGP-BCP`, `GR-FATPW-LB`, `GR-FATPW-LABEL`,\n  `GR-L3VPN`, `GR-L2CKT-HS`, `GR-ISIS-BFD`, `GR-LAG-MEMBER`.\n- Forwarding-classes: `BEST-EFFORT`, `MEDIUM`, `REALTIME`,\n  `SIG-OAM`, `CONTROL`, `BUSINESS`.\n- Schedulers / scheduler-maps, communities, and per-VRF\n  import/export policies are referenced by their own filename\n  in the `policy/` and `cos/` snip categories.\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$PPLB_NAME`           | Per-packet load-balance policy name — a label proven to vary across otherwise-identical deployed forms. | `pplb` (also `PS-PPLB`) |\n\n## Header convention\n\nEvery snip declares the variables it actually uses in a header\nsection. The renderer skips the leading `/* ... */` C-comment block\nbefore substitution, so `$VAR` text inside the header survives\nverbatim while the body is fully rendered:\n\n```\n * Variables (example values from ma1-1_acx7024):\n *   $INSTANCE_NAME      e.g. evpn_group_30_2400\n *   $AC_INTF            e.g. ae12.2400\n *   $LOOPBACK_V4        e.g. 1.1.0.17\n *   $RD_ID              e.g. 2400\n *   $RT_ID              e.g. 2400\n *   $AS_LOCAL           e.g. 63535\n *   $VPWS_SVC_ID_LOCAL  e.g. 2\n *   $VPWS_SVC_ID_REMOTE e.g. 1\n```\n\nThe example values mirror the source device the snip was extracted\nfrom (so the snip remains a faithful documentation of a working\ndeployment).\n"
+      "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers\nthat vary between deployments are written as `$VAR` (or `${VAR}` only\nwhen the placeholder is glued to an adjacent letter or digit and the\nboundary would otherwise be ambiguous).\n\nRender a snippet by substituting each `$VAR` / `${VAR}` placeholder with your\ndeployment's value. The placeholders each snippet uses are listed in its\n`Variables:` header and in the glossary below.\n\nThe variables fall into a few groups.\n\n## Identity / topology\n\n| Variable               | What it is                                                                           | Example value                |\n|------------------------|--------------------------------------------------------------------------------------|------------------------------|\n| `$AS_LOCAL`            | This PE's iBGP / overlay AS (always `63535` in the JVD).                              | `63535`                      |\n| `$AS_CUST`             | Customer-facing eBGP AS used by PE-CE BGP and as-override.                           | `64514`                      |\n| `$LOOPBACK_V4`         | This PE's lo0 IPv4 (used as RD-prefix and BGP next-hop).                             | `1.1.0.17`                   |\n| `$LOOPBACK_V6`         | This PE's lo0 IPv6.                                                                  | `2001:db8::17`               |\n| `$ROUTER_ID`           | router-id (usually equal to `$LOOPBACK_V4`).                                          | `1.1.0.17`                   |\n| `$NODE_SID_V4`         | ISIS source-packet-routing IPv4 node-segment index.                                  | `17`                         |\n| `$NODE_SID_V6`         | ISIS source-packet-routing IPv6 node-segment index.                                  | `117`                        |\n| `$LOOPBACK_SUPERNET`   | IPv4 aggregate that contains the deployment's loopback `/32` addresses (loopback route-leak match). | `1.1.0.0/16` |\n| `$LOOPBACK_V4_PFX`     | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `1.1.0.17/32` |\n| `$LOOPBACK_V6_PFX`     | This node's lo0 IPv6 written with its `/128` prefix length. | `2001::1:1:0:11/128` |\n| `$ISIS_NET`            | ISIS NET (area + system-id) configured on lo0. | `49.0001.0010.0100.0017.00` |\n\n## Neighbours / route reflectors\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$RR1_V4` / `$RR2_V4`  | Route-reflector loopback IPv4 addresses for the iBGP overlay. | `1.1.0.99`    |\n| `$REMOTE_PE_V4`        | Remote PE loopback used in static l2circuit / LDP-VPLS neighbour lines. | `1.1.0.18` |\n| `$PRIMARY_LOOPBACK`    | Primary PE loopback targeted by an HSB l2circuit Hub (`l2circuit-hsb-hub`). | `1.1.0.6` |\n| `$BACKUP_LOOPBACK`     | Backup PE loopback used in `backup-neighbor` for HSB l2circuit (`l2circuit-hsb-hub`). | `1.1.0.7` |\n| `$HUB_LOOPBACK`        | Hub loopback the PE side of an HSB l2circuit points at (`l2circuit-hsb-pe`). | `1.1.0.2` |\n| `$TRANSPORT_RR1_V4` / `$TRANSPORT_RR2_V4` | Transport-plane (coloured underlay) route-reflector loopbacks. | `1.1.0.12` |\n| `$SVC_RR1_V4` / `$SVC_RR2_V4` | Service-plane (overlay / EVPN) route-reflector loopbacks. | `1.1.0.10` |\n| `$TC_EGRESS`          | This node's transport-class egress endpoint loopback. | `1.1.0.17` |\n\n## Interfaces\n\n| Variable               | What it is                                                                       | Example value     |\n|------------------------|----------------------------------------------------------------------------------|-------------------|\n| `$AC_INTF`             | Customer-facing attachment-circuit unit (with VLAN id when tagged).               | `ae12.2400`       |\n| `$AC_PHYS`             | The physical/parent interface the AC unit lives on.                              | `ae12`            |\n| `$CORE_INTF`           | Core-facing LAG unit used for ISIS+MPLS underlay.                                | `ae71.0`          |\n| `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |\n| `$LAG_MEMBER`          | A child interface of the LAG (mostly used in member templates).                  | `et-0/0/0`        |\n| `$UNIT`                | Logical-unit / VLAN id appended to `$AC_INTF` when the AC is written as `$AC_INTF.$UNIT`. | `3000`            |\n| `$UNI_INTF`           | Customer UNI physical interface. | `xe-0/0/3:1` |\n| `$AC_INTF_1` / `$AC_INTF_2` | The two attachment-circuit interfaces cross-connected by l2circuit local-switching. | `et-0/0/5` |\n| `$PS_INTF`            | Pseudowire-subscriber logical interface. | `ps0` |\n| `$ANCHOR_PIC`         | Anchor tunnel PIC (`lt-`) hosting the pseudowire-subscriber device. | `lt-0/0/0` |\n| `$CORE_INTF_1` / `$CORE_INTF_2` | Per-core-neighbour core interface units (repeat the stanza per neighbour). | `ae71.0` |\n| `$CORE_V4_ADDR` / `$CORE_V6_ADDR` | Core interface IPv4 / IPv6 address. | `10.10.1.121/30` |\n| `$CORE_DESC`          | Core interface description. | `\"to MA2 ... ae83\"` |\n| `$LO0_DESC`           | lo0 interface description. | `\"MA1.1 Metro Ring Blue\"` |\n| `$LACP_SYS_ID`        | LACP system-id on a multihomed LAG. | `00:00:00:00:00:01` |\n| `$VLAN`               | VLAN id on a tagged unit. | `3000` |\n| `$VLAN_BRIDGE`        | vlan-id on a bridge (vlan-bridge) unit. | `300` |\n| `$VLAN_UNIT`          | Selects `ae11.<unit>` on the shared edge LAG. | `700` |\n| `$UNIT_BRIDGE` / `$UNIT_CCC` | Logical-unit numbers for the bridge / ccc encapsulation units. | `300` / `0` |\n\n## Service identifiers\n\n| Variable                  | What it is                                                       | Example value |\n|---------------------------|------------------------------------------------------------------|---------------|\n| `$INSTANCE_NAME`          | The routing-instance name (per-service, often encodes IDs).      | `evpn_group_30_2400` |\n| `$RD_ID`                  | Route-distinguisher tail (RD = `$LOOPBACK_V4:$RD_ID`).            | `2400`        |\n| `$RT_ID`                  | Route-target tail (RT = `target:$AS_LOCAL:$RT_ID`).               | `2400`        |\n| `$VPWS_SVC_ID_LOCAL`      | EVPN-VPWS local service-id.                                      | `2`           |\n| `$VPWS_SVC_ID_REMOTE`     | EVPN-VPWS remote service-id.                                     | `1`           |\n| `$VC_ID`                  | l2circuit / VPLS virtual-circuit-id (or `vpls-id`).              | `3000`        |\n| `$VC_ID_PRIMARY`          | Primary virtual-circuit-id on an HSB l2circuit Hub.             | `3000`        |\n| `$VC_ID_BACKUP`           | Backup-neighbor virtual-circuit-id for hot-standby.              | `4000`        |\n| `$L2VPN_SITE`             | Kompella L2VPN site-name.                                        | `r2`          |\n| `$L2VPN_LOCAL_SITE_ID`    | Kompella L2VPN site-identifier.                                  | `1102`        |\n| `$L2VPN_REMOTE_SITE_ID`   | Kompella L2VPN remote-site-id.                                   | `1119`        |\n| `$VLAN_CUST`              | Customer-side (untranslated) VLAN id.                            | `200`         |\n| `$VLAN_SP`                | Service-internal (normalised) VLAN id.                           | `2400`        |\n| `$VLAN_BD`                | bridge-domain or mac-vrf vlan-id.                                | `4000`        |\n| `$ESI`                    | 10-byte ESI (for EVPN multihoming).                              | `00:11:22:33:44:55:66:77:88:01` |\n| `$IRB_UNIT`               | irb.X unit number for IRB integration.                           | `4000`        |\n| `$BD_NAME`               | bridge-domain / MAC-VRF bridge-domain name. | `V4000` |\n| `$SITE_ID`               | Per-site identifier encoded into service instances. | `5` |\n| `$SVC_ID_LOCAL` / `$SVC_ID_REMOTE` | FXC / VPWS local & remote service-ids. | `1` / `2` |\n| `$UNIT_1` / `$UNIT_2`    | Logical-unit numbers for a two-AC service. | `3000` |\n| `$UNIT_A` / `$UNIT_B` / `$UNIT_C` | Logical-unit numbers for a multi-AC service. | `800` |\n| `$LABEL_IN` / `$LABEL_OUT` | Static MPLS in / out labels (floating pseudowire). | `1000001` |\n| `$RD` / `$RT`            | Full route-distinguisher / route-target value (`AS:id`). | `63535:6500` |\n| `$EXPORT_POL` / `$IMPORT_POL` | Per-VRF export / import policy names. | `PS-METRO_L3VPN_2001-EXPORT` |\n| `$VRF_EXPORT_POL`        | vrf-export policy name on an EVPN Type-5 VRF. | `evpn_group_90_700` |\n| `$CE_PEER_V4` / `$PE_LOCAL_V4` | PE-CE eBGP peer / local IPv4 addresses. | `115.2.0.2` / `115.2.0.1` |\n| `$CE_PREFIX_1` / `$CE_PREFIX_2` / `$CE_PREFIX_3` | Customer prefixes matched by per-VRF import/export route-filters. | `13.2.0.0/16` |\n\n## OAM (CFM)\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$MD_NAME`             | CFM maintenance-domain name. | `MD_63535` |\n| `$MA_ID`               | CFM maintenance-association identifier. | `100` |\n| `$MEP_LOCAL`           | Local MEP identifier. | `1002` |\n| `$MEP_REMOTE`          | Remote MEP identifier (single-remote form). | `1003` |\n| `$MEP_REMOTE_1` / `$MEP_REMOTE_2` | Remote MEP identifiers (multi-remote form). | `1002` / `1006` |\n\n## BGP communities\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$FABRIC_COMMUNITY_AS`  | **Deployment-scoped.** Administrator AS for fabric community values (fixed per deployment; not the device local AS). | `63535` |\n| `$RING_COMMUNITY_AS`    | **Deployment-scoped.** Administrator AS for metro ring-region community values (fixed per deployment). | `63536` |\n| `$L3VPN_RT_AS`          | **Service-instance-scoped.** L3VPN route-target administrator — the VRF's originating-domain AS; may differ between VRFs on one node. | `63536` |\n| `$L3VPN_ID`             | **Service-instance-scoped.** L3VPN service identifier; repeated (consistently bound) in the community name and RT tail. | `1001` |\n| `$LOOPBACK_COMMUNITY`   | **Device/role-scoped.** Complete `CM-LOOPBACK` value; the administrator follows the node's regional role. | `63535:10000` |\n\n## Group / policy names\n\nNames that are part of the architectural model the JVD documents stay\n**literal** — their meaning *is* the abstraction. A label that is proven to\nvary across otherwise-identical deployed forms is parameterised instead (see\n`$PPLB_NAME`). Kept literal:\n\n- Apply groups: `GR-EDGE-INTF`, `GR-EDGE-INTF-MH`, `GR-CORE-INTF`,\n  `GR-ISIS-BCP`, `GR-BGP-BCP`, `GR-FATPW-LB`, `GR-FATPW-LABEL`,\n  `GR-L3VPN`, `GR-L2CKT-HS`, `GR-ISIS-BFD`, `GR-LAG-MEMBER`.\n- Forwarding-classes: `BEST-EFFORT`, `MEDIUM`, `REALTIME`,\n  `SIG-OAM`, `CONTROL`, `BUSINESS`.\n- Schedulers / scheduler-maps, communities, and per-VRF\n  import/export policies are referenced by their own filename\n  in the `policy/` and `cos/` snip categories.\n\n| Variable               | What it is                                                  | Example value |\n|------------------------|-------------------------------------------------------------|---------------|\n| `$PPLB_NAME`           | Per-packet load-balance policy name — a label proven to vary across otherwise-identical deployed forms. | `pplb` (also `PS-PPLB`) |\n\n## Header convention\n\nEvery snip declares the variables it actually uses in a header\nsection. The renderer skips the leading `/* ... */` C-comment block\nbefore substitution, so `$VAR` text inside the header survives\nverbatim while the body is fully rendered:\n\n```\n * Variables (example values from ma1-1_acx7024):\n *   $INSTANCE_NAME      e.g. evpn_group_30_2400\n *   $AC_INTF            e.g. ae12.2400\n *   $LOOPBACK_V4        e.g. 1.1.0.17\n *   $RD_ID              e.g. 2400\n *   $RT_ID              e.g. 2400\n *   $AS_LOCAL           e.g. 63535\n *   $VPWS_SVC_ID_LOCAL  e.g. 2\n *   $VPWS_SVC_ID_REMOTE e.g. 1\n```\n\nThe example values mirror the source device the snip was extracted\nfrom (so the snip remains a faithful documentation of a working\ndeployment).\n"
     },
     {
       "jvd": "scale_out_firewall_nat",
