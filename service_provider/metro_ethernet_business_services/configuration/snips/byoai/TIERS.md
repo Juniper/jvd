@@ -10,13 +10,48 @@ For each service kind, the AI includes ONLY the snips listed for the chosen tier
 
 | Tier | Use when | What's included |
 |---|---|---|
-| **`minimum`** | Brownfield change. PE already has working IGP/SR underlay AND BGP overlay (with `family evpn` and/or `family inet-vpn`). You just want the new service. | Service routing-instance + AC interface unit + per-VRF policy (L3VPN only). **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. PE has working IGP/SR underlay but you want to (re)assert the BGP overlay activation for the right address-family. | `minimum` + `transport/bgp-overlay.conf`. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + policy + BGP overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. |
+| **`minimum`** | Brownfield change. PE already has working IGP/SR underlay AND the BGP overlay signalling the service needs. You just want the new service. | Service routing-instance + AC interface unit + per-VRF policy (L3VPN only). **Nothing else.** |
+| **`with-overlay`** | Brownfield-ish. PE has working IGP/SR underlay but you also want to (re)assert the deployed BGP overlay. | `minimum` + the OS-native `transport/bgp-overlay.conf`, **subject to the coverage gate below**. |
+| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + policy + BGP overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT — **subject to the coverage gate below**. |
 
 > **Greenfield / bootstrap requests** (e.g. "build a new ACX7024 turn-up", "bootstrap a new MX304 PE end-to-end") are always treated as **`as-deployed`** regardless of the user's tier choice.
 
 If the user picks `minimum` and the AI cannot tell whether the overlay activation for the needed address-family is already on the PE, it should call that out in the `Notes:` section ("assumed `family evpn signaling` already configured under `protocols bgp group …`").
+
+### BGP-overlay coverage gate (canonical — every service section refers here)
+
+`transport/bgp-overlay.conf` is the **complete deployed iBGP overlay form** for a specific
+set of devices — it carries every overlay address-family that role runs. It is **not** a
+universal per-service prerequisite, so it is offered only where that exact deployed form is
+validated:
+
+- **Junos** `transport/bgp-overlay.conf` — deployed form for **an1_mx204, an2_acx5448** only.
+- **EVO** `transport/bgp-overlay.conf` — deployed form for **ma1-1_acx7024, ma1-2_acx7024** only.
+
+Rules (a service section states only its signalling classification and points here):
+
+1. **`with-overlay`** may attach the OS-native `transport/bgp-overlay.conf` **only when ALL of
+   these hold**: (a) the **selected service applies to the target device** — the target is in that
+   service snip's exact `Seen on:`; (b) the **target device is in the overlay file's exact
+   `Seen on:`** (the four devices above); (c) the overlay file is **native to the target's OS**; and
+   (d) **exactly one** overlay form resolves (one per OS). Do **not** gate on the overlay `Seen on:`
+   alone, and **never** synthesize, generalise, substitute, or borrow the other OS form.
+   **Fail closed:** if any condition fails, the requested `with-overlay` (or `as-deployed`) mode is
+   **unavailable** — no exact applicable same-OS overlay form exists — so **generate nothing for it**.
+   You may then offer `minimum` as a **separate alternative the user must explicitly confirm**,
+   making clear that `minimum` is local-service configuration only and does **not** provide the
+   unavailable remote BGP signalling. An **inapplicable** service/device selection (target not in the
+   service's `Seen on:`) is **rejected**, not downgraded.
+2. **Never give a device another role's BGP overlay form.** There is no generic per-service
+   overlay snip yet; each service's required signalling family (EVPN / L2VPN / inet-vpn) is
+   noted below, but the matching per-role overlay is deferred to later selector work.
+3. **LDP-signalled services never add a BGP overlay** (L2Circuit floating-pw / hot-standby /
+   local-switching, LDP-VPLS) — they rely on targeted LDP.
+4. **`as-deployed`** includes the BGP overlay only for the four devices above (Junos file →
+   an1/an2; EVO file → ma1-1/ma1-2); for any other target it **fails closed** exactly as rule 1.
+   The nodes **ag1-1_acx7100-32c, ag1-2_acx7100-32c, ma2_mx204** have **no top-level deployed BGP
+   groups in source**, so there is no overlay form to offer for them. For any other device, do
+   **not** claim a complete `as-deployed` form unless every other required form is also validated.
 
 ---
 
@@ -26,8 +61,7 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 - `services/evpn-vpws.conf`
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - `transport/isis-srmpls-tilfa.conf`
@@ -64,8 +98,7 @@ user asked for (default to eBGP if unspecified):
 - `policy/communities.conf` (only the per-VRF target community — NOT topology tags or BGP-CT colors)
 - `interfaces/edge-vlan-normalization.conf` (PE-CE AC unit)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family inet-vpn unicast`)
+**with-overlay** — Signalling: **inet-vpn** (`family inet-vpn unicast`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - `transport/isis-srmpls-tilfa.conf`
@@ -92,8 +125,7 @@ user asked for (default to eBGP if unspecified):
   `-irb.conf` / `evpn-port-based.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - `transport/isis-srmpls-tilfa.conf`
@@ -127,8 +159,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `policy/communities.conf` (only the per-VRF target community)
 - `interfaces/edge-vlan-normalization.conf` (the AC interface that lands in the MAC-VRF's bridge-domain)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - `transport/isis-srmpls-tilfa.conf`
@@ -159,8 +190,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `evo/services/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
 - `evo/interfaces/edge-vlan-normalization.conf`
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf`
+**with-overlay** — Signalling: **LDP** (targeted pseudowire, incl. hot-standby `backup-neighbor`). **No BGP overlay** — L2Circuit relies on targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
 
 **as-deployed** (= with-overlay +)
 - `transport/isis-srmpls-tilfa.conf`
@@ -205,9 +235,7 @@ overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
 Tiers (apply to whichever of the three the user asked for):
 
 - **minimum** = `services/<topic>.conf` + AC interface snip
-- **with-overlay** = + `transport/bgp-overlay.conf` (verify
-  `family l2vpn signaling` for Kompella L2VPN and BGP-VPLS;
-  LDP-VPLS does not need this — it relies on LDP targeted sessions)
+- **with-overlay** — Signalling: **L2VPN** (`family l2vpn signaling`) for Kompella L2VPN and BGP-VPLS; **LDP** targeted sessions for LDP-VPLS. BGP overlay **applies to Kompella L2VPN and BGP-VPLS only** (LDP-VPLS adds none); attach it per the **BGP-overlay coverage gate** above.
 - **as-deployed** = + transport underlay + full apply-group baseline
   + CoS + OAM + BGP-CT
 
@@ -225,8 +253,7 @@ per VLAN.
 - `services/evpn-fxc.conf` (Junos and EVO — `instance-type evpn-vpws` with `flexible-cross-connect`)
 - `junos/interfaces/edge-vlan-normalization.conf` (the per-VLAN AC units that join the FXC group)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - same baseline as EVPN-VPWS above (transport + apply-groups + CoS + OAM + FAT-PW)
@@ -242,8 +269,7 @@ MEF E-Tree (root / leaf isolation) on a Junos `mac-vrf` with
 - `junos/services/evpn-etree.conf`
 - `junos/interfaces/ethernet-bridge.conf` (E-Tree leaf/root UNI)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - same baseline as EVPN-ELAN above
@@ -261,8 +287,7 @@ pseudowire-subscriber anchor (decouples the PW from a physical AC).
   - `evo/interfaces/edge-vlan-normalization.conf` (EVO ACX tail — customer-facing AC unit)
 - `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (L2Circuit relies on targeted LDP, not BGP — overlay is informational)
+**with-overlay** — Signalling: **LDP** (static-label pseudowire). **No BGP overlay** — L2Circuit floating pseudowires ride targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
 
 **as-deployed** (= with-overlay +)
 - same baseline as L2CIRCUIT above
@@ -278,7 +303,7 @@ in this JVD.
 - `evo/services/l2circuit-lsw.conf`
 - `interfaces/edge-vlan-normalization.conf` (both AC units that get cross-connected)
 
-**with-overlay** — not applicable (no MP signaling required)
+**with-overlay** — Signalling: **none** (single-PE local cross-connect). **No BGP overlay** — not applicable (see the **BGP-overlay coverage gate** above, rule 3).
 
 **as-deployed** (= minimum +)
 - transport underlay + edge apply-groups + CoS + OAM + firewall policers
@@ -303,8 +328,7 @@ is carried by RT-2).
 - `policy/communities.conf` (only the per-VRF target community)
 - `interfaces/edge-vlan-normalization.conf`
 
-**with-overlay** (= minimum +)
-- `transport/bgp-overlay.conf` (verify `family evpn signaling`)
+**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
 **as-deployed** (= with-overlay +)
 - same baseline as EVPN Type-5 above

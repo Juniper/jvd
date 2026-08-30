@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T16:33:35.122Z",
+  "generatedAt": "2026-08-30T20:51:39.956Z",
   "counts": {
     "total": 694,
     "junos": 353,
@@ -42448,7 +42448,7 @@
       "name": "evpn-fxc",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-fxc.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-fxc",
-      "topic": "EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC",
+      "topic": "EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC UNIs aggregated into a single EVPN-VPWS service-id (EVO)",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -43544,6 +43544,7 @@
         ]
       },
       "highlights": [
+        "Complete deployed iBGP overlay form for ma1-1_acx7024 / ma1-2_acx7024 (transport + service groups). This is a role-specific as-deployed form, not a universal per-service prerequisite — a MEF service activates only its own signaling AF.",
         "Two iBGP groups: one for inet/inet6 labeled-unicast (transport underlay, group GR-IBGP-MDR) and one for service AFs (group ibgp_mse_mpbgp: inet-vpn, l2vpn signaling, evpn signaling, route-target).",
         "labeled-unicast with rib inet.3 + add-path send/receive (path-count 4) for ECMP across SR transport tunnels.",
         "family route-target with nexthop-resolution no-resolution — standard RT-constrain optimisation.",
@@ -43560,51 +43561,6 @@
         {
           "raw": "evo/transport/rib-groups.conf",
           "id": "metro_ethernet_business_services/evo/transport/rib-groups",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-elan-mac-vrf.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-type5.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-type5",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-vpws.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-vpws",
-          "note": null
-        },
-        {
-          "raw": "evo/services/bgp-vpls.conf",
-          "id": "metro_ethernet_business_services/evo/services/bgp-vpls",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-fxc.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-fxc",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-port-based",
-          "note": null
-        },
-        {
-          "raw": "evo/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/evo/services/evpn-type5-anchor",
-          "note": null
-        },
-        {
-          "raw": "evo/services/l3vpn-bgp.conf",
-          "id": "metro_ethernet_business_services/evo/services/l3vpn-bgp",
-          "note": null
-        },
-        {
-          "raw": "evo/services/l3vpn-ospf.conf",
-          "id": "metro_ethernet_business_services/evo/services/l3vpn-ospf",
           "note": null
         }
       ],
@@ -44041,11 +43997,6 @@
           "raw": "evo/transport/flex-algorithm.conf     (defines FA 128/129 + use-transport-class)",
           "id": "metro_ethernet_business_services/evo/transport/flex-algorithm",
           "note": "defines FA 128/129 + use-transport-class"
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "service routes tagged colour 4000/6000"
         }
       ],
       "variables": [
@@ -45757,7 +45708,7 @@
       "name": "evpn-elan-virtual-switch-irb",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf",
       "otherOsFormId": null,
-      "topic": "EVPN-ELAN with `instance-type virtual-switch` + bridge-domains",
+      "topic": "EVPN-ELAN with `instance-type virtual-switch` + bridge-domains + IRB (the L2 / IRB-anchor half of the EVPN Type-5 IRB pair, Junos MX)",
       "seenOn": {
         "junos": [
           "mse1_mx304",
@@ -47015,6 +46966,7 @@
         "evo": []
       },
       "highlights": [
+        "Complete deployed iBGP overlay form for an1_mx204 / an2_acx5448 (all overlay AFs in one group). This is a role-specific as-deployed form, not a universal per-service prerequisite — a MEF service activates only its own signaling AF.",
         "Single iBGP group GR-IBGP-MEG-RR carrying every overlay AF needed for the MEF service portfolio: inet labeled-unicast (BGP-LU underlay)   + add-path send/receive 4 inet-vpn unicast                          (L3VPN IPv4) inet6 labeled-unicast                     + add-path send/receive 4 inet6-vpn unicast                         (L3VPN IPv6) l2vpn signaling                           (BGP-VPLS / L2VPN) evpn signaling                            (EVPN-VPWS, EVPN-ELAN, EVPN-FXC, ETREE) route-target with no-resolution           (RTC for scaling RR filtering)",
         "rib-group RG-REMOTE-LOOPBACKS leaks remote loopbacks into inet.3 so service NHs resolve over labelled paths",
         "BFD 100ms x 3 for fast session failure detection",
@@ -47030,66 +46982,6 @@
         {
           "raw": "junos/transport/rib-groups.conf",
           "id": "metro_ethernet_business_services/junos/transport/rib-groups",
-          "note": null
-        },
-        {
-          "raw": "junos/services/bgp-vpls.conf",
-          "id": "metro_ethernet_business_services/junos/services/bgp-vpls",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-elan-vlan-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-elan-virtual-switch-irb.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-elan-virtual-switch-irb",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-type5.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-vpws.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-vpws",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l2vpn-kompella.conf",
-          "id": "metro_ethernet_business_services/junos/services/l2vpn-kompella",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-bgp.conf",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
-          "note": null
-        },
-        {
-          "raw": "junos/services/l3vpn-ospf.conf",
-          "id": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-etree.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-etree",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-fxc.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-fxc",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-type5-anchor.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
           "note": null
         }
       ],
@@ -47490,11 +47382,6 @@
           "raw": "junos/transport/isis-srmpls-tilfa.conf  (ISIS carries FA 128/129)",
           "id": "metro_ethernet_business_services/junos/transport/isis-srmpls-tilfa",
           "note": "ISIS carries FA 128/129"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf        (service routes tagged colour 4000/6000)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "service routes tagged colour 4000/6000"
         }
       ],
       "variables": [
