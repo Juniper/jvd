@@ -73,7 +73,9 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
 - It **MUST** contain a `Junos:` row and an `EVO:` row. (`MISSING_SEEN_ON_BUCKET`)
 - Each row contains only **exact device tokens** or the marker `(none)`.
 - A device **MUST** be listed only when rendering the snip with that device's
-  values reproduces its real source stanza byte-for-byte.
+  values reproduces each of the snip's selected stanzas byte-for-byte (see
+  *Fragment boundary*). The exactness claim covers the selected stanzas, not the
+  full visible wrapper block.
 - A token **MUST** resolve to exactly one source configuration under the JVD's
   `configuration/conf/` tree (see *Device identity*). The file's `junos/` or
   `evo/` directory does **not** limit which devices may appear: if the same body
@@ -84,6 +86,24 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
   `all`/`all PEs`/`other devices`, inferred applicability, prose notes, or
   cross-file navigation. Scenario-qualified **device** identities (see *Device
   identity*) are permitted. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
+
+### Fragment boundary
+
+A snip may select multiple sibling stanzas under a context-only hierarchy. Every
+selected stanza and included container-level statement **MUST** coexist under the
+same concrete parent instance and match exactly using one consistent variable
+binding. Additional unselected siblings are outside the snip's scope and are
+permitted. Additional configuration inside a selected stanza is **not** permitted.
+
+A named instance container **MAY** serve as context when the snip intentionally
+selects repeated child instances rather than claiming the complete container. For
+example, an interface may provide context for selected units, and a maintenance
+domain may provide context for selected maintenance associations. The omitted
+sibling instances are not part of the exactness claim.
+
+The applicability claim is therefore that the **selected** stanzas reproduce
+exactly on a device — not that the entire enclosing interface, maintenance
+domain, or protocol process is byte-identical.
 
 ### Device identity
 
