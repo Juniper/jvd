@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T23:42:43.608Z",
+  "generatedAt": "2026-08-30T00:20:15.434Z",
   "counts": {
     "total": 688,
     "junos": 350,
@@ -41416,9 +41416,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/core-isis-mpls",
       "topic": "Core-facing LAG carrying inet/iso/inet6/mpls (EVO)",
       "seenOn": {
-        "junos": [
-          "an1_mx204"
-        ],
+        "junos": [],
         "evo": [
           "ma1-1_acx7024"
         ]
@@ -44587,8 +44585,21 @@
       "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls",
       "topic": "Core-facing LAG (ISIS + MPLS underlay attachment)",
       "seenOn": {
-        "junos": [],
-        "evo": []
+        "junos": [
+          "an1_mx204",
+          "ma2_mx204"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-2_acx7024",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
       },
       "highlights": [],
       "pairWith": [
