@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T00:20:15.434Z",
+  "generatedAt": "2026-08-30T00:21:30.233Z",
   "counts": {
     "total": 688,
     "junos": 350,
@@ -42375,20 +42375,18 @@
       "name": "evpn-port-based",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-port-based",
-      "topic": "Port-based EVPN-ELAN (mac-vrf + service-type vlan-bundle,",
+      "topic": "Port-based EVPN-ELAN (mac-vrf + service-type vlan-bundle, EVO ACX)",
       "seenOn": {
         "junos": [],
         "evo": [
           "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
           "meg1_acx7100-32c",
           "meg2_acx7509"
         ]
       },
       "highlights": [
         "`instance-type mac-vrf` + `service-type vlan-bundle` + a single `vlans { $BD_NAME { interface $AC; } }` block. The `vlan-bundle` service-type pools multiple customer VLANs on one UNI under one MAC-VRF (the EP-LAN / EPL-bundle case); no per-VLAN `vlan-id` is set on the BD because the parent interface unit carries the customer tags.",
-        "`protocols { evpn; }` is the minimal EVPN block (encapsulation + transport defaults come from `apply-groups GR-EDGE-EVPN` or the global PE template).",
+        "`protocols { evpn { encapsulation mpls; } }` sets MPLS encapsulation on the EVPN instance.",
         "Useful for Ethernet Private LAN where the customer owns the UNI and several VLANs ride the same broadcast domain.",
         "Port-based EVPN-VPWS variants live in evo/services/evpn-vpws.conf (per-port unit 0 + per-instance vpws-service-id)."
       ],
@@ -42441,10 +42439,10 @@
         "    an3_acx7100-48l  et-0/0/11.0",
         "    ma1-2_acx7024  et-0/0/8.0"
       ],
-      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn;\n        }\n        service-type vlan-bundle;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vlans {\n            $BD_NAME {\n                interface $AC_INTF;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 388,
-      "lineCount": 17,
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n            }\n        }\n        service-type vlan-bundle;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vlans {\n            $BD_NAME {\n                interface $AC_INTF;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 439,
+      "lineCount": 19,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
