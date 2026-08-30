@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T06:42:17.304Z",
+  "generatedAt": "2026-08-30T16:33:35.122Z",
   "counts": {
     "total": 694,
     "junos": 353,
@@ -40651,13 +40651,7 @@
         "bgp-error-tolerance — drop bad updates instead of resetting the session (RFC 7606-style treat-as-withdraw).",
         "tcp-mss 4096 — avoid fragmentation of long EVPN/L3VPN updates."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/bgp-overlay.conf",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-BGP-BCP {\n        protocols {\n            bgp {\n                path-selection external-router-id;\n                precision-timers;\n                hold-time 10;\n                bgp-error-tolerance;\n                tcp-mss 4096;\n            }\n        }\n    }\n}",
@@ -40725,11 +40719,6 @@
           "raw": "evo/transport/mpls-segment-routing.conf",
           "id": "metro_ethernet_business_services/evo/transport/mpls-segment-routing",
           "note": null
-        },
-        {
-          "raw": "evo/interfaces/core-isis-mpls.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls",
-          "note": null
         }
       ],
       "variables": [],
@@ -40783,11 +40772,6 @@
         "Pair this group with a parent ae* unit that has esi { all-active } — see evo/interfaces/lag-esi-multihoming.conf"
       ],
       "pairWith": [
-        {
-          "raw": "evo/interfaces/lag-esi-multihoming.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
-          "note": null
-        },
         {
           "raw": "evo/apply-groups/gr-edge-intf.conf",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-edge-intf",
@@ -40857,11 +40841,6 @@
         {
           "raw": "evo/apply-groups/gr-lag-member.conf",
           "id": "metro_ethernet_business_services/evo/apply-groups/gr-lag-member",
-          "note": null
-        },
-        {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
           "note": null
         },
         {
@@ -43579,6 +43558,11 @@
           "note": null
         },
         {
+          "raw": "evo/transport/rib-groups.conf",
+          "id": "metro_ethernet_business_services/evo/transport/rib-groups",
+          "note": null
+        },
+        {
           "raw": "evo/services/evpn-elan-mac-vrf.conf",
           "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf",
           "note": null
@@ -43995,11 +43979,6 @@
           "raw": "evo/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
           "id": "metro_ethernet_business_services/evo/policy/loopback-rib-leak",
           "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "learns the remote loopbacks leaked here"
         }
       ],
       "variables": [],
@@ -44326,11 +44305,6 @@
           "note": null
         },
         {
-          "raw": "junos/services/l2vpn-kompella.conf",
-          "id": "metro_ethernet_business_services/junos/services/l2vpn-kompella",
-          "note": null
-        },
-        {
           "raw": "junos/services/bgp-vpls.conf",
           "id": "metro_ethernet_business_services/junos/services/bgp-vpls",
           "note": null
@@ -44498,11 +44472,6 @@
         {
           "raw": "junos/policy/l3vpn-export-import.conf",
           "id": "metro_ethernet_business_services/junos/policy/l3vpn-export-import",
-          "note": null
-        },
-        {
-          "raw": "junos/services/evpn-type5.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-type5",
           "note": null
         },
         {
@@ -47059,6 +47028,11 @@
           "note": null
         },
         {
+          "raw": "junos/transport/rib-groups.conf",
+          "id": "metro_ethernet_business_services/junos/transport/rib-groups",
+          "note": null
+        },
+        {
           "raw": "junos/services/bgp-vpls.conf",
           "id": "metro_ethernet_business_services/junos/services/bgp-vpls",
           "note": null
@@ -47449,11 +47423,6 @@
           "raw": "junos/policy/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)",
           "id": "metro_ethernet_business_services/junos/policy/loopback-rib-leak",
           "note": "defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf       (learns the remote loopbacks leaked here)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "learns the remote loopbacks leaked here"
         }
       ],
       "variables": [],
