@@ -20,38 +20,50 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ### BGP-overlay coverage gate (canonical — every service section refers here)
 
-`transport/bgp-overlay.conf` is the **complete deployed iBGP overlay form** for a specific
-set of devices — it carries every overlay address-family that role runs. It is **not** a
-universal per-service prerequisite, so it is offered only where that exact deployed form is
-validated:
+`transport/bgp-overlay.conf` is **not** a universal per-service prerequisite. Each deployed
+iBGP overlay is captured as an OS-native **member of the `mebs-bgp-overlay` variant group**:
+the shared `transport/bgp-overlay.conf` still serves the devices listed in its own `Seen on:`,
+while device- or role-specific forms use qualified filenames. Every overlay member declares,
+via its `Provides:` line, exactly the overlay address-families that device's role runs
+(`evpn`, `l2vpn`, `inet-vpn`, `inet6-vpn`, `labeled-unicast`).
 
-- **Junos** `transport/bgp-overlay.conf` — deployed form for **an1_mx204, an2_acx5448** only.
-- **EVO** `transport/bgp-overlay.conf` — deployed form for **ma1-1_acx7024, ma1-2_acx7024** only.
+Every service section states only its **required signalling family** and points here. Each
+service consumer carries a single directed requirement `variant:mebs-bgp-overlay
+families=<family>` in its `Pair with:`. The overlay form is **resolved deterministically per
+device** — never enumerated by name:
+
+> **Resolve** the overlay for a (target device, target OS, service family) as the **unique**
+> member of `mebs-bgp-overlay` such that (a) the member is **native to the target OS**, (b) the
+> target device is in that member's exact `Seen on:`, and (c) the member's `Provides:`
+> **includes the service family** (all requested families, atomically).
 
 Rules (a service section states only its signalling classification and points here):
 
-1. **`with-overlay`** may attach the OS-native `transport/bgp-overlay.conf` **only when ALL of
-   these hold**: (a) the **selected service applies to the target device** — the target is in that
-   service snip's exact `Seen on:`; (b) the **target device is in the overlay file's exact
-   `Seen on:`** (the four devices above); (c) the overlay file is **native to the target's OS**; and
-   (d) **exactly one** overlay form resolves (one per OS). Do **not** gate on the overlay `Seen on:`
-   alone, and **never** synthesize, generalise, substitute, or borrow the other OS form.
-   **Fail closed:** if any condition fails, the requested `with-overlay` (or `as-deployed`) mode is
-   **unavailable** — no exact applicable same-OS overlay form exists — so **generate nothing for it**.
-   You may then offer `minimum` as a **separate alternative the user must explicitly confirm**,
-   making clear that `minimum` is local-service configuration only and does **not** provide the
-   unavailable remote BGP signalling. An **inapplicable** service/device selection (target not in the
-   service's `Seen on:`) is **rejected**, not downgraded.
-2. **Never give a device another role's BGP overlay form.** There is no generic per-service
-   overlay snip yet; each service's required signalling family (EVPN / L2VPN / inet-vpn) is
-   noted below, but the matching per-role overlay is deferred to later selector work.
+1. **`with-overlay`** attaches the resolved overlay member **only when ALL of these hold**:
+   (a) the **selected service applies to the target device** — the target is in that service
+   snip's exact `Seen on:`; and (b) **exactly one** overlay member resolves per the rule above.
+   **Fail closed:** if **zero** members resolve (no deployed overlay form for that device +
+   family) or **more than one** resolves, the requested `with-overlay` (or `as-deployed`)
+   overlay is **unavailable** — so **generate nothing for it**. You may then offer `minimum` as
+   a **separate alternative the user must explicitly confirm**, making clear that `minimum` is
+   local-service configuration only and does **not** provide the unavailable remote BGP
+   signalling. An **inapplicable** service/device selection (target not in the service's
+   `Seen on:`) is **rejected**, not downgraded. **Never** synthesize, generalise, substitute,
+   or borrow the other OS form.
+2. **The resolved member is always the target device's own role form.** Because the family is
+   matched against each member's `Provides:`, a device is never given another role's overlay —
+   a mismatched family simply yields zero resolutions and fails closed.
 3. **LDP-signalled services never add a BGP overlay** (L2Circuit floating-pw / hot-standby /
-   local-switching, LDP-VPLS) — they rely on targeted LDP.
-4. **`as-deployed`** includes the BGP overlay only for the four devices above (Junos file →
-   an1/an2; EVO file → ma1-1/ma1-2); for any other target it **fails closed** exactly as rule 1.
-   The nodes **ag1-1_acx7100-32c, ag1-2_acx7100-32c, ma2_mx204** have **no top-level deployed BGP
-   groups in source**, so there is no overlay form to offer for them. For any other device, do
-   **not** claim a complete `as-deployed` form unless every other required form is also validated.
+   local-switching, LDP-VPLS) — they carry no `variant:` requirement and rely on targeted LDP.
+4. **`as-deployed`** includes the BGP overlay under the **same resolution and fail-closed rule**
+   as `with-overlay`. For a **BGP-signalled service** (one carrying a `variant:mebs-bgp-overlay`
+   requirement), **zero** overlay resolutions means the requested `with-overlay` / `as-deployed`
+   form is **unavailable** and **fails closed** — **generate nothing for it** (exactly as rule 1);
+   do **not** silently omit the overlay and emit the rest of the baseline. Devices with **no
+   top-level deployed BGP group in source** (e.g. **ag1-1_acx7100-32c, ag1-2_acx7100-32c,
+   ma2_mx204**) have **no overlay member**, so any BGP-signalled service targeting them fails
+   closed on this rule. For any device, do **not** claim a complete `as-deployed` form unless
+   every other required form is also validated.
 
 ---
 

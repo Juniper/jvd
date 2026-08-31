@@ -24,16 +24,29 @@ export const CODES = {
   LEGACY_HEADER_SECTION: "LEGACY_HEADER_SECTION",
   LEGACY_HEADER_SYNTAX: "LEGACY_HEADER_SYNTAX",
   INVALID_SECTION_ORDER: "INVALID_SECTION_ORDER",
+  VARIANT_MALFORMED: "VARIANT_MALFORMED",
+  VARIANT_PROVIDES_UNKNOWN_FAMILY: "VARIANT_PROVIDES_UNKNOWN_FAMILY",
+  VARIANT_PROVIDES_MISMATCH: "VARIANT_PROVIDES_MISMATCH",
+  VARIANT_UNRESOLVED: "VARIANT_UNRESOLVED",
+  VARIANT_AMBIGUOUS: "VARIANT_AMBIGUOUS",
+  VARIANT_DEVICE_OVERLAP: "VARIANT_DEVICE_OVERLAP",
+  VARIANT_GROUP_EMPTY: "VARIANT_GROUP_EMPTY",
 };
 
 const SECTION_ORDER = [
   "topic",
   "seen-on",
+  "variant-group",
   "highlights",
   "pair-with",
   "jvd-service-mapping",
   "variables",
 ];
+
+// The closed selector-capability vocabulary shared by `Provides:` (member) and
+// `variant:` requirements (consumer). `route-target` is never selectable.
+export const VARIANT_FAMILIES = ["evpn", "l2vpn", "inet-vpn", "inet6-vpn", "labeled-unicast"];
+const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
 
 // Bare prose words that must never be read as device tokens.
 const APPROX_WORDS = /^(all|other|others|remaining|various|etc|devices|nodes|node|pes|pe|routers|router)$/i;
@@ -99,6 +112,10 @@ export function parseSnip(text) {
   const pairWith = [];
   const variables = [];
   const jvdServiceMapping = [];
+  let variantGroup = null;
+  const variantRequires = [];
+  let variantGroupSeen = false;
+  let providesCount = 0;
 
   for (const line of rawLines) {
     const trimmed = line.trim();
@@ -112,9 +129,60 @@ export function parseSnip(text) {
     // Reserved relationship fields have no schema yet and MUST NOT appear.
     // Detect them regardless of the current section and drop out so their
     // bullets are not miscaptured as dependencies.
-    if (/^\s{0,1}(Peers with|Augments with|Variant group)\b\s*:/i.test(line)) {
+    if (/^\s{0,1}(Peers with|Augments with)\b\s*:/i.test(line)) {
       diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
       section = null;
+      continue;
+    }
+
+    // `Variant group:` opens a member's variant metadata; its `Provides:` row is
+    // subordinate (parsed like the Junos/EVO rows under `Seen on:`).
+    const vg = line.match(/^\s{0,1}Variant group\s*:\s*(.*)$/i);
+    if (vg) {
+      const name = vg[1].trim();
+      if (variantGroupSeen) {
+        // A second member section is malformed; keep the first, never overwrite.
+        diag(CODES.VARIANT_MALFORMED, trimmed);
+        section = "variant-group";
+      } else {
+        variantGroupSeen = true;
+        section = "variant-group";
+        if (/^[a-z0-9-]+$/.test(name)) {
+          variantGroup = { name, provides: [] };
+        } else {
+          diag(CODES.VARIANT_MALFORMED, trimmed);
+          variantGroup = null;
+        }
+      }
+      const orderIdx = SECTION_ORDER.indexOf(section);
+      if (orderIdx < maxOrderSeen) diag(CODES.INVALID_SECTION_ORDER, section);
+      if (orderIdx > maxOrderSeen) maxOrderSeen = orderIdx;
+      continue;
+    }
+
+    // `Provides:` is valid ONLY as the single subordinate row of `Variant group:`.
+    // Anywhere else, or repeated, it is malformed and never silently ignored.
+    const pv = trimmed.match(/^Provides\s*:\s*(.*)$/i);
+    if (pv) {
+      if (section !== "variant-group") {
+        diag(CODES.VARIANT_MALFORMED, trimmed);
+        continue;
+      }
+      providesCount += 1;
+      if (providesCount > 1) {
+        // Keep the first row; never overwrite valid metadata after a duplicate.
+        diag(CODES.VARIANT_MALFORMED, trimmed);
+        continue;
+      }
+      const fams = [...new Set(pv[1].split(/[,\s]+/).filter(Boolean).map((s) => s.toLowerCase()))];
+      if (fams.length === 0) {
+        diag(CODES.VARIANT_MALFORMED, trimmed);
+      } else {
+        for (const f of fams) {
+          if (!VARIANT_FAMILY_SET.has(f)) diag(CODES.VARIANT_PROVIDES_UNKNOWN_FAMILY, f);
+        }
+        if (variantGroup) variantGroup.provides = fams;
+      }
       continue;
     }
 
@@ -164,7 +232,7 @@ export function parseSnip(text) {
     // A misspelling of a known field (edit distance <= 2) — flag it and leave the
     // current section so its bullets are not miscaptured. Device rows excluded.
     const labelMatch = line.match(/^\s{0,1}([A-Za-z][A-Za-z0-9 -]{1,24})\s*:/);
-    if (labelMatch && !/^\s{0,2}(Junos|EVO)\s*:/i.test(line)) {
+    if (labelMatch && !/^\s{0,2}(Junos|EVO|Provides)\s*:/i.test(line)) {
       const label = labelMatch[1].trim().toLowerCase().replace(/\s+/g, " ");
       if (KNOWN_LABELS.some((k) => editDistance(label, k) <= 2)) {
         diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
@@ -224,6 +292,13 @@ export function parseSnip(text) {
       continue;
     }
 
+    if (section === "variant-group") {
+      // The only valid content is the `Provides:` row (handled above); any other
+      // line under a member section is misplaced.
+      diag(CODES.VARIANT_MALFORMED, trimmed);
+      continue;
+    }
+
     if (section === "highlights") {
       const b = trimmed.match(/^-\s*(.*)$/);
       if (b) highlights.push(b[1].trim());
@@ -233,7 +308,24 @@ export function parseSnip(text) {
 
     if (section === "pair-with") {
       const b = trimmed.match(/^-\s*(.*)$/);
-      if (b) pairWith.push(b[1].trim());
+      if (b) {
+        const bullet = b[1].trim();
+        if (/^variant\s*:/i.test(bullet)) {
+          const vr = bullet.match(/^variant\s*:\s*([a-z0-9-]+)\s+families=([a-z0-9,\-]+)$/);
+          if (!vr) {
+            diag(CODES.VARIANT_MALFORMED, bullet);
+          } else {
+            const families = [...new Set(vr[2].split(",").filter(Boolean))];
+            if (families.length === 0 || families.some((f) => !VARIANT_FAMILY_SET.has(f))) {
+              diag(CODES.VARIANT_MALFORMED, bullet);
+            } else {
+              variantRequires.push({ group: vr[1], families });
+            }
+          }
+          continue; // variant requirements never fall through to pairWith
+        }
+        pairWith.push(bullet);
+      }
       continue;
     }
 
@@ -258,6 +350,13 @@ export function parseSnip(text) {
     jvdServiceMapping.pop();
   }
 
+  // A variant member MUST carry exactly one nonempty `Provides:` row. A malformed
+  // group name already flagged (variantGroup === null); this catches a valid group
+  // that never received a Provides row.
+  if (variantGroupSeen && variantGroup && variantGroup.provides.length === 0) {
+    diag(CODES.VARIANT_MALFORMED, "Variant group: missing Provides");
+  }
+
   if (!topic) {
     warnings.push("missing-topic");
     diag(CODES.MISSING_TOPIC);
@@ -273,7 +372,7 @@ export function parseSnip(text) {
   return {
     warnings,
     diagnostics,
-    header: { topic, seenOn, highlights, pairWith, variables, jvdServiceMapping },
+    header: { topic, seenOn, variantGroup, variantRequires, highlights, pairWith, variables, jvdServiceMapping },
     body,
   };
 }

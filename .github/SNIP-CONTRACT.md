@@ -33,9 +33,9 @@ followed by the templated configuration body.
 ```
 
 Sections, when present, **MUST** appear in this order: `Topic`, `Seen on`,
-`Highlights`, `Pair with`, `JVD service mapping`, `Variables`. `Variables` is
-last, adjacent to the templated body it declares. Any other order is reported as
-`INVALID_SECTION_ORDER`.
+`Variant group`, `Highlights`, `Pair with`, `JVD service mapping`, `Variables`.
+`Variables` is last, adjacent to the templated body it declares. Any other order
+is reported as `INVALID_SECTION_ORDER`.
 
 A formal field header **MUST** end its keyword with a colon, optionally after an
 immediate `(…)` annotation — `Field:` or `Field (annotation):` (e.g. `Pair with
@@ -168,15 +168,63 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
   indentation is preserved.
 - It **MUST NOT** replace `Seen on`, `Pair with`, or role metadata.
 
+### Variant group (optional)
+
+A **variant group** lets a dependent snip require a capability from whichever
+as-deployed form actually fits a given device, instead of naming one fixed file.
+A snip participates in one of two roles.
+
+**Member** — a snip that publishes an as-deployed form declares its membership
+directly after `Seen on:`:
+
+```
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+```
+
+- The group name matches `[a-z0-9-]+`.
+- `Provides:` is a **subordinate row** of `Variant group:`, not its own section.
+- `Provides:` is nonempty and drawn only from the closed capability vocabulary:
+  `evpn`, `l2vpn`, `inet-vpn`, `inet6-vpn`, `labeled-unicast`.
+- `route-target` is a scaling optimisation, **never** a selectable capability.
+- The declared `Provides:` set **MUST** equal the selector capabilities
+  structurally present in the member's body (`VARIANT_PROVIDES_MISMATCH`); an
+  unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`.
+- Within one JVD, OS, and group, a device **MUST** appear in at most one member,
+  regardless of capabilities (`VARIANT_DEVICE_OVERLAP`).
+
+**Consumer** — a snip that needs a capability expresses it as a requirement
+bullet inside `Pair with:`:
+
+```
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=inet-vpn,inet6-vpn
+```
+
+- Always plural `families=`, nonempty, from the same closed vocabulary.
+- A multi-family requirement is **atomic**: one member must provide **all** of
+  the requested families.
+- Resolution is deterministic and fail-closed. A requirement resolves against a
+  member only when it is the **same JVD**, **same group**, **same OS**, lists the
+  **exact target device** in its `Seen on:` bucket, and provides every requested
+  family. Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more
+  than one** is `VARIANT_AMBIGUOUS`; a referenced group with no members is
+  `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen, and
+  selection never crosses OS, device, or JVD.
+- A bullet beginning `variant:` that is malformed is `VARIANT_MALFORMED` and
+  **never** falls through to an ordinary path prerequisite.
+
+For a JVD whose `_snip-library.json` `seenOnValidation` value is `complete`,
+every variant finding is an error regardless of whether the file itself changed.
+
 ### Reserved / unsupported fields
 
 Until their parser, schema, and portal behaviour exist, headers **MUST NOT**
-author `Augments with:`, `Peers with:`, or `Variant group:`.
+author `Augments with:` or `Peers with:`.
 
 The free-form `Variant:` and `Role:` fields are **deprecated** legacy metadata:
 they are recognised but not retained, and are reported as `LEGACY_HEADER_SECTION`
-(a warning on legacy snips, an error once a snip is changed). Device role is
-derived from `_roles.json`; the future construct is `Variant group:`.
+(a warning on legacy snips, an error once a snip is changed).
 
 ## Cross-OS navigation
 
@@ -210,7 +258,10 @@ and independent of role support (`_roles.json`).
 `MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
 `SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
 `VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `LEGACY_HEADER_SECTION`,
-`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`.
+`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`, `VARIANT_MALFORMED`,
+`VARIANT_PROVIDES_UNKNOWN_FAMILY`, `VARIANT_PROVIDES_MISMATCH`,
+`VARIANT_UNRESOLVED`, `VARIANT_AMBIGUOUS`, `VARIANT_DEVICE_OVERLAP`,
+`VARIANT_GROUP_EMPTY`.
 
 Severity is applied on change:
 
@@ -218,7 +269,8 @@ Severity is applied on change:
   is an error.
 - A **legacy (unchanged)** snip is grandfathered while its JVD is `partial`
   (findings warn); once its JVD is `complete`, its Seen-on applicability findings
-  (`MISSING_HEADER`, `SEEN_ON_*`, `MISSING_SEEN_ON_*`) are held strict.
+  (`MISSING_HEADER`, `SEEN_ON_*`, `MISSING_SEEN_ON_*`) and all variant-integrity
+  findings (`VARIANT_*`) are held strict.
 
 Run locally:
 
