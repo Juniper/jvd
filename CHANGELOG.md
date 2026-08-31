@@ -4,6 +4,52 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-08-31
+
+Gave the repository's **configuration snippet library** a verifiable provenance
+contract, and made **Metro Ethernet Business Services (MEBS)** the first library
+whose snippet applicability is complete and enforced.
+
+The snippet library already let large validated configurations be reused as
+building blocks, but a snippet's *"Seen on"* device list was a convention rather
+than a checkable claim. It is now a contract: each snippet header is
+machine-validated, every listed device must reproduce the snippet's configuration
+exactly, dependencies between snippets are explicit and directional, and Junos and
+Evolved-OS forms cross-link for easy navigation. Continuous integration enforces
+the contract on every change.
+
+### Improvements
+
+#### Configuration snippet contract
+
+- **Executable provenance** — a snippet's `Seen on:` list is an exact
+  applicability claim: every listed device reproduces the snippet's configuration
+  under one consistent set of variables. Approximate or aspirational device lists
+  were corrected to their exact reproducing sets. The rules are published in
+  [SNIP-CONTRACT.md](SNIP-CONTRACT.md).
+- **Deterministic validation in CI** — a shared parser and typed validation checks
+  run in continuous integration, so a snippet header means the same thing to the
+  portal and to the validator.
+- **Directional dependencies** — snippet *"Pair with"* relationships are explicit
+  same-device prerequisites with a defined direction; reversed, dangling, and
+  overly broad edges were corrected.
+- **Cross-OS navigation** — the Junos and Evolved-OS forms of the same snippet are
+  linked, and selecting the other-OS form keeps it visible in the portal.
+- **Per-library readiness signal** — each JVD can declare whether its snippet
+  applicability is fully audited (`complete`) or still in progress (`partial`).
+
+#### Service Provider
+
+- **Metro Ethernet Business Services — first fully-audited snippet library** —
+  every
+  [MEBS snippet](service_provider/metro_ethernet_business_services/configuration/snips)'s
+  device applicability was re-derived from the published device configurations and
+  corrected where it was approximate, advancing MEBS to `complete`. Reusable
+  policies, community definitions, and variables were consolidated so snippets
+  share one exact form instead of near-duplicates, and BGP-overlay output is
+  limited to the exact published deployed forms rather than over-claiming support
+  for other roles.
+
 ## 2026-08-27
 
 Restored the JVD design guides across **all five solution areas** — Service
