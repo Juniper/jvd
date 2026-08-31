@@ -88,19 +88,27 @@ export function resolveToken(tok, inventory) {
   return "unknown";
 }
 
-/** Extract JVD template variables (uppercase-led $VARS) from a body. */
+/**
+ * Canonicalize a template-variable token so its braced and bare spellings are
+ * one logical name: `$FOO` and `${FOO}` both normalize to `$FOO`.
+ */
+export function normalizeVar(tok) {
+  return tok.replace(/[{}]/g, "");
+}
+
+/** Extract JVD template variables (uppercase-led $VARS, braced or bare) from a body. */
 export function bodyVariables(body) {
   const set = new Set();
-  for (const m of body.matchAll(/\$[A-Z][A-Z0-9_]*/g)) set.add(m[0]);
+  for (const m of body.matchAll(/\$\{[A-Z][A-Z0-9_]*\}|\$[A-Z][A-Z0-9_]*/g)) set.add(normalizeVar(m[0]));
   return set;
 }
 
-/** Declared variable names, split on "/" for combined declarations. */
+/** Declared variable names, split on "/" for combined declarations (braced or bare). */
 function declaredVariables(variables) {
   const set = new Set();
   for (const v of variables || []) {
     for (const part of v.name.split("/")) {
-      const t = part.trim();
+      const t = normalizeVar(part.trim());
       if (t) set.add(t);
     }
   }
