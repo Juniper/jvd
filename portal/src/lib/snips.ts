@@ -107,6 +107,36 @@ export const BROWSE_MODES: { id: BrowseMode; label: string }[] = [
   { id: "usecase", label: "Use Case" },
 ];
 
+// The tree can also be built in a "role" organization of the JVD view. This is
+// a sub-view of JVD mode, not a top-level browse mode.
+export type TreeMode = BrowseMode | "role";
+
+// Beta "Roles" view: group snips by the network device role of the devices in
+// their `Seen on:` list. Scoped to MEBS for now (the first JVD with a curated
+// device-role vocabulary); other JVDs join as their role maps are verified.
+export const ROLE_VIEW_JVD = "metro_ethernet_business_services";
+
+const ROLE_BY_DEVICE_PREFIX: Record<string, string> = {
+  an: "Access Node",
+  ma: "Metro Access",
+  ag: "Aggregation",
+  mdr: "Metro Distribution Router",
+  mse: "Metro Service Edge",
+  meg: "Metro Edge Gateway",
+  cr: "Core Router",
+};
+
+/** Device roles a snip applies to, derived from its `Seen on:` hostnames. */
+export function rolesForSnip(s: SnipRecord): string[] {
+  const roles = new Set<string>();
+  for (const dev of [...s.seenOn.junos, ...s.seenOn.evo]) {
+    const prefix = dev.split("_")[0].match(/^[a-z]+/i)?.[0]?.toLowerCase();
+    const role = prefix && ROLE_BY_DEVICE_PREFIX[prefix];
+    if (role) roles.add(role);
+  }
+  return [...roles];
+}
+
 export type GroupNode = {
   id: string;
   label: string;
@@ -116,7 +146,7 @@ export type GroupNode = {
 };
 
 /** Build the tree shown in the left accordion for a given browse mode. */
-export function buildTree(snips: SnipRecord[], mode: BrowseMode): GroupNode[] {
+export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
   if (mode === "jvd") {
     // Area → JVD → Category → snip
     const byArea = new Map<string, Map<string, Map<string, SnipRecord[]>>>();
@@ -182,6 +212,50 @@ export function buildTree(snips: SnipRecord[], mode: BrowseMode): GroupNode[] {
             count: arr.length,
             snipIds: arr.map((s) => s.id),
           })),
+      }));
+  }
+
+  if (mode === "role") {
+    // Beta: Area → JVD → device Role → snip, scoped to the role-view JVD.
+    // A snip appears under every role it is seen on, so role counts may sum to
+    // more than the JVD's snip total.
+    const scoped = snips.filter((s) => s.jvd === ROLE_VIEW_JVD);
+    const byArea = new Map<string, Map<string, Map<string, SnipRecord[]>>>();
+    for (const s of scoped) {
+      const roles = rolesForSnip(s);
+      if (!roles.length) continue;
+      const area = s.area || "Other";
+      if (!byArea.has(area)) byArea.set(area, new Map());
+      const byJvd = byArea.get(area)!;
+      if (!byJvd.has(s.jvd)) byJvd.set(s.jvd, new Map());
+      const byRole = byJvd.get(s.jvd)!;
+      for (const role of roles) {
+        if (!byRole.has(role)) byRole.set(role, []);
+        byRole.get(role)!.push(s);
+      }
+    }
+    return [...byArea.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([area, jvdMap]) => ({
+        id: `roleArea:${area}`,
+        label: area,
+        count: [...jvdMap.values()].reduce(
+          (n, roleMap) => n + [...roleMap.values()].reduce((m, arr) => m + arr.length, 0),
+          0,
+        ),
+        children: [...jvdMap.entries()].map(([jvdId, roleMap]) => ({
+          id: `roleJvd:${jvdId}`,
+          label: roleMap.values().next().value?.[0]?.jvdLabel ?? jvdId,
+          count: [...roleMap.values()].reduce((n, arr) => n + arr.length, 0),
+          children: [...roleMap.entries()]
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([role, arr]) => ({
+              id: `role:${jvdId}:${role}`,
+              label: role,
+              count: arr.length,
+              snipIds: arr.map((s) => s.id),
+            })),
+        })),
       }));
   }
 

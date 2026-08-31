@@ -28,6 +28,17 @@ overlay is withheld rather than approximated.
   Assistant's tier guidance follows the same deterministic rule, offering the
   overlay only where a device's validated form exists and withholding it otherwise.
 
+#### Portal
+
+- **Config Explorer — browse by device role (Beta)** — the
+  [Config Explorer](https://juniper.github.io/jvd/portal/#snips) adds a **Roles**
+  view to JVD browse: configuration snippets are grouped by the network device
+  role of the devices that run them (Access Node, Metro Access, Metro Distribution
+  Router, Metro Service Edge, Metro Edge Gateway, Aggregation, Core Router), so you
+  can see every building block a given role uses. Selecting a snippet opens it
+  side-by-side with the role tree. Available for Metro Ethernet Business Services
+  to start.
+
 ## 2026-08-30
 
 Gave the repository's **configuration snippet library** a verifiable provenance

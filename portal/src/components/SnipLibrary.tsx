@@ -17,8 +17,10 @@ import {
   buildTree,
   REPO_BLOB_BASE,
   titleize,
+  ROLE_VIEW_JVD,
   type SnipRecord,
   type BrowseMode,
+  type TreeMode,
   type GroupNode,
 } from "@/lib/snips";
 import { BROWSE_MODES } from "@/lib/snips";
@@ -30,6 +32,7 @@ import { BROWSE_MODES } from "@/lib/snips";
 
 type UrlState = {
   mode: BrowseMode;
+  view: "snips" | "roles";
   q: string;
   osKey: "" | "junos" | "evo";
   jvd: string;
@@ -40,9 +43,14 @@ function parseHash(): UrlState {
   const h = typeof window !== "undefined" ? window.location.hash : "";
   const qIdx = h.indexOf("?");
   const params = new URLSearchParams(qIdx >= 0 ? h.slice(qIdx + 1) : "");
-  const mode = (params.get("mode") as BrowseMode) || "jvd";
+  const rawMode = params.get("mode") || "jvd";
+  // `mode=role` was an earlier form of the JVD "Roles" sub-view; migrate it.
+  const view: "snips" | "roles" =
+    rawMode === "role" || params.get("view") === "roles" ? "roles" : "snips";
+  const mode = rawMode === "role" ? "jvd" : (rawMode as BrowseMode);
   return {
     mode: ["jvd", "tech", "usecase"].includes(mode) ? mode : "jvd",
+    view,
     q: params.get("q") || "",
     osKey: (params.get("os") as UrlState["osKey"]) || "",
     jvd: params.get("jvd") || "",
@@ -55,6 +63,7 @@ function writeHash(state: UrlState) {
 
   const params = new URLSearchParams();
   if (state.mode !== "jvd") params.set("mode", state.mode);
+  if (state.mode === "jvd" && state.view === "roles") params.set("view", "roles");
   if (state.q) params.set("q", state.q);
   if (state.osKey) params.set("os", state.osKey);
   if (state.jvd) params.set("jvd", state.jvd);
@@ -121,6 +130,50 @@ function ModeToggle({ value, onChange }: { value: BrowseMode; onChange: (v: Brow
           {m.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+function JvdViewToggle({
+  value,
+  onChange,
+}: {
+  value: "snips" | "roles";
+  onChange: (v: "snips" | "roles") => void;
+}) {
+  return (
+    <div className="inline-flex items-center gap-2">
+      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        View
+      </span>
+      <div className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs">
+        <button
+          onClick={() => onChange("snips")}
+          className={
+            "rounded-md px-3 py-1.5 font-medium transition-colors " +
+            (value === "snips"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          Snips
+        </button>
+        <button
+          onClick={() => onChange("roles")}
+          title="Role grouping is currently available for Metro Ethernet Business Services."
+          className={
+            "inline-flex items-center rounded-md px-3 py-1.5 font-medium transition-colors " +
+            (value === "roles"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground")
+          }
+        >
+          Roles
+          <span className="ml-1.5 rounded-sm bg-orange-500/15 px-1 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-orange-500">
+            Beta
+          </span>
+        </button>
+      </div>
     </div>
   );
 }
@@ -548,6 +601,7 @@ export default function SnipLibrary() {
   );
 
   const [mode, setMode] = useState<BrowseMode>(hashState.mode);
+  const [jvdView, setJvdView] = useState<"snips" | "roles">(hashState.view);
   const [query, setQuery] = useState<string>(hashState.q);
   const [osKey, setOsKey] = useState<UrlState["osKey"]>(hashState.osKey);
   const [jvdF, setJvdF] = useState<string>(hashState.jvd);
@@ -560,6 +614,7 @@ export default function SnipLibrary() {
       const next = parseHash();
       setHashState(next);
       setMode(next.mode);
+      setJvdView(next.view);
       setQuery(next.q);
       setOsKey(next.osKey);
       setJvdF(next.jvd);
@@ -571,23 +626,27 @@ export default function SnipLibrary() {
 
   // Persist state to URL when relevant bits change
   useEffect(() => {
-    writeHash({ mode, q: query, osKey, jvd: jvdF, id: selectedId });
-  }, [mode, query, osKey, jvdF, selectedId]);
+    writeHash({ mode, view: jvdView, q: query, osKey, jvd: jvdF, id: selectedId });
+  }, [mode, jvdView, query, osKey, jvdF, selectedId]);
+
+  const roleMode = mode === "jvd" && jvdView === "roles";
+  const treeMode: TreeMode = roleMode ? "role" : mode;
 
   // Filter snips → visibleIds
   const visibleSnips = useMemo(
     () =>
       allSnips.filter((s) => {
+        if (roleMode && s.jvd !== ROLE_VIEW_JVD) return false;
         if (osKey && s.osKey !== osKey) return false;
         if (jvdF && s.jvd !== jvdF) return false;
         if (!matchesQuery(s, query)) return false;
         return true;
       }),
-    [allSnips, osKey, jvdF, query],
+    [allSnips, osKey, jvdF, query, roleMode],
   );
   const visibleIds = useMemo(() => new Set(visibleSnips.map((s) => s.id)), [visibleSnips]);
 
-  const tree = useMemo(() => buildTree(allSnips, mode), [allSnips, mode]);
+  const tree = useMemo(() => buildTree(allSnips, treeMode), [allSnips, treeMode]);
 
   // Tracks start collapsed by default (compact). While a search query or JVD
   // filter is active, groups with matches are force-opened at render time (see
@@ -645,6 +704,7 @@ export default function SnipLibrary() {
         {/* Controls */}
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <ModeToggle value={mode} onChange={setMode} />
+          {mode === "jvd" && <JvdViewToggle value={jvdView} onChange={setJvdView} />}
           <OsFilter value={osKey} onChange={setOsKey} />
           <div className="relative min-w-[16rem] flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -693,8 +753,17 @@ export default function SnipLibrary() {
           </div>
         )}
 
-        {/* Two-pane layout */}
-        <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(20rem,24rem)_1fr]">
+        {/* Two-pane layout — Roles mode uses full width until a snip is picked. */}
+        <div
+          className={
+            "mt-8 grid grid-cols-1 items-start gap-6 " +
+            (roleMode
+              ? selectedSnip
+                ? "lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]"
+                : ""
+              : "lg:grid-cols-[minmax(20rem,24rem)_1fr]")
+          }
+        >
           {/* Left: tree */}
           <div className="rounded-lg border border-border bg-surface/40 p-3">
             <div className="max-h-[calc(100vh-12rem)] overflow-y-auto">
@@ -726,8 +795,9 @@ export default function SnipLibrary() {
             </div>
           </div>
 
-          {/* Right: detail */}
-          <div className="rounded-lg border border-border bg-surface/40">
+          {/* Right: detail — always present in Snips mode; in Roles mode only once a snip is selected */}
+          {(selectedSnip || !roleMode) && (
+            <div className="rounded-lg border border-border bg-surface/40">
             {selectedSnip ? (
               <SnipDetail
                 snip={selectedSnip}
@@ -756,6 +826,7 @@ export default function SnipLibrary() {
               </div>
             )}
           </div>
+          )}
         </div>
       </div>
     </section>
