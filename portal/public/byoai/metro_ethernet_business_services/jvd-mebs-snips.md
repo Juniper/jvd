@@ -4517,7 +4517,6 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
- *           in evo/services/evpn-fxc.conf)
  *
  * Highlights:
  *  - `instance-type evpn-vpws` with the FXC knob

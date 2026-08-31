@@ -1447,7 +1447,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2856,
+      "size_bytes": 2812,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf"
     },
     {
