@@ -550,6 +550,12 @@ async function main() {
       pairWith: [], // filled in pass 2
       variables: header?.variables || [],
       jvdServiceMapping: header?.jvdServiceMapping || [],
+      // Variant metadata is emitted only when authored, so records without it
+      // stay byte-identical and snips.json does not churn.
+      ...(header?.variantGroup ? { variantGroup: header.variantGroup } : {}),
+      ...(header?.variantRequires && header.variantRequires.length
+        ? { variantRequires: header.variantRequires }
+        : {}),
       body,
       bodyHtml: "", // filled below
       bytes: Buffer.byteLength(body, "utf8"),

@@ -19,7 +19,9 @@ import { promises as fs } from "node:fs";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseSnip, CODES } from "./snip-parse.mjs";
+import { parseSnip, CODES, VARIANT_FAMILIES } from "./snip-parse.mjs";
+import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
+import { resolveVariant, groupHasMembers } from "./variant-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -36,16 +38,31 @@ const APPLICABILITY_CODES = new Set([
   CODES.MISSING_SEEN_ON_SECTION,
 ]);
 
+// Variant relationship integrity is a completeness property, not Seen-on debt:
+// once a JVD is `complete`, every variant finding is an error regardless of
+// whether the member or consumer file itself changed.
+const VARIANT_CODES = new Set([
+  CODES.VARIANT_MALFORMED,
+  CODES.VARIANT_PROVIDES_UNKNOWN_FAMILY,
+  CODES.VARIANT_PROVIDES_MISMATCH,
+  CODES.VARIANT_UNRESOLVED,
+  CODES.VARIANT_AMBIGUOUS,
+  CODES.VARIANT_DEVICE_OVERLAP,
+  CODES.VARIANT_GROUP_EMPTY,
+]);
+
+const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
+
 /**
  * severity(code, { changed, seenOnValidation }) -> "error" | "warn".
  * - changed/new snip: any finding is an error (must satisfy the full contract).
  * - legacy + partial: warn (grandfathered).
- * - legacy + complete: only Seen-on applicability findings escalate to error;
- *   the flag describes Seen-on integrity, not the whole contract.
+ * - legacy + complete: Seen-on applicability findings and all variant-integrity
+ *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
   if (changed) return "error";
-  if (seenOnValidation === "complete" && APPLICABILITY_CODES.has(code)) return "error";
+  if (seenOnValidation === "complete" && (APPLICABILITY_CODES.has(code) || VARIANT_CODES.has(code))) return "error";
   return "warn";
 }
 
@@ -116,11 +133,84 @@ function declaredVariables(variables) {
 }
 
 /**
+ * Member validation: a member's declared `Provides:` must equal the selectable
+ * capability set structurally present in its body. Unknown declared families are
+ * reported separately by the parser (VARIANT_PROVIDES_UNKNOWN_FAMILY), so the
+ * mismatch check compares only the valid declared families against the body.
+ */
+export function validateVariantMember({ variantGroup, body }) {
+  const findings = [];
+  if (!variantGroup) return findings;
+  const declared = new Set((variantGroup.provides || []).filter((f) => VARIANT_FAMILY_SET.has(f)));
+  const actual = new Set(extractBgpCapabilities(body || ""));
+  const equal = declared.size === actual.size && [...actual].every((c) => declared.has(c));
+  if (!equal) {
+    findings.push({
+      code: CODES.VARIANT_PROVIDES_MISMATCH,
+      detail: `declared=[${[...declared].join(",")}] body=[${[...actual].join(",")}]`,
+    });
+  }
+  return findings;
+}
+
+/**
+ * Consumer validation: for every device in the consumer's exact `Seen on:`
+ * bucket, each atomic variant requirement must resolve to exactly one member.
+ * A referenced group with no members anywhere in this JVD is GROUP_EMPTY; a
+ * group that exists but matches no OS/device/families is UNRESOLVED; more than
+ * one is AMBIGUOUS. All fail closed.
+ */
+export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, members }) {
+  const findings = [];
+  if (!variantRequires || variantRequires.length === 0) return findings;
+  const devices = (seenOn && seenOn[os]) || [];
+  for (const req of variantRequires) {
+    if (!groupHasMembers({ group: req.group, targetOS: os, consumerJvd: jvd, members })) {
+      findings.push({ code: CODES.VARIANT_GROUP_EMPTY, detail: `${req.group} (${os})` });
+      continue;
+    }
+    for (const dev of devices) {
+      const r = resolveVariant({
+        group: req.group,
+        families: req.families,
+        targetDevice: dev,
+        targetOS: os,
+        consumerJvd: jvd,
+        members,
+      });
+      const detail = `${req.group} ${dev} families=${req.families.join(",")}`;
+      if (r.status === "unavailable") findings.push({ code: CODES.VARIANT_UNRESOLVED, detail });
+      else if (r.status === "ambiguous") findings.push({ code: CODES.VARIANT_AMBIGUOUS, detail });
+    }
+  }
+  return findings;
+}
+
+/**
+ * Group validation: within one JVD, OS, and group, a device may appear in at
+ * most one member — regardless of capabilities. Returns overlap findings for
+ * the member identified by `selfRel`.
+ */
+export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, members }) {
+  const findings = [];
+  if (!variantGroup || !members) return findings;
+  const mine = (seenOn && seenOn[os]) || [];
+  for (const dev of mine) {
+    const clash = members.some(
+      (m) => m.rel !== selfRel && m.os === os && m.group === variantGroup.name && (m.seenOn?.[os] || []).includes(dev),
+    );
+    if (clash) findings.push({ code: CODES.VARIANT_DEVICE_OVERLAP, detail: `${dev} in ${variantGroup.name} (${os})` });
+  }
+  return findings;
+}
+
+/**
  * Validate one snip's text. Returns typed findings (code + detail), before
  * severity classification. `inventory` and `snipIndex` (Set of resolvable
  * "<os>/<category>/<name>.conf" for the JVD) enable the context-dependent checks.
+ * `os`, `jvd`, `members`, and `selfRel` enable cross-snip variant checks.
  */
-export function validateSnipText(text, { inventory, snipIndex } = {}) {
+export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel } = {}) {
   const { header, body, diagnostics } = parseSnip(text);
   const findings = [...diagnostics];
   if (!header) return findings;
@@ -151,6 +241,19 @@ export function validateSnipText(text, { inventory, snipIndex } = {}) {
   for (const v of used) if (!declared.has(v)) findings.push({ code: CODES.VARIABLE_UNDECLARED, detail: v });
   for (const v of declared) if (!used.has(v)) findings.push({ code: CODES.VARIABLE_UNUSED, detail: v });
 
+  // Variant member integrity (declared Provides == structural capabilities).
+  for (const fd of validateVariantMember({ variantGroup: header.variantGroup, body })) findings.push(fd);
+
+  // Cross-snip variant checks require JVD context (os + members).
+  if (os && members) {
+    for (const fd of validateVariantOverlap({ os, variantGroup: header.variantGroup, seenOn: header.seenOn, selfRel, members })) {
+      findings.push(fd);
+    }
+    for (const fd of validateVariantConsumer({ os, seenOn: header.seenOn, variantRequires: header.variantRequires, jvd, members })) {
+      findings.push(fd);
+    }
+  }
+
   return findings;
 }
 
@@ -162,6 +265,13 @@ function isSnipConf(rel) {
   const p = rel.split("/");
   const i = p.indexOf("snips");
   return i >= 0 && (p[i + 1] === "junos" || p[i + 1] === "evo") && rel.endsWith(".conf");
+}
+
+/** OS bucket for a snip path, explicitly; null for an unexpected path. */
+function osOfRel(rel) {
+  if (rel.includes("/snips/junos/")) return "junos";
+  if (rel.includes("/snips/evo/")) return "evo";
+  return null;
 }
 
 /** JVD root dir for a snip path (…/<jvd>/configuration/snips/…). */
@@ -257,8 +367,10 @@ async function main() {
   const invCache = new Map();
   const sovCache = new Map();
   const indexCache = new Map(); // jvdRoot -> Set of "<os>/<category>/<name>.conf"
+  const membersByJvd = new Map(); // jvdRoot -> [member descriptors]
 
-  // Pre-build per-JVD snip index for Pair-with resolution.
+  // Pre-build per-JVD snip index for Pair-with resolution, and the variant
+  // member index for cross-snip variant resolution.
   for (const f of files) {
     const jvdRoot = jvdRootForSnip(f);
     if (!jvdRoot) continue;
@@ -266,6 +378,22 @@ async function main() {
     const rel = f.split(path.sep).join("/");
     const i = rel.indexOf("/snips/");
     indexCache.get(jvdRoot).add(rel.slice(i + "/snips/".length));
+
+    const relRepo = path.relative(REPO_ROOT, f).split(path.sep).join("/");
+    const os = osOfRel(relRepo);
+    const { header } = parseSnip(await fs.readFile(f, "utf8"));
+    if (os && header?.variantGroup) {
+      if (!membersByJvd.has(jvdRoot)) membersByJvd.set(jvdRoot, []);
+      membersByJvd.get(jvdRoot).push({
+        jvd: jvdRoot,
+        os,
+        group: header.variantGroup.name,
+        provides: header.variantGroup.provides,
+        seenOn: header.seenOn,
+        variantGroup: header.variantGroup,
+        rel: relRepo,
+      });
+    }
   }
 
   let errors = 0;
@@ -283,9 +411,17 @@ async function main() {
 
     const rel = path.relative(REPO_ROOT, f).split(path.sep).join("/");
     const isChanged = allStrict || (changed ? changed.has(rel) : false);
+    const os = osOfRel(rel);
 
     const text = await fs.readFile(f, "utf8");
-    const findings = validateSnipText(text, { inventory, snipIndex });
+    const findings = validateSnipText(text, {
+      inventory,
+      snipIndex,
+      os,
+      jvd: jvdRoot,
+      members: membersByJvd.get(jvdRoot) || [],
+      selfRel: rel,
+    });
     for (const fd of findings) {
       const sev = severity(fd.code, { changed: isChanged, seenOnValidation });
       if (sev === "error") errors++;
