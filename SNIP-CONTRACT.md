@@ -57,6 +57,8 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
 
 - `Topic:` **MUST** be exactly **one physical line**. The parser captures only
   the first line; a wrapped continuation is silently lost. (`TOPIC_MULTILINE`)
+  A trailing `\` continuation does **not** make a physically multiline Topic
+  canonical: the continuation is still a second physical line and is flagged.
 - It **MUST** accurately describe the configuration in the body, and **SHOULD**
   distinguish a functionally distinct form where one exists.
 - It **MUST NOT** contain navigation instructions or file paths.
@@ -147,6 +149,8 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 - Every JVD template variable (uppercase-led `$VARIABLE`) that appears in the
   body **MUST** be declared, and declared variables **MUST** be used.
   (`VARIABLE_UNDECLARED`, `VARIABLE_UNUSED`)
+- The bare `$VAR` and braced `${VAR}` spellings are the **same** logical
+  variable; a declaration in either form satisfies a use in either form.
 - Each declared variable **SHOULD** carry a valid example.
 - Repeated uses of the same value **MUST** use the same variable name, and
   values shared with a dependent snip **SHOULD** use the same name.

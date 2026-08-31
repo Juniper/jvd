@@ -238,7 +238,9 @@ export function parseSnip(text) {
     }
 
     if (section === "variables") {
-      const v = trimmed.match(/^(\$[A-Z0-9_]+(?:\s*\/\s*\$[A-Z0-9_]+)*)(?:\s+(.*))?$/);
+      // Each token may be bare (`$FOO`) or braced (`${FOO}`); both are the same
+      // logical name (normalized downstream). Combined decls split on "/".
+      const v = trimmed.match(/^(\$\{?[A-Z0-9_]+\}?(?:\s*\/\s*\$\{?[A-Z0-9_]+\}?)*)(?:\s+(.*))?$/);
       if (v) {
         const example = (v[2] || "").replace(/^e\.g\.\s*/i, "").trim();
         variables.push({ name: v[1].trim(), example });

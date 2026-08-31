@@ -116,6 +116,82 @@ test("a bare variable declaration (no example) is accepted", () => {
   assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
 });
 
+// --- Braced vs bare variable equivalence ($FOO === ${FOO}) ---
+
+test("braced use of a bare-declared variable is neither undeclared nor unused", () => {
+  const text = snip({ vars: "Variables:\n *   $FOO   e.g. 1", body: "routing-options {\n    router-id ${FOO};\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+test("bare use of a braced-declared variable is neither undeclared nor unused", () => {
+  const text = snip({ vars: "Variables:\n *   ${FOO}   e.g. 1", body: "routing-options {\n    router-id $FOO;\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+test("braced-only declaration and braced-only use resolve to one variable", () => {
+  const text = snip({ vars: "Variables:\n *   ${FOO}   e.g. 1", body: "routing-options {\n    router-id ${FOO};\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+test("repeated mixed braced/bare uses do not duplicate a declaration or finding", () => {
+  const text = snip({ vars: "Variables:\n *   $FOO   e.g. 1", body: "routing-options {\n    router-id $FOO;\n    description ${FOO}-${FOO};\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+test("a genuinely undeclared braced variable is still flagged", () => {
+  const text = snip({ vars: "Variables: none", body: "routing-options {\n    router-id ${FOO};\n}" });
+  const found = validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() });
+  const undecl = found.filter((f) => f.code === CODES.VARIABLE_UNDECLARED);
+  assert.equal(undecl.length, 1);
+  assert.equal(undecl[0].detail, "$FOO");
+});
+
+test("a declared-but-unused variable is flagged regardless of declaration spelling", () => {
+  const text = snip({ vars: "Variables:\n *   ${FOO}   e.g. 1", body: "routing-options {\n    autonomous-system 65000;\n}" });
+  const found = validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() });
+  const unused = found.filter((f) => f.code === CODES.VARIABLE_UNUSED);
+  assert.equal(unused.length, 1);
+  assert.equal(unused[0].detail, "$FOO");
+});
+
+test("bare-only variables are unaffected by brace normalization (no regression)", () => {
+  const text = snip({ vars: "Variables:\n *   $A / $B   e.g. 1", body: "routing-options {\n    router-id $A;\n    autonomous-system $B;\n}" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set() }));
+  assert.ok(!found.includes(CODES.VARIABLE_UNDECLARED));
+  assert.ok(!found.includes(CODES.VARIABLE_UNUSED));
+});
+
+// --- Topic physical-line enforcement (backslash continuation is not canonical) ---
+
+test("a canonical one-physical-line Topic is clean", () => {
+  assert.ok(!codes(parseSnip(snip({})).diagnostics).includes(CODES.TOPIC_MULTILINE));
+});
+
+test("a Topic continued with a trailing backslash still emits TOPIC_MULTILINE", () => {
+  const text = `/*\n * Topic:   first physical line \\\n *          a second physical line\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.TOPIC_MULTILINE));
+});
+
+test("a wrapped Topic continuation does not leak into the following section", () => {
+  const text = `/*\n * Topic:   first physical line \\\n *          a second physical line\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  const { header } = parseSnip(text);
+  assert.equal(header.seenOn.junos[0], "mse1_mx304");
+  assert.ok(!header.topic.includes("second physical line"));
+});
+
+test("TOPIC_MULTILINE stays a warning under complete and errors only on change", () => {
+  assert.equal(severity(CODES.TOPIC_MULTILINE, { changed: false, seenOnValidation: "complete" }), "warn");
+  assert.equal(severity(CODES.TOPIC_MULTILINE, { changed: true, seenOnValidation: "partial" }), "error");
+});
+
 test("_snip-library.json metadata: valid parses, malformed throws", () => {
   assert.equal(parseSnipLibraryMeta('{"schemaVersion":1,"seenOnValidation":"complete"}'), "complete");
   assert.throws(() => parseSnipLibraryMeta("{ not json"));
