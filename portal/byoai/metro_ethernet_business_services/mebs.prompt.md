@@ -300,10 +300,17 @@ EXACTLY as shown:
     unit + per-VRF policy (L3VPN). Assumes the PE already has working
     IGP/SR underlay AND a BGP overlay with the right address-family
     activated. Best for brownfield adds.
-  - `with-overlay` — `minimum` + the BGP overlay snip (so the
-    `family evpn` / `family inet-vpn` / `family l2vpn` activation is
-    re-asserted). Best when you're not sure the overlay activation is
-    already there.
+  - `with-overlay` — `minimum` + the OS-native `transport/bgp-overlay.conf`
+    deployed overlay form, **subject to the BGP-overlay coverage gate in
+    `TIERS.md`**: offered only when ALL hold — the selected service applies to
+    the target (target in the service snip's `Seen on:`), the target is in the
+    overlay file's exact `Seen on:` (an1/an2 Junos, ma1-1/ma1-2 EVO), the overlay
+    is native to the target OS, and exactly one form resolves. Otherwise the mode
+    is **unavailable** — generate nothing; you may offer `minimum` (local-service
+    only; it does not provide the unavailable remote BGP signalling) as a separate
+    choice the user must confirm. An inapplicable service/device selection is
+    rejected. Never synthesize or borrow the other OS form. LDP-signalled services
+    (L2Circuit, LDP-VPLS) add no overlay.
   - `as-deployed` — full JVD baseline: service + overlay + IGP/SR
     underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT.
     Best for greenfield turn-up, lab build, or "give me a working
@@ -362,10 +369,23 @@ lives in the file `TIERS.md` inside the corpus bundle. Read it at
 the same time as you read the snip files. When the user picks
 `minimum`, `with-overlay` or `as-deployed`, include exactly the
 snips listed for that tier and that service kind — and ONLY those,
-unless the user explicitly asks for more. Greenfield / bootstrap
-turn-ups are always treated as `as-deployed` regardless of the
-user's tier choice. Always acknowledge the tier in the Inputs Used
-block as `form: minimum`, `form: with-overlay` or
+unless the user explicitly asks for more. The canonical tier
+definitions and the **BGP-overlay coverage gate** live in `TIERS.md`:
+attach `transport/bgp-overlay.conf` for `with-overlay` / `as-deployed`
+ONLY when ALL hold — the selected service applies to the target (target
+in the service snip's `Seen on:`), the target device is in the overlay
+file's exact `Seen on:` (an1/an2 for Junos; ma1-1/ma1-2 for EVO), the
+overlay is native to the target OS, and exactly one form resolves.
+Otherwise the requested mode is **unavailable** — generate nothing for it;
+you may offer `minimum` (local-service only; no remote BGP signalling) as
+a separate choice the user must explicitly confirm. An inapplicable
+service/device selection is rejected, not downgraded. Never give a device
+another role's overlay form or borrow the other OS form. LDP-signalled
+services (L2Circuit, LDP-VPLS) never add a BGP overlay. ag1-1/ag1-2/ma2
+have no top-level deployed BGP groups in source, so no overlay form exists
+for them. Greenfield / bootstrap turn-ups are always treated as
+`as-deployed` regardless of the user's tier choice. Always acknowledge the tier in
+the Inputs Used block as `form: minimum`, `form: with-overlay` or
 `form: as-deployed`. If the user picks `minimum` and you cannot
 verify the BGP overlay activation is already on the PE, call that
 out in the Notes section.
