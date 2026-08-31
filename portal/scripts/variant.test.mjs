@@ -126,6 +126,20 @@ test("consumer: referenced group with no members -> VARIANT_GROUP_EMPTY", () => 
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_GROUP_EMPTY]);
 });
 
+test("consumer: cross-OS Seen-on bucket is validated against its own-OS member", () => {
+  // evo-file consumer with a Junos-bucket device must resolve that device
+  // against a Junos member — the file OS must not suppress the other bucket.
+  const f = validateVariantConsumer({ os: "evo", seenOn: { junos: ["an1_mx204"], evo: [] }, variantRequires: [{ group: "mebs-bgp-overlay", families: ["evpn"] }], jvd: "J1", members: [M()] });
+  assert.deepEqual(f, []);
+});
+
+test("consumer: cross-OS Seen-on device with no covering member -> VARIANT_UNRESOLVED", () => {
+  // The old file-OS-only validator would iterate the empty evo bucket and miss
+  // this; both-bucket iteration must catch the uncovered Junos-bucket device.
+  const f = validateVariantConsumer({ os: "evo", seenOn: { junos: ["an3"], evo: [] }, variantRequires: [{ group: "mebs-bgp-overlay", families: ["evpn"] }], jvd: "J1", members: [M()] });
+  assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_UNRESOLVED]);
+});
+
 // --- parser (6, 13, 14, 15, 17) + well-formed ---------------------------
 test("6. ordinary Pair with remains unchanged", () => {
   const text = `/*

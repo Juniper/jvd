@@ -1,5 +1,37 @@
 # JVD MEBS snippet library
 
+## evo/apply-groups/gr-bgp-bcp-an3.conf
+
+```
+/*
+ * Topic:   Apply-group GR-BGP-BCP (an3, EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - As-deployed GR-BGP-BCP apply-group form specific to an3_acx7100-48l.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+groups {
+    GR-BGP-BCP {
+        protocols {
+            bgp {
+                path-selection external-router-id;
+                precision-timers;
+                hold-time 10;
+                bgp-error-tolerance;
+                multipath;
+                tcp-mss 4096;
+            }
+        }
+    }
+}
+```
+
 ## evo/apply-groups/gr-bgp-bcp.conf
 
 ```
@@ -1169,6 +1201,74 @@ protocols {
 }
 ```
 
+## evo/policy/border-nodes.conf
+
+```
+/*
+ * Topic:   Prefix-list BORDER-NODES (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed BORDER-NODES prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list BORDER-NODES {
+        1.1.0.8/32;
+        1.1.0.9/32;
+        1.1.0.10/32;
+        1.1.0.11/32;
+    }
+}
+```
+
+## evo/policy/cm-tc-4000-gold.conf
+
+```
+/*
+ * Topic:   BGP community CM-TC-4000-GOLD (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed CM-TC-4000-GOLD community definition.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    community CM-TC-4000-GOLD members transport-target:0:4000;
+}
+```
+
+## evo/policy/cm-tc-6000-bronze.conf
+
+```
+/*
+ * Topic:   BGP community CM-TC-6000-BRONZE (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed CM-TC-6000-BRONZE community definition.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    community CM-TC-6000-BRONZE members transport-target:0:6000;
+}
+```
+
 ## evo/policy/communities.conf
 
 ```
@@ -1290,6 +1390,70 @@ policy-options {
 }
 ```
 
+## evo/policy/import-bgp-meg1.conf
+
+```
+/*
+ * Topic:   BGP policy IMPORT-BGP (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ *
+ * Highlights:
+ *  - As-deployed IMPORT-BGP routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/loopback-meg1.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement IMPORT-BGP {
+        term 1 {
+            from {
+                prefix-list LOOPBACK;
+            }
+            then reject;
+        }
+        term 2 {
+            then accept;
+        }
+    }
+}
+```
+
+## evo/policy/import-bgp-meg2.conf
+
+```
+/*
+ * Topic:   BGP policy IMPORT-BGP (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed IMPORT-BGP routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/loopback-meg2.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement IMPORT-BGP {
+        term 1 {
+            from {
+                prefix-list LOOPBACK;
+            }
+            then reject;
+        }
+        term 2 {
+            then accept;
+        }
+    }
+}
+```
+
 ## evo/policy/l3vpn-export-import.conf
 
 ```
@@ -1360,6 +1524,54 @@ policy-options {
 }
 ```
 
+## evo/policy/loopback-meg1.conf
+
+```
+/*
+ * Topic:   Prefix-list LOOPBACK (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ *
+ * Highlights:
+ *  - As-deployed LOOPBACK prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list LOOPBACK {
+        1.1.0.6/32;
+        1.1.10.6/32;
+    }
+}
+```
+
+## evo/policy/loopback-meg2.conf
+
+```
+/*
+ * Topic:   Prefix-list LOOPBACK (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed LOOPBACK prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list LOOPBACK {
+        1.1.0.7/32;
+        1.1.10.7/32;
+    }
+}
+```
+
 ## evo/policy/loopback-rib-leak.conf
 
 ```
@@ -1415,6 +1627,83 @@ policy-options {
 }
 ```
 
+## evo/policy/nhs1-ma1-1.conf
+
+```
+/*
+ * Topic:   BGP policy nhs1 (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ *
+ * Highlights:
+ *  - As-deployed nhs1 routing policy.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs1 {
+        term 2 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term 3 {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy/nhs1-ma3.conf
+
+```
+/*
+ * Topic:   BGP policy nhs1 (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - As-deployed nhs1 routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs1 {
+        term ORIGIN {
+            then {
+                community add CM-METRO-RING;
+                next term;
+            }
+        }
+        term 2 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term 3 {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## evo/policy/per-packet-load-balance.conf
 
 ```
@@ -1440,6 +1729,994 @@ policy-options {
         then {
             load-balance per-packet;
             accept;
+        }
+    }
+}
+```
+
+## evo/policy/pl-an-nodes.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-AN-NODES (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PL-AN-NODES prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-AN-NODES {
+        1.1.0.0/32;
+        1.1.0.1/32;
+        1.1.0.2/32;
+        1.1.0.3/32;
+        1.1.0.6/32;
+        1.1.0.7/32;
+    }
+}
+```
+
+## evo/policy/pl-an-region.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-AN-REGION (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PL-AN-REGION prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-AN-REGION {
+        1.1.0.12/32;
+        1.1.0.13/32;
+        1.1.0.14/32;
+        1.1.0.15/32;
+        1.1.0.16/32;
+        1.1.0.17/32;
+        1.1.0.18/32;
+        1.1.0.19/32;
+    }
+}
+```
+
+## evo/policy/pl-border-nodes.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-BORDER-NODES (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PL-BORDER-NODES prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-BORDER-NODES {
+        1.1.0.8/32;
+        1.1.0.9/32;
+        1.1.0.10/32;
+        1.1.0.11/32;
+    }
+}
+```
+
+## evo/policy/pl-core-nodes.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-CORE-NODES (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PL-CORE-NODES prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-CORE-NODES {
+        1.1.0.8/32;
+        1.1.0.9/32;
+    }
+}
+```
+
+## evo/policy/pl-core.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-CORE (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PL-CORE prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-CORE {
+        1.1.0.8/32;
+        1.1.0.9/32;
+    }
+}
+```
+
+## evo/policy/pl-fabric.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-FABRIC (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PL-FABRIC prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-FABRIC {
+        1.1.0.0/32;
+        1.1.0.1/32;
+        1.1.0.2/32;
+        1.1.0.3/32;
+        1.1.0.4/32;
+        1.1.0.5/32;
+        1.1.0.6/32;
+        1.1.0.7/32;
+    }
+}
+```
+
+## evo/policy/pl-metro-fabric.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-METRO-FABRIC (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PL-METRO-FABRIC prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-METRO-FABRIC {
+        1.1.0.0/32;
+        1.1.0.1/32;
+        1.1.0.2/32;
+        1.1.0.3/32;
+        1.1.0.4/32;
+        1.1.0.5/32;
+        1.1.0.6/32;
+        1.1.0.7/32;
+    }
+}
+```
+
+## evo/policy/pl-metro-ring.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-METRO-RING (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PL-METRO-RING prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-METRO-RING {
+        1.1.0.10/32;
+        1.1.0.11/32;
+        1.1.0.12/32;
+        1.1.0.13/32;
+        1.1.0.14/32;
+        1.1.0.15/32;
+        1.1.0.16/32;
+        1.1.0.17/32;
+        1.1.0.18/32;
+        1.1.0.19/32;
+    }
+}
+```
+
+## evo/policy/pl-mse.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-MSE (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PL-MSE prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-MSE {
+        1.1.0.10/32;
+        1.1.0.11/32;
+        1.1.10.10/32;
+    }
+}
+```
+
+## evo/policy/ps-as63536-import.conf
+
+```
+/*
+ * Topic:   BGP policy PS-AS63536-IMPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-AS63536-IMPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-AS63536-IMPORT {
+        term METRO-RING {
+            from community CM-SERVICE-EDGE;
+            then accept;
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-export-ring-cr1.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-EXPORT-RING (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-EXPORT-RING routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-border-nodes.conf
+ *  - evo/policy/pl-metro-ring.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-EXPORT-RING {
+        term LOOP_PREVENT {
+            from community [ CM-ACCESS-FABRIC CM-REGIONAL-BORDER ];
+            then reject;
+        }
+        inactive: term BGP-CT {
+            from {
+                rib bgp.transport.3;
+                community [ CM-REGIONAL-BORDER CM-ACCESS-FABRIC ];
+            }
+            then reject;
+        }
+        term FROM-MSE {
+            from {
+                community CM-SERVICE-EDGE;
+                prefix-list PL-METRO-RING;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term BORDER-LOOPBACKS {
+            from {
+                prefix-list PL-BORDER-NODES;
+            }
+            then {
+                community add CM-REGIONAL-BORDER;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-export-ring-cr2.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-EXPORT-RING (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-EXPORT-RING routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/border-nodes.conf
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-metro-ring.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-EXPORT-RING {
+        term LOOP_PREVENT {
+            from community [ CM-ACCESS-FABRIC CM-REGIONAL-BORDER ];
+            then reject;
+        }
+        term FROM-MSE {
+            from {
+                community CM-SERVICE-EDGE;
+                prefix-list PL-METRO-RING;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term BORDER-LOOPBACKS {
+            from {
+                prefix-list BORDER-NODES;
+            }
+            then {
+                community add CM-REGIONAL-BORDER;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-EXPORT {
+        term ORIGIN {
+            then {
+                community add CM-ACCESS-FABRIC;
+                next term;
+            }
+        }
+        term EVPN-NO-NHS {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term LOOPBACK {
+            from protocol [ direct bgp ];
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LU {
+            from rib inet.3;
+            then reject;
+        }
+        term CT {
+            from rib bgp.transport.3;
+            then reject;
+        }
+        term ACCEPT-NHS {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-mse-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-MSE-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/cm-tc-4000-gold.conf
+ *  - evo/policy/cm-tc-6000-bronze.conf
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-an-region.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-MSE-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-SERVICE-EDGE CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            then reject;
+        }
+        inactive: term FROM-METRO-RING {
+            from {
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        inactive: term LOOPBACK {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                inactive: community add CM-METRO-RING;
+                accept;
+            }
+        }
+        term BGP-CT {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LU {
+            from {
+                rib inet.3;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-CTv6 {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport-inet6.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LUv6 {
+            from {
+                rib inet6.3;
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-rr-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-RR-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-RR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-core.conf
+ *  - evo/policy/pl-fabric.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-RR-EXPORT {
+        term CORE-NHS {
+            from {
+                protocol bgp;
+                prefix-list PL-CORE;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term AS63536 {
+            from {
+                protocol bgp;
+                community [ CM-METRO-RING CM-REGIONAL-BORDER CM-SERVICE-EDGE ];
+            }
+            then accept;
+        }
+        term FABRIC {
+            from {
+                prefix-list PL-FABRIC;
+            }
+            then reject;
+        }
+        term LU {
+            from rib inet.3;
+            then reject;
+        }
+        term CT {
+            from rib bgp.transport.3;
+            then reject;
+        }
+        term ACCEPT {
+            then accept;
+        }
+    }
+}
+```
+
+## evo/policy/ps-bgp-transport-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-TRANSPORT-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-TRANSPORT-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-TRANSPORT-EXPORT {
+        term ORIGIN {
+            then {
+                community add CM-METRO-RING;
+                next term;
+            }
+        }
+        term LOOPBACK {
+            from protocol [ direct bgp ];
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LU {
+            from rib inet.3;
+            then reject;
+        }
+        term CT {
+            from rib bgp.transport.3;
+            then reject;
+        }
+        term ACCEPT-NHS {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy/ps-cr-import.conf
+
+```
+/*
+ * Topic:   BGP policy PS-CR-IMPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-CR-IMPORT routing policy.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-CR-IMPORT {
+        term SET-LP {
+            then {
+                local-preference 90;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy/ps-ebgp-mse-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-EBGP-MSE-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-EBGP-MSE-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-core-nodes.conf
+ *  - evo/policy/pl-metro-fabric.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-EBGP-MSE-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-SERVICE-EDGE CM-METRO-RING ];
+            then reject;
+        }
+        term LOOPBACK {
+            from {
+                protocol [ bgp direct ];
+                prefix-list PL-CORE-NODES;
+                prefix-list PL-METRO-FABRIC;
+            }
+            then {
+                community add CM-METRO-FABRIC;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy/ps-ibgp-cr-export-cr1.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-CR-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-CR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/community-loopback.conf
+ *  - evo/policy/pl-metro-ring.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-CR-EXPORT {
+        term LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+            }
+            then {
+                community add CM-LOOPBACK;
+                next-hop self;
+                accept;
+            }
+        }
+        term METRO-RING {
+            from {
+                community CM-SERVICE-EDGE;
+                prefix-list PL-METRO-RING;
+            }
+            then {
+                inactive: next-hop self;
+                accept;
+            }
+        }
+        term METRO-FABRIC {
+            from community CM-ACCESS-FABRIC;
+            then accept;
+        }
+    }
+}
+```
+
+## evo/policy/ps-ibgp-cr-export-meg1.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-CR-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-CR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/cm-tc-4000-gold.conf
+ *  - evo/policy/cm-tc-6000-bronze.conf
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-an-nodes.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-CR-EXPORT {
+        term LOOP_PREVENT {
+            from community [ CM-SERVICE-EDGE CM-REGIONAL-BORDER ];
+            then reject;
+        }
+        inactive: term LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+            }
+            then {
+                community add CM-ACCESS-FABRIC;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-CT {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-ACCESS-FABRIC;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LU {
+            from {
+                rib inet.3;
+                prefix-list PL-AN-NODES;
+            }
+            then {
+                community add CM-ACCESS-FABRIC;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-CTv6 {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport-inet6.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-ACCESS-FABRIC;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LUv6 {
+            from {
+                rib inet6.3;
+                community CM-ACCESS-FABRIC;
+                prefix-list PL-AN-NODES;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-ibgp-mdr-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-MDR-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/community-loopback.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-MDR-EXPORT {
+        term LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+            }
+            then {
+                community add CM-LOOPBACK;
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term METRO-FABRIC {
+            from community CM-METRO-FABRIC;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term METRO-RING {
+            from community CM-METRO-RING;
+            then accept;
+        }
+    }
+}
+```
+
+## evo/policy/ps-ibgp-rr-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-RR-EXPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-RR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/policy/pl-an-region.conf
+ *  - evo/policy/pl-mse.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-RR-EXPORT {
+        term MSE-NHS {
+            from {
+                protocol bgp;
+                prefix-list PL-MSE;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term AS63535 {
+            from {
+                protocol bgp;
+                community [ CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term RING {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy/ps-metro-fabric-import.conf
+
+```
+/*
+ * Topic:   BGP policy PS-METRO-FABRIC-IMPORT (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ *
+ * Highlights:
+ *  - As-deployed PS-METRO-FABRIC-IMPORT routing policy.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-METRO-FABRIC-IMPORT {
+        term ACCESS-FABRIC {
+            from community CM-ACCESS-FABRIC;
+            then accept;
+        }
+        term REJECT {
+            then reject;
         }
     }
 }
@@ -1474,7 +2751,7 @@ policy-options {
  *    (added the per-EVI export community).
  *
  * Pair with:
- *  - evo/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *  - evo/policy/communities.conf
  *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging — supplies the AC interface plumbing)
@@ -1621,7 +2898,7 @@ routing-instances {
  *    legacy receivers; full ELAN service still works).
  *
  * Pair with:
- *  - evo/transport/bgp-overlay.conf (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/interfaces/lag-esi-multihoming.conf
  *
  * JVD service mapping:
@@ -1686,7 +2963,7 @@ routing-instances {
  *    Junos PE (the pair forms one bidirectional EVPN-VPWS PW).
  *
  * Pair with:
- *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy/communities.conf
  *  - evo/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging on the FXC ACs)
@@ -1759,7 +3036,7 @@ routing-instances {
  *    (per-port unit 0 + per-instance vpws-service-id).
  *
  * Pair with:
- *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy/communities.conf
  *
  * JVD service mapping:
@@ -1822,7 +3099,7 @@ routing-instances {
  *
  * Pair with:
  *  - evo/services/evpn-elan-mac-vrf-irb.conf
- *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
  *   75 instances total (high 75 / med 0 / low 0)
@@ -1890,7 +3167,7 @@ routing-instances {
  *    silent-host IPs the Type-5 route exposes to remote PEs)
  *  - evo/apply-groups/gr-l3vpn.conf
  *  - evo/policy/l3vpn-export-import.conf
- *  - evo/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -1956,7 +3233,7 @@ routing-instances {
  *
  * Pair with:
  *  - evo/interfaces/lag-esi-multihoming.conf (the AC interface)
- *  - evo/transport/bgp-overlay.conf (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
  *   1661 instances total (high 1661 / med 0 / low 0)
@@ -2257,7 +3534,7 @@ routing-instances {
  * Pair with:
  *  - evo/policy/l3vpn-export-import.conf
  *  - evo/policy/communities.conf
- *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - evo/services/l3vpn-ospf.conf  (sibling PE-CE peering shape)
  *
  * JVD service mapping:
@@ -2331,7 +3608,7 @@ routing-instances {
  * Pair with:
  *  - evo/policy/l3vpn-export-import.conf
  *  - evo/policy/communities.conf
- *  - evo/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - evo/services/l3vpn-bgp.conf  (sibling PE-CE peering shape)
  *
  * JVD service mapping:
@@ -2432,6 +3709,1156 @@ routing-instances {
 }
 ```
 
+## evo/transport/bgp-overlay-an3.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for an3_acx7100-48l (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for an3_acx7100-48l.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp-an3.conf
+ *  - evo/policy/ps-bgp-export.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-MEG-RR {
+            type internal;
+            local-address 1.1.0.2;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6 {
+                description "MEG1 - rtme-acx7100-32c-d";
+            }
+            neighbor 1.1.0.7 {
+                description "MEG2 - rtme-acx7509-01";
+            }
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## evo/transport/bgp-overlay-cr1.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for cr1_ptx10001-36mr (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr
+ * Variant group: mebs-bgp-overlay
+ *   Provides: labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for cr1_ptx10001-36mr.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/ps-as63536-import.conf
+ *  - evo/policy/ps-bgp-export-ring-cr1.conf
+ *  - evo/policy/ps-cr-import.conf
+ *  - evo/policy/ps-ebgp-mse-export.conf
+ *  - evo/policy/ps-ibgp-cr-export-cr1.conf
+ *  - evo/policy/ps-metro-fabric-import.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        group GR-IBGP-MEG-RR {
+            type internal;
+            local-address 1.1.0.8;
+            inactive: import PS-METRO-FABRIC-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-BGP-EXPORT-RING;
+            inactive: cluster 1.1.0.8;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6;
+            neighbor 1.1.0.7;
+        }
+        group GR-EBGP-MSE1-TP {
+            type external;
+            import PS-AS63536-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet6.3;
+                    }
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            export PS-EBGP-MSE-EXPORT;
+            peer-as 63536;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.10.0.38;
+        }
+        group GR-IBGP-CR {
+            type internal;
+            local-address 1.1.0.8;
+            import PS-CR-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                            multipath;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            export PS-IBGP-CR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.9 {
+                description "CR2 neighbor";
+            }
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## evo/transport/bgp-overlay-cr2.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for cr2_ptx10001-36mr (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ * Variant group: mebs-bgp-overlay
+ *   Provides: labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for cr2_ptx10001-36mr.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/ps-as63536-import.conf
+ *  - evo/policy/ps-bgp-export-ring-cr2.conf
+ *  - evo/policy/ps-cr-import.conf
+ *  - evo/policy/ps-ebgp-mse-export.conf
+ *  - evo/policy/ps-ibgp-cr-export-cr1.conf
+ *  - evo/policy/ps-metro-fabric-import.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        group GR-IBGP-MEG-RR {
+            type internal;
+            local-address 1.1.0.9;
+            inactive: import PS-METRO-FABRIC-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-BGP-EXPORT-RING;
+            inactive: cluster 1.1.0.9;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6;
+            neighbor 1.1.0.7;
+        }
+        group GR-EBGP-MSE2-TP {
+            type external;
+            import PS-AS63536-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet6.3;
+                    }
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            export PS-EBGP-MSE-EXPORT;
+            peer-as 63536;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.10.0.46;
+        }
+        group GR-IBGP-CR {
+            type internal;
+            local-address 1.1.0.9;
+            import PS-CR-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                            multipath;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            export PS-IBGP-CR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.8 {
+                description "CR1 neighbor";
+            }
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## evo/transport/bgp-overlay-ma3.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for ma3_acx7100-48l (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for ma3_acx7100-48l.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/nhs1-ma3.conf
+ *  - evo/policy/ps-bgp-transport-export.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.15;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-TRANSPORT-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+            neighbor 1.1.0.13;
+        }
+        group mpbgp_ma_rr-client {
+            type internal;
+            local-address 1.1.0.15;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export nhs1;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## evo/transport/bgp-overlay-mdr1.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for mdr1_acx7509 (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ * Variant group: mebs-bgp-overlay
+ *   Provides: labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for mdr1_acx7509.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/ps-bgp-mse-export.conf
+ *  - evo/policy/ps-ibgp-mdr-export.conf
+ *  - evo/policy/ps-ibgp-rr-export.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-RING-RR {
+            type internal;
+            local-address 1.1.0.12;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-RR-EXPORT;
+            cluster 1.1.0.12;
+            no-client-reflect;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.17 {
+                description "MA1.1 rtme-acx7024-04";
+            }
+            neighbor 1.1.0.18 {
+                description "MA1.2 rtme-acx7024-01";
+            }
+            neighbor 1.1.0.19 {
+                description "MA5 rtme-mx-59";
+            }
+            neighbor 1.1.0.15 {
+                description "MA3 rtme-acx-48l-07";
+            }
+            neighbor 1.1.0.16 {
+                description "MA4 rtme-mx204-10";
+            }
+        }
+        group GR-IBGP-MSE {
+            type internal;
+            local-address 1.1.0.12;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-BGP-MSE-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.12;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                    }
+                }
+            }
+            export PS-IBGP-MDR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.13;
+        }
+    }
+}
+```
+
+## evo/transport/bgp-overlay-meg1.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for meg1_acx7100-32c (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for meg1_acx7100-32c.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/import-bgp-meg1.conf
+ *  - evo/policy/ps-bgp-rr-export.conf
+ *  - evo/policy/ps-ibgp-cr-export-meg1.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-FABRIC-RR {
+            type internal;
+            local-address 1.1.0.6;
+            import IMPORT-BGP;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-RR-EXPORT;
+            cluster 1.1.0.6;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.0 {
+                description "AN1 - rtme-mx-45";
+            }
+            neighbor 1.1.0.1 {
+                description "AN2 - rtme-acx17";
+            }
+            neighbor 1.1.0.2 {
+                description "AN3 - rtme-acx-48l-05";
+            }
+            neighbor 1.1.0.3 {
+                description "AN4 - rtme-acx710-h";
+            }
+        }
+        group GR-IBGP-CR {
+            type internal;
+            local-address 1.1.0.6;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-CR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.8;
+            neighbor 1.1.0.9;
+        }
+        group ibgp_meg {
+            type internal;
+            local-address 1.1.0.6;
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.7;
+        }
+        group ebgp_mse_mpbgp {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address 1.1.0.6;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                external-paths 4;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            peer-as 63536;
+            multipath;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## evo/transport/bgp-overlay-meg2.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for meg2_acx7509 (EVO)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg2_acx7509
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for meg2_acx7509.
+ *
+ * Pair with:
+ *  - evo/apply-groups/gr-bgp-bcp.conf
+ *  - evo/policy/import-bgp-meg2.conf
+ *  - evo/policy/ps-bgp-rr-export.conf
+ *  - evo/policy/ps-ibgp-cr-export-meg1.conf
+ *  - evo/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-FABRIC-RR {
+            type internal;
+            local-address 1.1.0.7;
+            import IMPORT-BGP;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-RR-EXPORT;
+            cluster 1.1.0.7;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.0;
+            neighbor 1.1.0.1;
+            neighbor 1.1.0.2;
+            neighbor 1.1.0.3;
+        }
+        group GR-IBGP-CR {
+            type internal;
+            local-address 1.1.0.7;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-CR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.8;
+            neighbor 1.1.0.9;
+        }
+        group ibgp_meg {
+            type internal;
+            local-address 1.1.0.7;
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6;
+        }
+        group ebgp_mse_mpbgp {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address 1.1.0.7;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                external-paths 4;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            peer-as 63536;
+            local-as 63535;
+            multipath;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
 ## evo/transport/bgp-overlay.conf
 
 ```
@@ -2440,6 +4867,8 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, labeled-unicast
  *
  * Highlights:
  *  - Complete deployed iBGP overlay form for ma1-1_acx7024 / ma1-2_acx7024
@@ -2869,6 +5298,35 @@ routing-options {
             color 6000;
             tunnel-egress {
                 end-point $TC_EGRESS;
+            }
+        }
+    }
+}
+```
+
+## junos/apply-groups/bgp-bcp-ma5.conf
+
+```
+/*
+ * Topic:   Apply-group BGP-BCP (ma5, Junos)
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed BGP-BCP apply-group specific to ma5_mx204.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+groups {
+    BGP-BCP {
+        protocols {
+            bgp {
+                precision-timers;
+                bgp-error-tolerance;
+                tcp-mss 4096;
             }
         }
     }
@@ -3917,6 +6375,48 @@ protocols {
 }
 ```
 
+## junos/policy/cm-tc-4000-gold.conf
+
+```
+/*
+ * Topic:   BGP community CM-TC-4000-GOLD (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed CM-TC-4000-GOLD community definition.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    community CM-TC-4000-GOLD members transport-target:0:4000;
+}
+```
+
+## junos/policy/cm-tc-6000-bronze.conf
+
+```
+/*
+ * Topic:   BGP community CM-TC-6000-BRONZE (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed CM-TC-6000-BRONZE community definition.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    community CM-TC-6000-BRONZE members transport-target:0:6000;
+}
+```
+
 ## junos/policy/communities.conf
 
 ```
@@ -4038,6 +6538,84 @@ policy-options {
 }
 ```
 
+## junos/policy/import-bgp-mse1.conf
+
+```
+/*
+ * Topic:   BGP policy IMPORT-BGP (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed IMPORT-BGP routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/loopback-mse1.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement IMPORT-BGP {
+        term EVPN {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term LOCAL-REJECT {
+            from {
+                prefix-list LOOPBACK;
+            }
+            then reject;
+        }
+        term ACCEPT {
+            then accept;
+        }
+    }
+}
+```
+
+## junos/policy/import-bgp-mse2.conf
+
+```
+/*
+ * Topic:   BGP policy IMPORT-BGP (Junos)
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed IMPORT-BGP routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/loopback-mse2.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement IMPORT-BGP {
+        term EVPN {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term LOCAL-REJECT {
+            from {
+                prefix-list LOOPBACK;
+            }
+            then reject;
+        }
+        term ACCEPT {
+            then accept;
+        }
+    }
+}
+```
+
 ## junos/policy/l3vpn-export-import.conf
 
 ```
@@ -4122,6 +6700,54 @@ policy-options {
 }
 ```
 
+## junos/policy/loopback-mse1.conf
+
+```
+/*
+ * Topic:   Prefix-list LOOPBACK (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed LOOPBACK prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list LOOPBACK {
+        1.1.0.10/32;
+        1.1.10.10/32;
+    }
+}
+```
+
+## junos/policy/loopback-mse2.conf
+
+```
+/*
+ * Topic:   Prefix-list LOOPBACK (Junos)
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed LOOPBACK prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list LOOPBACK {
+        1.1.0.11/32;
+        1.1.10.10/32;
+    }
+}
+```
+
 ## junos/policy/loopback-rib-leak.conf
 
 ```
@@ -4177,6 +6803,41 @@ policy-options {
 }
 ```
 
+## junos/policy/nhs1.conf
+
+```
+/*
+ * Topic:   BGP policy nhs1 (Junos)
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed nhs1 routing policy.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs1 {
+        term 2 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term 3 {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## junos/policy/per-packet-load-balance.conf
 
 ```
@@ -4202,6 +6863,634 @@ policy-options {
         then {
             load-balance per-packet;
             accept;
+        }
+    }
+}
+```
+
+## junos/policy/pl-an-region.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-AN-REGION (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PL-AN-REGION prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-AN-REGION {
+        1.1.0.12/32;
+        1.1.0.13/32;
+        1.1.0.14/32;
+        1.1.0.15/32;
+        1.1.0.16/32;
+        1.1.0.17/32;
+        1.1.0.18/32;
+        1.1.0.19/32;
+    }
+}
+```
+
+## junos/policy/pl-mse-primary.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-MSE-PRIMARY (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PL-MSE-PRIMARY prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-MSE-PRIMARY {
+        1.1.0.10/32;
+        1.1.0.11/32;
+    }
+}
+```
+
+## junos/policy/pl-mse.conf
+
+```
+/*
+ * Topic:   Prefix-list PL-MSE (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PL-MSE prefix-list.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    prefix-list PL-MSE {
+        1.1.0.10/32;
+        1.1.0.11/32;
+        1.1.10.10/32;
+    }
+}
+```
+
+## junos/policy/ps-as63535-import.conf
+
+```
+/*
+ * Topic:   BGP policy PS-AS63535-IMPORT (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-AS63535-IMPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-AS63535-IMPORT {
+        term metro-fabric {
+            from community CM-METRO-FABRIC;
+            then accept;
+        }
+        term reject {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy/ps-bgp-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-EXPORT (Junos)
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-EXPORT {
+        term ORIGIN {
+            then {
+                community add CM-ACCESS-FABRIC;
+                next term;
+            }
+        }
+        term EVPN-NO-NHS {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term LOOPBACK {
+            from protocol [ direct bgp ];
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LU {
+            from rib inet.3;
+            then reject;
+        }
+        term CT {
+            from rib bgp.transport.3;
+            then reject;
+        }
+        term ACCEPT-NHS {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy/ps-bgp-mse-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-MSE-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/cm-tc-4000-gold.conf
+ *  - junos/policy/cm-tc-6000-bronze.conf
+ *  - junos/policy/communities.conf
+ *  - junos/policy/pl-an-region.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-MSE-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-SERVICE-EDGE CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            then reject;
+        }
+        inactive: term FROM-METRO-RING {
+            from {
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        inactive: term LOOPBACK {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                inactive: community add CM-METRO-RING;
+                accept;
+            }
+        }
+        term BGP-CT {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LU {
+            from {
+                rib inet.3;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-CTv6 {
+            from {
+                protocol [ direct bgp ];
+                rib bgp.transport-inet6.3;
+                community [ CM-TC-4000-GOLD CM-TC-6000-BRONZE ];
+            }
+            then {
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term BGP-LUv6 {
+            from {
+                rib inet6.3;
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy/ps-bgp-transport-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-BGP-TRANSPORT-EXPORT (Junos)
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-BGP-TRANSPORT-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-BGP-TRANSPORT-EXPORT {
+        term ORIGIN {
+            then {
+                community add CM-METRO-RING;
+                next term;
+            }
+        }
+        term LOOPBACK {
+            from protocol [ direct bgp ];
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LU {
+            from rib inet.3;
+            then reject;
+        }
+        term CT {
+            from rib bgp.transport.3;
+            then reject;
+        }
+        term ACCEPT-NHS {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy/ps-ebgp-cr-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-EBGP-CR-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-EBGP-CR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *  - junos/policy/pl-an-region.conf
+ *  - junos/policy/pl-mse.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-EBGP-CR-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            then reject;
+        }
+        term RING-LOOPBACKS {
+            from {
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                community add CM-SERVICE-EDGE;
+                accept;
+            }
+        }
+        term MSE-LOOPBACKS {
+            from {
+                prefix-list PL-MSE;
+            }
+            then {
+                community add CM-SERVICE-EDGE;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy/ps-ibgp-mdr-export-mdr2.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-MDR-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *  - junos/policy/community-loopback.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-MDR-EXPORT {
+        term LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+            }
+            then {
+                community add CM-LOOPBACK;
+                community add CM-METRO-RING;
+                next-hop self;
+                accept;
+            }
+        }
+        term METRO-FABRIC {
+            from community CM-METRO-FABRIC;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term METRO-RING {
+            from community CM-METRO-RING;
+            then accept;
+        }
+    }
+}
+```
+
+## junos/policy/ps-ibgp-mdr-export-mse1.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-MDR-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *  - junos/policy/pl-mse-primary.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-MDR-EXPORT {
+        term LOOP_PREVENT {
+            from community [ CM-METRO-RING CM-REGION-EDGE ];
+            then reject;
+        }
+        term FROM-METRO-FABRIC {
+            from community CM-METRO-FABRIC;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term MSE-LOOPBACKS {
+            from {
+                prefix-list PL-MSE-PRIMARY;
+            }
+            then {
+                community add CM-REGION-EDGE;
+                accept;
+            }
+        }
+        term FLOATING-PS-CONDITIONAL {
+            from {
+                route-filter 1.1.10.10/32 exact;
+                condition Floating-PW-Condition;
+            }
+            then {
+                community add CM-REGION-EDGE;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy/ps-ibgp-mse-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-MSE-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-MSE-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *  - junos/policy/community-loopback.conf
+ *  - junos/policy/pl-an-region.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-MSE-EXPORT {
+        term LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+            }
+            then {
+                community add CM-LOOPBACK;
+                next-hop self;
+                accept;
+            }
+        }
+        term AS63535-METRO-FABRIC {
+            from community CM-ACCESS-FABRIC;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term AS63536-MSE {
+            from community CM-SERVICE-EDGE;
+            then accept;
+        }
+        term AS63536-LOOPBACKS {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then accept;
+        }
+    }
+}
+```
+
+## junos/policy/ps-ibgp-rr-export.conf
+
+```
+/*
+ * Topic:   BGP policy PS-IBGP-RR-EXPORT (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-IBGP-RR-EXPORT routing policy.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *  - junos/policy/pl-an-region.conf
+ *  - junos/policy/pl-mse.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-IBGP-RR-EXPORT {
+        term MSE-NHS {
+            from {
+                protocol bgp;
+                prefix-list PL-MSE;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term AS63535 {
+            from {
+                protocol bgp;
+                community [ CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term RING {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy/ps-mse-import.conf
+
+```
+/*
+ * Topic:   BGP policy PS-MSE-IMPORT (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-MSE-IMPORT routing policy.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-MSE-IMPORT {
+        term SET-LP {
+            then {
+                local-preference 90;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy/ps-remote-loopbacks-mse.conf
+
+```
+/*
+ * Topic:   BGP policy PS-REMOTE-LOOPBACKS (services-edge PEs, Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed PS-REMOTE-LOOPBACKS import policy for the services-edge PEs.
+ *
+ * Pair with:
+ *  - junos/policy/communities.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-REMOTE-LOOPBACKS {
+        term ALL-LOOPBACKS {
+            from protocol bgp;
+            then {
+                community add CM-NO-ADVERTISE;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
         }
     }
 }
@@ -4237,7 +7526,7 @@ policy-options {
  *
  * Pair with:
  *  - junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)
- *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * JVD service mapping:
  *   300 instances total (high 300 / med 0 / low 0)
@@ -4324,7 +7613,7 @@ routing-instances {
  *      bound here via `interface $AC_INTF.$UNIT`)
  *  - junos/interfaces/pseudowire-subscriber.conf  (the ps<N>
  *      pseudowire-subscriber UNI bound here from PWHT)
- *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/policy/communities.conf
  *  - junos/services/evpn-type5-anchor.conf
  *
@@ -4399,7 +7688,7 @@ routing-instances {
  *    virtual-switch + IRB shape).
  *
  * Pair with:
- *  - junos/transport/bgp-overlay.conf (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/lag-esi-multihoming.conf
  *  - junos/interfaces/edge-vlan-normalization.conf
  *
@@ -4465,7 +7754,7 @@ routing-instances {
  *    vlan-bundle shape.
  *
  * Pair with:
- *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/lag-esi-multihoming.conf  (per-AE ESI for
  *      all-active multihoming of root/leaf ACs)
  *  - junos/interfaces/ethernet-bridge.conf  (vlan-bridge UNI
@@ -4535,7 +7824,7 @@ routing-instances {
  *    instance level (UNIs live entirely inside the FXC group).
  *
  * Pair with:
- *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/policy/communities.conf
  *  - junos/apply-groups/gr-edge-intf.conf  (parent UNI family
  *      / flexible-vlan-tagging on the FXC ACs)
@@ -4616,7 +7905,7 @@ routing-instances {
  *    same set of EVIs over the same ESI-bearing AE.
  *
  * Pair with:
- *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)
  *  - junos/policy/communities.conf  (map2gold colour community)
  *  - junos/services/evpn-vpws.conf  (sibling per-port EVPN service
@@ -4692,7 +7981,7 @@ routing-instances {
  *  - junos/services/evpn-elan-virtual-switch-irb.conf  (Junos L2 peer)
  *  - junos/services/evpn-type5.conf                     (full RT-5 variant)
  *  - junos/apply-groups/gr-l3vpn.conf                   (multipath + vrf-table-label inheritance)
- *  - junos/transport/bgp-overlay.conf                   (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
  *   75 instances total (high 75 / med 0 / low 0)
@@ -4770,7 +8059,7 @@ routing-instances {
  *  - junos/apply-groups/gr-l3vpn.conf
  *  - junos/policy/l3vpn-export-import.conf
  *  - junos/services/evpn-type5-anchor.conf
- *  - junos/transport/bgp-overlay.conf  (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -4833,7 +8122,7 @@ routing-instances {
  *    multihoming) lives in junos/interfaces/lag-esi-multihoming.conf
  *
  * Pair with:
- *  - junos/transport/bgp-overlay.conf (family evpn signaling)
+ *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/lag-esi-multihoming.conf
  *  - junos/interfaces/edge-vlan-normalization.conf
  *  - junos/services/evpn-port-based.conf
@@ -4973,7 +8262,7 @@ protocols {
  * Pair with:
  *  - junos/apply-groups/gr-fatpw-label.conf
  *  - junos/apply-groups/gr-fatpw-label.conf  (FAT-PW for L2VPN)
- *  - junos/transport/bgp-overlay.conf  (family l2vpn signaling)
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * JVD service mapping:
  *   201 instances total (high 102 / med 99 / low 0)
@@ -5046,7 +8335,7 @@ routing-instances {
  *  - junos/policy/communities.conf
  *  - junos/policy/community-l3vpn.conf
  *  - junos/apply-groups/gr-l3vpn.conf
- *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - junos/services/l3vpn-ospf.conf  (sibling PE-CE peering shape;
  *      same VRF infra, OSPF instead of BGP)
  *
@@ -5122,7 +8411,7 @@ routing-instances {
  *  - junos/policy/l3vpn-export-import.conf
  *  - junos/policy/communities.conf
  *  - junos/apply-groups/gr-l3vpn.conf
- *  - junos/transport/bgp-overlay.conf  (family inet-vpn signaling)
+ *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - junos/services/l3vpn-bgp.conf  (sibling PE-CE peering shape;
  *      same VRF infra, BGP instead of OSPF)
  *
@@ -5165,6 +8454,1025 @@ routing-instances {
 }
 ```
 
+## junos/transport/bgp-overlay-an4.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for an4_acx710 (Junos)
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for an4_acx710.
+ *
+ * Pair with:
+ *  - junos/policy/ps-bgp-export.conf
+ *  - junos/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-MEG-RR {
+            type internal;
+            local-address 1.1.0.3;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6;
+            neighbor 1.1.0.7;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## junos/transport/bgp-overlay-ma4.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for ma4_mx204 (Junos)
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for ma4_mx204.
+ *
+ * Pair with:
+ *  - junos/policy/nhs1.conf
+ *  - junos/policy/ps-bgp-transport-export.conf
+ *  - junos/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups [ BGP-BCP GR-BGP-BCP ];
+        vpn-apply-export;
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.16;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-TRANSPORT-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+            neighbor 1.1.0.13;
+        }
+        group ibgp_mse_mpbgp {
+            type internal;
+            local-address 1.1.0.16;
+            family inet {
+                labeled-unicast {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export nhs1;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## junos/transport/bgp-overlay-ma5.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for ma5_mx204 (Junos)
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for ma5_mx204.
+ *
+ * Pair with:
+ *  - junos/apply-groups/bgp-bcp-ma5.conf
+ *  - junos/policy/nhs1.conf
+ *  - junos/policy/ps-bgp-transport-export.conf
+ *  - junos/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.19;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export PS-BGP-TRANSPORT-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+            neighbor 1.1.0.13;
+        }
+        group ibgp_mse_mpbgp {
+            type internal;
+            local-address 1.1.0.19;
+            family inet-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            export nhs1;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## junos/transport/bgp-overlay-mdr2.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for mdr2_mx10003 (Junos)
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for mdr2_mx10003.
+ *
+ * Pair with:
+ *  - junos/apply-groups/gr-bgp-bcp.conf
+ *  - junos/policy/ps-bgp-mse-export.conf
+ *  - junos/policy/ps-ibgp-mdr-export-mdr2.conf
+ *  - junos/policy/ps-ibgp-rr-export.conf
+ *  - junos/transport/rib-groups.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-IBGP-RING-RR {
+            type internal;
+            local-address 1.1.0.13;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-RR-EXPORT;
+            cluster 1.1.0.13;
+            no-client-reflect;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.17 {
+                description "MA1.1 rtme-acx7024-04";
+            }
+            neighbor 1.1.0.18 {
+                description "MA1.2 rtme-acx7024-01";
+            }
+            neighbor 1.1.0.19 {
+                description "MA5 rtme-mx-59";
+            }
+            neighbor 1.1.0.15 {
+                description "MA3 rtme-acx-48l-07";
+            }
+            neighbor 1.1.0.16 {
+                description "MA4 rtme-mx204-10";
+            }
+        }
+        group GR-IBGP-MSE {
+            type internal;
+            local-address 1.1.0.13;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-BGP-MSE-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.10;
+            neighbor 1.1.0.11;
+        }
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.13;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                    }
+                }
+            }
+            export PS-IBGP-MDR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+        }
+    }
+}
+```
+
+## junos/transport/bgp-overlay-mse1.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for mse1_mx304 (Junos)
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for mse1_mx304.
+ *
+ * Pair with:
+ *  - junos/apply-groups/gr-bgp-bcp.conf
+ *  - junos/policy/import-bgp-mse1.conf
+ *  - junos/policy/ps-as63535-import.conf
+ *  - junos/policy/ps-ebgp-cr-export.conf
+ *  - junos/policy/ps-ibgp-mdr-export-mse1.conf
+ *  - junos/policy/ps-ibgp-mse-export.conf
+ *  - junos/policy/ps-mse-import.conf
+ *  - junos/transport/rib-group-remote-loopbacks-mse.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-EBGP-CR1-TP {
+            type external;
+            import PS-AS63535-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet6.3;
+                    }
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            export PS-EBGP-CR-EXPORT;
+            peer-as 63535;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.10.0.37;
+        }
+        group ebgp_meg_mpbgp {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address 1.1.0.10;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                external-paths 4;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            peer-as 63535;
+            local-as 63536;
+            multipath;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6;
+            neighbor 1.1.0.7;
+        }
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.10;
+            import IMPORT-BGP;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-MDR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+            neighbor 1.1.0.13;
+        }
+        group GR-IBGP-MSE {
+            type internal;
+            local-address 1.1.0.10;
+            import PS-MSE-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                            multipath;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family evpn {
+                signaling {
+                }
+            }
+            export PS-IBGP-MSE-EXPORT;
+            neighbor 1.1.0.11;
+        }
+        group mpbgp-ma-rr {
+            type internal;
+            local-address 1.1.0.10;
+            import IMPORT-BGP;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                advertise-default;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            
+            cluster 1.1.0.10;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.17;
+            neighbor 1.1.0.18;
+            neighbor 1.1.0.19;
+            neighbor 1.1.0.15;
+            neighbor 1.1.0.16;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
+## junos/transport/bgp-overlay-mse2.conf
+
+```
+/*
+ * Topic:   Complete deployed BGP form for mse2_mx304 (Junos)
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
+ *
+ * Highlights:
+ *  - Complete deployed BGP control-plane form for mse2_mx304.
+ *
+ * Pair with:
+ *  - junos/apply-groups/gr-bgp-bcp.conf
+ *  - junos/policy/import-bgp-mse2.conf
+ *  - junos/policy/ps-as63535-import.conf
+ *  - junos/policy/ps-ebgp-cr-export.conf
+ *  - junos/policy/ps-ibgp-mdr-export-mse1.conf
+ *  - junos/policy/ps-ibgp-mse-export.conf
+ *  - junos/policy/ps-mse-import.conf
+ *  - junos/transport/rib-group-remote-loopbacks-mse.conf
+ *
+ * Variables: none
+ */
+protocols {
+    bgp {
+        apply-groups GR-BGP-BCP;
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        group GR-EBGP-CR2-TP {
+            type external;
+            import PS-AS63535-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    per-prefix-label;
+                    rib {
+                        inet6.3;
+                    }
+                    protection;
+                }
+                transport {
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    protection;
+                }
+            }
+            export PS-EBGP-CR-EXPORT;
+            peer-as 63535;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 10.10.0.45;
+        }
+        group ebgp_meg_mpbgp {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address 1.1.0.11;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                external-paths 4;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            peer-as 63535;
+            local-as 63536;
+            multipath;
+            bfd-liveness-detection {
+                minimum-interval 200;
+                multiplier 3;
+            }
+            neighbor 1.1.0.6 {
+                description "MEG1 - rtme-acx7100-32c-d";
+            }
+            neighbor 1.1.0.7 {
+                description "MEG2 - rtme-acx7509-01";
+            }
+        }
+        group GR-IBGP-MDR {
+            type internal;
+            local-address 1.1.0.11;
+            import IMPORT-BGP;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                }
+            }
+            export PS-IBGP-MDR-EXPORT;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.12;
+            neighbor 1.1.0.13;
+        }
+        group GR-IBGP-MSE {
+            type internal;
+            local-address 1.1.0.11;
+            import PS-MSE-IMPORT;
+            family inet {
+                labeled-unicast {
+                    rib-group RG-REMOTE-LOOPBACKS;
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                            multipath;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                    rib {
+                        inet.3;
+                    }
+                    explicit-null connected-only;
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 2;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+                transport {
+                    add-path {
+                        receive;
+                        send {
+                            path-count 4;
+                        }
+                    }
+                    nexthop-resolution {
+                        preserve-nexthop-hierarchy;
+                    }
+                }
+            }
+            family evpn {
+                signaling {
+                }
+            }
+            export PS-IBGP-MSE-EXPORT;
+            neighbor 1.1.0.10;
+        }
+        group mpbgp-ma-rr {
+            type internal;
+            local-address 1.1.0.11;
+            import IMPORT-BGP;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                advertise-default;
+                nexthop-resolution {
+                    no-resolution;
+                }
+            }
+            cluster 1.1.0.11;
+            bfd-liveness-detection {
+                minimum-interval 100;
+                multiplier 3;
+            }
+            neighbor 1.1.0.17;
+            neighbor 1.1.0.18;
+            neighbor 1.1.0.19;
+            neighbor 1.1.0.15;
+            neighbor 1.1.0.16;
+        }
+        log-updown;
+        graceful-restart;
+        multipath;
+    }
+}
+```
+
 ## junos/transport/bgp-overlay.conf
 
 ```
@@ -5173,6 +9481,8 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   (none)
+ * Variant group: mebs-bgp-overlay
+ *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
  * Highlights:
  *  - Complete deployed iBGP overlay form for an1_mx204 / an2_acx5448 (all
@@ -5542,6 +9852,33 @@ protocols {
 }
 ```
 
+## junos/transport/rib-group-remote-loopbacks-mse.conf
+
+```
+/*
+ * Topic:   RIB group RG-REMOTE-LOOPBACKS (services-edge PEs, Junos)
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - As-deployed RG-REMOTE-LOOPBACKS rib-group for the services-edge PEs.
+ *
+ * Pair with:
+ *  - junos/policy/ps-remote-loopbacks-mse.conf
+ *
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        RG-REMOTE-LOOPBACKS {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy PS-REMOTE-LOOPBACKS;
+        }
+    }
+}
+```
+
 ## junos/transport/rib-groups.conf
 
 ```
@@ -5814,38 +10151,50 @@ If the user picks `minimum` and the AI cannot tell whether the overlay activatio
 
 ### BGP-overlay coverage gate (canonical — every service section refers here)
 
-`transport/bgp-overlay.conf` is the **complete deployed iBGP overlay form** for a specific
-set of devices — it carries every overlay address-family that role runs. It is **not** a
-universal per-service prerequisite, so it is offered only where that exact deployed form is
-validated:
+`transport/bgp-overlay.conf` is **not** a universal per-service prerequisite. Each deployed
+iBGP overlay is captured as an OS-native **member of the `mebs-bgp-overlay` variant group**:
+the shared `transport/bgp-overlay.conf` still serves the devices listed in its own `Seen on:`,
+while device- or role-specific forms use qualified filenames. Every overlay member declares,
+via its `Provides:` line, exactly the overlay address-families that device's role runs
+(`evpn`, `l2vpn`, `inet-vpn`, `inet6-vpn`, `labeled-unicast`).
 
-- **Junos** `transport/bgp-overlay.conf` — deployed form for **an1_mx204, an2_acx5448** only.
-- **EVO** `transport/bgp-overlay.conf` — deployed form for **ma1-1_acx7024, ma1-2_acx7024** only.
+Every service section states only its **required signalling family** and points here. Each
+service consumer carries a single directed requirement `variant:mebs-bgp-overlay
+families=<family>` in its `Pair with:`. The overlay form is **resolved deterministically per
+device** — never enumerated by name:
+
+> **Resolve** the overlay for a (target device, target OS, service family) as the **unique**
+> member of `mebs-bgp-overlay` such that (a) the member is **native to the target OS**, (b) the
+> target device is in that member's exact `Seen on:`, and (c) the member's `Provides:`
+> **includes the service family** (all requested families, atomically).
 
 Rules (a service section states only its signalling classification and points here):
 
-1. **`with-overlay`** may attach the OS-native `transport/bgp-overlay.conf` **only when ALL of
-   these hold**: (a) the **selected service applies to the target device** — the target is in that
-   service snip's exact `Seen on:`; (b) the **target device is in the overlay file's exact
-   `Seen on:`** (the four devices above); (c) the overlay file is **native to the target's OS**; and
-   (d) **exactly one** overlay form resolves (one per OS). Do **not** gate on the overlay `Seen on:`
-   alone, and **never** synthesize, generalise, substitute, or borrow the other OS form.
-   **Fail closed:** if any condition fails, the requested `with-overlay` (or `as-deployed`) mode is
-   **unavailable** — no exact applicable same-OS overlay form exists — so **generate nothing for it**.
-   You may then offer `minimum` as a **separate alternative the user must explicitly confirm**,
-   making clear that `minimum` is local-service configuration only and does **not** provide the
-   unavailable remote BGP signalling. An **inapplicable** service/device selection (target not in the
-   service's `Seen on:`) is **rejected**, not downgraded.
-2. **Never give a device another role's BGP overlay form.** There is no generic per-service
-   overlay snip yet; each service's required signalling family (EVPN / L2VPN / inet-vpn) is
-   noted below, but the matching per-role overlay is deferred to later selector work.
+1. **`with-overlay`** attaches the resolved overlay member **only when ALL of these hold**:
+   (a) the **selected service applies to the target device** — the target is in that service
+   snip's exact `Seen on:`; and (b) **exactly one** overlay member resolves per the rule above.
+   **Fail closed:** if **zero** members resolve (no deployed overlay form for that device +
+   family) or **more than one** resolves, the requested `with-overlay` (or `as-deployed`)
+   overlay is **unavailable** — so **generate nothing for it**. You may then offer `minimum` as
+   a **separate alternative the user must explicitly confirm**, making clear that `minimum` is
+   local-service configuration only and does **not** provide the unavailable remote BGP
+   signalling. An **inapplicable** service/device selection (target not in the service's
+   `Seen on:`) is **rejected**, not downgraded. **Never** synthesize, generalise, substitute,
+   or borrow the other OS form.
+2. **The resolved member is always the target device's own role form.** Because the family is
+   matched against each member's `Provides:`, a device is never given another role's overlay —
+   a mismatched family simply yields zero resolutions and fails closed.
 3. **LDP-signalled services never add a BGP overlay** (L2Circuit floating-pw / hot-standby /
-   local-switching, LDP-VPLS) — they rely on targeted LDP.
-4. **`as-deployed`** includes the BGP overlay only for the four devices above (Junos file →
-   an1/an2; EVO file → ma1-1/ma1-2); for any other target it **fails closed** exactly as rule 1.
-   The nodes **ag1-1_acx7100-32c, ag1-2_acx7100-32c, ma2_mx204** have **no top-level deployed BGP
-   groups in source**, so there is no overlay form to offer for them. For any other device, do
-   **not** claim a complete `as-deployed` form unless every other required form is also validated.
+   local-switching, LDP-VPLS) — they carry no `variant:` requirement and rely on targeted LDP.
+4. **`as-deployed`** includes the BGP overlay under the **same resolution and fail-closed rule**
+   as `with-overlay`. For a **BGP-signalled service** (one carrying a `variant:mebs-bgp-overlay`
+   requirement), **zero** overlay resolutions means the requested `with-overlay` / `as-deployed`
+   form is **unavailable** and **fails closed** — **generate nothing for it** (exactly as rule 1);
+   do **not** silently omit the overlay and emit the rest of the baseline. Devices with **no
+   top-level deployed BGP group in source** (e.g. **ag1-1_acx7100-32c, ag1-2_acx7100-32c,
+   ma2_mx204**) have **no overlay member**, so any BGP-signalled service targeting them fails
+   closed on this rule. For any device, do **not** claim a complete `as-deployed` form unless
+   every other required form is also validated.
 
 ---
 

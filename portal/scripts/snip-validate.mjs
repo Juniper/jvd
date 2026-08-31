@@ -154,33 +154,37 @@ export function validateVariantMember({ variantGroup, body }) {
 }
 
 /**
- * Consumer validation: for every device in the consumer's exact `Seen on:`
- * bucket, each atomic variant requirement must resolve to exactly one member.
- * A referenced group with no members anywhere in this JVD is GROUP_EMPTY; a
- * group that exists but matches no OS/device/families is UNRESOLVED; more than
- * one is AMBIGUOUS. All fail closed.
+ * Consumer validation: for every device in BOTH of the consumer's exact
+ * `Seen on:` buckets — each keyed by its own bucket OS — every atomic variant
+ * requirement must resolve to exactly one member. The consumer file's
+ * directory OS never suppresses the other bucket (cross-OS Seen-on is common
+ * for MEBS services). A referenced group with no members anywhere in this JVD
+ * is GROUP_EMPTY; a group that exists but matches no OS/device/families is
+ * UNRESOLVED; more than one is AMBIGUOUS. All fail closed.
  */
 export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, members }) {
   const findings = [];
   if (!variantRequires || variantRequires.length === 0) return findings;
-  const devices = (seenOn && seenOn[os]) || [];
   for (const req of variantRequires) {
-    if (!groupHasMembers({ group: req.group, targetOS: os, consumerJvd: jvd, members })) {
+    if (!groupHasMembers({ group: req.group, consumerJvd: jvd, members })) {
       findings.push({ code: CODES.VARIANT_GROUP_EMPTY, detail: `${req.group} (${os})` });
       continue;
     }
-    for (const dev of devices) {
-      const r = resolveVariant({
-        group: req.group,
-        families: req.families,
-        targetDevice: dev,
-        targetOS: os,
-        consumerJvd: jvd,
-        members,
-      });
-      const detail = `${req.group} ${dev} families=${req.families.join(",")}`;
-      if (r.status === "unavailable") findings.push({ code: CODES.VARIANT_UNRESOLVED, detail });
-      else if (r.status === "ambiguous") findings.push({ code: CODES.VARIANT_AMBIGUOUS, detail });
+    for (const bucketOS of ["junos", "evo"]) {
+      const devices = (seenOn && seenOn[bucketOS]) || [];
+      for (const dev of devices) {
+        const r = resolveVariant({
+          group: req.group,
+          families: req.families,
+          targetDevice: dev,
+          targetOS: bucketOS,
+          consumerJvd: jvd,
+          members,
+        });
+        const detail = `${req.group} ${dev} families=${req.families.join(",")}`;
+        if (r.status === "unavailable") findings.push({ code: CODES.VARIANT_UNRESOLVED, detail });
+        else if (r.status === "ambiguous") findings.push({ code: CODES.VARIANT_AMBIGUOUS, detail });
+      }
     }
   }
   return findings;

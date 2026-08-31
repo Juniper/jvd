@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T16:28:25.311Z",
+  "generatedAt": "2026-08-31T19:54:58.997Z",
   "counts": {
     "total": 763,
     "junos": 382,
@@ -43692,11 +43692,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/transport/bgp-overlay.conf  (family l2vpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family l2vpn signaling"
-        },
-        {
           "raw": "evo/policy/communities.conf",
           "id": "metro_ethernet_business_services/evo/policy/communities",
           "note": null
@@ -43748,6 +43743,14 @@
         "    an3_acx7100-48l  et-0/0/0.400",
         "    ma5_mx204  xe-0/1/4.400",
         "    meg1_acx7100-32c  et-0/0/26:0.400"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type virtual-switch;\n        protocols {\n            vpls {\n                site $L2VPN_SITE {\n                    site-identifier $SITE_ID;\n                }\n                service-type single;\n                site-range 10;\n                label-block-size 8;\n                no-tunnel-services;\n            }\n        }\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vlans {\n            $BD_NAME {\n                interface $AC_INTF;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                service-type single;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size </span><span style=\"color:#79C0FF\">8</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -43898,11 +43901,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/transport/bgp-overlay.conf (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
-        {
           "raw": "evo/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
           "note": null
@@ -43952,6 +43950,14 @@
         "    mse1_mx304  xe-0/0/3:1.3000",
         "    (+1 more endpoints)"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vlans {\n            $BD_NAME {\n                vlan-id $VLAN_BD;\n                interface $AC_INTF;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_BD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 533,
@@ -43991,11 +43997,6 @@
         "service-id local/remote integers are swapped relative to the Junos PE (the pair forms one bidirectional EVPN-VPWS PW)."
       ],
       "pairWith": [
-        {
-          "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "evo/policy/communities.conf",
           "id": "metro_ethernet_business_services/evo/policy/communities",
@@ -44060,6 +44061,14 @@
         "    an3_acx7100-48l  et-0/0/0.800",
         "    mse1_mx304  et-0/0/4.1800"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    interface $AC_INTF.$UNIT_C;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_C;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 662,
@@ -44104,11 +44113,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
-        {
           "raw": "evo/policy/communities.conf",
           "id": "metro_ethernet_business_services/evo/policy/communities",
           "note": null
@@ -44150,6 +44154,14 @@
         "  Example: EVPN_ELAN_PORT_BASED (RD 1.1.0.2:5565, RT target:63535:6565)",
         "    an3_acx7100-48l  et-0/0/11.0",
         "    ma1-2_acx7024  et-0/0/8.0"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n            }\n        }\n        service-type vlan-bundle;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vlans {\n            $BD_NAME {\n                interface $AC_INTF;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-bundle;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -44199,11 +44211,6 @@
           "raw": "evo/services/evpn-elan-mac-vrf-irb.conf",
           "id": "metro_ethernet_business_services/evo/services/evpn-elan-mac-vrf-irb",
           "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
         }
       ],
       "variables": [
@@ -44241,6 +44248,14 @@
         "    meg2_acx7509",
         "    mse1_mx304",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        interface irb.$IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -44298,11 +44313,6 @@
           "raw": "evo/policy/l3vpn-export-import.conf",
           "id": "metro_ethernet_business_services/evo/policy/l3vpn-export-import",
           "note": null
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
         }
       ],
       "variables": [
@@ -44332,6 +44342,14 @@
         "    meg2_acx7509",
         "    mse1_mx304",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    apply-groups GR-L3VPN;\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation mpls;\n                }\n            }\n        }\n        interface irb.$IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-import PS-${INSTANCE_NAME}-IMPORT;\n        vrf-export PS-${INSTANCE_NAME}-EXPORT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import PS-${INSTANCE_NAME}-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> PS-${INSTANCE_NAME}-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -44385,11 +44403,6 @@
           "raw": "evo/interfaces/lag-esi-multihoming.conf (the AC interface)",
           "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
           "note": "the AC interface"
-        },
-        {
-          "raw": "evo/transport/bgp-overlay.conf (family evpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family evpn signaling"
         }
       ],
       "variables": [
@@ -44432,6 +44445,14 @@
         "  Example: EVPN_VPWS_PORT_BASED (RD 1.1.0.2:5500, RT target:63535:5500)",
         "    an3_acx7100-48l  et-0/0/7.0",
         "    ma1-1_acx7024  et-0/0/6.0"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF {\n                    vpws-service-id {\n                        local $VPWS_SVC_ID_LOCAL;\n                        remote $VPWS_SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -44821,11 +44842,6 @@
           "note": null
         },
         {
-          "raw": "evo/transport/bgp-overlay.conf  (family inet-vpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family inet-vpn signaling"
-        },
-        {
           "raw": "evo/services/l3vpn-ospf.conf  (sibling PE-CE peering shape)",
           "id": "metro_ethernet_business_services/evo/services/l3vpn-ospf",
           "note": "sibling PE-CE peering shape"
@@ -44869,6 +44885,14 @@
         "    ma3_acx7100-48l  et-0/0/5.2101",
         "    mse1_mx304  et-0/0/5.2101",
         "    mse2_mx304  xe-0/0/15:0.2101"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "inet-vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            bgp {\n                group v4Ixia {\n                    family inet {\n                        any;\n                    }\n                    neighbor $CE_PEER_V4 {\n                        local-address $PE_LOCAL_V4;\n                        peer-as $AS_CUST;\n                        as-override;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-import ${INSTANCE_NAME}-IMPORT;\n        vrf-export ${INSTANCE_NAME}-EXPORT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group v4Ixia {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_PEER_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $PE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $AS_CUST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import ${INSTANCE_NAME}-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> ${INSTANCE_NAME}-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -44925,11 +44949,6 @@
           "note": null
         },
         {
-          "raw": "evo/transport/bgp-overlay.conf  (family inet-vpn signaling)",
-          "id": "metro_ethernet_business_services/evo/transport/bgp-overlay",
-          "note": "family inet-vpn signaling"
-        },
-        {
           "raw": "evo/services/l3vpn-bgp.conf  (sibling PE-CE peering shape)",
           "id": "metro_ethernet_business_services/evo/services/l3vpn-bgp",
           "note": "sibling PE-CE peering shape"
@@ -44969,6 +44988,14 @@
         "    ma3_acx7100-48l  et-0/0/5.2001",
         "    mse1_mx304  et-0/0/5.2001",
         "    mse2_mx304  xe-0/0/15:0.2001"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "inet-vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n            auto-export;\n        }\n        protocols {\n            ospf {\n                area 0.0.0.0 {\n                    interface $AC_INTF {\n                        interface-type p2p;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-import $IMPORT_POL;\n        vrf-export $EXPORT_POL;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface-type p2p;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import $IMPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $EXPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -48729,11 +48756,6 @@
           "raw": "junos/apply-groups/gr-fatpw-label.conf  (vpls_* wildcard FAT-PW)",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label",
           "note": "vpls_* wildcard FAT-PW"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family l2vpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family l2vpn signaling"
         }
       ],
       "variables": [
@@ -48777,6 +48799,14 @@
         "    an3_acx7100-48l  et-0/0/0.400",
         "    ma5_mx204  xe-0/1/4.400",
         "    meg1_acx7100-32c  et-0/0/26:0.400"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type virtual-switch;\n        protocols {\n            vpls {\n                site $L2VPN_SITE {\n                    site-identifier $SITE_ID;\n                }\n                site-range 10;\n                label-block-size 8;\n                no-tunnel-services;\n            }\n        }\n        bridge-domains {\n            $BD_NAME {\n                vlan-id $VLAN_BD;\n                interface $AC_INTF;\n                bridge-options {\n                    no-normalization;\n                }\n            }\n        }\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size </span><span style=\"color:#79C0FF\">8</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_BD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bridge-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -48843,11 +48873,6 @@
           "note": "(the ps<N>"
         },
         {
-          "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
-        {
           "raw": "junos/policy/communities.conf",
           "id": "metro_ethernet_business_services/junos/policy/communities",
           "note": null
@@ -48910,6 +48935,14 @@
         "    mse1_mx304  xe-0/0/3:1.3000",
         "    (+1 more endpoints)"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type virtual-switch;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                no-control-word;\n            }\n        }\n        bridge-domains {\n            $BD_NAME {\n                vlan-id $VLAN;\n                interface $AC_INTF.$UNIT;\n                routing-interface irb.$IRB_UNIT;\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                routing-interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 555,
@@ -48954,11 +48987,6 @@
         "For vlan-aware or vlan-bundle service-types on MX, use instance-type virtual-switch instead (see junos/services/evpn-elan-virtual-switch-irb.conf for the virtual-switch + IRB shape)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
@@ -49006,6 +49034,14 @@
         "    ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A",
         "    (+3 more endpoints)"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                no-control-word;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 412,
@@ -49050,11 +49086,6 @@
         "`vlan-id $VLAN` — single-VLAN-per-instance (not vlan-id none), which distinguishes this from the port-based / mac-vrf vlan-bundle shape."
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf  (per-AE ESI for",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
@@ -49114,6 +49145,14 @@
         "    mse1_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A",
         "    mse2_mx304  ae10.2000 00:11:11:11:11:11:11:20:01:01 A-A"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                interface $AC_INTF.$UNIT;\n                evpn-etree;\n            }\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF.$UNIT;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn-etree;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 394,
@@ -49155,11 +49194,6 @@
         "No `vlan-id`, no `vrf-table-label`, no `interface` at the instance level (UNIs live entirely inside the FXC group)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "junos/policy/communities.conf",
           "id": "metro_ethernet_business_services/junos/policy/communities",
@@ -49224,6 +49258,14 @@
         "    an3_acx7100-48l  et-0/0/0.800",
         "    mse1_mx304  et-0/0/4.1800"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    interface $AC_INTF.$UNIT_C;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_C;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 662,
@@ -49266,11 +49308,6 @@
         "This is the AN-side counterpart to the EVO port-based `mac-vrf` + `service-type vlan-bundle` pattern. The two PEs of an AA-multihoming pair (AN1 MX204, AN2 ACX5448) carry the same set of EVIs over the same ESI-bearing AE."
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
@@ -49331,6 +49368,14 @@
         "    ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A",
         "    (+3 more endpoints)"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                no-control-word;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF.$VLAN_UNIT;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $VRF_EXPORT_POL;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$VLAN_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $VRF_EXPORT_POL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 424,
@@ -49389,11 +49434,6 @@
           "raw": "junos/apply-groups/gr-l3vpn.conf                   (multipath + vrf-table-label inheritance)",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-l3vpn",
           "note": "multipath + vrf-table-label inheritance"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf                   (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
         }
       ],
       "variables": [
@@ -49431,6 +49471,14 @@
         "    meg2_acx7509",
         "    mse1_mx304",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        interface irb.$IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -49493,11 +49541,6 @@
           "raw": "junos/services/evpn-type5-anchor.conf",
           "id": "metro_ethernet_business_services/junos/services/evpn-type5-anchor",
           "note": null
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
         }
       ],
       "variables": [
@@ -49527,6 +49570,14 @@
         "    meg2_acx7509",
         "    mse1_mx304",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    apply-groups GR-L3VPN;\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            evpn {\n                ip-prefix-routes {\n                    advertise direct-nexthop;\n                    encapsulation mpls;\n                }\n            }\n        }\n        interface irb.$IRB_UNIT;\n        route-distinguisher $RD;\n        vrf-import PS-${INSTANCE_NAME}-IMPORT;\n        vrf-export PS-${INSTANCE_NAME}-EXPORT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    apply-groups GR-L3VPN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                ip-prefix-routes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    advertise direct-nexthop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface irb.$IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import PS-${INSTANCE_NAME}-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> PS-${INSTANCE_NAME}-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -49577,11 +49628,6 @@
         "The matching attachment-circuit interface (vlan-ccc encap, ESI for multihoming) lives in junos/interfaces/lag-esi-multihoming.conf"
       ],
       "pairWith": [
-        {
-          "raw": "junos/transport/bgp-overlay.conf (family evpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family evpn signaling"
-        },
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
@@ -49641,6 +49687,14 @@
         "    an3_acx7100-48l  ae11.2400 00:10:11:11:11:11:01:00:00:00 A-A",
         "    ma1-1_acx7024  ae12.2400 00:10:11:11:50:12:03:00:00:00 A-A",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF {\n                    vpws-service-id {\n                        local $VPWS_SVC_ID_LOCAL;\n                        remote $VPWS_SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $VPWS_SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $VPWS_SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -49777,11 +49831,6 @@
           "raw": "junos/apply-groups/gr-fatpw-label.conf  (FAT-PW for L2VPN)",
           "id": "metro_ethernet_business_services/junos/apply-groups/gr-fatpw-label",
           "note": "FAT-PW for L2VPN"
-        },
-        {
-          "raw": "junos/transport/bgp-overlay.conf  (family l2vpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family l2vpn signaling"
         }
       ],
       "variables": [
@@ -49820,6 +49869,14 @@
         "  Example: L2VPN_PORT_BASED (RD 63535:6500, RT target:63535:6500)",
         "    an3_acx7100-48l  et-0/0/8.0",
         "    ma5_mx204  xe-0/1/2.0"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    apply-groups GR-FATPW-LABEL;\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    apply-groups GR-FATPW-LABEL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -49885,11 +49942,6 @@
           "note": null
         },
         {
-          "raw": "junos/transport/bgp-overlay.conf  (family inet-vpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family inet-vpn signaling"
-        },
-        {
           "raw": "junos/services/l3vpn-ospf.conf  (sibling PE-CE peering shape;",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-ospf",
           "note": "(sibling PE-CE peering shape;"
@@ -49930,6 +49982,14 @@
         "  On devices: mse2_mx304 (2200), mse1_mx304 (2199), ma4_mx204 (1999), an3_acx7100-48l (200), ma3_acx7100-48l (200)",
         "  Example: INTERNET-VRF (RD 1.1.0.11:63536, RT —)",
         "    mse2_mx304  xe-0/0/15:2.2001"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "inet-vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n            auto-export;\n        }\n        protocols {\n            bgp {\n                group v4Ixia {\n                    family inet {\n                        any;\n                    }\n                    neighbor $CE_PEER_V4 {\n                        local-address $PE_LOCAL_V4;\n                        peer-as $AS_CUST;\n                        as-override;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-import ${INSTANCE_NAME}-IMPORT;\n        vrf-export ${INSTANCE_NAME}-EXPORT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            bgp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group v4Ixia {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        any;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    neighbor $CE_PEER_V4 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local-address $PE_LOCAL_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        peer-as $AS_CUST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        as-override;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import ${INSTANCE_NAME}-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> ${INSTANCE_NAME}-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -49991,11 +50051,6 @@
           "note": null
         },
         {
-          "raw": "junos/transport/bgp-overlay.conf  (family inet-vpn signaling)",
-          "id": "metro_ethernet_business_services/junos/transport/bgp-overlay",
-          "note": "family inet-vpn signaling"
-        },
-        {
           "raw": "junos/services/l3vpn-bgp.conf  (sibling PE-CE peering shape;",
           "id": "metro_ethernet_business_services/junos/services/l3vpn-bgp",
           "note": "(sibling PE-CE peering shape;"
@@ -50026,6 +50081,14 @@
         "    ma4_mx204  xe-0/1/4.1",
         "    mse1_mx304  et-0/0/5.1",
         "    mse2_mx304  xe-0/0/15:0.1"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "inet-vpn"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n            auto-export;\n        }\n        protocols {\n            ospf {\n                area 0.0.0.0 {\n                    interface $AC_INTF {\n                        interface-type p2p;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-import ${INSTANCE_NAME}-IMPORT;\n        vrf-export ${INSTANCE_NAME}-EXPORT;\n        vrf-table-label;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            auto-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            ospf {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                area </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        interface-type p2p;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-import ${INSTANCE_NAME}-IMPORT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> ${INSTANCE_NAME}-</span><span style=\"color:#79C0FF\">EXPORT</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-table-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
