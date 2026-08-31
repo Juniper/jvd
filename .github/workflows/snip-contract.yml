@@ -8,7 +8,7 @@ on:
       - 'portal/scripts/snip-validate.mjs'
       - 'portal/scripts/snip-validate.test.mjs'
       - 'portal/scripts/generate-snips.mjs'
-      - 'SNIP-CONTRACT.md'
+      - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
 
 jobs:

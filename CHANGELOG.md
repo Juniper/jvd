@@ -25,8 +25,8 @@ the contract on every change.
 - **Executable provenance** — a snippet's `Seen on:` list is an exact
   applicability claim: every listed device reproduces the snippet's configuration
   under one consistent set of variables. Approximate or aspirational device lists
-  were corrected to their exact reproducing sets. The rules are published in
-  [SNIP-CONTRACT.md](SNIP-CONTRACT.md).
+  were corrected to their exact reproducing sets. The rules are published in the
+  snippet contract (`SNIP-CONTRACT.md`).
 - **Deterministic validation in CI** — a shared parser and typed validation checks
   run in continuous integration, so a snippet header means the same thing to the
   portal and to the validator.

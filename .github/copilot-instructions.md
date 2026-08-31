@@ -1,6 +1,6 @@
 When creating or modifying a configuration snip
 (`configuration/snips/{junos,evo}/<category>/<name>.conf`), follow
-[SNIP-CONTRACT.md](../SNIP-CONTRACT.md) exactly.
+[SNIP-CONTRACT.md](SNIP-CONTRACT.md) exactly.
 
 - Do not invent header fields, values, cross-references, or relationship
   semantics.
