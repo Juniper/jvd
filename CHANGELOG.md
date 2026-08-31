@@ -6,6 +6,30 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-08-31
 
+Made **Metro Ethernet Business Services (MEBS)** BGP-overlay signalling
+**role-aware**: each service now selects its target device's own deployed overlay
+form automatically, instead of relying on a single fixed overlay reference.
+
+A service snippet previously pointed at one overlay form. A service now declares
+the overlay address-family it needs, and the exact published deployed overlay for
+the target device is selected by that family — so every device gets its own
+validated overlay, and none is offered where the device has no deployed form.
+Selection is deterministic and fails closed: where no exact form applies, the
+overlay is withheld rather than approximated.
+
+### Improvements
+
+#### Service Provider
+
+- **Metro Ethernet Business Services — role-aware BGP overlay** — the 21 MEBS
+  [service snippets](service_provider/metro_ethernet_business_services/configuration/snips)
+  now select the target device's own-role BGP overlay by signalling family (EVPN,
+  L2VPN, or L3VPN), drawn from the exact published deployed forms. The JVD AI
+  Assistant's tier guidance follows the same deterministic rule, offering the
+  overlay only where a device's validated form exists and withholding it otherwise.
+
+## 2026-08-30
+
 Gave the repository's **configuration snippet library** a verifiable provenance
 contract, and made **Metro Ethernet Business Services (MEBS)** the first library
 whose snippet applicability is complete and enforced.
