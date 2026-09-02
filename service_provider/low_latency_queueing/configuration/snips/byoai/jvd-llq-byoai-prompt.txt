@@ -241,7 +241,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/low_latency_queueing/jvd-llq-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/low_latency_queueing/configuration/snips/byoai/jvd-llq-snips.md
         (all 70 snip bodies + reference files). Acknowledge
         "Loaded JVD LLQ snip bundle (70 snips)." then proceed to the
         CLARIFYING QUESTION below.

@@ -228,7 +228,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/dci_over_ipodwdm/jvd-dci-ipodwdm-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/jvd-dci-ipodwdm-snips.md
         (all 9 snip bodies + reference files). Acknowledge
         "Loaded JVD DCI-over-IPoDWDM snip bundle (9 snips)." then proceed
         to the CLARIFYING QUESTION below.

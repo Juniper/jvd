@@ -290,7 +290,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/scale_out_ipsec/jvd-so-ipsec-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/byoai/jvd-so-ipsec-snips.md
         (all 23 snip bodies + reference files). Acknowledge
         "Loaded JVD Scale-Out IPsec snip bundle (23 snips)." then
         proceed to the CLARIFYING QUESTION below.

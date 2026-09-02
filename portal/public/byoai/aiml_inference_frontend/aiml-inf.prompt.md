@@ -256,7 +256,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/aiml_inference_frontend/jvd-aiml-inf-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_inference_frontend/configuration/snips/byoai/jvd-aiml-inf-snips.md
         (all 16 snip bodies + reference files). Acknowledge
         "Loaded JVD AI Inference Frontend snip bundle (16 snips)."
         then proceed to the CLARIFYING QUESTION below.

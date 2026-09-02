@@ -224,7 +224,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/ewan_adv_core_edge/jvd-ewan-ace-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/jvd-ewan-ace-snips.md
         (all 51 snip bodies + reference files). Acknowledge
         "Loaded JVD EWAN-ACE snip bundle (51 snips)." then proceed to
         the CLARIFYING QUESTION below.
