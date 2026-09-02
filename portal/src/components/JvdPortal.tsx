@@ -440,7 +440,7 @@ export default function JvdPortal() {
               type="button"
               onClick={() => setPaletteOpen(true)}
               aria-label="Search"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/60 hover:text-foreground"
+              className="hidden items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium text-muted-foreground hover:border-primary/60 hover:text-foreground md:inline-flex"
             >
               <Search className="h-3.5 w-3.5" />
               <span className="hidden xl:inline">Search</span>
@@ -450,7 +450,7 @@ export default function JvdPortal() {
               href="https://github.com/Juniper/jvd"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60"
+              className="hidden items-center gap-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs font-medium hover:border-primary/60 md:inline-flex"
             >
               <Github className="h-3.5 w-3.5" /> <span className="hidden xl:inline">GitHub</span>
             </a>
