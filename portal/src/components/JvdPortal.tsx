@@ -419,6 +419,9 @@ export default function JvdPortal() {
           <a href="#home" className="flex shrink-0 items-center gap-2 font-semibold tracking-tight">
             <img src={brandLogo} alt="" className="h-7 w-auto" style={{ filter: "invert(1) brightness(1.1)" }} />
             <span className="whitespace-nowrap">JVD Portal</span>
+            <span className="rounded-full border border-primary/40 bg-surface px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+              Preview
+            </span>
           </a>
           <nav className="hidden items-center gap-5 md:flex">
             {NAV.map((n) => (
@@ -484,6 +487,19 @@ export default function JvdPortal() {
           </nav>
         )}
       </header>
+
+      {/* Development-status bar */}
+      <div
+        className="border-b bg-surface"
+        style={{ borderColor: "color-mix(in oklab, var(--color-primary) 22%, var(--color-border))" }}
+      >
+        <div className="mx-auto flex max-w-7xl items-center gap-2 px-6 py-1.5">
+          <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+          <p className="text-[12px] leading-tight text-foreground/80">
+            The JVD Portal is under active development. Features and workflows will continue to evolve.
+          </p>
+        </div>
+      </div>
 
       {/* Hero */}
       <section
