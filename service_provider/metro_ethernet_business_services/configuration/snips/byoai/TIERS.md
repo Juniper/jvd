@@ -134,7 +134,7 @@ user asked for (default to eBGP if unspecified):
 **minimum** (just the service)
 - `evo/services/evpn-elan-mac-vrf.conf` (EVO) **or**
   `junos/services/evpn-elan-vlan-based.conf` (Junos MX) — or the
-  `-irb.conf` / `evpn-port-based.conf` variant, whichever flavor was requested
+  `-irb.conf` / `evpn-elan-vlan-based-gold.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
