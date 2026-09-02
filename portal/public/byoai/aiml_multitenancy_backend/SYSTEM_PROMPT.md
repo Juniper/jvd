@@ -259,7 +259,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/aiml_multitenancy_backend/jvd-aiml-mtb-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/data_center/aidc/aiml_multitenancy_backend/configuration/snips/byoai/jvd-aiml-mtb-snips.md
         (all 23 snip bodies + reference files). Acknowledge
         "Loaded JVD AI/ML Multi-Tenancy Backend snip bundle (23 snips)."
         then proceed to the CLARIFYING QUESTION below.

@@ -453,6 +453,15 @@ async function main() {
       if (content.includes(rawPrefix)) {
         content = content.split(rawPrefix).join(pagesPrefix);
       }
+      // CORPUS-A exception, scoped to jvd-*-snips.md ONLY: Configuration mode
+      // fetches the snip bundle from the committed raw.githubusercontent source,
+      // never the Pages mirror. Undo the general rewrite for that one URL so the
+      // portal-facing prompt keeps the raw bundle URL.
+      const escapedPagesPrefix = pagesPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      content = content.replace(
+        new RegExp(`${escapedPagesPrefix}(jvd-[a-z0-9-]+-snips\\.md)`, "g"),
+        `${rawPrefix}$1`,
+      );
       await fs.writeFile(dstPath, content);
     }
 

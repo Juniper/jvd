@@ -238,7 +238,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/jvd-collapsed-access-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/byoai/jvd-collapsed-access-snips.md
         (all 6 snip bodies + reference files). Acknowledge
         "Loaded JVD Collapsed Fabric with Access Switches snip bundle
         (6 snips)." then proceed to the CLARIFYING QUESTION below.

@@ -263,7 +263,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/ewan_finance/jvd-ewan-fin-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/byoai/jvd-ewan-fin-snips.md
         (all 38 snip bodies + reference files). Acknowledge
         "Loaded JVD EWAN-Finance snip bundle (38 snips)." then proceed
         to the CLARIFYING QUESTION below.

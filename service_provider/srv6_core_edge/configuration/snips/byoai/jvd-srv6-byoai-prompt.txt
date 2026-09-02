@@ -217,7 +217,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/srv6_core_edge/jvd-srv6-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/byoai/jvd-srv6-snips.md
         (all 47 snip bodies + reference files). Acknowledge
         "Loaded JVD SRv6 Core Edge snip bundle (47 snips)." then proceed
         to the CLARIFYING QUESTION below.

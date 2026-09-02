@@ -287,7 +287,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/scale_out_firewall_nat/jvd-so-fwnat-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/jvd-so-fwnat-snips.md
         (all 21 snip bodies + reference files). Acknowledge
         "Loaded JVD Scale-Out SFW/NAT snip bundle (21 snips)." then
         proceed to the CLARIFYING QUESTION below.

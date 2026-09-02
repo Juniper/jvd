@@ -252,7 +252,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/3stage_dc/jvd-3stage-dc-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/3stage_dc/configuration/snips/byoai/jvd-3stage-dc-snips.md
         (all 53 snip bodies + reference files). Acknowledge
         "Loaded JVD 3-Stage Data Center snip bundle (53 snips)." then
         proceed to the CLARIFYING QUESTION below.

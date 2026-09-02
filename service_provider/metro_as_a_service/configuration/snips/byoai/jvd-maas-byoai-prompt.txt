@@ -239,7 +239,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
         visible (at least one `## junos/...conf`, one `## evo/...conf`)
         → you have everything; go to STEP 1.
       CORPUS-A: fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/metro_as_a_service/jvd-maas-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_as_a_service/configuration/snips/byoai/jvd-maas-snips.md
         (~200 KB — all 112 snip bodies + reference files). Acknowledge
         "Loaded JVD MaaS snip bundle (112 snips)." then go to STEP 1.
       IF THE FETCH FAILS or web access is unavailable: DO NOT ask the

@@ -239,7 +239,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/evpn_vxlan_dci/jvd-evpn-dci-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips/byoai/jvd-evpn-dci-snips.md
         (all 13 snip bodies + reference files). Acknowledge
         "Loaded JVD EVPN-VXLAN DCI snip bundle (13 snips)." then
         proceed to the CLARIFYING QUESTION below.
