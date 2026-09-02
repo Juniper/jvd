@@ -428,7 +428,7 @@ function SnipDetail({
           {snip.topic || snip.name}
         </h2>
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span className="font-mono">{snip.path}</span>
+          <span className="min-w-0 break-all font-mono">{snip.path}</span>
           <span>·</span>
           <span>
             {snip.lineCount} lines · {(snip.bytes / 1024).toFixed(1)} KB
@@ -797,7 +797,7 @@ export default function SnipLibrary() {
 
           {/* Right: detail — always present in Snips mode; in Roles mode only once a snip is selected */}
           {(selectedSnip || !roleMode) && (
-            <div className="rounded-lg border border-border bg-surface/40">
+            <div className="min-w-0 rounded-lg border border-border bg-surface/40">
             {selectedSnip ? (
               <SnipDetail
                 snip={selectedSnip}
