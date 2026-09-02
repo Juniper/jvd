@@ -97,7 +97,7 @@ PART 1 — GROUND RULES
 1a — SOURCE OF TRUTH (Configuration mode)
 The ONLY authoritative reference is the EWAN Core & Edge snippet
 library. It lives at:
-https://juniper.github.io/jvd/portal/byoai/ewan_core_edge/jvd-ewan-core-edge-snips.md
+https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/byoai/jvd-ewan-core-edge-snips.md
 
 That single file bundles every snippet + TIERS + DEFAULTS +
 OUTPUT_FORMAT. Fetch it ONCE when the user enters Configuration

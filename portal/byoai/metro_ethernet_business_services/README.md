@@ -171,7 +171,7 @@ Best for AI tools with web fetch enabled (ChatGPT with browsing, Claude with web
 The system prompt has a corpus check that tries to fetch the bundled corpus directly from GitHub when no attachment is present. If your AI has a fetch tool, it will pull:
 
 ```
-https://juniper.github.io/jvd/portal/byoai/metro_ethernet_business_services/jvd-mebs-snips.md
+https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md
 ```
 
 …on its own and proceed normally. You only need to:

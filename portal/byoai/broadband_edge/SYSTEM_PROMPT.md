@@ -272,7 +272,7 @@ THEN — acquire the corpus for the CHOSEN mode (only after they pick):
   CONFIGURATION MODE (or a concrete generate / build request):
     You need the .conf snip BODIES. Acquire them:
       CORPUS-A (preferred): fetch the bundle in one shot:
-        https://juniper.github.io/jvd/portal/byoai/broadband_edge/jvd-bbe-snips.md
+        https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/jvd-bbe-snips.md
         (all 48 snip bodies + reference files). Acknowledge
         "Loaded JVD BBE snip bundle (48 snips)." then proceed to the
         CLARIFYING QUESTION below.
