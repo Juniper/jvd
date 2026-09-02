@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 161,
+  "snip_count": 163,
   "snips": [
     {
       "path": "evo/apply-groups/gr-bgp-bcp-an3.conf",
@@ -985,8 +985,23 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2649,
+      "size_bytes": 2655,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-mac-vrf.conf"
+    },
+    {
+      "path": "evo/services/evpn-elan-vlan-bundle.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "evpn-elan-vlan-bundle",
+      "topic": "VLAN-bundle EVPN E-LAN \u2014 selected customer VLANs share one MAC-VRF (EVO ACX)",
+      "seen_on": [
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2016,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-elan-vlan-bundle.conf"
     },
     {
       "path": "evo/services/evpn-fxc.conf",
@@ -1005,13 +1020,12 @@
       "os": "evo",
       "category": "services",
       "name": "evpn-port-based",
-      "topic": "Port-based EVPN-ELAN (mac-vrf + service-type vlan-bundle, EVO ACX)",
+      "topic": "Port-based EVPN E-LAN \u2014 whole-UNI attachment circuit (mac-vrf + service-type vlan-bundle, EVO ACX)",
       "seen_on": [
         "an3_acx7100-48l",
-        "meg1_acx7100-32c",
-        "meg2_acx7509"
+        "ma1-2_acx7024"
       ],
-      "size_bytes": 2227,
+      "size_bytes": 1819,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf"
     },
     {
@@ -1023,10 +1037,11 @@
       "seen_on": [
         "mse1_mx304",
         "mse2_mx304",
+        "an3_acx7100-48l",
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1895,
+      "size_bytes": 1911,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf"
     },
     {
@@ -1036,9 +1051,11 @@
       "name": "evpn-type5",
       "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)",
       "seen_on": [
-        "mse1_mx304"
+        "an3_acx7100-48l",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
       ],
-      "size_bytes": 2821,
+      "size_bytes": 2792,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5.conf"
     },
     {
@@ -1073,15 +1090,27 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-hub.conf"
     },
     {
+      "path": "evo/services/l2circuit-hsb-pe-primary.conf",
+      "os": "evo",
+      "category": "services",
+      "name": "l2circuit-hsb-pe-primary",
+      "topic": "L2circuit hot-standby \u2014 Primary / active PE (bare pseudowire-status-tlv, MEF E-Line / EVPL)",
+      "seen_on": [
+        "meg1_acx7100-32c"
+      ],
+      "size_bytes": 1901,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-pe-primary.conf"
+    },
+    {
       "path": "evo/services/l2circuit-hsb-pe.conf",
       "os": "evo",
       "category": "services",
       "name": "l2circuit-hsb-pe",
-      "topic": "L2circuit hot-standby \u2014 Primary / Backup PE (hot-standby-vc-on, MEF E-Line / EVPL)",
+      "topic": "L2circuit hot-standby \u2014 Backup / standby PE (hot-standby-vc-on, MEF E-Line / EVPL)",
       "seen_on": [
         "meg2_acx7509"
       ],
-      "size_bytes": 2024,
+      "size_bytes": 2070,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-hsb-pe.conf"
     },
     {
@@ -1117,9 +1146,10 @@
       "topic": "L3VPN VRF with PE-CE eBGP and as-override (EVO ACX)",
       "seen_on": [
         "ma4_mx204",
+        "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2347,
+      "size_bytes": 2363,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l3vpn-bgp.conf"
     },
     {
@@ -1703,7 +1733,7 @@
         "an1_mx204",
         "an2_acx5448"
       ],
-      "size_bytes": 2528,
+      "size_bytes": 2538,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/lag-esi-multihoming.conf"
     },
     {
@@ -2191,15 +2221,28 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf"
     },
     {
+      "path": "junos/services/evpn-elan-vlan-based-gold.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "evpn-elan-vlan-based-gold",
+      "topic": "VLAN-based EVPN E-LAN \u2014 gold / colour-steered form (vrf-export, Junos MX)",
+      "seen_on": [
+        "an1_mx204"
+      ],
+      "size_bytes": 2797,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-vlan-based-gold.conf"
+    },
+    {
       "path": "junos/services/evpn-elan-vlan-based.conf",
       "os": "junos",
       "category": "services",
       "name": "evpn-elan-vlan-based",
-      "topic": "EVPN-ELAN (vlan-based) routing-instance (MEF E-LAN, Junos MX)",
+      "topic": "VLAN-based EVPN E-LAN \u2014 plain / base form (instance-type evpn, Junos MX)",
       "seen_on": [
-        "an1_mx204"
+        "an1_mx204",
+        "an2_acx5448"
       ],
-      "size_bytes": 2418,
+      "size_bytes": 2497,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-vlan-based.conf"
     },
     {
@@ -2224,22 +2267,10 @@
       "name": "evpn-fxc",
       "topic": "EVPN FXC (Flexible Cross-Connect, VLAN-unaware) \u2014 N AC UNIs aggregated into a single EVPN-VPWS service-id (MX)",
       "seen_on": [
-        "an3_acx7100-48l"
+        "mse1_mx304"
       ],
-      "size_bytes": 2793,
+      "size_bytes": 2788,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf"
-    },
-    {
-      "path": "junos/services/evpn-port-based.conf",
-      "os": "junos",
-      "category": "services",
-      "name": "evpn-port-based",
-      "topic": "Legacy `instance-type evpn` port-based EVPN-ELAN (Junos)",
-      "seen_on": [
-        "an1_mx204"
-      ],
-      "size_bytes": 2985,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf"
     },
     {
       "path": "junos/services/evpn-type5-anchor.conf",
@@ -2263,9 +2294,10 @@
       "name": "evpn-type5",
       "topic": "L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)",
       "seen_on": [
-        "mse1_mx304"
+        "mse1_mx304",
+        "mse2_mx304"
       ],
-      "size_bytes": 3384,
+      "size_bytes": 3395,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5.conf"
     },
     {
@@ -2284,7 +2316,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2238,
+      "size_bytes": 2243,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-vpws.conf"
     },
     {
@@ -2319,10 +2351,11 @@
       "name": "l3vpn-bgp",
       "topic": "L3VPN VRF with PE-CE eBGP and as-override (Junos MX)",
       "seen_on": [
+        "ma4_mx204",
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2827,
+      "size_bytes": 2837,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-bgp.conf"
     },
     {
@@ -2332,11 +2365,12 @@
       "name": "l3vpn-ospf",
       "topic": "L3VPN VRF with PE-CE OSPF (Junos MX)",
       "seen_on": [
+        "ma4_mx204",
         "mse1_mx304",
         "mse2_mx304",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2299,
+      "size_bytes": 2309,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-ospf.conf"
     },
     {
