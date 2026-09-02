@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T03:32:27.382Z",
+  "generatedAt": "2026-09-02T03:43:52.862Z",
   "counts": {
     "total": 765,
     "junos": 382,
@@ -44189,7 +44189,7 @@
       "category": "services",
       "name": "evpn-port-based",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-port-based.conf",
-      "otherOsFormId": "metro_ethernet_business_services/junos/services/evpn-port-based",
+      "otherOsFormId": null,
       "topic": "Port-based EVPN E-LAN — whole-UNI attachment circuit (mac-vrf + service-type vlan-bundle, EVO ACX)",
       "seenOn": {
         "junos": [],
@@ -47233,8 +47233,8 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
+          "raw": "junos/services/evpn-elan-vlan-based-gold.conf",
+          "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based-gold",
           "note": null
         },
         {
@@ -49120,17 +49120,17 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based",
+      "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based-gold",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
       "area": "Service Provider",
       "os": "Junos",
       "osKey": "junos",
       "category": "services",
-      "name": "evpn-elan-vlan-based",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-vlan-based.conf",
+      "name": "evpn-elan-vlan-based-gold",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-vlan-based-gold.conf",
       "otherOsFormId": null,
-      "topic": "EVPN-ELAN (vlan-based) routing-instance (MEF E-LAN, Junos MX)",
+      "topic": "VLAN-based EVPN E-LAN — gold / colour-steered form (vrf-export, Junos MX)",
       "seenOn": {
         "junos": [
           "an1_mx204"
@@ -49138,11 +49138,11 @@
         "evo": []
       },
       "highlights": [
-        "VLAN-based EVPN E-LAN; the service VLAN is defined on the vlan-bridge attachment-circuit unit (ae11.<vlan>, one CE-VLAN per EVI). instance-type evpn on Junos MX; the instance-type mac-vrf shape is EVO-only in this JVD.",
+        "VLAN-based EVPN E-LAN, gold / colour-steered variant: the service VLAN is defined on the `vlan-bridge` attachment-circuit unit (ae11.<vlan>, one CE-VLAN per EVI). instance-type evpn on Junos MX.",
         "encapsulation mpls (SR-MPLS underlay)",
-        "vlan-id none advertises Ethernet Tag ID 0; no-normalization preserves the AC VLAN rather than normalizing it to an EVI VLAN.",
-        "no-control-word: matches the remote PE behaviour",
-        "vrf-export adds the service RT and map2gold community for color-aware transport.",
+        "`vlan-id none` advertises Ethernet Tag ID 0; `no-normalization` preserves the AC VLAN rather than normalizing it to an EVI VLAN.",
+        "`vrf-export` adds the service RT and map2gold community for color-aware transport — this is what distinguishes the gold form from the plain base (junos/services/evpn-elan-vlan-based.conf).",
+        "Source-validated one-instance variation: an1_mx204 / evpn_group_90_700 additionally carries `no-control-word` under protocols evpn. It is excluded from this reusable body because the other gold EVIs (701-749) do not carry it.",
         "Attachment-circuit (ae11.700) has esi/all-active in interfaces snippet for active/active multihoming",
         "For vlan-aware or vlan-bundle service-types on MX, use instance-type virtual-switch instead (see junos/services/evpn-elan-virtual-switch-irb.conf for the virtual-switch + IRB shape)."
       ],
@@ -49202,10 +49202,112 @@
           ]
         }
       ],
-      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                no-control-word;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 412,
-      "lineCount": 17,
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 379,
+      "lineCount": 16,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN-ELAN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "services",
+      "name": "evpn-elan-vlan-based",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-vlan-based.conf",
+      "otherOsFormId": null,
+      "topic": "VLAN-based EVPN E-LAN — plain / base form (instance-type evpn, Junos MX)",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "VLAN-based EVPN E-LAN: the service VLAN is defined on the `vlan-bridge` attachment-circuit unit (ae11.<vlan>), one CE-VLAN per EVI. instance-type evpn on Junos MX, no bridge-domains block.",
+        "`vlan-id none` advertises Ethernet Tag ID 0; `no-normalization` preserves the AC VLAN rather than normalizing it to an EVI VLAN.",
+        "encapsulation mpls over the SR-MPLS underlay.",
+        "This is the plain/base EVI shape shared by BOTH AA peers (AN1 MX204 + AN2 ACX5448); it carries no egress colour steering. The gold colour overlay (an1 only, `vrf-export` + map2gold) is captured by junos/services/evpn-elan-vlan-based-gold.conf.",
+        "The two PEs of an AA-multihoming pair carry the same set of EVIs over the same ESI-bearing AE (ae11)."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)",
+          "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
+          "note": "ae11 ESI for AA"
+        },
+        {
+          "raw": "junos/services/evpn-vpws.conf  (sibling per-port EVPN service",
+          "id": "metro_ethernet_business_services/junos/services/evpn-vpws",
+          "note": "(sibling per-port EVPN service"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_90_700"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae11"
+        },
+        {
+          "name": "$VLAN_UNIT",
+          "example": "700   (selects ae11.<unit>)"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.0"
+        },
+        {
+          "name": "$RD_ID",
+          "example": "7000"
+        },
+        {
+          "name": "$AS_LOCAL",
+          "example": "63535"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "7000"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  50 instances total (high 50 / med 0 / low 0)",
+        "  On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more",
+        "  Example: evpn_group_90_700 (RD 1.1.0.0:7000, RT target:63535:7000)",
+        "    an1_mx204  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
+        "    an2_acx5448  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
+        "    an3_acx7100-48l  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
+        "    ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A",
+        "    (+3 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF.$VLAN_UNIT;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$VLAN_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 355,
+      "lineCount": 15,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-ELAN",
       "usecases": [
@@ -49430,108 +49532,6 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_C;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 662,
       "lineCount": 22,
-      "techFamily": "Service Overlay",
-      "subfamily": "EVPN",
-      "usecases": [
-        "Cloud Metro",
-        "Metro Fabric",
-        "Carrier Ethernet (MEF)",
-        "Business VPN Services",
-        "Route Reflector",
-        "Mobile Backhaul"
-      ],
-      "parseWarnings": []
-    },
-    {
-      "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
-      "jvd": "metro_ethernet_business_services",
-      "jvdLabel": "Metro Ethernet Business Services",
-      "area": "Service Provider",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "services",
-      "name": "evpn-port-based",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-port-based.conf",
-      "otherOsFormId": "metro_ethernet_business_services/evo/services/evpn-port-based",
-      "topic": "Legacy `instance-type evpn` port-based EVPN-ELAN, base form (Junos)",
-      "seenOn": {
-        "junos": [
-          "an1_mx204",
-          "an2_acx5448"
-        ],
-        "evo": []
-      },
-      "highlights": [
-        "The \"classic\" Junos EVPN routing-instance shape — single `instance-type evpn` with `vlan-id none` + `no-normalization`. Each instance is one EVI bound to ONE attachment-circuit unit on the access node (ae11.<vlan>), no internal bridge-domains block.",
-        "`vlan-id none` + `no-normalization` together implement \"port-based\" forwarding: frames are passed transparently with their customer VLAN tag(s) intact between PEs of the same EVI.",
-        "Each EVI carries one VLAN (e.g. 700, 701, 702 …) — scale here is \"one instance per CE-VLAN\" not \"one instance per service\".",
-        "Encapsulation MPLS over the SR-MPLS underlay. This is the base (plain) EVI shape that BOTH AA peers share, so it carries no egress colour steering. The gold vrf-export colour overlay is applied on the AN1 MX204 side only and is captured separately by evpn-elan-vlan-based.conf; the AN2 ACX5448 side carries the same EVIs plain, exactly as rendered here.",
-        "This is the AN-side counterpart to the EVO port-based `mac-vrf` + `service-type vlan-bundle` pattern. The two PEs of an AA-multihoming pair (AN1 MX204, AN2 ACX5448) carry the same set of EVIs over the same ESI-bearing AE."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)",
-          "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
-          "note": "ae11 ESI for AA"
-        },
-        {
-          "raw": "junos/services/evpn-vpws.conf  (sibling per-port EVPN service",
-          "id": "metro_ethernet_business_services/junos/services/evpn-vpws",
-          "note": "(sibling per-port EVPN service"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$INSTANCE_NAME",
-          "example": "evpn_group_90_700"
-        },
-        {
-          "name": "$AC_INTF",
-          "example": "ae11"
-        },
-        {
-          "name": "$VLAN_UNIT",
-          "example": "700   (selects ae11.<unit>)"
-        },
-        {
-          "name": "$LOOPBACK_V4",
-          "example": "1.1.0.0"
-        },
-        {
-          "name": "$RD_ID",
-          "example": "7000"
-        },
-        {
-          "name": "$AS_LOCAL",
-          "example": "63535"
-        },
-        {
-          "name": "$RT_ID",
-          "example": "7000"
-        }
-      ],
-      "jvdServiceMapping": [
-        "  50 instances total (high 50 / med 0 / low 0)",
-        "  On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more",
-        "  Example: evpn_group_90_700 (RD 1.1.0.0:7000, RT target:63535:7000)",
-        "    an1_mx204  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
-        "    an2_acx5448  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
-        "    an3_acx7100-48l  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A",
-        "    ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A",
-        "    (+3 more endpoints)"
-      ],
-      "variantRequires": [
-        {
-          "group": "mebs-bgp-overlay",
-          "families": [
-            "evpn"
-          ]
-        }
-      ],
-      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                encapsulation mpls;\n            }\n        }\n        vlan-id none;\n        no-normalization;\n        interface $AC_INTF.$VLAN_UNIT;\n        route-distinguisher $LOOPBACK_V4:$RD_ID;\n        vrf-target target:$AS_LOCAL:$RT_ID;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id none;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$VLAN_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$AS_LOCAL:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 355,
-      "lineCount": 15,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
@@ -49792,8 +49792,8 @@
           "note": null
         },
         {
-          "raw": "junos/services/evpn-port-based.conf",
-          "id": "metro_ethernet_business_services/junos/services/evpn-port-based",
+          "raw": "junos/services/evpn-elan-vlan-based.conf",
+          "id": "metro_ethernet_business_services/junos/services/evpn-elan-vlan-based",
           "note": null
         }
       ],

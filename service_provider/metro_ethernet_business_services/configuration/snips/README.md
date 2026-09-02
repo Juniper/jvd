@@ -79,7 +79,8 @@ The same topic file exists under both `junos/` and `evo/`:
 | `transport/bgp-overlay.conf` | iBGP to RR with overlay AFs (inet/inet6 LU, inet-vpn, l2vpn, evpn, RT) |
 | `services/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
 | `evo/services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) |
-| `junos/services/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based (Junos MX) |
+| `junos/services/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based — plain/base form (Junos MX) |
+| `junos/services/evpn-elan-vlan-based-gold.conf` | MEF E-LAN vlan-based — gold/colour-steered (`vrf-export` + map2gold, Junos MX) |
 | `evo/services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
 | `junos/services/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
 | `services/evpn-port-based.conf` | Port-based EVPN E-LAN — whole-UNI (`ethernet-bridge` unit 0, mac-vrf + `service-type vlan-bundle`, EVO) |
