@@ -34,6 +34,7 @@ const APPLICABILITY_CODES = new Set([
   CODES.SEEN_ON_APPROXIMATION,
   CODES.SEEN_ON_UNKNOWN_DEVICE,
   CODES.SEEN_ON_NON_DEVICE_TOKEN,
+  CODES.SEEN_ON_NATIVE_EMPTY,
   CODES.MISSING_SEEN_ON_BUCKET,
   CODES.MISSING_SEEN_ON_SECTION,
 ]);
@@ -228,6 +229,13 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
         if (r !== "ok") findings.push({ code: CODES.SEEN_ON_UNKNOWN_DEVICE, detail: `${bucket}: ${tok} (${r})` });
       }
     }
+  }
+
+  // SEEN_ON_NATIVE_EMPTY — an OS-specific snip must list at least one device in
+  // its own-OS bucket (a `junos/**` snip needs a Junos device; `evo/**` an EVO
+  // device). Cross-OS entries stay legal as long as the native bucket is filled.
+  if (os && Array.isArray(header.seenOn?.[os]) && header.seenOn[os].length === 0) {
+    findings.push({ code: CODES.SEEN_ON_NATIVE_EMPTY, detail: `${os} bucket is empty` });
   }
 
   // PAIR_WITH_UNRESOLVED — every declared path must resolve to a real snip.

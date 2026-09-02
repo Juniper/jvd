@@ -31,6 +31,26 @@ test("clean snip produces no findings", () => {
   assert.deepEqual(findings, []);
 });
 
+test("native-OS guard: evo/** snip with EVO:(none) -> SEEN_ON_NATIVE_EMPTY", () => {
+  const text = snip({ seenJunos: "mse1_mx304", seenEvo: "(none)" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set(), os: "evo" }));
+  assert.ok(found.includes(CODES.SEEN_ON_NATIVE_EMPTY));
+});
+
+test("native-OS guard: junos/** snip with Junos:(none) -> SEEN_ON_NATIVE_EMPTY", () => {
+  const text = snip({ seenJunos: "(none)", seenEvo: "mse2_mx304" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set(), os: "junos" }));
+  assert.ok(found.includes(CODES.SEEN_ON_NATIVE_EMPTY));
+});
+
+test("native-OS guard: cross-OS entry is allowed when the native bucket is non-empty", () => {
+  // evo/** file listing a Junos device is legal as long as EVO is non-empty.
+  const text = snip({ seenJunos: "mse1_mx304", seenEvo: "mse2_mx304" });
+  const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set(), os: "evo" }));
+  assert.ok(!found.includes(CODES.SEEN_ON_NATIVE_EMPTY));
+});
+
+
 test("multiline Topic is detected", () => {
   const text = `/*\n * Topic:   first line wraps to\n *          a second physical line\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
   assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.TOPIC_MULTILINE));

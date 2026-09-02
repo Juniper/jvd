@@ -82,7 +82,8 @@ The same topic file exists under both `junos/` and `evo/`:
 | `junos/services/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based (Junos MX) |
 | `evo/services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
 | `junos/services/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
-| `services/evpn-port-based.conf` | Port-based EVPN-VPWS (EPL) and EVPN-ELAN (vlan-bundle) |
+| `services/evpn-port-based.conf` | Port-based EVPN E-LAN — whole-UNI (`ethernet-bridge` unit 0, mac-vrf + `service-type vlan-bundle`, EVO) |
+| `evo/services/evpn-elan-vlan-bundle.conf` | VLAN-bundle EVPN E-LAN — selected VLANs (`vlan-bridge` + `vlan-id`/`vlan-id-list`) share one MAC-VRF (EVO) |
 | `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
 | `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
 | `evo/services/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
