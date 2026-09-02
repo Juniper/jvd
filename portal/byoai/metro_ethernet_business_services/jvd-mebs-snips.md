@@ -2891,7 +2891,7 @@ routing-instances {
  *    per-EVI in EVPN.
  *  - service-type vlan-based — one VLAN per EVI (Type-1 service in
  *    RFC 7432 parlance). Use vlan-aware or vlan-bundle for multi-VLAN
- *    EVIs (see evo/services/evpn-port-based.conf for vlan-bundle).
+ *    EVIs (see evo/services/evpn-elan-vlan-bundle.conf for vlan-bundle).
  *  - encapsulation mpls — runs over SR-MPLS transport. Switch to
  *    `encapsulation vxlan` for a VXLAN data-plane DC fabric.
  *  - no-control-word avoids inserting a 4-byte CW (interop with
@@ -2939,6 +2939,65 @@ routing-instances {
         vlans {
             $BD_NAME {
                 vlan-id $VLAN_BD;
+                interface $AC_INTF;
+            }
+        }
+    }
+}
+```
+
+## evo/services/evpn-elan-vlan-bundle.conf
+
+```
+/*
+ * Topic:   VLAN-bundle EVPN E-LAN — selected customer VLANs share one MAC-VRF (EVO ACX)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - EVPN E-LAN where selected customer VLANs share one MAC-VRF /
+ *    bridge table.
+ *  - The AC is VLAN-scoped using `vlan-bridge` with `vlan-id` (one VLAN)
+ *    or `vlan-id-list` (several VLANs) on a `flexible-vlan-tagging` UNI.
+ *  - `service-type vlan-bundle` describes the shared EVI/bridge-table
+ *    model; the AC configuration — not the service-type — determines
+ *    whether the service is whole-port or VLAN-scoped.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *  - evo/policy/communities.conf
+ *
+ * JVD service mapping:
+ *   VLAN-scoped bundle EVIs (vlan-bridge, vlan-id / vlan-id-list) across the EVO metro edge.
+ *   On devices: an3_acx7100-48l, ma1-2_acx7024, meg1_acx7100-32c, meg2_acx7509
+ *   Example: evpn_group_80_1000 (RD 1.1.0.2:8000, RT target:63535:8000)
+ *     an3_acx7100-48l  et-0/0/50.1000  (vlan-bridge, vlan-id-list 1000-1001)
+ *     an3_acx7100-48l  et-0/0/50.1399  (vlan-bridge, vlan-id 1399)
+ *
+ * Variables (example values from an3_acx7100-48l / evpn_group_80_1000):
+ *   $INSTANCE_NAME    e.g. evpn_group_80_1000
+ *   $BD_NAME          e.g. BD_evpn_group_80_1000
+ *   $AC_INTF          e.g. et-0/0/50.1000   (VLAN-scoped: vlan-id or vlan-id-list on the unit)
+ *   $LOOPBACK_V4      e.g. 1.1.0.2
+ *   $RD_ID            e.g. 8000
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 8000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation mpls;
+            }
+        }
+        service-type vlan-bundle;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+        vlans {
+            $BD_NAME {
                 interface $AC_INTF;
             }
         }
@@ -3016,40 +3075,34 @@ routing-instances {
 
 ```
 /*
- * Topic:   Port-based EVPN-ELAN (mac-vrf + service-type vlan-bundle, EVO ACX)
+ * Topic:   Port-based EVPN E-LAN — whole-UNI attachment circuit (mac-vrf + service-type vlan-bundle, EVO ACX)
  * Seen on:
  *   Junos: (none)
- *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024
  *
  * Highlights:
- *  - `instance-type mac-vrf` + `service-type vlan-bundle` + a
- *    single `vlans { $BD_NAME { interface $AC; } }` block. The
- *    `vlan-bundle` service-type pools multiple customer VLANs
- *    on one UNI under one MAC-VRF (the EP-LAN / EPL-bundle case);
- *    no per-VLAN `vlan-id` is set on the BD because the parent
- *    interface unit carries the customer tags.
- *  - `protocols { evpn { encapsulation mpls; } }` sets MPLS encapsulation on
- *    the EVPN instance.
- *  - Useful for Ethernet Private LAN where the customer owns the
- *    UNI and several VLANs ride the same broadcast domain.
- *  - Port-based EVPN-VPWS variants live in evo/services/evpn-vpws.conf
- *    (per-port unit 0 + per-instance vpws-service-id).
+ *  - EVPN E-LAN where the entire UNI is the attachment circuit — all
+ *    customer frames on the port ride one MAC-VRF bridge table.
+ *  - The UNI uses `encapsulation ethernet-bridge` with `unit 0`, so the
+ *    whole port (not a selected VLAN) is bound into the
+ *    `service-type vlan-bundle` EVI.
+ *  - `instance-type mac-vrf` + `service-type vlan-bundle`; the BD binds
+ *    the whole-UNI logical unit (`interface $AC_INTF`, unit 0).
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - evo/policy/communities.conf
  *
  * JVD service mapping:
- *   201 instances total (high 101 / med 100 / low 0)
- *   On devices: an3_acx7100-48l (201), meg1_acx7100-32c (200), meg2_acx7509 (200), ma1-2_acx7024 (1), ma4_mx204 (1), ma5_mx204 (1), +2 more
+ *   Whole-UNI (ethernet-bridge, unit 0) form — the EVPN_ELAN_PORT_BASED service.
+ *   On devices: an3_acx7100-48l, ma1-2_acx7024
  *   Example: EVPN_ELAN_PORT_BASED (RD 1.1.0.2:5565, RT target:63535:6565)
- *     an3_acx7100-48l  et-0/0/11.0
- *     ma1-2_acx7024  et-0/0/8.0
+ *     an3_acx7100-48l  et-0/0/11.0   (et-0/0/11 encapsulation ethernet-bridge)
+ *     ma1-2_acx7024    et-0/0/8.0    (et-0/0/8 encapsulation ethernet-bridge)
  *
  * Variables (example values from an3_acx7100-48l / EVPN_ELAN_PORT_BASED):
- *   $INSTANCE_NAME    e.g. EVPN_ELAN_PORT_BASED (or evpn_group_80_1000)
- *   $BD_NAME          e.g. v-2 (or BD_evpn_group_80_1000)
- *   $AC_INTF          e.g. et-0/0/11.0 (or et-0/0/50.1000)
+ *   $INSTANCE_NAME    e.g. EVPN_ELAN_PORT_BASED
+ *   $BD_NAME          e.g. v-2
+ *   $AC_INTF          e.g. et-0/0/11.0   (whole-UNI unit 0)
  *   $LOOPBACK_V4      e.g. 1.1.0.2
  *   $RD_ID            e.g. 5565
  *   $AS_LOCAL         e.g. 63535
@@ -3059,13 +3112,10 @@ routing-instances {
     $INSTANCE_NAME {
         instance-type mac-vrf;
         protocols {
-            evpn {
-                encapsulation mpls;
-            }
+            evpn;
         }
         service-type vlan-bundle;
         route-distinguisher $LOOPBACK_V4:$RD_ID;
-        vrf-export $INSTANCE_NAME;
         vrf-target target:$AS_LOCAL:$RT_ID;
         vlans {
             $BD_NAME {
@@ -3083,7 +3133,7 @@ routing-instances {
  * Topic:   Slim L3VPN IRB-anchor VRF (EVO ACX) — paired with EVPN-ELAN MAC-VRF; no explicit `protocols evpn ip-prefix-routes` block
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
- *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - EVO mirror of junos/services/evpn-type5-anchor.conf. Same
@@ -3139,8 +3189,8 @@ routing-instances {
 /*
  * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (EVO)
  * Seen on:
- *   Junos: mse1_mx304
- *   EVO:   (none)
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
@@ -3165,7 +3215,6 @@ routing-instances {
  *  - evo/services/evpn-elan-mac-vrf-irb.conf  (the L2 / IRB side
  *    that owns irb.<N> — this is the bridge-domain whose MACs and
  *    silent-host IPs the Type-5 route exposes to remote PEs)
- *  - evo/apply-groups/gr-l3vpn.conf
  *  - evo/policy/l3vpn-export-import.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -3188,7 +3237,6 @@ routing-instances {
  *   $RD               e.g. 63000:13000
  */
 routing-instances {
-    apply-groups GR-L3VPN;
     $INSTANCE_NAME {
         instance-type vrf;
         routing-options {
@@ -3339,21 +3387,78 @@ protocols {
 }
 ```
 
+## evo/services/l2circuit-hsb-pe-primary.conf
+
+```
+/*
+ * Topic:   L2circuit hot-standby — Primary / active PE (bare pseudowire-status-tlv, MEF E-Line / EVPL)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ *
+ * Highlights:
+ *  - Primary (active) PE endpoint of a hot-standby L2Circuit. It targets
+ *    the Hub's loopback ($HUB_LOOPBACK) and carries the active VC. Unlike
+ *    the Backup/standby PE it does NOT signal hot-standby-vc-on — the
+ *    pseudowire-status-tlv leaf is left bare. See l2circuit-hsb-pe.conf
+ *    for the Backup/standby PE form (which adds hot-standby-vc-on).
+ *  - control-word, flow-label-{transmit,receive} (FAT-PW ECMP),
+ *    encapsulation-type ethernet-vlan, ignore-encapsulation-mismatch,
+ *    ignore-mtu-mismatch.
+ *  - Per-PW transport-class community (map2gold) lets the PW follow a
+ *    specific BGP-CT colour underlay.
+ *
+ * Pair with:
+ *  - evo/policy/communities.conf
+ *  - evo/apply-groups/gr-fatpw-lb.conf (forwarding-options)
+ *
+ * JVD service mapping:
+ *   2000 instances total (high 2000 / med 0 / low 0)
+ *   On devices: an3_acx7100-48l (2000), meg1_acx7100-32c (1000), meg2_acx7509 (1000)
+ *   Example: l2ckt-vc3000 (RD —, RT —)
+ *     meg1_acx7100-32c  et-0/0/26:3.3000  ->  an3_acx7100-48l (hub 1.1.0.2)
+ *
+ * Variables (example values from meg1_acx7100-32c):
+ *   $AC_INTF       e.g. et-0/0/26:3
+ *   $UNIT          e.g. 3000
+ *   $HUB_LOOPBACK  e.g. 1.1.0.2
+ *   $VC_ID         e.g. 3000
+ */
+protocols {
+    l2circuit {
+        neighbor $HUB_LOOPBACK {
+            interface $AC_INTF.$UNIT {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                flow-label-transmit;
+                flow-label-receive;
+                community map2gold;
+                encapsulation-type ethernet-vlan;
+                ignore-encapsulation-mismatch;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
+            }
+        }
+    }
+}
+```
+
 ## evo/services/l2circuit-hsb-pe.conf
 
 ```
 /*
- * Topic:   L2circuit hot-standby — Primary / Backup PE (hot-standby-vc-on, MEF E-Line / EVPL)
+ * Topic:   L2circuit hot-standby — Backup / standby PE (hot-standby-vc-on, MEF E-Line / EVPL)
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
  *
  * Highlights:
- *  - PE endpoint of a hot-standby L2Circuit. It targets the Hub's loopback
- *    ($HUB_LOOPBACK) and signals hot-standby-vc-on so the Hub keeps this PW
- *    hot. This same body serves BOTH the Primary PE (active VC) and the
- *    Backup PE (standby VC); only $VC_ID and the AC differ. On the device
- *    the hot-standby-vc-on knob is inherited from apply-group GR-L2CKT-HS.
+ *  - Backup (standby) PE endpoint of a hot-standby L2Circuit. It targets the
+ *    Hub's loopback ($HUB_LOOPBACK) and signals hot-standby-vc-on so the Hub
+ *    keeps this standby PW hot for sub-second switchover. The pseudowire-status-tlv
+ *    carries hot-standby-vc-on inline on this device. The Primary/active PE of
+ *    the same service leaves pseudowire-status-tlv bare — see
+ *    l2circuit-hsb-pe-primary.conf.
  *  - control-word, flow-label-{transmit,receive} (FAT-PW ECMP),
  *    encapsulation-type ethernet-vlan, ignore-encapsulation-mismatch,
  *    ignore-mtu-mismatch.
@@ -3518,7 +3623,7 @@ routing-instances {
  * Topic:   L3VPN VRF with PE-CE eBGP and as-override (EVO ACX)
  * Seen on:
  *   Junos: ma4_mx204
- *   EVO:   ma3_acx7100-48l
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
  *
  * Highlights:
  *  - EVO-side mirror of junos/services/l3vpn-bgp.conf. Same shape:
@@ -6169,7 +6274,7 @@ interfaces {
  *  - junos/apply-groups/gr-lag-member.conf
  *  - junos/interfaces/edge-vlan-normalization.conf
  *  - junos/services/evpn-elan-vlan-based.conf
- *  - junos/services/evpn-port-based.conf
+ *  - junos/services/evpn-elan-vlan-based-gold.conf
  *  - junos/services/evpn-vpws.conf
  *  - junos/services/evpn-etree.conf
  *
@@ -7662,24 +7767,29 @@ routing-instances {
 }
 ```
 
-## junos/services/evpn-elan-vlan-based.conf
+## junos/services/evpn-elan-vlan-based-gold.conf
 
 ```
 /*
- * Topic:   EVPN-ELAN (vlan-based) routing-instance (MEF E-LAN, Junos MX)
+ * Topic:   VLAN-based EVPN E-LAN — gold / colour-steered form (vrf-export, Junos MX)
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
  *
  * Highlights:
- *  - instance-type evpn (Junos MX vlan-based EVPN-ELAN; the
- *    instance-type mac-vrf shape is EVO-only in this JVD)
+ *  - VLAN-based EVPN E-LAN, gold / colour-steered variant: the service
+ *    VLAN is defined on the `vlan-bridge` attachment-circuit unit
+ *    (ae11.<vlan>, one CE-VLAN per EVI). instance-type evpn on Junos MX.
  *  - encapsulation mpls (SR-MPLS underlay)
- *  - vlan-id none + no-normalization → port-based bridging, no VLAN
- *    rewrite at egress; attachment-circuit drives the bridge domain
- *  - no-control-word: matches the remote PE behaviour
- *  - vrf-export references a per-service policy that adds the
- *    correct route-target community
+ *  - `vlan-id none` advertises Ethernet Tag ID 0; `no-normalization`
+ *    preserves the AC VLAN rather than normalizing it to an EVI VLAN.
+ *  - `vrf-export` adds the service RT and map2gold community for
+ *    color-aware transport — this is what distinguishes the gold form
+ *    from the plain base (junos/services/evpn-elan-vlan-based.conf).
+ *  - Source-validated one-instance variation: an1_mx204 /
+ *    evpn_group_90_700 additionally carries `no-control-word` under
+ *    protocols evpn. It is excluded from this reusable body because the
+ *    other gold EVIs (701-749) do not carry it.
  *  - Attachment-circuit (ae11.700) has esi/all-active in interfaces
  *    snippet for active/active multihoming
  *  - For vlan-aware or vlan-bundle service-types on MX, use
@@ -7717,7 +7827,6 @@ routing-instances {
         protocols {
             evpn {
                 encapsulation mpls;
-                no-control-word;
             }
         }
         vlan-id none;
@@ -7725,6 +7834,71 @@ routing-instances {
         interface $AC_INTF;
         route-distinguisher $LOOPBACK_V4:$RD_ID;
         vrf-export $INSTANCE_NAME;
+        vrf-target target:$AS_LOCAL:$RT_ID;
+    }
+}
+```
+
+## junos/services/evpn-elan-vlan-based.conf
+
+```
+/*
+ * Topic:   VLAN-based EVPN E-LAN — plain / base form (instance-type evpn, Junos MX)
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - VLAN-based EVPN E-LAN: the service VLAN is defined on the
+ *    `vlan-bridge` attachment-circuit unit (ae11.<vlan>), one CE-VLAN
+ *    per EVI. instance-type evpn on Junos MX, no bridge-domains block.
+ *  - `vlan-id none` advertises Ethernet Tag ID 0; `no-normalization`
+ *    preserves the AC VLAN rather than normalizing it to an EVI VLAN.
+ *  - encapsulation mpls over the SR-MPLS underlay.
+ *  - This is the plain/base EVI shape shared by BOTH AA peers (AN1
+ *    MX204 + AN2 ACX5448); it carries no egress colour steering. The
+ *    gold colour overlay (an1 only, `vrf-export` + map2gold) is captured
+ *    by junos/services/evpn-elan-vlan-based-gold.conf.
+ *  - The two PEs of an AA-multihoming pair carry the same set of EVIs
+ *    over the same ESI-bearing AE (ae11).
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *  - junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)
+ *  - junos/services/evpn-vpws.conf  (sibling per-port EVPN service
+ *      type — VPWS P2P co-deploys with ELAN E-LAN on the same PE)
+ *
+ * JVD service mapping:
+ *   50 instances total (high 50 / med 0 / low 0)
+ *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
+ *   Example: evpn_group_90_700 (RD 1.1.0.0:7000, RT target:63535:7000)
+ *     an1_mx204  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
+ *     an2_acx5448  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
+ *     an3_acx7100-48l  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
+ *     ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A
+ *     (+3 more endpoints)
+ *
+ * Variables (example values from an1_mx204 / evpn_group_90_700):
+ *   $INSTANCE_NAME    e.g. evpn_group_90_700
+ *   $AC_INTF          e.g. ae11
+ *   $VLAN_UNIT        e.g. 700   (selects ae11.<unit>)
+ *   $LOOPBACK_V4      e.g. 1.1.0.0
+ *   $RD_ID            e.g. 7000
+ *   $AS_LOCAL         e.g. 63535
+ *   $RT_ID            e.g. 7000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn {
+                encapsulation mpls;
+            }
+        }
+        vlan-id none;
+        no-normalization;
+        interface $AC_INTF.$VLAN_UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_ID;
         vrf-target target:$AS_LOCAL:$RT_ID;
     }
 }
@@ -7804,8 +7978,8 @@ routing-instances {
 /*
  * Topic:   EVPN FXC (Flexible Cross-Connect, VLAN-unaware) — N AC UNIs aggregated into a single EVPN-VPWS service-id (MX)
  * Seen on:
- *   Junos: (none)
- *   EVO:   an3_acx7100-48l
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
  *
  * Highlights:
  *  - `instance-type evpn-vpws` with the FXC knob
@@ -7870,81 +8044,6 @@ routing-instances {
         }
         route-distinguisher $LOOPBACK_V4:$RD_ID;
         vrf-export $INSTANCE_NAME;
-        vrf-target target:$AS_LOCAL:$RT_ID;
-    }
-}
-```
-
-## junos/services/evpn-port-based.conf
-
-```
-/*
- * Topic:   Legacy `instance-type evpn` port-based EVPN-ELAN (Junos)
- * Seen on:
- *   Junos: an1_mx204
- *   EVO:   (none)
- *
- * Highlights:
- *  - The "classic" Junos EVPN routing-instance shape — single
- *    `instance-type evpn` with `vlan-id none` + `no-normalization`.
- *    Each instance is one EVI bound to ONE attachment-circuit unit
- *    on the access node (ae11.<vlan>), no internal bridge-domains
- *    block.
- *  - `vlan-id none` + `no-normalization` together implement
- *    "port-based" forwarding: frames are passed transparently with
- *    their customer VLAN tag(s) intact between PEs of the same EVI.
- *  - Each EVI carries one VLAN (e.g. 700, 701, 702 …) — scale here
- *    is "one instance per CE-VLAN" not "one instance per service".
- *  - Encapsulation MPLS over the SR-MPLS underlay; `no-control-word`
- *    matches the remote PE behaviour. Per-VRF colour selection is
- *    done via vrf-export referencing a `community add map2gold`
- *    policy (transport-class steering downstream).
- *  - This is the AN-side counterpart to the EVO port-based
- *    `mac-vrf` + `service-type vlan-bundle` pattern. The two PEs
- *    of an AA-multihoming pair (AN1 MX204, AN2 ACX5448) carry the
- *    same set of EVIs over the same ESI-bearing AE.
- *
- * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/interfaces/lag-esi-multihoming.conf  (ae11 ESI for AA)
- *  - junos/policy/communities.conf  (map2gold colour community)
- *  - junos/services/evpn-vpws.conf  (sibling per-port EVPN service
- *      type — VPWS P2P co-deploys with ELAN E-LAN on the same PE)
- *
- * JVD service mapping:
- *   50 instances total (high 50 / med 0 / low 0)
- *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
- *   Example: evpn_group_90_700 (RD 1.1.0.0:7000, RT target:63535:7000)
- *     an1_mx204  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
- *     an2_acx5448  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
- *     an3_acx7100-48l  ae11.700 00:10:11:11:11:11:01:00:00:00 A-A
- *     ma1-1_acx7024  ae12.700 00:10:11:11:50:12:03:00:00:00 A-A
- *     (+3 more endpoints)
- *
- * Variables (example values from an1_mx204 / evpn_group_90_700):
- *   $INSTANCE_NAME    e.g. evpn_group_90_700
- *   $AC_INTF          e.g. ae11
- *   $VLAN_UNIT        e.g. 700   (selects ae11.<unit>)
- *   $LOOPBACK_V4      e.g. 1.1.0.0
- *   $RD_ID            e.g. 7000
- *   $AS_LOCAL         e.g. 63535
- *   $RT_ID            e.g. 7000
- *   $VRF_EXPORT_POL   e.g. evpn_group_90_700
- */
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type evpn;
-        protocols {
-            evpn {
-                encapsulation mpls;
-                no-control-word;
-            }
-        }
-        vlan-id none;
-        no-normalization;
-        interface $AC_INTF.$VLAN_UNIT;
-        route-distinguisher $LOOPBACK_V4:$RD_ID;
-        vrf-export $VRF_EXPORT_POL;
         vrf-target target:$AS_LOCAL:$RT_ID;
     }
 }
@@ -8021,7 +8120,7 @@ routing-instances {
 /*
  * Topic:   L3VPN VRF with EVPN Type-5 (IP-prefix routes) (Junos)
  * Seen on:
- *   Junos: mse1_mx304
+ *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
  *
  * Highlights:
@@ -8125,7 +8224,7 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/lag-esi-multihoming.conf
  *  - junos/interfaces/edge-vlan-normalization.conf
- *  - junos/services/evpn-port-based.conf
+ *  - junos/services/evpn-elan-vlan-based.conf
  *
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
@@ -8309,7 +8408,7 @@ routing-instances {
 /*
  * Topic:   L3VPN VRF with PE-CE eBGP and as-override (Junos MX)
  * Seen on:
- *   Junos: mse1_mx304 mse2_mx304
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   (none)
  *
  * Highlights:
@@ -8390,7 +8489,7 @@ routing-instances {
 /*
  * Topic:   L3VPN VRF with PE-CE OSPF (Junos MX)
  * Seen on:
- *   Junos: mse1_mx304 mse2_mx304
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   ma3_acx7100-48l
  *
  * Highlights:
@@ -10265,7 +10364,7 @@ user asked for (default to eBGP if unspecified):
 **minimum** (just the service)
 - `evo/services/evpn-elan-mac-vrf.conf` (EVO) **or**
   `junos/services/evpn-elan-vlan-based.conf` (Junos MX) — or the
-  `-irb.conf` / `evpn-port-based.conf` variant, whichever flavor was requested
+  `-irb.conf` / `evpn-elan-vlan-based-gold.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
