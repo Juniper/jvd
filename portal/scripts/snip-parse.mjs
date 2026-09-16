@@ -90,7 +90,10 @@ export function parseSnip(text) {
   const diag = (code, detail) => diagnostics.push(detail ? { code, detail } : { code });
 
   // Find the leading /* ... */ block. Must start at byte 0 (allowing leading whitespace lines).
-  const m = text.match(/^\s*\/\*([\s\S]*?)\*\/\s*\n?/);
+  // The terminator is the standalone `*/` LINE, not the first embedded `*/`:
+  // header prose such as `ae*/et*` would otherwise end the header early and
+  // spill the rest of the comment into the body.
+  const m = text.match(/^\s*\/\*([\s\S]*?)\n[ \t]*\*\/\s*\n?/);
   if (!m) {
     diag(CODES.MISSING_HEADER);
     return { warnings: ["missing-header"], diagnostics, header: null, body: text.trim() };

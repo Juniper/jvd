@@ -132,8 +132,8 @@ user asked for (default to eBGP if unspecified):
 ## EVPN-ELAN (mac-vrf, mac-vrf-irb, vlan-based, or port-based)
 
 **minimum** (just the service)
-- `evo/services/evpn-elan-mac-vrf.conf` (EVO) **or**
-  `junos/services/evpn-elan-vlan-based.conf` (Junos MX) — or the
+- `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf` (EVO) **or**
+  `junos/routing-instances/evpn/evpn-elan-vlan-based.conf` (Junos MX) — or the
   `-irb.conf` / `evpn-elan-vlan-based-gold.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
 
@@ -164,8 +164,8 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 
 **minimum** (both halves of the service + per-VRF policy)
 - L2 / RT-2 half (one of):
-    - `evo/services/evpn-elan-mac-vrf-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
-    - `junos/services/evpn-elan-virtual-switch-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
+    - `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
+    - `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
 - `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
@@ -198,8 +198,8 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 > instead — do NOT offer hot-standby as a Junos option here.
 
 **minimum** (just the service)
-- `evo/services/l2circuit-hsb-hub.conf` (Hub — EVO only)
-- `evo/services/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
+- `evo/protocols/l2circuit-hsb-hub.conf` (Hub — EVO only)
+- `evo/protocols/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
 - `evo/interfaces/edge-vlan-normalization.conf`
 
 **with-overlay** — Signalling: **LDP** (targeted pseudowire, incl. hot-standby `backup-neighbor`). **No BGP overlay** — L2Circuit relies on targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
@@ -234,11 +234,11 @@ overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
   - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
     with both `site-identifier` and `remote-site-id`.
 - **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
-  - `junos/services/bgp-vpls.conf` (Junos PEs only in this JVD).
+  - `junos/routing-instances/virtual-switch/bgp-vpls.conf` (Junos PEs only in this JVD).
   - Identifier: `instance-type virtual-switch` + `protocols vpls`
     with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
 - **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
-  - `evo/services/ldp-vpls.conf` (EVO PEs only in this JVD).
+  - `evo/routing-instances/virtual-switch/ldp-vpls.conf` (EVO PEs only in this JVD).
   - Identifier: `instance-type virtual-switch` + `protocols vpls`
     with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
   - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
@@ -278,7 +278,7 @@ MEF E-Tree (root / leaf isolation) on a Junos `mac-vrf` with
 `etree-ac-role` on each UNI. Junos-only in this JVD.
 
 **minimum** (just the service)
-- `junos/services/evpn-etree.conf`
+- `junos/routing-instances/evpn/evpn-etree.conf`
 - `junos/interfaces/ethernet-bridge.conf` (E-Tree leaf/root UNI)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
@@ -295,7 +295,7 @@ pseudowire-subscriber anchor (decouples the PW from a physical AC).
 
 **minimum** (just the service)
 - **L2Circuit floating pseudowire** (Junos MX `ps<N>` head; EVO ACX vlan-ccc tail):
-  - `junos/services/l2circuit-floating-pw.conf` (Junos PEs)
+  - `junos/protocols/l2circuit-floating-pw.conf` (Junos PEs)
   - `evo/interfaces/edge-vlan-normalization.conf` (EVO ACX tail — customer-facing AC unit)
 - `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
 
@@ -312,7 +312,7 @@ Port-to-port hairpin on a single PE via `end-interface`. EVO-only
 in this JVD.
 
 **minimum** (just the service)
-- `evo/services/l2circuit-lsw.conf`
+- `evo/protocols/l2circuit-lsw.conf`
 - `interfaces/edge-vlan-normalization.conf` (both AC units that get cross-connected)
 
 **with-overlay** — Signalling: **none** (single-PE local cross-connect). **No BGP overlay** — not applicable (see the **BGP-overlay coverage gate** above, rule 3).
@@ -333,8 +333,8 @@ is carried by RT-2).
 
 **minimum** (both halves of the service + per-VRF policy)
 - L2 / RT-2 half (one of):
-    - `evo/services/evpn-elan-mac-vrf-irb.conf` (EVO)
-    - `junos/services/evpn-elan-virtual-switch-irb.conf` (Junos MX)
+    - `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` (EVO)
+    - `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` (Junos MX)
 - `services/evpn-type5-anchor.conf` (the slim anchor VRF — Junos and EVO)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)

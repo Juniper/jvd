@@ -71,25 +71,25 @@ The same topic file exists under both `junos/` and `evo/`:
 | `apply-groups/gr-fatpw-lb.conf` | FAT-PW load-balance-label-capability under forwarding-options |
 | `apply-groups/gr-fatpw-label.conf` | Per-instance FAT flow-label config (wildcard L2VPN/EVPN/VPLS naming) |
 | `apply-groups/gr-l3vpn.conf` | L3VPN VRF baseline (multipath, protect core, vrf-table-label) |
-| `evo/apply-groups/gr-l2ckt-hs.conf` | L2Circuit hot-standby knobs (EVO only) |
-| `evo/apply-groups/gr-isis-bfd.conf` | 50ms BFD on every ISIS interface (EVO only — MX PEs configure BFD inline under `protocols isis`) |
+| `evo/groups/gr-l2ckt-hs.conf` | L2Circuit hot-standby knobs (EVO only) |
+| `evo/groups/gr-isis-bfd.conf` | 50ms BFD on every ISIS interface (EVO only — MX PEs configure BFD inline under `protocols isis`) |
 | `apply-groups/gr-lag-member.conf` | LAG-member templates: edge SH/MH and core variants |
 | `transport/isis-srmpls-tilfa.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
 | `transport/mpls-segment-routing.conf` | SRGB, admin-groups, ipv6-tunneling |
 | `transport/bgp-overlay.conf` | iBGP to RR with overlay AFs (inet/inet6 LU, inet-vpn, l2vpn, evpn, RT) |
 | `services/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
-| `evo/services/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) |
-| `junos/services/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based — plain/base form (Junos MX) |
-| `junos/services/evpn-elan-vlan-based-gold.conf` | MEF E-LAN vlan-based — gold/colour-steered (`vrf-export` + map2gold, Junos MX) |
-| `evo/services/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
-| `junos/services/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
+| `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) |
+| `junos/routing-instances/evpn/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based — plain/base form (Junos MX) |
+| `junos/routing-instances/evpn/evpn-elan-vlan-based-gold.conf` | MEF E-LAN vlan-based — gold/colour-steered (`vrf-export` + map2gold, Junos MX) |
+| `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
+| `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
 | `services/evpn-port-based.conf` | Port-based EVPN E-LAN — whole-UNI (`ethernet-bridge` unit 0, mac-vrf + `service-type vlan-bundle`, EVO) |
-| `evo/services/evpn-elan-vlan-bundle.conf` | VLAN-bundle EVPN E-LAN — selected VLANs (`vlan-bridge` + `vlan-id`/`vlan-id-list`) share one MAC-VRF (EVO) |
+| `evo/routing-instances/mac-vrf/evpn-elan-vlan-bundle.conf` | VLAN-bundle EVPN E-LAN — selected VLANs (`vlan-bridge` + `vlan-id`/`vlan-id-list`) share one MAC-VRF (EVO) |
 | `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
-| `junos/services/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
-| `evo/services/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
-| `evo/services/l2circuit-hsb-hub.conf` | L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, EVO only) |
-| `evo/services/l2circuit-hsb-pe.conf` | L2circuit hot-standby — Primary/Backup PE (hot-standby-vc-on, EVO only) |
+| `junos/routing-instances/virtual-switch/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
+| `evo/routing-instances/virtual-switch/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
+| `evo/protocols/l2circuit-hsb-hub.conf` | L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, EVO only) |
+| `evo/protocols/l2circuit-hsb-pe.conf` | L2circuit hot-standby — Primary/Backup PE (hot-standby-vc-on, EVO only) |
 | `services/l3vpn-bgp.conf` | L3VPN VRF with PE-CE eBGP and as-override |
 | `services/l3vpn-ospf.conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
 | `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |
