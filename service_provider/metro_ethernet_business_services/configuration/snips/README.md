@@ -92,14 +92,16 @@ The same topic file exists under both `junos/` and `evo/`:
 | `evo/protocols/l2circuit-hsb-pe.conf` | L2circuit hot-standby — Primary/Backup PE (hot-standby-vc-on, EVO only) |
 | `services/l3vpn-bgp.conf` | L3VPN VRF with PE-CE eBGP and as-override |
 | `services/l3vpn-ospf.conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
-| `cos/forwarding-classes.conf` | 6-class queue model with DSCP/EXP/802.1p classifiers |
-| `cos/schedulers.conf` | Schedulers + scheduler-map for the 6-class model |
+| `class-of-service/classifiers/classifiers.conf` | DSCP/EXP/802.1p ingress classifiers (EVO) |
+| `class-of-service/forwarding-classes/forwarding-classes.conf` | 6-class queue model |
+| `class-of-service/scheduler-maps/scheduler-maps.conf` | 5G_SCHEDULER map binding classes to schedulers |
+| `class-of-service/schedulers/schedulers.conf` | Per-class schedulers for the 6-class model |
 | `policy/communities.conf` | Topology tags + BGP-CT color communities + L3VPN per-service RTs |
 | `policy/l3vpn-export-import.conf` | Per-VRF export/import policies (route-target tagging) |
 | `firewall/policers.conf` | 5/50 Mbps rate-limit policer templates |
 | `oam/oam-cfm-perf-mon.conf` | Y.1731 performance-monitoring with HW-assisted timestamping |
 | `interfaces/lag-esi-multihoming.conf` | Edge LAG with per-unit ESI (EVPN-VPWS / EVPN-ELAN ACs) |
-| `interfaces/edge-vlan-normalization.conf` | Edge port with input/output vlan-map push/pop |
+| `interfaces/vlan-ccc-vlan-map*.conf`, `interfaces/vlan-bridge-vlan-map*.conf`, `interfaces/vlan-vpls-vlan-map.conf` | Per-unit attachment circuits with input/output vlan-map push/pop |
 | `interfaces/core-isis-mpls.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
 
 ## Scope

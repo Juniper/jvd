@@ -71,7 +71,7 @@ Rules (a service section states only its signalling classification and points he
 
 **minimum** (just the service)
 - `services/evpn-vpws.conf`
-- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
+- `interfaces/lag-esi-multihoming.conf` + `interfaces/vlan-ccc-vlan-map-esi.conf` (multi-homed) **OR** `evo/interfaces/vlan-ccc-vlan-map.conf` (single-homed, EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -108,7 +108,7 @@ user asked for (default to eBGP if unspecified):
 - `services/l3vpn-bgp.conf` **or** `services/l3vpn-ospf.conf`
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community — NOT topology tags or BGP-CT colors)
-- `interfaces/edge-vlan-normalization.conf` (PE-CE AC unit)
+- PE-CE AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
 
 **with-overlay** — Signalling: **inet-vpn** (`family inet-vpn unicast`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -135,7 +135,7 @@ user asked for (default to eBGP if unspecified):
 - `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf` (EVO) **or**
   `junos/routing-instances/evpn/evpn-elan-vlan-based.conf` (Junos MX) — or the
   `-irb.conf` / `evpn-elan-vlan-based-gold.conf` variant, whichever flavor was requested
-- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `interfaces/edge-vlan-normalization.conf` (single-homed)
+- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `evo/interfaces/vlan-bridge-vlan-map.conf` (single-homed, EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -169,7 +169,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
-- `interfaces/edge-vlan-normalization.conf` (the AC interface that lands in the MAC-VRF's bridge-domain)
+- `evo/interfaces/vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -200,7 +200,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 **minimum** (just the service)
 - `evo/protocols/l2circuit-hsb-hub.conf` (Hub — EVO only)
 - `evo/protocols/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
-- `evo/interfaces/edge-vlan-normalization.conf`
+- `evo/interfaces/vlan-ccc-vlan-map-filter-ccc.conf`
 
 **with-overlay** — Signalling: **LDP** (targeted pseudowire, incl. hot-standby `backup-neighbor`). **No BGP overlay** — L2Circuit relies on targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
 
@@ -263,7 +263,7 @@ per VLAN.
 
 **minimum** (just the service)
 - `services/evpn-fxc.conf` (Junos and EVO — `instance-type evpn-vpws` with `flexible-cross-connect`)
-- `junos/interfaces/edge-vlan-normalization.conf` (the per-VLAN AC units that join the FXC group)
+- the per-VLAN AC units that join the FXC group come from the `junos/interfaces/vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -296,7 +296,7 @@ pseudowire-subscriber anchor (decouples the PW from a physical AC).
 **minimum** (just the service)
 - **L2Circuit floating pseudowire** (Junos MX `ps<N>` head; EVO ACX vlan-ccc tail):
   - `junos/protocols/l2circuit-floating-pw.conf` (Junos PEs)
-  - `evo/interfaces/edge-vlan-normalization.conf` (EVO ACX tail — customer-facing AC unit)
+  - the EVO ACX tail customer-facing AC unit comes from the `evo/interfaces/vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
 - `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
 
 **with-overlay** — Signalling: **LDP** (static-label pseudowire). **No BGP overlay** — L2Circuit floating pseudowires ride targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
@@ -313,7 +313,7 @@ in this JVD.
 
 **minimum** (just the service)
 - `evo/protocols/l2circuit-lsw.conf`
-- `interfaces/edge-vlan-normalization.conf` (both AC units that get cross-connected)
+- `evo/interfaces/vlan-ccc-vlan-map-list-tpid.conf` (the et-0/0/5 side; the et-0/0/51 side uses `vlan-tags outer` and has no snip)
 
 **with-overlay** — Signalling: **none** (single-PE local cross-connect). **No BGP overlay** — not applicable (see the **BGP-overlay coverage gate** above, rule 3).
 
@@ -338,7 +338,7 @@ is carried by RT-2).
 - `services/evpn-type5-anchor.conf` (the slim anchor VRF — Junos and EVO)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
-- `interfaces/edge-vlan-normalization.conf`
+- IRB-anchor AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 

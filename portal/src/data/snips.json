@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-16T18:17:38.823Z",
+  "generatedAt": "2026-09-16T23:41:41.094Z",
   "counts": {
-    "total": 765,
-    "junos": 382,
-    "evo": 383,
+    "total": 777,
+    "junos": 386,
+    "evo": 391,
     "jvds": 18
   },
   "categories": [
@@ -231,9 +231,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 74,
-        "evo": 89,
-        "total": 163
+        "junos": 78,
+        "evo": 97,
+        "total": 175
       }
     },
     {
@@ -41168,17 +41168,87 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes",
+      "id": "metro_ethernet_business_services/evo/class-of-service/classifiers/classifiers",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
       "area": "Service Provider",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "class-of-service",
-      "categoryPath": "class-of-service",
-      "name": "forwarding-classes",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/forwarding-classes.conf",
+      "subCategory": "classifiers",
+      "categoryPath": "class-of-service/classifiers",
+      "name": "classifiers",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/classifiers/classifiers.conf",
       "otherOsFormId": null,
+      "topic": "DSCP / EXP / 802.1p classifiers for the 6-class model (EVO)",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "Three ingress classifiers (DSCP, EXP, ieee-802.1) that all resolve to the same six forwarding-classes, so a packet lands in the same queue whether it arrives as IP, MPLS or tagged Ethernet.",
+        "Producing identical forwarding-classes on both OS families is what makes CoS transparent across mixed Junos+EVO pseudowires.",
+        "Loss priority is set alongside the code-points: BEST-EFFORT and MEDIUM carry a high-loss-priority code-point, the rest are low."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/class-of-service/forwarding-classes/forwarding-classes.conf",
+          "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes/forwarding-classes",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    classifiers {\n        dscp DSCP {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points be;\n                loss-priority low code-points [ cs1 af11 af12 af13 ];\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points [ cs4 af41 af42 af43 ];\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ cs6 cs7 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points [ cs2 af21 af22 af23 ];\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points [ cs5 ef ];\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points [ cs3 af31 af32 af33 ];\n            }\n        }\n        exp EXP {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points 000;\n                loss-priority low code-points 001;\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points 100;\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ 110 111 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points 010;\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points 101;\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points 011;\n            }\n        }\n        ieee-802.1 8021P {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points 000;\n                loss-priority low code-points 001;\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points 100;\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ 110 111 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points 010;\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points 101;\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points 011;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dscp DSCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points be;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs1 af11 af12 af13 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs4 af41 af42 af43 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs6 cs7 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points [ cs2 af21 af22 af23 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs5 ef ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs3 af31 af32 af33 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        exp EXP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ </span><span style=\"color:#79C0FF\">110</span><span style=\"color:#79C0FF\"> 111</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> 8021P {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ </span><span style=\"color:#79C0FF\">110</span><span style=\"color:#79C0FF\"> 111</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 2291,
+      "lineCount": 67,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Classifiers",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes/forwarding-classes",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "class-of-service",
+      "subCategory": "forwarding-classes",
+      "categoryPath": "class-of-service/forwarding-classes",
+      "name": "forwarding-classes",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/forwarding-classes/forwarding-classes.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/class-of-service/forwarding-classes/forwarding-classes",
       "topic": "6-class forwarding-classes (EVO)",
       "seenOn": {
         "junos": [
@@ -41208,21 +41278,21 @@
       "highlights": [
         "Identical 6-class queue model as junos/class-of-service/forwarding-classes/forwarding-classes.conf so that DSCP / EXP / 802.1p classification translates cleanly end-to-end across mixed Junos+EVO fabrics.",
         "Queue numbers 0–5 mapped to: BEST-EFFORT(0), MEDIUM(1), REALTIME(2), SIG-OAM(3), CONTROL(4), BUSINESS(5).",
-        "DSCP / EXP / 802.1p classifiers produce the same forwarding-class on both OS families (key for transparent CoS across multi-vendor pseudowires)."
+        "This snip defines the class names; the classifiers and scheduler-maps that reference them are separate snips."
       ],
       "pairWith": [
         {
-          "raw": "evo/class-of-service/schedulers.conf",
-          "id": "metro_ethernet_business_services/evo/class-of-service/schedulers",
+          "raw": "evo/class-of-service/scheduler-maps/scheduler-maps.conf",
+          "id": "metro_ethernet_business_services/evo/class-of-service/scheduler-maps/scheduler-maps",
           "note": null
         }
       ],
       "variables": [],
       "jvdServiceMapping": [],
-      "body": "class-of-service {\n    classifiers {\n        dscp DSCP {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points be;\n                loss-priority low code-points [ cs1 af11 af12 af13 ];\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points [ cs4 af41 af42 af43 ];\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ cs6 cs7 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points [ cs2 af21 af22 af23 ];\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points [ cs5 ef ];\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points [ cs3 af31 af32 af33 ];\n            }\n        }\n        exp EXP {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points 000;\n                loss-priority low code-points 001;\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points 100;\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ 110 111 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points 010;\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points 101;\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points 011;\n            }\n        }\n        ieee-802.1 8021P {\n            forwarding-class BEST-EFFORT {\n                loss-priority high code-points 000;\n                loss-priority low code-points 001;\n            }\n            forwarding-class BUSINESS {\n                loss-priority low code-points 100;\n            }\n            forwarding-class CONTROL {\n                loss-priority low code-points [ 110 111 ];\n            }\n            forwarding-class MEDIUM {\n                loss-priority high code-points 010;\n            }\n            forwarding-class REALTIME {\n                loss-priority low code-points 101;\n            }\n            forwarding-class SIG-OAM {\n                loss-priority low code-points 011;\n            }\n        }\n    }\n    forwarding-classes {\n        class BEST-EFFORT queue-num 0;\n        class BUSINESS queue-num 5;\n        class CONTROL queue-num 4;\n        class MEDIUM queue-num 1;\n        class REALTIME queue-num 2;\n        class SIG-OAM queue-num 3;\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    classifiers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        dscp DSCP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points be;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs1 af11 af12 af13 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs4 af41 af42 af43 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs6 cs7 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points [ cs2 af21 af22 af23 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs5 ef ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ cs3 af31 af32 af33 ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        exp EXP {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ </span><span style=\"color:#79C0FF\">110</span><span style=\"color:#79C0FF\"> 111</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        ieee-</span><span style=\"color:#79C0FF\">802</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\"> 8021P {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">001</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">100</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points [ </span><span style=\"color:#79C0FF\">110</span><span style=\"color:#79C0FF\"> 111</span><span style=\"color:#E6EDF3\"> ];</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority high code-points </span><span style=\"color:#79C0FF\">010</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">101</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                loss-priority low code-points </span><span style=\"color:#79C0FF\">011</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-classes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BEST-EFFORT queue-num </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BUSINESS queue-num </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class CONTROL queue-num </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class MEDIUM queue-num </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class REALTIME queue-num </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class SIG-OAM queue-num </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 2537,
-      "lineCount": 75,
+      "body": "class-of-service {\n    forwarding-classes {\n        class BEST-EFFORT queue-num 0;\n        class BUSINESS queue-num 5;\n        class CONTROL queue-num 4;\n        class MEDIUM queue-num 1;\n        class REALTIME queue-num 2;\n        class SIG-OAM queue-num 3;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    forwarding-classes {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BEST-EFFORT queue-num </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class BUSINESS queue-num </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class CONTROL queue-num </span><span style=\"color:#79C0FF\">4</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class MEDIUM queue-num </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class REALTIME queue-num </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        class SIG-OAM queue-num </span><span style=\"color:#79C0FF\">3</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 266,
+      "lineCount": 10,
       "techFamily": "QoS / CoS",
       "subfamily": "Forwarding Classes",
       "usecases": [
@@ -41236,18 +41306,19 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/evo/class-of-service/schedulers",
+      "id": "metro_ethernet_business_services/evo/class-of-service/scheduler-maps/scheduler-maps",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
       "area": "Service Provider",
       "os": "Junos EVO",
       "osKey": "evo",
       "category": "class-of-service",
-      "categoryPath": "class-of-service",
-      "name": "schedulers",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers.conf",
-      "otherOsFormId": "metro_ethernet_business_services/junos/class-of-service/schedulers",
-      "topic": "Schedulers and scheduler-map for the 6-class model (EVO)",
+      "subCategory": "scheduler-maps",
+      "categoryPath": "class-of-service/scheduler-maps",
+      "name": "scheduler-maps",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/scheduler-maps/scheduler-maps.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/class-of-service/scheduler-maps/scheduler-maps",
+      "topic": "5G_SCHEDULER scheduler-map binding forwarding-classes to schedulers (EVO)",
       "seenOn": {
         "junos": [
           "an2_acx5448",
@@ -41266,23 +41337,82 @@
         ]
       },
       "highlights": [
-        "Same scheduler shape as junos/class-of-service/schedulers.conf — REALTIME is strict-high (shaped to 40%), CONTROL/SIG-OAM small low-priority, BUSINESS/MEDIUM 20% each, BEST-EFFORT gets the remainder.",
-        "One scheduler-map (5G_SCHEDULER) attached to edge LAGs via `class-of-service interfaces ae* { scheduler-map 5G_SCHEDULER; }`.",
-        "shaping-rate vs transmit-rate: REALTIME uses shaping (cap), the rest use transmit-rate (guarantee)."
+        "One scheduler-map, 5G_SCHEDULER, that pairs each of the six forwarding-classes with its scheduler.",
+        "Attached to edge LAGs with `class-of-service interfaces ae* { scheduler-map 5G_SCHEDULER; }`.",
+        "Both the forwarding-class names and the scheduler names used here are defined in separate snips."
       ],
       "pairWith": [
         {
-          "raw": "evo/class-of-service/forwarding-classes.conf",
-          "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes",
+          "raw": "evo/class-of-service/forwarding-classes/forwarding-classes.conf",
+          "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes/forwarding-classes",
+          "note": null
+        },
+        {
+          "raw": "evo/class-of-service/schedulers/schedulers.conf",
+          "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/schedulers",
           "note": null
         }
       ],
       "variables": [],
       "jvdServiceMapping": [],
-      "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            shaping-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        5G_SCHEDULER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS scheduler BUSINESS-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL scheduler CONTROL-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM scheduler MEDIUM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME scheduler REALTIME-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM scheduler SIG-OAM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BEST-EFFORT-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BUSINESS-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        CONTROL-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        MEDIUM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        REALTIME-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            shaping-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        SIG-OAM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1323,
-      "lineCount": 48,
+      "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        5G_SCHEDULER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS scheduler BUSINESS-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL scheduler CONTROL-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM scheduler MEDIUM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME scheduler REALTIME-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM scheduler SIG-OAM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 444,
+      "lineCount": 12,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Schedulers & Congestion",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/schedulers",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "class-of-service",
+      "subCategory": "schedulers",
+      "categoryPath": "class-of-service/schedulers",
+      "name": "schedulers",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/schedulers.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/class-of-service/schedulers/schedulers",
+      "topic": "CoS schedulers for the 6-class model (EVO)",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448",
+          "an4_acx710"
+        ],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "Six schedulers consumed by the 5G_SCHEDULER scheduler-map. REALTIME is strict-high, CONTROL and SIG-OAM are small low-priority queues, BUSINESS and MEDIUM take 20% each, BEST-EFFORT gets the remainder.",
+        "shaping-rate vs transmit-rate: REALTIME uses shaping (a cap), the rest use transmit-rate (a guarantee). This is where the EVO form genuinely differs from junos/class-of-service/schedulers/schedulers.conf, which uses transmit-rate for REALTIME."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            shaping-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BEST-EFFORT-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BUSINESS-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        CONTROL-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        MEDIUM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        REALTIME-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            shaping-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        SIG-OAM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 899,
+      "lineCount": 38,
       "techFamily": "QoS / CoS",
       "subfamily": "Schedulers & Congestion",
       "usecases": [
@@ -41331,8 +41461,13 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf  (per-unit input filter ref)",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
+          "raw": "evo/interfaces/vlan-ccc-vlan-map-filter.conf  (per-unit input filter ref)",
+          "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter",
+          "note": "per-unit input filter ref"
+        },
+        {
+          "raw": "evo/interfaces/vlan-ccc-vlan-map-filter-ccc.conf  (per-unit input filter ref)",
+          "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter-ccc",
           "note": "per-unit input filter ref"
         }
       ],
@@ -42091,76 +42226,6 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
-      "jvd": "metro_ethernet_business_services",
-      "jvdLabel": "Metro Ethernet Business Services",
-      "area": "Service Provider",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "interfaces",
-      "categoryPath": "interfaces",
-      "name": "edge-vlan-normalization",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/edge-vlan-normalization.conf",
-      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization",
-      "topic": "Edge port with VLAN normalization (push/pop) for L2 services",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "an3_acx7100-48l"
-        ]
-      },
-      "highlights": [
-        "Single-homed customer-facing port (et-0/0/0) carrying a mix of EVPN-ELAN attachment-circuits (vlan-bridge encap) and L2Circuit attachment-circuits (vlan-ccc encap, family ccc).",
-        "input-vlan-map push / output-vlan-map pop  → VLAN normalization at the SP edge: the customer VLAN seen on the wire is rewritten to a service-internal VLAN before bridging / pseudowire encap.",
-        "Per-unit ingress filter (50MB_filter from firewall snippet) for rate-limiting at the UNI.",
-        "unit 3000 is the L2Circuit attachment shown in evo/protocols/l2circuit-hsb-hub.conf Edge baseline knobs (description, MTU, flex-vlan tagging, encapsulation, optics alarms) come from apply-groups GR-EDGE-INTF."
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        },
-        {
-          "raw": "evo/firewall/policers.conf",
-          "id": "metro_ethernet_business_services/evo/firewall/policers",
-          "note": null
-        },
-        {
-          "raw": "evo/protocols/l2circuit-lsw.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/l2circuit-lsw",
-          "note": null
-        },
-        {
-          "raw": "evo/protocols/l2circuit-hsb-hub.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/l2circuit-hsb-hub",
-          "note": null
-        }
-      ],
-      "variables": [
-        {
-          "name": "$AC_PHYS",
-          "example": "et-0/0/0   (the parent port; the per-unit"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $AC_PHYS {\n        apply-groups GR-EDGE-INTF;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit 400 {\n            encapsulation vlan-bridge;\n            vlan-id 400;\n            input-vlan-map {\n                push;\n                vlan-id 3500;\n            }\n            output-vlan-map pop;\n        }\n        unit 2800 {\n            encapsulation vlan-ccc;\n            vlan-id 2800;\n            input-vlan-map {\n                push;\n                vlan-id 3200;\n            }\n            output-vlan-map pop;\n            filter {\n                input 50MB_filter;\n            }\n        }\n        unit 3000 {\n            encapsulation vlan-ccc;\n            vlan-id 3000;\n            input-vlan-map {\n                push;\n                vlan-id 1000;\n            }\n            output-vlan-map pop;\n            filter {\n                input 50MB_filter;\n            }\n            family ccc;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_PHYS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">400</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">400</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">3500</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">2800</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">2800</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">3200</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input 50MB_filter;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">3000</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">3000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">1000</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input 50MB_filter;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 976,
-      "lineCount": 41,
-      "techFamily": "Interfaces",
-      "subfamily": "Access / Trunk Ports",
-      "usecases": [
-        "Cloud Metro",
-        "Metro Fabric",
-        "Carrier Ethernet (MEF)",
-        "Business VPN Services",
-        "Route Reflector",
-        "Mobile Backhaul"
-      ],
-      "parseWarnings": []
-    },
-    {
       "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -42172,7 +42237,7 @@
       "name": "lag-esi-multihoming",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/lag-esi-multihoming.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
-      "topic": "Edge LAG with per-unit ESI for EVPN multihoming (EVO)",
+      "topic": "Edge LAG bundle with LACP for EVPN multihoming (EVO)",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -42181,26 +42246,15 @@
         ]
       },
       "highlights": [
-        "All-active EVPN multihoming via ESI-LAG: ae12 with LACP system-id 00:00:00:00:00:01 shared between this PE (ma1-1) and its multihoming peer (ma1-2). Customer CE sees one LAG.",
-        "input-vlan-map push / output-vlan-map pop translates the customer VLAN (200, 201, …) into a service-internal VLAN (2400, 2401, …) — same VLAN normalisation as evo/interfaces/edge-vlan-normalization.conf, applied per-AC.",
-        "Per-unit `esi { … all-active; }` enables EVPN aliasing and DF election across the two MH PEs. The 10-byte ESI is unique per AC so each EVPN-VPWS / EVPN-ELAN instance has its own Type-1 / Type-4 advertisements.",
-        "Encap vlan-ccc on each unit — these ACs feed EVPN-VPWS services (see evo/routing-instances/evpn-vpws/evpn-vpws.conf for the matching routing-instance with vpws-service-id).",
-        "apply-groups GR-EDGE-INTF-MH (no port-level hold-time → EVPN DF election handles convergence)."
+        "The aggregated-Ethernet bundle itself: LACP active with a system-id shared between this PE (ma1-1) and its multihoming peer (ma1-2), so the customer CE sees one LAG across two PEs.",
+        "$LACP_SYS_ID must be IDENTICAL on the multihoming peer; that is what makes the two PEs appear as a single LACP partner.",
+        "apply-groups GR-EDGE-INTF-MH carries the edge baseline for multihomed ports (no port-level hold-time → EVPN DF election handles convergence).",
+        "The attachment-circuit units carried on this bundle, including their per-unit ESI, are configured by the per-unit interface snips; this snip is the bundle only."
       ],
       "pairWith": [
         {
-          "raw": "evo/routing-instances/evpn-vpws/evpn-vpws.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/evpn-vpws",
-          "note": null
-        },
-        {
           "raw": "evo/groups/gr-edge-intf-mh.conf",
           "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf-mh",
-          "note": null
-        },
-        {
-          "raw": "evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/mac-vrf/evpn-elan-mac-vrf",
           "note": null
         }
       ],
@@ -42215,12 +42269,462 @@
         }
       ],
       "jvdServiceMapping": [],
-      "body": "interfaces {\n    $AC_PHYS {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n        unit 200 {\n            encapsulation vlan-ccc;\n            vlan-id 200;\n            input-vlan-map {\n                push;\n                vlan-id 2400;\n            }\n            output-vlan-map pop;\n            esi {\n                00:10:11:11:50:12:03:00:00:00;\n                all-active;\n            }\n        }\n        unit 201 {\n            encapsulation vlan-ccc;\n            vlan-id 201;\n            input-vlan-map {\n                push;\n                vlan-id 2401;\n            }\n            output-vlan-map pop;\n            esi {\n                00:10:11:11:50:12:03:01:00:00;\n                all-active;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_PHYS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">200</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">200</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">2400</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">12</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">03</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">201</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">201</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">2401</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">50</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">12</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">03</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">01</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 946,
-      "lineCount": 39,
+      "body": "interfaces {\n    $AC_PHYS {\n        apply-groups GR-EDGE-INTF-MH;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_PHYS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 215,
+      "lineCount": 11,
       "techFamily": "Interfaces",
       "subfamily": "Aggregated Ethernet / LAG",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-bridge-vlan-map",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-bridge-vlan-map",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-bridge-vlan-map.conf",
+      "otherOsFormId": null,
+      "topic": "Bridged attachment circuit with VLAN normalization (vlan-bridge, push/pop)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "vlan-bridge attachment circuit with input push / output pop VLAN mapping.",
+        "Used for EVPN-ELAN attachment circuits in this JVD.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "400"
+        },
+        {
+          "name": "$VLAN",
+          "example": "400"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3500"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 266,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Bridge Domains",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-esi",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-esi.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/vlan-ccc-vlan-map-esi",
+      "topic": "EVPN multihomed attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping.",
+        "Per-unit ESI provides EVPN all-active multihoming; the ESI value is shared with the peer PE of the same Ethernet Segment.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/interfaces/lag-esi-multihoming.conf",
+          "id": "metro_ethernet_business_services/evo/interfaces/lag-esi-multihoming",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae11"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2400"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2400"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3800"
+        },
+        {
+          "name": "$ESI_ID",
+          "example": "00:10:11:11:30:11:01:00:00:00"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n            esi {\n                $ESI_ID;\n                all-active;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 348,
+      "lineCount": 17,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter-ccc",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-filter-ccc",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-filter-ccc.conf",
+      "otherOsFormId": null,
+      "topic": "Rate-limited CCC attachment circuit with VLAN normalization and family ccc",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping, carrying an explicit family ccc on the unit.",
+        "Ingress filter applies the UNI rate limit; 50MB_filter and its policer are defined in evo/firewall/policers.conf.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/firewall/policers.conf",
+          "id": "metro_ethernet_business_services/evo/firewall/policers",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3000"
+        },
+        {
+          "name": "$VLAN",
+          "example": "3000"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "1000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n            filter {\n                input 50MB_filter;\n            }\n            family ccc;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input 50MB_filter;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 357,
+      "lineCount": 17,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-filter",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-filter.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/vlan-ccc-vlan-map-filter",
+      "topic": "Rate-limited attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping.",
+        "Ingress filter applies the UNI rate limit; 50MB_filter and its policer are defined in evo/firewall/policers.conf.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/firewall/policers.conf",
+          "id": "metro_ethernet_business_services/evo/firewall/policers",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2800"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2800"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3200"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n            filter {\n                input 50MB_filter;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input 50MB_filter;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 333,
+      "lineCount": 16,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-list-tpid",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-list-tpid",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-list-tpid.conf",
+      "otherOsFormId": null,
+      "topic": "QinQ VLAN-range attachment circuit with S-VLAN push and 802.1ad TPID",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit matching a contiguous customer VLAN range with vlan-id-list.",
+        "input-vlan-map pushes an outer service tag with tag-protocol-id 0x88a8 (802.1ad), producing a QinQ-stacked frame toward the core; output-vlan-map pop removes it on egress.",
+        "The TPID is set on the vlan-map itself, not via an ether-options ethernet-switch-profile on the parent interface."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/5"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1000"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "1000-1099"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "4000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id-list $VLAN_LIST;\n            input-vlan-map {\n                push;\n                tag-protocol-id 0x88a8;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                tag-protocol-id 0x88a8;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 313,
+      "lineCount": 14,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-list",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-list",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map-list.conf",
+      "otherOsFormId": null,
+      "topic": "CCC VLAN-range attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit matching a contiguous customer VLAN range with vlan-id-list.",
+        "input push / output pop maps the whole range to one service-internal VLAN."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "800"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "800-809"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "4090"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id-list $VLAN_LIST;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 273,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/vlan-ccc-vlan-map.conf",
+      "otherOsFormId": null,
+      "topic": "Attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping.",
+        "Single-homed and unfiltered: the base CCC attachment-circuit form.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/50"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3000"
+        },
+        {
+          "name": "$VLAN",
+          "example": "3000"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "1000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 263,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -45022,8 +45526,8 @@
           "note": "forwarding-options"
         },
         {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf  (the vlan-ccc",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
+          "raw": "evo/interfaces/vlan-ccc-vlan-map-filter-ccc.conf  (the vlan-ccc",
+          "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter-ccc",
           "note": "(the vlan-ccc"
         }
       ],
@@ -45261,9 +45765,9 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/interfaces/edge-vlan-normalization.conf  (vlan-ccc AC unit",
-          "id": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
-          "note": "(vlan-ccc AC unit"
+          "raw": "evo/interfaces/vlan-ccc-vlan-map-list-tpid.conf  (the et-0/0/5 side of",
+          "id": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-list-tpid",
+          "note": "(the et-0/0/5 side of"
         }
       ],
       "variables": [
@@ -47007,7 +47511,7 @@
       "categoryPath": "class-of-service/forwarding-classes",
       "name": "forwarding-classes",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/forwarding-classes/forwarding-classes.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes/forwarding-classes",
       "topic": "CoS forwarding-classes (queue model)",
       "seenOn": {
         "junos": [
@@ -47056,18 +47560,19 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/junos/class-of-service/schedulers",
+      "id": "metro_ethernet_business_services/junos/class-of-service/scheduler-maps/scheduler-maps",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
       "area": "Service Provider",
       "os": "Junos",
       "osKey": "junos",
       "category": "class-of-service",
-      "categoryPath": "class-of-service",
-      "name": "schedulers",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/schedulers.conf",
-      "otherOsFormId": "metro_ethernet_business_services/evo/class-of-service/schedulers",
-      "topic": "CoS schedulers and scheduler-map",
+      "subCategory": "scheduler-maps",
+      "categoryPath": "class-of-service/scheduler-maps",
+      "name": "scheduler-maps",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/scheduler-maps/scheduler-maps.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/class-of-service/scheduler-maps/scheduler-maps",
+      "topic": "5G_SCHEDULER scheduler-map binding forwarding-classes to schedulers (Junos)",
       "seenOn": {
         "junos": [
           "an1_mx204",
@@ -47083,20 +47588,83 @@
           "cr2_ptx10001-36mr"
         ]
       },
-      "highlights": [],
+      "highlights": [
+        "One scheduler-map, 5G_SCHEDULER, that pairs each of the six forwarding-classes with its scheduler.",
+        "Bind it to an interface with: set class-of-service interfaces <name> scheduler-map 5G_SCHEDULER",
+        "Both the forwarding-class names and the scheduler names used here are defined in separate snips."
+      ],
       "pairWith": [
         {
           "raw": "junos/class-of-service/forwarding-classes/forwarding-classes.conf",
           "id": "metro_ethernet_business_services/junos/class-of-service/forwarding-classes/forwarding-classes",
           "note": null
+        },
+        {
+          "raw": "junos/class-of-service/schedulers/schedulers.conf",
+          "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/schedulers",
+          "note": null
         }
       ],
       "variables": [],
       "jvdServiceMapping": [],
-      "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            transmit-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        5G_SCHEDULER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS scheduler BUSINESS-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL scheduler CONTROL-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM scheduler MEDIUM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME scheduler REALTIME-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM scheduler SIG-OAM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BEST-EFFORT-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BUSINESS-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        CONTROL-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        MEDIUM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        REALTIME-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        SIG-OAM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 1324,
-      "lineCount": 48,
+      "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    scheduler-maps {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        5G_SCHEDULER {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class BUSINESS scheduler BUSINESS-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class CONTROL scheduler CONTROL-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class MEDIUM scheduler MEDIUM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class REALTIME scheduler REALTIME-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            forwarding-class SIG-OAM scheduler SIG-OAM-SC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 444,
+      "lineCount": 12,
+      "techFamily": "QoS / CoS",
+      "subfamily": "Schedulers & Congestion",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/schedulers",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "class-of-service",
+      "subCategory": "schedulers",
+      "categoryPath": "class-of-service/schedulers",
+      "name": "schedulers",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/schedulers/schedulers.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/class-of-service/schedulers/schedulers",
+      "topic": "CoS schedulers for the 6-class model (Junos)",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr"
+        ]
+      },
+      "highlights": [
+        "Six schedulers consumed by the 5G_SCHEDULER scheduler-map: class         priority      transmit-rate     buffer-size",
+        "---------    -----------   --------------    ------------ REALTIME      strict-high   40%               30% BUSINESS      low           20%               20% MEDIUM        low           20%               20% CONTROL       low            5%                2% SIG-OAM       low            5%                2% BEST-EFFORT   low           remainder         remainder",
+        "REALTIME is the only strict-high queue; everything else is low priority so REALTIME is served first and BEST-EFFORT absorbs what is left.",
+        "The Junos form uses transmit-rate for REALTIME; the EVO form uses shaping-rate, which is a genuine difference between the two."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            transmit-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">class-of-service {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    schedulers {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BEST-EFFORT-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                remainder;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        BUSINESS-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        CONTROL-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        MEDIUM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">20</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        REALTIME-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">40</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority strict-high;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        SIG-OAM-SC {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            transmit-rate percent </span><span style=\"color:#79C0FF\">5</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            buffer-size percent </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            priority low;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 900,
+      "lineCount": 38,
       "techFamily": "QoS / CoS",
       "subfamily": "Schedulers & Congestion",
       "usecases": [
@@ -47776,74 +48344,6 @@
       "parseWarnings": []
     },
     {
-      "id": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization",
-      "jvd": "metro_ethernet_business_services",
-      "jvdLabel": "Metro Ethernet Business Services",
-      "area": "Service Provider",
-      "os": "Junos",
-      "osKey": "junos",
-      "category": "interfaces",
-      "categoryPath": "interfaces",
-      "name": "edge-vlan-normalization",
-      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/edge-vlan-normalization.conf",
-      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/edge-vlan-normalization",
-      "topic": "Edge port with VLAN normalization (push/pop)",
-      "seenOn": {
-        "junos": [
-          "an1_mx204",
-          "an2_acx5448"
-        ],
-        "evo": [
-          "an3_acx7100-48l"
-        ]
-      },
-      "highlights": [
-        "Same vlan-map push/pop pattern as evo/interfaces/edge-vlan-normalization.conf — Junos and EVO use identical syntax.",
-        "Mixed unit types on one physical AE: vlan-bridge units (798, 799) feed EVPN-ELAN bridge-domains directly, while vlan-ccc units (2400, 2401, …) feed EVPN-VPWS instances.",
-        "input-vlan-map push / output-vlan-map pop normalises customer VLAN-IDs (2400, 2401, …) to service-internal VLAN-IDs (3800, 3801, …) at the SP edge — keeps the customer's VLAN namespace decoupled from the SP's, and lets two customers reuse the same VLAN ID without conflict.",
-        "Per-unit `esi { ... all-active; }` enables EVPN multihoming on each AC; the matching parent ae* config (LACP system-id, flexible-vlan-tagging) is in junos/interfaces/lag-esi-multihoming.conf."
-      ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/lag-esi-multihoming.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/evpn-vpws/evpn-vpws.conf  (vlan-ccc units)",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-vpws/evpn-vpws",
-          "note": "vlan-ccc units"
-        },
-        {
-          "raw": "junos/routing-instances/evpn/evpn-elan-vlan-based.conf  (vlan-bridge units)",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn/evpn-elan-vlan-based",
-          "note": "vlan-bridge units"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$AC_PHYS",
-          "example": "ae11   (the parent AE; the per-unit blocks"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "interfaces {\n    $AC_PHYS {\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit 798 {\n            encapsulation vlan-bridge;\n            vlan-id 798;\n            esi {\n                00:70:11:11:11:11:11:00:00:63;\n                all-active;\n            }\n        }\n        unit 2400 {\n            encapsulation vlan-ccc;\n            vlan-id 2400;\n            input-vlan-map {\n                push;\n                vlan-id 3800;\n            }\n            output-vlan-map pop;\n            esi {\n                00:10:11:11:30:11:01:00:00:00;\n                all-active;\n            }\n        }\n        unit 2401 {\n            encapsulation vlan-ccc;\n            vlan-id 2401;\n            input-vlan-map {\n                push;\n                vlan-id 3801;\n            }\n            output-vlan-map pop;\n            esi {\n                00:10:11:11:30:11:01:01:00:00;\n                all-active;\n            }\n        }\n    }\n}",
-      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_PHYS {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">798</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">798</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">70</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">63</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">2400</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">2400</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">3800</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">01</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit </span><span style=\"color:#79C0FF\">2401</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id </span><span style=\"color:#79C0FF\">2401</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id </span><span style=\"color:#79C0FF\">3801</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#79C0FF\">                00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">30</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">11</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">01</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">01</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">:</span><span style=\"color:#79C0FF\">00</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
-      "bytes": 970,
-      "lineCount": 40,
-      "techFamily": "Interfaces",
-      "subfamily": "Access / Trunk Ports",
-      "usecases": [
-        "Cloud Metro",
-        "Metro Fabric",
-        "Carrier Ethernet (MEF)",
-        "Business VPN Services",
-        "Route Reflector",
-        "Mobile Backhaul"
-      ],
-      "parseWarnings": []
-    },
-    {
       "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -47949,11 +48449,6 @@
         {
           "raw": "junos/groups/gr-lag-member.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-lag-member",
-          "note": null
-        },
-        {
-          "raw": "junos/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization",
           "note": null
         },
         {
@@ -48075,6 +48570,262 @@
       "lineCount": 20,
       "techFamily": "Interfaces",
       "subfamily": "Pseudowire-Headend",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/vlan-bridge-vlan-map-list",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-bridge-vlan-map-list",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/vlan-bridge-vlan-map-list.conf",
+      "otherOsFormId": null,
+      "topic": "Bridged VLAN-range attachment circuit with VLAN normalization (vlan-bridge, push/pop)",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "vlan-bridge attachment circuit matching a contiguous customer VLAN range with vlan-id-list.",
+        "input push / output pop maps the whole range to one service-internal VLAN."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1000"
+        },
+        {
+          "name": "$VLAN_LIST",
+          "example": "1000-1099"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "4000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id-list $VLAN_LIST;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id-list $VLAN_LIST;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 276,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Bridge Domains",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/vlan-ccc-vlan-map-esi",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-esi",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/vlan-ccc-vlan-map-esi.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-esi",
+      "topic": "EVPN multihomed attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping.",
+        "Per-unit ESI provides EVPN all-active multihoming; the ESI value is shared with the peer PE of the same Ethernet Segment.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/interfaces/lag-esi-multihoming.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "ae11"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2400"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2400"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3800"
+        },
+        {
+          "name": "$ESI_ID",
+          "example": "00:10:11:11:30:11:01:00:00:00"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n            esi {\n                $ESI_ID;\n                all-active;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 348,
+      "lineCount": 17,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/vlan-ccc-vlan-map-filter",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-ccc-vlan-map-filter",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/vlan-ccc-vlan-map-filter.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/vlan-ccc-vlan-map-filter",
+      "topic": "Rate-limited attachment circuit with VLAN normalization (vlan-ccc, push/pop)",
+      "seenOn": {
+        "junos": [
+          "an4_acx710",
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "vlan-ccc attachment circuit with input push / output pop VLAN mapping.",
+        "Ingress filter applies the UNI rate limit; 50MB_filter and its policer are defined in junos/firewall/policers.conf.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/firewall/policers.conf",
+          "id": "metro_ethernet_business_services/junos/firewall/policers",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2800"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2800"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3200"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n            filter {\n                input 50MB_filter;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                input 50MB_filter;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 333,
+      "lineCount": 16,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/vlan-vpls-vlan-map",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "vlan-vpls-vlan-map",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/vlan-vpls-vlan-map.conf",
+      "otherOsFormId": null,
+      "topic": "VPLS attachment circuit with VLAN normalization (vlan-vpls, push/pop)",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "vlan-vpls attachment circuit with input push / output pop VLAN mapping.",
+        "Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "400"
+        },
+        {
+          "name": "$VLAN",
+          "example": "400"
+        },
+        {
+          "name": "$INPUT_VID",
+          "example": "3500"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit $UNIT {\n            encapsulation vlan-vpls;\n            vlan-id $VLAN;\n            input-vlan-map {\n                push;\n                vlan-id $INPUT_VID;\n            }\n            output-vlan-map pop;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-vpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            input-vlan-map {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                push;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $INPUT_VID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            output-vlan-map pop;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 264,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -50584,8 +51335,8 @@
           "note": null
         },
         {
-          "raw": "junos/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization",
+          "raw": "junos/interfaces/vlan-ccc-vlan-map-esi.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/vlan-ccc-vlan-map-esi",
           "note": null
         },
         {
@@ -50695,11 +51446,6 @@
         {
           "raw": "junos/interfaces/lag-esi-multihoming.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/lag-esi-multihoming",
-          "note": null
-        },
-        {
-          "raw": "junos/interfaces/edge-vlan-normalization.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/edge-vlan-normalization",
           "note": null
         }
       ],
