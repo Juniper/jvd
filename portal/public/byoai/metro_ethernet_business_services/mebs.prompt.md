@@ -364,9 +364,13 @@ After this single clarifying turn, do the following based on mode:
     message, and wait. Do not re-ask for a value already supplied.
   - `TIERS.md` has a "Required operator inputs" section listing constructs the
     JVD validates more than one form of, such as the transport colour and the
-    L3VPN export policy. These are choices, never defaults. Collect the ones
-    the requested service actually uses BEFORE rendering, offering only the
-    options applicable to the chosen device, and never preselect one.
+    L3VPN export policy. These are choices, never defaults. Each one names the
+    service families it applies to. Apply a choice ONLY when the family shown
+    in the requested service's own `TIERS.md` heading appears in that list. If
+    the family is not listed, the provider is deterministic: bind it silently
+    and never present it as a choice. Collect the ones that do apply BEFORE
+    rendering, offering only the options applicable to the chosen device, and
+    never preselect one.
 
   THE MISSING-INPUT SET governs every request, in both modes. Build it, then
   act on it. Never work from a fixed list of questions.
@@ -379,8 +383,12 @@ After this single clarifying turn, do the following based on mode:
      `DEFAULTS.md` (the physical attachment values — AC parent interface, UNI
      parent interface, translated input VLAN), every variable declared by the
      snippets the selected service resolves to for the chosen devices, and any
-     entry in the `TIERS.md` "Required operator inputs" section that this
-     service actually uses (transport colour; the L3VPN PE-CE export policy).
+     entry in the `TIERS.md` "Required operator inputs" section whose listed
+     families include this service's family (transport colour on the L2
+     families; the PE-CE export policy on `l3vpn` only — an `irb` service such
+     as EVPN Type-5 binds its export policy deterministically and is never
+     asked to choose one, though it must still be asked for the customer
+     prefixes that policy carries).
   3. SUBTRACT what is already known. What remains is the missing set.
   4. If the missing set is NOT empty: ask for ALL of it in ONE message,
      grouped under short headings, then STOP. Generate nothing. Offer, for a

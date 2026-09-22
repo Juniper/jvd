@@ -99,8 +99,13 @@ export async function buildTiers(root) {
   out.push("");
   out.push("Some constructs are a choice, not a default. Ask for them; never preselect.");
   out.push("");
+  out.push("Each choice applies only to the service families listed against it. A");
+  out.push("service whose family is not listed binds its provider deterministically");
+  out.push("and must not be asked to choose.");
+  out.push("");
   for (const b of matrix.roleBindings.bindings.filter((x) => x.selection === "required")) {
-    out.push(`- **${b.construct}** — ${b.rationale}`);
+    const fams = (b.families ?? []).map((f) => `\`${f}\``).join(", ") || "(none)";
+    out.push(`- **${b.construct}** — applies to ${fams} only. ${b.rationale}`);
   }
   out.push("");
   out.push("---");

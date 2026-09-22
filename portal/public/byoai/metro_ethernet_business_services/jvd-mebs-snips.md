@@ -17588,8 +17588,12 @@ device, the request fails closed: say so and generate nothing for it.
 
 Some constructs are a choice, not a default. Ask for them; never preselect.
 
-- **community:$COLOR_COMMUNITY** — Service tier, and the operator must state it. Gold is the more common binding but it is not a default: bronze is validated on an3_acx7100-48l, ma1-1_acx7024, ma1-2_acx7024, meg1_acx7100-32c and meg2_acx7509, and the two steer onto different transport classes.
-- **policy-statement:$EXPORT_POL** — The export policy carries the customer prefixes, so the choice is a service parameter the operator must state: address family, how many CE prefixes the VRF advertises, and whether the routes are coloured. All forms are validated in the JVD and none is a default — ma4_mx204 alone splits 999 coloured v4 against 1000 v6.
+Each choice applies only to the service families listed against it. A
+service whose family is not listed binds its provider deterministically
+and must not be asked to choose.
+
+- **community:$COLOR_COMMUNITY** — applies to `e-line`, `e-lan`, `e-tree`, `e-access` only. Service tier, and the operator must state it. Gold is the more common binding but it is not a default: bronze is validated on an3_acx7100-48l, ma1-1_acx7024, ma1-2_acx7024, meg1_acx7100-32c and meg2_acx7509, and the two steer onto different transport classes.
+- **policy-statement:$EXPORT_POL** — applies to `l3vpn` only. The export policy carries the customer prefixes, so the choice is a service parameter the operator must state: address family, how many CE prefixes the VRF advertises, and whether the routes are coloured. All forms are validated in the JVD and none is a default — ma4_mx204 alone splits 999 coloured v4 against 1000 v6.
 
 ---
 
