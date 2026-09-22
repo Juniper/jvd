@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { extractGrCapabilities, GR_CAPABILITIES } from "./gr-capabilities.mjs";
 
 test("vocabulary is the frozen list", () => {
-  assert.deepEqual(GR_CAPABILITIES, ["gr:edge-intf-mh"]);
+  assert.deepEqual(GR_CAPABILITIES, ["gr:edge-intf", "gr:edge-intf-mh", "gr:fatpw-label"]);
 });
 
 test("a defined GR-EDGE-INTF-MH group publishes the capability", () => {
@@ -21,7 +21,7 @@ test("a defined GR-EDGE-INTF-MH group publishes the capability", () => {
 
 test("a different group publishes nothing", () => {
   const body = `groups {
-    GR-EDGE-INTF {
+    GR-CORE-INTF {
         interfaces {
             <*> {
                 mtu 9102;
@@ -30,6 +30,20 @@ test("a different group publishes nothing", () => {
     }
 }`;
   assert.deepEqual(extractGrCapabilities(body), []);
+});
+
+test("a longer group name is not read as a shorter capability", () => {
+  const body = `groups {
+    GR-EDGE-INTF-MH {
+        interfaces {
+            <*> {
+                mtu 9102;
+            }
+        }
+    }
+}`;
+  // GR-EDGE-INTF-MH must not also publish gr:edge-intf.
+  assert.deepEqual(extractGrCapabilities(body), ["gr:edge-intf-mh"]);
 });
 
 test("an empty group block publishes nothing", () => {

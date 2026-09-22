@@ -11,10 +11,10 @@
  */
 
 /** The closed capability vocabulary, in canonical output order. */
-export const GR_CAPABILITIES = ["gr:edge-intf-mh"];
+export const GR_CAPABILITIES = ["gr:edge-intf", "gr:edge-intf-mh", "gr:fatpw-label"];
 
 /** Group name defined by each capability. */
-const GROUP_OF = { "gr:edge-intf-mh": "GR-EDGE-INTF-MH" };
+const GROUP_OF = { "gr:edge-intf": "GR-EDGE-INTF", "gr:edge-intf-mh": "GR-EDGE-INTF-MH", "gr:fatpw-label": "GR-FATPW-LABEL" };
 
 /** Strip comments and quoted strings so their contents are never read as structure. */
 function strip(body) {
