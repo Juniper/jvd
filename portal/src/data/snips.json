@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T03:57:19.984Z",
+  "generatedAt": "2026-09-22T13:37:45.137Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -41349,13 +41349,7 @@
         "Queue numbers 0–5 mapped to: BEST-EFFORT(0), MEDIUM(1), REALTIME(2), SIG-OAM(3), CONTROL(4), BUSINESS(5).",
         "This snip defines the class names; the classifiers and scheduler-maps that reference them are separate snips."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
-          "id": "metro_ethernet_business_services/evo/class-of-service/scheduler-maps/sm-6class-mapping",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "class-of-service {\n    forwarding-classes {\n        class BEST-EFFORT queue-num 0;\n        class BUSINESS queue-num 5;\n        class CONTROL queue-num 4;\n        class MEDIUM queue-num 1;\n        class REALTIME queue-num 2;\n        class SIG-OAM queue-num 3;\n    }\n}",
@@ -42087,18 +42081,7 @@
         "then discard — out-of-profile traffic is dropped, not marked (use a colored-marking variant if you want trTCM behaviour).",
         "Note: ma1-1_acx7024 in this JVD does NOT carry a generic \"any\" filter; policers are referenced directly per-unit via `unit X { filter { input 50MB_filter; } }` where 50MB_filter lives on filter-equipped peers (e.g. an3_acx7100-48l). On EVO devices that need a filter, build it as a family-any filter referencing these policers — same pattern as Junos."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf  (per-unit input filter ref)",
-          "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-ccc-vlan-map-filter",
-          "note": "per-unit input filter ref"
-        },
-        {
-          "raw": "evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf  (per-unit input filter ref)",
-          "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc",
-          "note": "per-unit input filter ref"
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "firewall {\n    policer 50mbps_policer {\n        if-exceeding {\n            bandwidth-limit 50m;\n            burst-size-limit 2m;\n        }\n        then discard;\n    }\n    policer 5mbps_policer {\n        if-exceeding {\n            bandwidth-limit 5m;\n            burst-size-limit 1m;\n        }\n        then discard;\n    }\n}",
@@ -42318,13 +42301,7 @@
         "Family mpls maximum-labels 14 — required for SR-MPLS / Flex-Algo TI-LFA backup paths that may push 6+ labels.",
         "hold-time up 2000 down 0 — short up-damp on core links (give IGP a moment to come back) but no down-damp (let BFD/IGP withdraw)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/protocols/mpls-segment-routing.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/mpls-segment-routing",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-CORE-INTF {\n        interfaces {\n            <*> {\n                description \"********GR-CORE-INTF-SETTINGS-APPLIED ********\";\n                traps;\n                mtu 9192;\n                hold-time up 2000 down 0;\n                unit <*> {\n                    traps;\n                    family inet {\n                        mtu 9106;\n                    }\n                    family iso {\n                        mtu 9106;\n                    }\n                    family mpls {\n                        mtu 9170;\n                        maximum-labels 14;\n                    }\n                }\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        hold-time up 2;\n                    }\n                }\n            }\n        }\n    }\n}",
@@ -42376,13 +42353,7 @@
         "LACP `hold-time up 180` (vs 2 sec in GR-EDGE-INTF) lets the ESI peer aggregate before this PE starts forwarding, avoiding micro-loops during bundle bring-up.",
         "Pair this group with a parent ae* unit that has esi { all-active }"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        hold-time up 180;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
@@ -42440,23 +42411,8 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf-mh",
-          "note": null
-        },
-        {
           "raw": "evo/groups/gr-lag-member.conf",
           "id": "metro_ethernet_business_services/evo/groups/gr-lag-member",
-          "note": null
-        },
-        {
-          "raw": "evo/routing-instances/vpls/ri-bgp-vpls-export.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/vpls/ri-bgp-vpls-export",
-          "note": null
-        },
-        {
-          "raw": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export",
           "note": null
         }
       ],
@@ -42613,13 +42569,7 @@
         "SPF: delay 50 ms / holddown 2000 ms / rapid-runs 5 → fast initial reaction with a backoff window, the textbook BCP.",
         "overload bit timeout 300s + advertise-high-metrics → router comes up \"drained\" so traffic doesn't shift onto it before BGP converges. Omitted on ag1-1/ag1-2 aggregation switches (they don't run BGP and have no reason to drain)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/protocols/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/isis-srmpls-tilfa",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-ISIS-BCP {\n        protocols {\n            isis {\n                interface <ae*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                interface <et-*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                spf-options {\n                    delay 50;\n                    holddown 2000;\n                    rapid-runs 5;\n                }\n                overload {\n                    timeout 300;\n                    advertise-high-metrics;\n                }\n            }\n        }\n    }\n}",
@@ -42866,11 +42816,6 @@
         {
           "raw": "evo/groups/gr-core-intf.conf",
           "id": "metro_ethernet_business_services/evo/groups/gr-core-intf",
-          "note": null
-        },
-        {
-          "raw": "evo/protocols/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/isis-srmpls-tilfa",
           "note": null
         }
       ],
@@ -49733,18 +49678,7 @@
         "ipv6-tunneling — required for SR-MPLS IPv6 services over the same SR-MPLS plane.",
         "icmp-tunneling preserves end-to-end traceroute through MPLS."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/protocols/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/evo/protocols/isis-srmpls-tilfa",
-          "note": null
-        },
-        {
-          "raw": "evo/groups/gr-core-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-core-intf",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "protocols {\n    mpls {\n        admin-groups {\n            blue 1;\n            green 2;\n            red 3;\n        }\n        no-propagate-ttl;\n        icmp-tunneling;\n        label-range {\n            srgb-label-range 16000 24000;\n        }\n        ipv6-tunneling;\n    }\n}",
@@ -50079,18 +50013,7 @@
         "normalization (translate AC VLAN to internal VLAN before bridging)",
         "vlan V4000 binds attachment-circuit et-0/0/50.2000 to vlan-id 4000 and the matching irb.4000 unit for L2/L3 gateway service"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/routing-instances/l3vpn/ri-l3vpn-irb.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-irb",
-          "note": null
-        },
-        {
-          "raw": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -52172,11 +52095,6 @@
           "raw": "evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-import-l3vpn-internet",
           "note": null
-        },
-        {
-          "raw": "evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export",
-          "note": null
         }
       ],
       "variables": [
@@ -52393,11 +52311,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb",
-          "note": null
-        },
-        {
           "raw": "evo/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/evo/groups/gr-l3vpn",
           "note": null
@@ -52502,13 +52415,7 @@
         "`vrf-target` applies the route target directly, so no import or export policy is involved.",
         "`vrf-table-label` is the only other VPN plumbing; routing-options carries just `router-id`."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -52602,11 +52509,6 @@
         {
           "raw": "evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-import-l3vpn-internet",
-          "note": null
-        },
-        {
-          "raw": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
-          "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy",
           "note": null
         }
       ],
@@ -53479,13 +53381,7 @@
         "Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over Flex-Algo 129 (TE) — see routing-options/flex-algorithm.conf.",
         "Core PEs anchoring a shared egress add a second anycast `end-point` under the bronze class (see the Junos MSE variant)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/routing-options/flex-algorithm.conf",
-          "id": "metro_ethernet_business_services/evo/routing-options/flex-algorithm",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$TC_EGRESS",
@@ -54880,18 +54776,7 @@
         "EVO equivalent (evo/groups/gr-fatpw-label.conf) targets the EVPN_VPWS_PORT_* wildcard and uses flow-label-transmit-static / flow-label-receive-static under `protocols evpn` (EVPN family, not l2vpn/vpls). Both achieve the same end goal of FAT-label-aware pseudowires.",
         "Apply this group at the device level alongside GR-FATPW-LB."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-fatpw-lb.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-fatpw-lb",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/vpls/ri-bgp-vpls-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/vpls/ri-bgp-vpls-export",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-FATPW-LABEL {\n        routing-instances {\n            <l2vpn_*> {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <vpls_*> {\n                protocols {\n                    vpls {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            L2VPN_PORT_BASED {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n        }\n    }\n}",
@@ -54944,13 +54829,7 @@
         "load-balance-label-capability under forwarding-options enables the PE to push and to honour Flow-Aware Transport (FAT) labels on pseudowires. Per-flow ECMP across the SR-MPLS core for L2VPN / VPLS / EVPN-VPWS pseudowires that would otherwise be label-stack-stuck on a single LSP.",
         "Pair this group with GR-FATPW-LABEL (per-instance flow-label knob) — see junos/groups/gr-fatpw-label.conf."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-fatpw-label.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-fatpw-label",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-FATPW-LB {\n        forwarding-options {\n            load-balance-label-capability;\n        }\n    }\n}",
@@ -55045,23 +54924,7 @@
         "protect core — enables IGP/SR fast-reroute protection inside the VRF on routes installed via the core RIB.",
         "vrf-table-label — per-VRF aggregate label so MX/PTX-class PEs can do egress L3 lookup (required for IRB / firewall/NAT in VRF)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-L3VPN {\n        routing-instances {\n            <METRO_*> {\n                instance-type vrf;\n                routing-options {\n                    multipath {\n                        vpn-unequal-cost;\n                    }\n                    protect core;\n                }\n                vrf-table-label;\n            }\n        }\n    }\n}",
@@ -55123,13 +54986,7 @@
         "hold-time up 180000 down 0 on edge members (3-min damp on bring-up) vs hold-time up 2000 down 0 on core members (faster).",
         "Identical to evo/groups/gr-lag-member.conf."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/interfaces/core-isis-mpls.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/core-isis-mpls",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-EDGE-INTF-LAG-MEMBER {\n        interfaces {\n            <*> {\n                traps;\n                hold-time up 180000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n    GR-EDGE-INTF-LAG-MEMBER-MH {\n        interfaces {\n            <*> {\n                traps;\n                hold-time up 180000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n    GR-CORE-INTF-LAG-MEMBER {\n        interfaces {\n            <*> {\n                description \"********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********\";\n                traps;\n                hold-time up 2000 down 0;\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
@@ -55258,16 +55115,6 @@
         "apply-groups GR-EDGE-INTF supplies the common knobs (mtu, no-auto-negotiation, gigether-options, etc.) shared across all edge interfaces."
       ],
       "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-etree/ri-evpn-etree-export",
-          "note": null
-        },
         {
           "raw": "junos/groups/gr-edge-intf.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
@@ -55581,13 +55428,7 @@
         "vlan-tagging with flexible-ethernet-services encapsulation lets the device carry logical interfaces of mixed encapsulation.",
         "Unit 0 is the transport logical interface of a pseudowire-subscriber device: it carries ethernet-ccc encapsulation and is the pseudowire landing point that the l2circuit stanza references as `ps<N>.0`."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/protocols/l2circuit-floating-pw.conf",
-          "id": "metro_ethernet_business_services/junos/protocols/l2circuit-floating-pw",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$PS_INTF",
@@ -61072,11 +60913,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
-          "note": null
-        },
-        {
           "raw": "junos/interfaces/ifd-ps-transport.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ifd-ps-transport",
           "note": null
@@ -61398,16 +61234,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy",
-          "note": null
-        },
-        {
-          "raw": "junos/protocols/l2circuit-floating-pw.conf",
-          "id": "metro_ethernet_business_services/junos/protocols/l2circuit-floating-pw",
-          "note": null
-        },
-        {
           "raw": "junos/interfaces/ethernet-bridge.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
           "note": null
@@ -61415,11 +61241,6 @@
         {
           "raw": "junos/interfaces/ifd-ps-transport.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ifd-ps-transport",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
           "note": null
         }
       ],
@@ -61633,11 +61454,6 @@
         {
           "raw": "junos/interfaces/ifl-vlan-bridge-esi.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-bridge-esi",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-vpws/ri-evpn-vpws",
           "note": null
         }
       ],
@@ -62358,13 +62174,7 @@
         "Per-instance route-distinguisher and vrf-target define the VPN scope",
         "The matching attachment-circuit interface carries vlan-ccc encapsulation and an ESI for all-active multihoming"
       ],
-      "pairWith": [
-        {
-          "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -63305,11 +63115,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
-          "note": null
-        },
-        {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
           "note": null
@@ -63322,11 +63127,6 @@
         {
           "raw": "junos/policy-options/policy-statement/ps-export-l3vpn-public.conf",
           "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-export-l3vpn-public",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
           "note": null
         }
       ],
@@ -63421,16 +63221,6 @@
         "Same service family as `ri-l3vpn-evpn-vrf-policy.conf`: this is the slim variant, that one is the explicit RT-5 variant."
       ],
       "pairWith": [
-        {
-          "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy",
-          "note": null
-        },
         {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
@@ -63814,11 +63604,6 @@
         "bridge-options no-normalization — the AC keeps its customer VLAN tag rather than being re-tagged at the BD boundary (vlan-aware passthrough mode)."
       ],
       "pairWith": [
-        {
-          "raw": "junos/groups/gr-fatpw-label.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-fatpw-label",
-          "note": null
-        },
         {
           "raw": "junos/policy-options/policy-statement/ps-export-l2-color.conf",
           "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-export-l2-color",
@@ -64580,11 +64365,6 @@
         "Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) add a second anycast `end-point` under the bronze class to anchor a shared egress; captured for a future PE-role snip, not in this common form."
       ],
       "pairWith": [
-        {
-          "raw": "junos/routing-options/flex-algorithm.conf",
-          "id": "metro_ethernet_business_services/junos/routing-options/flex-algorithm",
-          "note": null
-        },
         {
           "raw": "junos/protocols/isis-srmpls-tilfa.conf",
           "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa",

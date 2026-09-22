@@ -131,8 +131,7 @@ class-of-service {
  *  - This snip defines the class names; the classifiers and scheduler-maps that
  *    reference them are separate snips.
  *
- * Pair with:
- *  - evo/class-of-service/scheduler-maps/sm-6class-mapping.conf
+ * Pair with: none
  *
  * Variables: none. Class names and queue numbers are JVD-wide constants,
  *            identical on every device in the design.
@@ -609,9 +608,7 @@ firewall {
  *    devices that need a filter, build it as a family-any filter
  *    referencing these policers — same pattern as Junos.
  *
- * Pair with:
- *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf  (per-unit input filter ref)
- *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf  (per-unit input filter ref)
+ * Pair with: none
  *
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
@@ -772,8 +769,7 @@ groups {
  *  - hold-time up 2000 down 0 — short up-damp on core links (give IGP
  *    a moment to come back) but no down-damp (let BFD/IGP withdraw).
  *
- * Pair with:
- *  - evo/protocols/mpls-segment-routing.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -836,8 +832,7 @@ groups {
  *    micro-loops during bundle bring-up.
  *  - Pair this group with a parent ae* unit that has esi { all-active }
  *
- * Pair with:
- *  - evo/groups/gr-edge-intf.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -899,10 +894,7 @@ groups {
  *  - Optics low-light alarms tied to link-down for fast convergence.
  *
  * Pair with:
- *  - evo/groups/gr-edge-intf-mh.conf
  *  - evo/groups/gr-lag-member.conf
- *  - evo/routing-instances/vpls/ri-bgp-vpls-export.conf
- *  - evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -1087,8 +1079,7 @@ groups {
  *    converges. Omitted on ag1-1/ag1-2 aggregation switches (they
  *    don't run BGP and have no reason to drain).
  *
- * Pair with:
- *  - evo/protocols/isis-srmpls-tilfa.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -1351,7 +1342,6 @@ groups {
  *
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
- *  - evo/protocols/isis-srmpls-tilfa.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $CORE_PHYS         e.g. ae83
@@ -6605,9 +6595,7 @@ protocols {
  *    same SR-MPLS plane.
  *  - icmp-tunneling preserves end-to-end traceroute through MPLS.
  *
- * Pair with:
- *  - evo/protocols/isis-srmpls-tilfa.conf
- *  - evo/groups/gr-core-intf.conf
+ * Pair with: none
  *
  * Variables: none. All values here (admin-group numbers, SRGB range)
  * are JVD-wide constants — same on every PE.
@@ -6877,9 +6865,7 @@ routing-instances {
  *  - vlan V4000 binds attachment-circuit et-0/0/50.2000 to vlan-id 4000
  *    and the matching irb.4000 unit for L2/L3 gateway service
  *
- * Pair with:
- *  - evo/routing-instances/l3vpn/ri-l3vpn-irb.conf
- *  - evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf
+ * Pair with: none
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -8227,7 +8213,6 @@ routing-instances {
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
- *  - evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
  *
  * JVD service mapping:
  *   200 instances total (high 200 / med 0 / low 0)
@@ -8395,7 +8380,6 @@ routing-instances {
  *    routing-instances hierarchy level.
  *
  * Pair with:
- *  - evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - evo/groups/gr-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
@@ -8461,7 +8445,6 @@ routing-instances {
  *    just `router-id`.
  *
  * Pair with:
- *  - evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -8518,7 +8501,6 @@ routing-instances {
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
- *  - evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
  *
  * JVD service mapping:
  *   100 instances total (high 100 / med 0 / low 0)
@@ -9106,8 +9088,7 @@ routing-options {
  *  - Core PEs anchoring a shared egress add a second anycast `end-point`
  *    under the bronze class (see the Junos MSE variant).
  *
- * Pair with:
- *  - evo/routing-options/flex-algorithm.conf
+ * Pair with: none
  *
  * Variables (example values from ma1-1_acx7024):
  *   $TC_EGRESS   e.g. 1.1.0.17   (this node's transport-class egress loopback)
@@ -10124,9 +10105,7 @@ groups {
  *    same end goal of FAT-label-aware pseudowires.
  *  - Apply this group at the device level alongside GR-FATPW-LB.
  *
- * Pair with:
- *  - junos/groups/gr-fatpw-lb.conf
- *  - junos/routing-instances/vpls/ri-bgp-vpls-export.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -10185,8 +10164,7 @@ groups {
  *  - Pair this group with GR-FATPW-LABEL (per-instance flow-label
  *    knob) — see junos/groups/gr-fatpw-label.conf.
  *
- * Pair with:
- *  - junos/groups/gr-fatpw-label.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -10271,10 +10249,7 @@ groups {
  *  - vrf-table-label — per-VRF aggregate label so MX/PTX-class PEs
  *    can do egress L3 lookup (required for IRB / firewall/NAT in VRF).
  *
- * Pair with:
- *  - junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-irb.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -10320,8 +10295,7 @@ groups {
  *    vs hold-time up 2000 down 0 on core members (faster).
  *  - Identical to evo/groups/gr-lag-member.conf.
  *
- * Pair with:
- *  - junos/interfaces/core-isis-mpls.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -10453,8 +10427,6 @@ interfaces {
  *    across all edge interfaces.
  *
  * Pair with:
- *  - junos/groups/gr-edge-intf.conf
- *  - junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf
  *  - junos/groups/gr-edge-intf.conf
  *
  * Variables (example values from mse1_mx304 xe-0/0/3:1):
@@ -10649,8 +10621,7 @@ interfaces {
  *    device: it carries ethernet-ccc encapsulation and is the pseudowire
  *    landing point that the l2circuit stanza references as `ps<N>.0`.
  *
- * Pair with:
- *  - junos/protocols/l2circuit-floating-pw.conf
+ * Pair with: none
  *
  * Variables (example values from mse1_mx304):
  *   $PS_INTF      e.g. ps0
@@ -14935,7 +14906,6 @@ protocols {
  *    the PW transparently.
  *
  * Pair with:
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/interfaces/ifd-ps-transport.conf
  *
  * Variables (example values from mse1_mx304):
@@ -15186,12 +15156,9 @@ routing-instances {
  *    evpn_group_60_4000 → vlan-id 3000 → irb.4000).
  *
  * Pair with:
- *  - junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf
- *  - junos/protocols/l2circuit-floating-pw.conf
  *  - junos/interfaces/ethernet-bridge.conf
  *  - junos/interfaces/ifd-ps-transport.conf
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/routing-instances/l3vpn/ri-l3vpn-irb.conf
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -15343,7 +15310,6 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/ifl-vlan-bridge-esi.conf
- *  - junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -15774,7 +15740,6 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf
  *
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
@@ -16458,11 +16423,9 @@ routing-instances {
  *    routing-instances hierarchy level.
  *
  * Pair with:
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-irb.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -16528,8 +16491,6 @@ routing-instances {
  *    the slim variant, that one is the explicit RT-5 variant.
  *
  * Pair with:
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -16792,7 +16753,6 @@ routing-instances {
  *    (vlan-aware passthrough mode).
  *
  * Pair with:
- *  - junos/groups/gr-fatpw-label.conf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
@@ -17299,7 +17259,6 @@ routing-options {
  *    egress; captured for a future PE-role snip, not in this common form.
  *
  * Pair with:
- *  - junos/routing-options/flex-algorithm.conf
  *  - junos/protocols/isis-srmpls-tilfa.conf
  *
  * Variables (example values from ma4_mx204):
