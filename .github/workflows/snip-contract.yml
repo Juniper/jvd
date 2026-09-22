@@ -24,6 +24,9 @@ on:
       - 'portal/scripts/dependency-resolve.mjs'
       - 'portal/scripts/dependency-resolve.test.mjs'
       - 'portal/scripts/library-completeness.mjs'
+      - 'portal/scripts/composition-validate.mjs'
+      - 'portal/scripts/composition-validate.test.mjs'
+      - '**/configuration/snips/_composition.json'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
@@ -52,12 +55,15 @@ jobs:
           portal/scripts/object-ownership.test.mjs
           portal/scripts/config-references.test.mjs
           portal/scripts/dependency-resolve.test.mjs
+          portal/scripts/composition-validate.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
       - name: Named objects have exactly one applicable owner
         run: node portal/scripts/object-ownership.mjs
+      - name: Composition matrix is valid
+        run: node portal/scripts/composition-validate.mjs
       # Reported, not enforced: two known group constructs are still unreachable
       # for devices that reference them. Promote to a gate once they are closed.
       - name: Referenced constructs are reachable where they are used
