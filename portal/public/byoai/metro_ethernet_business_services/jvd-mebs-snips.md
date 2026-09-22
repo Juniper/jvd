@@ -1,5 +1,31 @@
 # JVD MEBS snippet library
 
+## evo/chassis/aggregated-devices-ethernet.conf
+
+```
+/*
+ * Topic:   Aggregated Ethernet device-count for the chassis
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Reserves the aggregated Ethernet interface pool, so `ae0` through
+ *    `ae<count-1>` can be configured on the node.
+ *  - The count is a chassis-wide ceiling, not a count of bundles in use.
+ *
+ * Variables (example values from an1_mx204):
+ *   $AE_DEVICE_COUNT   e.g. 25
+ */
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
+        }
+    }
+}
+```
+
 ## evo/class-of-service/classifiers/cl-6class.conf
 
 ```
@@ -520,6 +546,47 @@ class-of-service {
 }
 ```
 
+## evo/firewall/filter-family-any-policers.conf
+
+```
+/*
+ * Topic:   Protocol-independent rate-limit filters binding the 50 Mbps and 5 Mbps policers
+ * Seen on:
+ *   Junos: an4_acx710 ma5_mx204
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `family any` filters act on the logical interface regardless of payload
+ *    protocol, so one filter rate-limits a mixed bridged and routed circuit.
+ *  - `interface-specific` gives each bound interface its own counter and
+ *    policer instance, so one subscriber's rate limit is independent of
+ *    another's.
+ *  - Each filter carries a single unconditional term whose only action is the
+ *    policer, which makes the filter a pure bandwidth profile.
+ *
+ * Pair with:
+ *  - evo/firewall/policers.conf
+ *
+ * Variables: none
+ */
+firewall {
+    family any {
+        filter 50MB_filter {
+            interface-specific;
+            term t1 {
+                then policer 50mbps_policer;
+            }
+        }
+        filter 5MB_filter {
+            interface-specific;
+            term t1 {
+                then policer 5mbps_policer;
+            }
+        }
+    }
+}
+```
+
 ## evo/firewall/policers.conf
 
 ```
@@ -564,6 +631,49 @@ firewall {
             burst-size-limit 1m;
         }
         then discard;
+    }
+}
+```
+
+## evo/forwarding-options/hash-key-mpls-all-labels.conf
+
+```
+/*
+ * Topic:   Load-balance hash key across IPv4, IPv6, MPLS all-labels and Layer 2
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `family inet` and `family inet6` hash on both the Layer 3 header and the
+ *    Layer 4 ports, so flows between one address pair still spread.
+ *  - `family mpls all-labels` hashes the whole label stack and additionally
+ *    looks past it at the IP payload, keeping transit LSP traffic balanced.
+ *  - `family multiservice` adds the source and destination MAC, which is what
+ *    spreads bridged traffic that carries no IP header.
+ *
+ * Variables: none
+ */
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            all-labels;
+            payload {
+                ip;
+            }
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
     }
 }
 ```
@@ -1372,6 +1482,38 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifd-core-lag-member.conf
+
+```
+/*
+ * Topic:   Physical member of a core-facing aggregated Ethernet bundle
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `ether-options 802.3ad` enslaves the physical port to a core-facing
+ *    aggregated Ethernet bundle, so the port itself carries no addressing.
+ *  - `apply-groups GR-CORE-INTF-LAG-MEMBER` supplies the knobs shared by every
+ *    core LAG member.
+ *
+ * Pair with:
+ *  - evo/groups/gr-lag-member.conf
+ *
+ * Variables (example values from an2_acx5448):
+ *   $CORE_INTF   e.g. et-0/1/1
+ *   $AE_BUNDLE   e.g. ae73
+ */
+interfaces {
+    $CORE_INTF {
+        apply-groups GR-CORE-INTF-LAG-MEMBER;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
 ## evo/interfaces/ifl-irb-inet.conf
 
 ```
@@ -1513,6 +1655,36 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifl-vlan-bridge-vlan-list.conf
+
+```
+/*
+ * Topic:   Bridged logical interface carrying a VLAN range
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `encapsulation vlan-bridge` exposes the unit as a bridged UNI that a
+ *    bridged service can reference.
+ *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
+ *    unit, so several VLANs share a single attachment circuit.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $IFD         e.g. et-0/0/50
+ *   $UNIT        e.g. 1000
+ *   $VLAN_LIST   e.g. 1000-1001
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id-list $VLAN_LIST;
+        }
+    }
+}
+```
+
 ## evo/interfaces/ifl-vlan-bridge-vlan-map.conf
 
 ```
@@ -1614,6 +1786,36 @@ interfaces {
                 $ESI;
                 all-active;
             }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-ccc-vlan-list.conf
+
+```
+/*
+ * Topic:   Cross-connect logical interface carrying a VLAN range
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024
+ *
+ * Highlights:
+ *  - `encapsulation vlan-ccc` exposes the unit as a cross-connect attachment
+ *    circuit that a point-to-point service can reference.
+ *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
+ *    unit, so several VLANs share a single attachment circuit.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $IFD         e.g. et-0/0/0
+ *   $UNIT        e.g. 810
+ *   $VLAN_LIST   e.g. 820-821
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-id-list $VLAN_LIST;
         }
     }
 }
@@ -2799,6 +3001,62 @@ policy-options {
 }
 ```
 
+## evo/policy-options/policy-statement/ps-bgp-mse-export-backup.conf
+
+```
+/*
+ * Topic:   BGP policy BACKUP-PS-BGP-MSE-EXPORT
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - `term LOOP-PREVENT` rejects anything already carrying CM-SERVICE-EDGE,
+ *    CM-ACCESS-FABRIC or CM-METRO-FABRIC, so a route never re-enters the
+ *    domain it came from.
+ *  - `term FROM-METRO-RING` re-advertises CM-METRO-RING routes inside
+ *    PL-AN-REGION with `next-hop self`.
+ *  - `term LOOPBACK` tags the remaining PL-AN-REGION prefixes with
+ *    CM-METRO-RING and accepts them.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-service-edge.conf
+ *  - evo/policy-options/community/cm-access-fabric.conf
+ *  - evo/policy-options/community/cm-metro-fabric.conf
+ *  - evo/policy-options/community/cm-metro-ring.conf
+ *  - evo/policy-options/prefix-list/pl-an-region.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement BACKUP-PS-BGP-MSE-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-SERVICE-EDGE CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            then reject;
+        }
+        term FROM-METRO-RING {
+            from {
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LOOPBACK {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                community add CM-METRO-RING;
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## evo/policy-options/policy-statement/ps-bgp-mse-export.conf
 
 ```
@@ -3830,6 +4088,257 @@ policy-options {
 }
 ```
 
+## evo/policy-options/policy-statement/ps-isis-export-core.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks, the core links and the core summary
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - `term DIRECT-ROUTES-IPV4` accepts the connected /30s inside the core-link
+ *    supernet, so the point-to-point links are carried in IS-IS.
+ *  - `term CORE-SUMMARY` rejects the locally generated aggregate tagged 1000 or
+ *    1001 with `tag2 0`, keeping the summary out of the flooded database.
+ *  - `term REJECT` terminates the policy.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_V4          e.g. 1.1.0.0
+ *   $SR_INDEX_ALGO128     e.g. 500
+ *   $SR_INDEX_ALGO129     e.g. 600
+ *   $SR_INDEX             e.g. 900
+ *   $LOOPBACK_V6          e.g. 2001::1:1:0:0
+ *   $CORE_LINK_SUPERNET   e.g. 10.10.0.0/24
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+        term DIRECT-ROUTES-IPV4 {
+            from {
+                protocol direct;
+                route-filter $CORE_LINK_SUPERNET prefix-length-range /30-/30;
+            }
+            then accept;
+        }
+        term CORE-SUMMARY {
+            from {
+                protocol aggregate;
+                tag [ 1000 1001 ];
+                tag2 0;
+            }
+            then reject;
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks, ending after the loopback terms
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - The policy ends after the loopback terms, so everything it does not match
+ *    falls through to the IS-IS default action.
+ *
+ * Variables (example values from mdr2_mx10003):
+ *   $LOOPBACK_V4        e.g. 1.1.0.13
+ *   $SR_INDEX_ALGO128   e.g. 513
+ *   $SR_INDEX_ALGO129   e.g. 613
+ *   $SR_INDEX           e.g. 913
+ *   $LOOPBACK_V6        e.g. 2001::1:1:0:d
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-isis-export.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks with their prefix segments
+ * Seen on:
+ *   Junos: an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
+ *    loopbacks.
+ *
+ * Variables (example values from an2_acx5448):
+ *   $LOOPBACK_V4        e.g. 1.1.0.1
+ *   $SR_INDEX_ALGO128   e.g. 501
+ *   $SR_INDEX_ALGO129   e.g. 601
+ *   $SR_INDEX           e.g. 901
+ *   $LOOPBACK_V6        e.g. 2001::1:1:0:1
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-loopback-allow.conf
+
+```
+/*
+ * Topic:   Single-term policy accepting a prefix and its more-specifics
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - One unnamed term matches the prefix `orlonger` and accepts it, so the
+ *    prefix and every more-specific inside it pass.
+ *  - The configured policy name is a value: a node may carry this same body
+ *    under more than one name.
+ *
+ * Variables (example values from an1_mx204):
+ *   $POLICY_NAME   e.g. ALLOW_LOOPBACK
+ *                  (the configured policy name; configuration that references
+ *                   the policy carries this exact literal)
+ *   $PREFIX        e.g. 0.0.0.0/32
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX orlonger;
+        }
+        then accept;
+    }
+}
+```
+
 ## evo/policy-options/policy-statement/ps-metro-fabric-import.conf
 
 ```
@@ -3855,6 +4364,120 @@ policy-options {
         }
         term REJECT {
             then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-prefix-sid.conf
+
+```
+/*
+ * Topic:   Policy prefix-sid attaching the node and flex-algorithm prefix segments to the loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - A single term matches the node's own loopback /32 `exact`.
+ *  - `prefix-segment` assigns the node segment index and one prefix segment per
+ *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
+ *    and 129.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_V4        e.g. 1.1.0.0
+ *   $SR_INDEX_ALGO128   e.g. 500
+ *   $SR_INDEX_ALGO129   e.g. 600
+ *   $SR_INDEX           e.g. 900
+ */
+policy-options {
+    policy-statement prefix-sid {
+        term 1 {
+            from {
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+
+```
+/*
+ * Topic:   Policy SR_NONZERO_LOOPBACKS_V4 attaching a prefix segment to the IPv4 SR loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - A `/32 exact` route-filter selects the node's Segment Routing IPv4
+ *    loopback, distinct from the primary loopback.
+ *  - `prefix-segment index` assigns that address its own SR index and accepts
+ *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
+ *   $SR_INDEX_V4      e.g. 200
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V4 {
+        term t1 {
+            from {
+                route-filter $LOOPBACK_SR_V4/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V4;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+
+```
+/*
+ * Topic:   Policy SR_NONZERO_LOOPBACKS_V6 attaching a prefix segment to the IPv6 SR loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `from family inet6` with a `/128 exact` route-filter selects the node's
+ *    Segment Routing IPv6 loopback, distinct from the primary loopback.
+ *  - `prefix-segment index` assigns that address its own SR index and accepts
+ *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:0
+ *   $SR_INDEX_V6      e.g. 300
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V6 {
+        term t1 {
+            from {
+                family inet6;
+                route-filter $LOOPBACK_SR_V6/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V6;
+                }
+                accept;
+            }
         }
     }
 }
@@ -6004,6 +6627,42 @@ protocols {
 }
 ```
 
+## evo/protocols/oam-cfm-continuity-check.conf
+
+```
+/*
+ * Topic:   CFM maintenance association whose configuration is its continuity check
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ *
+ * Highlights:
+ *  - One maintenance-association under the CFM maintenance-domain, carrying a
+ *    continuity check and nothing else.
+ *  - `interval 1s` sends a continuity-check message every second, so loss of
+ *    the association is detected within a few seconds.
+ *
+ * Variables (example values from meg1_acx7100-32c):
+ *   $MD_NAME   e.g. MD_63535
+ *   $MA_ID     e.g. 12009
+ */
+protocols {
+    oam {
+        ethernet {
+            connectivity-fault-management {
+                maintenance-domain $MD_NAME {
+                    maintenance-association $MA_ID {
+                        continuity-check {
+                            interval 1s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 ## evo/protocols/oam-cfm-perf-mon.conf
 
 ```
@@ -6328,6 +6987,115 @@ routing-instances {
             $BD_NAME {
                 vlan-id $VLAN_BD;
                 interface $AC_INTF;
+            }
+        }
+    }
+}
+```
+
+## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf
+
+```
+/*
+ * Topic:   EVPN-ELAN MAC-VRF, VLAN-bundle service with two attachment circuits and a VRF export policy
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type mac-vrf` with `service-type vlan-bundle` maps the whole
+ *    bundle of VLANs on the bridge to one EVPN instance and one label.
+ *  - `encapsulation mpls` carries the EVPN over the MPLS transport rather than
+ *    over VXLAN.
+ *  - `vrf-export` applies a per-service policy on top of the `vrf-target`
+ *    community, so this instance can tag its routes beyond the plain target.
+ *    The policy carries the instance name.
+ *  - The bridge attaches two attachment circuits. They are interchangeable, so
+ *    one deployed instance has two equivalent bindings of this body.
+ *  - The route-distinguisher is built from this node's loopback, so each PE
+ *    advertises the shared service under its own RD.
+ *
+ * Pair with: none
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $INSTANCE_NAME      e.g. evpn_group_80_1062
+ *                       (also the configured vrf-export policy name)
+ *   $LOOPBACK_V4        e.g. 1.1.0.2
+ *   $RD_SUB_ASSIGNED    e.g. 8062
+ *   $RT_AS              e.g. 63535
+ *   $RT_ID              e.g. 8062
+ *   $BD_NAME            e.g. BD_evpn_group_80_1062
+ *   $AC_INTF_A          e.g. et-0/0/50.1062
+ *   $AC_INTF_B          e.g. et-0/0/50.1063
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation mpls;
+            }
+        }
+        service-type vlan-bundle;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT_AS:$RT_ID;
+        vlans {
+            $BD_NAME {
+                interface $AC_INTF_A;
+                interface $AC_INTF_B;
+            }
+        }
+    }
+}
+```
+
+## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni.conf
+
+```
+/*
+ * Topic:   EVPN-ELAN MAC-VRF, VLAN-bundle service with two attachment circuits
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type mac-vrf` with `service-type vlan-bundle` maps the whole
+ *    bundle of VLANs on the bridge to one EVPN instance and one label.
+ *  - `encapsulation mpls` carries the EVPN over the MPLS transport rather than
+ *    over VXLAN.
+ *  - The bridge attaches two attachment circuits. They are interchangeable, so
+ *    one deployed instance has two equivalent bindings of this body.
+ *  - The route-distinguisher is built from this node's loopback, so each PE
+ *    advertises the shared service under its own RD.
+ *
+ * Pair with: none
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $INSTANCE_NAME      e.g. evpn_group_80_1200
+ *   $LOOPBACK_V4        e.g. 1.1.0.2
+ *   $RD_SUB_ASSIGNED    e.g. 8200
+ *   $RT_AS              e.g. 63535
+ *   $RT_ID              e.g. 8200
+ *   $BD_NAME            e.g. evpn_group_80_BD_70
+ *   $AC_INTF_A          e.g. et-0/0/50.1200
+ *   $AC_INTF_B          e.g. et-0/0/50.1201
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                encapsulation mpls;
+            }
+        }
+        service-type vlan-bundle;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vlans {
+            $BD_NAME {
+                interface $AC_INTF_A;
+                interface $AC_INTF_B;
             }
         }
     }
@@ -6834,6 +7602,71 @@ routing-instances {
                     }
                 }
                 flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## evo/routing-instances/evpn-vpws/ri-evpn-vpws-2-uni-control-word.conf
+
+```
+/*
+ * Topic:   EVPN-VPWS instance cross-connecting two attachment circuits with a control word
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `instance-type evpn-vpws` signals a point-to-point pseudowire in EVPN
+ *    rather than in LDP or BGP L2VPN.
+ *  - Each attachment circuit carries its own `vpws-service-id`, and the local
+ *    and remote identifiers are mirrored between the two circuits, which is
+ *    what joins them into one cross-connect inside this node.
+ *  - `control-word` inserts the control word so the far end can tell a
+ *    pseudowire payload from an IP payload when hashing.
+ *  - Both circuits are also bound at instance level. They are interchangeable,
+ *    so one deployed instance has two equivalent bindings of this body.
+ *  - The route-distinguisher is built from this node's loopback, so each PE
+ *    advertises the shared service under its own RD.
+ *
+ * Pair with: none
+ *
+ * Variables (example values from ma3_acx7100-48l):
+ *   $INSTANCE_NAME      e.g. lsw_evpn_vpws_group_90_1000
+ *   $AC_INTF_A          e.g. et-0/0/5.1000
+ *   $SVC_ID_LOCAL_A     e.g. 22
+ *   $SVC_ID_REMOTE_A    e.g. 11
+ *   $AC_INTF_B          e.g. et-0/0/51.4000
+ *   $SVC_ID_LOCAL_B     e.g. 11
+ *   $SVC_ID_REMOTE_B    e.g. 22
+ *   $LOOPBACK_V4        e.g. 1.1.0.15
+ *   $RD_SUB_ASSIGNED    e.g. 9000
+ *   $RT_AS              e.g. 63536
+ *   $RT_ID              e.g. 9900
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF_A {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_A;
+                        remote $SVC_ID_REMOTE_A;
+                    }
+                }
+                interface $AC_INTF_B {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_B;
+                        remote $SVC_ID_REMOTE_B;
+                    }
+                }
+                control-word;
             }
         }
         interface $AC_INTF_A;
@@ -7860,6 +8693,64 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf
+
+```
+/*
+ * Topic:   BGP-VPLS virtual-switch instance with a single-VLAN bridge
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `instance-type virtual-switch` carries the VPLS in a bridging instance, so
+ *    the service is expressed as a VLAN rather than as a port-mode pseudowire.
+ *  - `site` with `site-identifier` gives this PE its position in the BGP-VPLS
+ *    mesh; `site-range` bounds how many sites the label block must cover and
+ *    `label-block-size` sets how many labels each site advertises.
+ *  - `service-type single` binds one VLAN to the instance.
+ *  - `no-tunnel-services` builds the pseudowire without a tunnel-services PIC.
+ *  - The `vlans` block names the bridge and attaches one attachment circuit.
+ *
+ * Pair with: none
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $INSTANCE_NAME      e.g. vpls_group_102_500
+ *   $VPLS_SITE          e.g. r2
+ *   $VPLS_SITE_ID       e.g. 1
+ *   $SITE_RANGE         e.g. 10
+ *   $LABEL_BLOCK_SIZE   e.g. 8
+ *   $RD                 e.g. 63535:1093100
+ *   $RT_AS              e.g. 63535
+ *   $RT_ID              e.g. 1093100
+ *   $BD_NAME            e.g. vlan500
+ *   $AC_INTF            e.g. et-0/0/0.500
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                service-type single;
+                site-range $SITE_RANGE;
+                label-block-size $LABEL_BLOCK_SIZE;
+                no-tunnel-services;
+            }
+        }
+        route-distinguisher $RD;
+        vrf-target target:$RT_AS:$RT_ID;
+        vlans {
+            $BD_NAME {
+                interface $AC_INTF;
+            }
+        }
+    }
+}
+```
+
 ## evo/routing-instances/vpls/ri-ldp-vpls.conf
 
 ```
@@ -7909,6 +8800,46 @@ routing-instances {
             $BD_NAME {
                 interface $AC_INTF;
             }
+        }
+    }
+}
+```
+
+## evo/routing-options/aggregate-discard-routes.conf
+
+```
+/*
+ * Topic:   Tagged discard aggregates for the loopback and core-link supernets
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Two locally generated aggregates summarize the loopback supernet and the
+ *    core-link supernet; `discard` drops anything they attract that has no
+ *    contributing route.
+ *  - `tag 1000` and `tag 1001` with `tag2 0` mark them so IGP export policy can
+ *    match the summaries by tag rather than by prefix.
+ *  - `preference 14` keeps the aggregate below the contributing routes, so a
+ *    more specific route always wins.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
+ *   $CORE_LINK_SUPERNET    e.g. 10.10.0.0/24
+ */
+routing-options {
+    aggregate {
+        route $LOOPBACK_SUPERNET {
+            tag 1000;
+            tag2 0;
+            preference 14;
+            discard;
+        }
+        route $CORE_LINK_SUPERNET {
+            tag 1001;
+            tag2 0;
+            preference 14;
+            discard;
         }
     }
 }
@@ -7968,6 +8899,46 @@ routing-options {
 }
 ```
 
+## evo/routing-options/forwarding-table-pplb-chained-nh.conf
+
+```
+/*
+ * Topic:   Forwarding table with per-packet load balancing and ingress chained composite next hops
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `export` applies the per-packet load-balancing policy to the forwarding
+ *    table, which is what turns multiple equal-cost routes into multiple
+ *    forwarding next hops.
+ *  - `chained-composite-next-hop ingress` builds one shared next hop per
+ *    service family, so L2VPN, L2 circuit, EVPN and L3VPN routes that share a
+ *    transport tunnel also share forwarding state.
+ *
+ * Pair with:
+ *  - evo/policy-options/policy-statement/per-packet-load-balance.conf
+ *
+ * Variables (example values from an1_mx204):
+ *   $PPLB_NAME   e.g. pplb
+ *                (the configured load-balancing policy name; the forwarding
+ *                 table carries this exact literal)
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                l2vpn;
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
 ## evo/routing-options/forwarding-table.conf
 
 ```
@@ -7996,6 +8967,83 @@ routing-options {
 routing-options {
     forwarding-table {
         export $PPLB_NAME;
+    }
+}
+```
+
+## evo/routing-options/resolution-transport-class-l3vpn-rib.conf
+
+```
+/*
+ * Topic:   Colour-mapped resolution schemes alongside an L3VPN RIB resolution import
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
+ *    keep more than one usable next hop.
+ *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
+ *    transport-class RIBs, gold first and bronze second, so a gold-coloured
+ *    route falls back to bronze when the gold tunnel is gone.
+ *  - `scheme gold-to-bronze-v6` does the same over the IPv6 transport-class
+ *    RIBs.
+ *  - Both schemes are selected by the same `color:0:4000` mapping community,
+ *    so one colour on a route drives resolution in either address family.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+routing-options {
+    resolution {
+        rib bgp.l3vpn.0 {
+            import PS-MULTIPATH;
+        }
+        scheme gold-to-bronze {
+            resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+            mapping-community color:0:4000;
+        }
+        scheme gold-to-bronze-v6 {
+            resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+            mapping-community color:0:4000;
+        }
+    }
+}
+```
+
+## evo/routing-options/resolution-transport-class.conf
+
+```
+/*
+ * Topic:   Colour-mapped resolution schemes over the gold and bronze transport-class RIBs
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ *
+ * Highlights:
+ *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
+ *    transport-class RIBs, gold first and bronze second, so a gold-coloured
+ *    route falls back to bronze when the gold tunnel is gone.
+ *  - `scheme gold-to-bronze-v6` does the same over the IPv6 transport-class
+ *    RIBs.
+ *  - Both schemes are selected by the same `color:0:4000` mapping community,
+ *    so one colour on a route drives resolution in either address family.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+routing-options {
+    resolution {
+        scheme gold-to-bronze {
+            resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+            mapping-community color:0:4000;
+        }
+        scheme gold-to-bronze-v6 {
+            resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+            mapping-community color:0:4000;
+        }
     }
 }
 ```
@@ -8076,6 +9124,96 @@ routing-options {
             tunnel-egress {
                 end-point $TC_EGRESS;
             }
+        }
+    }
+}
+```
+
+## junos/bridge-domains/bridge-domain-irb.conf
+
+```
+/*
+ * Topic:   Bridge domain with one VLAN, one attachment circuit and an IRB routed interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `vlan-id` gives the domain a single normalized VLAN.
+ *  - `interface` binds one bridged logical interface as the attachment circuit.
+ *  - `routing-interface irb.<unit>` gives the domain its routed interface, so
+ *    hosts in the bridge domain reach the routed network through the IRB.
+ *
+ * Pair with:
+ *  - junos/interfaces/ethernet-bridge.conf
+ *  - junos/interfaces/ifl-irb-inet.conf
+ *
+ * Variables (example values from mse1_mx304):
+ *   $BD_NAME    e.g. BD_group_70_4050
+ *   $VLAN       e.g. 4050
+ *   $AC_INTF    e.g. xe-0/0/3:1.4050
+ *   $IRB_UNIT   e.g. 4050
+ */
+bridge-domains {
+    $BD_NAME {
+        vlan-id $VLAN;
+        interface $AC_INTF;
+        routing-interface irb.$IRB_UNIT;
+    }
+}
+```
+
+## junos/bridge-domains/bridge-domain-local-switch.conf
+
+```
+/*
+ * Topic:   Bridge domain locally switching two attachment circuits
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - Two bridged logical interfaces are placed in one domain, so traffic is
+ *    switched between them on this node alone.
+ *  - The domain carries no normalized VLAN and no routed interface, so the two
+ *    circuits are joined as they arrive.
+ *  - The two `interface` statements are interchangeable, so one deployed
+ *    domain has two equivalent bindings of this body.
+ *
+ * Variables (example values from ma5_mx204):
+ *   $BD_NAME      e.g. bd_group_lsw_1000
+ *   $AC_INTF_A    e.g. et-0/0/2.4000
+ *   $AC_INTF_B    e.g. xe-0/1/4.1000
+ */
+bridge-domains {
+    $BD_NAME {
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+    }
+}
+```
+
+## junos/chassis/aggregated-devices-ethernet.conf
+
+```
+/*
+ * Topic:   Aggregated Ethernet device-count for the chassis
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Reserves the aggregated Ethernet interface pool, so `ae0` through
+ *    `ae<count-1>` can be configured on the node.
+ *  - The count is a chassis-wide ceiling, not a count of bundles in use.
+ *
+ * Variables (example values from an1_mx204):
+ *   $AE_DEVICE_COUNT   e.g. 25
+ */
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
         }
     }
 }
@@ -8609,6 +9747,47 @@ class-of-service {
 }
 ```
 
+## junos/firewall/filter-family-any-policers.conf
+
+```
+/*
+ * Topic:   Protocol-independent rate-limit filters binding the 50 Mbps and 5 Mbps policers
+ * Seen on:
+ *   Junos: an4_acx710 ma5_mx204
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `family any` filters act on the logical interface regardless of payload
+ *    protocol, so one filter rate-limits a mixed bridged and routed circuit.
+ *  - `interface-specific` gives each bound interface its own counter and
+ *    policer instance, so one subscriber's rate limit is independent of
+ *    another's.
+ *  - Each filter carries a single unconditional term whose only action is the
+ *    policer, which makes the filter a pure bandwidth profile.
+ *
+ * Pair with:
+ *  - junos/firewall/policers.conf
+ *
+ * Variables: none
+ */
+firewall {
+    family any {
+        filter 50MB_filter {
+            interface-specific;
+            term t1 {
+                then policer 50mbps_policer;
+            }
+        }
+        filter 5MB_filter {
+            interface-specific;
+            term t1 {
+                then policer 5mbps_policer;
+            }
+        }
+    }
+}
+```
+
 ## junos/firewall/policers.conf
 
 ```
@@ -8652,6 +9831,62 @@ firewall {
             burst-size-limit 1m;
         }
         then discard;
+    }
+}
+```
+
+## junos/forwarding-options/hash-key-mpls-label-stack.conf
+
+```
+/*
+ * Topic:   Load-balance hash key with a three-label MPLS stack and pseudowire payload
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `family inet` and `family inet6` hash on both the Layer 3 header and the
+ *    Layer 4 ports, so flows between one address pair still spread.
+ *  - `family mpls` hashes the first three labels, which covers the transport,
+ *    service and flow labels of a stacked LSP.
+ *  - `payload ether-pseudowire` lets the hash reach the Ethernet header inside
+ *    a pseudowire, and `port-data` adds both halves of the source and
+ *    destination Layer 4 ports of an IP payload.
+ *  - `family multiservice` adds the source and destination MAC, which is what
+ *    spreads bridged traffic that carries no IP header.
+ *
+ * Variables: none
+ */
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            label-1;
+            label-2;
+            label-3;
+            payload {
+                ether-pseudowire;
+                ip {
+                    port-data {
+                        source-msb;
+                        source-lsb;
+                        destination-msb;
+                        destination-lsb;
+                    }
+                }
+            }
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
     }
 }
 ```
@@ -9357,6 +10592,38 @@ interfaces {
                 active;
                 system-id $LACP_SYS_ID;
             }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-lag-member.conf
+
+```
+/*
+ * Topic:   Physical member of a core-facing aggregated Ethernet bundle
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `ether-options 802.3ad` enslaves the physical port to a core-facing
+ *    aggregated Ethernet bundle, so the port itself carries no addressing.
+ *  - `apply-groups GR-CORE-INTF-LAG-MEMBER` supplies the knobs shared by every
+ *    core LAG member.
+ *
+ * Pair with:
+ *  - junos/groups/gr-lag-member.conf
+ *
+ * Variables (example values from an2_acx5448):
+ *   $CORE_INTF   e.g. et-0/1/1
+ *   $AE_BUNDLE   e.g. ae73
+ */
+interfaces {
+    $CORE_INTF {
+        apply-groups GR-CORE-INTF-LAG-MEMBER;
+        ether-options {
+            802.3ad $AE_BUNDLE;
         }
     }
 }
@@ -10546,6 +11813,62 @@ policy-options {
         term ACCEPT-NHS {
             then {
                 next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-bgp-mse-export-backup.conf
+
+```
+/*
+ * Topic:   BGP policy BACKUP-PS-BGP-MSE-EXPORT
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - `term LOOP-PREVENT` rejects anything already carrying CM-SERVICE-EDGE,
+ *    CM-ACCESS-FABRIC or CM-METRO-FABRIC, so a route never re-enters the
+ *    domain it came from.
+ *  - `term FROM-METRO-RING` re-advertises CM-METRO-RING routes inside
+ *    PL-AN-REGION with `next-hop self`.
+ *  - `term LOOPBACK` tags the remaining PL-AN-REGION prefixes with
+ *    CM-METRO-RING and accepts them.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-service-edge.conf
+ *  - junos/policy-options/community/cm-access-fabric.conf
+ *  - junos/policy-options/community/cm-metro-fabric.conf
+ *  - junos/policy-options/community/cm-metro-ring.conf
+ *  - junos/policy-options/prefix-list/pl-an-region.conf
+ *
+ * Variables: none
+ */
+policy-options {
+    policy-statement BACKUP-PS-BGP-MSE-EXPORT {
+        term LOOP-PREVENT {
+            from community [ CM-SERVICE-EDGE CM-ACCESS-FABRIC CM-METRO-FABRIC ];
+            then reject;
+        }
+        term FROM-METRO-RING {
+            from {
+                community CM-METRO-RING;
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term LOOPBACK {
+            from {
+                prefix-list PL-AN-REGION;
+            }
+            then {
+                community add CM-METRO-RING;
                 accept;
             }
         }
@@ -11774,6 +13097,257 @@ policy-options {
 }
 ```
 
+## junos/policy-options/policy-statement/ps-isis-export-core.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks, the core links and the core summary
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - `term DIRECT-ROUTES-IPV4` accepts the connected /30s inside the core-link
+ *    supernet, so the point-to-point links are carried in IS-IS.
+ *  - `term CORE-SUMMARY` rejects the locally generated aggregate tagged 1000 or
+ *    1001 with `tag2 0`, keeping the summary out of the flooded database.
+ *  - `term REJECT` terminates the policy.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_V4          e.g. 1.1.0.0
+ *   $SR_INDEX_ALGO128     e.g. 500
+ *   $SR_INDEX_ALGO129     e.g. 600
+ *   $SR_INDEX             e.g. 900
+ *   $LOOPBACK_V6          e.g. 2001::1:1:0:0
+ *   $CORE_LINK_SUPERNET   e.g. 10.10.0.0/24
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+        term DIRECT-ROUTES-IPV4 {
+            from {
+                protocol direct;
+                route-filter $CORE_LINK_SUPERNET prefix-length-range /30-/30;
+            }
+            then accept;
+        }
+        term CORE-SUMMARY {
+            from {
+                protocol aggregate;
+                tag [ 1000 1001 ];
+                tag2 0;
+            }
+            then reject;
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks, ending after the loopback terms
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - The policy ends after the loopback terms, so everything it does not match
+ *    falls through to the IS-IS default action.
+ *
+ * Variables (example values from mdr2_mx10003):
+ *   $LOOPBACK_V4        e.g. 1.1.0.13
+ *   $SR_INDEX_ALGO128   e.g. 513
+ *   $SR_INDEX_ALGO129   e.g. 613
+ *   $SR_INDEX           e.g. 913
+ *   $LOOPBACK_V6        e.g. 2001::1:1:0:d
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-isis-export.conf
+
+```
+/*
+ * Topic:   IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks with their prefix segments
+ * Seen on:
+ *   Junos: an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
+ *    interfaces before the loopback terms are reached.
+ *  - `term LOCAL-LOOPBACK-IPV4` accepts the node's own lo0 /32, tags it 101 and
+ *    attaches the node segment together with the flex-algorithm 128 and 129
+ *    prefix segments, so the loopback is reachable on all three algorithms.
+ *  - `term LOCAL-LOOPBACK-IPV6` accepts the matching IPv6 loopback with the
+ *    same tag.
+ *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
+ *    loopbacks.
+ *
+ * Variables (example values from an2_acx5448):
+ *   $LOOPBACK_V4        e.g. 1.1.0.1
+ *   $SR_INDEX_ALGO128   e.g. 501
+ *   $SR_INDEX_ALGO129   e.g. 601
+ *   $SR_INDEX           e.g. 901
+ *   $LOOPBACK_V6        e.g. 2001::1:1:0:1
+ */
+policy-options {
+    policy-statement PS-ISIS-EXPORT {
+        term OOB-MGMT {
+            from interface [ em0.0 fxp0.0 re0:mgmt-0.0 ];
+            then reject;
+        }
+        term LOCAL-LOOPBACK-IPV4 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                tag 101;
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
+                accept;
+            }
+        }
+        term LOCAL-LOOPBACK-IPV6 {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter $LOOPBACK_V6/128 exact;
+            }
+            then {
+                tag 101;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-loopback-allow.conf
+
+```
+/*
+ * Topic:   Single-term policy accepting a prefix and its more-specifics
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - One unnamed term matches the prefix `orlonger` and accepts it, so the
+ *    prefix and every more-specific inside it pass.
+ *  - The configured policy name is a value: a node may carry this same body
+ *    under more than one name.
+ *
+ * Variables (example values from an1_mx204):
+ *   $POLICY_NAME   e.g. ALLOW_LOOPBACK
+ *                  (the configured policy name; configuration that references
+ *                   the policy carries this exact literal)
+ *   $PREFIX        e.g. 0.0.0.0/32
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX orlonger;
+        }
+        then accept;
+    }
+}
+```
+
 ## junos/policy-options/policy-statement/ps-mse-import.conf
 
 ```
@@ -11795,6 +13369,47 @@ policy-options {
         term SET-LP {
             then {
                 local-preference 90;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-prefix-sid.conf
+
+```
+/*
+ * Topic:   Policy prefix-sid attaching the node and flex-algorithm prefix segments to the loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - A single term matches the node's own loopback /32 `exact`.
+ *  - `prefix-segment` assigns the node segment index and one prefix segment per
+ *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
+ *    and 129.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_V4        e.g. 1.1.0.0
+ *   $SR_INDEX_ALGO128   e.g. 500
+ *   $SR_INDEX_ALGO129   e.g. 600
+ *   $SR_INDEX           e.g. 900
+ */
+policy-options {
+    policy-statement prefix-sid {
+        term 1 {
+            from {
+                route-filter $LOOPBACK_V4/32 exact;
+            }
+            then {
+                prefix-segment {
+                    algorithm 128 index $SR_INDEX_ALGO128 node-segment;
+                    algorithm 129 index $SR_INDEX_ALGO129 node-segment;
+                    index $SR_INDEX;
+                    node-segment;
+                }
                 accept;
             }
         }
@@ -11830,6 +13445,79 @@ policy-options {
         }
         term REJECT {
             then reject;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+
+```
+/*
+ * Topic:   Policy SR_NONZERO_LOOPBACKS_V4 attaching a prefix segment to the IPv4 SR loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - A `/32 exact` route-filter selects the node's Segment Routing IPv4
+ *    loopback, distinct from the primary loopback.
+ *  - `prefix-segment index` assigns that address its own SR index and accepts
+ *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
+ *   $SR_INDEX_V4      e.g. 200
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V4 {
+        term t1 {
+            from {
+                route-filter $LOOPBACK_SR_V4/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V4;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+
+```
+/*
+ * Topic:   Policy SR_NONZERO_LOOPBACKS_V6 attaching a prefix segment to the IPv6 SR loopback
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `from family inet6` with a `/128 exact` route-filter selects the node's
+ *    Segment Routing IPv6 loopback, distinct from the primary loopback.
+ *  - `prefix-segment index` assigns that address its own SR index and accepts
+ *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:0
+ *   $SR_INDEX_V6      e.g. 300
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V6 {
+        term t1 {
+            from {
+                family inet6;
+                route-filter $LOOPBACK_SR_V6/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V6;
+                }
+                accept;
+            }
         }
     }
 }
@@ -15013,6 +16701,70 @@ routing-instances {
 }
 ```
 
+## junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf
+
+```
+/*
+ * Topic:   BGP-VPLS virtual-switch instance with a normalized bridge domain
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `instance-type virtual-switch` carries the VPLS in a bridging instance, so
+ *    the service is expressed as a bridge domain rather than as a port-mode
+ *    pseudowire.
+ *  - `site` with `site-identifier` gives this PE its position in the BGP-VPLS
+ *    mesh; `site-range` bounds how many sites the label block must cover and
+ *    `label-block-size` sets how many labels each site advertises.
+ *  - `no-tunnel-services` builds the pseudowire without a tunnel-services PIC.
+ *  - The bridge domain pins its own `vlan-id` and takes one attachment
+ *    circuit; `no-normalization` keeps the customer tag as it arrives instead
+ *    of rewriting it to the domain VLAN.
+ *
+ * Pair with: none
+ *
+ * Variables (example values from ma5_mx204):
+ *   $INSTANCE_NAME      e.g. vpls_group_108_850
+ *   $VPLS_SITE          e.g. r19
+ *   $VPLS_SITE_ID       e.g. 3
+ *   $SITE_RANGE         e.g. 10
+ *   $LABEL_BLOCK_SIZE   e.g. 8
+ *   $BD_NAME            e.g. vlan850
+ *   $VLAN               e.g. 850
+ *   $AC_INTF            e.g. xe-0/1/4.850
+ *   $RD                 e.g. 64535:81050
+ *   $RT_AS              e.g. 64535
+ *   $RT_ID              e.g. 1183050
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                site-range $SITE_RANGE;
+                label-block-size $LABEL_BLOCK_SIZE;
+                no-tunnel-services;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN;
+                interface $AC_INTF;
+                bridge-options {
+                    no-normalization;
+                }
+            }
+        }
+        route-distinguisher $RD;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
 ## junos/routing-instances/vpls/ri-bgp-vpls-export.conf
 
 ```
@@ -15199,6 +16951,46 @@ routing-instances {
 }
 ```
 
+## junos/routing-options/aggregate-discard-routes.conf
+
+```
+/*
+ * Topic:   Tagged discard aggregates for the loopback and core-link supernets
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - Two locally generated aggregates summarize the loopback supernet and the
+ *    core-link supernet; `discard` drops anything they attract that has no
+ *    contributing route.
+ *  - `tag 1000` and `tag 1001` with `tag2 0` mark them so IGP export policy can
+ *    match the summaries by tag rather than by prefix.
+ *  - `preference 14` keeps the aggregate below the contributing routes, so a
+ *    more specific route always wins.
+ *
+ * Variables (example values from an1_mx204):
+ *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
+ *   $CORE_LINK_SUPERNET    e.g. 10.10.0.0/24
+ */
+routing-options {
+    aggregate {
+        route $LOOPBACK_SUPERNET {
+            tag 1000;
+            tag2 0;
+            preference 14;
+            discard;
+        }
+        route $CORE_LINK_SUPERNET {
+            tag 1001;
+            tag2 0;
+            preference 14;
+            discard;
+        }
+    }
+}
+```
+
 ## junos/routing-options/flex-algorithm.conf
 
 ```
@@ -15253,6 +17045,46 @@ routing-options {
 }
 ```
 
+## junos/routing-options/forwarding-table-pplb-chained-nh.conf
+
+```
+/*
+ * Topic:   Forwarding table with per-packet load balancing and ingress chained composite next hops
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `export` applies the per-packet load-balancing policy to the forwarding
+ *    table, which is what turns multiple equal-cost routes into multiple
+ *    forwarding next hops.
+ *  - `chained-composite-next-hop ingress` builds one shared next hop per
+ *    service family, so L2VPN, L2 circuit, EVPN and L3VPN routes that share a
+ *    transport tunnel also share forwarding state.
+ *
+ * Pair with:
+ *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ *
+ * Variables (example values from an1_mx204):
+ *   $PPLB_NAME   e.g. pplb
+ *                (the configured load-balancing policy name; the forwarding
+ *                 table carries this exact literal)
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                l2vpn;
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
 ## junos/routing-options/forwarding-table.conf
 
 ```
@@ -15295,6 +17127,83 @@ routing-options {
                 evpn;
                 l3vpn;
             }
+        }
+    }
+}
+```
+
+## junos/routing-options/resolution-transport-class-l3vpn-rib.conf
+
+```
+/*
+ * Topic:   Colour-mapped resolution schemes alongside an L3VPN RIB resolution import
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
+ *    keep more than one usable next hop.
+ *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
+ *    transport-class RIBs, gold first and bronze second, so a gold-coloured
+ *    route falls back to bronze when the gold tunnel is gone.
+ *  - `scheme gold-to-bronze-v6` does the same over the IPv6 transport-class
+ *    RIBs.
+ *  - Both schemes are selected by the same `color:0:4000` mapping community,
+ *    so one colour on a route drives resolution in either address family.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+routing-options {
+    resolution {
+        rib bgp.l3vpn.0 {
+            import PS-MULTIPATH;
+        }
+        scheme gold-to-bronze {
+            resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+            mapping-community color:0:4000;
+        }
+        scheme gold-to-bronze-v6 {
+            resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+            mapping-community color:0:4000;
+        }
+    }
+}
+```
+
+## junos/routing-options/resolution-transport-class.conf
+
+```
+/*
+ * Topic:   Colour-mapped resolution schemes over the gold and bronze transport-class RIBs
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ *
+ * Highlights:
+ *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
+ *    transport-class RIBs, gold first and bronze second, so a gold-coloured
+ *    route falls back to bronze when the gold tunnel is gone.
+ *  - `scheme gold-to-bronze-v6` does the same over the IPv6 transport-class
+ *    RIBs.
+ *  - Both schemes are selected by the same `color:0:4000` mapping community,
+ *    so one colour on a route drives resolution in either address family.
+ *
+ * Pair with: none
+ *
+ * Variables: none
+ */
+routing-options {
+    resolution {
+        scheme gold-to-bronze {
+            resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+            mapping-community color:0:4000;
+        }
+        scheme gold-to-bronze-v6 {
+            resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+            mapping-community color:0:4000;
         }
     }
 }
