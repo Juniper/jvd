@@ -21,6 +21,8 @@ on:
       - 'portal/scripts/object-ownership.test.mjs'
       - 'portal/scripts/config-references.mjs'
       - 'portal/scripts/config-references.test.mjs'
+      - 'portal/scripts/dependency-resolve.mjs'
+      - 'portal/scripts/dependency-resolve.test.mjs'
       - 'portal/scripts/library-completeness.mjs'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
@@ -49,6 +51,7 @@ jobs:
           portal/scripts/config-objects.test.mjs
           portal/scripts/object-ownership.test.mjs
           portal/scripts/config-references.test.mjs
+          portal/scripts/dependency-resolve.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
