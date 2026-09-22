@@ -893,8 +893,7 @@ groups {
  *  - LACP active w/ hold-time up 2 for AE bundles.
  *  - Optics low-light alarms tied to link-down for fast convergence.
  *
- * Pair with:
- *  - evo/groups/gr-lag-member.conf
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -10042,7 +10041,7 @@ groups {
  *    flex-ethernet-services encapsulation, optics alarm/warning).
  *  - Apply with:   set interfaces et-0/0/0 apply-groups GR-EDGE-INTF
  *
- * Pair with:
+ * Pair with: none
  *
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
@@ -15157,7 +15156,7 @@ routing-instances {
  *
  * Pair with:
  *  - junos/interfaces/ethernet-bridge.conf
- *  - junos/interfaces/ifd-ps-transport.conf
+ *  - junos/interfaces/ifl-irb-inet.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -16336,6 +16335,7 @@ routing-instances {
  *    are also injected into every `<METRO_*>` VRF by apply-group GR-L3VPN.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-irb-inet.conf
  *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
@@ -16423,6 +16423,7 @@ routing-instances {
  *    routing-instances hierarchy level.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-irb-inet.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
@@ -17258,8 +17259,7 @@ routing-options {
  *    second anycast `end-point` under the bronze class to anchor a shared
  *    egress; captured for a future PE-role snip, not in this common form.
  *
- * Pair with:
- *  - junos/protocols/isis-srmpls-tilfa.conf
+ * Pair with: none
  *
  * Variables (example values from ma4_mx204):
  *   $TC_EGRESS   e.g. 1.1.0.16   (this node's transport-class egress loopback)

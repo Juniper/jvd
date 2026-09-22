@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T13:37:45.137Z",
+  "generatedAt": "2026-09-22T15:44:13.139Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -42409,13 +42409,7 @@
         "LACP active w/ hold-time up 2 for AE bundles.",
         "Optics low-light alarms tied to link-down for fast convergence."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/groups/gr-lag-member.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-lag-member",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
       "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
@@ -61239,8 +61233,8 @@
           "note": null
         },
         {
-          "raw": "junos/interfaces/ifd-ps-transport.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifd-ps-transport",
+          "raw": "junos/interfaces/ifl-irb-inet.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
           "note": null
         }
       ],
@@ -63011,6 +63005,11 @@
       ],
       "pairWith": [
         {
+          "raw": "junos/interfaces/ifl-irb-inet.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
+          "note": null
+        },
+        {
           "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
           "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
           "note": null
@@ -63114,6 +63113,11 @@
         "`multipath { vpn-unequal-cost; }`, `protect core` and `vrf-table-label` are also injected into every `<METRO_*>` VRF by apply-group GR-L3VPN, which both devices apply at the routing-instances hierarchy level."
       ],
       "pairWith": [
+        {
+          "raw": "junos/interfaces/ifl-irb-inet.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
+          "note": null
+        },
         {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
@@ -64364,13 +64368,7 @@
         "Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over Flex-Algo 129 (TE) — see routing-options/flex-algorithm.conf.",
         "Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) add a second anycast `end-point` under the bronze class to anchor a shared egress; captured for a future PE-role snip, not in this common form."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/protocols/isis-srmpls-tilfa.conf",
-          "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$TC_EGRESS",
