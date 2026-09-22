@@ -129,12 +129,12 @@ user asked for (default to eBGP if unspecified):
 
 ---
 
-## EVPN-ELAN (mac-vrf, mac-vrf-irb, vlan-based, or port-based)
+## EVPN-ELAN (vlan-based, irb, vlan-bundle, or port-based)
 
 **minimum** (just the service)
-- `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf` (EVO) **or**
-  `junos/routing-instances/evpn/evpn-elan-vlan-based.conf` (Junos MX) — or the
-  `-irb.conf` / `evpn-elan-vlan-based-gold.conf` variant, whichever flavor was requested
+- `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` (EVO) **or**
+  `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` (Junos MX) — or the
+  `ri-evpn-elan-irb.conf` / `ri-evpn-elan-vlan-based-export.conf` variant, whichever flavor was requested
 - `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `evo/interfaces/vlan-bridge-vlan-map.conf` (single-homed, EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
@@ -164,9 +164,9 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 
 **minimum** (both halves of the service + per-VRF policy)
 - L2 / RT-2 half (one of):
-    - `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
-    - `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
-- `services/evpn-type5.conf`              (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
+    - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
+    - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
+- `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
 - `evo/interfaces/vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
@@ -234,11 +234,11 @@ overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
   - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
     with both `site-identifier` and `remote-site-id`.
 - **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
-  - `junos/routing-instances/virtual-switch/bgp-vpls.conf` (Junos PEs only in this JVD).
+  - `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` (Junos PEs only in this JVD).
   - Identifier: `instance-type virtual-switch` + `protocols vpls`
     with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
 - **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
-  - `evo/routing-instances/virtual-switch/ldp-vpls.conf` (EVO PEs only in this JVD).
+  - `evo/routing-instances/vpls/ri-ldp-vpls.conf` (EVO PEs only in this JVD).
   - Identifier: `instance-type virtual-switch` + `protocols vpls`
     with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
   - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
@@ -278,7 +278,7 @@ MEF E-Tree (root / leaf isolation) on a Junos `mac-vrf` with
 `etree-ac-role` on each UNI. Junos-only in this JVD.
 
 **minimum** (just the service)
-- `junos/routing-instances/evpn/evpn-etree.conf`
+- `junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf`
 - `junos/interfaces/ethernet-bridge.conf` (E-Tree leaf/root UNI)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
@@ -327,15 +327,15 @@ in this JVD.
 A Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF for
 L2 + L3 IRB services. No explicit `ip-prefix-routes` block —
 host /32s are advertised via the MAC-VRF's RT-2. Use this instead
-of `services/evpn-type5.conf` when you do not need the VRF to
+of `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` when you do not need the VRF to
 originate RT-5 prefix routes (only the IRB subnet matters and it
 is carried by RT-2).
 
 **minimum** (both halves of the service + per-VRF policy)
 - L2 / RT-2 half (one of):
-    - `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` (EVO)
-    - `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` (Junos MX)
-- `services/evpn-type5-anchor.conf` (the slim anchor VRF — Junos and EVO)
+    - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO)
+    - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX)
+- `routing-instances/l3vpn/ri-l3vpn-irb-vrf-target.conf` (the slim anchor VRF — Junos and EVO)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
 - IRB-anchor AC unit: no snip in this library captures the L3VPN `family inet` attachment interface

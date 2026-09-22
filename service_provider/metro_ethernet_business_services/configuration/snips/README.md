@@ -41,7 +41,7 @@ Every snippet starts with a C-style comment header containing two cross-referenc
   ```
   This means you can open `services/evpn-vpws.conf` and immediately see *every* device in the JVD that participates in EVPN-VPWS, on both OS families. Useful for "what's the service between an1 and ma1-1?" questions.
 
-- **`Pair with:`** — other snippets in this folder that work together to deliver the same end-to-end service (e.g., a `services/evpn-vpws.conf` snippet pairs with `transport/bgp-overlay.conf` for `family evpn signaling` and with `interfaces/lag-esi-multihoming.conf` for the AC).
+- **`Pair with:`** — other snippets in this folder that work together to deliver the same end-to-end service (e.g., a `services/evpn-vpws.conf` snippet pairs with `transport/bgp-overlay.conf` for `family evpn signaling` and with `interfaces/ifl-vlan-ccc-vlan-map-esi.conf` for the AC).
 
 When a topic is validated on only one OS family in this JVD (e.g., L2Circuit hot-standby is only on `an3_acx7100-48l`), the counterpart snippet in the other tree is clearly marked as a **reference shape** with a note that it is not deployed on that OS family in this JVD.
 
@@ -77,31 +77,32 @@ The same topic file exists under both `junos/` and `evo/`:
 | `transport/isis-srmpls-tilfa.conf` | ISIS underlay with SR-MPLS, TI-LFA, Flex-Algo |
 | `transport/mpls-segment-routing.conf` | SRGB, admin-groups, ipv6-tunneling |
 | `transport/bgp-overlay.conf` | iBGP to RR with overlay AFs (inet/inet6 LU, inet-vpn, l2vpn, evpn, RT) |
-| `services/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
-| `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf.conf` | MEF E-LAN via EVPN mac-vrf (EVO) |
-| `junos/routing-instances/evpn/evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based — plain/base form (Junos MX) |
-| `junos/routing-instances/evpn/evpn-elan-vlan-based-gold.conf` | MEF E-LAN vlan-based — gold/colour-steered (`vrf-export` + map2gold, Junos MX) |
-| `evo/routing-instances/mac-vrf/evpn-elan-mac-vrf-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
-| `junos/routing-instances/virtual-switch/evpn-elan-virtual-switch-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
-| `services/evpn-port-based.conf` | Port-based EVPN E-LAN — whole-UNI (`ethernet-bridge` unit 0, mac-vrf + `service-type vlan-bundle`, EVO) |
-| `evo/routing-instances/mac-vrf/evpn-elan-vlan-bundle.conf` | VLAN-bundle EVPN E-LAN — selected VLANs (`vlan-bridge` + `vlan-id`/`vlan-id-list`) share one MAC-VRF (EVO) |
-| `services/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
-| `junos/routing-instances/virtual-switch/bgp-vpls.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
-| `evo/routing-instances/virtual-switch/ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
-| `evo/protocols/l2circuit-hsb-hub.conf` | L2circuit hot-standby — Hub (backup-neighbor toward Primary/Backup PE, EVO only) |
-| `evo/protocols/l2circuit-hsb-pe.conf` | L2circuit hot-standby — Primary/Backup PE (hot-standby-vc-on, EVO only) |
-| `services/l3vpn-bgp.conf` | L3VPN VRF with PE-CE eBGP and as-override |
-| `services/l3vpn-ospf.conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
-| `class-of-service/classifiers/classifiers.conf` | DSCP/EXP/802.1p ingress classifiers (EVO) |
-| `class-of-service/forwarding-classes/forwarding-classes.conf` | 6-class queue model |
-| `class-of-service/scheduler-maps/scheduler-maps.conf` | 5G_SCHEDULER map binding classes to schedulers |
-| `class-of-service/schedulers/schedulers.conf` | Per-class schedulers for the 6-class model |
+| `routing-instances/evpn-vpws/evpn-vpws.conf` | MEF E-Line via EVPN-VPWS routing-instance |
+| `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` | MEF E-LAN, VLAN-based, with a `vrf-export` policy (EVO) |
+| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` | MEF E-LAN via `instance-type evpn` vlan-based — plain/base form (Junos MX) |
+| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` | MEF E-LAN, VLAN-based, with a `vrf-export` policy (Junos MX) |
+| `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` | EVPN-ELAN with integrated IRB (mac-vrf + `l3-interface`, EVO) |
+| `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` | EVPN-ELAN with IRB via `instance-type virtual-switch` (Junos MX) |
+| `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf` | Port-based EVPN E-LAN — whole-UNI (`ethernet-bridge` unit 0, mac-vrf + `service-type vlan-bundle`, EVO) |
+| `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf` | VLAN-bundle EVPN E-LAN — selected VLANs (`vlan-bridge` + `vlan-id`/`vlan-id-list`) share one MAC-VRF (EVO) |
+| `routing-instances/l2vpn/l2vpn-kompella.conf` | Kompella L2VPN P2P pseudowire (instance-type l2vpn, RFC 4761) |
+| `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` | BGP-VPLS (virtual-switch + site/site-identifier, RFC 4761) — Junos PEs |
+| `evo/routing-instances/vpls/ri-ldp-vpls.conf` | LDP-VPLS (virtual-switch + vpls-id + neighbor, RFC 4762) — EVO PEs |
+| `evo/protocols/l2circuit-hsb-hub-color-ignore-encap.conf` | L2circuit hot-standby hub — transport-colour community, encapsulation-mismatch tolerance (EVO only) |
+| `evo/protocols/l2circuit-hsb-pe-color.conf` | L2circuit hot-standby PE — hot-standby-vc-on with transport-colour community (EVO only) |
+| `routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy[-auto-export].conf` | L3VPN VRF with PE-CE eBGP and as-override |
+| `routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy[-auto-export].conf` | L3VPN VRF with PE-CE OSPF (area 0, `interface-type p2p`) |
+| `class-of-service/classifiers/cl-6class.conf` | DSCP/EXP/802.1p ingress classifiers |
+| `class-of-service/forwarding-classes/fc-6queue-model.conf` | 6-class queue model |
+| `class-of-service/rewrite-rules/rr-6class-marking.conf` | DSCP/EXP/802.1p rewrite rules for the 6-class model |
+| `class-of-service/scheduler-maps/sm-6class-mapping.conf` | Scheduler-map pairing each class with its scheduler |
+| `class-of-service/schedulers/sc-2-priority-model.conf` | Per-class schedulers, strict-high REALTIME plus five low |
 | `policy/communities.conf` | Topology tags + BGP-CT color communities + L3VPN per-service RTs |
 | `policy/l3vpn-export-import.conf` | Per-VRF export/import policies (route-target tagging) |
 | `firewall/policers.conf` | 5/50 Mbps rate-limit policer templates |
 | `oam/oam-cfm-perf-mon.conf` | Y.1731 performance-monitoring with HW-assisted timestamping |
-| `interfaces/lag-esi-multihoming.conf` | Edge LAG with per-unit ESI (EVPN-VPWS / EVPN-ELAN ACs) |
-| `interfaces/vlan-ccc-vlan-map*.conf`, `interfaces/vlan-bridge-vlan-map*.conf`, `interfaces/vlan-vpls-vlan-map.conf` | Per-unit attachment circuits with input/output vlan-map push/pop |
+| `interfaces/ifd-ae-lacp-fast.conf` | Aggregated-Ethernet edge bundle, fast-periodic LACP |
+| `interfaces/ifl-vlan-ccc-vlan-map*.conf`, `interfaces/ifl-vlan-bridge-vlan-map*.conf`, `interfaces/ifl-vlan-vpls-vlan-map.conf` | Per-unit attachment circuits with input/output vlan-map push/pop |
 | `interfaces/core-isis-mpls.conf` | Core-facing LAG carrying inet/iso/inet6/mpls |
 
 ## Scope

@@ -15,9 +15,10 @@ The variables fall into a few groups.
 
 | Variable               | What it is                                                                           | Example value                |
 |------------------------|--------------------------------------------------------------------------------------|------------------------------|
-| `$AS_LOCAL`            | This PE's iBGP / overlay AS (always `63535` in the JVD).                              | `63535`                      |
 | `$AS_CUST`             | Customer-facing eBGP AS used by PE-CE BGP and as-override.                           | `64514`                      |
 | `$LOOPBACK_V4`         | This PE's lo0 IPv4 (used as RD-prefix and BGP next-hop).                             | `1.1.0.17`                   |
+| `$LOOPBACK_ANYCAST_V4` | Shared anycast lo0 IPv4 owned by more than one node.                                 | `1.1.10.10`                  |
+| `$LOOPBACK_SR_V4`      | SR non-zero lo0 IPv4 carrying an SR prefix-SID.                                      | `1.1.10.6`                   |
 | `$LOOPBACK_V6`         | This PE's lo0 IPv6.                                                                  | `2001:db8::17`               |
 | `$ROUTER_ID`           | router-id (usually equal to `$LOOPBACK_V4`).                                          | `1.1.0.17`                   |
 | `$NODE_SID_V4`         | ISIS source-packet-routing IPv4 node-segment index.                                  | `17`                         |
@@ -49,7 +50,7 @@ The variables fall into a few groups.
 | `$CORE_INTF`           | Core-facing LAG unit used for ISIS+MPLS underlay.                                | `ae71.0`          |
 | `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |
 | `$LAG_MEMBER`          | A child interface of the LAG (mostly used in member templates).                  | `et-0/0/0`        |
-| `$UNIT`                | Logical-unit / VLAN id appended to `$AC_INTF` when the AC is written as `$AC_INTF.$UNIT`. | `3000`            |
+| `$UNIT`                | Logical-unit identifier — the `unit <n>` a construct configures, and the tail when an interface is written `<ifd>.<unit>`. | `3000`            |
 | `$UNI_INTF`           | Customer UNI physical interface. | `xe-0/0/3:1` |
 | `$AC_INTF_1` / `$AC_INTF_2` | The two attachment-circuit interfaces cross-connected by l2circuit local-switching. | `et-0/0/5` |
 | `$PS_INTF`            | Pseudowire-subscriber logical interface. | `ps0` |
@@ -63,14 +64,21 @@ The variables fall into a few groups.
 | `$VLAN_BRIDGE`        | vlan-id on a bridge (vlan-bridge) unit. | `300` |
 | `$VLAN_UNIT`          | Selects `ae11.<unit>` on the shared edge LAG. | `700` |
 | `$UNIT_BRIDGE` / `$UNIT_CCC` | Logical-unit numbers for the bridge / ccc encapsulation units. | `300` / `0` |
+| `$IFD`                | Interface device a construct configures or attaches to, independent of its type or topology role — physical, aggregated or pseudowire-subscriber. | `ae11` |
+| `$INT_DESC`           | Interface description; the scope is whichever interface the body configures. | `"evpn service IFL"` |
+| `$INPUT_VID`          | VLAN id pushed by an `input-vlan-map` when the customer and service-internal VLAN ids differ. | `3800` |
+| `$VLAN_LIST`          | VLAN range or list admitted by a `vlan-id-list` interface. | `1000-1001` |
+| `$VLAN_OUTER` / `$VLAN_INNER` | Outer and inner tags of a double-tagged (`vlan-tags`) interface. | `225` / `2250` |
+| `$COS_INTF`           | Interface to which the class-of-service configuration is applied, physical or aggregated and independent of topology role. | `ae11` |
 
 ## Service identifiers
 
 | Variable                  | What it is                                                       | Example value |
 |---------------------------|------------------------------------------------------------------|---------------|
-| `$INSTANCE_NAME`          | The routing-instance name (per-service, often encodes IDs).      | `evpn_group_30_2400` |
-| `$RD_ID`                  | Route-distinguisher tail (RD = `$LOOPBACK_V4:$RD_ID`).            | `2400`        |
-| `$RT_ID`                  | Route-target tail (RT = `target:$AS_LOCAL:$RT_ID`).               | `2400`        |
+| `$INSTANCE_NAME`          | The service-instance name (per-service, often encodes IDs).      | `evpn_group_30_2400` |
+| `$RD_SUB_ASSIGNED`        | Route-distinguisher Assigned Number subfield (RD = `$LOOPBACK_V4:$RD_SUB_ASSIGNED`). | `2400`        |
+| `$RT_AS`                  | Route-target Administrator subfield; service-scoped, not the node's own AS. | `63535`       |
+| `$RT_ID`                  | Route-target Assigned Number (the tail), independent of the variable supplying the Administrator. | `2400`        |
 | `$VPWS_SVC_ID_LOCAL`      | EVPN-VPWS local service-id.                                      | `2`           |
 | `$VPWS_SVC_ID_REMOTE`     | EVPN-VPWS remote service-id.                                     | `1`           |
 | `$VC_ID`                  | l2circuit / VPLS virtual-circuit-id (or `vpls-id`).              | `3000`        |
@@ -96,6 +104,15 @@ The variables fall into a few groups.
 | `$CE_PEER_V4` / `$PE_LOCAL_V4` | PE-CE eBGP peer / local IPv4 addresses. | `115.2.0.2` / `115.2.0.1` |
 | `$CE_PREFIX_1` / `$CE_PREFIX_2` / `$CE_PREFIX_3` | Customer prefixes matched by per-VRF import/export route-filters. | `13.2.0.0/16` |
 
+## Class of Service
+
+| Variable               | What it is                                                  | Example value |
+|------------------------|-------------------------------------------------------------|---------------|
+| `$FORWARDING_CLASS`    | Forwarding class a logical unit assigns every packet to. | `REALTIME` |
+
+`$COS_INTF` is the other class-of-service variable; it is listed with the
+interfaces above because its value is an interface identifier.
+
 ## OAM (CFM)
 
 | Variable               | What it is                                                  | Example value |
@@ -112,8 +129,8 @@ The variables fall into a few groups.
 |------------------------|-------------------------------------------------------------|---------------|
 | `$FABRIC_COMMUNITY_AS`  | **Deployment-scoped.** Administrator AS for fabric community values (fixed per deployment; not the device local AS). | `63535` |
 | `$RING_COMMUNITY_AS`    | **Deployment-scoped.** Administrator AS for metro ring-region community values (fixed per deployment). | `63536` |
-| `$L3VPN_RT_AS`          | **Service-instance-scoped.** L3VPN route-target administrator — the VRF's originating-domain AS; may differ between VRFs on one node. | `63536` |
 | `$L3VPN_ID`             | **Service-instance-scoped.** L3VPN service identifier; repeated (consistently bound) in the community name and RT tail. | `1001` |
+| `$COLOR_COMMUNITY`      | **Service-instance-scoped.** Name of the community carrying the service transport-colour value. | `map2gold` |
 | `$LOOPBACK_COMMUNITY`   | **Device/role-scoped.** Complete `CM-LOOPBACK` value; the administrator follows the node's regional role. | `63535:10000` |
 
 ## Group / policy names
@@ -126,8 +143,10 @@ vary across otherwise-identical deployed forms is parameterised instead (see
 - Apply groups: `GR-EDGE-INTF`, `GR-EDGE-INTF-MH`, `GR-CORE-INTF`,
   `GR-ISIS-BCP`, `GR-BGP-BCP`, `GR-FATPW-LB`, `GR-FATPW-LABEL`,
   `GR-L3VPN`, `GR-L2CKT-HS`, `GR-ISIS-BFD`, `GR-LAG-MEMBER`.
-- Forwarding-classes: `BEST-EFFORT`, `MEDIUM`, `REALTIME`,
-  `SIG-OAM`, `CONTROL`, `BUSINESS`.
+- Forwarding-classes, where they are the objects being defined:
+  `BEST-EFFORT`, `MEDIUM`, `REALTIME`, `SIG-OAM`, `CONTROL`, `BUSINESS`.
+  A body that only *references* a forwarding class uses `$FORWARDING_CLASS`
+  when the class referenced varies across otherwise-identical forms.
 - Schedulers / scheduler-maps, communities, and per-VRF
   import/export policies are referenced by their own filename
   in the `policy/` and `cos/` snip categories.
@@ -148,9 +167,9 @@ verbatim while the body is fully rendered:
  *   $INSTANCE_NAME      e.g. evpn_group_30_2400
  *   $AC_INTF            e.g. ae12.2400
  *   $LOOPBACK_V4        e.g. 1.1.0.17
- *   $RD_ID              e.g. 2400
+ *   $RD_SUB_ASSIGNED    e.g. 2400
  *   $RT_ID              e.g. 2400
- *   $AS_LOCAL           e.g. 63535
+ *   $RT_AS              e.g. 63535
  *   $VPWS_SVC_ID_LOCAL  e.g. 2
  *   $VPWS_SVC_ID_REMOTE e.g. 1
 ```
