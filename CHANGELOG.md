@@ -92,11 +92,6 @@ know precisely which published configurations each part came from.
   contains all 334 snippets (previously 163), its tier guidance points only at
   snippets that exist, and the variable glossary documents **125 variables**,
   matching exactly what the snippet bodies use.
-- **Assistants read the committed library directly** — every JVD assistant now
-  fetches its snippet corpus from the committed source in this repository
-  rather than from the published site mirror, so the assistant always reads the
-  library as committed. That matters most in a release like this one, where the
-  corpus itself changes substantially.
 
 ### What this means for you
 
@@ -1432,52 +1427,52 @@ library's actual coverage.
 - **New MEBS service templates** under
   [`service_provider/metro_ethernet_business_services/configuration/snips/`](service_provider/metro_ethernet_business_services/configuration/snips/):
   - **EVPN-FXC** (Flexible Cross-Connect) for both
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf)
+    Junos
     and
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-fxc.conf)
+    EVO
     — bundle multiple UNIs under one `evpn-vpws` instance with
     an FXC collector group.
   - **EVPN E-Tree** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-etree.conf)
+    Junos
     — MEF E-Tree (root / leaf) on a Junos mac-vrf with
     `etree-ac-role` on each UNI.
   - **Slim L3VPN IRB-anchor VRF** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf)
+    Junos
     and
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf)
+    EVO
     — a Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF
     for L2+L3 IRB services (host /32s ride RT-2, no
     `ip-prefix-routes` block).
   - **L2Circuit floating pseudowires** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf)
+    Junos
     and EVO
     — static-label PW landing on a `ps<N>` pseudowire-subscriber
     anchor.
   - **L2Circuit local-switching** for
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-lsw.conf)
+    EVO
     — port-to-port hairpin on one PE via
     `end-interface`.
   - **EVO BGP-VPLS** at
-    [`evo/services/bgp-vpls.conf`](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/bgp-vpls.conf)
+    `evo/services/bgp-vpls.conf`
     — completes the BGP-VPLS cross-OS pair (the Junos template
     already shipped).
   - **Junos EVPN-ELAN virtual-switch IRB** at
-    [`junos/services/evpn-elan-virtual-switch-irb.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf)
+    `junos/services/evpn-elan-virtual-switch-irb.conf`
     — the legacy `virtual-switch` shape with IRB, alongside the
     existing mac-vrf variant.
 
 - **L3VPN split by PE-CE protocol** — the generic `l3vpn-vrf`
   template is replaced by two protocol-specific templates,
   shipped for both Junos and EVO:
-  - [`l3vpn-bgp.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-bgp.conf)
+  - `l3vpn-bgp.conf`
     — L3VPN VRF with PE-CE eBGP (`as-override`,
     BGP routing-options).
-  - [`l3vpn-ospf.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-ospf.conf)
+  - `l3vpn-ospf.conf`
     — L3VPN VRF with PE-CE OSPF (area 0,
     `interface-type p2p`).
 
 - **Two new MEBS interface templates**:
-  - [`junos/interfaces/pseudowire-subscriber.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/pseudowire-subscriber.conf)
+  - `junos/interfaces/pseudowire-subscriber.conf`
     — the `ps<N>` anchor used by floating-pw services.
   - [`junos/interfaces/ethernet-bridge.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ethernet-bridge.conf)
     — `encapsulation ethernet-bridge` UNI shape.
@@ -1512,7 +1507,7 @@ library's actual coverage.
 ### What this means for you
 
 - If you're building a Metro Ethernet service against MEBS,
-  the [services tree](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/)
+  the services tree
   is now a one-snip-per-shape catalog: pick `evpn-vpws` /
   `evpn-fxc` / `evpn-etree` / `l3vpn-bgp` / `l3vpn-ospf` /
   `l2circuit-floating-pw` etc. directly, instead of forking
