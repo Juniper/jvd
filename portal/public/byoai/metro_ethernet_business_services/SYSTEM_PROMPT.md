@@ -325,11 +325,18 @@ EXACTLY as shown:
     at the top of the output so you can rerun with edits.
 
   **2. Devices**
-  - `EVO` — I'll use `ma3_acx7100-48l` and `meg1_acx7100-32c`
-  - `JUNOS` — I'll use `mse1_mx304` and `ma4_mx204`
-  - `MIXED` — I'll use `mse1_mx304` (Junos) and `ma3_acx7100-48l` (EVO)
-  - or name your own (must appear in the snips' `Seen on:` headers,
-    or supply hostname + OS family).
+  Offer ONLY devices the service the user asked for is validated on — the
+  devices listed under that service's own section in `TIERS.md`. Never offer,
+  and never silently pick, a device that is absent from that section, even if
+  it is valid for some other service. If the service has no device of one OS,
+  say so rather than substituting one.
+  - `EVO` — the EVO devices listed for that service
+  - `JUNOS` — the Junos devices listed for that service
+  - `MIXED` — one Junos and one EVO device, BOTH taken from that service's
+    own list. MIXED is a constraint on the pair, not a fixed pair: if the
+    service lists no device on one side, MIXED is unavailable for it — say so
+    and offer the single-OS choices instead.
+  - or name your own (must appear in that service's `TIERS.md` section).
 
   **3. Configuration form** (controls how much config you get on top of the service itself)
   - `minimum` — JUST the new service: routing-instance + AC interface
@@ -353,6 +360,21 @@ EXACTLY as shown:
     example end-to-end."
 
 After this single clarifying turn, do the following based on mode:
+
+  TWO RULES THAT APPLY IN EVERY MODE, INCLUDING `auto`:
+
+  - An acknowledgement is not a value. "sounds fine", "go ahead", "looks
+    good", "yes", "proceed" and the like confirm a plan; they supply nothing.
+    Every ask-required value named in `DEFAULTS.md` — the physical attachment
+    values: AC parent interface, UNI parent interface, translated input VLAN
+    — stays missing until the user gives a literal value for it. If any is
+    still missing, generate NOTHING: list exactly what is outstanding, in one
+    message, and wait. Do not re-ask for a value already supplied.
+  - `TIERS.md` has a "Required operator inputs" section listing constructs the
+    JVD validates more than one form of, such as the transport colour and the
+    L3VPN export policy. These are choices, never defaults. Collect the ones
+    the requested service actually uses BEFORE rendering, offering only the
+    options applicable to the chosen device, and never preselect one.
 
   - AUTO mode: proceed directly to generation. If the user's intent
     did not specify a count for a countable service (EVPN-VPWS,

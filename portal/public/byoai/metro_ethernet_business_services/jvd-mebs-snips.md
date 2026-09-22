@@ -9845,13 +9845,15 @@ firewall {
  *   Junos: an1_mx204
  *   EVO:   (none)
  *
- * Two reusable rate-limit policers (5 Mbps and 50 Mbps) and an
- * interface-specific family-any filter that drops traffic
- * exceeding 50 Mbps. Apply with:
+ * Highlights:
+ *  - Two reusable rate-limit policers (5 Mbps and 50 Mbps) and an
+ *    interface-specific family-any filter that drops traffic
+ *    exceeding 50 Mbps. Apply with:
+ *    set interfaces <ifd> unit <unit> family any filter input 50MB_filter
+ *  - The 50 Mbps policer here carries a 10 m burst, which is this device's
+ *    form; every other PE uses the 2 m burst in evo/firewall/policers.conf.
  *
- *   set interfaces <ifd> unit <unit> family any filter input 50MB_filter
- *
- * Pair with:
+ * Pair with: none
  *
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
