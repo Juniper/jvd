@@ -5618,7 +5618,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3080,
+      "size_bytes": 3002,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf"
     },
     {
@@ -5673,7 +5673,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2309,
+      "size_bytes": 2232,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"
     },
     {
