@@ -2,28 +2,54 @@
  * variant-resolve.mjs — deterministic, fail-closed resolution of a consumer's
  * `variant:` requirement to exactly one publishing member.
  *
- * A member is compatible only when it is the same JVD, same variant-group name,
- * same target OS, lists the target device in its exact `Seen on:` bucket, and
- * provides every requested family (atomic all-of). Zero matches is unavailable
- * (fail closed); more than one is ambiguous (fail closed). The first arbitrary
- * member is never chosen, and substitution never crosses OS, device, or JVD.
+ * Applicability and storage are separate facts. A member is **applicable** to a
+ * target when it is the same JVD, the same variant group, provides every
+ * requested selector, and names that exact device in the target OS's `Seen on:`
+ * row. The member's directory records the dialect its body is written in; it
+ * never establishes or withholds applicability, and body equality, filename
+ * similarity and `otherOsFormId` are never substitutes for an explicit device
+ * token.
+ *
+ * Among applicable members, one stored under the target OS is preferred. A
+ * member stored under the other directory is selected only when no
+ * same-directory member is applicable — a cross-directory selection, flagged so
+ * audits can report it. Zero applicable members is unavailable (fail closed);
+ * more than one at the winning tier is ambiguous. The first arbitrary member is
+ * never chosen, and selection never crosses device or JVD.
  *
  * Member descriptor shape:
  *   { jvd, os: "junos"|"evo", group, provides: string[], seenOn: { junos:[], evo:[] } }
  */
 
-export function resolveVariant({ group, families, targetDevice, targetOS, consumerJvd, members }) {
-  const matches = (members || []).filter(
+/**
+ * `selectors` carries the requested tokens; `families` is a deprecated alias
+ * kept so existing callers and serialized data keep working. Tokens are opaque,
+ * so an address family and a namespaced capability resolve identically.
+ */
+export function resolveVariant({
+  group,
+  selectors,
+  families,
+  targetDevice,
+  targetOS,
+  consumerJvd,
+  members,
+}) {
+  const wanted = selectors ?? families ?? [];
+  const applicable = (members || []).filter(
     (m) =>
       m.jvd === consumerJvd &&
       m.group === group &&
-      m.os === targetOS &&
       (m.seenOn?.[targetOS] || []).includes(targetDevice) &&
-      families.every((f) => (m.provides || []).includes(f)),
+      wanted.every((f) => (m.provides || []).includes(f)),
   );
-  if (matches.length === 1) return { status: "ok", member: matches[0] };
-  if (matches.length === 0) return { status: "unavailable", member: null };
-  return { status: "ambiguous", members: matches };
+  const native = applicable.filter((m) => m.os === targetOS);
+  const tier = native.length ? native : applicable;
+  if (tier.length === 1) {
+    return { status: "ok", member: tier[0], crossDirectory: tier[0].os !== targetOS };
+  }
+  if (tier.length === 0) return { status: "unavailable", member: null };
+  return { status: "ambiguous", members: tier };
 }
 
 /**

@@ -66,6 +66,9 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
  *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
+  // A cross-directory selection is evidence-backed and legitimate; it is
+  // surfaced so audits can see it, never to block.
+  if (code === CODES.VARIANT_CROSS_DIRECTORY) return "warn";
   if (changed) return "error";
   if (seenOnValidation === "complete" && (APPLICABILITY_CODES.has(code) || VARIANT_CODES.has(code))) return "error";
   return "warn";
@@ -198,7 +201,7 @@ export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, memb
       for (const dev of devices) {
         const r = resolveVariant({
           group: req.group,
-          families: req.families,
+          selectors: req.families,
           targetDevice: dev,
           targetOS: bucketOS,
           consumerJvd: jvd,
@@ -210,6 +213,11 @@ export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, memb
         const detail = `${req.group} ${dev} ${keyword}=${req.families.join(",")}`;
         if (r.status === "unavailable") findings.push({ code: CODES.VARIANT_UNRESOLVED, detail });
         else if (r.status === "ambiguous") findings.push({ code: CODES.VARIANT_AMBIGUOUS, detail });
+        else if (r.crossDirectory)
+          findings.push({
+            code: CODES.VARIANT_CROSS_DIRECTORY,
+            detail: `${detail} -> ${r.member.rel} (stored under ${r.member.os})`,
+          });
       }
     }
   }

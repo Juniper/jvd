@@ -495,3 +495,76 @@ test("C12. device overlap inside one group is reported", () => {
   const f = validateVariantOverlap({ os: "evo", variantGroup: { name: "mebs-irb-form" }, seenOn: IRB_INET.seenOn, selfRel: IRB_INET.rel, members: [IRB_INET, clash] });
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_DEVICE_OVERLAP]);
 });
+
+// --- Applicability governs selection; storage only breaks ties -----------
+const NATIVE = { jvd: "J", os: "evo", group: "g", provides: ["x"], seenOn: { junos: [], evo: ["d1"] }, rel: "evo/a.conf" };
+const FOREIGN = { jvd: "J", os: "junos", group: "g", provides: ["x"], seenOn: { junos: [], evo: ["d1"] }, rel: "junos/a.conf" };
+
+test("D1. a same-directory applicable member wins and is not cross-directory", () => {
+  const r = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [NATIVE, FOREIGN] });
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "evo/a.conf");
+  assert.equal(r.crossDirectory, false);
+});
+
+test("D2. with no same-directory member, an exact-device other-directory member is selected and flagged", () => {
+  const r = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [FOREIGN] });
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "junos/a.conf");
+  assert.equal(r.crossDirectory, true);
+});
+
+test("D3. a member that does not name the device is never a fallback", () => {
+  const elsewhere = { ...FOREIGN, seenOn: { junos: ["d9"], evo: ["d9"] } };
+  const r = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [elsewhere] });
+  assert.equal(r.status, "unavailable");
+});
+
+test("D4. two other-directory candidates are ambiguous, never first-wins", () => {
+  const b = { ...FOREIGN, rel: "junos/b.conf" };
+  const r = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [FOREIGN, b] });
+  assert.equal(r.status, "ambiguous");
+});
+
+test("D5. a missing selector still fails closed regardless of directory", () => {
+  const r = resolveVariant({ group: "g", selectors: ["y"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [NATIVE, FOREIGN] });
+  assert.equal(r.status, "unavailable");
+});
+
+test("D6. selection never crosses JVD", () => {
+  const r = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "OTHER", members: [FOREIGN] });
+  assert.equal(r.status, "unavailable");
+});
+
+test("D7. families is still accepted as a deprecated alias for selectors", () => {
+  const a = resolveVariant({ group: "g", families: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [NATIVE] });
+  const b = resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [NATIVE] });
+  assert.equal(a.status, "ok");
+  assert.deepEqual(a.member, b.member);
+});
+
+test("D8. both external syntaxes map into one neutral selector model", () => {
+  const p = (b) => parseSnip(`/*
+ * Topic:   consumer
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - ${b}
+ */
+routing-instances { X { instance-type vrf; } }`).header.variantRequires[0];
+  assert.deepEqual(p("variant:g families=evpn"), { group: "g", families: ["evpn"] });
+  assert.deepEqual(p("variant:g capabilities=ifl:irb"), { group: "g", families: ["ifl:irb"] });
+});
+
+test("D9. a cross-directory selection is reported to the consumer audit", () => {
+  const f = validateVariantConsumer({
+    os: "evo",
+    seenOn: { junos: [], evo: ["d1"] },
+    variantRequires: [{ group: "g", families: ["x"] }],
+    jvd: "J",
+    members: [FOREIGN],
+  });
+  assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_CROSS_DIRECTORY]);
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "warn");
+});

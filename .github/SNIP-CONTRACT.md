@@ -362,10 +362,19 @@ bullet inside `Pair with:`:
   nonempty. A keyword that disagrees with the token kind is `VARIANT_MALFORMED`.
 - A multi-token requirement is **atomic**: one member must provide **all** of
   the requested selectors.
-- Resolution is deterministic and fail-closed. A requirement resolves against a
-  member only when it is the **same JVD**, **same group**, **same OS**, lists the
-  **exact target device** in its `Seen on:` bucket, and provides every requested
-  selector. Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more**
+- Resolution is deterministic and fail-closed. A candidate is **applicable** only
+  when it is the **same JVD**, **same group**, provides every requested selector,
+  and lists the **exact target device** in the target OS's `Seen on:` row.
+  Applicability is established by that row alone: a snip's directory records the
+  dialect its body is written in, never which devices it covers, and body
+  equality, filename similarity and `otherOsFormId` are **never** substitutes
+  for an explicit device token.
+- Among applicable candidates, one stored under the target OS is preferred. A
+  candidate stored under the other directory is selected only when no
+  same-directory candidate is applicable, and only because it names that exact
+  device. Such a selection is a **cross-directory selection** and **MUST** be
+  reported in audit output (`VARIANT_CROSS_DIRECTORY`, informational).
+  Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more**
   than one** is `VARIANT_AMBIGUOUS`; a referenced group with no members is
   `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen, and
   selection never crosses OS, device, or JVD.
