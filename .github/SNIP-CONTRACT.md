@@ -345,8 +345,11 @@ directly after `Seen on:`:
   unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`. Families are
   compared against the `protocols bgp` hierarchy; `ifl:irb` requires an active
   `interfaces { irb { unit … } }` hierarchy.
-- Within one JVD, OS, and group, a device **MUST** appear in at most one member,
-  regardless of capabilities (`VARIANT_DEVICE_OVERLAP`).
+- Within one JVD and group, a target device **MUST** map to at most one distinct
+  emitted body, evaluated across **both** storage directories
+  (`VARIANT_DEVICE_OVERLAP`). Two members naming the same device are duplicate
+  representations when their normalized bodies match and an overlap when they
+  differ; `otherOsFormId` is never proof of equivalence.
 
 **Consumer** — a snip that needs a capability expresses it as a requirement
 bullet inside `Pair with:`:
@@ -369,15 +372,24 @@ bullet inside `Pair with:`:
   dialect its body is written in, never which devices it covers, and body
   equality, filename similarity and `otherOsFormId` are **never** substitutes
   for an explicit device token.
-- Among applicable candidates, one stored under the target OS is preferred. A
-  candidate stored under the other directory is selected only when no
-  same-directory candidate is applicable, and only because it names that exact
-  device. Such a selection is a **cross-directory selection** and **MUST** be
-  reported in audit output (`VARIANT_CROSS_DIRECTORY`, informational).
-  Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more**
-  than one** is `VARIANT_AMBIGUOUS`; a referenced group with no members is
-  `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen, and
-  selection never crosses OS, device, or JVD.
+- Among applicable candidates, those emitting the **same normalized body** are
+  one logical representation. Normalization is exhaustive and minimal: CRLF and
+  lone CR become LF, trailing spaces and tabs are removed from each line, and
+  trailing blank lines are removed. No statement is ignored and no variable is
+  elided, so two candidates share an identity only when they emit the same
+  configuration. Headers are not part of a body. Equivalence may **collapse**
+  candidates that are already applicable; it **MUST NOT** make an inapplicable
+  candidate applicable.
+- If more than one distinct applicable body remains, the requirement is
+  `VARIANT_AMBIGUOUS`, **regardless of directory** — directory preference can
+  never hide a differing body. If exactly one distinct body remains, its
+  same-directory representation is preferred; otherwise its opposite-directory
+  representation is selected and reported as a **cross-directory selection**
+  (`VARIANT_CROSS_DIRECTORY`, informational). Selection is independent of
+  candidate order.
+  Zero applicable candidates is `VARIANT_UNRESOLVED`; a referenced group with no
+  members is `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen,
+  and selection never crosses device or JVD.
 - A bullet beginning `variant:` that is malformed is `VARIANT_MALFORMED` and
   **never** falls through to an ordinary path prerequisite.
 

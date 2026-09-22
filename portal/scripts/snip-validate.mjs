@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-parse.mjs";
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
 import { extractIflCapabilities } from "./ifl-capabilities.mjs";
-import { resolveVariant, groupHasMembers } from "./variant-resolve.mjs";
+import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -225,19 +225,35 @@ export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, memb
 }
 
 /**
- * Group validation: within one JVD, OS, and group, a device may appear in at
- * most one member — regardless of capabilities. Returns overlap findings for
- * the member identified by `selfRel`.
+ * Group validation: within one JVD and group, a target device must map to at
+ * most one distinct emitted body — evaluated across BOTH storage directories,
+ * because storage is not part of applicability. Two members naming the same
+ * device in the same target-OS row are duplicate representations when their
+ * normalized bodies match, and an overlap when they differ. `otherOsFormId` is
+ * never consulted. Returns overlap findings for the member identified by
+ * `selfRel`.
  */
 export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, members }) {
   const findings = [];
   if (!variantGroup || !members) return findings;
-  const mine = (seenOn && seenOn[os]) || [];
-  for (const dev of mine) {
-    const clash = members.some(
-      (m) => m.rel !== selfRel && m.os === os && m.group === variantGroup.name && (m.seenOn?.[os] || []).includes(dev),
-    );
-    if (clash) findings.push({ code: CODES.VARIANT_DEVICE_OVERLAP, detail: `${dev} in ${variantGroup.name} (${os})` });
+  const self = members.find((m) => m.rel === selfRel);
+  const selfId = self?.bodyId ?? null;
+  for (const bucket of ["junos", "evo"]) {
+    for (const dev of (seenOn && seenOn[bucket]) || []) {
+      const clash = members.some(
+        (m) =>
+          m.rel !== selfRel &&
+          m.group === variantGroup.name &&
+          (m.seenOn?.[bucket] || []).includes(dev) &&
+          // Identical emitted bodies are one representation, not a clash.
+          (selfId === null || m.bodyId === undefined || m.bodyId !== selfId),
+      );
+      if (clash)
+        findings.push({
+          code: CODES.VARIANT_DEVICE_OVERLAP,
+          detail: `${dev} in ${variantGroup.name} (${bucket})`,
+        });
+    }
   }
   return findings;
 }
@@ -426,7 +442,8 @@ async function main() {
 
     const relRepo = path.relative(REPO_ROOT, f).split(path.sep).join("/");
     const os = osOfRel(relRepo);
-    const { header } = parseSnip(await fs.readFile(f, "utf8"));
+    const parsedForMember = parseSnip(await fs.readFile(f, "utf8"));
+    const { header } = parsedForMember;
     if (os && header?.variantGroup) {
       if (!membersByJvd.has(jvdRoot)) membersByJvd.set(jvdRoot, []);
       membersByJvd.get(jvdRoot).push({
@@ -436,6 +453,7 @@ async function main() {
         provides: header.variantGroup.provides,
         seenOn: header.seenOn,
         variantGroup: header.variantGroup,
+        bodyId: bodyIdentity(parsedForMember.body),
         rel: relRepo,
       });
     }
