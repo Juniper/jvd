@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T23:42:48.224Z",
+  "generatedAt": "2026-09-22T03:57:19.984Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -63101,11 +63101,6 @@
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
           "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export",
-          "note": null
         }
       ],
       "variables": [
@@ -63541,11 +63536,6 @@
         {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
-          "note": null
-        },
-        {
-          "raw": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
-          "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export",
           "note": null
         }
       ],

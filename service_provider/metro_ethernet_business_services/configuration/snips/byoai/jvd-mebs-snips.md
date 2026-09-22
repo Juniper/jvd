@@ -16294,7 +16294,6 @@ routing-instances {
  *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
- *  - junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
  *
  * JVD service mapping:
  *   2200 instances total (high 2200 / med 0 / low 0)
@@ -16592,7 +16591,6 @@ routing-instances {
  *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
- *  - junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
  *
  * JVD service mapping:
  *   1100 instances total (high 1100 / med 0 / low 0)
@@ -17899,7 +17897,10 @@ Every value comes from an IETF documentation range or a private/reserved range s
 ## Routing / transport
 
 - IGP: ISIS L2-only, area `49.0001`
-- Route-Reflector: first PE in the device list
+- Route-Reflector: first PE in the device list — supplies `$RR1_V4`
+- `$RR2_V4`: **ask**. The deployed overlay peers with a redundant RR pair and this
+  JVD defines no rule for the second address. Do not synthesize one and do not
+  reuse `$RR1_V4`. (With a single-device request neither RR is derivable — ask.)
 - SRGB: literal — keep as in `transport/mpls-segment-routing.conf`
 - Admin groups: literal — keep as in `transport/mpls-segment-routing.conf`
 - Flex-algo: `128` (gold), `129` (bronze) — literal
@@ -17917,18 +17918,58 @@ Every value comes from an IETF documentation range or a private/reserved range s
 - Instance name: `EVPN_VPWS_<S>`
 - VPWS service-id: `<S>`
 - AC interface unit: `<S>`
-- ESI: `00:11:22:33:44:55:66:<Sh>:<Sm>:<Sl>` where `<Sh>:<Sm>:<Sl>` are the three bytes of `(S - 4001 + 1)`. Clearly synthetic.
+- ESI: see **ESI** below (service id = `<S>`)
 
 ## EVPN-ELAN service (vlan V, sequential from 2001; skip 1, 1002–1005, 4094)
 
 - Instance name: `EVPN_ELAN_<V>`
 - EVI / VNI: `<V>`
 - AC interface unit: `<V>`
+- ESI: see **ESI** below (service id = `<V>`)
+
+## ESI (every EVPN service with a multi-homed attachment circuit)
+
+Applies wherever a snip consumes `$ESI` — EVPN-VPWS, EVPN-ELAN (vlan-based,
+vlan-bundle, IRB, port-based), EVPN-FXC and EVPN E-Tree root UNIs alike.
+
+- ESI: `00:11:22:33:44:55:66:<Sh>:<Sm>:<Sl>` where `<Sh>:<Sm>:<Sl>` are the three
+  bytes of `(service id - base + 1)`, using that service's own base (`4001` for
+  EVPN-VPWS, `2001` for EVPN-ELAN). Clearly synthetic.
+- The same ESI value MUST appear on every PE sharing that attachment circuit;
+  the bundle device carries no ESI, the logical interface does.
 
 ## L2Circuit
 
 - `virtual-circuit-id`: `<V>`
 - AC interface unit: `<V>`
+
+## Service attachment inputs (ask — never auto-filled)
+
+Physical attachment identity is deployment-specific: it is not derivable from the
+snip library, the service id or the device name. In `auto` mode these are the
+values that still require a question. Ask for all of the ones the selected snips
+need in a single batch, then generate.
+
+Never invent a port, PIC, bundle or LACP identity, and never answer a missing
+value with the "cannot generate this from the snip library" refusal — that
+sentence is reserved for a service or form the library does not contain.
+
+| Variable | Ask for |
+|---|---|
+| `$IFD` | Parent interface / bundle carrying the UNI (e.g. `ae11`) |
+| `$AC_INTF` | Attachment-circuit interface; `<ifd>.<unit>` where a unit applies |
+| `$UNI_INTF` | Physical UNI port (port-based and E-Tree forms) |
+| `$PS_INTF` | Pseudowire-subscriber anchor interface (floating PW) |
+| `$ANCHOR_PIC` | PIC hosting that anchor (floating PW) |
+| `$LACP_SYS_ID` | LACP system-id of the multi-homed bundle |
+| `$INPUT_VID` | Customer-facing input VLAN, when it differs from the service VLAN |
+
+Derivable, so do **not** ask: `$UNIT` and `$VLAN` follow the per-service rules
+above once the user has given a service id or VLAN. `$INPUT_VID` equals that
+VLAN only when the selected snip performs no VLAN translation — otherwise ask.
+
+Any other physical attachment identifier with no rule in this file is
+ask-required by default.
 
 ## OAM (Y.1731 CFM)
 
