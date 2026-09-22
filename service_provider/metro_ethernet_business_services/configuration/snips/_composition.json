@@ -45,30 +45,67 @@
       {
         "construct": "community:$COLOR_COMMUNITY",
         "families": ["e-line", "e-lan", "e-tree", "e-access"],
+        "selection": "required",
+        "providers": {
+          "junos": ["junos/policy-options/community/cm-tc-map2gold.conf", "junos/policy-options/community/cm-tc-map2bronze.conf"],
+          "evo": ["evo/policy-options/community/cm-tc-map2gold.conf", "evo/policy-options/community/cm-tc-map2bronze.conf"]
+        },
+        "rationale": "Service tier, and the operator must state it. Gold is the more common binding but it is not a default: bronze is validated on an3_acx7100-48l, ma1-1_acx7024, ma1-2_acx7024, meg1_acx7100-32c and meg2_acx7509, and the two steer onto different transport classes."
+      },
+      {
+        "construct": "policy-statement:$IMPORT_POL",
+        "families": ["l3vpn"],
         "provider": {
-          "junos": "junos/policy-options/community/cm-tc-map2gold.conf",
-          "evo": "evo/policy-options/community/cm-tc-map2gold.conf"
+          "junos": "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
+          "evo": "evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf"
         },
-        "alternatives": {
-          "junos": ["junos/policy-options/community/cm-tc-map2bronze.conf"],
-          "evo": ["evo/policy-options/community/cm-tc-map2bronze.conf"]
+        "rationale": "Every PE-CE VRF on every device this family reaches binds this one import policy: 200 on an3_acx7100-48l, 200 on ma3_acx7100-48l, 2999 on ma4_mx204, 3299 on mse1_mx304 and 3299 on mse2_mx304, with no other body observed."
+      },
+      {
+        "construct": "policy-statement:$IMPORT_POL",
+        "families": ["irb"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-import-l3vpn.conf",
+          "evo": "evo/policy-options/policy-statement/ps-import-l3vpn.conf"
         },
-        "rationale": "Service tier. Gold and bronze steer onto different transport classes, so they are operator-selectable but never interchangeable; gold is the default and bronze must be chosen explicitly."
+        "rationale": "Every IP-prefix VRF binds this one import policy: 50 instances each on an3_acx7100-48l, mse1_mx304 and mse2_mx304, with no other body observed."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["irb"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-export-l3vpn-public.conf",
+          "evo": "evo/policy-options/policy-statement/ps-export-l3vpn-public.conf"
+        },
+        "rationale": "Both devices this family reaches bind this one export policy for their IP-prefix VRFs: 50 instances on an3_acx7100-48l and 50 on mse1_mx304. mse2_mx304 uses the RT-5 NLRI form instead, but no supported form reaches it for this family."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["l3vpn"],
+        "selection": "required",
+        "providers": {
+          "junos": [
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+          ],
+          "evo": [
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+          ]
+        },
+        "rationale": "The export policy carries the customer prefixes, so the choice is a service parameter the operator must state: address family, how many CE prefixes the VRF advertises, and whether the routes are coloured. All forms are validated in the JVD and none is a default — ma4_mx204 alone splits 999 coloured v4 against 1000 v6."
       }
     ]
   },
-  "unboundRoleParameters": [
-    {
-      "construct": "policy-statement:$EXPORT_POL",
-      "families": ["l3vpn", "irb"],
-      "reason": "Between 6 and 15 semantically different policies are bound per device — public default v4, public default v6, RT-5 NLRI and coloured forms. They are not interchangeable, so no single provider can be declared and affected tuples fail closed. A device-scoped binding is supported by the schema and would resolve uniquely on meg1_acx7100-32c and meg2_acx7509, which bind one body each, but no supported form reaches those two devices for this family."
-    },
-    {
-      "construct": "policy-statement:$IMPORT_POL",
-      "families": ["l3vpn", "irb"],
-      "reason": "Four definers covering distinct import semantics, including the Internet-VRF form. Not interchangeable; affected tuples fail closed. The devices this family does reach — an3_acx7100-48l, ma3_acx7100-48l, ma4_mx204, mse1_mx304 and mse2_mx304 — each bind several different bodies."
-    }
-  ],
+  "unboundRoleParameters": [],
   "forms": [
     {
       "id": "evpn-vpws",

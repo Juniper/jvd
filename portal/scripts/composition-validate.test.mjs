@@ -251,3 +251,72 @@ test("every declared provider in the shipped matrix resolves and carries a ratio
     assert.ok(u.reason && u.reason.length > 20, `${u.construct} needs a reason`);
   }
 });
+
+// --- required operator choices ---
+
+const choiceMatrix = {
+  roles: {},
+  forms: [],
+  roleBindings: {
+    bindings: [
+      {
+        construct: "community:$TIER",
+        families: ["e-lan"],
+        selection: "required",
+        providers: { junos: ["junos/gold.conf", "junos/bronze.conf"] },
+        rationale: "the operator states the service tier, there is no default",
+      },
+    ],
+  },
+};
+
+test("a required choice offers the applicable providers and never picks one", () => {
+  const index = new Map([snip("junos/gold.conf"), snip("junos/bronze.conf")]);
+  const r = resolveRole({ construct: "community:$TIER", family: "e-lan", os: "junos", device: "d1", matrix: choiceMatrix, snipIndex: index });
+  assert.equal(r.status, "choice-required");
+  assert.deepEqual(r.choices, ["junos/bronze.conf", "junos/gold.conf"]);
+  assert.equal(r.selected, undefined);
+});
+
+test("a required choice offers only the providers applicable to the device", () => {
+  const index = new Map([snip("junos/gold.conf"), snip("junos/bronze.conf", { junos: ["other"], evo: [] })]);
+  const r = resolveRole({ construct: "community:$TIER", family: "e-lan", os: "junos", device: "d1", matrix: choiceMatrix, snipIndex: index });
+  assert.deepEqual(r.choices, ["junos/gold.conf"]);
+});
+
+test("a required choice with nothing applicable fails rather than closing empty", () => {
+  const index = new Map([snip("junos/gold.conf", { junos: ["x"], evo: [] }), snip("junos/bronze.conf", { junos: ["y"], evo: [] })]);
+  const r = resolveRole({ construct: "community:$TIER", family: "e-lan", os: "junos", device: "d1", matrix: choiceMatrix, snipIndex: index });
+  assert.equal(r.status, "no-applicable-choice");
+});
+
+test("a required choice may not declare a default, and needs at least two options", () => {
+  const withDefault = { ...choiceMatrix, roleBindings: { bindings: [{ ...choiceMatrix.roleBindings.bindings[0], provider: { junos: "junos/gold.conf" } }] } };
+  assert.ok(validateMatrix(withDefault, idxOf("junos/gold.conf", "junos/bronze.conf")).some((p) => /may not declare a default/.test(p)));
+
+  const single = { ...choiceMatrix, roleBindings: { bindings: [{ ...choiceMatrix.roleBindings.bindings[0], providers: { junos: ["junos/gold.conf"] } }] } };
+  assert.ok(validateMatrix(single, idxOf("junos/gold.conf")).some((p) => /at least two providers/.test(p)));
+});
+
+test("a required choice is recorded as an input, not a failure", () => {
+  const index = new Map([snip("junos/a.conf"), snip("junos/gold.conf"), snip("junos/bronze.conf")]);
+  const r = closeTuple({
+    entries: ["junos/a.conf"],
+    device: "d1",
+    os: "junos",
+    snipIndex: index,
+    headers: new Map([["junos/a.conf", { pairWith: [] }]]),
+    constructs: new Map([["junos/a.conf", { references: [{ kind: "community", name: "$TIER" }] }]]),
+    variantMembers: [],
+    definers: new Map(),
+    matrix: choiceMatrix,
+    family: "e-lan",
+  });
+  assert.deepEqual(r.failures, []);
+  assert.equal(r.requiredInputs.length, 1);
+  assert.deepEqual(r.requiredInputs[0].choices, ["junos/bronze.conf", "junos/gold.conf"]);
+});
+
+test("the shipped matrix leaves no role parameter unbound", () => {
+  assert.deepEqual(MATRIX.unboundRoleParameters, []);
+});

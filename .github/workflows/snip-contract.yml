@@ -62,8 +62,8 @@ jobs:
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
       - name: Named objects have exactly one applicable owner
         run: node portal/scripts/object-ownership.mjs
-      - name: Composition matrix is valid
-        run: node portal/scripts/composition-validate.mjs
+      - name: Composition matrix is valid and every supported tuple closes
+        run: node portal/scripts/composition-validate.mjs --audit
       # Reported, not enforced: two known group constructs are still unreachable
       # for devices that reference them. Promote to a gate once they are closed.
       - name: Referenced constructs are reachable where they are used

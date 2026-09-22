@@ -76,14 +76,27 @@ export function validateMatrix(matrix, snipIndex) {
   const bound = new Map();
   for (const b of matrix.roleBindings?.bindings || []) {
     if (!b.rationale) problems.push(`role binding ${b.construct}: rationale required`);
-    for (const os of ["junos", "evo"]) {
-      if (!b.provider?.[os]) continue; // a device-scoped binding may cover one OS only
-      const all = [b.provider[os], ...(b.alternatives?.[os] || [])];
-      for (const rel of all) {
-        if (!snipIndex.has(rel)) problems.push(`role binding ${b.construct}: provider does not resolve: ${rel}`);
+    if (b.selection === "required") {
+      // An operator choice: no default, but every offered provider must resolve.
+      if (b.provider) problems.push(`role binding ${b.construct}: a required choice may not declare a default provider`);
+      let n = 0;
+      for (const os of ["junos", "evo"]) {
+        for (const rel of b.providers?.[os] || []) {
+          n += 1;
+          if (!snipIndex.has(rel)) problems.push(`role binding ${b.construct}: choice does not resolve: ${rel}`);
+        }
       }
+      if (n < 2) problems.push(`role binding ${b.construct}: a required choice needs at least two providers`);
+    } else {
+      for (const os of ["junos", "evo"]) {
+        if (!b.provider?.[os]) continue; // a device-scoped binding may cover one OS only
+        const all = [b.provider[os], ...(b.alternatives?.[os] || [])];
+        for (const rel of all) {
+          if (!snipIndex.has(rel)) problems.push(`role binding ${b.construct}: provider does not resolve: ${rel}`);
+        }
+      }
+      if (!b.provider?.junos && !b.provider?.evo) problems.push(`role binding ${b.construct}: no provider`);
     }
-    if (!b.provider?.junos && !b.provider?.evo) problems.push(`role binding ${b.construct}: no provider`);
     for (const fam of b.families) bound.set(`${b.construct}\u0000${fam}`, b);
   }
   for (const u of matrix.unboundRoleParameters || []) {
@@ -116,6 +129,13 @@ export function resolveRole({ construct, family, os, device, matrix, snipIndex }
   // A device-scoped binding is more specific than a family-wide one and wins.
   const binding = candidates.find((b) => (b.devices || []).includes(device)) ?? candidates.find((b) => !b.devices);
   if (binding) {
+    if (binding.selection === "required") {
+      // The operator supplies this the way they supply any other required
+      // value; the library only has to offer at least one applicable choice.
+      const applicable = (binding.providers?.[os] || []).filter((rel) => (snipIndex.get(rel)?.seenOn?.[os] || []).includes(device));
+      if (applicable.length === 0) return { status: "no-applicable-choice", detail: binding.construct };
+      return { status: "choice-required", choices: applicable.sort() };
+    }
     const rel = binding.provider[os];
     const s = snipIndex.get(rel);
     if (!s) return { status: "unresolved", detail: rel };
@@ -156,6 +176,7 @@ export function formDevices(form, snipIndex) {
 export function closeTuple({ entries, device, os, snipIndex, headers, constructs, variantMembers, definers, matrix, family }) {
   const included = new Set();
   const failures = [];
+  const requiredInputs = [];
   const stack = [...entries];
   while (stack.length) {
     const rel = stack.pop();
@@ -201,6 +222,11 @@ export function closeTuple({ entries, device, os, snipIndex, headers, constructs
           stack.push(role.selected);
           continue;
         }
+        if (role.status === "choice-required") {
+          // Closes, but the operator must pick; recorded like any required input.
+          requiredInputs.push({ construct: id, from: rel, choices: role.choices });
+          continue;
+        }
         if (role.status !== "not-a-role") {
           failures.push({ kind: `role-${role.status}`, from: rel, detail: id });
           continue;
@@ -226,7 +252,7 @@ export function closeTuple({ entries, device, os, snipIndex, headers, constructs
       stack.push(reps.find((d) => d.split("/")[0] === os) ?? reps[0]);
     }
   }
-  return { included: [...included].sort(), failures };
+  return { included: [...included].sort(), failures, requiredInputs };
 }
 
 async function main() {
