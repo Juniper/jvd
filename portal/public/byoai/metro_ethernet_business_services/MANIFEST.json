@@ -478,7 +478,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2067,
+      "size_bytes": 2036,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-edge-intf.conf"
     },
     {
@@ -3576,7 +3576,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 1684,
+      "size_bytes": 1689,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-edge-intf.conf"
     },
     {
@@ -5388,7 +5388,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 2824,
+      "size_bytes": 2820,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
     },
     {
@@ -5630,7 +5630,7 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 2537,
+      "size_bytes": 2578,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf"
     },
     {
@@ -5643,7 +5643,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 3863,
+      "size_bytes": 3904,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
     },
     {
@@ -5915,7 +5915,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1601,
+      "size_bytes": 1561,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class.conf"
     }
   ],
