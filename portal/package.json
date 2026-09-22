@@ -16,7 +16,9 @@
     "snips:ownership": "node scripts/object-ownership.mjs",
     "snips:completeness": "node scripts/library-completeness.mjs --by-construct",
     "snips:composition": "node scripts/composition-validate.mjs --audit",
-    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs scripts/gr-capabilities.test.mjs scripts/config-objects.test.mjs scripts/object-ownership.test.mjs scripts/config-references.test.mjs scripts/dependency-resolve.test.mjs scripts/composition-validate.test.mjs"
+    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs scripts/gr-capabilities.test.mjs scripts/config-objects.test.mjs scripts/object-ownership.test.mjs scripts/config-references.test.mjs scripts/dependency-resolve.test.mjs scripts/composition-validate.test.mjs",
+    "tiers": "node scripts/generate-tiers.mjs",
+    "tiers:check": "node scripts/generate-tiers.mjs --check"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

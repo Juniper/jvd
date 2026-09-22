@@ -171,7 +171,7 @@
       "osMode": "MIXED",
       "roles": ["an", "ma", "meg", "mse"],
       "entry": {
-        "junos": ["junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf"],
+        "junos": [],
         "evo": ["evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf"]
       },
       "pairedConstructs": ["variant:mebs-bgp-overlay families=l2vpn"],
@@ -180,7 +180,8 @@
       "tiers": ["minimum", "with-overlay", "as-deployed"],
       "generator": null,
       "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
-      "status": "supported"
+      "status": "supported",
+      "note": "ma5_mx204 runs two validated Kompella forms, 201 instances each. The advertised entry is the one whose service mapping records both devices it serves, an3_acx7100-48l and ma5_mx204; junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf is the second validated representation and is not advertised, because the two emit different bodies and the matrix may not choose between them silently."
     },
     {
       "id": "l2circuit-hot-standby",

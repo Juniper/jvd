@@ -24,6 +24,7 @@ on:
       - 'portal/scripts/dependency-resolve.mjs'
       - 'portal/scripts/dependency-resolve.test.mjs'
       - 'portal/scripts/library-completeness.mjs'
+      - 'portal/scripts/generate-tiers.mjs'
       - 'portal/scripts/composition-validate.mjs'
       - 'portal/scripts/composition-validate.test.mjs'
       - '**/configuration/snips/_composition.json'
@@ -64,6 +65,8 @@ jobs:
         run: node portal/scripts/object-ownership.mjs
       - name: Composition matrix is valid and every supported tuple closes
         run: node portal/scripts/composition-validate.mjs --audit
+      - name: TIERS.md is generated from the matrix
+        run: node portal/scripts/generate-tiers.mjs --check
       # Reported, not enforced: two known group constructs are still unreachable
       # for devices that reference them. Promote to a gate once they are closed.
       - name: Referenced constructs are reachable where they are used

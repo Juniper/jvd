@@ -927,6 +927,9 @@ groups {
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
  *
+ * Variant group: mebs-edge-intf-form
+ *   Provides: gr:edge-intf
+ *
  * Highlights:
  *  - Identical structure to junos/groups/gr-edge-intf.conf
  *    on Junos OS — Junos and Junos Evolved share this BCP unchanged.
@@ -988,6 +991,10 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ *
+ * Variant group: mebs-fatpw-label-form
+ *   Provides: gr:fatpw-label
+ *
  * Highlights:
  *  - Wildcard-matched flow-label config injected into every routing-instance
  *    of a given naming pattern. Demonstrates how a single template covers
@@ -7344,7 +7351,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - evo/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
@@ -7414,7 +7421,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - evo/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
@@ -7486,7 +7493,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - evo/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
  * JVD service mapping:
  *   250 instances on an3_acx7100-48l, 250 on mse1_mx304.
@@ -8076,7 +8083,7 @@ routing-instances {
  *  - vrf-target establishes the BGP route-target community for the L2VPN
  *
  * Pair with:
- *  - evo/groups/gr-fatpw-label.conf (matches L2VPN_PORT_BASED)
+ *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
  * JVD service mapping:
  *   201 instances total (high 102 / med 99 / low 0)
@@ -8689,7 +8696,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
- *  - evo/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
@@ -10096,6 +10103,10 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ *
+ * Variant group: mebs-edge-intf-form
+ *   Provides: gr:edge-intf
+ *
  * Highlights:
  *  - Templated baseline for customer-facing (edge) interfaces.
  *    Applied to physical and aggregated-ethernet interfaces to set
@@ -10153,6 +10164,9 @@ groups {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ *
+ * Variant group: mebs-fatpw-label-form
+ *   Provides: gr:fatpw-label
  *
  * Highlights:
  *  - Junos uses wildcard routing-instance names (<l2vpn_*>, <vpls_*>,
@@ -10473,7 +10487,7 @@ interfaces {
 /*
  * Topic:   Flexible-Ethernet-Services UNI with per-unit encapsulation vlan-bridge (EVPN-ELAN access)
  * Seen on:
- *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
  *
  * Highlights:
@@ -10488,7 +10502,7 @@ interfaces {
  *    across all edge interfaces.
  *
  * Pair with:
- *  - junos/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
  * Variables (example values from mse1_mx304 xe-0/0/3:1):
  *   $UNI_INTF     e.g. xe-0/0/3:1
@@ -15662,7 +15676,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
@@ -15738,7 +15752,7 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/groups/gr-edge-intf.conf
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
  * JVD service mapping:
  *   250 instances on mse1_mx304, 250 on an3_acx7100-48l.
@@ -16089,7 +16103,7 @@ routing-instances {
  *    not vlan-tagged).
  *
  * Pair with:
- *  - junos/groups/gr-fatpw-label.conf
+ *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * JVD service mapping:

@@ -1,345 +1,483 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-mebs-snips.md`](jvd-mebs-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by portal/scripts/generate-tiers.mjs. Do not edit by hand: run `npm --prefix portal run tiers`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. PE already has working IGP/SR underlay AND the BGP overlay signalling the service needs. You just want the new service. | Service routing-instance + AC interface unit + per-VRF policy (L3VPN only). **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. PE has working IGP/SR underlay but you also want to (re)assert the deployed BGP overlay. | `minimum` + the OS-native `transport/bgp-overlay.conf`, **subject to the coverage gate below**. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + policy + BGP overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT — **subject to the coverage gate below**. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the PE already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
+| `with-overlay` | Compatibility alias. For a BGP-signalled form it means `self-contained`, which already pulls in that device's overlay form. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new ACX7024 turn-up", "bootstrap a new MX304 PE end-to-end") are always treated as **`as-deployed`** regardless of the user's tier choice.
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
-If the user picks `minimum` and the AI cannot tell whether the overlay activation for the needed address-family is already on the PE, it should call that out in the `Notes:` section ("assumed `family evpn signaling` already configured under `protocols bgp group …`").
+## Required operator inputs
 
-### BGP-overlay coverage gate (canonical — every service section refers here)
+Some constructs are a choice, not a default. Ask for them; never preselect.
 
-`transport/bgp-overlay.conf` is **not** a universal per-service prerequisite. Each deployed
-iBGP overlay is captured as an OS-native **member of the `mebs-bgp-overlay` variant group**:
-the shared `transport/bgp-overlay.conf` still serves the devices listed in its own `Seen on:`,
-while device- or role-specific forms use qualified filenames. Every overlay member declares,
-via its `Provides:` line, exactly the overlay address-families that device's role runs
-(`evpn`, `l2vpn`, `inet-vpn`, `inet6-vpn`, `labeled-unicast`).
-
-Every service section states only its **required signalling family** and points here. Each
-service consumer carries a single directed requirement `variant:mebs-bgp-overlay
-families=<family>` in its `Pair with:`. The overlay form is **resolved deterministically per
-device** — never enumerated by name:
-
-> **Resolve** the overlay for a (target device, target OS, service family) as the **unique**
-> member of `mebs-bgp-overlay` such that (a) the member is **native to the target OS**, (b) the
-> target device is in that member's exact `Seen on:`, and (c) the member's `Provides:`
-> **includes the service family** (all requested families, atomically).
-
-Rules (a service section states only its signalling classification and points here):
-
-1. **`with-overlay`** attaches the resolved overlay member **only when ALL of these hold**:
-   (a) the **selected service applies to the target device** — the target is in that service
-   snip's exact `Seen on:`; and (b) **exactly one** overlay member resolves per the rule above.
-   **Fail closed:** if **zero** members resolve (no deployed overlay form for that device +
-   family) or **more than one** resolves, the requested `with-overlay` (or `as-deployed`)
-   overlay is **unavailable** — so **generate nothing for it**. You may then offer `minimum` as
-   a **separate alternative the user must explicitly confirm**, making clear that `minimum` is
-   local-service configuration only and does **not** provide the unavailable remote BGP
-   signalling. An **inapplicable** service/device selection (target not in the service's
-   `Seen on:`) is **rejected**, not downgraded. **Never** synthesize, generalise, substitute,
-   or borrow the other OS form.
-2. **The resolved member is always the target device's own role form.** Because the family is
-   matched against each member's `Provides:`, a device is never given another role's overlay —
-   a mismatched family simply yields zero resolutions and fails closed.
-3. **LDP-signalled services never add a BGP overlay** (L2Circuit floating-pw / hot-standby /
-   local-switching, LDP-VPLS) — they carry no `variant:` requirement and rely on targeted LDP.
-4. **`as-deployed`** includes the BGP overlay under the **same resolution and fail-closed rule**
-   as `with-overlay`. For a **BGP-signalled service** (one carrying a `variant:mebs-bgp-overlay`
-   requirement), **zero** overlay resolutions means the requested `with-overlay` / `as-deployed`
-   form is **unavailable** and **fails closed** — **generate nothing for it** (exactly as rule 1);
-   do **not** silently omit the overlay and emit the rest of the baseline. Devices with **no
-   top-level deployed BGP group in source** (e.g. **ag1-1_acx7100-32c, ag1-2_acx7100-32c,
-   ma2_mx204**) have **no overlay member**, so any BGP-signalled service targeting them fails
-   closed on this rule. For any device, do **not** claim a complete `as-deployed` form unless
-   every other required form is also validated.
+- **community:$COLOR_COMMUNITY** — Service tier, and the operator must state it. Gold is the more common binding but it is not a default: bronze is validated on an3_acx7100-48l, ma1-1_acx7024, ma1-2_acx7024, meg1_acx7100-32c and meg2_acx7509, and the two steer onto different transport classes.
+- **policy-statement:$EXPORT_POL** — The export policy carries the customer prefixes, so the choice is a service parameter the operator must state: address family, how many CE prefixes the VRF advertises, and whether the routes are coloured. All forms are validated in the JVD and none is a default — ma4_mx204 alone splits 999 coloured v4 against 1000 v6.
 
 ---
 
-## EVPN-VPWS
+## EVPN-VPWS services
 
-**minimum** (just the service)
-- `services/evpn-vpws.conf`
-- `interfaces/ifd-ae-lacp*.conf` + `interfaces/ifl-vlan-ccc-vlan-map-esi.conf` (multi-homed — the bundle device carries no ESI, the logical interface does; which `ifd-ae-lacp*` form applies depends on the target device) **OR** `evo/interfaces/ifl-vlan-ccc-vlan-map.conf` (single-homed, EVO only)
+Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit on a LAG or physical UNI.
 
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
+### an3_acx7100-48l (evo)
 
-**as-deployed** (= with-overlay +)
-- `transport/isis-srmpls-tilfa.conf`
-- `transport/mpls-segment-routing.conf`
-- `apply-groups/gr-edge-intf-mh.conf` (or `gr-edge-intf.conf` if SH)
-- `apply-groups/gr-core-intf.conf`
-- `apply-groups/gr-isis-bcp.conf`
-- `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
-- `apply-groups/gr-lag-member.conf`
-- `apply-groups/gr-fatpw-lb.conf`
-- `apply-groups/gr-fatpw-label.conf`
-- `cos/forwarding-classes.conf`
-- `cos/schedulers.conf`
-- `oam/oam-cfm-perf-mon.conf`
-- `firewall/policers.conf`
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
----
+### ma1-1_acx7024 (evo)
 
-## L3VPN (PE-CE eBGP or PE-CE OSPF)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-Two PE-CE protocol variants — pick the snip that matches what the
-user asked for (default to eBGP if unspecified):
+### ma1-2_acx7024 (evo)
 
-- **L3VPN with PE-CE eBGP** (`as-override`):
-  - `services/l3vpn-bgp.conf` (Junos and EVO)
-- **L3VPN with PE-CE OSPF** (area 0, `interface-type p2p`):
-  - `services/l3vpn-ospf.conf` (Junos and EVO)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**minimum** (just the service + per-VRF policy)
-- `services/l3vpn-bgp.conf` **or** `services/l3vpn-ospf.conf`
-- PE-CE AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
+### meg1_acx7100-32c (evo)
 
-**with-overlay** — Signalling: **inet-vpn** (`family inet-vpn unicast`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= with-overlay +)
-- `transport/isis-srmpls-tilfa.conf`
-- `transport/mpls-segment-routing.conf`
-- `apply-groups/gr-l3vpn.conf`
-- `apply-groups/gr-edge-intf.conf` (or `-mh.conf` if multi-homed CE)
-- `apply-groups/gr-core-intf.conf`
-- `apply-groups/gr-isis-bcp.conf`
-- `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
-- `apply-groups/gr-lag-member.conf`
-- `cos/forwarding-classes.conf`
-- `cos/schedulers.conf`
-- `firewall/policers.conf`
+### meg2_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### an1_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### an2_acx5448 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### an4_acx710 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## EVPN-ELAN (vlan-based, irb, vlan-bundle, or port-based)
+## port-based EVPN-VPWS services
 
-**minimum** (just the service)
-- `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` (EVO) **or**
-  `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` (Junos MX) — or the
-  `ri-evpn-elan-irb.conf` / `ri-evpn-elan-vlan-based-export.conf` variant, whichever flavor was requested
-- `interfaces/ifd-ae-lacp*.conf` + `interfaces/ifl-vlan-bridge-esi.conf` (multi-homed — the bundle device carries no ESI, the logical interface does; which `ifd-ae-lacp*` form applies depends on the target device) **OR** `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` (single-homed, EVO only)
-
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
-
-**as-deployed** (= with-overlay +)
-- `transport/isis-srmpls-tilfa.conf`
-- `transport/mpls-segment-routing.conf`
-- `apply-groups/gr-edge-intf-mh.conf`
-- `apply-groups/gr-core-intf.conf`
-- `apply-groups/gr-isis-bcp.conf`
-- `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
-- `apply-groups/gr-lag-member.conf`
-- `apply-groups/gr-fatpw-lb.conf`
-- `apply-groups/gr-fatpw-label.conf`
-- `cos/forwarding-classes.conf`
-- `cos/schedulers.conf`
-- `oam/oam-cfm-perf-mon.conf`
-- `firewall/policers.conf`
+**Not generatable.** MENU advertises a port-based form but no distinct entry snippet models it; TIERS reaches it only through an interface pattern, and a pattern may not count as supported.
 
 ---
 
-## EVPN Type-5 / IP-prefix VRFs
+## EVPN-FXC services
 
-In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the same `irb.<N>`: the MAC-VRF advertises RT-2 (MAC+IP from learned hosts), and the VRF with `protocols evpn ip-prefix-routes` advertises RT-5 (the IRB subnet, silent-host /32s, and any VRF static/learned prefixes). "Pure" RT-5 (VRF only, no MAC-VRF) is not a deployed pattern here. Therefore EVERY tier below includes BOTH the L2 (ELAN-IRB) and L3 (Type-5 VRF) snips. The two instances must reference the same `irb.<N>`.
+Family e-line, form flexible-cross-connect. OS mode MIXED. Attachment: N vlan-ccc UNIs bundled under one FXC group.
 
-**minimum** (both halves of the service + per-VRF policy)
-- L2 / RT-2 half (one of):
-    - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
-    - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
-- `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
-- `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
+### an3_acx7100-48l (evo)
 
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= with-overlay +)
-- `transport/isis-srmpls-tilfa.conf`
-- `transport/mpls-segment-routing.conf`
-- `apply-groups/gr-l3vpn.conf`
-- `apply-groups/gr-edge-intf-mh.conf`
-- `apply-groups/gr-core-intf.conf`
-- `apply-groups/gr-isis-bcp.conf`
-- `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
-- `apply-groups/gr-lag-member.conf`
-- `cos/forwarding-classes.conf`
-- `cos/schedulers.conf`
-- `firewall/policers.conf`
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## L2CIRCUIT (including hot-standby)
+## Kompella L2VPN pseudowires
 
-> **OS scope:** L2Circuit hot-standby with `backup-neighbor` is
-> deployed only on EVO ACX PEs in this JVD. Junos MX PEs carry
-> static L2Circuit pseudowires via `services/l2circuit-floating-pw.conf`
-> instead — do NOT offer hot-standby as a Junos option here.
+Family e-line, form rfc4761. OS mode MIXED. Attachment: vlan-ccc logical unit.
 
-**minimum** (just the service)
-- `evo/protocols/l2circuit-hsb-hub*.conf` (Hub — EVO only; the hub is deployed as three forms that differ by transport-colour community and `ignore-encapsulation-mismatch`, so pick the one whose body matches the target)
-- `evo/protocols/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
-- `evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf`
+### an3_acx7100-48l (evo)
 
-**with-overlay** — Signalling: **LDP** (targeted pseudowire, incl. hot-standby `backup-neighbor`). **No BGP overlay** — L2Circuit relies on targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
+- `minimum`: `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= with-overlay +)
-- `transport/isis-srmpls-tilfa.conf`
-- `transport/mpls-segment-routing.conf`
-- `apply-groups/gr-edge-intf.conf`
-- `apply-groups/gr-core-intf.conf`
-- `apply-groups/gr-isis-bcp.conf`
-- `apply-groups/gr-bgp-bcp.conf`
-- `apply-groups/gr-isis-bfd.conf` (EVO only — MX PEs configure BFD inline under `protocols isis interface`)
-- `apply-groups/gr-l2ckt-hs.conf` (EVO only)
-- `apply-groups/gr-fatpw-lb.conf`
-- `apply-groups/gr-fatpw-label.conf`
-- `cos/forwarding-classes.conf`
-- `cos/schedulers.conf`
-- `oam/oam-cfm-perf-mon.conf`
-- `firewall/policers.conf`
+### ma5_mx204 (junos)
+
+- `minimum`: `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## L2VPN family (Kompella L2VPN, BGP-VPLS, LDP-VPLS)
+## L2Circuit hot-standby pseudowires
 
-Three distinct services, all using the BGP `family l2vpn signaling`
-overlay (Kompella L2VPN and BGP-VPLS) or LDP targeted sessions
-(LDP-VPLS). Pick the right snip:
+Family e-line, form hot-standby. OS mode EVO. Attachment: vlan-ccc logical unit.
 
-- **Kompella L2VPN** (point-to-point pseudowire, RFC 4761):
-  - `services/l2vpn-kompella.conf` (Junos and EVO).
-  - Identifier: `instance-type l2vpn` + `protocols l2vpn { site … }`
-    with both `site-identifier` and `remote-site-id`.
-- **BGP-VPLS** (multipoint VPLS via BGP NLRI, RFC 4761):
-  - `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` (Junos PEs only in this JVD).
-  - Identifier: `instance-type virtual-switch` + `protocols vpls`
-    with `site $NAME { site-identifier $ID; }` (no `vpls-id`).
-- **LDP-VPLS** (multipoint VPLS via LDP targeted sessions, RFC 4762):
-  - `evo/routing-instances/vpls/ri-ldp-vpls.conf` (EVO PEs only in this JVD).
-  - Identifier: `instance-type virtual-switch` + `protocols vpls`
-    with `vpls-id $ID` + `neighbor $REMOTE_PE` (no `site` block).
-  - Note: LDP-VPLS-with-BGP-auto-discovery (`l2vpn-id` form) is
-    NOT deployed in this JVD.
+### meg2_acx7509 (evo)
 
-Tiers (apply to whichever of the three the user asked for):
-
-- **minimum** = `services/<topic>.conf` + AC interface snip
-- **with-overlay** — Signalling: **L2VPN** (`family l2vpn signaling`) for Kompella L2VPN and BGP-VPLS; **LDP** targeted sessions for LDP-VPLS. BGP overlay **applies to Kompella L2VPN and BGP-VPLS only** (LDP-VPLS adds none); attach it per the **BGP-overlay coverage gate** above.
-- **as-deployed** = + transport underlay + full apply-group baseline
-  + CoS + OAM + BGP-CT
+- `minimum`: `evo/protocols/l2circuit-hsb-pe.conf`
+- `self-contained`: the above plus `evo/groups/gr-fatpw-lb.conf`, `evo/groups/gr-l2ckt-hs.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## EVPN-FXC (Flexible Cross-Connect)
+## L2Circuit floating pseudowires
 
-EVPN-FXC bundles multiple VLAN-tagged UNIs under a single
-`evpn-vpws` routing-instance via an FXC collector group. Use this
-when the customer hands off many service-delimited VLANs on the
-same port and you want one PW per VLAN without one routing-instance
-per VLAN.
+Family e-line, form floating-pseudowire. OS mode MIXED. Attachment: static-label PW onto a ps<N> pseudowire-subscriber anchor.
 
-**minimum** (just the service)
-- `services/evpn-fxc.conf` (Junos and EVO — `instance-type evpn-vpws` with `flexible-cross-connect`)
-- the per-VLAN AC units that join the FXC group come from the `junos/interfaces/ifl-vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
+### mse1_mx304 (junos)
 
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
+- `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
+- `self-contained`: the above plus `junos/interfaces/ifd-ps-transport.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= with-overlay +)
-- same baseline as EVPN-VPWS above (transport + apply-groups + CoS + OAM + FAT-PW)
+### mse2_mx304 (junos)
 
----
-
-## EVPN E-Tree
-
-MEF E-Tree (root / leaf isolation) on a Junos `mac-vrf` with
-`etree-ac-role` on each UNI. Junos-only in this JVD.
-
-**minimum** (just the service)
-- `junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf`
-- `junos/interfaces/ethernet-bridge.conf` (E-Tree leaf/root UNI)
-
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
-
-**as-deployed** (= with-overlay +)
-- same baseline as EVPN-ELAN above
+- `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
+- `self-contained`: the above plus `junos/interfaces/ifd-ps-transport.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## L2Circuit floating pseudowire
+## L2Circuit local-switching cross-connects
 
-Static-label L2Circuit pseudowire landing on a `ps<N>`
-pseudowire-subscriber anchor (decouples the PW from a physical AC).
+Family e-access, form local-switching. OS mode EVO. Attachment: two vlan-ccc UNIs on one PE.
 
-**minimum** (just the service)
-- **L2Circuit floating pseudowire** (Junos MX `ps<N>` head; EVO ACX vlan-ccc tail):
-  - `junos/protocols/l2circuit-floating-pw.conf` (Junos PEs)
-  - the EVO ACX tail customer-facing AC unit comes from the `evo/interfaces/ifl-vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
-- `junos/interfaces/ifd-ps-transport.conf` (the `ps<N>` anchor with its `unit 0` transport logical interface, which the l2circuit stanza references as `ps<N>.0`)
+### ma3_acx7100-48l (evo)
 
-**with-overlay** — Signalling: **LDP** (static-label pseudowire). **No BGP overlay** — L2Circuit floating pseudowires ride targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
-
-**as-deployed** (= with-overlay +)
-- same baseline as L2CIRCUIT above
+- `minimum`: `evo/protocols/l2circuit-lsw.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## L2Circuit local-switching (cross-connect on one PE)
+## EVPN-ELAN instances
 
-Port-to-port hairpin on a single PE via `end-interface`. EVO-only
-in this JVD.
+Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical unit.
 
-**minimum** (just the service)
-- `evo/protocols/l2circuit-lsw.conf`
-- `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf` (the et-0/0/5 side; the et-0/0/51 side uses `vlan-tags outer` and has no snip)
+### an3_acx7100-48l (evo)
 
-**with-overlay** — Signalling: **none** (single-PE local cross-connect). **No BGP overlay** — not applicable (see the **BGP-overlay coverage gate** above, rule 3).
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
+  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= minimum +)
-- transport underlay + edge apply-groups + CoS + OAM + firewall policers
+### ma1-1_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
+  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma1-2_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
+  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg1_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
+  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg2_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
+  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### an1_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge-esi.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### an2_acx5448 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge-esi.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## Slim L3VPN IRB-anchor VRF (host /32s ride RT-2)
+## port-based EVPN-ELAN instances
 
-A Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF for
-L2 + L3 IRB services. No explicit `ip-prefix-routes` block —
-host /32s are advertised via the MAC-VRF's RT-2. Use this instead
-of `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` when you do not need the VRF to
-originate RT-5 prefix routes (only the IRB subnet matters and it
-is carried by RT-2).
+Family e-lan, form port-based. OS mode EVO. Attachment: single full-port UNI.
 
-**minimum** (both halves of the service + per-VRF policy)
-- L2 / RT-2 half (one of):
-    - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO)
-    - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX)
-- `routing-instances/l3vpn/ri-l3vpn-irb.conf` (the slim anchor VRF — Junos and EVO)
-- IRB-anchor AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
+### an3_acx7100-48l (evo)
 
-**with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
-**as-deployed** (= with-overlay +)
-- same baseline as EVPN Type-5 above
+### ma1-2_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-## Bootstrap / greenfield turn-up
+## BGP-VPLS instances
 
-Treat as **`as-deployed`** regardless of the user's tier choice — a greenfield turn-up is by definition the full baseline.
+Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical unit.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma1-2_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg1_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg2_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma5_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
 
-Always acknowledge the chosen tier in the `Inputs Used` block (`form: minimum` / `form: with-overlay` / `form: as-deployed`).
+## LDP-VPLS instances
+
+Family e-lan, form rfc4762-vpls. OS mode EVO. Attachment: vlan-bridge logical unit.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-ldp-vpls.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## EVPN E-Tree services
+
+Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical unit, root or leaf.
+
+### ma4_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma5_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## EVPN-ELAN with IRB
+
+Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an irb unit.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg1_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg2_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
+- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## EVPN-ELAN with L3 (Type-2 + Type-5)
+
+Family irb, form type2-plus-type5. OS mode MIXED. Attachment: irb unit shared with the EVPN-ELAN half.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
+- `self-contained`: the above plus `evo/groups/gr-l3vpn.conf`, `evo/policy-options/community/cm-l3vpn-pub.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## slim L3VPN anchor VRFs
+
+Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a MAC-VRF.
+
+### meg1_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### meg2_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## L3VPN VRFs with PE-CE eBGP
+
+Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical unit toward the CE.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
+- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
+- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma4_mx204 (junos)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
+- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-bgpv4.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-bgpv4.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---
+
+## L3VPN VRFs with PE-CE OSPF
+
+Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical unit toward the CE.
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### ma4_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf`
+- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse1_mx304 (junos)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+### mse2_mx304 (junos)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
+- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+
+---

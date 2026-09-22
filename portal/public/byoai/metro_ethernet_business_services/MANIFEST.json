@@ -491,7 +491,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2036,
+      "size_bytes": 2105,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-edge-intf.conf"
     },
     {
@@ -503,7 +503,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2877,
+      "size_bytes": 2953,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-fatpw-label.conf"
     },
     {
@@ -2628,7 +2628,7 @@
       "seen_on": [
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2412,
+      "size_bytes": 2437,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf"
     },
     {
@@ -2641,7 +2641,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2580,
+      "size_bytes": 2605,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf"
     },
     {
@@ -2654,7 +2654,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2509,
+      "size_bytes": 2534,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"
     },
     {
@@ -2918,7 +2918,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2756,
+      "size_bytes": 2781,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/vpls/ri-bgp-vpls-export.conf"
     },
     {
@@ -3591,7 +3591,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 1689,
+      "size_bytes": 1761,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-edge-intf.conf"
     },
     {
@@ -3603,7 +3603,7 @@
       "seen_on": [
         "ma5_mx204"
       ],
-      "size_bytes": 1730,
+      "size_bytes": 1803,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-fatpw-label.conf"
     },
     {
@@ -3717,12 +3717,13 @@
       "name": "ethernet-bridge",
       "topic": "Flexible-Ethernet-Services UNI with per-unit encapsulation vlan-bridge (EVPN-ELAN access)",
       "seen_on": [
+        "ma4_mx204",
         "ma5_mx204",
         "mse1_mx304",
         "mse2_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 1220,
+      "size_bytes": 1253,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ethernet-bridge.conf"
     },
     {
@@ -5498,7 +5499,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2919,
+      "size_bytes": 2942,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf"
     },
     {
@@ -5511,7 +5512,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 2815,
+      "size_bytes": 2838,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"
     },
     {
@@ -5594,7 +5595,7 @@
       "seen_on": [
         "ma5_mx204"
       ],
-      "size_bytes": 2112,
+      "size_bytes": 2137,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf"
     },
     {

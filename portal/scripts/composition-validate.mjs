@@ -170,6 +170,28 @@ export function formDevices(form, snipIndex) {
 }
 
 /**
+ * Reduce the entry snippets that reach a device to what should actually be
+ * emitted. Several entries may name the same device across OS rows; equivalent
+ * representations collapse to the same-directory one, and differing bodies are
+ * ambiguous rather than emitted together.
+ */
+export function selectEntries(entries, os, snipIndex) {
+  const bodies = new Map();
+  for (const rel of entries) {
+    const s = snipIndex.get(rel);
+    if (!s) continue;
+    const id = bodyIdentity(s.body);
+    if (!bodies.has(id)) bodies.set(id, []);
+    bodies.get(id).push(s);
+  }
+  if (bodies.size === 0) return { status: "unavailable", selected: [] };
+  if (bodies.size > 1) return { status: "ambiguous", selected: [...entries].sort() };
+  const reps = [...bodies.values()][0];
+  const chosen = reps.find((s) => s.dir === os) ?? reps[0];
+  return { status: "ok", selected: [chosen.rel], crossDirectory: chosen.dir !== os };
+}
+
+/**
  * Closure for one tuple. Returns `{ included, failures }` where each failure
  * names its kind so the ledger can group by root cause.
  */
@@ -322,8 +344,9 @@ async function main() {
     for (const t of formDevices(f, snipIndex)) {
       for (const tier of f.tiers) {
         tuples += 1;
+        const pick = selectEntries(t.entries, t.os, snipIndex);
         const r = closeTuple({
-          entries: t.entries,
+          entries: pick.selected,
           device: t.device,
           os: t.os,
           snipIndex,
@@ -334,6 +357,7 @@ async function main() {
           matrix,
           family: f.family,
         });
+        if (pick.status !== "ok") r.failures.push({ kind: `entry-${pick.status}`, from: f.id, detail: t.entries.join(",") });
         sizeSum += r.included.length;
         sizeMax = Math.max(sizeMax, r.included.length);
         const fam = byFamily.get(f.family) || { total: 0, clean: 0 };
