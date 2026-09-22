@@ -37,12 +37,12 @@ reading aid generated from it.
 
 | | |
 |---|---|
-| Snippets | 267 |
+| Snippets | 292 |
 | Devices | 20 |
-| Snippet/device pairs with at least one instance | 1814 |
-| Instances counted | 203,148 |
-| Valid bindings those instances stand for | 310,419 |
-| Snippets with an ambiguous instance | 27 |
+| Snippet/device pairs with at least one instance | 1886 |
+| Instances counted | 237,080 |
+| Valid bindings those instances stand for | 344,803 |
+| Snippets with an ambiguous instance | 32 |
 
 ## Instances per snippet
 
@@ -75,6 +75,8 @@ reading aid generated from it.
 | `evo/interfaces/core-isis-mpls.conf` | 1 | 2 | `$CORE_DESC`, `$CORE_PHYS`, `$CORE_V4_ADDR`, `$CORE_V6_ADDR`, `$ISIS_NET`, `$LO0_DESC`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX` |
 | `evo/interfaces/ifd-ae-lacp-fast.conf` | 4 | 6 | `$IFD`, `$LACP_SYS_ID` |
 | `evo/interfaces/ifd-ae-lacp.conf` | 4 | 4 | `$IFD`, `$LACP_SYS_ID` |
+| `evo/interfaces/ifl-irb-inet.conf` | 3 | 201 | `$IRB_ADDR`, `$UNIT` |
+| `evo/interfaces/ifl-irb-virtual-gateway.conf` | 2 | 150 | `$IRB_ADDR`, `$UNIT`, `$VGA`, `$VG_MAC` |
 | `evo/interfaces/ifl-vlan-bridge-esi.conf` | 9 | 1,963 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN` |
 | `evo/interfaces/ifl-vlan-bridge-vlan-list-esi.conf` | 2 | 62 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN_LIST` |
 | `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` | 4 | 1,000 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN` |
@@ -86,6 +88,9 @@ reading aid generated from it.
 | `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf` | 1 | 20 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN_LIST` |
 | `evo/interfaces/ifl-vlan-ccc-vlan-map-list.conf` | 1 | 2 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN_LIST` |
 | `evo/interfaces/ifl-vlan-ccc-vlan-map.conf` | 1 | 1,000 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN` |
+| `evo/interfaces/ifl-vlan-ccc.conf` | 5 | 4,742 | `$IFD`, `$UNIT`, `$VLAN` |
+| `evo/interfaces/ifl-vlan-inet.conf` | 5 | 6,822 | `$AC_ADDR_V4`, `$IFD`, `$UNIT`, `$VLAN` |
+| `evo/interfaces/ifl-vlan-inet6.conf` | 5 | 3,400 | `$AC_ADDR_V6`, `$IFD`, `$UNIT`, `$VLAN` |
 | `evo/policy-options/community/cm-access-fabric.conf` | 20 | 20 | `$FABRIC_COMMUNITY_AS` |
 | `evo/policy-options/community/cm-inet-backup.conf` | 20 | 20 | `$RING_COMMUNITY_AS` |
 | `evo/policy-options/community/cm-inet-default.conf` | 20 | 20 | `$RING_COMMUNITY_AS` |
@@ -170,11 +175,18 @@ reading aid generated from it.
 | `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` | 5 | 247 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VLAN_BD` |
 | `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf` | 3 | 93 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
 | `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf` | 2 | 2 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | 2 | 16 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf` | 1 | 23 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | 2 | 459 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | 2 | 500 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` | 4 | 100 | `$AC_INTF_A`, `$AC_INTF_B`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL_A`, `$SVC_ID_LOCAL_B`, `$SVC_ID_REMOTE_A`, `$SVC_ID_REMOTE_B` |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` | 4 | 100 | `$AC_INTF_A`, `$AC_INTF_B`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL_A`, `$SVC_ID_LOCAL_B`, `$SVC_ID_REMOTE_A`, `$SVC_ID_REMOTE_B` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf` | 3 | 1,500 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | 8 | 3,902 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
+| `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` | 2 | 98 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf` | 2 | 102 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 2 | 2 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf` | 1 | 100 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
@@ -218,13 +230,18 @@ reading aid generated from it.
 | `junos/interfaces/ifd-ae-lacp-fast.conf` | 4 | 6 | `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ae-lacp.conf` | 4 | 4 | `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ps-transport.conf` | 2 | 40 | `$ANCHOR_PIC`, `$PS_INTF` |
+| `junos/interfaces/ifl-irb-inet.conf` | 3 | 201 | `$IRB_ADDR`, `$UNIT` |
 | `junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf` | 2 | 2 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-bridge-esi-etree-root.conf` | 2 | 2,000 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-bridge-esi.conf` | 9 | 1,963 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN` |
+| `junos/interfaces/ifl-vlan-bridge-etree-leaf.conf` | 2 | 2,000 | `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf` | 1 | 20 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN_LIST` |
 | `junos/interfaces/ifl-vlan-ccc-esi.conf` | 3 | 3 | `$ESI`, `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-ccc-vlan-map-esi.conf` | 7 | 4,200 | `$ESI`, `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf` | 3 | 800 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN` |
+| `junos/interfaces/ifl-vlan-ccc.conf` | 5 | 4,742 | `$IFD`, `$UNIT`, `$VLAN` |
+| `junos/interfaces/ifl-vlan-inet.conf` | 5 | 6,822 | `$AC_ADDR_V4`, `$IFD`, `$UNIT`, `$VLAN` |
+| `junos/interfaces/ifl-vlan-inet6.conf` | 5 | 3,400 | `$AC_ADDR_V6`, `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-vpls-vlan-map.conf` | 1 | 200 | `$IFD`, `$INPUT_VID`, `$UNIT`, `$VLAN` |
 | `junos/policy-options/community/cm-access-fabric.conf` | 20 | 20 | `$FABRIC_COMMUNITY_AS` |
 | `junos/policy-options/community/cm-inet-backup.conf` | 20 | 20 | `$RING_COMMUNITY_AS` |
@@ -295,11 +312,17 @@ reading aid generated from it.
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` | 2 | 100 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$UNIT`, `$VLAN` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` | 1 | 49 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` | 2 | 150 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VLAN_UNIT` |
+| `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` | 2 | 220 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$PS_INTF`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VLAN` |
 | `junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf` | 4 | 2,000 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$UNIT`, `$VLAN` |
 | `junos/routing-instances/evpn-etree/ri-evpn-etree.conf` | 4 | 2,000 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$UNIT`, `$VLAN` |
+| `junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | 2 | 16 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | 2 | 459 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | 2 | 500 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | 8 | 3,902 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` | 2 | 98 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf` | 2 | 102 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 1 | 1 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` | 1 | 1 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$CE_PEER_V6`, `$EXPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
@@ -310,6 +333,8 @@ reading aid generated from it.
 | `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` | 4 | 2,400 | `$AC_INTF`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` | 1 | 1,000 | `$AC_INTF`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` | 1 | 50 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$L2VPN_SITE`, `$RD`, `$RT`, `$SITE_ID`, `$VLAN_BD` |
+| `junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf` | 1 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$LABEL_BLOCK_SIZE`, `$RD`, `$RT`, `$SITE_RANGE`, `$VPLS_SITE`, `$VPLS_SITE_ID` |
+| `junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf` | 1 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$LABEL_BLOCK_SIZE`, `$RD`, `$RT`, `$SITE_RANGE`, `$VPLS_SITE`, `$VPLS_SITE_ID` |
 | `junos/routing-options/flex-algorithm.conf` | 6 | 6 | _none_ |
 | `junos/routing-options/forwarding-table.conf` | 2 | 2 | `$PPLB_NAME` |
 | `junos/routing-options/rib-group-remote-loopbacks-mse.conf` | 17 | 17 | _none_ |
@@ -349,11 +374,21 @@ Where one instance can be read under more than one binding.
 | `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | `meg2_acx7509` | 1 | 2 | 2 |
 | `evo/protocols/bgp-overlay.conf` | `ma1-1_acx7024` | 1 | 4 | 4 |
 | `evo/protocols/bgp-overlay.conf` | `ma1-2_acx7024` | 1 | 4 | 4 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | `an3_acx7100-48l` | 8 | 16 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | `mse1_mx304` | 8 | 16 | 2 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf` | `an3_acx7100-48l` | 23 | 138 | 6 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | `an3_acx7100-48l` | 219 | 5,256 | 24 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | `mse1_mx304` | 240 | 5,760 | 24 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | `an3_acx7100-48l` | 250 | 6,000 | 24 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | `mse1_mx304` | 250 | 6,000 | 24 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` | `ma1-1_acx7024` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` | `ma1-2_acx7024` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` | `meg1_acx7100-32c` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` | `meg2_acx7509` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` | `ma1-1_acx7024` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` | `ma1-2_acx7024` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` | `meg1_acx7100-32c` | 25 | 50 | 2 |
+| `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` | `meg2_acx7509` | 25 | 50 | 2 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` | `mse2_mx304` | 50 | 1,200 | 24 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `an3_acx7100-48l` | 99 | 198 | 2 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `mse1_mx304` | 2,099 | 4,198 | 2 |
@@ -392,6 +427,10 @@ Where one instance can be read under more than one binding.
 | `junos/protocols/oam-cfm-perf-mon.conf` | `ma5_mx204` | 200 | 400 | 2 |
 | `junos/protocols/oam-cfm-perf-mon.conf` | `meg1_acx7100-32c` | 200 | 400 | 2 |
 | `junos/protocols/oam-cfm-perf-mon.conf` | `meg2_acx7509` | 100 | 200 | 2 |
+| `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` | `mse1_mx304` | 110 | 220 | 2 |
+| `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` | `mse2_mx304` | 110 | 220 | 2 |
+| `junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | `an3_acx7100-48l` | 8 | 16 | 2 |
+| `junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | `mse1_mx304` | 8 | 16 | 2 |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | `an3_acx7100-48l` | 219 | 5,256 | 24 |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | `mse1_mx304` | 240 | 5,760 | 24 |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | `an3_acx7100-48l` | 250 | 6,000 | 24 |
@@ -410,6 +449,8 @@ The first instance of each snippet, in the artifact's own ordering.
 - `evo/interfaces/core-isis-mpls.conf` on `ma1-1_acx7024` — `$CORE_DESC` = `"to MA1.1 rtme-acx7024-04 ae88"`, `$CORE_PHYS` = `ae88`, `$CORE_V4_ADDR` = `10.10.1.118/30`, `$CORE_V6_ADDR` = `2001::10:10:1:76/126`, `$ISIS_NET` = `49.0001.0010.0100.0017.00`, `$LO0_DESC` = `"MA1.1 Metro Ring Blue metro-a"`, `$LOOPBACK_V4_PFX` = `1.1.0.17/32`, `$LOOPBACK_V6_PFX` = `2001::1:1:0:11/128`
 - `evo/interfaces/ifd-ae-lacp-fast.conf` on `an1_mx204` — `$IFD` = `ae11`, `$LACP_SYS_ID` = `00:00:00:00:00:01`
 - `evo/interfaces/ifd-ae-lacp.conf` on `ma1-1_acx7024` — `$IFD` = `ae12`, `$LACP_SYS_ID` = `00:00:00:00:00:01`
+- `evo/interfaces/ifl-irb-inet.conf` on `an3_acx7100-48l` — `$IRB_ADDR` = `172.16.255.1/30`, `$UNIT` = `5000`
+- `evo/interfaces/ifl-irb-virtual-gateway.conf` on `meg1_acx7100-32c` — `$IRB_ADDR` = `41.2.10.3/24`, `$UNIT` = `4008`, `$VGA` = `41.2.10.1`, `$VG_MAC` = `00:01:33:44:11:11`
 - `evo/interfaces/ifl-vlan-bridge-esi.conf` on `an1_mx204` — `$ESI` = `00:70:11:11:11:11:11:00:00:02`, `$IFD` = `ae11`, `$UNIT` = `701`, `$VLAN` = `701`
 - `evo/interfaces/ifl-vlan-bridge-vlan-list-esi.conf` on `meg1_acx7100-32c` — `$ESI` = `00:81:10:10:10:10:10:00:00:01`, `$IFD` = `ae66`, `$UNIT` = `1000`, `$VLAN_LIST` = `1000-1001`
 - `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/0`, `$INPUT_VID` = `3500`, `$UNIT` = `400`, `$VLAN` = `400`
@@ -421,6 +462,9 @@ The first instance of each snippet, in the artifact's own ordering.
 - `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf` on `ma3_acx7100-48l` — `$IFD` = `et-0/0/5`, `$INPUT_VID` = `4000`, `$UNIT` = `1000`, `$VLAN_LIST` = `1000-1099`
 - `evo/interfaces/ifl-vlan-ccc-vlan-map-list.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/0`, `$INPUT_VID` = `4090`, `$UNIT` = `800`, `$VLAN_LIST` = `800-809`
 - `evo/interfaces/ifl-vlan-ccc-vlan-map.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/50`, `$INPUT_VID` = `1000`, `$UNIT` = `3000`, `$VLAN` = `3000`
+- `evo/interfaces/ifl-vlan-ccc.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/0`, `$UNIT` = `1000`, `$VLAN` = `1000`
+- `evo/interfaces/ifl-vlan-inet.conf` on `an3_acx7100-48l` — `$AC_ADDR_V4` = `13.1.0.1/30`, `$IFD` = `et-0/0/4`, `$UNIT` = `2001`, `$VLAN` = `2001`
+- `evo/interfaces/ifl-vlan-inet6.conf` on `an3_acx7100-48l` — `$AC_ADDR_V6` = `2001:0:0:0:13:3:0:1/126`, `$IFD` = `et-0/0/4`, `$UNIT` = `2201`, `$VLAN` = `2201`
 - `evo/policy-options/community/cm-access-fabric.conf` on `ag1-1_acx7100-32c` — `$FABRIC_COMMUNITY_AS` = `63535`
 - `evo/policy-options/community/cm-inet-backup.conf` on `ag1-1_acx7100-32c` — `$RING_COMMUNITY_AS` = `63536`
 - `evo/policy-options/community/cm-inet-default.conf` on `ag1-1_acx7100-32c` — `$RING_COMMUNITY_AS` = `63536`
@@ -465,11 +509,18 @@ The first instance of each snippet, in the artifact's own ordering.
 - `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `ae11.700`, `$BD_NAME` = `BD_evpn_group_90_700`, `$INSTANCE_NAME` = `evpn_group_90_700`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `7000`, `$RT_AS` = `63535`, `$RT_ID` = `7000`, `$VLAN_BD` = `none`
 - `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.1000`, `$BD_NAME` = `BD_evpn_group_80_1000`, `$INSTANCE_NAME` = `evpn_group_80_1000`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `8000`, `$RT_AS` = `63535`, `$RT_ID` = `8000`
 - `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/11.0`, `$BD_NAME` = `v-2`, `$INSTANCE_NAME` = `EVPN_ELAN_PORT_BASED`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `5565`, `$RT_AS` = `63535`, `$RT_ID` = `6565`
+- `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_10`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `410`, `$RT_AS` = `63535`, `$RT_ID` = `410`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1809`, `$UNIT_B` = `2309` _(1 of 2 equivalent bindings)_
 - `evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_1`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `401`, `$RT_AS` = `63535`, `$RT_ID` = `401`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1800`, `$UNIT_B` = `2300`, `$UNIT_C` = `800` _(1 of 6 equivalent bindings)_
 - `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_100`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `500`, `$RT_AS` = `63535`, `$RT_ID` = `500`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1899`, `$UNIT_B` = `2399`, `$UNIT_C` = `998`, `$UNIT_D` = `999` _(1 of 24 equivalent bindings)_
 - `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_251`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `651`, `$RT_AS` = `63535`, `$RT_ID` = `651`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1300`, `$UNIT_B` = `1301`, `$UNIT_C` = `2050`, `$UNIT_D` = `2550` _(1 of 24 equivalent bindings)_
+- `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf` on `ma1-1_acx7024` — `$AC_INTF_A` = `ae12.200`, `$AC_INTF_B` = `ae12.250`, `$INSTANCE_NAME` = `evpn_group_50_1`, `$LOOPBACK_V4` = `1.1.0.17`, `$RD_SUB_ASSIGNED` = `501`, `$RT_AS` = `63536`, `$RT_ID` = `50100`, `$SVC_ID_LOCAL_A` = `2`, `$SVC_ID_LOCAL_B` = `22`, `$SVC_ID_REMOTE_A` = `1`, `$SVC_ID_REMOTE_B` = `11` _(1 of 2 equivalent bindings)_
+- `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf` on `ma1-1_acx7024` — `$AC_INTF_A` = `ae12.225`, `$AC_INTF_B` = `ae12.275`, `$INSTANCE_NAME` = `evpn_group_50_26`, `$LOOPBACK_V4` = `1.1.0.17`, `$RD_SUB_ASSIGNED` = `526`, `$RT_AS` = `63536`, `$RT_ID` = `52600`, `$SVC_ID_LOCAL_A` = `2`, `$SVC_ID_LOCAL_B` = `22`, `$SVC_ID_REMOTE_A` = `1`, `$SVC_ID_REMOTE_B` = `11` _(1 of 2 equivalent bindings)_
 - `evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.3000`, `$INSTANCE_NAME` = `evpn_group_10_3000`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `3000`, `$RT_AS` = `63535`, `$RT_ID` = `3000`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
 - `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf` on `an1_mx204` — `$AC_INTF` = `ae11.2400`, `$INSTANCE_NAME` = `evpn_group_30_2400`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `2400`, `$RT_AS` = `63535`, `$RT_ID` = `2400`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
+- `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.350`, `$INSTANCE_NAME` = `l2vpn_group_105_350`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092150`, `$RT` = `63535:1092150`
+- `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.201`, `$INSTANCE_NAME` = `l2vpn_group_105_201`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092001`, `$RT` = `63535:1092001`
+- `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.300`, `$INSTANCE_NAME` = `l2vpn_group_105_300`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092100`, `$RT` = `63535:1092100`
+- `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.200`, `$INSTANCE_NAME` = `l2vpn_group_105_200`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092000`, `$RT` = `63535:1092000`
 - `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/8.0`, `$INSTANCE_NAME` = `L2VPN_PORT_BASED`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:6500`, `$RT` = `63535:6500`
 - `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:13:3:0:2`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:13:3:0:1`, `$RD` = `63535:2201`, `$ROUTER_ID` = `1.1.0.2`
 - `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf` on `ma3_acx7100-48l` — `$AC_INTF` = `et-0/0/5.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:115:3:0:2`, `$EXPORT_POL` = `METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:115:3:0:1`, `$RD` = `63536:2201`, `$ROUTER_ID` = `1.1.0.15`
@@ -495,13 +546,18 @@ The first instance of each snippet, in the artifact's own ordering.
 - `junos/interfaces/ifd-ae-lacp-fast.conf` on `an1_mx204` — `$IFD` = `ae11`, `$LACP_SYS_ID` = `00:00:00:00:00:01`
 - `junos/interfaces/ifd-ae-lacp.conf` on `ma1-1_acx7024` — `$IFD` = `ae12`, `$LACP_SYS_ID` = `00:00:00:00:00:01`
 - `junos/interfaces/ifd-ps-transport.conf` on `mse1_mx304` — `$ANCHOR_PIC` = `lt-0/0/0`, `$PS_INTF` = `ps0`
+- `junos/interfaces/ifl-irb-inet.conf` on `an3_acx7100-48l` — `$IRB_ADDR` = `172.16.255.1/30`, `$UNIT` = `5000`
 - `junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf` on `an1_mx204` — `$ESI` = `00:70:11:11:11:11:11:00:00:01`, `$IFD` = `ae11`, `$UNIT` = `700`, `$VLAN` = `700`
 - `junos/interfaces/ifl-vlan-bridge-esi-etree-root.conf` on `mse1_mx304` — `$ESI` = `00:10:11:11:11:80:01:00:00:01`, `$IFD` = `ae10`, `$UNIT` = `2000`, `$VLAN` = `2000`
 - `junos/interfaces/ifl-vlan-bridge-esi.conf` on `an1_mx204` — `$ESI` = `00:70:11:11:11:11:11:00:00:02`, `$IFD` = `ae11`, `$UNIT` = `701`, `$VLAN` = `701`
+- `junos/interfaces/ifl-vlan-bridge-etree-leaf.conf` on `ma4_mx204` — `$IFD` = `xe-0/1/4`, `$UNIT` = `2000`, `$VLAN` = `2000`
 - `junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf` on `ma5_mx204` — `$IFD` = `xe-0/1/4`, `$INPUT_VID` = `4000`, `$UNIT` = `1000`, `$VLAN_LIST` = `1000-1099`
 - `junos/interfaces/ifl-vlan-ccc-esi.conf` on `an1_mx204` — `$ESI` = `00:10:11:11:11:11:01:00:00:00`, `$IFD` = `ae11`, `$UNIT` = `101`, `$VLAN` = `101`
 - `junos/interfaces/ifl-vlan-ccc-vlan-map-esi.conf` on `an1_mx204` — `$ESI` = `00:10:11:11:30:11:01:00:00:00`, `$IFD` = `ae11`, `$INPUT_VID` = `3800`, `$UNIT` = `2400`, `$VLAN` = `2400`
 - `junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/0`, `$INPUT_VID` = `3200`, `$UNIT` = `2800`, `$VLAN` = `2800`
+- `junos/interfaces/ifl-vlan-ccc.conf` on `an3_acx7100-48l` — `$IFD` = `et-0/0/0`, `$UNIT` = `1000`, `$VLAN` = `1000`
+- `junos/interfaces/ifl-vlan-inet.conf` on `an3_acx7100-48l` — `$AC_ADDR_V4` = `13.1.0.1/30`, `$IFD` = `et-0/0/4`, `$UNIT` = `2001`, `$VLAN` = `2001`
+- `junos/interfaces/ifl-vlan-inet6.conf` on `an3_acx7100-48l` — `$AC_ADDR_V6` = `2001:0:0:0:13:3:0:1/126`, `$IFD` = `et-0/0/4`, `$UNIT` = `2201`, `$VLAN` = `2201`
 - `junos/interfaces/ifl-vlan-vpls-vlan-map.conf` on `ma5_mx204` — `$IFD` = `xe-0/1/4`, `$INPUT_VID` = `3500`, `$UNIT` = `400`, `$VLAN` = `400`
 - `junos/policy-options/community/cm-access-fabric.conf` on `ag1-1_acx7100-32c` — `$FABRIC_COMMUNITY_AS` = `63535`
 - `junos/policy-options/community/cm-inet-backup.conf` on `ag1-1_acx7100-32c` — `$RING_COMMUNITY_AS` = `63536`
@@ -544,11 +600,17 @@ The first instance of each snippet, in the artifact's own ordering.
 - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` on `mse1_mx304` — `$AC_INTF` = `xe-0/0/3:1`, `$BD_NAME` = `BD_evpn_group_60_4000`, `$INSTANCE_NAME` = `evpn_group_60_4000`, `$IRB_UNIT` = `4000`, `$LOOPBACK_V4` = `1.1.0.10`, `$RD_SUB_ASSIGNED` = `14000`, `$RT_AS` = `61535`, `$RT_ID` = `14000`, `$UNIT` = `3000`, `$VLAN` = `3000`
 - `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` on `an1_mx204` — `$AC_INTF` = `ae11.701`, `$INSTANCE_NAME` = `evpn_group_90_701`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `7001`, `$RT_AS` = `63535`, `$RT_ID` = `7001`
 - `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` on `an1_mx204` — `$AC_INTF` = `ae11`, `$INSTANCE_NAME` = `evpn_group_90_750`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `7050`, `$RT_AS` = `63535`, `$RT_ID` = `7050`, `$VLAN_UNIT` = `750`
+- `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` on `mse1_mx304` — `$AC_INTF` = `ae10.300`, `$INSTANCE_NAME` = `300-evpn-floating-pw`, `$LOOPBACK_V4` = `1.1.0.10`, `$PS_INTF` = `ps0.300`, `$RD_SUB_ASSIGNED` = `300`, `$RT_AS` = `300`, `$RT_ID` = `300`, `$VLAN` = `300` _(1 of 2 equivalent bindings)_
 - `junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf` on `ma4_mx204` — `$AC_INTF` = `xe-0/1/4`, `$INSTANCE_NAME` = `evpn_group_80_1`, `$LOOPBACK_V4` = `1.1.0.16`, `$RD_SUB_ASSIGNED` = `8001`, `$RT_AS` = `63536`, `$RT_ID` = `8001`, `$UNIT` = `2000`, `$VLAN` = `2000`
 - `junos/routing-instances/evpn-etree/ri-evpn-etree.conf` on `ma4_mx204` — `$AC_INTF` = `xe-0/1/4`, `$INSTANCE_NAME` = `evpn_group_80_1000`, `$LOOPBACK_V4` = `1.1.0.16`, `$RD_SUB_ASSIGNED` = `9000`, `$RT_AS` = `63536`, `$RT_ID` = `9000`, `$UNIT` = `2999`, `$VLAN` = `2999`
+- `junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_10`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `410`, `$RT_AS` = `63535`, `$RT_ID` = `410`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1809`, `$UNIT_B` = `2309` _(1 of 2 equivalent bindings)_
 - `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_100`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `500`, `$RT_AS` = `63535`, `$RT_ID` = `500`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1899`, `$UNIT_B` = `2399`, `$UNIT_C` = `998`, `$UNIT_D` = `999` _(1 of 24 equivalent bindings)_
 - `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$INSTANCE_NAME` = `evpn_group_40_251`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `651`, `$RT_AS` = `63535`, `$RT_ID` = `651`, `$SVC_ID_LOCAL` = `1`, `$SVC_ID_REMOTE` = `2`, `$UNIT_A` = `1300`, `$UNIT_B` = `1301`, `$UNIT_C` = `2050`, `$UNIT_D` = `2550` _(1 of 24 equivalent bindings)_
 - `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` on `an1_mx204` — `$AC_INTF` = `ae11.2400`, `$INSTANCE_NAME` = `evpn_group_30_2400`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `2400`, `$RT_AS` = `63535`, `$RT_ID` = `2400`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
+- `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.350`, `$INSTANCE_NAME` = `l2vpn_group_105_350`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092150`, `$RT` = `63535:1092150`
+- `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.201`, `$INSTANCE_NAME` = `l2vpn_group_105_201`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092001`, `$RT` = `63535:1092001`
+- `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.300`, `$INSTANCE_NAME` = `l2vpn_group_105_300`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092100`, `$RT` = `63535:1092100`
+- `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.200`, `$INSTANCE_NAME` = `l2vpn_group_105_200`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:1092000`, `$RT` = `63535:1092000`
 - `junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/2.0`, `$INSTANCE_NAME` = `L2VPN_PORT_BASED`, `$L2VPN_LOCAL_SITE_ID` = `1119`, `$L2VPN_REMOTE_SITE_ID` = `1102`, `$L2VPN_SITE` = `r19`, `$RD` = `60535:8500`, `$RT` = `63535:6500`
 - `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` on `mse2_mx304` — `$AC_INTF` = `xe-0/0/15:2.2001`, `$AS_CUST` = `64514`, `$CE_PEER_V4` = `22.2.0.2`, `$CE_PEER_V6` = `2001::22:2:0:2`, `$EXPORT_POL` = `INET-VRF-DEFAULT_1`, `$INSTANCE_NAME` = `INTERNET-VRF`, `$PE_LOCAL_V4` = `22.2.0.1`, `$PE_LOCAL_V6` = `2001::22:2:0:1`, `$RD` = `1.1.0.11:63536`, `$ROUTER_ID` = `1.1.0.11`, `$RT_AS` = `63536`, `$RT_ID` = `22222`
 - `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:13:3:0:2`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:13:3:0:1`, `$RD` = `63535:2201`, `$ROUTER_ID` = `1.1.0.2`
@@ -559,5 +621,7 @@ The first instance of each snippet, in the artifact's own ordering.
 - `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2001`, `$EXPORT_POL` = `PS-METRO_L3VPN_2001-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_2001-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2001`, `$RD` = `63535:2001`, `$ROUTER_ID` = `1.1.0.2`
 - `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` on `ma4_mx204` — `$AC_INTF` = `xe-0/1/4.1`, `$EXPORT_POL` = `METRO_L3VPN_1-EXPORT`, `$IMPORT_POL` = `METRO_L3VPN_1-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_1`, `$RD` = `63536:41`, `$ROUTER_ID` = `1.1.0.16`
 - `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/4.800`, `$BD_NAME` = `vlan800`, `$INSTANCE_NAME` = `vpls_group_108_800`, `$L2VPN_SITE` = `r19`, `$RD` = `64535:81000`, `$RT` = `64535:1183000`, `$SITE_ID` = `3`, `$VLAN_BD` = `800`
+- `junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/4.400`, `$INSTANCE_NAME` = `vpls_group_102_400`, `$LABEL_BLOCK_SIZE` = `8`, `$RD` = `63536:1093000`, `$RT` = `63535:1093000`, `$SITE_RANGE` = `10`, `$VPLS_SITE` = `r19`, `$VPLS_SITE_ID` = `3`
+- `junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/4.500`, `$INSTANCE_NAME` = `vpls_group_102_500`, `$LABEL_BLOCK_SIZE` = `8`, `$RD` = `63536:1093100`, `$RT` = `63535:1093100`, `$SITE_RANGE` = `10`, `$VPLS_SITE` = `r19`, `$VPLS_SITE_ID` = `3`
 - `junos/routing-options/forwarding-table.conf` on `mse1_mx304` — `$PPLB_NAME` = `pplb`
 - `junos/routing-options/transport-class.conf` on `an1_mx204` — `$TC_EGRESS` = `1.1.0.0`

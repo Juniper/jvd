@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-22T00:23:41.769Z",
+  "generatedAt": "2026-09-22T00:26:20.577Z",
   "counts": {
-    "total": 869,
-    "junos": 433,
-    "evo": 436,
+    "total": 894,
+    "junos": 446,
+    "evo": 448,
     "jvds": 18
   },
   "categories": [
@@ -232,9 +232,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 125,
-        "evo": 142,
-        "total": 267
+        "junos": 138,
+        "evo": 154,
+        "total": 292
       }
     },
     {
@@ -42867,6 +42867,121 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/interfaces/ifl-irb-inet",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-irb-inet",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-inet.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed interface of an EVPN bridge domain: the unit gives the bridge domain one IPv4 address on this node, so hosts in the domain reach the L3VPN through it.",
+        "The address is node-local, with no `virtual-gateway-address`, so the gateway is not shared with the other PEs in the EVPN."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$UNIT",
+          "example": "4000"
+        },
+        {
+          "name": "$IRB_ADDR",
+          "example": "40.2.2.3/24"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 136,
+      "lineCount": 9,
+      "techFamily": "Interfaces",
+      "subfamily": "IRB / Gateways",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/ifl-irb-virtual-gateway",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-irb-virtual-gateway",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-virtual-gateway.conf",
+      "otherOsFormId": null,
+      "topic": "IRB unit acting as an anycast default gateway with a virtual-gateway address",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "The routed interface of an EVPN bridge domain. The unit holds the node's own address plus a `virtual-gateway-address`, so every PE in the EVPN presents the same gateway IP and a host keeps its default gateway wherever it attaches.",
+        "`virtual-gateway-v4-mac` fixes the MAC answered for that gateway address, so the gateway is identical on every participating node.",
+        "`virtual-gateway-accept-data` lets the node accept traffic addressed to the virtual gateway itself, not only forward through it."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$UNIT",
+          "example": "4000"
+        },
+        {
+          "name": "$IRB_ADDR",
+          "example": "41.2.2.3/24"
+        },
+        {
+          "name": "$VGA",
+          "example": "41.2.2.1"
+        },
+        {
+          "name": "$VG_MAC",
+          "example": "00:01:33:44:11:11"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    irb {\n        unit $UNIT {\n            virtual-gateway-accept-data;\n            family inet {\n                address $IRB_ADDR {\n                    virtual-gateway-address $VGA;\n                }\n            }\n            virtual-gateway-v4-mac $VG_MAC;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-accept-data;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-gateway-address $VGA;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-v4-mac $VG_MAC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 290,
+      "lineCount": 13,
+      "techFamily": "Interfaces",
+      "subfamily": "IRB / Gateways",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-bridge-esi",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -43561,6 +43676,197 @@
       "lineCount": 13,
       "techFamily": "Interfaces",
       "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-ccc",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-ccc",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-ccc.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-ccc",
+      "topic": "Single-tagged cross-connect logical interface",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204",
+          "mse1_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The Layer 2 attachment circuit of a point-to-point service: the unit is handed to a cross-connect rather than terminated in a routing family, so the customer frame is carried transparently.",
+        "One VLAN with no rewriting, so the customer tag reaches the cross-connect unchanged, and no `esi`, so the circuit is single-homed.",
+        "The unit index and the VLAN tag are independent values."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT",
+          "example": "862"
+        },
+        {
+          "name": "$VLAN",
+          "example": "862"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 125,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-inet",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-inet",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-inet",
+      "topic": "Single-tagged routed logical interface carrying an IPv4 customer address",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed attachment circuit of an L3VPN service: one VLAN presented to the PE and terminated in `family inet`, so customer traffic arrives as IP rather than as a cross-connect or bridge domain.",
+        "The address is the PE side of the PE-CE link; the customer holds the other host in the same subnet.",
+        "The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is presented unchanged and the circuit is single-homed."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "et-0/0/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2001"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2001"
+        },
+        {
+          "name": "$AC_ADDR_V4",
+          "example": "13.1.0.1/30"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $AC_ADDR_V4;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $AC_ADDR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 166,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-inet6",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-inet6",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet6.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-inet6",
+      "topic": "Single-tagged routed logical interface carrying an IPv6 customer address",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed attachment circuit of an IPv6 L3VPN service: one VLAN presented to the PE and terminated in `family inet6`.",
+        "The address is the PE side of the PE-CE link; the customer holds the other host in the same subnet.",
+        "The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is presented unchanged and the circuit is single-homed."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "et-0/0/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2201"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2201"
+        },
+        {
+          "name": "$AC_ADDR_V6",
+          "example": "2001:0:0:0:13:3:0:1/126"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            vlan-id $VLAN;\n            family inet6 {\n                address $AC_ADDR_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $AC_ADDR_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 167,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -49144,6 +49450,101 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "evpn-vpws",
+      "categoryPath": "routing-instances/evpn-vpws",
+      "name": "ri-evpn-fxc-2-uni-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "topic": "VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "`flexible-cross-connect-vlan-unaware` bundles the listed logical interfaces into one cross-connect without regard to their VLAN tags, so the group is carried as a single VPWS service.",
+        "The `fxc` group names two logical interfaces on the same port and one `service-id` pair, whose `local` and `remote` values match this group to its counterpart on the far-end PE.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_40_10"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$UNIT_A",
+          "example": "1809"
+        },
+        {
+          "name": "$UNIT_B",
+          "example": "2309"
+        },
+        {
+          "name": "$SVC_ID_LOCAL",
+          "example": "1"
+        },
+        {
+          "name": "$SVC_ID_REMOTE",
+          "example": "2"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.2"
+        },
+        {
+          "name": "$RD_SUB_ASSIGNED",
+          "example": "410"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "63535"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "410"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 621,
+      "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -49490,6 +49891,206 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "evpn-vpws",
+      "categoryPath": "routing-instances/evpn-vpws",
+      "name": "ri-evpn-fxc-vlan-aware-2-uni-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf",
+      "otherOsFormId": null,
+      "topic": "VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits, with vrf-export",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "`flexible-cross-connect-vlan-aware` keeps the customer VLAN significant, so each attachment circuit is cross-connected as its own VLAN-aware service rather than being bundled port-wide.",
+        "Each circuit carries its own `vpws-service-id`, whose `local` and `remote` values pair it with the matching circuit on the far-end PE.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_50_1"
+        },
+        {
+          "name": "$AC_INTF_A",
+          "example": "ae12.200"
+        },
+        {
+          "name": "$AC_INTF_B",
+          "example": "ae12.250"
+        },
+        {
+          "name": "$SVC_ID_LOCAL_A",
+          "example": "2"
+        },
+        {
+          "name": "$SVC_ID_REMOTE_A",
+          "example": "1"
+        },
+        {
+          "name": "$SVC_ID_LOCAL_B",
+          "example": "22"
+        },
+        {
+          "name": "$SVC_ID_REMOTE_B",
+          "example": "11"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.17"
+        },
+        {
+          "name": "$RD_SUB_ASSIGNED",
+          "example": "501"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "63536"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "50100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF_A {\n                    vpws-service-id {\n                        local $SVC_ID_LOCAL_A;\n                        remote $SVC_ID_REMOTE_A;\n                    }\n                }\n                interface $AC_INTF_B {\n                    vpws-service-id {\n                        local $SVC_ID_LOCAL_B;\n                        remote $SVC_ID_REMOTE_B;\n                    }\n                }\n                flexible-cross-connect-vlan-aware;\n            }\n        }\n        interface $AC_INTF_A;\n        interface $AC_INTF_B;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_A {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_B {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 816,
+      "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "evpn-vpws",
+      "categoryPath": "routing-instances/evpn-vpws",
+      "name": "ri-evpn-fxc-vlan-aware-2-uni",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "otherOsFormId": null,
+      "topic": "VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "highlights": [
+        "`flexible-cross-connect-vlan-aware` keeps the customer VLAN significant, so each attachment circuit is cross-connected as its own VLAN-aware service rather than being bundled port-wide.",
+        "Each circuit carries its own `vpws-service-id`, whose `local` and `remote` values pair it with the matching circuit on the far-end PE.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_50_26"
+        },
+        {
+          "name": "$AC_INTF_A",
+          "example": "ae12.225"
+        },
+        {
+          "name": "$AC_INTF_B",
+          "example": "ae12.275"
+        },
+        {
+          "name": "$SVC_ID_LOCAL_A",
+          "example": "2"
+        },
+        {
+          "name": "$SVC_ID_REMOTE_A",
+          "example": "1"
+        },
+        {
+          "name": "$SVC_ID_LOCAL_B",
+          "example": "22"
+        },
+        {
+          "name": "$SVC_ID_REMOTE_B",
+          "example": "11"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.17"
+        },
+        {
+          "name": "$RD_SUB_ASSIGNED",
+          "example": "526"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "63536"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "52600"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                interface $AC_INTF_A {\n                    vpws-service-id {\n                        local $SVC_ID_LOCAL_A;\n                        remote $SVC_ID_REMOTE_A;\n                    }\n                }\n                interface $AC_INTF_B {\n                    vpws-service-id {\n                        local $SVC_ID_LOCAL_B;\n                        remote $SVC_ID_REMOTE_B;\n                    }\n                }\n                flexible-cross-connect-vlan-aware;\n            }\n        }\n        interface $AC_INTF_A;\n        interface $AC_INTF_B;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_A {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF_B {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpws-service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-aware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 781,
+      "lineCount": 26,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-vpws-export",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -49671,6 +50272,342 @@
       "lineCount": 18,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-control-word-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`control-word` inserts the control word ahead of the customer frame, so transit routers do not mistake the payload for IP when hashing.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_350"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r2"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/50.350"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1092150"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092150"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 584,
+      "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-control-word",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`control-word` inserts the control word ahead of the customer frame, so transit routers do not mistake the payload for IP when hashing.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_201"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r2"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/50.201"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1092001"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 549,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`no-control-word` omits the control word, so no extra shim is inserted ahead of the customer frame.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_300"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r2"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/50.300"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1092100"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 587,
+      "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`no-control-word` omits the control word, so no extra shim is inserted ahead of the customer frame.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_200"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r2"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/50.200"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1092000"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 552,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -52758,6 +53695,60 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-irb-inet",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-irb-inet.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed interface of an EVPN bridge domain: the unit gives the bridge domain one IPv4 address on this node, so hosts in the domain reach the L3VPN through it.",
+        "The address is node-local, with no `virtual-gateway-address`, so the gateway is not shared with the other PEs in the EVPN."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$UNIT",
+          "example": "4000"
+        },
+        {
+          "name": "$IRB_ADDR",
+          "example": "43.2.2.3/24"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 136,
+      "lineCount": 9,
+      "techFamily": "Interfaces",
+      "subfamily": "IRB / Gateways",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-bridge-esi-df-preference",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -52935,6 +53926,62 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            esi {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                $ESI;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                all-active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 210,
       "lineCount": 12,
+      "techFamily": "Interfaces",
+      "subfamily": "Bridge Domains",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-bridge-etree-leaf",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-bridge-etree-leaf",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-bridge-etree-leaf.conf",
+      "otherOsFormId": null,
+      "topic": "Single-tagged bridged logical interface acting as an EVPN E-Tree leaf",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "The attachment circuit of an EVPN E-Tree service: the unit is bridged into the EVPN instance and `etree-ac-role leaf` marks it as a leaf, so the EVPN control plane blocks leaf-to-leaf forwarding and allows traffic only towards a root circuit.",
+        "One VLAN with no rewriting, so the customer tag is bridged unchanged, and no `esi`, so the circuit is single-homed."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "2000"
+        },
+        {
+          "name": "$VLAN",
+          "example": "2000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n            etree-ac-role leaf;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            etree-ac-role leaf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 160,
+      "lineCount": 9,
       "techFamily": "Interfaces",
       "subfamily": "Bridge Domains",
       "usecases": [
@@ -53197,6 +54244,197 @@
       "lineCount": 16,
       "techFamily": "Interfaces",
       "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-ccc",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-ccc",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-ccc.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-ccc",
+      "topic": "Single-tagged cross-connect logical interface",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204",
+          "mse1_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The Layer 2 attachment circuit of a point-to-point service: the unit is handed to a cross-connect rather than terminated in a routing family, so the customer frame is carried transparently.",
+        "One VLAN with no rewriting, so the customer tag reaches the cross-connect unchanged, and no `esi`, so the circuit is single-homed.",
+        "The unit index and the VLAN tag are independent values."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "et-0/0/2"
+        },
+        {
+          "name": "$UNIT",
+          "example": "600"
+        },
+        {
+          "name": "$VLAN",
+          "example": "600"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            encapsulation vlan-ccc;\n            vlan-id $VLAN;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-ccc;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 125,
+      "lineCount": 8,
+      "techFamily": "Interfaces",
+      "subfamily": "CCC / L2 Cross-Connect",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-inet",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-inet",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-inet.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-inet",
+      "topic": "Single-tagged routed logical interface carrying an IPv4 customer address",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed attachment circuit of an L3VPN service: one VLAN presented to the PE and terminated in `family inet`, so customer traffic arrives as IP rather than as a cross-connect or bridge domain.",
+        "The address is the PE side of the PE-CE link; the customer holds the other host in the same subnet.",
+        "The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is presented unchanged and the circuit is single-homed."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "1"
+        },
+        {
+          "name": "$VLAN",
+          "example": "1"
+        },
+        {
+          "name": "$AC_ADDR_V4",
+          "example": "17.1.0.1/30"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            vlan-id $VLAN;\n            family inet {\n                address $AC_ADDR_V4;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $AC_ADDR_V4;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 166,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-inet6",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-vlan-inet6",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-inet6.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/ifl-vlan-inet6",
+      "topic": "Single-tagged routed logical interface carrying an IPv6 customer address",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The routed attachment circuit of an IPv6 L3VPN service: one VLAN presented to the PE and terminated in `family inet6`.",
+        "The address is the PE side of the PE-CE link; the customer holds the other host in the same subnet.",
+        "The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is presented unchanged and the circuit is single-homed."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "xe-0/1/4"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3001"
+        },
+        {
+          "name": "$VLAN",
+          "example": "3001"
+        },
+        {
+          "name": "$AC_ADDR_V6",
+          "example": "2001:0:0:0:17:3:0:1/126"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $IFD {\n        unit $UNIT {\n            vlan-id $VLAN;\n            family inet6 {\n                address $AC_ADDR_V6;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $AC_ADDR_V6;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 167,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -57944,6 +59182,92 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-floating-pw",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "evpn-elan",
+      "categoryPath": "routing-instances/evpn-elan",
+      "name": "ri-evpn-floating-pw",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf",
+      "otherOsFormId": null,
+      "topic": "EVPN instance binding an attachment circuit and a floating pseudowire interface",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "An EVPN instance carrying one VLAN, with two logical interfaces bound to it: the customer attachment circuit and a `ps` pseudowire interface, so the service reaches both a local access port and a pseudowire whose termination can move between nodes.",
+        "`protocols { evpn; }` carries no options: the instance takes the EVPN defaults and is steered entirely by its route target.",
+        "The route distinguisher is built from the node's own loopback, so each PE advertises the same service with a distinct RD."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "300-evpn-floating-pw"
+        },
+        {
+          "name": "$VLAN",
+          "example": "300"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "ae10.300"
+        },
+        {
+          "name": "$PS_INTF",
+          "example": "ps0.300"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.10"
+        },
+        {
+          "name": "$RD_SUB_ASSIGNED",
+          "example": "300"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "300"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "300"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn;\n        }\n        vlan-id $VLAN;\n        interface $AC_INTF;\n        interface $PS_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $PS_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 303,
+      "lineCount": 13,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/junos/routing-instances/evpn-etree/ri-evpn-etree-export",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -58134,6 +59458,101 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                evpn-etree;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF.$UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 366,
       "lineCount": 15,
+      "techFamily": "Service Overlay",
+      "subfamily": "EVPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "evpn-vpws",
+      "categoryPath": "routing-instances/evpn-vpws",
+      "name": "ri-evpn-fxc-2-uni-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "topic": "VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces",
+      "seenOn": {
+        "junos": [
+          "mse1_mx304"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "`flexible-cross-connect-vlan-unaware` bundles the listed logical interfaces into one cross-connect without regard to their VLAN tags, so the group is carried as a single VPWS service.",
+        "The `fxc` group names two logical interfaces on the same port and one `service-id` pair, whose `local` and `remote` values match this group to its counterpart on the far-end PE.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "evpn_group_40_10"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/4"
+        },
+        {
+          "name": "$UNIT_A",
+          "example": "1809"
+        },
+        {
+          "name": "$UNIT_B",
+          "example": "2309"
+        },
+        {
+          "name": "$SVC_ID_LOCAL",
+          "example": "2"
+        },
+        {
+          "name": "$SVC_ID_REMOTE",
+          "example": "1"
+        },
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.10"
+        },
+        {
+          "name": "$RD_SUB_ASSIGNED",
+          "example": "410"
+        },
+        {
+          "name": "$RT_AS",
+          "example": "63535"
+        },
+        {
+          "name": "$RT_ID",
+          "example": "410"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type evpn-vpws;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-cross-connect-vlan-unaware;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                group fxc {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_A;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF.$UNIT_B;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    service-id {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        local $SVC_ID_LOCAL;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote $SVC_ID_REMOTE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 621,
+      "lineCount": 21,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN",
       "usecases": [
@@ -58480,6 +59899,342 @@
       "lineCount": 18,
       "techFamily": "Service Overlay",
       "subfamily": "EVPN-VPWS",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-control-word-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`control-word` inserts the control word ahead of the customer frame, so transit routers do not mistake the payload for IP when hashing.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_350"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.350"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1192150"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092150"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 584,
+      "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-control-word",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`control-word` inserts the control word ahead of the customer frame, so transit routers do not mistake the payload for IP when hashing.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_201"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.201"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1192001"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092001"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 549,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`no-control-word` omits the control word, so no extra shim is inserted ahead of the customer frame.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_300"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.300"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1192100"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 587,
+      "lineCount": 21,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-vlan",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "A BGP-signalled (Kompella) L2VPN: the named site carries this node's site identifier, and the attachment circuit inside it names the remote site it is cross-connected to, so the pseudowire is addressed by site rather than by neighbour.",
+        "`encapsulation-type ethernet-vlan` carries the customer VLAN tag across the pseudowire, so the tag is significant end to end.",
+        "`no-control-word` omits the control word, so no extra shim is inserted ahead of the customer frame.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "l2vpn_group_105_200"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.200"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:1192000"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1092000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet-vlan;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet-vlan;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 552,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",
@@ -59520,6 +61275,178 @@
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type virtual-switch;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range </span><span style=\"color:#79C0FF\">10</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size </span><span style=\"color:#79C0FF\">8</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        bridge-domains {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_BD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                bridge-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    no-normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 681,
       "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "VPLS / Bridge",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/vpls/ri-bgp-vpls-site-range-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "vpls",
+      "categoryPath": "routing-instances/vpls",
+      "name": "ri-bgp-vpls-site-range-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
+      "otherOsFormId": null,
+      "topic": "BGP VPLS instance with a sized site range and label block, with vrf-export",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "A BGP-signalled VPLS instance: the named site carries a site identifier that the far-end PEs use to compute this node's position in the label block.",
+        "`site-range` caps how many sites the instance will accept and `label-block-size` fixes how many labels each site advertises, so the label arithmetic is deterministic across the mesh.",
+        "`no-tunnel-services` builds the VPLS mesh without a dedicated tunnel interface, so no tunnel-services PIC is required.",
+        "`vrf-export` names a per-instance policy, so this instance controls which routes it advertises rather than relying on the route target alone."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "vpls_group_102_400"
+        },
+        {
+          "name": "$VPLS_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$VPLS_SITE_ID",
+          "example": "3"
+        },
+        {
+          "name": "$SITE_RANGE",
+          "example": "10"
+        },
+        {
+          "name": "$LABEL_BLOCK_SIZE",
+          "example": "8"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.400"
+        },
+        {
+          "name": "$RD",
+          "example": "63536:1093000"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1093000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vpls;\n        protocols {\n            vpls {\n                site $VPLS_SITE {\n                    site-identifier $VPLS_SITE_ID;\n                }\n                site-range $SITE_RANGE;\n                label-block-size $LABEL_BLOCK_SIZE;\n                no-tunnel-services;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $VPLS_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $VPLS_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range $SITE_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size $LABEL_BLOCK_SIZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-</span><span style=\"color:#79C0FF\">export</span><span style=\"color:#E6EDF3\"> $INSTANCE_NAME;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 497,
+      "lineCount": 19,
+      "techFamily": "Service Overlay",
+      "subfamily": "VPLS / Bridge",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/vpls/ri-bgp-vpls-site-range",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "vpls",
+      "categoryPath": "routing-instances/vpls",
+      "name": "ri-bgp-vpls-site-range",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf",
+      "otherOsFormId": null,
+      "topic": "BGP VPLS instance with a sized site range and label block",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "highlights": [
+        "A BGP-signalled VPLS instance: the named site carries a site identifier that the far-end PEs use to compute this node's position in the label block.",
+        "`site-range` caps how many sites the instance will accept and `label-block-size` fixes how many labels each site advertises, so the label arithmetic is deterministic across the mesh.",
+        "`no-tunnel-services` builds the VPLS mesh without a dedicated tunnel interface, so no tunnel-services PIC is required.",
+        "Advertisement is governed by the route target alone; the instance has no per-instance export policy."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "vpls_group_102_500"
+        },
+        {
+          "name": "$VPLS_SITE",
+          "example": "r19"
+        },
+        {
+          "name": "$VPLS_SITE_ID",
+          "example": "3"
+        },
+        {
+          "name": "$SITE_RANGE",
+          "example": "10"
+        },
+        {
+          "name": "$LABEL_BLOCK_SIZE",
+          "example": "8"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.500"
+        },
+        {
+          "name": "$RD",
+          "example": "63536:1093100"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:1093100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "l2vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vpls;\n        protocols {\n            vpls {\n                site $VPLS_SITE {\n                    site-identifier $VPLS_SITE_ID;\n                }\n                site-range $SITE_RANGE;\n                label-block-size $LABEL_BLOCK_SIZE;\n                no-tunnel-services;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type vpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $VPLS_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $VPLS_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site-range $SITE_RANGE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                label-block-size $LABEL_BLOCK_SIZE;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-tunnel-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 462,
+      "lineCount": 18,
       "techFamily": "Service Overlay",
       "subfamily": "VPLS / Bridge",
       "usecases": [

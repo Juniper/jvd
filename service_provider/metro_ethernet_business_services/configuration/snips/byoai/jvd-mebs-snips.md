@@ -1372,6 +1372,77 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifl-irb-inet.conf
+
+```
+/*
+ * Topic:   IRB unit carrying a single IPv4 address
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed interface of an EVPN bridge domain: the unit gives the bridge
+ *    domain one IPv4 address on this node, so hosts in the domain reach the
+ *    L3VPN through it.
+ *  - The address is node-local, with no `virtual-gateway-address`, so the
+ *    gateway is not shared with the other PEs in the EVPN.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $UNIT        e.g. 4000
+ *   $IRB_ADDR    e.g. 40.2.2.3/24
+ */
+interfaces {
+    irb {
+        unit $UNIT {
+            family inet {
+                address $IRB_ADDR;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-irb-virtual-gateway.conf
+
+```
+/*
+ * Topic:   IRB unit acting as an anycast default gateway with a virtual-gateway address
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - The routed interface of an EVPN bridge domain. The unit holds the node's
+ *    own address plus a `virtual-gateway-address`, so every PE in the EVPN
+ *    presents the same gateway IP and a host keeps its default gateway
+ *    wherever it attaches.
+ *  - `virtual-gateway-v4-mac` fixes the MAC answered for that gateway address,
+ *    so the gateway is identical on every participating node.
+ *  - `virtual-gateway-accept-data` lets the node accept traffic addressed to
+ *    the virtual gateway itself, not only forward through it.
+ *
+ * Variables (example values from meg1_acx7100-32c):
+ *   $UNIT        e.g. 4000
+ *   $IRB_ADDR    e.g. 41.2.2.3/24
+ *   $VGA         e.g. 41.2.2.1
+ *   $VG_MAC      e.g. 00:01:33:44:11:11
+ */
+interfaces {
+    irb {
+        unit $UNIT {
+            virtual-gateway-accept-data;
+            family inet {
+                address $IRB_ADDR {
+                    virtual-gateway-address $VGA;
+                }
+            }
+            virtual-gateway-v4-mac $VG_MAC;
+        }
+    }
+}
+```
+
 ## evo/interfaces/ifl-vlan-bridge-esi.conf
 
 ```
@@ -1780,6 +1851,109 @@ interfaces {
                 vlan-id $INPUT_VID;
             }
             output-vlan-map pop;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-ccc.conf
+
+```
+/*
+ * Topic:   Single-tagged cross-connect logical interface
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The Layer 2 attachment circuit of a point-to-point service: the unit is
+ *    handed to a cross-connect rather than terminated in a routing family, so
+ *    the customer frame is carried transparently.
+ *  - One VLAN with no rewriting, so the customer tag reaches the cross-connect
+ *    unchanged, and no `esi`, so the circuit is single-homed.
+ *  - The unit index and the VLAN tag are independent values.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $IFD     e.g. et-0/0/0
+ *   $UNIT    e.g. 862
+ *   $VLAN    e.g. 862
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic:   Single-tagged routed logical interface carrying an IPv4 customer address
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed attachment circuit of an L3VPN service: one VLAN presented to
+ *    the PE and terminated in `family inet`, so customer traffic arrives as IP
+ *    rather than as a cross-connect or bridge domain.
+ *  - The address is the PE side of the PE-CE link; the customer holds the
+ *    other host in the same subnet.
+ *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
+ *    presented unchanged and the circuit is single-homed.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $IFD           e.g. et-0/0/4
+ *   $UNIT          e.g. 2001
+ *   $VLAN          e.g. 2001
+ *   $AC_ADDR_V4    e.g. 13.1.0.1/30
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-inet6.conf
+
+```
+/*
+ * Topic:   Single-tagged routed logical interface carrying an IPv6 customer address
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed attachment circuit of an IPv6 L3VPN service: one VLAN
+ *    presented to the PE and terminated in `family inet6`.
+ *  - The address is the PE side of the PE-CE link; the customer holds the
+ *    other host in the same subnet.
+ *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
+ *    presented unchanged and the circuit is single-homed.
+ *
+ * Variables (example values from an3_acx7100-48l):
+ *   $IFD           e.g. et-0/0/4
+ *   $UNIT          e.g. 2201
+ *   $VLAN          e.g. 2201
+ *   $AC_ADDR_V6    e.g. 2001:0:0:0:13:3:0:1/126
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet6 {
+                address $AC_ADDR_V6;
+            }
         }
     }
 }
@@ -6277,6 +6451,63 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf
+
+```
+/*
+ * Topic:   VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `flexible-cross-connect-vlan-unaware` bundles the listed logical
+ *    interfaces into one cross-connect without regard to their VLAN tags, so
+ *    the group is carried as a single VPWS service.
+ *  - The `fxc` group names two logical interfaces on the same port and one
+ *    `service-id` pair, whose `local` and `remote` values match this group to
+ *    its counterpart on the far-end PE.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables (example values from an3_acx7100-48l / evpn_group_40_10):
+ *   $INSTANCE_NAME      e.g. evpn_group_40_10
+ *   $AC_INTF            e.g. et-0/0/0
+ *   $UNIT_A             e.g. 1809
+ *   $UNIT_B             e.g. 2309
+ *   $SVC_ID_LOCAL       e.g. 1
+ *   $SVC_ID_REMOTE      e.g. 2
+ *   $LOOPBACK_V4        e.g. 1.1.0.2
+ *   $RD_SUB_ASSIGNED    e.g. 410
+ *   $RT_AS              e.g. 63535
+ *   $RT_ID              e.g. 410
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT_A;
+                    interface $AC_INTF.$UNIT_B;
+                    service-id {
+                        local $SVC_ID_LOCAL;
+                        remote $SVC_ID_REMOTE;
+                    }
+                }
+            }
+        }
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf
 
 ```
@@ -6488,6 +6719,131 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf
+
+```
+/*
+ * Topic:   VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits, with vrf-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `flexible-cross-connect-vlan-aware` keeps the customer VLAN significant,
+ *    so each attachment circuit is cross-connected as its own VLAN-aware
+ *    service rather than being bundled port-wide.
+ *  - Each circuit carries its own `vpws-service-id`, whose `local` and
+ *    `remote` values pair it with the matching circuit on the far-end PE.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables (example values from ma1-1_acx7024 / evpn_group_50_1):
+ *   $INSTANCE_NAME      e.g. evpn_group_50_1
+ *   $AC_INTF_A          e.g. ae12.200
+ *   $AC_INTF_B          e.g. ae12.250
+ *   $SVC_ID_LOCAL_A     e.g. 2
+ *   $SVC_ID_REMOTE_A    e.g. 1
+ *   $SVC_ID_LOCAL_B     e.g. 22
+ *   $SVC_ID_REMOTE_B    e.g. 11
+ *   $LOOPBACK_V4        e.g. 1.1.0.17
+ *   $RD_SUB_ASSIGNED    e.g. 501
+ *   $RT_AS              e.g. 63536
+ *   $RT_ID              e.g. 50100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF_A {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_A;
+                        remote $SVC_ID_REMOTE_A;
+                    }
+                }
+                interface $AC_INTF_B {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_B;
+                        remote $SVC_ID_REMOTE_B;
+                    }
+                }
+                flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf
+
+```
+/*
+ * Topic:   VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Highlights:
+ *  - `flexible-cross-connect-vlan-aware` keeps the customer VLAN significant,
+ *    so each attachment circuit is cross-connected as its own VLAN-aware
+ *    service rather than being bundled port-wide.
+ *  - Each circuit carries its own `vpws-service-id`, whose `local` and
+ *    `remote` values pair it with the matching circuit on the far-end PE.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables (example values from ma1-1_acx7024 / evpn_group_50_26):
+ *   $INSTANCE_NAME      e.g. evpn_group_50_26
+ *   $AC_INTF_A          e.g. ae12.225
+ *   $AC_INTF_B          e.g. ae12.275
+ *   $SVC_ID_LOCAL_A     e.g. 2
+ *   $SVC_ID_REMOTE_A    e.g. 1
+ *   $SVC_ID_LOCAL_B     e.g. 22
+ *   $SVC_ID_REMOTE_B    e.g. 11
+ *   $LOOPBACK_V4        e.g. 1.1.0.17
+ *   $RD_SUB_ASSIGNED    e.g. 526
+ *   $RT_AS              e.g. 63536
+ *   $RT_ID              e.g. 52600
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF_A {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_A;
+                        remote $SVC_ID_REMOTE_A;
+                    }
+                }
+                interface $AC_INTF_B {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_B;
+                        remote $SVC_ID_REMOTE_B;
+                    }
+                }
+                flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf
 
 ```
@@ -6599,6 +6955,228 @@ routing-instances {
         interface $AC_INTF;
         route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
         vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `control-word` inserts the control word ahead of the customer frame, so
+ *    transit routers do not mistake the payload for IP when hashing.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from an3_acx7100-48l / l2vpn_group_105_350):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_350
+ *   $L2VPN_SITE              e.g. r2
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1119
+ *   $AC_INTF                 e.g. et-0/0/50.350
+ *   $RD                      e.g. 63535:1092150
+ *   $RT                      e.g. 63535:1092150
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation and a control word
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `control-word` inserts the control word ahead of the customer frame, so
+ *    transit routers do not mistake the payload for IP when hashing.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from an3_acx7100-48l / l2vpn_group_105_201):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_201
+ *   $L2VPN_SITE              e.g. r2
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1119
+ *   $AC_INTF                 e.g. et-0/0/50.201
+ *   $RD                      e.g. 63535:1092001
+ *   $RT                      e.g. 63535:1092001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `no-control-word` omits the control word, so no extra shim is inserted
+ *    ahead of the customer frame.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from an3_acx7100-48l / l2vpn_group_105_300):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_300
+ *   $L2VPN_SITE              e.g. r2
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1119
+ *   $AC_INTF                 e.g. et-0/0/50.300
+ *   $RD                      e.g. 63535:1092100
+ *   $RT                      e.g. 63535:1092100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                no-control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `no-control-word` omits the control word, so no extra shim is inserted
+ *    ahead of the customer frame.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from an3_acx7100-48l / l2vpn_group_105_200):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_200
+ *   $L2VPN_SITE              e.g. r2
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1102
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1119
+ *   $AC_INTF                 e.g. et-0/0/50.200
+ *   $RD                      e.g. 63535:1092000
+ *   $RT                      e.g. 63535:1092000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                no-control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-target target:$RT;
     }
 }
 ```
@@ -8824,6 +9402,37 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ifl-irb-inet.conf
+
+```
+/*
+ * Topic:   IRB unit carrying a single IPv4 address
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed interface of an EVPN bridge domain: the unit gives the bridge
+ *    domain one IPv4 address on this node, so hosts in the domain reach the
+ *    L3VPN through it.
+ *  - The address is node-local, with no `virtual-gateway-address`, so the
+ *    gateway is not shared with the other PEs in the EVPN.
+ *
+ * Variables (example values from mse1_mx304):
+ *   $UNIT        e.g. 4000
+ *   $IRB_ADDR    e.g. 43.2.2.3/24
+ */
+interfaces {
+    irb {
+        unit $UNIT {
+            family inet {
+                address $IRB_ADDR;
+            }
+        }
+    }
+}
+```
+
 ## junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf
 
 ```
@@ -8931,6 +9540,39 @@ interfaces {
                 $ESI;
                 all-active;
             }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-bridge-etree-leaf.conf
+
+```
+/*
+ * Topic:   Single-tagged bridged logical interface acting as an EVPN E-Tree leaf
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - The attachment circuit of an EVPN E-Tree service: the unit is bridged
+ *    into the EVPN instance and `etree-ac-role leaf` marks it as a leaf, so
+ *    the EVPN control plane blocks leaf-to-leaf forwarding and allows traffic
+ *    only towards a root circuit.
+ *  - One VLAN with no rewriting, so the customer tag is bridged unchanged, and
+ *    no `esi`, so the circuit is single-homed.
+ *
+ * Variables (example values from ma4_mx204):
+ *   $IFD     e.g. xe-0/1/4
+ *   $UNIT    e.g. 2000
+ *   $VLAN    e.g. 2000
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+            etree-ac-role leaf;
         }
     }
 }
@@ -9083,6 +9725,109 @@ interfaces {
             output-vlan-map pop;
             filter {
                 input 50MB_filter;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-ccc.conf
+
+```
+/*
+ * Topic:   Single-tagged cross-connect logical interface
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The Layer 2 attachment circuit of a point-to-point service: the unit is
+ *    handed to a cross-connect rather than terminated in a routing family, so
+ *    the customer frame is carried transparently.
+ *  - One VLAN with no rewriting, so the customer tag reaches the cross-connect
+ *    unchanged, and no `esi`, so the circuit is single-homed.
+ *  - The unit index and the VLAN tag are independent values.
+ *
+ * Variables (example values from ma5_mx204):
+ *   $IFD     e.g. et-0/0/2
+ *   $UNIT    e.g. 600
+ *   $VLAN    e.g. 600
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic:   Single-tagged routed logical interface carrying an IPv4 customer address
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed attachment circuit of an L3VPN service: one VLAN presented to
+ *    the PE and terminated in `family inet`, so customer traffic arrives as IP
+ *    rather than as a cross-connect or bridge domain.
+ *  - The address is the PE side of the PE-CE link; the customer holds the
+ *    other host in the same subnet.
+ *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
+ *    presented unchanged and the circuit is single-homed.
+ *
+ * Variables (example values from ma4_mx204):
+ *   $IFD           e.g. xe-0/1/4
+ *   $UNIT          e.g. 1
+ *   $VLAN          e.g. 1
+ *   $AC_ADDR_V4    e.g. 17.1.0.1/30
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-inet6.conf
+
+```
+/*
+ * Topic:   Single-tagged routed logical interface carrying an IPv6 customer address
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - The routed attachment circuit of an IPv6 L3VPN service: one VLAN
+ *    presented to the PE and terminated in `family inet6`.
+ *  - The address is the PE side of the PE-CE link; the customer holds the
+ *    other host in the same subnet.
+ *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
+ *    presented unchanged and the circuit is single-homed.
+ *
+ * Variables (example values from ma4_mx204):
+ *   $IFD           e.g. xe-0/1/4
+ *   $UNIT          e.g. 3001
+ *   $VLAN          e.g. 3001
+ *   $AC_ADDR_V6    e.g. 2001:0:0:0:17:3:0:1/126
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet6 {
+                address $AC_ADDR_V6;
             }
         }
     }
@@ -12944,6 +13689,53 @@ routing-instances {
 }
 ```
 
+## junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf
+
+```
+/*
+ * Topic:   EVPN instance binding an attachment circuit and a floating pseudowire interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - An EVPN instance carrying one VLAN, with two logical interfaces bound to
+ *    it: the customer attachment circuit and a `ps` pseudowire interface, so
+ *    the service reaches both a local access port and a pseudowire whose
+ *    termination can move between nodes.
+ *  - `protocols { evpn; }` carries no options: the instance takes the EVPN
+ *    defaults and is steered entirely by its route target.
+ *  - The route distinguisher is built from the node's own loopback, so each PE
+ *    advertises the same service with a distinct RD.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables (example values from mse1_mx304 / 300-evpn-floating-pw):
+ *   $INSTANCE_NAME     e.g. 300-evpn-floating-pw
+ *   $VLAN              e.g. 300
+ *   $AC_INTF           e.g. ae10.300
+ *   $PS_INTF           e.g. ps0.300
+ *   $LOOPBACK_V4       e.g. 1.1.0.10
+ *   $RD_SUB_ASSIGNED   e.g. 300
+ *   $RT_AS             e.g. 300
+ *   $RT_ID             e.g. 300
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn;
+        }
+        vlan-id $VLAN;
+        interface $AC_INTF;
+        interface $PS_INTF;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
 ## junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf
 
 ```
@@ -13058,6 +13850,63 @@ routing-instances {
         vlan-id $VLAN;
         interface $AC_INTF.$UNIT;
         route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf
+
+```
+/*
+ * Topic:   VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `flexible-cross-connect-vlan-unaware` bundles the listed logical
+ *    interfaces into one cross-connect without regard to their VLAN tags, so
+ *    the group is carried as a single VPWS service.
+ *  - The `fxc` group names two logical interfaces on the same port and one
+ *    `service-id` pair, whose `local` and `remote` values match this group to
+ *    its counterpart on the far-end PE.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables (example values from mse1_mx304 / evpn_group_40_10):
+ *   $INSTANCE_NAME      e.g. evpn_group_40_10
+ *   $AC_INTF            e.g. et-0/0/4
+ *   $UNIT_A             e.g. 1809
+ *   $UNIT_B             e.g. 2309
+ *   $SVC_ID_LOCAL       e.g. 2
+ *   $SVC_ID_REMOTE      e.g. 1
+ *   $LOOPBACK_V4        e.g. 1.1.0.10
+ *   $RD_SUB_ASSIGNED    e.g. 410
+ *   $RT_AS              e.g. 63535
+ *   $RT_ID              e.g. 410
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT_A;
+                    interface $AC_INTF.$UNIT_B;
+                    service-id {
+                        local $SVC_ID_LOCAL;
+                        remote $SVC_ID_REMOTE;
+                    }
+                }
+            }
+        }
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
         vrf-target target:$RT_AS:$RT_ID;
     }
 }
@@ -13271,6 +14120,228 @@ routing-instances {
         interface $AC_INTF;
         route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
         vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `control-word` inserts the control word ahead of the customer frame, so
+ *    transit routers do not mistake the payload for IP when hashing.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / l2vpn_group_105_350):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_350
+ *   $L2VPN_SITE              e.g. r19
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1119
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1102
+ *   $AC_INTF                 e.g. xe-0/1/4.350
+ *   $RD                      e.g. 63535:1192150
+ *   $RT                      e.g. 63535:1092150
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation and a control word
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `control-word` inserts the control word ahead of the customer frame, so
+ *    transit routers do not mistake the payload for IP when hashing.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / l2vpn_group_105_201):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_201
+ *   $L2VPN_SITE              e.g. r19
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1119
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1102
+ *   $AC_INTF                 e.g. xe-0/1/4.201
+ *   $RD                      e.g. 63535:1192001
+ *   $RT                      e.g. 63535:1092001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `no-control-word` omits the control word, so no extra shim is inserted
+ *    ahead of the customer frame.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / l2vpn_group_105_300):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_300
+ *   $L2VPN_SITE              e.g. r19
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1119
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1102
+ *   $AC_INTF                 e.g. xe-0/1/4.300
+ *   $RD                      e.g. 63535:1192100
+ *   $RT                      e.g. 63535:1092100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                no-control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf
+
+```
+/*
+ * Topic:   BGP L2VPN instance with VLAN-preserving encapsulation
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
+ *    identifier, and the attachment circuit inside it names the remote site it
+ *    is cross-connected to, so the pseudowire is addressed by site rather than
+ *    by neighbour.
+ *  - `encapsulation-type ethernet-vlan` carries the customer VLAN tag across
+ *    the pseudowire, so the tag is significant end to end.
+ *  - `no-control-word` omits the control word, so no extra shim is inserted
+ *    ahead of the customer frame.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / l2vpn_group_105_200):
+ *   $INSTANCE_NAME           e.g. l2vpn_group_105_200
+ *   $L2VPN_SITE              e.g. r19
+ *   $L2VPN_LOCAL_SITE_ID     e.g. 1119
+ *   $L2VPN_REMOTE_SITE_ID    e.g. 1102
+ *   $AC_INTF                 e.g. xe-0/1/4.200
+ *   $RD                      e.g. 63535:1192000
+ *   $RT                      e.g. 63535:1092000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type l2vpn;
+        protocols {
+            l2vpn {
+                site $L2VPN_SITE {
+                    interface $AC_INTF {
+                        remote-site-id $L2VPN_REMOTE_SITE_ID;
+                    }
+                    site-identifier $L2VPN_LOCAL_SITE_ID;
+                }
+                encapsulation-type ethernet-vlan;
+                no-control-word;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-target target:$RT;
     }
 }
 ```
@@ -14014,6 +15085,115 @@ routing-instances {
         }
         route-distinguisher $RD;
         vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf
+
+```
+/*
+ * Topic:   BGP VPLS instance with a sized site range and label block, with vrf-export
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - A BGP-signalled VPLS instance: the named site carries a site identifier
+ *    that the far-end PEs use to compute this node's position in the label
+ *    block.
+ *  - `site-range` caps how many sites the instance will accept and
+ *    `label-block-size` fixes how many labels each site advertises, so the
+ *    label arithmetic is deterministic across the mesh.
+ *  - `no-tunnel-services` builds the VPLS mesh without a dedicated tunnel
+ *    interface, so no tunnel-services PIC is required.
+ *  - `vrf-export` names a per-instance policy, so this instance controls which
+ *    routes it advertises rather than relying on the route target alone.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / vpls_group_102_400):
+ *   $INSTANCE_NAME      e.g. vpls_group_102_400
+ *   $VPLS_SITE          e.g. r19
+ *   $VPLS_SITE_ID       e.g. 3
+ *   $SITE_RANGE         e.g. 10
+ *   $LABEL_BLOCK_SIZE   e.g. 8
+ *   $AC_INTF            e.g. xe-0/1/4.400
+ *   $RD                 e.g. 63536:1093000
+ *   $RT                 e.g. 63535:1093000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vpls;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                site-range $SITE_RANGE;
+                label-block-size $LABEL_BLOCK_SIZE;
+                no-tunnel-services;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT;
+    }
+}
+```
+
+## junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf
+
+```
+/*
+ * Topic:   BGP VPLS instance with a sized site range and label block
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - A BGP-signalled VPLS instance: the named site carries a site identifier
+ *    that the far-end PEs use to compute this node's position in the label
+ *    block.
+ *  - `site-range` caps how many sites the instance will accept and
+ *    `label-block-size` fixes how many labels each site advertises, so the
+ *    label arithmetic is deterministic across the mesh.
+ *  - `no-tunnel-services` builds the VPLS mesh without a dedicated tunnel
+ *    interface, so no tunnel-services PIC is required.
+ *  - Advertisement is governed by the route target alone; the instance has no
+ *    per-instance export policy.
+ *
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables (example values from ma5_mx204 / vpls_group_102_500):
+ *   $INSTANCE_NAME      e.g. vpls_group_102_500
+ *   $VPLS_SITE          e.g. r19
+ *   $VPLS_SITE_ID       e.g. 3
+ *   $SITE_RANGE         e.g. 10
+ *   $LABEL_BLOCK_SIZE   e.g. 8
+ *   $AC_INTF            e.g. xe-0/1/4.500
+ *   $RD                 e.g. 63536:1093100
+ *   $RT                 e.g. 63535:1093100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vpls;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                site-range $SITE_RANGE;
+                label-block-size $LABEL_BLOCK_SIZE;
+                no-tunnel-services;
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
         vrf-target target:$RT;
     }
 }

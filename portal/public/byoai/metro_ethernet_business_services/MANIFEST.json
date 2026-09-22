@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 267,
+  "snip_count": 292,
   "snips": [
     {
       "path": "evo/class-of-service/classifiers/cl-6class.conf",
@@ -592,6 +592,33 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-ae-lacp.conf"
     },
     {
+      "path": "evo/interfaces/ifl-irb-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 721,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-inet.conf"
+    },
+    {
+      "path": "evo/interfaces/ifl-irb-virtual-gateway.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-irb-virtual-gateway",
+      "topic": "IRB unit acting as an anycast default gateway with a virtual-gateway address",
+      "seen_on": [
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1209,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-virtual-gateway.conf"
+    },
+    {
       "path": "evo/interfaces/ifl-vlan-bridge-esi.conf",
       "os": "evo",
       "category": "interfaces",
@@ -749,6 +776,54 @@
       ],
       "size_bytes": 843,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-ccc-vlan-map.conf"
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc",
+      "topic": "Single-tagged cross-connect logical interface",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 854,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-ccc.conf"
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "Single-tagged routed logical interface carrying an IPv4 customer address",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1028,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet.conf"
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet6.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet6",
+      "topic": "Single-tagged routed logical interface carrying an IPv6 customer address",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 958,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet6.conf"
     },
     {
       "path": "evo/policy-options/community/cm-access-fabric.conf",
@@ -2181,6 +2256,19 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-port-based.conf"
     },
     {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "topic": "VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces",
+      "seen_on": [
+        "mse1_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1850,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf"
+    },
+    {
       "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf",
       "os": "evo",
       "category": "routing-instances",
@@ -2219,6 +2307,36 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"
     },
     {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export",
+      "topic": "VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits, with vrf-export",
+      "seen_on": [
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 2080,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf"
+    },
+    {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "topic": "VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits",
+      "seen_on": [
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 1989,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf"
+    },
+    {
       "path": "evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf",
       "os": "evo",
       "category": "routing-instances",
@@ -2250,6 +2368,58 @@
       ],
       "size_bytes": 2097,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
+    },
+    {
+      "path": "evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1934,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf"
+    },
+    {
+      "path": "evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1841,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf"
+    },
+    {
+      "path": "evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1882,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf"
+    },
+    {
+      "path": "evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1789,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf"
     },
     {
       "path": "evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
@@ -3073,6 +3243,20 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifd-ps-transport.conf"
     },
     {
+      "path": "junos/interfaces/ifl-irb-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 716,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-irb-inet.conf"
+    },
+    {
       "path": "junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf",
       "os": "junos",
       "category": "interfaces",
@@ -3117,6 +3301,19 @@
       ],
       "size_bytes": 885,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-bridge-esi.conf"
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-bridge-etree-leaf.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-bridge-etree-leaf",
+      "topic": "Single-tagged bridged logical interface acting as an EVPN E-Tree leaf",
+      "seen_on": [
+        "ma4_mx204",
+        "ma5_mx204"
+      ],
+      "size_bytes": 851,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-bridge-etree-leaf.conf"
     },
     {
       "path": "junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf",
@@ -3175,6 +3372,54 @@
       ],
       "size_bytes": 1021,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf"
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc",
+      "topic": "Single-tagged cross-connect logical interface",
+      "seen_on": [
+        "ma5_mx204",
+        "mse1_mx304",
+        "an3_acx7100-48l",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 848,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-ccc.conf"
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "Single-tagged routed logical interface carrying an IPv4 customer address",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1016,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-inet.conf"
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet6",
+      "topic": "Single-tagged routed logical interface carrying an IPv6 customer address",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 952,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-vlan-inet6.conf"
     },
     {
       "path": "junos/interfaces/ifl-vlan-vpls-vlan-map.conf",
@@ -4441,6 +4686,19 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf"
     },
     {
+      "path": "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-floating-pw",
+      "topic": "EVPN instance binding an attachment circuit and a floating pseudowire interface",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1459,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf"
+    },
+    {
       "path": "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf",
       "os": "junos",
       "category": "routing-instances",
@@ -4469,6 +4727,19 @@
       ],
       "size_bytes": 1812,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-etree/ri-evpn-etree.conf"
+    },
+    {
+      "path": "junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-2-uni-export",
+      "topic": "VLAN-unaware EVPN-VPWS flexible cross-connect bundling two logical interfaces",
+      "seen_on": [
+        "mse1_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1846,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf"
     },
     {
       "path": "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf",
@@ -4514,6 +4785,58 @@
       ],
       "size_bytes": 2152,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
+    },
+    {
+      "path": "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word, with vrf-export",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1928,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf"
+    },
+    {
+      "path": "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-control-word",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation and a control word",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1835,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf"
+    },
+    {
+      "path": "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan-export",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation, with vrf-export",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1876,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf"
+    },
+    {
+      "path": "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l2vpn/ri-l2vpn-kompella-vlan",
+      "topic": "BGP L2VPN instance with VLAN-preserving encapsulation",
+      "seen_on": [
+        "ma5_mx204",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1783,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf"
     },
     {
       "path": "junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
@@ -4645,6 +4968,30 @@
       ],
       "size_bytes": 2581,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/vpls/ri-bgp-vpls-export.conf"
+    },
+    {
+      "path": "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "vpls/ri-bgp-vpls-site-range-export",
+      "topic": "BGP VPLS instance with a sized site range and label block, with vrf-export",
+      "seen_on": [
+        "ma5_mx204"
+      ],
+      "size_bytes": 1760,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf"
+    },
+    {
+      "path": "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "vpls/ri-bgp-vpls-site-range",
+      "topic": "BGP VPLS instance with a sized site range and label block",
+      "seen_on": [
+        "ma5_mx204"
+      ],
+      "size_bytes": 1667,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
     },
     {
       "path": "junos/routing-options/flex-algorithm.conf",
