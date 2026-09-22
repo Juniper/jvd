@@ -2435,6 +2435,7 @@
         "ma4_mx204",
         "ma5_mx204",
         "mdr2_mx10003",
+        "mse1_mx304",
         "mse2_mx304",
         "ag1-1_acx7100-32c",
         "ag1-2_acx7100-32c",
@@ -2447,7 +2448,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1291,
+      "size_bytes": 1302,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/mpls-segment-routing.conf"
     },
     {
@@ -3091,6 +3092,7 @@
       "seen_on": [
         "an1_mx204",
         "an2_acx5448",
+        "an4_acx710",
         "ma4_mx204",
         "ma5_mx204",
         "mdr2_mx10003",
@@ -3104,7 +3106,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1435,
+      "size_bytes": 1446,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/transport-class.conf"
     },
     {
@@ -5331,6 +5333,7 @@
         "ma4_mx204",
         "ma5_mx204",
         "mdr2_mx10003",
+        "mse1_mx304",
         "mse2_mx304",
         "ag1-1_acx7100-32c",
         "ag1-2_acx7100-32c",
@@ -5343,7 +5346,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1055,
+      "size_bytes": 1066,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/mpls-segment-routing.conf"
     },
     {
@@ -5915,6 +5918,7 @@
       "seen_on": [
         "an1_mx204",
         "an2_acx5448",
+        "an4_acx710",
         "ma4_mx204",
         "ma5_mx204",
         "mdr2_mx10003",
@@ -5928,7 +5932,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1561,
+      "size_bytes": 1572,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class.conf"
     }
   ],
