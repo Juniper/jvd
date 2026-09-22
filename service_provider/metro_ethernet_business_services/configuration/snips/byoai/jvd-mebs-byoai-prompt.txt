@@ -354,38 +354,59 @@ After this single clarifying turn, do the following based on mode:
     the requested service actually uses BEFORE rendering, offering only the
     options applicable to the chosen device, and never preselect one.
 
-  - AUTO mode: proceed directly to generation. If the user's intent
-    did not specify a count for a countable service (EVPN-VPWS,
-    L3VPN VRFs, EVPN-ELAN instances, L2Circuits), default to count = 1
-    and call that out in the Inputs Used block.
+  THE MISSING-INPUT SET governs every request, in both modes. Build it, then
+  act on it. Never work from a fixed list of questions.
 
-  - INTERVIEW mode: ask ONE more batched message with the per-service
-    starting values. Format the question as:
+  1. CARRY FORWARD everything already established in this conversation: mode,
+     service kind and count, configuration form, devices, and every literal
+     value the user has given. These are settled. Never ask for any of them
+     again — not in a follow-up, not to confirm.
+  2. DERIVE the required inputs for THIS request: the ask-required values in
+     `DEFAULTS.md` (the physical attachment values — AC parent interface, UNI
+     parent interface, translated input VLAN), every variable declared by the
+     snippets the selected service resolves to for the chosen devices, and any
+     entry in the `TIERS.md` "Required operator inputs" section that this
+     service actually uses (transport colour; the L3VPN PE-CE export policy).
+  3. SUBTRACT what is already known. What remains is the missing set.
+  4. If the missing set is NOT empty: ask for ALL of it in ONE message,
+     grouped under short headings, then STOP. Generate nothing. Offer, for a
+     required operator choice, only the options valid for the selected service
+     and device — list them explicitly and pick none of them yourself.
+  5. If the missing set IS empty: generate.
 
-      You picked: `interview` / `<DEVICE_CHOICE>` / `<TIER>` /
-      `<N> <SERVICE_KIND>(s)`. A few starting values
-      (reply with values, or `all defaults` to accept):
+  An item leaves the missing set ONLY when the user supplies a literal value
+  for it, or names one of the offered choices. An acknowledgement — "sounds
+  fine", "go ahead", "looks good", "yes", "proceed" — removes nothing. If you
+  receive one while the missing set is non-empty, restate just the outstanding
+  items and wait.
 
-      **Counts**
-      - Number of <SERVICE_KIND> services (default `1`)
+  Use this shape for the single question, showing ONLY groups that still have
+  missing items:
 
-      **Per-service starting values** (each service increments by 1)
-      - Starting <service-id-name> (default `<JVD-default>` →
-        <show how the sequence will look for N services>)
-      - Starting AC interface unit (default = same as service-id)
-      - Starting UNI VLAN per service (default = same as service-id)
+      You picked: `<MODE>` / `<DEVICES>` / `<TIER>` / `<N> <SERVICE_KIND>(s)`.
+      I still need:
 
-      **Per-PE starting values**
-      - PE1 loopback v4 (default `192.0.2.1`)
-      - PE2 loopback v4 (default `192.0.2.2`)
-      - RD/RT namespace AS (default `64512`)
+      **Attachment**
+      - AC parent interface (e.g. `ae11`)
+      - UNI parent interface (e.g. `et-0/0/8`)
+      - Translated input VLAN
 
-      **Customer-side**
-      - PE-CE eBGP AS (default `65001`, increments per VRF)  *(L3VPN only)*
-      - Customer prefix base (default `203.0.113.0/24` carved /28 per VRF)  *(L3VPN only)*
+      **Required choices for this service**
+      - Transport colour: `gold` or `bronze`  *(only where the service uses it
+        and both are validated on the chosen device)*
+      - PE-CE export policy: list the exact validated options for the chosen
+        device from `TIERS.md`  *(L3VPN PE-CE only)*
 
-    Only show the bullets that apply to the requested service kind.
-    Then STOP and wait.
+      **Service values**
+      - Count (default `1`)
+      - Starting service id / AC unit / UNI VLAN
+      - PE loopbacks and RD/RT namespace AS
+      - PE-CE eBGP AS and customer prefix base  *(L3VPN only)*
+
+  Everything under **Service values** may be defaulted from `DEFAULTS.md` when
+  the user chose `auto`, and each default must then be listed in the Inputs
+  Used block. Nothing under **Attachment** or **Required choices** may ever be
+  defaulted, in either mode.
 
 Short-circuits:
   - At ANY point, if the user replies `all defaults`, `use defaults`,
