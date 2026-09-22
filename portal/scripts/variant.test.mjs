@@ -375,3 +375,123 @@ test("F2: group exists only under other OS -> UNRESOLVED (not GROUP_EMPTY)", () 
   });
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_UNRESOLVED]);
 });
+
+// --- Namespaced selector capabilities (ifl:) -----------------------------
+const irbSnip = (provides, body) => `/*
+ * Topic:   irb logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Variant group: mebs-irb-form
+ *   Provides: ${provides}
+ * Highlights:
+ *  - member
+ */
+${body}`;
+
+const IRB_BODY = `interfaces {
+    irb {
+        unit $UNIT {
+            family inet {
+                address $IRB_ADDR;
+            }
+        }
+    }
+}`;
+
+test("C1. existing bare BGP Provides is unchanged", () => {
+  const { header, diagnostics } = parseSnip(memberSnip("evpn, l2vpn", ["evpn", "l2vpn"]));
+  assert.deepEqual(diagnostics.map((d) => d.code), []);
+  assert.deepEqual(header.variantGroup.provides, ["evpn", "l2vpn"]);
+});
+
+test("C2. valid ifl:irb member parses and matches its body", () => {
+  const { header, diagnostics } = parseSnip(irbSnip("ifl:irb", IRB_BODY));
+  assert.deepEqual(diagnostics.map((d) => d.code), []);
+  assert.deepEqual(header.variantGroup.provides, ["ifl:irb"]);
+  assert.deepEqual(validateVariantMember({ variantGroup: header.variantGroup, body: IRB_BODY }), []);
+});
+
+test("C3. unknown namespace is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("iface:irb", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_UNKNOWN_NAMESPACE));
+});
+
+test("C4. unknown capability inside a known namespace is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("ifl:bogus", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_UNKNOWN_CAPABILITY));
+});
+
+test("C5. mixing a family and a capability is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("evpn, ifl:irb", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_MIXED_SELECTOR));
+});
+
+test("C6. declaring ifl:irb without an irb unit in the body is a mismatch", () => {
+  const body = "interfaces {\n    irb {\n    }\n}";
+  const { header } = parseSnip(irbSnip("ifl:irb", body));
+  assert.deepEqual(
+    validateVariantMember({ variantGroup: header.variantGroup, body }).map((f) => f.code),
+    [CODES.VARIANT_PROVIDES_MISMATCH],
+  );
+});
+
+test("C7. consumer keyword must match the selector kind", () => {
+  const bad = (b) => parseSnip(`/*
+ * Topic:   consumer
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - ${b}
+ */
+routing-instances { X { instance-type vrf; } }`).diagnostics.map((d) => d.code);
+  assert.ok(bad("variant:mebs-irb-form families=ifl:irb").includes(CODES.VARIANT_MALFORMED));
+  assert.ok(bad("variant:mebs-bgp-overlay capabilities=evpn").includes(CODES.VARIANT_MALFORMED));
+  assert.deepEqual(bad("variant:mebs-irb-form capabilities=ifl:irb"), []);
+  assert.deepEqual(bad("variant:mebs-bgp-overlay families=evpn"), []);
+});
+
+// Device-conditioned resolution: the two IRB forms are one group, selected by
+// exact Seen-on membership. Mirrors the real MEBS corpus.
+const IRB_INET = {
+  jvd: "mebs", os: "evo", group: "mebs-irb-form", provides: ["ifl:irb"],
+  seenOn: { junos: ["mse1_mx304", "mse2_mx304"], evo: ["an3_acx7100-48l"] },
+  rel: "evo/interfaces/ifl-irb-inet.conf",
+};
+const IRB_VGA = {
+  jvd: "mebs", os: "evo", group: "mebs-irb-form", provides: ["ifl:irb"],
+  seenOn: { junos: [], evo: ["meg1_acx7100-32c", "meg2_acx7509"] },
+  rel: "evo/interfaces/ifl-irb-virtual-gateway.conf",
+};
+
+test("C8. an3 resolves to the plain-inet IRB form", () => {
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "an3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "evo/interfaces/ifl-irb-inet.conf");
+});
+
+test("C9. meg1 and meg2 resolve to the virtual-gateway IRB form", () => {
+  for (const d of ["meg1_acx7100-32c", "meg2_acx7509"]) {
+    const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: d, targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+    assert.equal(r.status, "ok");
+    assert.equal(r.member.rel, "evo/interfaces/ifl-irb-virtual-gateway.conf");
+  }
+});
+
+test("C10. an unlisted device fails closed as unavailable", () => {
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "ma3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+  assert.equal(r.status, "unavailable");
+});
+
+test("C11. overlapping device membership fails closed as ambiguous", () => {
+  const clash = { ...IRB_VGA, seenOn: { junos: [], evo: ["an3_acx7100-48l"] }, rel: "evo/interfaces/other.conf" };
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "an3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, clash] });
+  assert.equal(r.status, "ambiguous");
+});
+
+test("C12. device overlap inside one group is reported", () => {
+  const clash = { ...IRB_VGA, seenOn: { junos: [], evo: ["an3_acx7100-48l"] }, rel: "evo/interfaces/other.conf" };
+  const f = validateVariantOverlap({ os: "evo", variantGroup: { name: "mebs-irb-form" }, seenOn: IRB_INET.seenOn, selfRel: IRB_INET.rel, members: [IRB_INET, clash] });
+  assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_DEVICE_OVERLAP]);
+});

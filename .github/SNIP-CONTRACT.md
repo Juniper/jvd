@@ -326,12 +326,25 @@ directly after `Seen on:`:
 
 - The group name matches `[a-z0-9-]+`.
 - `Provides:` is a **subordinate row** of `Variant group:`, not its own section.
-- `Provides:` is nonempty and drawn only from the closed capability vocabulary:
-  `evpn`, `l2vpn`, `inet-vpn`, `inet6-vpn`, `labeled-unicast`.
+- `Provides:` is nonempty and drawn from exactly one of two closed vocabularies.
+  - **Bare families** — BGP address families: `evpn`, `l2vpn`, `inet-vpn`,
+    `inet6-vpn`, `labeled-unicast`.
+  - **Namespaced capabilities** — written `<namespace>:<capability>`, for
+    selectable constructs that are not address families. The only namespace is
+    `ifl` (a logical interface), and its only capability is `ifl:irb`.
+- A member publishes one vocabulary. Mixing a bare family and a namespaced
+  capability in one `Provides:` row is `VARIANT_MIXED_SELECTOR`, because an
+  atomic all-of requirement must not span unrelated dimensions.
+- An unknown namespace is `VARIANT_UNKNOWN_NAMESPACE`; a known namespace with an
+  unknown capability is `VARIANT_UNKNOWN_CAPABILITY`. A token containing `:` is
+  always judged as namespaced, so a namespace typo never falls back to the
+  bare-family vocabulary.
 - `route-target` is a scaling optimisation, **never** a selectable capability.
 - The declared `Provides:` set **MUST** equal the selector capabilities
   structurally present in the member's body (`VARIANT_PROVIDES_MISMATCH`); an
-  unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`.
+  unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`. Families are
+  compared against the `protocols bgp` hierarchy; `ifl:irb` requires an active
+  `interfaces { irb { unit … } }` hierarchy.
 - Within one JVD, OS, and group, a device **MUST** appear in at most one member,
   regardless of capabilities (`VARIANT_DEVICE_OVERLAP`).
 
@@ -341,15 +354,18 @@ bullet inside `Pair with:`:
 ```
  * Pair with:
  *  - variant:mebs-bgp-overlay families=inet-vpn,inet6-vpn
+ *  - variant:mebs-irb-form capabilities=ifl:irb
 ```
 
-- Always plural `families=`, nonempty, from the same closed vocabulary.
-- A multi-family requirement is **atomic**: one member must provide **all** of
-  the requested families.
+- The keyword selects the vocabulary: `families=` carries bare families,
+  `capabilities=` carries namespaced capabilities. Both are always plural and
+  nonempty. A keyword that disagrees with the token kind is `VARIANT_MALFORMED`.
+- A multi-token requirement is **atomic**: one member must provide **all** of
+  the requested selectors.
 - Resolution is deterministic and fail-closed. A requirement resolves against a
   member only when it is the **same JVD**, **same group**, **same OS**, lists the
   **exact target device** in its `Seen on:` bucket, and provides every requested
-  family. Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more
+  selector. Exactly one match succeeds; **zero** is `VARIANT_UNRESOLVED` and **more**
   than one** is `VARIANT_AMBIGUOUS`; a referenced group with no members is
   `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen, and
   selection never crosses OS, device, or JVD.

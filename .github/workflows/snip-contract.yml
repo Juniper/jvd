@@ -7,6 +7,12 @@ on:
       - 'portal/scripts/snip-parse.mjs'
       - 'portal/scripts/snip-validate.mjs'
       - 'portal/scripts/snip-validate.test.mjs'
+      - 'portal/scripts/variant-resolve.mjs'
+      - 'portal/scripts/variant.test.mjs'
+      - 'portal/scripts/bgp-capabilities.mjs'
+      - 'portal/scripts/bgp-capabilities.test.mjs'
+      - 'portal/scripts/ifl-capabilities.mjs'
+      - 'portal/scripts/ifl-capabilities.test.mjs'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
@@ -24,7 +30,12 @@ jobs:
       - run: bun install --frozen-lockfile
         working-directory: portal
       - name: Contract unit tests
-        run: node --test portal/scripts/snip-validate.test.mjs
+        run: >-
+          node --test
+          portal/scripts/snip-validate.test.mjs
+          portal/scripts/variant.test.mjs
+          portal/scripts/bgp-capabilities.test.mjs
+          portal/scripts/ifl-capabilities.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
