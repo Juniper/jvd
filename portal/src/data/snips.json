@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-22T17:28:36.697Z",
+  "generatedAt": "2026-09-22T18:37:53.696Z",
   "counts": {
-    "total": 936,
+    "total": 937,
     "junos": 465,
-    "evo": 471,
+    "evo": 472,
     "jvds": 18
   },
   "categories": [
@@ -235,8 +235,8 @@
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
         "junos": 157,
-        "evo": 177,
-        "total": 334
+        "evo": 178,
+        "total": 335
       }
     },
     {
@@ -41984,6 +41984,59 @@
       "lineCount": 38,
       "techFamily": "QoS / CoS",
       "subfamily": "CoS Building Blocks",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "firewall",
+      "categoryPath": "firewall",
+      "name": "filter-family-any-50mb",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/filter-family-any-50mb.conf",
+      "otherOsFormId": null,
+      "topic": "Protocol-independent 50 Mbps rate-limit filter, without the 5 Mbps filter",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The atomic form of 50MB_filter, for the two access nodes that carry this filter alone. Peers that also carry 5MB_filter use firewall/filter-family-any-policers.conf instead, and an1_mx204 carries its own compound form in junos/firewall/policers.conf.",
+        "`family any` acts on the logical interface regardless of payload protocol, and `interface-specific` gives every bound interface its own counter and policer instance, so one subscriber's rate limit is independent of another's.",
+        "A single unconditional term whose only action is the policer, which makes the filter a pure bandwidth profile.",
+        "On an3_acx7100-48l the filter is bound as `filter { input 50MB_filter; }` on 1400 service units. On an2_acx5448 the definition is present with no binding, so the filter exists there as a prepared profile.",
+        "The 50mbps_policer this term names is the 2 m burst form. The 10 m burst form is an1_mx204's alone and is not reachable from here."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/firewall/policers.conf",
+          "id": "metro_ethernet_business_services/evo/firewall/policers",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "firewall {\n    family any {\n        filter 50MB_filter {\n            interface-specific;\n            term t1 {\n                then policer 50mbps_policer;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">firewall {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    family any {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        filter 50MB_filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface-specific;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            term t1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                then policer 50mbps_policer;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 187,
+      "lineCount": 10,
+      "techFamily": "Firewall & Policing",
+      "subfamily": "Filters",
       "usecases": [
         "Cloud Metro",
         "Metro Fabric",

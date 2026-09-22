@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 334,
+  "snip_count": 335,
   "snips": [
     {
       "path": "evo/chassis/aggregated-devices-ethernet.conf",
@@ -310,6 +310,19 @@
       ],
       "size_bytes": 1732,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/sc-2-priority-model.conf"
+    },
+    {
+      "path": "evo/firewall/filter-family-any-50mb.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-family-any-50mb",
+      "topic": "Protocol-independent 50 Mbps rate-limit filter, without the 5 Mbps filter",
+      "seen_on": [
+        "an2_acx5448",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1551,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/filter-family-any-50mb.conf"
     },
     {
       "path": "evo/firewall/filter-family-any-policers.conf",
