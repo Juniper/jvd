@@ -1,0 +1,42 @@
+{
+  "_comment": "TEMPORARY Stage 2 compatibility layer. Repository category/categoryPath expresses configuration hierarchy; techFamily remains the legacy presentation taxonomy. Stage 2 does NOT redefine that taxonomy. Delete when techFamily derivation migrates to categoryPath with explicit semantic adjudication.",
+  "_keyFormat": "perSnip: jvd::os::categoryPath/name  |  categoryAlias: jvd::category",
+  "_scope": "metro_ethernet_business_services only",
+  "categoryAlias": {
+    "metro_ethernet_business_services::class-of-service": "cos",
+    "metro_ethernet_business_services::firewall": "firewall",
+    "metro_ethernet_business_services::groups": "apply-groups",
+    "metro_ethernet_business_services::interfaces": "interfaces",
+    "metro_ethernet_business_services::policy-options": "policy",
+    "metro_ethernet_business_services::routing-instances": "services",
+    "metro_ethernet_business_services::routing-options": "transport"
+  },
+  "perSnip": {
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-an3": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-cr1": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-cr2": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-ma3": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-mdr1": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-meg1": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/bgp-overlay-meg2": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/isis-srmpls-tilfa": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/l2circuit-hsb-hub": "Service Overlay",
+    "metro_ethernet_business_services::evo::protocols/l2circuit-hsb-pe": "Service Overlay",
+    "metro_ethernet_business_services::evo::protocols/l2circuit-hsb-pe-primary": "Service Overlay",
+    "metro_ethernet_business_services::evo::protocols/l2circuit-lsw": "Service Overlay",
+    "metro_ethernet_business_services::evo::protocols/mpls-segment-routing": "Transport & Underlay",
+    "metro_ethernet_business_services::evo::protocols/oam-cfm-perf-mon": "OAM & Telemetry",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-an4": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-ma4": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-ma5": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-mdr2": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-mse1": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/bgp-overlay-mse2": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/isis-srmpls-tilfa": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/l2circuit-floating-pw": "Service Overlay",
+    "metro_ethernet_business_services::junos::protocols/mpls-segment-routing": "Transport & Underlay",
+    "metro_ethernet_business_services::junos::protocols/oam-cfm-perf-mon": "OAM & Telemetry"
+  }
+}

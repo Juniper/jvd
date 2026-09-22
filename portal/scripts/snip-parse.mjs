@@ -25,6 +25,7 @@ export const CODES = {
   LEGACY_HEADER_SECTION: "LEGACY_HEADER_SECTION",
   LEGACY_HEADER_SYNTAX: "LEGACY_HEADER_SYNTAX",
   INVALID_SECTION_ORDER: "INVALID_SECTION_ORDER",
+  ORPHAN_HEADER_CONTENT: "ORPHAN_HEADER_CONTENT",
   VARIANT_MALFORMED: "VARIANT_MALFORMED",
   VARIANT_PROVIDES_UNKNOWN_FAMILY: "VARIANT_PROVIDES_UNKNOWN_FAMILY",
   VARIANT_PROVIDES_MISMATCH: "VARIANT_PROVIDES_MISMATCH",
@@ -90,7 +91,10 @@ export function parseSnip(text) {
   const diag = (code, detail) => diagnostics.push(detail ? { code, detail } : { code });
 
   // Find the leading /* ... */ block. Must start at byte 0 (allowing leading whitespace lines).
-  const m = text.match(/^\s*\/\*([\s\S]*?)\*\/\s*\n?/);
+  // The terminator is the standalone `*/` LINE, not the first embedded `*/`:
+  // header prose such as `ae*/et*` would otherwise end the header early and
+  // spill the rest of the comment into the body.
+  const m = text.match(/^\s*\/\*([\s\S]*?)\n[ \t]*\*\/\s*\n?/);
   if (!m) {
     diag(CODES.MISSING_HEADER);
     return { warnings: ["missing-header"], diagnostics, header: null, body: text.trim() };
@@ -237,10 +241,14 @@ export function parseSnip(text) {
       const label = labelMatch[1].trim().toLowerCase().replace(/\s+/g, " ");
       if (KNOWN_LABELS.some((k) => editDistance(label, k) <= 2)) {
         diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
-        section = null;
+        section = "unknown";
         continue;
       }
     }
+
+    // Lines under a misspelled field are already accounted for by the
+    // UNKNOWN_HEADER_SECTION above; do not report them twice.
+    if (section === "unknown") continue;
 
     if (section === "topic") {
       // A non-empty line after the Topic keyword, before any new section, is a
@@ -289,6 +297,8 @@ export function parseSnip(text) {
         // `(none)` must stand alone; a bucket must not be empty.
         if (noneMarker && deviceCount > 0) diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: (none) with devices`);
         if (!noneMarker && !hadParen && deviceCount === 0) diag(CODES.SEEN_ON_APPROXIMATION, `${bucket}: empty`);
+      } else {
+        diag(CODES.ORPHAN_HEADER_CONTENT, `Seen on: ${trimmed}`);
       }
       continue;
     }
@@ -304,6 +314,7 @@ export function parseSnip(text) {
       const b = trimmed.match(/^-\s*(.*)$/);
       if (b) highlights.push(b[1].trim());
       else if (highlights.length) highlights[highlights.length - 1] += " " + trimmed;
+      else diag(CODES.ORPHAN_HEADER_CONTENT, `Highlights: ${trimmed}`);
       continue;
     }
 
@@ -326,6 +337,9 @@ export function parseSnip(text) {
           continue; // variant requirements never fall through to pairWith
         }
         pairWith.push(bullet);
+      } else {
+        // An entry is the path alone; a continuation line is never valid here.
+        diag(CODES.ORPHAN_HEADER_CONTENT, `Pair with: ${trimmed}`);
       }
       continue;
     }
@@ -345,6 +359,9 @@ export function parseSnip(text) {
       jvdServiceMapping.push(line.replace(/\s+$/, ""));
       continue;
     }
+
+    // Nothing claimed this line: it sits outside every formal section.
+    diag(CODES.ORPHAN_HEADER_CONTENT, trimmed);
   }
 
   while (jvdServiceMapping.length && jvdServiceMapping[jvdServiceMapping.length - 1] === "") {

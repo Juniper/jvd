@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "description": "Canonical construct vocabulary for configuration snips.",
+  "keyModel": "<canonical top block>/<canonical name>",
+  "keyModelNotes": [
+    "The top block is the first top-level Junos hierarchy block in the snip body; the name is the snip filename without .conf.",
+    "Generic filenames stay valid because the top block supplies context (class-of-service/classifiers, policy-options/communities).",
+    "Full categoryPath is deliberately not the key: it fragments one construct across the legacy folders that predate the D21 hierarchy-aligned layout.",
+    "This file records only what is not derivable from the snip tree itself. It is not a mirror of the snip database."
+  ],
+  "aliasRule": "A legacy categoryPath is recorded as migration evidence for a canonical construct only where the same construct is filed under a pre-D21 folder in another JVD.",
+  "prefixNotes": [
+    "A canonical snip filename SHOULD begin with one of these prefixes followed by a hyphen, identifying the primary construct type or interface scope the body configures.",
+    "The prefix is semantic: it follows the hierarchy the body is, not the folder it sits in and not the spelling of the deployed object.",
+    "This vocabulary is living and incremental. A prefix is added only once its meaning is established from real configuration; absence of a prefix does not imply invalidity.",
+    "Recording a prefix here does not authorize renaming snips in JVDs that are not being revised."
+  ],
+  "prefixes": {
+    "cl": { "construct": "classifier" },
+    "fc": { "construct": "forwarding class" },
+    "rr": { "construct": "rewrite rule" },
+    "sm": { "construct": "scheduler map" },
+    "sc": { "construct": "scheduler" },
+    "cm": { "construct": "community" },
+    "ps": { "construct": "policy statement" },
+    "pl": { "construct": "prefix list" },
+    "ri": { "construct": "routing instance" },
+    "gr": { "construct": "configuration group" },
+    "ifd": {
+      "construct": "interface device",
+      "scope": "hierarchy",
+      "roleSuffix": "A body-proven semantic role may follow the scope token, as in ifd-core-*. The body must establish the role; external design context is not sufficient."
+    },
+    "ifl": {
+      "construct": "logical interface",
+      "scope": "hierarchy",
+      "roleSuffix": "A body-proven semantic role may follow the scope token, as in ifl-core-*. The body must establish the role; external design context is not sufficient."
+    }
+  },
+  "constructs": {
+    "class-of-service/fc-6queue-model": {
+      "canonicalPath": "class-of-service/forwarding-classes",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "cos", "jvds": ["low_latency_queueing"] }]
+    },
+    "policy-options/communities": {
+      "canonicalPath": "policy-options/community",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "policy", "jvds": ["broadband_edge"] }]
+    },
+    "policy-options/per-packet-load-balance": {
+      "canonicalPath": "policy-options/policy-statement",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "policy", "jvds": ["ewan_adv_core_edge"] }]
+    },
+    "protocols/isis-srmpls-tilfa": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "transport", "jvds": ["broadband_edge"] }]
+    },
+    "protocols/mpls-segment-routing": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "transport", "jvds": ["broadband_edge"] }]
+    },
+    "protocols/l2circuit-floating-pw": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "services", "jvds": ["metro_as_a_service"] }]
+    },
+    "protocols/l2circuit-hsb-hub": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "services", "jvds": ["metro_as_a_service"] }]
+    },
+    "protocols/l2circuit-hsb-pe": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "services", "jvds": ["metro_as_a_service"] }]
+    },
+    "protocols/l2circuit-lsw": {
+      "canonicalPath": "protocols",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "services", "jvds": ["metro_as_a_service"] }]
+    },
+    "routing-instances/bgp-vpls": {
+      "canonicalPath": "routing-instances/vpls",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [{ "categoryPath": "services", "jvds": ["metro_as_a_service"] }]
+    },
+    "routing-instances/evpn-elan-vlan-based": {
+      "canonicalPath": "routing-instances/evpn-elan",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [
+        {
+          "categoryPath": "services",
+          "jvds": ["ewan_adv_core_edge", "low_latency_queueing", "metro_as_a_service"]
+        }
+      ]
+    },
+    "routing-instances/evpn-elan-vlan-bundle": {
+      "canonicalPath": "routing-instances/evpn-elan",
+      "establishedBy": "metro_ethernet_business_services",
+      "legacyPaths": [
+        { "categoryPath": "services", "jvds": ["ewan_adv_core_edge", "metro_as_a_service"] }
+      ]
+    }
+  }
+}

@@ -216,11 +216,11 @@ export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
   }
 
   if (mode === "role") {
-    // Beta: Area → JVD → device Role → snip, scoped to the role-view JVD.
-    // A snip appears under every role it is seen on, so role counts may sum to
-    // more than the JVD's snip total.
+    // Beta: Area → JVD → device Role → Category → snip, scoped to the role-view
+    // JVD. A snip appears under every role it is seen on, so role counts may sum
+    // to more than the JVD's snip total.
     const scoped = snips.filter((s) => s.jvd === ROLE_VIEW_JVD);
-    const byArea = new Map<string, Map<string, Map<string, SnipRecord[]>>>();
+    const byArea = new Map<string, Map<string, Map<string, Map<string, SnipRecord[]>>>>();
     for (const s of scoped) {
       const roles = rolesForSnip(s);
       if (!roles.length) continue;
@@ -230,30 +230,41 @@ export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
       if (!byJvd.has(s.jvd)) byJvd.set(s.jvd, new Map());
       const byRole = byJvd.get(s.jvd)!;
       for (const role of roles) {
-        if (!byRole.has(role)) byRole.set(role, []);
-        byRole.get(role)!.push(s);
+        if (!byRole.has(role)) byRole.set(role, new Map());
+        const byCat = byRole.get(role)!;
+        if (!byCat.has(s.category)) byCat.set(s.category, []);
+        byCat.get(s.category)!.push(s);
       }
     }
+    const countCats = (catMap: Map<string, SnipRecord[]>) =>
+      [...catMap.values()].reduce((n, arr) => n + arr.length, 0);
+    const countRoles = (roleMap: Map<string, Map<string, SnipRecord[]>>) =>
+      [...roleMap.values()].reduce((n, catMap) => n + countCats(catMap), 0);
     return [...byArea.entries()]
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([area, jvdMap]) => ({
         id: `roleArea:${area}`,
         label: area,
-        count: [...jvdMap.values()].reduce(
-          (n, roleMap) => n + [...roleMap.values()].reduce((m, arr) => m + arr.length, 0),
-          0,
-        ),
+        count: [...jvdMap.values()].reduce((n, roleMap) => n + countRoles(roleMap), 0),
         children: [...jvdMap.entries()].map(([jvdId, roleMap]) => ({
           id: `roleJvd:${jvdId}`,
-          label: roleMap.values().next().value?.[0]?.jvdLabel ?? jvdId,
-          count: [...roleMap.values()].reduce((n, arr) => n + arr.length, 0),
+          label:
+            roleMap.values().next().value?.values().next().value?.[0]?.jvdLabel ?? jvdId,
+          count: countRoles(roleMap),
           children: [...roleMap.entries()]
             .sort(([a], [b]) => a.localeCompare(b))
-            .map(([role, arr]) => ({
+            .map(([role, catMap]) => ({
               id: `role:${jvdId}:${role}`,
               label: role,
-              count: arr.length,
-              snipIds: arr.map((s) => s.id),
+              count: countCats(catMap),
+              children: [...catMap.entries()]
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([cat, arr]) => ({
+                  id: `roleCat:${jvdId}:${role}:${cat}`,
+                  label: titleize(cat),
+                  count: arr.length,
+                  snipIds: arr.map((s) => s.id),
+                })),
             })),
         })),
       }));

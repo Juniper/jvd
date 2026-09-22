@@ -30,6 +30,8 @@ const PORTAL_DIR = path.join(REPO_ROOT, "portal");
 const OUT_PATH = path.join(PORTAL_DIR, "src", "data", "snips.json");
 const USECASE_MAP_PATH = path.join(__dirname, "jvd-usecase-map.json");
 const TECH_MAP_PATH = path.join(__dirname, "snip-tech-map.json");
+// TEMPORARY Stage 2 artifact — delete when techFamily moves to categoryPath.
+const TECH_COMPAT_PATH = path.join(__dirname, "snip-tech-compat.json");
 const CATALOG_PATH = path.join(PORTAL_DIR, "src", "data", "jvds.json");
 
 const CHECK_ONLY = process.argv.includes("--check");
@@ -86,22 +88,33 @@ function slug(s) {
 // separate { diagnostics } channel is consumed only by the validator.
 
 // ---------------------------------------------------------------------------
-// Path interpretation: snips/{junos|evo}/<category>/<name>.conf
+// Path interpretation: snips/{junos|evo}/<categoryPath...>/<name>.conf
 // ---------------------------------------------------------------------------
+// Hierarchy depth is NOT fixed. `category` stays the first segment beneath the
+// OS so existing consumers keep working; `categoryPath` carries the full
+// hierarchy and is what identity and cross-OS pairing use.
 
 function interpretSnipPath(absPath) {
   const rel = path.relative(REPO_ROOT, absPath).split(path.sep).join("/");
-  // Find the segment "configuration/snips/<os>/<category>/<file>"
   const parts = rel.split("/");
   const snipsIdx = parts.indexOf("snips");
   if (snipsIdx < 0 || snipsIdx + 3 >= parts.length) return null;
   const osDir = parts[snipsIdx + 1];
-  const category = parts[snipsIdx + 2];
-  const file = parts[snipsIdx + 3];
-  if (!file.endsWith(".conf")) return null;
-  if (osDir !== "junos" && osDir !== "evo") return null; // skip byoai/, _variables.md, etc.
+  if (osDir !== "junos" && osDir !== "evo") return null; // skip byoai/, _variables.md
 
-  // JVD root = everything before configuration/
+  const tail = parts.slice(snipsIdx + 2); // [<category>, ...deeper, <file>]
+  const file = tail[tail.length - 1];
+  if (!file.endsWith(".conf")) return null;
+  const segs = tail.slice(0, -1);
+  if (segs.length === 0) {
+    throw new Error(
+      `[generate-snips] unparseable snip path (no category segment): ${rel}`,
+    );
+  }
+  const category = segs[0];
+  const subCategory = segs.length > 1 ? segs.slice(1).join("/") : null;
+  const categoryPath = segs.join("/");
+
   const configIdx = parts.indexOf("configuration");
   if (configIdx <= 0) return null;
   const jvdParts = parts.slice(0, configIdx);
@@ -114,6 +127,8 @@ function interpretSnipPath(absPath) {
     os: osDir === "evo" ? "Junos EVO" : "Junos",
     osKey: osDir,
     category,
+    subCategory,
+    categoryPath,
     name: file.replace(/\.conf$/, ""),
     relPath: rel,
   };
@@ -129,7 +144,26 @@ function interpretSnipPath(absPath) {
 // unmatched snip falls to that family's named default bucket rather than
 // echoing the family name.
 
-function deriveTechFamily(name, category, techMap) {
+function deriveTechFamily(
+  name,
+  category,
+  techMap,
+  compat,
+  jvd,
+  categoryPath,
+  osKey,
+) {
+  // TEMPORARY Stage 2 compatibility layer. The repository category/categoryPath
+  // now expresses configuration hierarchy; techFamily remains the LEGACY
+  // presentation taxonomy and must not change during hierarchy migration.
+  // Removed when tech-family derivation migrates to categoryPath.
+  if (compat) {
+    const pin =
+      compat.perSnip?.[`${jvd}::${osKey}::${categoryPath}/${name}`];
+    if (pin) return pin;
+    const alias = compat.categoryAlias?.[`${jvd}::${category}`];
+    if (alias) return techMap[alias] || "General";
+  }
   if (category === "transport" && /evpn/i.test(name)) return "Service Overlay";
   return techMap[category] || "General";
 }
@@ -286,7 +320,7 @@ function resolvePairWith(rawList, ownJvd, indexByJvdRel) {
   const resolved = [];
   for (const raw of rawList) {
     // raw looks like "evo/transport/bgp-overlay-pe-an.conf" or
-    // "junos/services/evpn-type5.conf  (L3 RT-5 half on the same irb.<N>...)"
+    // "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf  (L3 RT-5 half...)"
     // — split path from optional parenthetical note so the path can
     // still resolve to a snip id even when there's an inline reason.
     const m = raw.match(/^([^\s(]+\.conf)\s*(?:\(([^)]*)\))?\s*(.*)$/);
@@ -365,6 +399,7 @@ async function highlightBody(body) {
 async function main() {
   const usecaseMap = stripUnderscoreKeys(await readJson(USECASE_MAP_PATH));
   const techMap = stripUnderscoreKeys(await readJson(TECH_MAP_PATH));
+  const techCompat = await readJson(TECH_COMPAT_PATH).catch(() => null);
 
   // jvds.json drives the JVD label + area lookup
   let catalog = [];
@@ -380,7 +415,7 @@ async function main() {
 
   // Walk all snip files
   const files = await walk(REPO_ROOT, (p) =>
-    /\/configuration\/snips\/(junos|evo)\/[^/]+\/[^/]+\.conf$/.test(p.split(path.sep).join("/")),
+    /\/configuration\/snips\/(junos|evo)\/.+\.conf$/.test(p.split(path.sep).join("/")),
   );
   files.sort();
 
@@ -536,11 +571,22 @@ async function main() {
 
     const meta = jvdMeta.get(interp.jvd) || {};
     const usecases = usecaseMap[interp.jvd] || (meta.area ? [meta.area] : []);
-    const techFamily = deriveTechFamily(interp.name, interp.category, techMap);
+    const techFamily = deriveTechFamily(
+      interp.name,
+      interp.category,
+      techMap,
+      techCompat,
+      interp.jvd,
+      interp.categoryPath,
+      interp.osKey,
+    );
     const subfamily = deriveSubfamily(interp.name, techFamily);
 
-    const id = `${interp.jvd}/${interp.osKey}/${interp.category}/${interp.name}`;
-    indexByJvdRel.set(`${interp.jvd}::${interp.osKey}/${interp.category}/${interp.name}.conf`, id);
+    const id = `${interp.jvd}/${interp.osKey}/${interp.categoryPath}/${interp.name}`;
+    indexByJvdRel.set(
+      `${interp.jvd}::${interp.osKey}/${interp.categoryPath}/${interp.name}.conf`,
+      id,
+    );
 
     records.push({
       id,
@@ -550,6 +596,8 @@ async function main() {
       os: interp.os,
       osKey: interp.osKey,
       category: interp.category,
+      ...(interp.subCategory ? { subCategory: interp.subCategory } : {}),
+      categoryPath: interp.categoryPath,
       name: interp.name,
       path: interp.relPath,
       otherOsFormId: null, // filled in pass 2 (cross-OS sibling by jvd+category+name)
@@ -584,7 +632,10 @@ async function main() {
     r.pairWith = resolvePairWith(parsed.header?.pairWith || [], r.jvd, indexByJvdRel);
     // Derived cross-OS navigation only — NOT an assertion that bodies are identical.
     const otherOs = r.osKey === "junos" ? "evo" : "junos";
-    r.otherOsFormId = indexByJvdRel.get(`${r.jvd}::${otherOs}/${r.category}/${r.name}.conf`) || null;
+    r.otherOsFormId =
+      indexByJvdRel.get(
+        `${r.jvd}::${otherOs}/${r.categoryPath}/${r.name}.conf`,
+      ) || null;
     r.bodyHtml = await highlightBody(r.body);
   }
 

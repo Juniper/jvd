@@ -4,6 +4,227 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-09-21
+
+Rebuilt the **Metro Ethernet Business Services (MEBS)** configuration snippet
+library — the largest expansion of a single JVD's reusable building blocks to
+date. The library grows from **163 to 334 snippets**, is reorganized to mirror
+the Junos configuration hierarchy, and every snippet is now one self-contained
+construct named for what its body configures.
+
+Previously the library mixed compound files that combined unrelated objects,
+folders named after the platform keyword that happened to implement a service,
+and names that described where a stanza was found rather than what it builds.
+Each snippet is now a single construct with an exact list of the validated
+devices that run it, so you can assemble a service from small reusable parts and
+know precisely which published configurations each part came from.
+
+### Improvements
+
+#### Service Provider
+
+- **Metro Ethernet Business Services — library rebuilt and doubled** — the
+  [MEBS snippet library](service_provider/metro_ethernet_business_services/configuration/snips)
+  grows from 163 to **334 snippets** (157 Junos, 177 Junos Evolved), organized
+  into eleven categories that follow the Junos configuration hierarchy —
+  `interfaces`, `routing-instances`, `policy-options`, `protocols`,
+  `routing-options`, `class-of-service`, `firewall`, `forwarding-options`,
+  `chassis`, `bridge-domains` and `groups` — so a snippet lives where you would
+  look for the configuration it writes.
+- **Expanded service coverage** — the library now covers EVPN-VPWS and EVPN
+  Flexible Cross-Connect (two, three and four user-network interfaces, including
+  the VLAN-aware form), EVPN-ELAN (VLAN-based, VLAN-bundle, port-based and IRB),
+  EVPN E-Tree, BGP-VPLS and LDP-VPLS, Kompella L2VPN, L2Circuit hot-standby,
+  floating-pseudowire and local-switching, L3VPN with PE-CE eBGP and OSPF for
+  IPv4 and IPv6, EVPN Type-5 IP-prefix VRFs, and the attachment circuits and IRB
+  interfaces that land traffic in each of them.
+- **Infrastructure the services depend on** — IS-IS and Segment Routing
+  (including flex-algorithm prefix-segment indices), connectivity fault
+  management, class-of-service classifiers, schedulers, rewrite rules and
+  per-interface application, transport-class resolution, aggregate routes,
+  per-packet load balancing, aggregated-Ethernet bundles, MPLS hash keys and
+  rate-limit policers.
+- **Smaller, reusable constructs** — compound files were decomposed into the
+  objects they actually define. The shared BGP community palette becomes one
+  snippet per community, so a policy that needs one no longer pulls in eleven;
+  parent interfaces are separated from the logical interfaces they carry; and
+  L3VPN import and export policies are independent objects a VRF can reference
+  on its own.
+- **Configured names treated as values** — policy, community, load-balancing and
+  service-instance names that differ only in spelling between devices now
+  collapse into a single construct that carries the name as a variable, instead
+  of one near-duplicate snippet per spelling.
+
+#### Configuration snippet contract
+
+- **Construct boundary** — the
+  [snippet contract](.github/SNIP-CONTRACT.md) now states where a construct
+  ends: when a snippet selects a named child instance, the surrounding
+  configuration is context rather than part of the claim. The statements that
+  introduce a named instance are published in a versioned registry that the
+  parser and validation share.
+- **Names as bindings** — where a deployment varies the name of the object a
+  body defines or references, that name is a value the snippet carries.
+- **Header scope** — a header describes the body and nothing else; validation
+  now reports header content that sits outside a declared field.
+- **Stronger dependency modelling** — MEBS declared dependencies grow from 281
+  to **384**, with 170 of 334 snippets naming at least one prerequisite. Every
+  dependency resolves to a real snippet on the same platform, including the
+  per-VRF route-target community that EVPN Type-5 import and export policies
+  match on.
+- **Exact provenance** — every snippet lists exactly the validated devices whose
+  published configuration reproduces its templated body, and the instance count
+  and variable bindings for each device are recorded alongside the library.
+
+#### Portal and JVD AI Assistant
+
+- **Config Explorer scales with the expanded library** — snippets are now
+  grouped by their configuration category everywhere in
+  [Config Explorer](https://juniper.github.io/jvd/portal/#snips), including
+  inside the MEBS role view, so a large role-specific set is browsable by
+  category instead of arriving as one flat list. The largest MEBS role covers
+  213 snippets across 10 categories. Counts, the OS filter, search and
+  expand/collapse all follow the new level.
+- **Config Explorer reflects the rebuilt library** — the catalog now carries
+  **936 snippets across 18 JVDs**, up from 765, with the MEBS categories,
+  names and cross-platform links updated throughout.
+- **Assistant corpus complete and current** — the MEBS assistant bundle now
+  contains all 334 snippets (previously 163), its tier guidance points only at
+  snippets that exist, and the variable glossary documents **125 variables**,
+  matching exactly what the snippet bodies use.
+
+### What this means for you
+
+- Build a MEBS service from small, named parts: pick the routing instance for
+  the service family you want, then follow its declared prerequisites to the
+  attachment circuit, policies and communities it needs.
+- Use a snippet's `Seen on:` list as an exact statement of where that
+  configuration is validated — every device listed reproduces the body as
+  written.
+- Look for configuration where Junos puts it: the folder names now match the
+  configuration hierarchy rather than a service label, in the repository and in
+  Config Explorer.
+- Browse a device role by category when you want the building blocks for one
+  role without reading the whole library.
+- Ask the JVD AI Assistant for any MEBS service and expect the full current
+  library behind the answer.
+
+---
+
+### By the numbers
+
+The MEBS snippet library more than doubled, and the 334 snippets reproduce
+**238,660 configured instances** across the twenty published MEBS device
+configurations. No device configuration was changed in this release.
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS — Junos | 74 | 157 | +83 |
+| MEBS — Junos Evolved | 89 | 177 | +88 |
+| **MEBS — total** | **163** | **334** | **+171** |
+| All JVDs — total | 765 | 936 | +171 |
+
+</details>
+
+<details>
+<summary>MEBS snippets by configuration category</summary>
+
+| Category | Junos | Junos Evolved | Total |
+| --- | ---: | ---: | ---: |
+| Policy options | 60 | 66 | 126 |
+| Routing instances | 29 | 34 | 63 |
+| Interfaces | 20 | 22 | 42 |
+| Protocols | 12 | 20 | 32 |
+| Class of service | 11 | 11 | 22 |
+| Groups | 10 | 12 | 22 |
+| Routing options | 9 | 8 | 17 |
+| Firewall | 2 | 2 | 4 |
+| Bridge domains | 2 | 0 | 2 |
+| Chassis | 1 | 1 | 2 |
+| Forwarding options | 1 | 1 | 2 |
+| **Total** | **157** | **177** | **334** |
+
+</details>
+
+<details>
+<summary>Snippet file movement (MEBS)</summary>
+
+| Change | Snippets |
+| --- | ---: |
+| Added | 193 |
+| Renamed or moved | 136 |
+| Removed (decomposed into smaller constructs) | 22 |
+| Modified in place | 4 |
+| **Categories** | **8 → 11** |
+
+</details>
+
+<details>
+<summary>Coverage and metadata (MEBS)</summary>
+
+| Measure | Before | After |
+| --- | ---: | ---: |
+| Configured instances reproduced | — | 238,660 |
+| Validated device configurations | 20 | 20 |
+| Declared dependencies | 281 | 384 |
+| Snippets declaring a prerequisite | 106 | 170 |
+| Template variables documented | 94 | 125 |
+| Snippets in the assistant bundle | 163 | 334 |
+
+</details>
+
+<details>
+<summary>Files changed by area</summary>
+
+| Area | Files |
+| --- | ---: |
+| MEBS snippet library | 361 |
+| Portal published assets | 57 |
+| Other JVD assistant prompts | 32 |
+| Portal tooling | 5 |
+| MEBS assistant bundle | 5 |
+| Snippet contract and glossaries | 3 |
+| MEBS provenance data | 2 |
+| Portal snippet data | 1 |
+| Portal application | 1 |
+| **Total** | **467** |
+
+</details>
+
+<details>
+<summary>Lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Portal published assets | 19,644 | 9,044 | +10,600 |
+| MEBS assistant bundle | 19,592 | 8,992 | +10,600 |
+| Portal snippet data | 18,869 | 5,428 | +13,441 |
+| MEBS snippet library | 8,363 | 1,919 | +6,444 |
+| MEBS provenance data | 1,051 | 0 | +1,051 |
+| Snippet contract and glossaries | 356 | 16 | +340 |
+| Portal tooling | 237 | 15 | +222 |
+| Other JVD assistant prompts | 32 | 32 | 0 |
+| Portal application | 26 | 15 | +11 |
+| **Total** | **68,170** | **25,461** | **+42,709** |
+
+</details>
+
+<details>
+<summary>Quality gates</summary>
+
+| Check | Result |
+| --- | ---: |
+| Snippet contract validation errors | 0 |
+| Automated contract tests | 47 / 47 |
+| Unresolved dependency targets | 0 |
+| Cross-platform dependency violations | 0 |
+| Device configuration files modified | 0 |
+
+</details>
+
 ## 2026-08-31
 
 Made **Metro Ethernet Business Services (MEBS)** BGP-overlay signalling
@@ -1206,52 +1427,52 @@ library's actual coverage.
 - **New MEBS service templates** under
   [`service_provider/metro_ethernet_business_services/configuration/snips/`](service_provider/metro_ethernet_business_services/configuration/snips/):
   - **EVPN-FXC** (Flexible Cross-Connect) for both
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-fxc.conf)
+    Junos
     and
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-fxc.conf)
+    EVO
     — bundle multiple UNIs under one `evpn-vpws` instance with
     an FXC collector group.
   - **EVPN E-Tree** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-etree.conf)
+    Junos
     — MEF E-Tree (root / leaf) on a Junos mac-vrf with
     `etree-ac-role` on each UNI.
   - **Slim L3VPN IRB-anchor VRF** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-type5-anchor.conf)
+    Junos
     and
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/evpn-type5-anchor.conf)
+    EVO
     — a Type-5 anchor VRF that pairs with an EVPN-ELAN MAC-VRF
     for L2+L3 IRB services (host /32s ride RT-2, no
     `ip-prefix-routes` block).
   - **L2Circuit floating pseudowires** for
-    [Junos](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l2circuit-floating-pw.conf)
+    Junos
     and EVO
     — static-label PW landing on a `ps<N>` pseudowire-subscriber
     anchor.
   - **L2Circuit local-switching** for
-    [EVO](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/l2circuit-lsw.conf)
+    EVO
     — port-to-port hairpin on one PE via
     `end-interface`.
   - **EVO BGP-VPLS** at
-    [`evo/services/bgp-vpls.conf`](service_provider/metro_ethernet_business_services/configuration/snips/evo/services/bgp-vpls.conf)
+    `evo/services/bgp-vpls.conf`
     — completes the BGP-VPLS cross-OS pair (the Junos template
     already shipped).
   - **Junos EVPN-ELAN virtual-switch IRB** at
-    [`junos/services/evpn-elan-virtual-switch-irb.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/evpn-elan-virtual-switch-irb.conf)
+    `junos/services/evpn-elan-virtual-switch-irb.conf`
     — the legacy `virtual-switch` shape with IRB, alongside the
     existing mac-vrf variant.
 
 - **L3VPN split by PE-CE protocol** — the generic `l3vpn-vrf`
   template is replaced by two protocol-specific templates,
   shipped for both Junos and EVO:
-  - [`l3vpn-bgp.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-bgp.conf)
+  - `l3vpn-bgp.conf`
     — L3VPN VRF with PE-CE eBGP (`as-override`,
     BGP routing-options).
-  - [`l3vpn-ospf.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/l3vpn-ospf.conf)
+  - `l3vpn-ospf.conf`
     — L3VPN VRF with PE-CE OSPF (area 0,
     `interface-type p2p`).
 
 - **Two new MEBS interface templates**:
-  - [`junos/interfaces/pseudowire-subscriber.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/pseudowire-subscriber.conf)
+  - `junos/interfaces/pseudowire-subscriber.conf`
     — the `ps<N>` anchor used by floating-pw services.
   - [`junos/interfaces/ethernet-bridge.conf`](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ethernet-bridge.conf)
     — `encapsulation ethernet-bridge` UNI shape.
@@ -1286,7 +1507,7 @@ library's actual coverage.
 ### What this means for you
 
 - If you're building a Metro Ethernet service against MEBS,
-  the [services tree](service_provider/metro_ethernet_business_services/configuration/snips/junos/services/)
+  the services tree
   is now a one-snip-per-shape catalog: pick `evpn-vpws` /
   `evpn-fxc` / `evpn-etree` / `l3vpn-bgp` / `l3vpn-ospf` /
   `l2circuit-floating-pw` etc. directly, instead of forking

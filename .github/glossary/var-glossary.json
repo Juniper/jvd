@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "description": "Canonical template-variable vocabulary for configuration snips. A variable is named for the semantic object it parameterizes, not for the textual position it occupies in a CLI statement.",
+  "aliasRule": "A legacy variable name may be recorded as a global alias only when its semantic intent is unambiguous across known evidence. Ambiguous legacy names are recorded as scoped migration provenance instead.",
+  "variables": {
+    "INSTANCE_NAME": {
+      "intent": "Identity stem of a service instance.",
+      "use": "The routing-instance name, and the stem from which that service's derived object names are formed (for example PS-${INSTANCE_NAME}-IMPORT, PS-${INSTANCE_NAME}-EXPORT, ${INSTANCE_NAME}_RT, and a per-service community carrying the instance name itself). Do not introduce a separate variable for a name that is a deterministic derivative of this stem.",
+      "example": "METRO_L3VPN_4000"
+    },
+    "COLOR_COMMUNITY": {
+      "intent": "Transport-colour community name.",
+      "use": "Name of the community carrying the service transport-colour value. Referenced by policy or by service configuration that consumes that community.",
+      "example": "map2gold",
+      "migratedFrom": [
+        {
+          "name": "COLOR_COMM",
+          "scope": "metro_as_a_service",
+          "note": "Scoped migration provenance, not a global alias. $COLOR_COMM denotes the same object in metro_as_a_service, which is frozen; it converges when that JVD is next revised. $COLOR_LIST in srv6_core_edge is a different object (a list of transport-class colour numbers) and is not related."
+        }
+      ]
+    },
+    "LOOPBACK_V4": {
+      "intent": "Primary per-node IPv4 loopback address.",
+      "use": "The node's own lo0 IPv4. Retain this name even where the value also supplies a subfield of another object, such as the Administrator subfield of a Route Distinguisher.",
+      "example": "1.1.0.10"
+    },
+    "LOOPBACK_ANYCAST_V4": {
+      "intent": "Shared anycast IPv4 loopback address.",
+      "use": "A loopback address owned by more than one node, so the value repeats across the devices that share it.",
+      "example": "1.1.10.10"
+    },
+    "LOOPBACK_SR_V4": {
+      "intent": "Segment Routing non-zero IPv4 loopback address.",
+      "use": "The per-node loopback that carries an SR prefix-SID, distinct from the primary loopback. Naming records the intended construct; it does not assert that the address is currently instantiated on lo0.",
+      "example": "1.1.10.6"
+    },
+    "RD": {
+      "intent": "Complete Route Distinguisher value.",
+      "form": "<administrator>:<assigned-number>",
+      "use": "The entire RD is parameterized as one value.",
+      "example": "63535:6500"
+    },
+    "RD_SUB_ADMIN": {
+      "intent": "Route Distinguisher Administrator subfield.",
+      "use": "Only when the variable itself represents the RD Administrator subfield. If that subfield is supplied by a variable whose primary intent is broader (for example $LOOPBACK_V4), retain the broader variable.",
+      "example": "63535"
+    },
+    "RD_SUB_ASSIGNED": {
+      "intent": "Route Distinguisher Assigned Number subfield.",
+      "use": "The assigned-number component when the RD components are independently parameterized.",
+      "example": "2400",
+      "migratedFrom": [
+        {
+          "name": "RD_ID",
+          "scope": "metro_ethernet_business_services",
+          "note": "Scoped migration provenance, not a global alias: $RD_ID is semantically overloaded across the portfolio (Assigned Number subfield in metro_ethernet_business_services and broadband_edge; route-distinguisher-id seed in srv6_core_edge)."
+        }
+      ]
+    },
+    "RT_AS": {
+      "intent": "Route Target Administrator subfield.",
+      "use": "The administrator component of a route target, in any statement carrying one: vrf-target, vrf-target import, and a community members target:<administrator>:<assigned-number> definition. Service-scoped, not device-scoped — it varies between services on one node and is frequently not that node's own autonomous-system. Pair it with whichever variable supplies the Assigned Number.",
+      "example": "63535",
+      "migratedFrom": [
+        {
+          "name": "AS_LOCAL",
+          "scope": "metro_ethernet_business_services",
+          "note": "Scoped migration provenance, not a global alias: every occurrence was the Administrator subfield of a vrf-target, while the name asserts a device-local AS that the bound values contradict."
+        },
+        {
+          "name": "L3VPN_RT_AS",
+          "scope": "metro_ethernet_business_services",
+          "note": "Scoped migration provenance, not a global alias: the same Administrator subfield. The L3VPN qualifier named the constructs that used it, not a narrower semantic object."
+        }
+      ]
+    },
+    "RT_ID": {
+      "intent": "Route Target Assigned Number subfield.",
+      "use": "The assigned-number component of a route target, independent of the variable supplying the Administrator.",
+      "example": "2400"
+    }
+  },
+  "notes": [
+    "RD encoding (2-byte ASN, IPv4 address, or 4-byte ASN administrator) is per-occurrence evidence, not part of the variable name. Do not introduce $RD_ASN2, $RD_ASN4, or $RD_FIELD1 unless a construct genuinely requires that semantic distinction.",
+    "$RD_ID as the operand of route-distinguisher-id is a different semantic object and still awaits its own canonical name."
+  ]
+}

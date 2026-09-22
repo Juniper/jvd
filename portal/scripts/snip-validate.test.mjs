@@ -5,6 +5,7 @@
  */
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { parseSnip, CODES } from "./snip-parse.mjs";
 import { validateSnipText, resolveToken, severity, parseSnipLibraryMeta } from "./snip-validate.mjs";
 
@@ -333,4 +334,59 @@ test("a `Pair with junos/...` prose sentence is not a Pair with header", () => {
     ` *\n * Pair with junos/cos/schedulers.conf for the matching\n * scheduler-map definitions.\n` +
     ` * Pair with:\n *  - junos/cos/schedulers.conf\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
   assert.deepEqual(parseSnip(text).header.pairWith, ["junos/cos/schedulers.conf"]);
+});
+
+// The instance-recognition registry is the normative vocabulary behind the
+// contract's Fragment boundary rule. A malformed or self-contradicting registry
+// silently changes which devices a body reproduces on, so it is checked here.
+test("instance-recognition registry is well formed and self-consistent", async () => {
+  const url = new URL("./snip-instance-registry.json", import.meta.url);
+  const reg = JSON.parse(await readFile(url, "utf8"));
+
+  assert.ok(Number.isInteger(reg.version) && reg.version > 0, "version must be a positive integer");
+
+  for (const field of ["instanceKeywords", "bareNameContainers"]) {
+    const list = reg[field];
+    assert.ok(Array.isArray(list) && list.length > 0, `${field} must be a non-empty array`);
+    assert.equal(new Set(list).size, list.length, `${field} must not contain duplicates`);
+    for (const tok of list) {
+      assert.match(tok, /^[a-z][a-z0-9-]*$/, `${field} entry "${tok}" is not a bare grammar token`);
+    }
+  }
+
+  assert.equal(typeof reg.notSelectable, "object", "notSelectable must be an object");
+  for (const [tok, reason] of Object.entries(reg.notSelectable)) {
+    assert.match(tok, /^[a-z][a-z0-9-]*$/, `notSelectable key "${tok}" is not a bare grammar token`);
+    assert.ok(reason.length > 0, `notSelectable["${tok}"] must record why`);
+    assert.ok(
+      !reg.instanceKeywords.includes(tok) && !reg.bareNameContainers.includes(tok),
+      `"${tok}" cannot be both selectable and notSelectable`,
+    );
+  }
+});
+
+test("orphan prose inside Seen on is reported", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: (none)\n` +
+    ` *           see junos/other/form.conf for the closest analogue)\n` +
+    ` *   EVO:   mse1_mx304\n */\nrouting-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.ORPHAN_HEADER_CONTENT));
+});
+
+test("a wrapped highlight continuation is not orphan content", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` * Highlights:\n *  - a highlight that wraps\n *    onto a second line\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  const parsed = parseSnip(text);
+  assert.deepEqual(parsed.header.highlights, ["a highlight that wraps onto a second line"]);
+  assert.ok(!codes(parsed.diagnostics).includes(CODES.ORPHAN_HEADER_CONTENT));
+});
+
+test("a stray bullet before Highlights is orphan content", () => {
+  const text =
+    `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
+    ` *\n *  - a stray bullet that belongs under Highlights\n *\n * Highlights:\n *  - real\n */\n` +
+    `routing-options {\n    autonomous-system 65000;\n}\n`;
+  assert.ok(codes(parseSnip(text).diagnostics).includes(CODES.ORPHAN_HEADER_CONTENT));
 });

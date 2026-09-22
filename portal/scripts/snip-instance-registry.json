@@ -1,0 +1,47 @@
+{
+  "_comment": "Instance-recognition registry for the SNIP-CONTRACT 'Fragment boundary' rule. A named child instance may be selected independently when its parent serves only as context for that child instance; sibling instances and context-parent statements are then outside the selected fragment. Whether a child block is such an instance is grammar knowledge, not tree shape — a named rib-group and a policy 'term' are structurally identical. This file is parser/validation knowledge ONLY. It is not a service taxonomy and carries no naming, category, or relationship meaning.",
+
+  "_stability": "Versioned and frozen for the duration of a Count/_bindings generation. Any change to instanceKeywords, bareNameContainers, or notSelectable MUST trigger a full 'Seen on' re-audit and regeneration of Count and _bindings for every affected JVD, because a registry change can change which devices a body reproduces on.",
+
+  "version": 1,
+
+  "_instanceKeywords": "A child block is an instance of its container when its header has a leading grammar keyword listed here followed by a name or index (e.g. 'unit 0', 'neighbor 10.0.0.1').",
+  "instanceKeywords": [
+    "area",
+    "bridge-domain",
+    "community",
+    "forwarding-class",
+    "group",
+    "instance",
+    "interface",
+    "maintenance-association",
+    "maintenance-domain",
+    "neighbor",
+    "policy-statement",
+    "prefix-list",
+    "unit",
+    "vlan"
+  ],
+
+  "_bareNameContainers": "Containers whose children are named solely by an identifier, with no leading grammar keyword (e.g. 'rib-groups { RG-REMOTE-LOOPBACKS { ... } }'). A single-token child block inside one of these containers is an instance.",
+  "bareNameContainers": [
+    "bridge-domains",
+    "classifiers",
+    "drop-profiles",
+    "forwarding-classes",
+    "groups",
+    "interface-switch",
+    "interfaces",
+    "policy-options",
+    "rewrite-rules",
+    "rib-groups",
+    "routing-instances",
+    "scheduler-maps",
+    "vlans"
+  ],
+
+  "_notSelectable": "Explicitly recorded non-instances. These read as named child blocks but are ordered constituents of the stanza that encloses them: their neighbours change the meaning of the selection, so an unselected sibling invalidates the claim.",
+  "notSelectable": {
+    "term": "A policy-statement term is an ordered constituent. A device carrying an extra term (for example EVPN-T5-ONLY) evaluates differently and MUST NOT match a snip that selects only some terms."
+  }
+}
