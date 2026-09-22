@@ -320,7 +320,7 @@ function resolvePairWith(rawList, ownJvd, indexByJvdRel) {
   const resolved = [];
   for (const raw of rawList) {
     // raw looks like "evo/transport/bgp-overlay-pe-an.conf" or
-    // "junos/services/evpn-type5.conf  (L3 RT-5 half on the same irb.<N>...)"
+    // "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf  (L3 RT-5 half...)"
     // — split path from optional parenthetical note so the path can
     // still resolve to a snip id even when there's an inline reason.
     const m = raw.match(/^([^\s(]+\.conf)\s*(?:\(([^)]*)\))?\s*(.*)$/);

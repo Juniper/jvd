@@ -3,12 +3,27 @@
 This is the normative specification for the header of a configuration **snip**
 (`configuration/snips/{junos,evo}/<category>/<name>.conf`) in this repository.
 It defines what published snip metadata **means** and what a valid snip **must**
-contain. Correctness is enforced deterministically by
-`portal/scripts/snip-validate.mjs`; this document is the human-readable source of
-truth for that check.
+contain.
+
+Two different mechanisms establish the two different kinds of claim this
+contract makes:
+
+- **Structural and header rules** — section presence, order, syntax, token shape,
+  path resolution, variable declaration — are enforced deterministically by
+  `portal/scripts/snip-validate.mjs` and its committed tests. This document is
+  the human-readable source of truth for that check.
+- **Semantic reconstruction claims** — `Seen on` exactness and fragment-boundary
+  applicability — require rendering a body against an authoritative source
+  configuration. No committed script does that, so those claims are established
+  by the authorized roundtrip verification described under *Fragment boundary*,
+  **not** by CI.
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are used as in
 RFC 2119.
+
+The canonical vocabulary this contract refers to — snip construct names and
+template variable names — is recorded in `.github/glossary/snip-glossary.json`
+and `.github/glossary/var-glossary.json`.
 
 ## Structure
 
@@ -24,7 +39,7 @@ followed by the templated configuration body.
  * Highlights:            (optional)
  *  - <bullet>
  * Pair with:             (optional)
- *  - <snip path> (<optional reason>)
+ *  - <snip path>
  * JVD service mapping:   (optional)
  * Variables:             (optional)
  *   $VAR   e.g. <example>
@@ -46,6 +61,16 @@ is **deprecated**: it parses, yet is reported as `LEGACY_HEADER_SYNTAX` (a
 warning on legacy snips, an error once the snip is changed). New fields **MUST**
 use the colon form.
 
+Every non-blank header line **MUST** belong to a formal section. A header may
+contain only: a recognized section header, a recognized subordinate row (a
+`Junos:` / `EVO:` device row, a `Provides:` row, a variable declaration), a
+bullet inside a section that takes bullets, a wrapped continuation of the bullet
+or row immediately above it, and blank comment lines. A line that cannot be
+attributed to the active section — prose between sections, a stray bullet before
+the section that would own it, or a fragment left behind by an edit — is
+reported as `ORPHAN_HEADER_CONTENT`. A bullet intended as a highlight **MUST**
+appear under `Highlights:`.
+
 Junos and EVO forms of the same construct live in **separate** files under
 `snips/junos/` and `snips/evo/`. They are **not** consolidated; the file's
 directory is its OS identity. A cross-OS counterpart, when one exists, is
@@ -53,14 +78,50 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
 
 ## Fields
 
+### What a header is for
+
+Header metadata describes what the snip **contains** and **means**. It does not
+document the investigation that produced it.
+
+Every statement in a header **MUST** be grounded in configuration present in the
+snip body or in an explicit machine-readable relationship field. A header
+**MUST NOT** explain:
+
+- configuration or behaviour that is absent;
+- rejected interpretations or rejected names;
+- why some other form does not apply;
+- audit findings or proof methodology;
+- migration or rename history;
+- unresolved doubt, or the reasoning used to reach the published interpretation.
+
+If a body admits more than one interpretation, that ambiguity **MUST** be
+adjudicated before the snip is published. The header records the accepted
+result, not the debate.
+
+A Junos statement that is *literally negative* but present in the body —
+`no-normalization`, `no-control-word`, `do-not-advertise` — is present
+configuration and **MAY** be described.
+
 ### Topic
 
 - `Topic:` **MUST** be exactly **one physical line**. The parser captures only
   the first line; a wrapped continuation is silently lost. (`TOPIC_MULTILINE`)
   A trailing `\` continuation does **not** make a physically multiline Topic
   canonical: the continuation is still a second physical line and is flagged.
-- It **MUST** accurately describe the configuration in the body, and **SHOULD**
-  distinguish a functionally distinct form where one exists.
+- It **MUST** be a short, positive description of what the snip **is**, derivable
+  from configuration present in the body. Design documentation **MAY** resolve
+  terminology, but **MUST NOT** introduce behaviour the body does not carry.
+- Prefer the smallest description that identifies the construct. An
+  implementation detail belongs in `Topic:` only when it is identity-bearing.
+- It **MUST NOT**:
+  - enumerate absent statements or features, or say what the body does not do;
+  - explain why the snip is not some other construct;
+  - carry audit conclusions, proof notes, or naming rationale;
+  - compare against a sibling form;
+  - repeat OS, platform, role, or device applicability already carried by the
+    file's `junos/` or `evo/` directory or by `Seen on:`;
+  - carry migration or rename history;
+  - read as a sentence-length highlight rather than a name for the construct.
 - It **MUST NOT** contain navigation instructions or file paths.
 - `Apply-group:` / `Apply-groups:` remains an accepted alias of `Topic:` for
   apply-group snips (the group name is the topic). New non-apply-group snips
@@ -89,6 +150,22 @@ surfaced through the derived `otherOsFormId` field (see *Cross-OS navigation*).
   cross-file navigation. Scenario-qualified **device** identities (see *Device
   identity*) are permitted. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
 
+### Adjudicated exclusions
+
+A construct present in a source configuration remains eligible for modelling
+unless it is **explicitly excluded by human adjudication**. Tooling **MAY**
+nominate configuration as stale, unused, or otherwise irrelevant, but **MUST
+NOT** exclude it automatically.
+
+Once a construct is adjudicated as excluded from the model, it is no longer
+eligible for snip creation, for reuse matching, or for `Seen on` membership on
+the devices that adjudication covers. The source configuration itself is never
+modified by such a decision.
+
+For constructs that remain in scope the `Seen on` rule above applies unchanged:
+every validated source device on which the snip renders the selected
+configuration exactly **MUST** be listed, regardless of OS directory.
+
 ### Fragment boundary
 
 A snip may select multiple sibling stanzas under a context-only hierarchy. Every
@@ -97,11 +174,45 @@ same concrete parent instance and match exactly using one consistent variable
 binding. Additional unselected siblings are outside the snip's scope and are
 permitted. Additional configuration inside a selected stanza is **not** permitted.
 
-A named instance container **MAY** serve as context when the snip intentionally
-selects repeated child instances rather than claiming the complete container. For
-example, an interface may provide context for selected units, and a maintenance
-domain may provide context for selected maintenance associations. The omitted
-sibling instances are not part of the exactness claim.
+A named child instance **MAY** be selected independently when its parent serves
+only as context for that child instance. Where that holds:
+
+- configuration belonging to **sibling child instances** is outside the selected
+  fragment;
+- configuration at the **context parent itself** is outside the selected child
+  fragment unless the snip explicitly selects it;
+- configuration **inside** the selected child instance **MUST** match exactly;
+- a **constituent** inside an already-selected stanza is **not** automatically an
+  independently selectable child instance.
+
+An interface therefore provides context for a selected unit, and a parent-level
+`mtu` or `disable` does not invalidate that unit; `rib-groups` provides context
+for a selected named rib-group, and a sibling rib-group does not invalidate it.
+Conversely, a selected unit that carries an additional `esi` or `filter` on the
+device does **not** match, and a selected `policy-statement` that carries an
+additional `term` on the device does **not** match — a policy term is an ordered
+constituent of the statement, not an independently selectable instance.
+
+Which child kinds are independently selectable is **not** derivable from
+hierarchy shape alone: a named rib-group and a policy `term` are structurally
+identical. That distinction is grammar knowledge, held in the
+**instance-recognition registry** at `portal/scripts/snip-instance-registry.json`.
+The registry is the normative source for that vocabulary; it is parser and
+validation knowledge only, **not** a service taxonomy, and carries no naming,
+category, or relationship meaning.
+
+The registry's *semantics* are consumed by the authorized roundtrip
+verification, which runs outside this repository. No committed production script
+applies them: `snip-parse.mjs`, `snip-validate.mjs` and `generate-snips.mjs`
+parse and check headers and do not evaluate a body against a source
+configuration, so they neither apply nor enforce this rule. The committed
+contract test (`snip-validate.test.mjs`) does read the registry, but only to
+check its shape and internal consistency. A `Seen on` claim is therefore
+established by the roundtrip verification, not by CI.
+
+The registry is versioned. Because a registry change can change which devices a
+body reproduces on, any modification to it **MUST** trigger a full `Seen on`
+re-audit and regeneration of `Count` and `_bindings` for every affected JVD.
 
 The applicability claim is therefore that the **selected** stanzas reproduce
 exactly on a device — not that the entire enclosing interface, maintenance
@@ -121,11 +232,27 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 
 ### Highlights
 
+`Highlights:` is optional. It carries concise, technically useful behaviour that
+is **present in the body** and not already conveyed by `Topic:` or by structured
+metadata.
+
 - Each highlight begins with `-`; continuation lines are allowed.
-- Highlights **MUST** describe behaviour actually present in the body and **MAY**
-  explain a functional difference from another form.
+- Each bullet **SHOULD** express one useful fact.
+- A highlight **MAY** describe a positive distinguishing behaviour, provided that
+  behaviour is actually in the body.
+- Highlights **MUST NOT**:
+  - describe absence as a distinguishing characteristic;
+  - explain rejected alternatives, interpretations, or names;
+  - record audit conclusions or proof methodology;
+  - carry migration or rename history;
+  - restate `Topic`, `Seen on`, `Variables`, or `Pair with` without adding
+    semantic value.
 - Highlights **MUST NOT** substitute for machine-readable applicability,
   dependency, or selection metadata.
+
+A technically valuable highlight is not removed merely to shorten a header. A
+fact that does not belong in `Topic:` but is present in the body and genuinely
+explains behaviour belongs here.
 
 ### Pair with
 
@@ -135,8 +262,15 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 > or function correctly?
 
 - Each entry **MUST** identify a resolvable snip path relative to the JVD's
-  `snips/` directory (e.g. `junos/policy/loopback-rib-leak.conf`). A short
-  parenthetical reason **MAY** follow. (`PAIR_WITH_UNRESOLVED`)
+  `snips/` directory (e.g. `junos/policy/loopback-rib-leak.conf`), and a
+  whole-snip dependency is the **path alone**. (`PAIR_WITH_UNRESOLVED`)
+- A parenthetical **MAY** follow the path in exactly one case: to name the
+  specific sub-part required from a compound snip that reconstructs several
+  objects at once (e.g. which community, which policy term). It names that
+  object; it is not an explanation.
+- An entry **MUST NOT** carry explanatory prose, a reason, or a continuation
+  line. Why a dependency exists belongs in `Highlights:` when it is behaviour
+  present in the body, and nowhere otherwise.
 - The relationship is **directed**: if A pairs with B, B does not automatically
   require A. Reciprocal entries **MUST NOT** be forced.
 - It **MUST NOT** contain optional features, user-selectable service modes,
@@ -154,6 +288,14 @@ An ambiguous basename or an unresolved token is invalid. (`SEEN_ON_UNKNOWN_DEVIC
 - Each declared variable **SHOULD** carry a valid example.
 - Repeated uses of the same value **MUST** use the same variable name, and
   values shared with a dependent snip **SHOULD** use the same name.
+- A configured object's own name — the name the body declares, and the name by
+  which other configuration refers to it — is a value. Bodies that are identical
+  apart from how that name is spelled are **one** construct, and the name
+  **MUST** be declared as a whole-token variable; the body **MUST** still
+  reproduce each source object exactly (see *Fragment boundary*).
+- A configured object name is kept literal only where the configuration shows
+  that the spelling itself selects or changes behaviour, or that the object is a
+  single fixed identifier other configuration references by that exact literal.
 - Native Junos runtime variables (lower-case, e.g. `$junos-interface-unit`) are
   not JVD template variables and are not declared here.
 - Use `Variables: none` when there are none.
@@ -258,7 +400,8 @@ and independent of role support (`_roles.json`).
 `MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
 `SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
 `VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `LEGACY_HEADER_SECTION`,
-`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`, `VARIANT_MALFORMED`,
+`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`, `ORPHAN_HEADER_CONTENT`,
+`VARIANT_MALFORMED`,
 `VARIANT_PROVIDES_UNKNOWN_FAMILY`, `VARIANT_PROVIDES_MISMATCH`,
 `VARIANT_UNRESOLVED`, `VARIANT_AMBIGUOUS`, `VARIANT_DEVICE_OVERLAP`,
 `VARIANT_GROUP_EMPTY`.
