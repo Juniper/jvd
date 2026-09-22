@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T00:33:19.255Z",
+  "generatedAt": "2026-09-21T23:42:48.224Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -46826,6 +46826,11 @@
           "raw": "evo/policy-options/community/cm-l3vpn-pub.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/community/cm-l3vpn-pub",
           "note": null
+        },
+        {
+          "raw": "evo/policy-options/community/cm-l3vpn.conf",
+          "id": "metro_ethernet_business_services/evo/policy-options/community/cm-l3vpn",
+          "note": null
         }
       ],
       "variables": [
@@ -47291,7 +47296,13 @@
         "The configured policy name varies per service; the VRF that uses the policy carries that exact literal in its `vrf-import` statement.",
         "The per-VRF community is defined under policy-options community and carries the routing instance's own name."
       ],
-      "pairWith": [],
+      "pairWith": [
+        {
+          "raw": "evo/policy-options/community/cm-l3vpn.conf",
+          "id": "metro_ethernet_business_services/evo/policy-options/community/cm-l3vpn",
+          "note": null
+        }
+      ],
       "variables": [
         {
           "name": "$IMPORT_POL",
@@ -58344,6 +58355,11 @@
           "raw": "junos/policy-options/community/cm-l3vpn-pub.conf",
           "id": "metro_ethernet_business_services/junos/policy-options/community/cm-l3vpn-pub",
           "note": null
+        },
+        {
+          "raw": "junos/policy-options/community/cm-l3vpn.conf",
+          "id": "metro_ethernet_business_services/junos/policy-options/community/cm-l3vpn",
+          "note": null
         }
       ],
       "variables": [
@@ -59028,6 +59044,11 @@
           "raw": "junos/policy-options/community/cm-l3vpn-pub.conf",
           "id": "metro_ethernet_business_services/junos/policy-options/community/cm-l3vpn-pub",
           "note": null
+        },
+        {
+          "raw": "junos/policy-options/community/cm-l3vpn.conf",
+          "id": "metro_ethernet_business_services/junos/policy-options/community/cm-l3vpn",
+          "note": null
         }
       ],
       "variables": [
@@ -59482,7 +59503,13 @@
         "The configured policy name varies per service; the VRF that uses the policy carries that exact literal in its `vrf-import` statement.",
         "The per-VRF community is defined under policy-options community and carries the routing instance's own name."
       ],
-      "pairWith": [],
+      "pairWith": [
+        {
+          "raw": "junos/policy-options/community/cm-l3vpn.conf",
+          "id": "metro_ethernet_business_services/junos/policy-options/community/cm-l3vpn",
+          "note": null
+        }
+      ],
       "variables": [
         {
           "name": "$IMPORT_POL",

@@ -1782,7 +1782,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1826,
+      "size_bytes": 1875,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public.conf"
     },
     {
@@ -1880,7 +1880,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1189,
+      "size_bytes": 1238,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-import-l3vpn.conf"
     },
     {
@@ -4686,7 +4686,7 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 2230,
+      "size_bytes": 2281,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf"
     },
     {
@@ -4812,7 +4812,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1823,
+      "size_bytes": 1874,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public.conf"
     },
     {
@@ -4909,7 +4909,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1184,
+      "size_bytes": 1235,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-import-l3vpn.conf"
     },
     {

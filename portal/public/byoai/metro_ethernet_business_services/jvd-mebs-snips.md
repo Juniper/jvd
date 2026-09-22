@@ -3696,6 +3696,7 @@ policy-options {
  *
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *  - evo/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
@@ -4070,6 +4071,7 @@ policy-options {
  *    carries the routing instance's own name.
  *
  * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
@@ -12157,6 +12159,7 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse2_mx304 / METRO_L3VPN_4000):
@@ -12676,6 +12679,7 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
@@ -13026,6 +13030,7 @@ policy-options {
  *    carries the routing instance's own name.
  *
  * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
@@ -17607,7 +17612,6 @@ Rules (a service section states only its signalling classification and points he
 - `apply-groups/gr-lag-member.conf`
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
-- `policy/communities.conf` (BGP-CT color communities)
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
 - `oam/oam-cfm-perf-mon.conf`
@@ -17627,8 +17631,6 @@ user asked for (default to eBGP if unspecified):
 
 **minimum** (just the service + per-VRF policy)
 - `services/l3vpn-bgp.conf` **or** `services/l3vpn-ospf.conf`
-- `policy/l3vpn-export-import.conf`
-- `policy/communities.conf` (only the per-VRF target community — NOT topology tags or BGP-CT colors)
 - PE-CE AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
 
 **with-overlay** — Signalling: **inet-vpn** (`family inet-vpn unicast`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
@@ -17646,7 +17648,6 @@ user asked for (default to eBGP if unspecified):
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
 - `firewall/policers.conf`
-- `policy/communities.conf` (full set incl. BGP-CT colors)
 
 ---
 
@@ -17671,7 +17672,6 @@ user asked for (default to eBGP if unspecified):
 - `apply-groups/gr-lag-member.conf`
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
-- `policy/communities.conf`
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
 - `oam/oam-cfm-perf-mon.conf`
@@ -17688,8 +17688,6 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
     - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO — MAC-VRF with `l3-interface irb.<N>`)
     - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX — virtual-switch with `routing-interface irb.<N>`)
 - `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
-- `policy/l3vpn-export-import.conf`
-- `policy/communities.conf` (only the per-VRF target community)
 - `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
@@ -17707,7 +17705,6 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
 - `firewall/policers.conf`
-- `policy/communities.conf` (full set)
 
 ---
 
@@ -17736,7 +17733,6 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `apply-groups/gr-l2ckt-hs.conf` (EVO only)
 - `apply-groups/gr-fatpw-lb.conf`
 - `apply-groups/gr-fatpw-label.conf`
-- `policy/communities.conf`
 - `cos/forwarding-classes.conf`
 - `cos/schedulers.conf`
 - `oam/oam-cfm-perf-mon.conf`
@@ -17857,8 +17853,6 @@ is carried by RT-2).
     - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO)
     - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX)
 - `routing-instances/l3vpn/ri-l3vpn-irb.conf` (the slim anchor VRF — Junos and EVO)
-- `policy/l3vpn-export-import.conf`
-- `policy/communities.conf` (only the per-VRF target community)
 - IRB-anchor AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
