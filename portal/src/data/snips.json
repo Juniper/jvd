@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T15:44:13.139Z",
+  "generatedAt": "2026-09-22T16:54:13.173Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -43083,6 +43083,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 136,
@@ -43144,6 +43150,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            virtual-gateway-accept-data;\n            family inet {\n                address $IRB_ADDR {\n                    virtual-gateway-address $VGA;\n                }\n            }\n            virtual-gateway-v4-mac $VG_MAC;\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-accept-data;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-gateway-address $VGA;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-v4-mac $VG_MAC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 290,
@@ -50056,6 +50068,14 @@
         "    mse1_mx304  xe-0/0/3:1.3000",
         "    (+1 more endpoints)"
       ],
+      "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        }
+      ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                normalization;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n        vlans {\n            $BD_NAME {\n                vlan-id $VLAN_BD;\n                interface $AC_INTF;\n                l3-interface $IRB_UNIT;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_BD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 598,
@@ -52250,6 +52270,12 @@
       "jvdServiceMapping": [],
       "variantRequires": [
         {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
+        {
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
@@ -52358,6 +52384,12 @@
       ],
       "variantRequires": [
         {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
+        {
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
@@ -52447,6 +52479,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -55488,6 +55526,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 136,
@@ -61231,11 +61275,6 @@
           "raw": "junos/interfaces/ethernet-bridge.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
           "note": null
-        },
-        {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
         }
       ],
       "variables": [
@@ -61291,6 +61330,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63005,11 +63050,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
-        },
-        {
           "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
           "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
           "note": null
@@ -63058,6 +63098,12 @@
       ],
       "jvdServiceMapping": [],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63114,11 +63160,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
-        },
-        {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
           "note": null
@@ -63171,6 +63212,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63268,6 +63315,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [

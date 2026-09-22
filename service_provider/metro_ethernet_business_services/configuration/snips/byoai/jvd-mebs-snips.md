@@ -1511,6 +1511,8 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Variant group: mebs-irb-form
+ *   Provides: ifl:irb
  *
  * Highlights:
  *  - The routed interface of an EVPN bridge domain: the unit gives the bridge
@@ -1542,6 +1544,8 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Variant group: mebs-irb-form
+ *   Provides: ifl:irb
  *
  * Highlights:
  *  - The routed interface of an EVPN bridge domain. The unit holds the node's
@@ -6864,7 +6868,8 @@ routing-instances {
  *  - vlan V4000 binds attachment-circuit et-0/0/50.2000 to vlan-id 4000
  *    and the matching irb.4000 unit for L2/L3 gateway service
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
@@ -8299,6 +8304,7 @@ routing-instances {
  *  - evo/groups/gr-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from meg1_acx7100-32c / METRO_L3VPN_4000):
@@ -8382,6 +8388,7 @@ routing-instances {
  *  - evo/groups/gr-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -8444,6 +8451,7 @@ routing-instances {
  *    just `router-id`.
  *
  * Pair with:
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -10648,6 +10656,8 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Variant group: mebs-irb-form
+ *   Provides: ifl:irb
  *
  * Highlights:
  *  - The routed interface of an EVPN bridge domain: the unit gives the bridge
@@ -15156,7 +15166,7 @@ routing-instances {
  *
  * Pair with:
  *  - junos/interfaces/ethernet-bridge.conf
- *  - junos/interfaces/ifl-irb-inet.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -16335,11 +16345,11 @@ routing-instances {
  *    are also injected into every `<METRO_*>` VRF by apply-group GR-L3VPN.
  *
  * Pair with:
- *  - junos/interfaces/ifl-irb-inet.conf
  *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse2_mx304 / METRO_L3VPN_4000):
@@ -16423,10 +16433,10 @@ routing-instances {
  *    routing-instances hierarchy level.
  *
  * Pair with:
- *  - junos/interfaces/ifl-irb-inet.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -16493,6 +16503,7 @@ routing-instances {
  *
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
+ *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
