@@ -71,7 +71,7 @@ Rules (a service section states only its signalling classification and points he
 
 **minimum** (just the service)
 - `services/evpn-vpws.conf`
-- `interfaces/lag-esi-multihoming.conf` + `interfaces/vlan-ccc-vlan-map-esi.conf` (multi-homed) **OR** `evo/interfaces/vlan-ccc-vlan-map.conf` (single-homed, EVO only)
+- `interfaces/ifd-ae-lacp*.conf` + `interfaces/ifl-vlan-ccc-vlan-map-esi.conf` (multi-homed — the bundle device carries no ESI, the logical interface does; which `ifd-ae-lacp*` form applies depends on the target device) **OR** `evo/interfaces/ifl-vlan-ccc-vlan-map.conf` (single-homed, EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -135,7 +135,7 @@ user asked for (default to eBGP if unspecified):
 - `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf` (EVO) **or**
   `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf` (Junos MX) — or the
   `ri-evpn-elan-irb.conf` / `ri-evpn-elan-vlan-based-export.conf` variant, whichever flavor was requested
-- `interfaces/lag-esi-multihoming.conf` (multi-homed) **OR** `evo/interfaces/vlan-bridge-vlan-map.conf` (single-homed, EVO only)
+- `interfaces/ifd-ae-lacp*.conf` + `interfaces/ifl-vlan-bridge-esi.conf` (multi-homed — the bundle device carries no ESI, the logical interface does; which `ifd-ae-lacp*` form applies depends on the target device) **OR** `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` (single-homed, EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -169,7 +169,7 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 - `routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` (the L3 / RT-5 half — VRF with `interface irb.<N>` and `protocols evpn ip-prefix-routes`)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
-- `evo/interfaces/vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
+- `evo/interfaces/ifl-vlan-bridge-vlan-map.conf` (the AC interface that lands in the MAC-VRF's bridge-domain — EVO only)
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -198,9 +198,9 @@ In this JVD, EVPN Type-5 is ALWAYS deployed paired with an EVPN-ELAN-IRB on the 
 > instead — do NOT offer hot-standby as a Junos option here.
 
 **minimum** (just the service)
-- `evo/protocols/l2circuit-hsb-hub.conf` (Hub — EVO only)
+- `evo/protocols/l2circuit-hsb-hub*.conf` (Hub — EVO only; the hub is deployed as three forms that differ by transport-colour community and `ignore-encapsulation-mismatch`, so pick the one whose body matches the target)
 - `evo/protocols/l2circuit-hsb-pe.conf` (Primary/Backup PE — EVO only)
-- `evo/interfaces/vlan-ccc-vlan-map-filter-ccc.conf`
+- `evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf`
 
 **with-overlay** — Signalling: **LDP** (targeted pseudowire, incl. hot-standby `backup-neighbor`). **No BGP overlay** — L2Circuit relies on targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
 
@@ -263,7 +263,7 @@ per VLAN.
 
 **minimum** (just the service)
 - `services/evpn-fxc.conf` (Junos and EVO — `instance-type evpn-vpws` with `flexible-cross-connect`)
-- the per-VLAN AC units that join the FXC group come from the `junos/interfaces/vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
+- the per-VLAN AC units that join the FXC group come from the `junos/interfaces/ifl-vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
 
 **with-overlay** — Signalling: **EVPN** (`family evpn signaling`). BGP overlay **applies** — attach the OS-native `transport/bgp-overlay.conf` per the **BGP-overlay coverage gate** above. If no exact same-OS overlay form applies to the target, this mode is **unavailable** (fail closed) — see the gate.
 
@@ -296,8 +296,8 @@ pseudowire-subscriber anchor (decouples the PW from a physical AC).
 **minimum** (just the service)
 - **L2Circuit floating pseudowire** (Junos MX `ps<N>` head; EVO ACX vlan-ccc tail):
   - `junos/protocols/l2circuit-floating-pw.conf` (Junos PEs)
-  - the EVO ACX tail customer-facing AC unit comes from the `evo/interfaces/vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
-- `junos/interfaces/pseudowire-subscriber.conf` (the `ps<N>` anchor)
+  - the EVO ACX tail customer-facing AC unit comes from the `evo/interfaces/ifl-vlan-ccc-vlan-map*.conf` forms; which form applies depends on the target device
+- `junos/interfaces/ifd-ps-transport.conf` (the `ps<N>` anchor with its `unit 0` transport logical interface, which the l2circuit stanza references as `ps<N>.0`)
 
 **with-overlay** — Signalling: **LDP** (static-label pseudowire). **No BGP overlay** — L2Circuit floating pseudowires ride targeted LDP, not BGP (see the **BGP-overlay coverage gate** above, rule 3).
 
@@ -313,7 +313,7 @@ in this JVD.
 
 **minimum** (just the service)
 - `evo/protocols/l2circuit-lsw.conf`
-- `evo/interfaces/vlan-ccc-vlan-map-list-tpid.conf` (the et-0/0/5 side; the et-0/0/51 side uses `vlan-tags outer` and has no snip)
+- `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf` (the et-0/0/5 side; the et-0/0/51 side uses `vlan-tags outer` and has no snip)
 
 **with-overlay** — Signalling: **none** (single-PE local cross-connect). **No BGP overlay** — not applicable (see the **BGP-overlay coverage gate** above, rule 3).
 
@@ -335,7 +335,7 @@ is carried by RT-2).
 - L2 / RT-2 half (one of):
     - `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (EVO)
     - `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` (Junos MX)
-- `routing-instances/l3vpn/ri-l3vpn-irb-vrf-target.conf` (the slim anchor VRF — Junos and EVO)
+- `routing-instances/l3vpn/ri-l3vpn-irb.conf` (the slim anchor VRF — Junos and EVO)
 - `policy/l3vpn-export-import.conf`
 - `policy/communities.conf` (only the per-VRF target community)
 - IRB-anchor AC unit: no snip in this library captures the L3VPN `family inet` attachment interface
