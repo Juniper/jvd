@@ -19,6 +19,9 @@ on:
       - 'portal/scripts/config-objects.test.mjs'
       - 'portal/scripts/object-ownership.mjs'
       - 'portal/scripts/object-ownership.test.mjs'
+      - 'portal/scripts/config-references.mjs'
+      - 'portal/scripts/config-references.test.mjs'
+      - 'portal/scripts/library-completeness.mjs'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
@@ -45,9 +48,15 @@ jobs:
           portal/scripts/gr-capabilities.test.mjs
           portal/scripts/config-objects.test.mjs
           portal/scripts/object-ownership.test.mjs
+          portal/scripts/config-references.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
       - name: Named objects have exactly one applicable owner
         run: node portal/scripts/object-ownership.mjs
+      # Reported, not enforced: two known group constructs are still unreachable
+      # for devices that reference them. Promote to a gate once they are closed.
+      - name: Referenced constructs are reachable where they are used
+        continue-on-error: true
+        run: node portal/scripts/library-completeness.mjs --by-construct
