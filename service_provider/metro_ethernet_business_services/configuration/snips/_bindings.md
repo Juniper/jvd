@@ -37,12 +37,12 @@ reading aid generated from it.
 
 | | |
 |---|---|
-| Snippets | 251 |
+| Snippets | 267 |
 | Devices | 20 |
-| Snippet/device pairs with at least one instance | 1755 |
-| Instances counted | 160,659 |
-| Valid bindings those instances stand for | 221,647 |
-| Snippets with an ambiguous instance | 16 |
+| Snippet/device pairs with at least one instance | 1814 |
+| Instances counted | 203,148 |
+| Valid bindings those instances stand for | 310,419 |
+| Snippets with an ambiguous instance | 27 |
 
 ## Instances per snippet
 
@@ -106,7 +106,6 @@ reading aid generated from it.
 | `evo/policy-options/community/cm-tc-6000-bronze.conf` | 4 | 4 | _none_ |
 | `evo/policy-options/community/cm-tc-map2bronze.conf` | 11 | 11 | `$COLOR_COMMUNITY` |
 | `evo/policy-options/community/cm-tc-map2gold.conf` | 13 | 13 | `$COLOR_COMMUNITY` |
-| `evo/policy-options/policy-statement/l3vpn-export-import.conf` | 1 | 100 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$INSTANCE_NAME` |
 | `evo/policy-options/policy-statement/loopback-rib-leak.conf` | 16 | 16 | `$LOOPBACK_SUPERNET` |
 | `evo/policy-options/policy-statement/nhs1-ma1-1.conf` | 4 | 4 | _none_ |
 | `evo/policy-options/policy-statement/nhs1-ma3.conf` | 1 | 1 | _none_ |
@@ -121,13 +120,19 @@ reading aid generated from it.
 | `evo/policy-options/policy-statement/ps-cr-import.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ebgp-mse-export.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-export-l2-color.conf` | 11 | 9,303 | `$COLOR_COMMUNITY`, `$INSTANCE_NAME` |
-| `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | 4 | 200 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | 3 | 4,296 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | 5 | 1,301 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | 3 | 201 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | 4 | 396 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | 3 | 3 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | 4 | 200 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
 | `evo/policy-options/policy-statement/ps-ibgp-cr-export-cr1.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ibgp-mdr-export.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ibgp-rr-export.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | 3 | 3 | `$LOOPBACK_SR_V4`, `$LOOPBACK_V4` |
-| `evo/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | 5 | 10,197 | `$IMPORT_POL`, `$INSTANCE_NAME` |
+| `evo/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `evo/policy-options/policy-statement/ps-metro-fabric-import.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/prefix-list/border-nodes.conf` | 1 | 1 | _none_ |
 | `evo/policy-options/prefix-list/pl-an-nodes.conf` | 2 | 2 | _none_ |
@@ -171,9 +176,11 @@ reading aid generated from it.
 | `evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf` | 3 | 1,500 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
 | `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | 8 | 3,902 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
 | `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 2 | 2 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
+| `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf` | 1 | 100 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` | 3 | 1,199 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
-| `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf` | 2 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
-| `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
+| `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
+| `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf` | 4 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` | 4 | 2,400 | `$AC_INTF`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-unequal-cost.conf` | 1 | 25 | `$AC_INTF`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
@@ -239,7 +246,6 @@ reading aid generated from it.
 | `junos/policy-options/community/cm-tc-6000-bronze.conf` | 4 | 4 | _none_ |
 | `junos/policy-options/community/cm-tc-map2bronze.conf` | 11 | 11 | `$COLOR_COMMUNITY` |
 | `junos/policy-options/community/cm-tc-map2gold.conf` | 13 | 13 | `$COLOR_COMMUNITY` |
-| `junos/policy-options/policy-statement/l3vpn-export-import.conf` | 1 | 999 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$INSTANCE_NAME` |
 | `junos/policy-options/policy-statement/loopback-rib-leak.conf` | 16 | 16 | `$LOOPBACK_SUPERNET` |
 | `junos/policy-options/policy-statement/nhs1.conf` | 4 | 4 | _none_ |
 | `junos/policy-options/policy-statement/per-packet-load-balance.conf` | 20 | 20 | `$PPLB_NAME` |
@@ -249,14 +255,23 @@ reading aid generated from it.
 | `junos/policy-options/policy-statement/ps-bgp-transport-export.conf` | 5 | 5 | _none_ |
 | `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-export-l2-color.conf` | 11 | 9,303 | `$COLOR_COMMUNITY`, `$INSTANCE_NAME` |
-| `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` | 1 | 50 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$INSTANCE_NAME` |
-| `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | 4 | 200 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` | 1 | 50 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | 3 | 4,296 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf` | 1 | 999 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | 5 | 1,301 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | 3 | 201 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | 4 | 396 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf` | 3 | 3,000 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | 3 | 3 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf` | 1 | 1 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$EXPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | 4 | 200 | `$CE_PREFIX_1`, `$CE_PREFIX_2`, `$CE_PREFIX_3`, `$CE_PREFIX_4`, `$EXPORT_POL`, `$INSTANCE_NAME` |
 | `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mdr2.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-ibgp-rr-export.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` | 2 | 2 | `$LOOPBACK_ANYCAST_V4`, `$LOOPBACK_V4` |
-| `junos/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | 5 | 10,197 | `$IMPORT_POL`, `$INSTANCE_NAME` |
+| `junos/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `junos/policy-options/policy-statement/ps-inet-vrf-default.conf` | 1 | 1 | _none_ |
 | `junos/policy-options/policy-statement/ps-mse-import.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf` | 18 | 18 | _none_ |
@@ -287,12 +302,13 @@ reading aid generated from it.
 | `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | 8 | 3,902 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 1 | 1 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` | 1 | 1 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$CE_PEER_V6`, `$EXPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
-| `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` | 2 | 2,198 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
-| `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` | 1 | 50 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
-| `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` | 2 | 2,198 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` | 1 | 50 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf` | 4 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
-| `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` | 3 | 2,300 | `$AC_INTF`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
-| `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` | 1 | 1,000 | `$AC_INTF`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` | 4 | 2,400 | `$AC_INTF`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` | 1 | 1,000 | `$AC_INTF`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` | 1 | 50 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$L2VPN_SITE`, `$RD`, `$RT`, `$SITE_ID`, `$VLAN_BD` |
 | `junos/routing-options/flex-algorithm.conf` | 6 | 6 | _none_ |
 | `junos/routing-options/forwarding-table.conf` | 2 | 2 | `$PPLB_NAME` |
@@ -306,7 +322,24 @@ Where one instance can be read under more than one binding.
 
 | Snippet | Device | Instances | Bindings | Largest class |
 |---|---|---:|---:|---:|
-| `evo/policy-options/policy-statement/l3vpn-export-import.conf` | `an3_acx7100-48l` | 100 | 600 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `an3_acx7100-48l` | 99 | 198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `mse1_mx304` | 2,099 | 4,198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `mse2_mx304` | 2,098 | 4,196 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `an3_acx7100-48l` | 100 | 600 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `ma3_acx7100-48l` | 99 | 594 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `ma4_mx204` | 1,000 | 6,000 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `mse1_mx304` | 100 | 600 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `mse2_mx304` | 2 | 12 | 6 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `an3_acx7100-48l` | 1 | 24 | 24 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `ma3_acx7100-48l` | 101 | 2,424 | 24 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `mse2_mx304` | 99 | 2,376 | 24 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `an3_acx7100-48l` | 99 | 198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `ma3_acx7100-48l` | 99 | 198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `mse1_mx304` | 99 | 198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `mse2_mx304` | 99 | 198 | 2 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `an3_acx7100-48l` | 1 | 24 | 24 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `ma3_acx7100-48l` | 1 | 24 | 24 |
+| `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `mse2_mx304` | 1 | 24 | 24 |
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `an3_acx7100-48l` | 50 | 1,200 | 24 |
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `meg1_acx7100-32c` | 50 | 1,200 | 24 |
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `meg2_acx7509` | 50 | 1,200 | 24 |
@@ -321,8 +354,30 @@ Where one instance can be read under more than one binding.
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | `mse1_mx304` | 240 | 5,760 | 24 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | `an3_acx7100-48l` | 250 | 6,000 | 24 |
 | `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | `mse1_mx304` | 250 | 6,000 | 24 |
-| `junos/policy-options/policy-statement/l3vpn-export-import.conf` | `ma4_mx204` | 999 | 5,994 | 6 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` | `mse2_mx304` | 50 | 1,200 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `an3_acx7100-48l` | 99 | 198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `mse1_mx304` | 2,099 | 4,198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` | `mse2_mx304` | 2,098 | 4,196 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf` | `ma4_mx204` | 999 | 5,994 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `an3_acx7100-48l` | 100 | 600 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `ma3_acx7100-48l` | 99 | 594 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `ma4_mx204` | 1,000 | 6,000 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `mse1_mx304` | 100 | 600 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` | `mse2_mx304` | 2 | 12 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `an3_acx7100-48l` | 1 | 24 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `ma3_acx7100-48l` | 101 | 2,424 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` | `mse2_mx304` | 99 | 2,376 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `an3_acx7100-48l` | 99 | 198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `ma3_acx7100-48l` | 99 | 198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `mse1_mx304` | 99 | 198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` | `mse2_mx304` | 99 | 198 | 2 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf` | `ma4_mx204` | 1,000 | 6,000 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf` | `mse1_mx304` | 1,001 | 6,006 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf` | `mse2_mx304` | 999 | 5,994 | 6 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `an3_acx7100-48l` | 1 | 24 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `ma3_acx7100-48l` | 1 | 24 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` | `mse2_mx304` | 1 | 24 | 24 |
+| `junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf` | `mse2_mx304` | 1 | 6 | 6 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `an3_acx7100-48l` | 50 | 1,200 | 24 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `meg1_acx7100-32c` | 50 | 1,200 | 24 |
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | `meg2_acx7509` | 50 | 1,200 | 24 |
@@ -383,13 +438,18 @@ The first instance of each snippet, in the artifact's own ordering.
 - `evo/policy-options/community/cm-service-rt.conf` on `an1_mx204` — `$INSTANCE_NAME` = `evpn_group_90_700`, `$RT_AS` = `63535`, `$RT_ID` = `7000`
 - `evo/policy-options/community/cm-tc-map2bronze.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2bronze`
 - `evo/policy-options/community/cm-tc-map2gold.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2gold`
-- `evo/policy-options/policy-statement/l3vpn-export-import.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `13.2.0.0/16`, `$CE_PREFIX_2` = `15.2.0.0/16`, `$CE_PREFIX_3` = `16.2.0.0/16`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101` _(1 of 6 equivalent bindings)_
 - `evo/policy-options/policy-statement/loopback-rib-leak.conf` on `an1_mx204` — `$LOOPBACK_SUPERNET` = `1.1.0.0/16`
 - `evo/policy-options/policy-statement/per-packet-load-balance.conf` on `ag1-1_acx7100-32c` — `$PPLB_NAME` = `PS-PPLB`
 - `evo/policy-options/policy-statement/ps-export-l2-color.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2gold`, `$INSTANCE_NAME` = `evpn_group_90_700`
-- `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `13.1.0.0/16`, `$CE_PREFIX_2` = `15.1.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_2002-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2002` _(1 of 2 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `13.2.0.0/16`, `$CE_PREFIX_2` = `15.2.0.0/16`, `$CE_PREFIX_3` = `16.2.0.0/16`, `$EXPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101` _(1 of 6 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `115.1.0.0/16`, `$CE_PREFIX_2` = `13.1.0.0/16`, `$CE_PREFIX_3` = `15.1.0.0/16`, `$CE_PREFIX_4` = `16.1.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_2001-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2001` _(1 of 24 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `2001::13:3:0:0/64`, `$CE_PREFIX_2` = `2001::16:3:0:0/64`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2202-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2202` _(1 of 2 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `2001::115:3:0:0/64`, `$CE_PREFIX_2` = `2001::13:3:0:0/64`, `$CE_PREFIX_3` = `2001::15:3:0:0/64`, `$CE_PREFIX_4` = `2001::16:3:0:0/64`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201` _(1 of 24 equivalent bindings)_
+- `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
 - `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` on `mdr2_mx10003` — `$LOOPBACK_SR_V4` = `1.1.0.13`, `$LOOPBACK_V4` = `1.1.10.13` _(1 of 2 equivalent bindings)_
-- `evo/policy-options/policy-statement/ps-import-l3vpn.conf` on `an3_acx7100-48l` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`
+- `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf` on `an3_acx7100-48l` — `$IMPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101`
+- `evo/policy-options/policy-statement/ps-import-l3vpn.conf` on `an3_acx7100-48l` — `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`
 - `evo/protocols/bgp-overlay.conf` on `ma1-1_acx7024` — `$LOOPBACK_V4` = `1.1.0.17`, `$SVC_RR1_V4` = `1.1.0.10`, `$SVC_RR2_V4` = `1.1.0.11`, `$TRANSPORT_RR1_V4` = `1.1.0.12`, `$TRANSPORT_RR2_V4` = `1.1.0.13` _(1 of 4 equivalent bindings)_
 - `evo/protocols/isis-srmpls-tilfa.conf` on `ma1-1_acx7024` — `$CORE_INTF` = `ae83.0`, `$ISIS_NET` = `49.0001.0010.0100.0017.00`, `$NODE_SID_V4` = `17`, `$NODE_SID_V6` = `117`
 - `evo/protocols/l2circuit-hsb-hub-color-ignore-encap.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/0`, `$BACKUP_LOOPBACK` = `1.1.0.7`, `$PRIMARY_LOOPBACK` = `1.1.0.6`, `$UNIT` = `3001`, `$VC_ID_BACKUP` = `4001`, `$VC_ID_PRIMARY` = `3001`
@@ -411,9 +471,11 @@ The first instance of each snippet, in the artifact's own ordering.
 - `evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.3000`, `$INSTANCE_NAME` = `evpn_group_10_3000`, `$LOOPBACK_V4` = `1.1.0.2`, `$RD_SUB_ASSIGNED` = `3000`, `$RT_AS` = `63535`, `$RT_ID` = `3000`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
 - `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf` on `an1_mx204` — `$AC_INTF` = `ae11.2400`, `$INSTANCE_NAME` = `evpn_group_30_2400`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `2400`, `$RT_AS` = `63535`, `$RT_ID` = `2400`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
 - `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/8.0`, `$INSTANCE_NAME` = `L2VPN_PORT_BASED`, `$L2VPN_LOCAL_SITE_ID` = `1102`, `$L2VPN_REMOTE_SITE_ID` = `1119`, `$L2VPN_SITE` = `r2`, `$RD` = `63535:6500`, `$RT` = `63535:6500`
+- `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:13:3:0:2`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:13:3:0:1`, `$RD` = `63535:2201`, `$ROUTER_ID` = `1.1.0.2`
+- `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf` on `ma3_acx7100-48l` — `$AC_INTF` = `et-0/0/5.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:115:3:0:2`, `$EXPORT_POL` = `METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:115:3:0:1`, `$RD` = `63536:2201`, `$ROUTER_ID` = `1.1.0.15`
 - `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2101`, `$AS_CUST` = `64514`, `$CE_PEER_V4` = `13.2.0.2`, `$EXPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-EXPORT`, `$IMPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101`, `$PE_LOCAL_V4` = `13.2.0.1`, `$RD` = `63535:2101`, `$ROUTER_ID` = `1.1.0.2`
-- `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf` on `meg1_acx7100-32c` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `61000:13000`, `$ROUTER_ID` = `1.1.0.6`, `$RT_AS` = `61535`, `$RT_ID` = `13000`
-- `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` on `an3_acx7100-48l` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63000:13000`, `$ROUTER_ID` = `1.1.0.2`
+- `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf` on `meg1_acx7100-32c` — `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `61000:13000`, `$ROUTER_ID` = `1.1.0.6`, `$RT_AS` = `61535`, `$RT_ID` = `13000`
+- `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` on `an3_acx7100-48l` — `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63000:13000`, `$ROUTER_ID` = `1.1.0.2`
 - `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf` on `meg1_acx7100-32c` — `$INSTANCE_NAME` = `METRO_L3VPN_4050`, `$IRB_UNIT` = `4050`, `$RD` = `64200:15000`, `$ROUTER_ID` = `1.1.0.6`, `$RT_AS` = `51535`, `$RT_ID` = `15000`
 - `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2001`, `$EXPORT_POL` = `PS-METRO_L3VPN_2001-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_2001-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2001`, `$RD` = `63535:2001`, `$ROUTER_ID` = `1.1.0.2`
 - `evo/routing-instances/l3vpn/ri-l3vpn-unequal-cost.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/50.4050`, `$INSTANCE_NAME` = `METRO_L3VPN_4050`, `$RD` = `64000:15000`, `$ROUTER_ID` = `1.1.0.2`, `$RT_AS` = `51535`, `$RT_ID` = `15000`
@@ -458,14 +520,22 @@ The first instance of each snippet, in the artifact's own ordering.
 - `junos/policy-options/community/cm-service-rt.conf` on `an1_mx204` — `$INSTANCE_NAME` = `evpn_group_90_700`, `$RT_AS` = `63535`, `$RT_ID` = `7000`
 - `junos/policy-options/community/cm-tc-map2bronze.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2bronze`
 - `junos/policy-options/community/cm-tc-map2gold.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2gold`
-- `junos/policy-options/policy-statement/l3vpn-export-import.conf` on `ma4_mx204` — `$CE_PREFIX_1` = `17.2.0.0/16`, `$CE_PREFIX_2` = `18.2.0.0/16`, `$CE_PREFIX_3` = `19.2.0.0/16`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_1001` _(1 of 6 equivalent bindings)_
 - `junos/policy-options/policy-statement/loopback-rib-leak.conf` on `an1_mx204` — `$LOOPBACK_SUPERNET` = `1.1.0.0/16`
 - `junos/policy-options/policy-statement/per-packet-load-balance.conf` on `ag1-1_acx7100-32c` — `$PPLB_NAME` = `PS-PPLB`
 - `junos/policy-options/policy-statement/ps-export-l2-color.conf` on `an1_mx204` — `$COLOR_COMMUNITY` = `map2gold`, `$INSTANCE_NAME` = `evpn_group_90_700`
-- `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` on `mse2_mx304` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
-- `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf` on `mse2_mx304` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `13.1.0.0/16`, `$CE_PREFIX_2` = `15.1.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_2002-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2002` _(1 of 2 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf` on `ma4_mx204` — `$CE_PREFIX_1` = `17.2.0.0/16`, `$CE_PREFIX_2` = `18.2.0.0/16`, `$CE_PREFIX_3` = `19.2.0.0/16`, `$EXPORT_POL` = `METRO_BGPv4_L3VPN_1001-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_1001` _(1 of 6 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `13.2.0.0/16`, `$CE_PREFIX_2` = `15.2.0.0/16`, `$CE_PREFIX_3` = `16.2.0.0/16`, `$EXPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101` _(1 of 6 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `115.1.0.0/16`, `$CE_PREFIX_2` = `13.1.0.0/16`, `$CE_PREFIX_3` = `15.1.0.0/16`, `$CE_PREFIX_4` = `16.1.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_2001-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2001` _(1 of 24 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `2001::13:3:0:0/64`, `$CE_PREFIX_2` = `2001::16:3:0:0/64`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2202-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2202` _(1 of 2 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf` on `ma4_mx204` — `$CE_PREFIX_1` = `2001::17:3:0:0/126`, `$CE_PREFIX_2` = `2001::18:3:0:0/64`, `$CE_PREFIX_3` = `2001::19:3:0:0/64`, `$EXPORT_POL` = `METRO_BGPv6_L3VPN_3001-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_3001` _(1 of 6 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `2001::115:3:0:0/64`, `$CE_PREFIX_2` = `2001::13:3:0:0/64`, `$CE_PREFIX_3` = `2001::15:3:0:0/64`, `$CE_PREFIX_4` = `2001::16:3:0:0/64`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201` _(1 of 24 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf` on `mse2_mx304` — `$CE_PREFIX_1` = `2001::17:3:0:0/126`, `$CE_PREFIX_2` = `2001::18:3:0:0/64`, `$CE_PREFIX_3` = `2001::19:3:0:0/64`, `$EXPORT_POL` = `METRO_BGPv6_L3VPN_3001-EXPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_3001` _(1 of 6 equivalent bindings)_
+- `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` on `an3_acx7100-48l` — `$CE_PREFIX_1` = `40.2.0.0/16`, `$CE_PREFIX_2` = `41.2.0.0/16`, `$CE_PREFIX_3` = `43.2.0.0/16`, `$CE_PREFIX_4` = `44.2.0.0/16`, `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000` _(1 of 24 equivalent bindings)_
 - `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` on `mse1_mx304` — `$LOOPBACK_ANYCAST_V4` = `1.1.0.10`, `$LOOPBACK_V4` = `1.1.10.10` _(1 of 2 equivalent bindings)_
-- `junos/policy-options/policy-statement/ps-import-l3vpn.conf` on `an3_acx7100-48l` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`
+- `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf` on `an3_acx7100-48l` — `$IMPORT_POL` = `PS-METRO_BGPv4_L3VPN_2101-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_2101`
+- `junos/policy-options/policy-statement/ps-import-l3vpn.conf` on `an3_acx7100-48l` — `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`
 - `junos/protocols/bgp-overlay.conf` on `an1_mx204` — `$LOOPBACK_V4` = `1.1.0.0`, `$RR1_V4` = `1.1.0.6`, `$RR2_V4` = `1.1.0.7` _(1 of 2 equivalent bindings)_
 - `junos/protocols/isis-srmpls-tilfa.conf` on `an1_mx204` — `$CORE_INTF_1` = `ae71.0`, `$CORE_INTF_2` = `ae72.0`, `$NODE_SID_V4` = `0`, `$NODE_SID_V6` = `100` _(1 of 2 equivalent bindings)_
 - `junos/protocols/l2circuit-floating-pw-color.conf` on `mse1_mx304` — `$COLOR_COMMUNITY` = `map2gold`, `$LABEL_IN` = `1000001`, `$LABEL_OUT` = `1000001`, `$PS_INTF` = `ps0`, `$REMOTE_PE_V4` = `1.1.0.18`, `$VC_ID` = `1001`
@@ -481,12 +551,13 @@ The first instance of each snippet, in the artifact's own ordering.
 - `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` on `an1_mx204` — `$AC_INTF` = `ae11.2400`, `$INSTANCE_NAME` = `evpn_group_30_2400`, `$LOOPBACK_V4` = `1.1.0.0`, `$RD_SUB_ASSIGNED` = `2400`, `$RT_AS` = `63535`, `$RT_ID` = `2400`, `$VPWS_SVC_ID_LOCAL` = `1`, `$VPWS_SVC_ID_REMOTE` = `2`
 - `junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/2.0`, `$INSTANCE_NAME` = `L2VPN_PORT_BASED`, `$L2VPN_LOCAL_SITE_ID` = `1119`, `$L2VPN_REMOTE_SITE_ID` = `1102`, `$L2VPN_SITE` = `r19`, `$RD` = `60535:8500`, `$RT` = `63535:6500`
 - `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` on `mse2_mx304` — `$AC_INTF` = `xe-0/0/15:2.2001`, `$AS_CUST` = `64514`, `$CE_PEER_V4` = `22.2.0.2`, `$CE_PEER_V6` = `2001::22:2:0:2`, `$EXPORT_POL` = `INET-VRF-DEFAULT_1`, `$INSTANCE_NAME` = `INTERNET-VRF`, `$PE_LOCAL_V4` = `22.2.0.1`, `$PE_LOCAL_V6` = `2001::22:2:0:1`, `$RD` = `1.1.0.11:63536`, `$ROUTER_ID` = `1.1.0.11`, `$RT_AS` = `63536`, `$RT_ID` = `22222`
-- `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` on `mse1_mx304` — `$AC_INTF` = `et-0/0/5.1001`, `$AS_CUST` = `64514`, `$CE_PEER_V4` = `19.2.0.2`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_1001`, `$PE_LOCAL_V4` = `19.2.0.1`, `$RD` = `63536:11001`, `$ROUTER_ID` = `1.1.0.10`
-- `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` on `mse2_mx304` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63300:13000`, `$ROUTER_ID` = `1.1.0.11`
-- `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` on `an3_acx7100-48l` — `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63000:13000`, `$ROUTER_ID` = `1.1.0.2`
+- `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2201`, `$AS_CUST` = `64514`, `$CE_PEER_V6` = `2001:0:0:0:13:3:0:2`, `$EXPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-EXPORT`, `$IMPORT_POL` = `PS-METRO_BGPv6_L3VPN_2201-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv6_L3VPN_2201`, `$PE_LOCAL_V6` = `2001:0:0:0:13:3:0:1`, `$RD` = `63535:2201`, `$ROUTER_ID` = `1.1.0.2`
+- `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` on `mse1_mx304` — `$AC_INTF` = `et-0/0/5.1001`, `$AS_CUST` = `64514`, `$CE_PEER_V4` = `19.2.0.2`, `$EXPORT_POL` = `METRO_BGPv4_L3VPN_1001-EXPORT`, `$IMPORT_POL` = `METRO_BGPv4_L3VPN_1001-IMPORT`, `$INSTANCE_NAME` = `METRO_BGPv4_L3VPN_1001`, `$PE_LOCAL_V4` = `19.2.0.1`, `$RD` = `63536:11001`, `$ROUTER_ID` = `1.1.0.10`
+- `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` on `mse2_mx304` — `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63300:13000`, `$ROUTER_ID` = `1.1.0.11`
+- `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` on `an3_acx7100-48l` — `$EXPORT_POL` = `PS-METRO_L3VPN_4000-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_4000-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_4000`, `$IRB_UNIT` = `4000`, `$RD` = `63000:13000`, `$ROUTER_ID` = `1.1.0.2`
 - `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf` on `meg1_acx7100-32c` — `$INSTANCE_NAME` = `METRO_L3VPN_4050`, `$IRB_UNIT` = `4050`, `$RD` = `64200:15000`, `$ROUTER_ID` = `1.1.0.6`, `$RT_AS` = `51535`, `$RT_ID` = `15000`
-- `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` on `ma3_acx7100-48l` — `$AC_INTF` = `et-0/0/5.2001`, `$INSTANCE_NAME` = `METRO_L3VPN_2001`, `$RD` = `63536:2001`, `$ROUTER_ID` = `1.1.0.15`
-- `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` on `ma4_mx204` — `$AC_INTF` = `xe-0/1/4.1`, `$INSTANCE_NAME` = `METRO_L3VPN_1`, `$RD` = `63536:41`, `$ROUTER_ID` = `1.1.0.16`
+- `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf` on `an3_acx7100-48l` — `$AC_INTF` = `et-0/0/4.2001`, `$EXPORT_POL` = `PS-METRO_L3VPN_2001-EXPORT`, `$IMPORT_POL` = `PS-METRO_L3VPN_2001-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_2001`, `$RD` = `63535:2001`, `$ROUTER_ID` = `1.1.0.2`
+- `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf` on `ma4_mx204` — `$AC_INTF` = `xe-0/1/4.1`, `$EXPORT_POL` = `METRO_L3VPN_1-EXPORT`, `$IMPORT_POL` = `METRO_L3VPN_1-IMPORT`, `$INSTANCE_NAME` = `METRO_L3VPN_1`, `$RD` = `63536:41`, `$ROUTER_ID` = `1.1.0.16`
 - `junos/routing-instances/vpls/ri-bgp-vpls-export.conf` on `ma5_mx204` — `$AC_INTF` = `xe-0/1/4.800`, `$BD_NAME` = `vlan800`, `$INSTANCE_NAME` = `vpls_group_108_800`, `$L2VPN_SITE` = `r19`, `$RD` = `64535:81000`, `$RT` = `64535:1183000`, `$SITE_ID` = `3`, `$VLAN_BD` = `800`
 - `junos/routing-options/forwarding-table.conf` on `mse1_mx304` — `$PPLB_NAME` = `pplb`
 - `junos/routing-options/transport-class.conf` on `an1_mx204` — `$TC_EGRESS` = `1.1.0.0`

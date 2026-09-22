@@ -1893,7 +1893,8 @@ policy-options {
  *  - $RT_AS is the L3VPN's originating-domain AS and varies per VRF (a
  *    node may carry both its own and imported VRFs), so it is a service-instance
  *    variable, not a device-wide one.
- *  - Referenced by l3vpn-bgp and l3vpn-export-import.
+ *  - Referenced by the per-VRF import and export policies and by the VRF
+ *    that carries the service.
  *
  * Pair with: none
  *
@@ -2259,74 +2260,6 @@ policy-options {
  */
 policy-options {
     community $COLOR_COMMUNITY members color:0:4000;
-}
-```
-
-## evo/policy-options/policy-statement/l3vpn-export-import.conf
-
-```
-/*
- * Topic:   L3VPN per-VRF export/import policies
- * Seen on:
- *   Junos: (none)
- *   EVO:   an3_acx7100-48l
- *
- * Highlights:
- *  - One PS-…-EXPORT and one PS-…-IMPORT per L3VPN VRF — applied via
- *    vrf-export / vrf-import on the VRF (see services/l3vpn-vrf__…)
- *  - EXPORT tags every advertised prefix with the per-service RT
- *    community (METRO_BGPv4_L3VPN_2101) so other PEs can import it
- *  - EXPORT also tags any "public" customer ranges with CM-L3VPN-PUB
- *    so they can be selectively redistributed for Internet breakout
- *  - IMPORT accepts both the per-service RT and a default-route
- *    community CM-INET-DEFAULT (Internet default leaked into the VRF)
- *
- *
- * Pair with:
- *  - evo/policy-options/community/cm-inet-default.conf
- *  - evo/policy-options/community/cm-l3vpn-pub.conf
- *  - evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
- *  - evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
- *
- * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
- *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_2101
- *                     (the per-VRF community, the PS-…-EXPORT and
- *                     the PS-…-IMPORT policy all share this name)
- *   $CE_PREFIX_1      e.g. 13.2.0.0/16
- *   $CE_PREFIX_2      e.g. 16.2.0.0/16
- *   $CE_PREFIX_3      e.g. 15.2.0.0/16
- */
-policy-options {
-    policy-statement PS-${INSTANCE_NAME}-EXPORT {
-        term tag-public-routes {
-            from {
-                route-filter $CE_PREFIX_1 orlonger;
-                route-filter $CE_PREFIX_2 orlonger;
-                route-filter $CE_PREFIX_3 orlonger;
-            }
-            then {
-                community add CM-L3VPN-PUB;
-                community add $INSTANCE_NAME;
-                accept;
-            }
-        }
-        term tag-default {
-            then {
-                community add $INSTANCE_NAME;
-                accept;
-            }
-        }
-    }
-    policy-statement PS-${INSTANCE_NAME}-IMPORT {
-        term L3VPN-CUST {
-            from community $INSTANCE_NAME;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
-            then accept;
-        }
-    }
 }
 ```
 
@@ -3030,6 +2963,286 @@ policy-options {
 }
 ```
 
+## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag two customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches two customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_2002):
+ *   $EXPORT_POL      e.g. PS-METRO_L3VPN_2002-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_L3VPN_2002
+ *   $CE_PREFIX_1     e.g. 13.1.0.0/16
+ *   $CE_PREFIX_2     e.g. 15.1.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag three customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
+ *   $EXPORT_POL      e.g. PS-METRO_BGPv4_L3VPN_2101-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_2101
+ *   $CE_PREFIX_1     e.g. 13.2.0.0/16
+ *   $CE_PREFIX_2     e.g. 16.2.0.0/16
+ *   $CE_PREFIX_3     e.g. 15.2.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag four customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_L3VPN_2001):
+ *   $EXPORT_POL      e.g. PS-METRO_L3VPN_2001-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_L3VPN_2001
+ *   $CE_PREFIX_1     e.g. 13.1.0.0/16
+ *   $CE_PREFIX_2     e.g. 16.1.0.0/16
+ *   $CE_PREFIX_3     e.g. 115.1.0.0/16
+ *   $CE_PREFIX_4     e.g. 15.1.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+                route-filter $CE_PREFIX_4 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag two customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches two customer
+ *    IPv6 aggregates `orlonger`, tagging each accepted route with
+ *    CM-L3VPN-PUB, which marks it as a public L3VPN prefix for the fabric,
+ *    and with the VRF's own route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2202):
+ *   $EXPORT_POL      e.g. PS-METRO_BGPv6_L3VPN_2202-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_2202
+ *   $CE_PREFIX_1     e.g. 2001::13:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::16:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag four customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches four customer
+ *    IPv6 aggregates `orlonger`, tagging each accepted route with
+ *    CM-L3VPN-PUB, which marks it as a public L3VPN prefix for the fabric,
+ *    and with the VRF's own route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
+ *   $EXPORT_POL      e.g. PS-METRO_BGPv6_L3VPN_2201-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_2201
+ *   $CE_PREFIX_1     e.g. 2001::13:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::15:3:0:0/64
+ *   $CE_PREFIX_3     e.g. 2001::16:3:0:0/64
+ *   $CE_PREFIX_4     e.g. 2001::115:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+                route-filter $CE_PREFIX_4 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
 
 ```
@@ -3040,37 +3253,31 @@ policy-options {
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - The export half of the EVPN-IRB L3VPN service (the METRO_L3VPN_40xx
- *    family). One term matches the four customer public aggregates and tags
- *    each accepted route with two communities.
- *  - `CM-L3VPN-PUB` marks the route as a public L3VPN prefix for the fabric;
- *    `$INSTANCE_NAME` is the per-VRF community that the matching
- *    PS-${INSTANCE_NAME}-IMPORT policy looks for on the remote PE.
- *  - There is no `term tag-default`: this VRF exports only the four tagged
- *    aggregates, never a default route. The broader L3VPN families on an3 and
- *    ma3 do carry a default-tagging term — see
- *    evo/policy-options/policy-statement/l3vpn-export-import.conf.
- *  - mse2 runs a superset of this policy that additionally re-tags EVPN
- *    Type-5 NLRI; that form is
- *    junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf.
- *  - The route-filter prefixes are per-VRF customer aggregates, all matched
- *    `orlonger` so the customer's more-specifics are carried too.
+ *  - A single term matches four customer aggregates `orlonger`, so the
+ *    customer's more-specifics are carried too, and tags each accepted route
+ *    with CM-L3VPN-PUB and the VRF's own route-target community.
+ *  - `CM-L3VPN-PUB` marks the route as a public L3VPN prefix for the fabric.
+ *  - There is no `term tag-default`, so the VRF exports only the four tagged
+ *    aggregates and never a default route.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
  *
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
+ *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_4000
- *                    (the routing instance; the policy is PS-${INSTANCE_NAME}-EXPORT
- *                     and the tagged community carries the same name)
  *   $CE_PREFIX_1     e.g. 40.2.0.0/16
  *   $CE_PREFIX_2     e.g. 41.2.0.0/16
  *   $CE_PREFIX_3     e.g. 43.2.0.0/16
  *   $CE_PREFIX_4     e.g. 44.2.0.0/16
  */
 policy-options {
-    policy-statement PS-${INSTANCE_NAME}-EXPORT {
+    policy-statement $EXPORT_POL {
         term tag-public-routes {
             from {
                 route-filter $CE_PREFIX_1 orlonger;
@@ -3371,6 +3578,47 @@ policy-options {
 }
 ```
 
+## evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-import policy — accept the per-VRF community and the shared Internet default
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - Two ordered terms. `L3VPN-CUST` accepts routes carrying the VRF's own
+ *    route-target community. `INTERNET` accepts routes carrying
+ *    CM-INET-DEFAULT, which pulls the shared Internet default into the VRF.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-import` statement.
+ *  - The per-VRF community is defined under policy-options community and
+ *    carries the routing instance's own name.
+ *
+ * Pair with:
+ *  - evo/policy-options/community/cm-inet-default.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
+ *   $IMPORT_POL      e.g. PS-METRO_BGPv4_L3VPN_2101-IMPORT
+ *                    (the configured policy name; the VRF's `vrf-import`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_2101
+ */
+policy-options {
+    policy-statement $IMPORT_POL {
+        term L3VPN-CUST {
+            from community $INSTANCE_NAME;
+            then accept;
+        }
+        term INTERNET {
+            from community CM-INET-DEFAULT;
+            then accept;
+        }
+    }
+}
+```
+
 ## evo/policy-options/policy-statement/ps-import-l3vpn.conf
 
 ```
@@ -3381,31 +3629,25 @@ policy-options {
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - The import half of the EVPN-IRB L3VPN service (the METRO_L3VPN_40xx
- *    family). A single term accepts routes carrying the VRF's own community
- *    and nothing else.
- *  - Deliberately slim: no `term INTERNET` accepting CM-INET-DEFAULT. These
- *    VRFs are EVPN Type-5 gateways for a paired E-LAN, not Internet-attached
- *    customer VRFs, so no Internet default is imported. The broader L3VPN
- *    families on an3 and ma3 use the two-term form in
- *    evo/policy-options/policy-statement/l3vpn-export-import.conf instead.
- *  - The policy name, the community it matches and the routing instance all
- *    derive from one identity stem: instance METRO_L3VPN_4000 binds
- *    `vrf-import PS-METRO_L3VPN_4000-IMPORT;`, which matches community
- *    METRO_L3VPN_4000.
- *  - The per-VRF community itself is defined under policy-options community
- *    (`community METRO_L3VPN_4000 members target:61535:13000;`).
+ *  - A single term accepts routes carrying the VRF's own route-target
+ *    community and nothing else. There is no `term INTERNET`, so no shared
+ *    Internet default is imported into the VRF.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-import` statement.
+ *  - The per-VRF community is defined under policy-options community and
+ *    carries the routing instance's own name.
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
+ *   $IMPORT_POL      e.g. PS-METRO_L3VPN_4000-IMPORT
+ *                    (the configured policy name; the VRF's `vrf-import`
+ *                     carries this exact literal)
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_4000
- *                    (the routing instance; the policy is PS-${INSTANCE_NAME}-IMPORT
- *                     and the matched community carries the same name)
  */
 policy-options {
-    policy-statement PS-${INSTANCE_NAME}-IMPORT {
+    policy-statement $IMPORT_POL {
         term L3VPN-CUST {
             from community $INSTANCE_NAME;
             then accept;
@@ -6419,6 +6661,137 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN VRF with PE-CE eBGP and auto-export
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
+ *    `protocols bgp group v6Ixia` with `family inet6 { any; }`, `peer-as
+ *    <CUST_ASN>` and `as-override`, so the customer's own ASN is rewritten
+ *    out of AS_PATH on the return direction.
+ *  - `routing-options router-id; auto-export;` — auto-export leaks routes to
+ *    the sibling VRFs on the device that share an import route target.
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies.
+ *    The configured names vary per service, so both are bindings: an3 uses a
+ *    `PS-` prefix while ma4, mse1 and mse2 do not.
+ *  - `vrf-table-label` enables one MPLS label per VRF, so the egress PE does
+ *    an L3 lookup on the inner header.
+ *
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+ *
+ * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
+ *   $INSTANCE_NAME    e.g. METRO_BGPv6_L3VPN_2201
+ *   $IMPORT_POL       e.g. PS-METRO_BGPv6_L3VPN_2201-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_BGPv6_L3VPN_2201-EXPORT
+ *   $ROUTER_ID        e.g. 1.1.0.2
+ *   $AC_INTF          e.g. et-0/0/4.2201
+ *   $CE_PEER_V6       e.g. 2001:0:0:0:13:3:0:2
+ *   $PE_LOCAL_V6      e.g. 2001:0:0:0:13:3:0:1
+ *   $AS_CUST          e.g. 64514
+ *   $RD               e.g. 63535:2201
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group v6Ixia {
+                    family inet6 {
+                        any;
+                    }
+                    neighbor $CE_PEER_V6 {
+                        local-address $PE_LOCAL_V6;
+                        peer-as $AS_CUST;
+                        as-override;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
+        vrf-table-label;
+    }
+}
+```
+
+## evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN VRF with PE-CE eBGP and no auto-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
+ *    `protocols bgp group v6Ixia` with `family inet6 { any; }`, `peer-as
+ *    <CUST_ASN>` and `as-override`.
+ *  - `routing-options router-id;` is the only routing-options child. Without
+ *    `auto-export` the VRF does not leak routes to the other local VRFs that
+ *    share an import route target; reachability comes only from the policy
+ *    pair.
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies,
+ *    whose configured names vary per service.
+ *  - `vrf-table-label` enables one MPLS label per VRF, so the egress PE does
+ *    an L3 lookup on the inner header.
+ *
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+ *
+ * Variables (example values from ma3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
+ *   $INSTANCE_NAME    e.g. METRO_BGPv6_L3VPN_2201
+ *   $IMPORT_POL       e.g. METRO_BGPv6_L3VPN_2201-IMPORT
+ *   $EXPORT_POL       e.g. METRO_BGPv6_L3VPN_2201-EXPORT
+ *   $ROUTER_ID        e.g. 1.1.0.15
+ *   $AC_INTF          e.g. et-0/0/5.2201
+ *   $CE_PEER_V6       e.g. 2001:0:0:0:115:3:0:2
+ *   $PE_LOCAL_V6      e.g. 2001:0:0:0:115:3:0:1
+ *   $AS_CUST          e.g. 64514
+ *   $RD               e.g. 63536:2201
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        protocols {
+            bgp {
+                group v6Ixia {
+                    family inet6 {
+                        any;
+                    }
+                    neighbor $CE_PEER_V6 {
+                        local-address $PE_LOCAL_V6;
+                        peer-as $AS_CUST;
+                        as-override;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
+        vrf-table-label;
+    }
+}
+```
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
 
 ```
@@ -6436,11 +6809,10 @@ routing-instances {
  *  - The per-VRF policy names differ across the devices this form covers: ma3
  *    and ma4 bind `${INSTANCE_NAME}-IMPORT` / `-EXPORT` while an3 binds the
  *    `PS-`-prefixed spelling, so the binding is parameterized as $IMPORT_POL /
- *    $EXPORT_POL. The policies themselves are in
- *    evo/policy-options/policy-statement/l3vpn-export-import.conf.
+ *    $EXPORT_POL.
  *
  * Pair with:
- *  - evo/policy-options/policy-statement/l3vpn-export-import.conf
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
  *
@@ -6534,8 +6906,8 @@ routing-instances {
  *
  * Variables (example values from meg1_acx7100-32c / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
- *                     (the import/export policies are named
- *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $IMPORT_POL       e.g. PS-METRO_L3VPN_4000-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_L3VPN_4000-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.6
  *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
  *   $RD               e.g. 61000:13000
@@ -6558,8 +6930,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-${INSTANCE_NAME}-IMPORT;
-        vrf-export PS-${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-target target:$RT_AS:$RT_ID;
         vrf-table-label;
     }
@@ -6628,8 +7000,8 @@ routing-instances {
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
- *                     (the import/export policies are named
- *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $IMPORT_POL       e.g. PS-METRO_L3VPN_4000-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_L3VPN_4000-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.2
  *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
  *   $RD               e.g. 63000:13000
@@ -6650,8 +7022,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-${INSTANCE_NAME}-IMPORT;
-        vrf-export PS-${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -6725,13 +7097,13 @@ routing-instances {
  *    { interface-type p2p; }` as the PE-CE protocol.
  *  - `routing-options router-id; auto-export;` — auto-export leaks routes
  *    between the VRFs that share a route target on the device.
- *  - `vrf-import / vrf-export` point at the per-VRF policies in
- *    evo/policy-options/policy-statement/l3vpn-export-import.conf. The EVO ANs
- *    use a `PS-` prefix on the policy names (e.g. `PS-METRO_L3VPN_2001-IMPORT`),
- *    which is the per-service namespace convention on the AN/MEG roles.
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies.
+ *    The configured names vary per service, so both are bindings: the EVO ANs
+ *    use a `PS-` prefix (e.g. `PS-METRO_L3VPN_2001-IMPORT`) while the other
+ *    devices this form covers do not.
  *
  * Pair with:
- *  - evo/policy-options/policy-statement/l3vpn-export-import.conf
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
  *
@@ -8088,7 +8460,6 @@ groups {
  * Pair with:
  *  - junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
  *  - junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
- *  - junos/policy-options/policy-statement/l3vpn-export-import.conf
  *  - junos/routing-instances/l3vpn/ri-l3vpn-irb.conf
  *
  * Variables: none. Apply-groups in this JVD are entirely
@@ -8860,7 +9231,8 @@ policy-options {
  *  - $RT_AS is the L3VPN's originating-domain AS and varies per VRF (a
  *    node may carry both its own and imported VRFs), so it is a service-instance
  *    variable, not a device-wide one.
- *  - Referenced by l3vpn-bgp and l3vpn-export-import.
+ *  - Referenced by the per-VRF import and export policies and by the VRF
+ *    that carries the service.
  *
  * Pair with: none
  *
@@ -9226,90 +9598,6 @@ policy-options {
  */
 policy-options {
     community $COLOR_COMMUNITY members color:0:4000;
-}
-```
-
-## junos/policy-options/policy-statement/l3vpn-export-import.conf
-
-```
-/*
- * Topic:   Per-VRF L3VPN export / import policies
- * Seen on:
- *   Junos: ma4_mx204
- *   EVO:   (none)
- *
- * Highlights:
- *  - Identical structure to evo/policy-options/policy-statement/l3vpn-export-import.conf —
- *    Junos and EVO share the same policy-options syntax for L3VPN.
- *  - EXPORT policy has two terms:
- *      tag-public-routes  → match customer public route-filters,
- *                           tag with both the per-VPN RT
- *                           (METRO_BGPv4_L3VPN_1001), the public
- *                           community (CM-L3VPN-PUB) and the BGP-CT
- *                           color community (CM-TC-MAP2GOLD).
- *      tag-default        → tag everything else with just the per-VPN
- *                           RT and color, then accept.
- *  - IMPORT policy:
- *      L3VPN-CUST  → accept routes carrying the per-VPN RT
- *                    (route-target community match).
- *      INTERNET    → optionally pull in the shared INTERNET default
- *                    via CM-INET-DEFAULT (managed Internet-in-VRF
- *                    feature).
- *  - Each VRF has its own pair of policies; the per-VPN RT community
- *    name matches the routing-instance name (DRY pattern).
- *
- * Pair with:
- *  - junos/policy-options/community/cm-inet-default.conf
- *  - junos/policy-options/community/cm-l3vpn-pub.conf
- *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
- *  - junos/policy-options/community/cm-tc-map2gold.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
- *  - junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
- *  - junos/groups/gr-l3vpn.conf
- *
- * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
- *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_1001
- *                     (the per-VRF community, the EXPORT and the
- *                     IMPORT policy all share this name; the
- *                     community is defined in
- *                     junos/policy-options/community/cm-l3vpn-bgpv4.conf)
- *   $CE_PREFIX_1      e.g. 17.2.0.0/16
- *   $CE_PREFIX_2      e.g. 18.2.0.0/16
- *   $CE_PREFIX_3      e.g. 19.2.0.0/16
- */
-policy-options {
-    policy-statement ${INSTANCE_NAME}-EXPORT {
-        term tag-public-routes {
-            from {
-                route-filter $CE_PREFIX_1 orlonger;
-                route-filter $CE_PREFIX_2 orlonger;
-                route-filter $CE_PREFIX_3 orlonger;
-            }
-            then {
-                community add CM-L3VPN-PUB;
-                community add $INSTANCE_NAME;
-                community add CM-TC-MAP2GOLD;
-                accept;
-            }
-        }
-        term tag-default {
-            then {
-                community add $INSTANCE_NAME;
-                community add CM-TC-MAP2GOLD;
-                accept;
-            }
-        }
-    }
-    policy-statement ${INSTANCE_NAME}-IMPORT {
-        term L3VPN-CUST {
-            from community $INSTANCE_NAME;
-            then accept;
-        }
-        term INTERNET {
-            from community CM-INET-DEFAULT;
-            then accept;
-        }
-    }
 }
 ```
 
@@ -9788,36 +10076,34 @@ policy-options {
  *   EVO:   (none)
  *
  * Highlights:
- *  - Superset of junos/policy-options/policy-statement/ps-export-l3vpn-public.conf:
- *    the same four-aggregate `term tag-public-routes`, plus a second term that
- *    matches EVPN NLRI route-type 5 directly.
+ *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB and the VRF's own
+ *    route-target community.
  *  - `term EVPN-T5-ONLY` selects `family evpn` with `nlri-route-type 5` and
  *    re-tags those IP-prefix routes with the per-VRF community, so Type-5
  *    prefixes learned into the VRF carry the VPN community on re-advertisement
  *    even though they do not match the customer aggregates.
- *  - Only mse2 runs this form. mse2 is also the device whose VRFs point their
- *    default route into the Internet VRF
- *    (junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf),
- *    so its VRFs carry EVPN Type-5 routes that did not originate locally.
- *  - `nlri-route-type` is the body-level discriminator that gives this form its
- *    name; every other L3VPN export policy in the JVD matches on route-filter
- *    prefixes alone.
+ *  - `nlri-route-type` is the body-level discriminator for this form; the
+ *    other L3VPN export policies match on route-filter prefixes alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
  *
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse2_mx304 / METRO_L3VPN_4000):
+ *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_4000
- *                    (the routing instance; the policy is PS-${INSTANCE_NAME}-EXPORT
- *                     and the tagged community carries the same name)
  *   $CE_PREFIX_1     e.g. 43.2.0.0/16
  *   $CE_PREFIX_2     e.g. 44.2.0.0/16
  *   $CE_PREFIX_3     e.g. 40.2.0.0/16
  *   $CE_PREFIX_4     e.g. 41.2.0.0/16
  */
 policy-options {
-    policy-statement PS-${INSTANCE_NAME}-EXPORT {
+    policy-statement $EXPORT_POL {
         term tag-public-routes {
             from {
                 route-filter $CE_PREFIX_1 orlonger;
@@ -9845,6 +10131,463 @@ policy-options {
 }
 ```
 
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag two customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches two customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from mse1_mx304 / METRO_BGPv4_L3VPN_1001):
+ *   $EXPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_1001
+ *   $CE_PREFIX_1     e.g. 17.2.0.0/16
+ *   $CE_PREFIX_2     e.g. 19.2.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag three customer aggregates and every remaining route with the gold transport colour
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, the VRF's own route-target
+ *    community, and CM-TC-MAP2GOLD.
+ *  - CM-TC-MAP2GOLD is the BGP-CT colour community that steers the VRF's
+ *    traffic onto the gold transport class, so both terms carry it and every
+ *    route this VRF advertises is coloured.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community and the colour community.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *  - junos/policy-options/community/cm-tc-map2gold.conf
+ *
+ * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
+ *   $EXPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_1001
+ *   $CE_PREFIX_1     e.g. 17.2.0.0/16
+ *   $CE_PREFIX_2     e.g. 18.2.0.0/16
+ *   $CE_PREFIX_3     e.g. 19.2.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                community add CM-TC-MAP2GOLD;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                community add CM-TC-MAP2GOLD;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag three customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from ma4_mx204 / METRO_L3VPN_1):
+ *   $EXPORT_POL      e.g. METRO_L3VPN_1-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_L3VPN_1
+ *   $CE_PREFIX_1     e.g. 17.1.0.0/16
+ *   $CE_PREFIX_2     e.g. 18.1.0.0/16
+ *   $CE_PREFIX_3     e.g. 19.1.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-export policy — tag four customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
+ *    tags each accepted route with CM-L3VPN-PUB, which marks it as a public
+ *    L3VPN prefix for the fabric, and with the VRF's own route-target
+ *    community.
+ *  - `term tag-default` catches everything the first term did not match and
+ *    tags it with the VRF community alone, so the VRF is not limited to its
+ *    declared aggregates.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from mse2_mx304 / METRO_L3VPN_2002):
+ *   $EXPORT_POL      e.g. METRO_L3VPN_2002-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_L3VPN_2002
+ *   $CE_PREFIX_1     e.g. 13.2.0.0/16
+ *   $CE_PREFIX_2     e.g. 16.2.0.0/16
+ *   $CE_PREFIX_3     e.g. 13.1.0.0/16
+ *   $CE_PREFIX_4     e.g. 16.1.0.0/16
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+                route-filter $CE_PREFIX_4 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag two customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches two customer
+ *    IPv6 aggregates `orlonger`, tagging each accepted route with
+ *    CM-L3VPN-PUB, which marks it as a public L3VPN prefix for the fabric,
+ *    and with the VRF's own route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from mse1_mx304 / METRO_BGPv6_L3VPN_2202):
+ *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_2202-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_2202
+ *   $CE_PREFIX_1     e.g. 2001::13:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::16:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag three customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches three
+ *    customer IPv6 aggregates `orlonger`, tagging each accepted route with
+ *    CM-L3VPN-PUB, which marks it as a public L3VPN prefix for the fabric,
+ *    and with the VRF's own route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from ma4_mx204 / METRO_BGPv6_L3VPN_3001):
+ *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_3001-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_3001
+ *   $CE_PREFIX_1     e.g. 2001::19:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::17:3:0:0/126
+ *   $CE_PREFIX_3     e.g. 2001::18:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag four customer aggregates, then tag every remaining route
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches four customer
+ *    IPv6 aggregates `orlonger`, tagging each accepted route with
+ *    CM-L3VPN-PUB, which marks it as a public L3VPN prefix for the fabric,
+ *    and with the VRF's own route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from mse2_mx304 / METRO_BGPv6_L3VPN_2201):
+ *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_2201-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_2201
+ *   $CE_PREFIX_1     e.g. 2001::13:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::15:3:0:0/64
+ *   $CE_PREFIX_3     e.g. 2001::16:3:0:0/64
+ *   $CE_PREFIX_4     e.g. 2001::115:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+                route-filter $CE_PREFIX_4 orlonger;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN vrf-export policy — tag three customer aggregates and the IPv6 default route
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ *
+ * Highlights:
+ *  - `term tag-public-routes` selects `family inet6` and matches three
+ *    customer IPv6 aggregates `orlonger` plus `::/0 exact`, so the VRF
+ *    advertises the IPv6 default route to the remote PEs alongside the
+ *    customer prefixes.
+ *  - `::/0` is matched `exact`, not `orlonger`, so the default route is
+ *    carried without widening the customer aggregates.
+ *  - Accepted routes are tagged with CM-L3VPN-PUB and the VRF's own
+ *    route-target community.
+ *  - `term tag-default` carries no `from`, so it catches everything the first
+ *    term did not match and tags it with the VRF community alone.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-l3vpn-pub.conf
+ *
+ * Variables (example values from mse2_mx304 / METRO_BGPv6_L3VPN_3001):
+ *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_3001-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv6_L3VPN_3001
+ *   $CE_PREFIX_1     e.g. 2001::19:3:0:0/64
+ *   $CE_PREFIX_2     e.g. 2001::17:3:0:0/126
+ *   $CE_PREFIX_3     e.g. 2001::18:3:0:0/64
+ */
+policy-options {
+    policy-statement $EXPORT_POL {
+        term tag-public-routes {
+            from {
+                family inet6;
+                route-filter $CE_PREFIX_1 orlonger;
+                route-filter $CE_PREFIX_2 orlonger;
+                route-filter $CE_PREFIX_3 orlonger;
+                route-filter ::/0 exact;
+            }
+            then {
+                community add CM-L3VPN-PUB;
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+        term tag-default {
+            then {
+                community add $INSTANCE_NAME;
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
 
 ```
@@ -9855,37 +10598,31 @@ policy-options {
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - The export half of the EVPN-IRB L3VPN service (the METRO_L3VPN_40xx
- *    family). One term matches the four customer public aggregates and tags
- *    each accepted route with two communities.
- *  - `CM-L3VPN-PUB` marks the route as a public L3VPN prefix for the fabric;
- *    `$INSTANCE_NAME` is the per-VRF community that the matching
- *    PS-${INSTANCE_NAME}-IMPORT policy looks for on the remote PE.
- *  - There is no `term tag-default`: this VRF exports only the four tagged
- *    aggregates, never a default route. The broader L3VPN families on ma4 and
- *    an3 do carry a default-tagging term — see
- *    junos/policy-options/policy-statement/l3vpn-export-import.conf.
- *  - mse2 runs a superset of this policy that additionally re-tags EVPN
- *    Type-5 NLRI; that form is
- *    junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf.
- *  - The route-filter prefixes are per-VRF customer aggregates, all matched
- *    `orlonger` so the customer's more-specifics are carried too.
+ *  - A single term matches four customer aggregates `orlonger`, so the
+ *    customer's more-specifics are carried too, and tags each accepted route
+ *    with CM-L3VPN-PUB and the VRF's own route-target community.
+ *  - `CM-L3VPN-PUB` marks the route as a public L3VPN prefix for the fabric.
+ *  - There is no `term tag-default`, so the VRF exports only the four tagged
+ *    aggregates and never a default route.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-export` statement.
  *
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
+ *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
+ *                    (the configured policy name; the VRF's `vrf-export`
+ *                     carries this exact literal)
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_4000
- *                    (the routing instance; the policy is PS-${INSTANCE_NAME}-EXPORT
- *                     and the tagged community carries the same name)
  *   $CE_PREFIX_1     e.g. 43.2.0.0/16
  *   $CE_PREFIX_2     e.g. 44.2.0.0/16
  *   $CE_PREFIX_3     e.g. 40.2.0.0/16
  *   $CE_PREFIX_4     e.g. 41.2.0.0/16
  */
 policy-options {
-    policy-statement PS-${INSTANCE_NAME}-EXPORT {
+    policy-statement $EXPORT_POL {
         term tag-public-routes {
             from {
                 route-filter $CE_PREFIX_1 orlonger;
@@ -10162,6 +10899,47 @@ policy-options {
 }
 ```
 
+## junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+
+```
+/*
+ * Topic:   L3VPN vrf-import policy — accept the per-VRF community and the shared Internet default
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ *
+ * Highlights:
+ *  - Two ordered terms. `L3VPN-CUST` accepts routes carrying the VRF's own
+ *    route-target community. `INTERNET` accepts routes carrying
+ *    CM-INET-DEFAULT, which pulls the shared Internet default into the VRF.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-import` statement.
+ *  - The per-VRF community is defined under policy-options community and
+ *    carries the routing instance's own name.
+ *
+ * Pair with:
+ *  - junos/policy-options/community/cm-inet-default.conf
+ *
+ * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
+ *   $IMPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-IMPORT
+ *                    (the configured policy name; the VRF's `vrf-import`
+ *                     carries this exact literal)
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_1001
+ */
+policy-options {
+    policy-statement $IMPORT_POL {
+        term L3VPN-CUST {
+            from community $INSTANCE_NAME;
+            then accept;
+        }
+        term INTERNET {
+            from community CM-INET-DEFAULT;
+            then accept;
+        }
+    }
+}
+```
+
 ## junos/policy-options/policy-statement/ps-import-l3vpn.conf
 
 ```
@@ -10172,31 +10950,25 @@ policy-options {
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - The import half of the EVPN-IRB L3VPN service (the METRO_L3VPN_40xx
- *    family). A single term accepts routes carrying the VRF's own community
- *    and nothing else.
- *  - Deliberately slim: no `term INTERNET` accepting CM-INET-DEFAULT. These
- *    VRFs are EVPN Type-5 gateways for a paired E-LAN, not Internet-attached
- *    customer VRFs, so no Internet default is imported. The broader L3VPN
- *    families on ma4 and an3 use the two-term form in
- *    junos/policy-options/policy-statement/l3vpn-export-import.conf instead.
- *  - The policy name, the community it matches and the routing instance all
- *    derive from one identity stem: instance METRO_L3VPN_4000 binds
- *    `vrf-import PS-METRO_L3VPN_4000-IMPORT;`, which matches community
- *    METRO_L3VPN_4000.
- *  - The per-VRF community itself is defined under policy-options community
- *    (`community METRO_L3VPN_4000 members target:61535:13000;`).
+ *  - A single term accepts routes carrying the VRF's own route-target
+ *    community and nothing else. There is no `term INTERNET`, so no shared
+ *    Internet default is imported into the VRF.
+ *  - The configured policy name varies per service; the VRF that uses the
+ *    policy carries that exact literal in its `vrf-import` statement.
+ *  - The per-VRF community is defined under policy-options community and
+ *    carries the routing instance's own name.
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
+ *   $IMPORT_POL      e.g. PS-METRO_L3VPN_4000-IMPORT
+ *                    (the configured policy name; the VRF's `vrf-import`
+ *                     carries this exact literal)
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_4000
- *                    (the routing instance; the policy is PS-${INSTANCE_NAME}-IMPORT
- *                     and the matched community carries the same name)
  */
 policy-options {
-    policy-statement PS-${INSTANCE_NAME}-IMPORT {
+    policy-statement $IMPORT_POL {
         term L3VPN-CUST {
             from community $INSTANCE_NAME;
             then accept;
@@ -12659,6 +13431,72 @@ routing-instances {
 }
 ```
 
+## junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf
+
+```
+/*
+ * Topic:   IPv6 L3VPN VRF with PE-CE eBGP and auto-export
+ * Seen on:
+ *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
+ *    `protocols bgp group v6Ixia` with `family inet6 { any; }`, `peer-as
+ *    <CUST_ASN>` and `as-override`, so the customer's own ASN is rewritten
+ *    out of AS_PATH on the return direction.
+ *  - `routing-options router-id; auto-export;` — auto-export leaks routes to
+ *    the sibling VRFs on the device that share an import route target.
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies.
+ *    The configured names vary per service, so both are bindings: an3 uses a
+ *    `PS-` prefix while ma4, mse1 and mse2 do not.
+ *  - `vrf-table-label` enables one MPLS label per VRF, so the egress PE does
+ *    an L3 lookup on the inner header.
+ *
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+ *
+ * Variables (example values from ma4_mx204 / METRO_BGPv6_L3VPN_3001):
+ *   $INSTANCE_NAME    e.g. METRO_BGPv6_L3VPN_3001
+ *   $IMPORT_POL       e.g. METRO_BGPv6_L3VPN_3001-IMPORT
+ *   $EXPORT_POL       e.g. METRO_BGPv6_L3VPN_3001-EXPORT
+ *   $ROUTER_ID        e.g. 1.1.0.16
+ *   $AC_INTF          e.g. xe-0/1/4.3001
+ *   $CE_PEER_V6       e.g. 2001:0:0:0:17:3:0:2
+ *   $PE_LOCAL_V6      e.g. 2001:0:0:0:17:3:0:1
+ *   $AS_CUST          e.g. 64514
+ *   $RD               e.g. 63536:43001
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+            auto-export;
+        }
+        protocols {
+            bgp {
+                group v6Ixia {
+                    family inet6 {
+                        any;
+                    }
+                    neighbor $CE_PEER_V6 {
+                        local-address $PE_LOCAL_V6;
+                        peer-as $AS_CUST;
+                        as-override;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $RD;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
+        vrf-table-label;
+    }
+}
+```
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
 
 ```
@@ -12683,14 +13521,13 @@ routing-instances {
  *    to the same VRF (METRO_BGPv4_L3VPN_1001 is `63536:41001` /
  *    `63536:11001` / `63536:31001`), so an L3VPN prefix appears with
  *    a distinct RD per PE across multihomed sites.
- *  - `vrf-import / vrf-export` point at the per-VRF policies in
- *    junos/policy-options/policy-statement/l3vpn-export-import.conf (named
- *    `${INSTANCE_NAME}-IMPORT` / `-EXPORT`).
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies,
+ *    `${INSTANCE_NAME}-IMPORT` and `${INSTANCE_NAME}-EXPORT`.
  *  - `vrf-table-label` enables one MPLS label per VRF (the common
  *    deployment vs per-prefix labels).
  *
  * Pair with:
- *  - junos/policy-options/policy-statement/l3vpn-export-import.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
@@ -12704,6 +13541,8 @@ routing-instances {
  *
  * Variables (example values from mse1_mx304 / METRO_BGPv4_L3VPN_1001):
  *   $INSTANCE_NAME    e.g. METRO_BGPv4_L3VPN_1001
+ *   $IMPORT_POL       e.g. METRO_BGPv4_L3VPN_1001-IMPORT
+ *   $EXPORT_POL       e.g. METRO_BGPv4_L3VPN_1001-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.10
  *   $AC_INTF          e.g. et-0/0/5.1001
  *   $CE_PEER_V4       e.g. 19.2.0.2
@@ -12734,8 +13573,8 @@ routing-instances {
         }
         interface $AC_INTF;
         route-distinguisher $RD;
-        vrf-import ${INSTANCE_NAME}-IMPORT;
-        vrf-export ${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -12778,8 +13617,8 @@ routing-instances {
  *
  * Variables (example values from mse2_mx304 / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
- *                     (the import/export policies are named
- *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $IMPORT_POL       e.g. PS-METRO_L3VPN_4000-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_L3VPN_4000-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.11
  *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
  *   $RD               e.g. 63300:13000
@@ -12803,8 +13642,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-${INSTANCE_NAME}-IMPORT;
-        vrf-export PS-${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -12876,8 +13715,8 @@ routing-instances {
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_4000
- *                     (the import/export policies are named
- *                      PS-${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $IMPORT_POL       e.g. PS-METRO_L3VPN_4000-IMPORT
+ *   $EXPORT_POL       e.g. PS-METRO_L3VPN_4000-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.10
  *   $IRB_UNIT         e.g. 4000   (selects irb.<unit>)
  *   $RD               e.g. 63200:13000
@@ -12898,8 +13737,8 @@ routing-instances {
         }
         interface irb.$IRB_UNIT;
         route-distinguisher $RD;
-        vrf-import PS-${INSTANCE_NAME}-IMPORT;
-        vrf-export PS-${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -12971,7 +13810,7 @@ routing-instances {
  * Topic:   L3VPN VRF with PE-CE OSPF
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
- *   EVO:   ma3_acx7100-48l
+ *   EVO:   an3_acx7100-48l ma3_acx7100-48l
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer routes; PE-CE OSPF
@@ -12983,12 +13822,11 @@ routing-instances {
  *    Junos's automatic per-instance OSPF↔BGP redistribution
  *    (no explicit policy needed for type-3 / external translation
  *    once `auto-export` is set in a shared-RT context).
- *  - `vrf-import / vrf-export` point at the per-VRF policies in
- *    junos/policy-options/policy-statement/l3vpn-export-import.conf (named
- *    `${INSTANCE_NAME}-IMPORT` / `-EXPORT`).
+ *  - `vrf-import / vrf-export` name the per-VRF import and export policies,
+ *    `${INSTANCE_NAME}-IMPORT` and `${INSTANCE_NAME}-EXPORT`.
  *
  * Pair with:
- *  - junos/policy-options/policy-statement/l3vpn-export-import.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - junos/groups/gr-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *  - junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
@@ -13003,6 +13841,8 @@ routing-instances {
  *
  * Variables (example values from mse1_mx304 / METRO_L3VPN_1):
  *   $INSTANCE_NAME    e.g. METRO_L3VPN_1
+ *   $IMPORT_POL       e.g. METRO_L3VPN_1-IMPORT
+ *   $EXPORT_POL       e.g. METRO_L3VPN_1-EXPORT
  *   $ROUTER_ID        e.g. 1.1.0.10
  *   $AC_INTF          e.g. et-0/0/5.1
  *   $RD               e.g. 63536:11
@@ -13025,8 +13865,8 @@ routing-instances {
         }
         interface $AC_INTF;
         route-distinguisher $RD;
-        vrf-import ${INSTANCE_NAME}-IMPORT;
-        vrf-export ${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }
@@ -13061,7 +13901,8 @@ routing-instances {
  *
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
- *  - junos/policy-options/policy-statement/l3vpn-export-import.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+ *  - junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -13071,8 +13912,8 @@ routing-instances {
  *
  * Variables (example values from ma4_mx204 / METRO_L3VPN_1):
  *   $INSTANCE_NAME   e.g. METRO_L3VPN_1
- *                    (the import/export policies are named
- *                     ${INSTANCE_NAME}-IMPORT / -EXPORT)
+ *   $IMPORT_POL      e.g. METRO_L3VPN_1-IMPORT
+ *   $EXPORT_POL      e.g. METRO_L3VPN_1-EXPORT
  *   $ROUTER_ID       e.g. 1.1.0.16
  *   $AC_INTF         e.g. xe-0/1/4.1
  *   $RD              e.g. 63536:41
@@ -13094,8 +13935,8 @@ routing-instances {
         }
         interface $AC_INTF;
         route-distinguisher $RD;
-        vrf-import ${INSTANCE_NAME}-IMPORT;
-        vrf-export ${INSTANCE_NAME}-EXPORT;
+        vrf-import $IMPORT_POL;
+        vrf-export $EXPORT_POL;
         vrf-table-label;
     }
 }

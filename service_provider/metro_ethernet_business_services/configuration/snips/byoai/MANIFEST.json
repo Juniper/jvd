@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 251,
+  "snip_count": 267,
   "snips": [
     {
       "path": "evo/class-of-service/classifiers/cl-6class.conf",
@@ -887,7 +887,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 838,
+      "size_bytes": 889,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/community/cm-l3vpn-bgpv4.conf"
     },
     {
@@ -1271,18 +1271,6 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/community/cm-tc-map2gold.conf"
     },
     {
-      "path": "evo/policy-options/policy-statement/l3vpn-export-import.conf",
-      "os": "evo",
-      "category": "policy-options",
-      "name": "policy-statement/l3vpn-export-import",
-      "topic": "L3VPN per-VRF export/import policies",
-      "seen_on": [
-        "an3_acx7100-48l"
-      ],
-      "size_bytes": 2203,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/l3vpn-export-import.conf"
-    },
-    {
       "path": "evo/policy-options/policy-statement/loopback-rib-leak.conf",
       "os": "evo",
       "category": "policy-options",
@@ -1510,6 +1498,79 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l2-color.conf"
     },
     {
+      "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-2",
+      "topic": "L3VPN vrf-export policy \u2014 tag two customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1741,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf"
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-3",
+      "topic": "L3VPN vrf-export policy \u2014 tag three customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1880,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf"
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-4",
+      "topic": "L3VPN vrf-export policy \u2014 tag four customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1931,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf"
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-v6-2",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag two customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1819,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf"
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-v6-4",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag four customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 2005,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+    },
+    {
       "path": "evo/policy-options/policy-statement/ps-export-l3vpn-public.conf",
       "os": "evo",
       "category": "policy-options",
@@ -1521,7 +1582,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2272,
+      "size_bytes": 1826,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-export-l3vpn-public.conf"
     },
     {
@@ -1591,6 +1652,22 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf"
     },
     {
+      "path": "evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-import-l3vpn-internet",
+      "topic": "L3VPN vrf-import policy \u2014 accept the per-VRF community and the shared Internet default",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1366,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf"
+    },
+    {
       "path": "evo/policy-options/policy-statement/ps-import-l3vpn.conf",
       "os": "evo",
       "category": "policy-options",
@@ -1603,7 +1680,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1641,
+      "size_bytes": 1189,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-import-l3vpn.conf"
     },
     {
@@ -2188,6 +2265,33 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf"
     },
     {
+      "path": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export",
+      "topic": "IPv6 L3VPN VRF with PE-CE eBGP and auto-export",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2218,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+    },
+    {
+      "path": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-bgp-v6-vrf-policy",
+      "topic": "IPv6 L3VPN VRF with PE-CE eBGP and no auto-export",
+      "seen_on": [
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 2092,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf"
+    },
+    {
       "path": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
       "os": "evo",
       "category": "routing-instances",
@@ -2198,7 +2302,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2707,
+      "size_bytes": 2613,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
     },
     {
@@ -2211,7 +2315,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2734,
+      "size_bytes": 2691,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf"
     },
     {
@@ -2224,7 +2328,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 3663,
+      "size_bytes": 3620,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
     },
     {
@@ -2254,7 +2358,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2182,
+      "size_bytes": 2159,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"
     },
     {
@@ -2844,7 +2948,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1833,
+      "size_bytes": 1764,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-l3vpn.conf"
     },
     {
@@ -3221,7 +3325,7 @@
         "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 838,
+      "size_bytes": 889,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/community/cm-l3vpn-bgpv4.conf"
     },
     {
@@ -3605,18 +3709,6 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/community/cm-tc-map2gold.conf"
     },
     {
-      "path": "junos/policy-options/policy-statement/l3vpn-export-import.conf",
-      "os": "junos",
-      "category": "policy-options",
-      "name": "policy-statement/l3vpn-export-import",
-      "topic": "Per-VRF L3VPN export / import policies",
-      "seen_on": [
-        "ma4_mx204"
-      ],
-      "size_bytes": 3086,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/l3vpn-export-import.conf"
-    },
-    {
       "path": "junos/policy-options/policy-statement/loopback-rib-leak.conf",
       "os": "junos",
       "category": "policy-options",
@@ -3790,8 +3882,119 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 2424,
+      "size_bytes": 2230,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-2",
+      "topic": "L3VPN vrf-export policy \u2014 tag two customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 1753,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-3-color",
+      "topic": "L3VPN vrf-export policy \u2014 tag three customer aggregates and every remaining route with the gold transport colour",
+      "seen_on": [
+        "ma4_mx204"
+      ],
+      "size_bytes": 2105,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-3",
+      "topic": "L3VPN vrf-export policy \u2014 tag three customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1846,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-4",
+      "topic": "L3VPN vrf-export policy \u2014 tag four customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1924,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-v6-2",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag two customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1813,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-v6-3",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag three customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304"
+      ],
+      "size_bytes": 1899,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-default-v6-4",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag four customer aggregates, then tag every remaining route",
+      "seen_on": [
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1999,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-export-l3vpn-public-v6-default-route",
+      "topic": "IPv6 L3VPN vrf-export policy \u2014 tag three customer aggregates and the IPv6 default route",
+      "seen_on": [
+        "mse2_mx304"
+      ],
+      "size_bytes": 2107,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf"
     },
     {
       "path": "junos/policy-options/policy-statement/ps-export-l3vpn-public.conf",
@@ -3805,7 +4008,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2271,
+      "size_bytes": 1823,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-export-l3vpn-public.conf"
     },
     {
@@ -3874,6 +4077,22 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf"
     },
     {
+      "path": "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-import-l3vpn-internet",
+      "topic": "L3VPN vrf-import policy \u2014 accept the per-VRF community and the shared Internet default",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "ma3_acx7100-48l"
+      ],
+      "size_bytes": 1359,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf"
+    },
+    {
       "path": "junos/policy-options/policy-statement/ps-import-l3vpn.conf",
       "os": "junos",
       "category": "policy-options",
@@ -3886,7 +4105,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1638,
+      "size_bytes": 1184,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-import-l3vpn.conf"
     },
     {
@@ -4321,6 +4540,21 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-internet-vrf-export.conf"
     },
     {
+      "path": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export",
+      "topic": "IPv6 L3VPN VRF with PE-CE eBGP and auto-export",
+      "seen_on": [
+        "ma4_mx204",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l"
+      ],
+      "size_bytes": 2210,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+    },
+    {
       "path": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
       "os": "junos",
       "category": "routing-instances",
@@ -4330,7 +4564,7 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3030,
+      "size_bytes": 3080,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf"
     },
     {
@@ -4342,7 +4576,7 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 2580,
+      "size_bytes": 2537,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf"
     },
     {
@@ -4355,7 +4589,7 @@
         "mse1_mx304",
         "an3_acx7100-48l"
       ],
-      "size_bytes": 4022,
+      "size_bytes": 3979,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
     },
     {
@@ -4382,9 +4616,10 @@
       "seen_on": [
         "mse1_mx304",
         "mse2_mx304",
+        "an3_acx7100-48l",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 2261,
+      "size_bytes": 2309,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"
     },
     {
@@ -4396,7 +4631,7 @@
       "seen_on": [
         "ma4_mx204"
       ],
-      "size_bytes": 2450,
+      "size_bytes": 2491,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf"
     },
     {
