@@ -15,6 +15,10 @@ on:
       - 'portal/scripts/ifl-capabilities.test.mjs'
       - 'portal/scripts/gr-capabilities.mjs'
       - 'portal/scripts/gr-capabilities.test.mjs'
+      - 'portal/scripts/config-objects.mjs'
+      - 'portal/scripts/config-objects.test.mjs'
+      - 'portal/scripts/object-ownership.mjs'
+      - 'portal/scripts/object-ownership.test.mjs'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
@@ -39,7 +43,11 @@ jobs:
           portal/scripts/bgp-capabilities.test.mjs
           portal/scripts/ifl-capabilities.test.mjs
           portal/scripts/gr-capabilities.test.mjs
+          portal/scripts/config-objects.test.mjs
+          portal/scripts/object-ownership.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
+      - name: Named objects have exactly one applicable owner
+        run: node portal/scripts/object-ownership.mjs
