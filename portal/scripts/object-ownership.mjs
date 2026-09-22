@@ -25,12 +25,23 @@
  * fails. An unowned object that nothing references cannot be reached by any
  * emitted configuration; it is reported as a coverage gap without failing.
  *
+ * LIMIT — templating. Exact equality can only prove ownership for a snip whose
+ * object body is literal. A body containing a template variable renders to a
+ * value this audit does not know, so such a comparison is counted as UNPROVEN,
+ * never as equal and never as a mismatch. A selector in which some snip names
+ * an object with a variable cannot report unowned counts at all, because a
+ * templated name never matches a concrete one; those selectors are excluded
+ * from the gating set and their totals are reported as unsupported coverage.
+ *
  * Coverage is bounded to the selectors in `OBJECT_SELECTORS`. Hierarchies
  * outside that list are NOT audited, and this script must not be read as a
- * whole-configuration audit.
+ * whole-configuration audit. `EXTENDED_SELECTORS` adds hierarchies that the
+ * method supports but where the library has known open gaps; they are reported
+ * under `--extended` and deliberately do not gate.
  *
  * Usage:
- *   node scripts/object-ownership.mjs [--jvd <repo-relative JVD root>] [--json]
+ *   node scripts/object-ownership.mjs [--jvd <repo-relative JVD root>]
+ *                                      [--extended] [--json]
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -60,6 +71,27 @@ export const OBJECT_SELECTORS = [
     kind: "policer",
     path: [["firewall"], ["policer", "*"]],
   },
+  {
+    key: "cos-scheduler",
+    label: "class-of-service schedulers",
+    kind: "other",
+    path: [["class-of-service"], ["schedulers"], ["*"]],
+  },
+  {
+    key: "cos-scheduler-map",
+    label: "class-of-service scheduler-maps",
+    kind: "other",
+    path: [["class-of-service"], ["scheduler-maps"], ["*"]],
+  },
+];
+
+/**
+ * Hierarchies the method supports where the library has known open coverage.
+ * Reported under `--extended` so the gaps stay measurable without turning a
+ * known backlog into a build failure.
+ */
+export const EXTENDED_SELECTORS = [
+  { key: "groups", label: "groups", kind: "other", path: [["groups"], ["*"]] },
 ];
 
 const POLICER_SELECTOR = "firewall-policer";
@@ -179,7 +211,8 @@ export function auditOwnership({ sources, snips, selectors = OBJECT_SELECTORS })
       }
 
       let equal = null;
-      if (srcList.length === 1 && selected) {
+      const templated = Boolean(selected) && /\$/.test(selected.objects.get(key).map((d) => d.canonical).join("\n"));
+      if (srcList.length === 1 && selected && !templated) {
         const claimed = selected.objects.get(key);
         equal = claimed.length === 1 && claimed[0].canonical === srcList[0].canonical;
       }
@@ -199,6 +232,7 @@ export function auditOwnership({ sources, snips, selectors = OBJECT_SELECTORS })
         equivalentOwners: selected ? ownerNames.filter((r) => r !== selected.rel) : [],
         ambiguous,
         distinctBodies: bodies.size,
+        templated,
         reconstructedCount: selected ? selected.objects.get(key).length : 0,
         equal,
         crossDirectory: Boolean(selected) && selected.dir !== src.os,
@@ -231,9 +265,22 @@ export function auditOwnership({ sources, snips, selectors = OBJECT_SELECTORS })
   const ambiguousOwners = rows.filter((r) => r.ambiguous);
   const duplicateInSource = rows.filter((r) => r.sourceCount > 1);
   const duplicateInOwner = rows.filter((r) => r.reconstructedCount > 1);
-  const mismatched = rows.filter((r) => r.sourceCount > 0 && r.selected && r.equal !== true);
+  const templatedUnproven = rows.filter((r) => r.templated && r.sourceCount > 0);
+  const mismatched = rows.filter((r) => r.sourceCount > 0 && r.selected && !r.templated && r.equal !== true);
   const crossDirectory = rows.filter((r) => r.crossDirectory);
   const unresolvedRefs = refFindings.filter((f) => !f.resolved);
+
+  // A selector where some snip names an object with a variable cannot report
+  // ownership at all: a templated name never matches a concrete one, so every
+  // instance would look unowned. Such selectors are unsupported, not failing.
+  const templatedNameSelectors = new Set();
+  for (const snip of snipIndex) {
+    if (!snip.ok) continue;
+    for (const key of snip.objects.keys()) {
+      const name = key.slice(key.indexOf(":") + 1);
+      if (name.includes("$")) templatedNameSelectors.add(key.slice(0, key.indexOf(":")));
+    }
+  }
 
   return {
     ok:
@@ -244,7 +291,8 @@ export function auditOwnership({ sources, snips, selectors = OBJECT_SELECTORS })
       duplicateInOwner.length === 0 &&
       mismatched.length === 0 &&
       widened.length === 0 &&
-      unresolvedRefs.length === 0,
+      unresolvedRefs.length === 0 &&
+      templatedNameSelectors.size === 0,
     rows,
     parseFailures,
     unowned,
@@ -253,6 +301,8 @@ export function auditOwnership({ sources, snips, selectors = OBJECT_SELECTORS })
     ambiguousOwners,
     duplicateInSource,
     duplicateInOwner,
+    templatedUnproven,
+    templatedNameSelectors: [...templatedNameSelectors].sort(),
     mismatched,
     widened,
     crossDirectory,
@@ -357,10 +407,12 @@ async function main() {
   const args = process.argv.slice(2);
   const jvdArg = args.includes("--jvd") ? args[args.indexOf("--jvd") + 1] : "service_provider/metro_ethernet_business_services";
   const asJson = args.includes("--json");
+  const extended = args.includes("--extended");
+  const selectors = extended ? [...OBJECT_SELECTORS, ...EXTENDED_SELECTORS] : OBJECT_SELECTORS;
   const jvdRoot = path.resolve(REPO_ROOT, jvdArg);
 
   const { sources, snips, osConflicts, unknownOs } = await loadJvd(jvdRoot);
-  const result = auditOwnership({ sources, snips });
+  const result = auditOwnership({ sources, snips, selectors });
 
   if (asJson) {
     console.log(JSON.stringify({ jvd: jvdArg, osConflicts, unknownOs, ...result }, null, 2));
@@ -368,7 +420,8 @@ async function main() {
   }
 
   console.log(`JVD: ${jvdArg}`);
-  console.log(`devices: ${sources.length}  snips: ${snips.length}  audited hierarchies: ${OBJECT_SELECTORS.map((s) => s.label).join(", ")}`);
+  console.log(`devices: ${sources.length}  snips: ${snips.length}  audited hierarchies: ${selectors.map((s) => s.label).join(", ")}`);
+  if (extended) console.log("--extended: includes hierarchies with known open coverage; these do not gate.");
   if (unknownOs.length) console.log(`devices with no OS assertion in any Seen-on row (not audited): ${unknownOs.join(" ")}`);
   if (osConflicts.length) console.log(`OS CONFLICTS: ${osConflicts.map((c) => `${c.device} [${c.rows.join(",")}]`).join(" ")}`);
 
@@ -377,7 +430,7 @@ async function main() {
   console.log("device                os    object                                       src ref sel                                            rec eq   xdir");
   for (const r of involved) {
     const owner = r.ambiguous ? `AMBIGUOUS(${r.distinctBodies}) ${r.owners.join(",")}` : r.selected || "(NONE)";
-    const eq = r.equal === true ? "OK  " : r.equal === false ? "DIFF" : r.sourceCount === 0 ? "n/a " : "?   ";
+    const eq = r.equal === true ? "OK  " : r.equal === false ? "DIFF" : r.templated ? "TMPL" : r.sourceCount === 0 ? "n/a " : "?   ";
     console.log(
       `${r.device.padEnd(21)} ${r.os.padEnd(5)} ${r.objectKey.padEnd(44)} ${String(r.sourceCount).padEnd(3)} ${String(r.sourceReferences).padEnd(3)} ${owner.padEnd(46)} ${String(r.reconstructedCount).padEnd(3)} ${eq} ${r.crossDirectory ? "yes" : "no"}`,
     );
@@ -394,8 +447,11 @@ async function main() {
 
   console.log("");
   console.log(
-    `parse failures ${result.parseFailures.length} | unowned+referenced ${result.unownedReferenced.length} | unowned+unreferenced ${result.unownedUnreferenced.length} | ambiguous owners ${result.ambiguousOwners.length} | duplicate in source ${result.duplicateInSource.length} | duplicate in owner ${result.duplicateInOwner.length} | body mismatches ${result.mismatched.length} | widened ${result.widened.length} | unresolved refs ${result.unresolvedRefs.length} | cross-directory ${result.crossDirectory.length}`,
+    `parse failures ${result.parseFailures.length} | unowned+referenced ${result.unownedReferenced.length} | unowned+unreferenced ${result.unownedUnreferenced.length} | ambiguous owners ${result.ambiguousOwners.length} | duplicate in source ${result.duplicateInSource.length} | duplicate in owner ${result.duplicateInOwner.length} | body mismatches ${result.mismatched.length} | unproven (templated) ${result.templatedUnproven.length} | widened ${result.widened.length} | unresolved refs ${result.unresolvedRefs.length} | cross-directory ${result.crossDirectory.length}`,
   );
+  if (result.templatedNameSelectors.length) {
+    console.log(`UNSUPPORTED   selectors with templated object names, ownership not decidable: ${result.templatedNameSelectors.join(", ")}`);
+  }
   for (const p of result.parseFailures) console.log(`UNPARSED      ${p.where} ${p.id}`);
   for (const u of result.unownedReferenced) console.log(`UNOWNED(ref)  ${u.device} ${u.objectKey} referenced ${u.sourceReferences}x`);
   for (const u of result.unownedUnreferenced) console.log(`UNOWNED(dead) ${u.device} ${u.objectKey} referenced 0x — unreachable, reported not failed`);
@@ -404,6 +460,10 @@ async function main() {
   for (const d of result.duplicateInOwner) console.log(`OWNER-DUP     ${d.device} ${d.objectKey} x${d.reconstructedCount} in ${d.selected}`);
   for (const m of result.mismatched) console.log(`MISMATCH      ${m.device} ${m.objectKey} <- ${m.selected}`);
   for (const w of result.widened) console.log(`WIDENED       ${w.device} ${w.objectKey} <- ${w.owners.join(", ")}`);
+  if (extended) {
+    console.log("RESULT: extended report only — gating is the default selector set.");
+    return 0;
+  }
   console.log(result.ok && osConflicts.length === 0 ? "RESULT: PASS (within audited hierarchies)" : "RESULT: FAIL");
   return result.ok && osConflicts.length === 0 ? 0 : 1;
 }

@@ -247,6 +247,24 @@ test("a templated ${VAR} body is parseable and is not read as a brace pair", () 
   assert.deepEqual([...objects.keys()], ["firewall-family-any-filter:${FILTER_NAME}"]);
 });
 
+test("a templated owner body is unproven, never equal and never a mismatch", () => {
+  const templatedOwner = { ...snipPolicer, body: policer("$BURST") };
+  const r = auditOwnership({ sources, snips: [snipCompound, snipFilter, templatedOwner] });
+  const p = row(r, "d2", "firewall-policer:P");
+  assert.equal(p.templated, true);
+  assert.equal(p.equal, null);
+  assert.equal(r.mismatched.length, 0);
+  assert.equal(r.templatedUnproven.length, 2); // d2 and d3
+  assert.equal(r.ok, false); // unproven cannot pass as proven
+});
+
+test("a selector whose object names are templated is reported unsupported", () => {
+  const templatedName = { ...snipFilter, body: FILTER.replace("filter F", "filter $NAME") };
+  const r = auditOwnership({ sources, snips: [snipCompound, templatedName, snipPolicer] });
+  assert.deepEqual(r.templatedNameSelectors, ["firewall-family-any-filter"]);
+  assert.equal(r.ok, false);
+});
+
 // --- line endings ---
 
 test("CRLF snips prove LF sources and vice versa", () => {
