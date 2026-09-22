@@ -13,7 +13,7 @@
     "snips": "node scripts/generate-snips.mjs",
     "snips:check": "node scripts/generate-snips.mjs --check",
     "snips:validate": "node scripts/snip-validate.mjs",
-    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs"
+    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs scripts/gr-capabilities.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

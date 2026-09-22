@@ -22,6 +22,7 @@ import { fileURLToPath } from "node:url";
 import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-parse.mjs";
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
 import { extractIflCapabilities } from "./ifl-capabilities.mjs";
+import { extractGrCapabilities } from "./gr-capabilities.mjs";
 import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -157,7 +158,10 @@ export function validateVariantMember({ variantGroup, body }) {
   const kinds = tokens.map((t) => classifySelector(t));
   const declaredCaps = new Set(tokens.filter((_, i) => kinds[i].kind === "capability"));
   if (declaredCaps.size > 0) {
-    const actual = new Set(extractIflCapabilities(body || ""));
+    const actual = new Set([
+      ...extractIflCapabilities(body || ""),
+      ...extractGrCapabilities(body || ""),
+    ]);
     const equal = declaredCaps.size === actual.size && [...actual].every((c) => declaredCaps.has(c));
     if (!equal) {
       findings.push({

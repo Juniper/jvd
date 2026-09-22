@@ -819,6 +819,8 @@ groups {
  * Seen on:
  *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c ma3_acx7100-48l mdr1_acx7509
+ * Variant group: mebs-edge-intf-mh
+ *   Provides: gr:edge-intf-mh
  *
  * Highlights:
  *  - Same as GR-EDGE-INTF but WITHOUT a port-restoration delay
@@ -1413,6 +1415,9 @@ interfaces {
  *  - Port-level description, MTU and edge defaults come from the applied
  *    group rather than from this body.
  *
+ * Pair with:
+ *  - variant:mebs-edge-intf-mh capabilities=gr:edge-intf-mh
+ *
  * Variables (example values from an1_mx204):
  *   $IFD           e.g. ae11
  *   $LACP_SYS_ID   e.g. 00:00:00:00:00:01
@@ -1451,6 +1456,9 @@ interfaces {
  *    the bundle can carry logical interfaces of mixed encapsulation.
  *  - Port-level description, MTU and edge defaults come from the applied
  *    group rather than from this body.
+ *
+ * Pair with:
+ *  - variant:mebs-edge-intf-mh capabilities=gr:edge-intf-mh
  *
  * Variables (example values from ma1-1_acx7024):
  *   $IFD           e.g. ae12
@@ -10011,6 +10019,8 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Variant group: mebs-edge-intf-mh
+ *   Provides: gr:edge-intf-mh
  *
  * Pair with:
  *
@@ -10472,7 +10482,7 @@ interfaces {
  *    the bundle can carry logical interfaces of mixed encapsulation.
  *
  * Pair with:
- *  - junos/groups/gr-edge-intf-mh.conf
+ *  - variant:mebs-edge-intf-mh capabilities=gr:edge-intf-mh
  *
  * Variables (example values from an2_acx5448):
  *   $IFD           e.g. ae11
@@ -10514,7 +10524,7 @@ interfaces {
  *    group rather than from this body.
  *
  * Pair with:
- *  - junos/groups/gr-edge-intf-mh.conf
+ *  - variant:mebs-edge-intf-mh capabilities=gr:edge-intf-mh
  *
  * Variables (example values from an1_mx204):
  *   $IFD           e.g. ae11
@@ -10556,7 +10566,7 @@ interfaces {
  *    group rather than from this body.
  *
  * Pair with:
- *  - junos/groups/gr-edge-intf-mh.conf
+ *  - variant:mebs-edge-intf-mh capabilities=gr:edge-intf-mh
  *
  * Variables (example values from ma1-1_acx7024):
  *   $IFD           e.g. ae12

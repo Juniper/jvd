@@ -456,7 +456,7 @@
         "ma3_acx7100-48l",
         "mdr1_acx7509"
       ],
-      "size_bytes": 1989,
+      "size_bytes": 2056,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-edge-intf-mh.conf"
     },
     {
@@ -637,7 +637,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1061,
+      "size_bytes": 1139,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-ae-lacp-fast.conf"
     },
     {
@@ -652,7 +652,7 @@
         "ma1-1_acx7024",
         "ma1-2_acx7024"
       ],
-      "size_bytes": 1056,
+      "size_bytes": 1134,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-ae-lacp.conf"
     },
     {
@@ -3558,7 +3558,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 789,
+      "size_bytes": 856,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-edge-intf-mh.conf"
     },
     {
@@ -3719,7 +3719,7 @@
       "seen_on": [
         "an2_acx5448"
       ],
-      "size_bytes": 1087,
+      "size_bytes": 1108,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifd-ae-lacp-fast-disabled.conf"
     },
     {
@@ -3734,7 +3734,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1118,
+      "size_bytes": 1139,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifd-ae-lacp-fast.conf"
     },
     {
@@ -3749,7 +3749,7 @@
         "ma1-1_acx7024",
         "ma1-2_acx7024"
       ],
-      "size_bytes": 1113,
+      "size_bytes": 1134,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifd-ae-lacp.conf"
     },
     {

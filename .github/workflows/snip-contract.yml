@@ -13,6 +13,8 @@ on:
       - 'portal/scripts/bgp-capabilities.test.mjs'
       - 'portal/scripts/ifl-capabilities.mjs'
       - 'portal/scripts/ifl-capabilities.test.mjs'
+      - 'portal/scripts/gr-capabilities.mjs'
+      - 'portal/scripts/gr-capabilities.test.mjs'
       - 'portal/scripts/generate-snips.mjs'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
@@ -36,6 +38,7 @@ jobs:
           portal/scripts/variant.test.mjs
           portal/scripts/bgp-capabilities.test.mjs
           portal/scripts/ifl-capabilities.test.mjs
+          portal/scripts/gr-capabilities.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract

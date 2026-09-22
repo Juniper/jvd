@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T16:54:13.173Z",
+  "generatedAt": "2026-09-22T17:28:36.697Z",
   "counts": {
     "total": 936,
     "junos": 465,
@@ -42356,6 +42356,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        hold-time up 180;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">180</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            \"&#x3C;[egx][te]-*>\" {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 867,
@@ -42904,6 +42910,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 352,
@@ -42960,6 +42974,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 292,
@@ -54720,6 +54742,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                encapsulation flexible-ethernet-services;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 349,
@@ -55208,13 +55236,7 @@
         "LACP active with an explicit system-id, one minimum link, and fast periodic transmission.",
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55226,6 +55248,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        disable;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        disable;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 369,
@@ -55270,13 +55300,7 @@
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation.",
         "Port-level description, MTU and edge defaults come from the applied group rather than from this body."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55288,6 +55312,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 352,
@@ -55332,13 +55364,7 @@
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation.",
         "Port-level description, MTU and edge defaults come from the applied group rather than from this body."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55350,6 +55376,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 292,
