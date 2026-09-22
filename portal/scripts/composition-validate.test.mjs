@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { validateMatrix, formDevices, closeTuple } from "./composition-validate.mjs";
+import { validateMatrix, formDevices, closeTuple, resolveRole } from "./composition-validate.mjs";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const MATRIX = JSON.parse(
@@ -163,4 +163,91 @@ test("tuple closure is order-independent and de-duplicates", () => {
   const two = closeTuple({ entries: ["junos/b.conf"], ...args });
   assert.deepEqual(one.included, two.included);
   assert.deepEqual(one.included, ["junos/a.conf", "junos/b.conf"]);
+});
+
+// --- role parameters vs correlated identities ---
+
+const roleMatrix = {
+  roles: { an: "a" },
+  forms: [],
+  identityVariables: { constructs: ["policy-statement:$INSTANCE_NAME"] },
+  roleBindings: {
+    bindings: [
+      {
+        construct: "community:$COLOR",
+        families: ["e-lan"],
+        provider: { junos: "junos/gold.conf" },
+        alternatives: { junos: ["junos/bronze.conf"] },
+        rationale: "tier choice",
+      },
+    ],
+  },
+  unboundRoleParameters: [{ construct: "policy-statement:$EXPORT_POL", families: ["l3vpn"], reason: "not interchangeable" }],
+};
+
+test("a bound role parameter resolves to its declared provider", () => {
+  const index = new Map([snip("junos/gold.conf"), snip("junos/bronze.conf")]);
+  const r = resolveRole({ construct: "community:$COLOR", family: "e-lan", os: "junos", device: "d1", matrix: roleMatrix, snipIndex: index });
+  assert.equal(r.status, "ok");
+  assert.equal(r.selected, "junos/gold.conf");
+});
+
+test("a provider that does not apply to the device fails, never falls back", () => {
+  const index = new Map([snip("junos/gold.conf", { junos: ["other"], evo: [] })]);
+  const r = resolveRole({ construct: "community:$COLOR", family: "e-lan", os: "junos", device: "d1", matrix: roleMatrix, snipIndex: index });
+  assert.equal(r.status, "inapplicable");
+});
+
+test("a declared-unbound role parameter fails closed with its reason", () => {
+  const r = resolveRole({ construct: "policy-statement:$EXPORT_POL", family: "l3vpn", os: "junos", device: "d1", matrix: roleMatrix, snipIndex: new Map() });
+  assert.equal(r.status, "unbound");
+  assert.match(r.detail, /not interchangeable/);
+});
+
+test("a correlated identity is not treated as a role parameter", () => {
+  const r = resolveRole({ construct: "policy-statement:$INSTANCE_NAME", family: "l3vpn", os: "junos", device: "d1", matrix: roleMatrix, snipIndex: new Map() });
+  assert.equal(r.status, "not-a-role");
+});
+
+test("one spelling can be an identity in one kind and a role in another", () => {
+  const identities = MATRIX.identityVariables.constructs;
+  const roles = MATRIX.roleBindings.bindings.map((b) => b.construct);
+  assert.ok(identities.includes("policy-statement:$INSTANCE_NAME"));
+  assert.ok(roles.includes("community:$INSTANCE_NAME"));
+  // Same name, different kind: they must never collide.
+  assert.equal(identities.filter((i) => roles.includes(i)).length, 0);
+});
+
+test("a device-scoped binding wins over a family-wide one", () => {
+  const m = {
+    ...roleMatrix,
+    roleBindings: {
+      bindings: [
+        { construct: "community:$COLOR", families: ["e-lan"], provider: { junos: "junos/gold.conf" }, rationale: "default" },
+        { construct: "community:$COLOR", families: ["e-lan"], devices: ["d1"], provider: { junos: "junos/bronze.conf" }, rationale: "device" },
+      ],
+    },
+  };
+  const index = new Map([snip("junos/gold.conf"), snip("junos/bronze.conf")]);
+  assert.equal(resolveRole({ construct: "community:$COLOR", family: "e-lan", os: "junos", device: "d1", matrix: m, snipIndex: index }).selected, "junos/bronze.conf");
+  assert.equal(resolveRole({ construct: "community:$COLOR", family: "e-lan", os: "junos", device: "d9", matrix: m, snipIndex: index }).status, "inapplicable");
+});
+
+test("a construct may not be both bound and declared unbound for a family", () => {
+  const m = {
+    roles: {},
+    forms: [],
+    roleBindings: { bindings: [{ construct: "x:$Y", families: ["l3vpn"], provider: { junos: "junos/a.conf" }, rationale: "r" }] },
+    unboundRoleParameters: [{ construct: "x:$Y", families: ["l3vpn"], reason: "r" }],
+  };
+  assert.ok(validateMatrix(m, idxOf("junos/a.conf")).some((p) => /both bound and declared unbound/.test(p)));
+});
+
+test("every declared provider in the shipped matrix resolves and carries a rationale", () => {
+  for (const b of MATRIX.roleBindings.bindings) {
+    assert.ok(b.rationale && b.rationale.length > 20, `${b.construct} needs a rationale`);
+  }
+  for (const u of MATRIX.unboundRoleParameters) {
+    assert.ok(u.reason && u.reason.length > 20, `${u.construct} needs a reason`);
+  }
 });

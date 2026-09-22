@@ -70,7 +70,61 @@ export function validateMatrix(matrix, snipIndex) {
       if (!ids.has(p) && !matrix.forms.some((x) => x.id === p)) problems.push(`${f.id}: paired construct ${p} is not a form id`);
     }
   }
+
+  // Role bindings: every declared provider must exist, and a construct may not
+  // be both bound and declared unbound for the same family.
+  const bound = new Map();
+  for (const b of matrix.roleBindings?.bindings || []) {
+    if (!b.rationale) problems.push(`role binding ${b.construct}: rationale required`);
+    for (const os of ["junos", "evo"]) {
+      if (!b.provider?.[os]) continue; // a device-scoped binding may cover one OS only
+      const all = [b.provider[os], ...(b.alternatives?.[os] || [])];
+      for (const rel of all) {
+        if (!snipIndex.has(rel)) problems.push(`role binding ${b.construct}: provider does not resolve: ${rel}`);
+      }
+    }
+    if (!b.provider?.junos && !b.provider?.evo) problems.push(`role binding ${b.construct}: no provider`);
+    for (const fam of b.families) bound.set(`${b.construct}\u0000${fam}`, b);
+  }
+  for (const u of matrix.unboundRoleParameters || []) {
+    if (!u.reason) problems.push(`unbound role parameter ${u.construct}: reason required`);
+    for (const fam of u.families) {
+      const conflict = bound.get(`${u.construct}\u0000${fam}`);
+      // A device-scoped binding legitimately carves an exception out of an
+      // otherwise unbound family; a family-wide one contradicts it.
+      if (conflict && !conflict.devices) {
+        problems.push(`${u.construct} is both bound and declared unbound for family ${fam}`);
+      }
+    }
+  }
+  // An identity variable may never also be a role parameter.
+  for (const c of matrix.identityVariables?.constructs || []) {
+    if ((matrix.roleBindings?.bindings || []).some((b) => b.construct === c)) {
+      problems.push(`${c} is declared both a correlated identity and a role parameter`);
+    }
+  }
   return problems;
+}
+
+/**
+ * Role resolution for one construct on one device. Returns the provider snip,
+ * or a reason the tuple must fail closed. A provider that does not apply to the
+ * device is a failure, never a silent fallback.
+ */
+export function resolveRole({ construct, family, os, device, matrix, snipIndex }) {
+  const candidates = (matrix.roleBindings?.bindings || []).filter((b) => b.construct === construct && b.families.includes(family));
+  // A device-scoped binding is more specific than a family-wide one and wins.
+  const binding = candidates.find((b) => (b.devices || []).includes(device)) ?? candidates.find((b) => !b.devices);
+  if (binding) {
+    const rel = binding.provider[os];
+    const s = snipIndex.get(rel);
+    if (!s) return { status: "unresolved", detail: rel };
+    if (!(s.seenOn[os] || []).includes(device)) return { status: "inapplicable", detail: rel };
+    return { status: "ok", selected: rel };
+  }
+  const unbound = (matrix.unboundRoleParameters || []).find((u) => u.construct === construct && u.families.includes(family));
+  if (unbound) return { status: "unbound", detail: unbound.reason };
+  return { status: "not-a-role" };
 }
 
 /** Devices a supported form reaches, resolved from its entry snippets' Seen-on. */
@@ -99,7 +153,7 @@ export function formDevices(form, snipIndex) {
  * Closure for one tuple. Returns `{ included, failures }` where each failure
  * names its kind so the ledger can group by root cause.
  */
-export function closeTuple({ entries, device, os, snipIndex, headers, constructs, variantMembers, definers }) {
+export function closeTuple({ entries, device, os, snipIndex, headers, constructs, variantMembers, definers, matrix, family }) {
   const included = new Set();
   const failures = [];
   const stack = [...entries];
@@ -140,6 +194,18 @@ export function closeTuple({ entries, device, os, snipIndex, headers, constructs
 
     for (const ref of constructs.get(rel)?.references || []) {
       const id = `${ref.kind}:${ref.name}`;
+      // A role parameter is a slot: it is never resolved by name equality.
+      if (matrix && ref.name.includes("$")) {
+        const role = resolveRole({ construct: id, family, os, device, matrix, snipIndex });
+        if (role.status === "ok") {
+          stack.push(role.selected);
+          continue;
+        }
+        if (role.status !== "not-a-role") {
+          failures.push({ kind: `role-${role.status}`, from: rel, detail: id });
+          continue;
+        }
+      }
       const byOs = definers.get(id);
       const here = byOs ? byOs[os].get(device) || [] : [];
       if (here.length === 0) {
@@ -239,6 +305,8 @@ async function main() {
           constructs,
           variantMembers,
           definers,
+          matrix,
+          family: f.family,
         });
         sizeSum += r.included.length;
         sizeMax = Math.max(sizeMax, r.included.length);

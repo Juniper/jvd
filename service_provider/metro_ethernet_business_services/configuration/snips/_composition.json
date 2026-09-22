@@ -17,6 +17,58 @@
     "cr": "core router",
     "ag": "aggregation"
   },
+  "identityVariables": {
+    "description": "Correlated names: the reference and the definition bind the same value within one service, so they resolve by symbolic equality.",
+    "constructs": ["policy-statement:$INSTANCE_NAME", "community:$INSTANCE_NAME_RT", "policy-statement:$POLICY_NAME", "policy-statement:$PPLB_NAME"]
+  },
+  "roleBindings": {
+    "description": "Slots, not identities. A role parameter names a position to be filled by a selected construct, so it can never be resolved by symbolic equality. Keyed by construct (kind:name) because one spelling can be an identity in one kind and a role in another: policy-statement:$INSTANCE_NAME is correlated, community:$INSTANCE_NAME is not.",
+    "bindings": [
+      {
+        "construct": "community:$INSTANCE_NAME",
+        "families": ["l3vpn", "irb"],
+        "provider": {
+          "junos": "junos/policy-options/community/cm-l3vpn.conf",
+          "evo": "evo/policy-options/community/cm-l3vpn.conf"
+        },
+        "rationale": "The reference spells the per-service L3VPN route-target community as $INSTANCE_NAME (for example METRO_L3VPN_2002); the definition spells the same construct METRO_L3VPN_$L3VPN_ID. One construct, two spellings — not a missing definition."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["e-line", "e-lan", "e-tree", "e-access"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-export-l2-color.conf",
+          "evo": "evo/policy-options/policy-statement/ps-export-l2-color.conf"
+        },
+        "rationale": "Every device that runs only L2 services binds exactly this one policy body: an1_mx204, ma1-1_acx7024, ma1-2_acx7024 and ma5_mx204 each resolve to a single provider across every vrf-export on the device."
+      },
+      {
+        "construct": "community:$COLOR_COMMUNITY",
+        "families": ["e-line", "e-lan", "e-tree", "e-access"],
+        "provider": {
+          "junos": "junos/policy-options/community/cm-tc-map2gold.conf",
+          "evo": "evo/policy-options/community/cm-tc-map2gold.conf"
+        },
+        "alternatives": {
+          "junos": ["junos/policy-options/community/cm-tc-map2bronze.conf"],
+          "evo": ["evo/policy-options/community/cm-tc-map2bronze.conf"]
+        },
+        "rationale": "Service tier. Gold and bronze steer onto different transport classes, so they are operator-selectable but never interchangeable; gold is the default and bronze must be chosen explicitly."
+      }
+    ]
+  },
+  "unboundRoleParameters": [
+    {
+      "construct": "policy-statement:$EXPORT_POL",
+      "families": ["l3vpn", "irb"],
+      "reason": "Between 6 and 15 semantically different policies are bound per device — public default v4, public default v6, RT-5 NLRI and coloured forms. They are not interchangeable, so no single provider can be declared and affected tuples fail closed. A device-scoped binding is supported by the schema and would resolve uniquely on meg1_acx7100-32c and meg2_acx7509, which bind one body each, but no supported form reaches those two devices for this family."
+    },
+    {
+      "construct": "policy-statement:$IMPORT_POL",
+      "families": ["l3vpn", "irb"],
+      "reason": "Four definers covering distinct import semantics, including the Internet-VRF form. Not interchangeable; affected tuples fail closed. The devices this family does reach — an3_acx7100-48l, ma3_acx7100-48l, ma4_mx204, mse1_mx304 and mse2_mx304 — each bind several different bodies."
+    }
+  ],
   "forms": [
     {
       "id": "evpn-vpws",
