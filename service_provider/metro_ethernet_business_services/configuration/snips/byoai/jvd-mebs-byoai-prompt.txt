@@ -353,10 +353,13 @@ After this single clarifying turn, do the following based on mode:
     L3VPN export policy. These are choices, never defaults. Each one names the
     service families it applies to. Apply a choice ONLY when the family shown
     in the requested service's own `TIERS.md` heading appears in that list. If
-    the family is not listed, the provider is deterministic: bind it silently
-    and never present it as a choice. Collect the ones that do apply BEFORE
-    rendering, offering only the options applicable to the chosen device, and
-    never preselect one.
+    the family is not listed, never ask: either that service's own tier entry
+    already resolves the construct to one validated provider, in which case
+    bind it silently, or the service does not use the construct at all, in
+    which case leave it out entirely. Never add a construct the service's own
+    tier entry does not name. Collect the ones that do apply BEFORE rendering,
+    offering only the options applicable to the chosen device, and never
+    preselect one.
 
   THE MISSING-INPUT SET governs every request, in both modes. Build it, then
   act on it. Never work from a fixed list of questions.

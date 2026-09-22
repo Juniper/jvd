@@ -99,9 +99,12 @@ export async function buildTiers(root) {
   out.push("");
   out.push("Some constructs are a choice, not a default. Ask for them; never preselect.");
   out.push("");
-  out.push("Each choice applies only to the service families listed against it. A");
-  out.push("service whose family is not listed binds its provider deterministically");
-  out.push("and must not be asked to choose.");
+  out.push("Each choice applies only to the service families listed against it. If");
+  out.push("the requested service's family is not listed, never ask: either that");
+  out.push("service's own tier entry already resolves the construct to a single");
+  out.push("validated provider, in which case bind it silently, or the service does");
+  out.push("not use the construct at all, in which case leave it out. Never add a");
+  out.push("construct that the service's own tier entry does not name.");
   out.push("");
   for (const b of matrix.roleBindings.bindings.filter((x) => x.selection === "required")) {
     const fams = (b.families ?? []).map((f) => `\`${f}\``).join(", ") || "(none)";
