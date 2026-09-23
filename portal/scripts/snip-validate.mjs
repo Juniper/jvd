@@ -19,9 +19,11 @@ import { promises as fs } from "node:fs";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseSnip, CODES, VARIANT_FAMILIES } from "./snip-parse.mjs";
+import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-parse.mjs";
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
-import { resolveVariant, groupHasMembers } from "./variant-resolve.mjs";
+import { extractIflCapabilities } from "./ifl-capabilities.mjs";
+import { extractGrCapabilities } from "./gr-capabilities.mjs";
+import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -46,6 +48,9 @@ const VARIANT_CODES = new Set([
   CODES.VARIANT_MALFORMED,
   CODES.VARIANT_PROVIDES_UNKNOWN_FAMILY,
   CODES.VARIANT_PROVIDES_MISMATCH,
+  CODES.VARIANT_UNKNOWN_NAMESPACE,
+  CODES.VARIANT_UNKNOWN_CAPABILITY,
+  CODES.VARIANT_MIXED_SELECTOR,
   CODES.VARIANT_UNRESOLVED,
   CODES.VARIANT_AMBIGUOUS,
   CODES.VARIANT_DEVICE_OVERLAP,
@@ -62,6 +67,9 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
  *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
+  // A cross-directory selection is evidence-backed and legitimate; it is
+  // surfaced so audits can see it, never to block.
+  if (code === CODES.VARIANT_CROSS_DIRECTORY) return "warn";
   if (changed) return "error";
   if (seenOnValidation === "complete" && (APPLICABILITY_CODES.has(code) || VARIANT_CODES.has(code))) return "error";
   return "warn";
@@ -138,11 +146,32 @@ function declaredVariables(variables) {
  * capability set structurally present in its body. Unknown declared families are
  * reported separately by the parser (VARIANT_PROVIDES_UNKNOWN_FAMILY), so the
  * mismatch check compares only the valid declared families against the body.
+ *
+ * A member publishes exactly one selector vocabulary. When it declares
+ * namespaced capabilities the comparison runs against the matching structural
+ * scanner instead of the BGP one; mixing is rejected by the parser.
  */
 export function validateVariantMember({ variantGroup, body }) {
   const findings = [];
   if (!variantGroup) return findings;
-  const declared = new Set((variantGroup.provides || []).filter((f) => VARIANT_FAMILY_SET.has(f)));
+  const tokens = variantGroup.provides || [];
+  const kinds = tokens.map((t) => classifySelector(t));
+  const declaredCaps = new Set(tokens.filter((_, i) => kinds[i].kind === "capability"));
+  if (declaredCaps.size > 0) {
+    const actual = new Set([
+      ...extractIflCapabilities(body || ""),
+      ...extractGrCapabilities(body || ""),
+    ]);
+    const equal = declaredCaps.size === actual.size && [...actual].every((c) => declaredCaps.has(c));
+    if (!equal) {
+      findings.push({
+        code: CODES.VARIANT_PROVIDES_MISMATCH,
+        detail: `declared=[${[...declaredCaps].join(",")}] body=[${[...actual].join(",")}]`,
+      });
+    }
+    return findings;
+  }
+  const declared = new Set(tokens.filter((f) => VARIANT_FAMILY_SET.has(f)));
   const actual = new Set(extractBgpCapabilities(body || ""));
   const equal = declared.size === actual.size && [...actual].every((c) => declared.has(c));
   if (!equal) {
@@ -176,15 +205,23 @@ export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, memb
       for (const dev of devices) {
         const r = resolveVariant({
           group: req.group,
-          families: req.families,
+          selectors: req.families,
           targetDevice: dev,
           targetOS: bucketOS,
           consumerJvd: jvd,
           members,
         });
-        const detail = `${req.group} ${dev} families=${req.families.join(",")}`;
+        const keyword = (req.families || []).some((t) => classifySelector(t).kind === "capability")
+          ? "capabilities"
+          : "families";
+        const detail = `${req.group} ${dev} ${keyword}=${req.families.join(",")}`;
         if (r.status === "unavailable") findings.push({ code: CODES.VARIANT_UNRESOLVED, detail });
         else if (r.status === "ambiguous") findings.push({ code: CODES.VARIANT_AMBIGUOUS, detail });
+        else if (r.crossDirectory)
+          findings.push({
+            code: CODES.VARIANT_CROSS_DIRECTORY,
+            detail: `${detail} -> ${r.member.rel} (stored under ${r.member.os})`,
+          });
       }
     }
   }
@@ -192,19 +229,35 @@ export function validateVariantConsumer({ os, seenOn, variantRequires, jvd, memb
 }
 
 /**
- * Group validation: within one JVD, OS, and group, a device may appear in at
- * most one member — regardless of capabilities. Returns overlap findings for
- * the member identified by `selfRel`.
+ * Group validation: within one JVD and group, a target device must map to at
+ * most one distinct emitted body — evaluated across BOTH storage directories,
+ * because storage is not part of applicability. Two members naming the same
+ * device in the same target-OS row are duplicate representations when their
+ * normalized bodies match, and an overlap when they differ. `otherOsFormId` is
+ * never consulted. Returns overlap findings for the member identified by
+ * `selfRel`.
  */
 export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, members }) {
   const findings = [];
   if (!variantGroup || !members) return findings;
-  const mine = (seenOn && seenOn[os]) || [];
-  for (const dev of mine) {
-    const clash = members.some(
-      (m) => m.rel !== selfRel && m.os === os && m.group === variantGroup.name && (m.seenOn?.[os] || []).includes(dev),
-    );
-    if (clash) findings.push({ code: CODES.VARIANT_DEVICE_OVERLAP, detail: `${dev} in ${variantGroup.name} (${os})` });
+  const self = members.find((m) => m.rel === selfRel);
+  const selfId = self?.bodyId ?? null;
+  for (const bucket of ["junos", "evo"]) {
+    for (const dev of (seenOn && seenOn[bucket]) || []) {
+      const clash = members.some(
+        (m) =>
+          m.rel !== selfRel &&
+          m.group === variantGroup.name &&
+          (m.seenOn?.[bucket] || []).includes(dev) &&
+          // Identical emitted bodies are one representation, not a clash.
+          (selfId === null || m.bodyId === undefined || m.bodyId !== selfId),
+      );
+      if (clash)
+        findings.push({
+          code: CODES.VARIANT_DEVICE_OVERLAP,
+          detail: `${dev} in ${variantGroup.name} (${bucket})`,
+        });
+    }
   }
   return findings;
 }
@@ -393,7 +446,8 @@ async function main() {
 
     const relRepo = path.relative(REPO_ROOT, f).split(path.sep).join("/");
     const os = osOfRel(relRepo);
-    const { header } = parseSnip(await fs.readFile(f, "utf8"));
+    const parsedForMember = parseSnip(await fs.readFile(f, "utf8"));
+    const { header } = parsedForMember;
     if (os && header?.variantGroup) {
       if (!membersByJvd.has(jvdRoot)) membersByJvd.set(jvdRoot, []);
       membersByJvd.get(jvdRoot).push({
@@ -403,6 +457,7 @@ async function main() {
         provides: header.variantGroup.provides,
         seenOn: header.seenOn,
         variantGroup: header.variantGroup,
+        bodyId: bodyIdentity(parsedForMember.body),
         rel: relRepo,
       });
     }

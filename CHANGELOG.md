@@ -4,6 +4,129 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-09-22
+
+Completed the **Metro Ethernet Business Services (MEBS)** service composition
+model and brought the JVD AI Assistant into agreement with it. Every supported
+way of building a service — each combination of service form, validated device
+and configuration tier — now resolves to a complete set of snippets. All **163
+such combinations** resolve cleanly, drawing on the **335-snippet** MEBS
+library, and the assistant answers from that same model rather than from a fixed
+script.
+
+The previous release rebuilt the MEBS snippet library. This release makes the
+library *composable*: it records which services are validated on which devices,
+which building blocks a service pulls in, and which decisions are genuinely
+yours to make rather than defaults someone has to guess.
+
+### Improvements
+
+#### Service Provider
+
+- **Every supported service combination now resolves completely** — the
+  [MEBS composition model](service_provider/metro_ethernet_business_services/configuration/snips/_composition.json)
+  describes **17 service forms**, 16 of them buildable, and each one closes
+  across every validated device and tier it applies to. That yields **163
+  supported combinations** of form, device and tier, and every one of them
+  resolves to a complete snippet set with no unresolved parameters. The one form
+  that is not buildable says so explicitly rather than failing part-way through.
+- **Deterministic bindings separated from real choices** — where a construct has
+  exactly one validated provider for a service, it is bound for you. Where the
+  JVD validates several and none is a default, it is presented as a choice. Each
+  choice now records the service families it applies to, so the transport colour
+  is asked only for E-Line, E-LAN, E-Tree and E-Access services, and the PE-CE
+  export policy only for L3VPN.
+- **EVPN Type-5 binds its export policy directly** — an EVPN Type-5 IP-prefix
+  VRF is an IRB-family service and resolves to a single validated export policy,
+  so it is no longer treated as an open choice. You are still asked for the
+  customer prefixes that policy advertises, because those are yours.
+- **Tier guidance generated from the model** — the per-service tier listings are
+  produced directly from the composition model, so `minimum`,
+  `self-contained` and `as-deployed` for a given device always name snippets
+  that exist and match what the model resolves.
+- **One further snippet published** — the MEBS library grows to **335
+  snippets**, up from 334, and the repository catalog to **937 across 18 JVDs**.
+
+#### JVD AI Assistant
+
+- **Asks for what your request actually needs** — the assistant derives the
+  outstanding inputs from the service, devices and tier you asked for, then asks
+  for all of them once, grouped, instead of walking a fixed list of questions.
+  Anything you have already supplied is never asked for again, and an
+  acknowledgement such as "go ahead" is not treated as supplying a value.
+- **Only asks for values your configuration uses** — required inputs are
+  established from the snippets your request actually resolves to. A value that
+  belongs to a different variant of a building block — for example a
+  route-reflector address used by a templated overlay when your device resolves
+  to its own complete deployed form — is no longer requested, defaulted or
+  treated as missing.
+- **Generated configuration is traceable to the library** — every generation
+  declares the snippets it used and emits each one under its source path, and
+  the declared and emitted sets must match exactly, using the full library path
+  in both places.
+- **Configuration is reproduced, not rewritten** — rendering substitutes only a
+  snippet's declared variables and preserves every other keyword, brace and
+  statement from the source. A snippet that declares no variables is copied
+  verbatim, and where such a snippet carries deployed literals that differ from
+  the values you supplied, the assistant says so and asks you to reconcile them
+  at deployment rather than silently substituting.
+
+### What this means for you
+
+- Ask for any of the 16 buildable MEBS service forms on any device it is
+  validated for and expect a complete set of building blocks, not a partial one.
+- Expect to be asked only for decisions that are genuinely yours — the transport
+  colour on a Layer 2 service, the export policy on an L3VPN, the customer
+  prefixes, and the physical attachment points.
+- Check the `snips_used` list at the top of any generated configuration to see
+  exactly which library snippets produced it, then read those snippets directly.
+- Treat preserved deployed literals as a deliberate signal: where generated
+  output keeps a validated device's own address, reconcile it with your
+  addressing plan before you commit.
+
+---
+
+### By the numbers
+
+No device configuration was changed in this release.
+
+<details>
+<summary>Changes by area</summary>
+
+| Area | Files | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: | ---: |
+| Portal | 30 | 5,343 | 873 | +4,470 |
+| Service Provider | 45 | 1,834 | 723 | +1,111 |
+| Repository tooling | 2 | 96 | 16 | +80 |
+| **Total** | **77** | **7,273** | **1,612** | **+5,661** |
+
+</details>
+
+<details>
+<summary>MEBS composition coverage</summary>
+
+| Measure | Value |
+| --- | ---: |
+| Service forms described | 17 |
+| Forms buildable | 16 |
+| Supported form x device x tier combinations | 163 |
+| Combinations resolving completely | 163 |
+| Unresolved combinations | 0 |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS — total | 334 | 335 | +1 |
+| All JVDs — total | 936 | 937 | +1 |
+
+</details>
+
+---
+
 ## 2026-09-21
 
 Rebuilt the **Metro Ethernet Business Services (MEBS)** configuration snippet

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-22T15:44:13.139Z",
+  "generatedAt": "2026-09-23T01:05:49.862Z",
   "counts": {
-    "total": 936,
+    "total": 937,
     "junos": 465,
-    "evo": 471,
+    "evo": 472,
     "jvds": 18
   },
   "categories": [
@@ -235,8 +235,8 @@
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
         "junos": 157,
-        "evo": 177,
-        "total": 334
+        "evo": 178,
+        "total": 335
       }
     },
     {
@@ -41995,6 +41995,59 @@
       "parseWarnings": []
     },
     {
+      "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "firewall",
+      "categoryPath": "firewall",
+      "name": "filter-family-any-50mb",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/filter-family-any-50mb.conf",
+      "otherOsFormId": null,
+      "topic": "Protocol-independent 50 Mbps rate-limit filter, without the 5 Mbps filter",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448"
+        ],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "highlights": [
+        "The atomic form of 50MB_filter, for the two access nodes that carry this filter alone. Peers that also carry 5MB_filter use firewall/filter-family-any-policers.conf instead, and an1_mx204 carries its own compound form in junos/firewall/policers.conf.",
+        "`family any` acts on the logical interface regardless of payload protocol, and `interface-specific` gives every bound interface its own counter and policer instance, so one subscriber's rate limit is independent of another's.",
+        "A single unconditional term whose only action is the policer, which makes the filter a pure bandwidth profile.",
+        "On an3_acx7100-48l the filter is bound as `filter { input 50MB_filter; }` on 1400 service units. On an2_acx5448 the definition is present with no binding, so the filter exists there as a prepared profile.",
+        "The 50mbps_policer this term names is the 2 m burst form. The 10 m burst form is an1_mx204's alone and is not reachable from here."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/firewall/policers.conf",
+          "id": "metro_ethernet_business_services/evo/firewall/policers",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "firewall {\n    family any {\n        filter 50MB_filter {\n            interface-specific;\n            term t1 {\n                then policer 50mbps_policer;\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">firewall {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    family any {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        filter 50MB_filter {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            interface-specific;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            term t1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                then policer 50mbps_policer;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 187,
+      "lineCount": 10,
+      "techFamily": "Firewall & Policing",
+      "subfamily": "Filters",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "parseWarnings": []
+    },
+    {
       "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-policers",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -42356,6 +42409,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        hold-time up 180;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">180</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            \"&#x3C;[egx][te]-*>\" {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 867,
@@ -42412,6 +42471,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-form",
+        "provides": [
+          "gr:edge-intf"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">180000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            \"&#x3C;[egx][te]-*>\" {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 893,
@@ -42454,6 +42519,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-fatpw-label-form",
+        "provides": [
+          "gr:fatpw-label"
+        ]
+      },
       "body": "groups {\n    GR-FATPW-LABEL {\n        /* EVPN-VPWS will use static label EVPN-ELAN will use both */\n        routing-instances {\n            <l2vpn_*> {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <vpls_*> {\n                protocols {\n                    vpls {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <evpn_group_80_*> {\n                protocols {\n                    evpn {\n                        flow-label;\n                        flow-label-static;\n                    }\n                }\n            }\n            <evpn_group_10_*> {\n                protocols {\n                    evpn {\n                        flow-label-transmit-static;\n                        flow-label-receive-static;\n                    }\n                }\n            }\n            <EVPN_VPWS_PORT_*> {\n                protocols {\n                    evpn {\n                        flow-label-transmit-static;\n                        flow-label-receive-static;\n                    }\n                }\n            }\n            L2VPN_PORT_BASED {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <EVPN_ELAN_PORT_*> {\n                protocols {\n                    evpn {\n                        flow-label;\n                        flow-label-static;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-FATPW-LABEL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        /* EVPN-VPWS will use static label EVPN-ELAN will use both */</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;l2vpn_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;vpls_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;evpn_group_80_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;evpn_group_10_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;EVPN_VPWS_PORT_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            L2VPN_PORT_BASED {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;EVPN_ELAN_PORT_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-static;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 1749,
@@ -42904,6 +42975,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 352,
@@ -42960,6 +43039,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 292,
@@ -43083,6 +43170,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 136,
@@ -43144,6 +43237,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            virtual-gateway-accept-data;\n            family inet {\n                address $IRB_ADDR {\n                    virtual-gateway-address $VGA;\n                }\n            }\n            virtual-gateway-v4-mac $VG_MAC;\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-accept-data;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    virtual-gateway-address $VGA;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            virtual-gateway-v4-mac $VG_MAC;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 290,
@@ -49651,6 +49750,7 @@
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003",
+          "mse1_mx304",
           "mse2_mx304"
         ],
         "evo": [
@@ -50055,6 +50155,14 @@
         "    meg2_acx7509  ae66.4000 00:10:11:11:50:12:01:00:00:00 A-A",
         "    mse1_mx304  xe-0/0/3:1.3000",
         "    (+1 more endpoints)"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type mac-vrf;\n        protocols {\n            evpn {\n                encapsulation mpls;\n                default-gateway do-not-advertise;\n                normalization;\n                no-control-word;\n            }\n        }\n        service-type vlan-based;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n        vlans {\n            $BD_NAME {\n                vlan-id $VLAN_BD;\n                interface $AC_INTF;\n                l3-interface $IRB_UNIT;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type mac-vrf;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation mpls;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                default-gateway do-not-advertise;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                normalization;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        service-type vlan-based;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT_AS:$RT_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vlans {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            $BD_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                vlan-id $VLAN_BD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                l3-interface $IRB_UNIT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -50650,11 +50758,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        },
-        {
           "raw": "evo/policy-options/policy-statement/ps-export-l2-color.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-export-l2-color",
           "note": null
@@ -50717,6 +50820,12 @@
           "families": [
             "evpn"
           ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
+          ]
         }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    interface $AC_INTF.$UNIT_C;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
@@ -50764,11 +50873,6 @@
         "service-id local/remote integers are swapped relative to the Junos PE (the pair forms one bidirectional EVPN-VPWS PW)."
       ],
       "pairWith": [
-        {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        },
         {
           "raw": "evo/policy-options/policy-statement/ps-export-l2-color.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-export-l2-color",
@@ -50836,6 +50940,12 @@
           "families": [
             "evpn"
           ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
+          ]
         }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    interface $AC_INTF.$UNIT_C;\n                    interface $AC_INTF.$UNIT_D;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
@@ -50882,13 +50992,7 @@
         "Four UNIs, all on the same physical UNI. UNI count is part of the instance body, so each arity is its own form.",
         "service-id local/remote integers are swapped relative to the Junos PE (the pair forms one bidirectional EVPN-VPWS PW)."
       ],
-      "pairWith": [
-        {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -50949,6 +51053,12 @@
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
+          ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
           ]
         }
       ],
@@ -51816,13 +51926,7 @@
         "no-control-word matches the remote PE",
         "vrf-target establishes the BGP route-target community for the L2VPN"
       ],
-      "pairWith": [
-        {
-          "raw": "evo/groups/gr-fatpw-label.conf (matches L2VPN_PORT_BASED)",
-          "id": "metro_ethernet_business_services/evo/groups/gr-fatpw-label",
-          "note": "matches L2VPN_PORT_BASED"
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -51859,6 +51963,14 @@
         "  Example: L2VPN_PORT_BASED (RD 63535:6500, RT target:63535:6500)",
         "    an3_acx7100-48l  et-0/0/8.0",
         "    ma5_mx204  xe-0/1/2.0"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-fatpw-label-form",
+          "families": [
+            "gr:fatpw-label"
+          ]
+        }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $INSTANCE_NAME {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        instance-type l2vpn;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                site $L2VPN_SITE {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    interface $AC_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        remote-site-id $L2VPN_REMOTE_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    site-identifier $L2VPN_LOCAL_SITE_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation-type ethernet;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                no-control-word;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $AC_INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        route-distinguisher $RD;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        vrf-target target:$RT;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
@@ -52250,6 +52362,12 @@
       "jvdServiceMapping": [],
       "variantRequires": [
         {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
+        {
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
@@ -52358,6 +52476,12 @@
       ],
       "variantRequires": [
         {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
+        {
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
@@ -52447,6 +52571,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -52682,11 +52812,6 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
-          "note": null
-        },
-        {
           "raw": "evo/policy-options/policy-statement/ps-export-l2-color.conf",
           "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-export-l2-color",
           "note": null
@@ -52739,6 +52864,12 @@
           "group": "mebs-bgp-overlay",
           "families": [
             "l2vpn"
+          ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
           ]
         }
       ],
@@ -53353,6 +53484,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
+          "an4_acx710",
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003"
@@ -54411,7 +54543,10 @@
         ],
         "evo": []
       },
-      "highlights": [],
+      "highlights": [
+        "Two reusable rate-limit policers (5 Mbps and 50 Mbps) and an interface-specific family-any filter that drops traffic exceeding 50 Mbps. Apply with: set interfaces <ifd> unit <unit> family any filter input 50MB_filter",
+        "The 50 Mbps policer here carries a 10 m burst, which is this device's form; every other PE uses the 2 m burst in evo/firewall/policers.conf."
+      ],
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
@@ -54682,6 +54817,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                encapsulation flexible-ethernet-services;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF-MH {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 349,
@@ -54730,6 +54871,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-form",
+        "provides": [
+          "gr:edge-intf"
+        ]
+      },
       "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        accept-data;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-EDGE-INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                traps;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                mtu </span><span style=\"color:#79C0FF\">9102</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                hold-time up </span><span style=\"color:#79C0FF\">180000</span><span style=\"color:#E6EDF3\"> down </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;ae*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        accept-data;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        hold-time up </span><span style=\"color:#79C0FF\">2</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            \"&#x3C;[egx][te]-*>\" {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                optics-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    alarm low-light-alarm {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        link-down;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    warning low-light-warning {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        syslog;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 930,
@@ -54773,6 +54920,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-fatpw-label-form",
+        "provides": [
+          "gr:fatpw-label"
+        ]
+      },
       "body": "groups {\n    GR-FATPW-LABEL {\n        routing-instances {\n            <l2vpn_*> {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            <vpls_*> {\n                protocols {\n                    vpls {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n            L2VPN_PORT_BASED {\n                protocols {\n                    l2vpn {\n                        flow-label-transmit;\n                        flow-label-receive;\n                    }\n                }\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    GR-FATPW-LABEL {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-instances {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;l2vpn_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            &#x3C;vpls_*> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    vpls {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            L2VPN_PORT_BASED {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    l2vpn {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-transmit;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        flow-label-receive;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 749,
@@ -55095,6 +55248,7 @@
       "topic": "Flexible-Ethernet-Services UNI with per-unit encapsulation vlan-bridge (EVPN-ELAN access)",
       "seenOn": {
         "junos": [
+          "ma4_mx204",
           "ma5_mx204",
           "mse1_mx304",
           "mse2_mx304"
@@ -55108,13 +55262,7 @@
         "Per-unit `encapsulation vlan-bridge` + `vlan-id <N>` exposes the unit as a `family bridge` UNI, ready to be referenced from a routing-instance of type virtual-switch (EVPN-ELAN).",
         "apply-groups GR-EDGE-INTF supplies the common knobs (mtu, no-auto-negotiation, gigether-options, etc.) shared across all edge interfaces."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$UNI_INTF",
@@ -55130,6 +55278,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $UNI_INTF {\n        apply-groups GR-EDGE-INTF;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $UNI_INTF {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            encapsulation vlan-bridge;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            vlan-id $VLAN;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 249,
@@ -55170,13 +55326,7 @@
         "LACP active with an explicit system-id, one minimum link, and fast periodic transmission.",
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55188,6 +55338,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        disable;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        disable;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 369,
@@ -55232,13 +55390,7 @@
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation.",
         "Port-level description, MTU and edge defaults come from the applied group rather than from this body."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55250,6 +55402,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            minimum-links </span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                periodic fast;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 352,
@@ -55294,13 +55454,7 @@
         "flexible-vlan-tagging with flexible-ethernet-services encapsulation, so the bundle can carry logical interfaces of mixed encapsulation.",
         "Port-level description, MTU and edge defaults come from the applied group rather than from this body."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf-mh.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$IFD",
@@ -55312,6 +55466,14 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-mh",
+          "families": [
+            "gr:edge-intf-mh"
+          ]
+        }
+      ],
       "body": "interfaces {\n    $IFD {\n        apply-groups GR-EDGE-INTF-MH;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        aggregated-ether-options {\n            lacp {\n                active;\n                system-id $LACP_SYS_ID;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    $IFD {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        apply-groups GR-EDGE-INTF-MH;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        flexible-vlan-tagging;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        encapsulation flexible-ethernet-services;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        aggregated-ether-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lacp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                active;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                system-id $LACP_SYS_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 292,
@@ -55488,6 +55650,12 @@
         }
       ],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-irb-form",
+        "provides": [
+          "ifl:irb"
+        ]
+      },
       "body": "interfaces {\n    irb {\n        unit $UNIT {\n            family inet {\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
       "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    irb {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        unit $UNIT {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                address $IRB_ADDR;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
       "bytes": 136,
@@ -60973,6 +61141,7 @@
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003",
+          "mse1_mx304",
           "mse2_mx304"
         ],
         "evo": [
@@ -61231,11 +61400,6 @@
           "raw": "junos/interfaces/ethernet-bridge.conf",
           "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
           "note": null
-        },
-        {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
         }
       ],
       "variables": [
@@ -61291,6 +61455,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -61930,11 +62100,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
-          "note": null
-        },
-        {
           "raw": "junos/policy-options/policy-statement/ps-export-l2-color.conf",
           "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-export-l2-color",
           "note": null
@@ -62001,6 +62166,12 @@
           "families": [
             "evpn"
           ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
+          ]
         }
       ],
       "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type evpn-vpws;\n        protocols {\n            evpn {\n                flexible-cross-connect-vlan-unaware;\n                group fxc {\n                    interface $AC_INTF.$UNIT_A;\n                    interface $AC_INTF.$UNIT_B;\n                    interface $AC_INTF.$UNIT_C;\n                    interface $AC_INTF.$UNIT_D;\n                    service-id {\n                        local $SVC_ID_LOCAL;\n                        remote $SVC_ID_REMOTE;\n                    }\n                }\n            }\n        }\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-export $INSTANCE_NAME;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}",
@@ -62048,13 +62219,7 @@
         "`service-id { local <N>; remote <M>; }` defines the EVPN pseudowire endpoint pair — the local/remote integers are swapped on the peer PE.",
         "No `vlan-id`, no `vrf-table-label`, no `interface` at the instance level (UNIs live entirely inside the FXC group)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-edge-intf.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -62115,6 +62280,12 @@
           "group": "mebs-bgp-overlay",
           "families": [
             "evpn"
+          ]
+        },
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
           ]
         }
       ],
@@ -62600,13 +62771,7 @@
         "route-distinguisher / vrf-target tie this VPN scope across PEs.",
         "The matching attachment-circuit is xe-0/1/2.0 (a port-mode unit, not vlan-tagged)."
       ],
-      "pairWith": [
-        {
-          "raw": "junos/groups/gr-fatpw-label.conf",
-          "id": "metro_ethernet_business_services/junos/groups/gr-fatpw-label",
-          "note": null
-        }
-      ],
+      "pairWith": [],
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -62645,6 +62810,12 @@
         "    ma5_mx204  xe-0/1/2.0"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-fatpw-label-form",
+          "families": [
+            "gr:fatpw-label"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63005,11 +63176,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
-        },
-        {
           "raw": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
           "id": "metro_ethernet_business_services/junos/routing-instances/evpn-elan/ri-evpn-elan-irb",
           "note": null
@@ -63058,6 +63224,12 @@
       ],
       "jvdServiceMapping": [],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63114,11 +63286,6 @@
       ],
       "pairWith": [
         {
-          "raw": "junos/interfaces/ifl-irb-inet.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifl-irb-inet",
-          "note": null
-        },
-        {
           "raw": "junos/groups/gr-l3vpn.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-l3vpn",
           "note": null
@@ -63171,6 +63338,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -63268,6 +63441,12 @@
         "    (+1 more endpoints)"
       ],
       "variantRequires": [
+        {
+          "group": "mebs-irb-form",
+          "families": [
+            "ifl:irb"
+          ]
+        },
         {
           "group": "mebs-bgp-overlay",
           "families": [
@@ -64346,6 +64525,7 @@
         "junos": [
           "an1_mx204",
           "an2_acx5448",
+          "an4_acx710",
           "ma4_mx204",
           "ma5_mx204",
           "mdr2_mx10003"

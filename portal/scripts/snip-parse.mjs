@@ -29,10 +29,14 @@ export const CODES = {
   VARIANT_MALFORMED: "VARIANT_MALFORMED",
   VARIANT_PROVIDES_UNKNOWN_FAMILY: "VARIANT_PROVIDES_UNKNOWN_FAMILY",
   VARIANT_PROVIDES_MISMATCH: "VARIANT_PROVIDES_MISMATCH",
+  VARIANT_UNKNOWN_NAMESPACE: "VARIANT_UNKNOWN_NAMESPACE",
+  VARIANT_UNKNOWN_CAPABILITY: "VARIANT_UNKNOWN_CAPABILITY",
+  VARIANT_MIXED_SELECTOR: "VARIANT_MIXED_SELECTOR",
   VARIANT_UNRESOLVED: "VARIANT_UNRESOLVED",
   VARIANT_AMBIGUOUS: "VARIANT_AMBIGUOUS",
   VARIANT_DEVICE_OVERLAP: "VARIANT_DEVICE_OVERLAP",
   VARIANT_GROUP_EMPTY: "VARIANT_GROUP_EMPTY",
+  VARIANT_CROSS_DIRECTORY: "VARIANT_CROSS_DIRECTORY",
 };
 
 const SECTION_ORDER = [
@@ -49,6 +53,34 @@ const SECTION_ORDER = [
 // `variant:` requirements (consumer). `route-target` is never selectable.
 export const VARIANT_FAMILIES = ["evpn", "l2vpn", "inet-vpn", "inet6-vpn", "labeled-unicast"];
 const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
+
+// Namespaced selector capabilities, keyed by namespace. A namespaced token is
+// written `<namespace>:<capability>`. This is a separate vocabulary from
+// VARIANT_FAMILIES: a family is a BGP address family, a capability is any other
+// selectable construct. `ifl` is the repository's established scope token for a
+// logical interface (see .github/glossary/snip-glossary.json).
+export const VARIANT_CAPABILITIES = { ifl: ["irb"], gr: ["edge-intf", "edge-intf-mh", "fatpw-label"] };
+
+/**
+ * classifySelector(token) -> { kind, ns?, cap? }
+ *
+ * kind is one of "family", "capability", "unknown-namespace",
+ * "unknown-capability", "unknown-family". A token containing ":" is always
+ * judged as namespaced, so a typo in a namespace can never silently fall back
+ * to the bare-family vocabulary.
+ */
+export function classifySelector(token) {
+  const t = String(token ?? "").toLowerCase();
+  if (t.includes(":")) {
+    const idx = t.indexOf(":");
+    const ns = t.slice(0, idx);
+    const cap = t.slice(idx + 1);
+    if (!Object.prototype.hasOwnProperty.call(VARIANT_CAPABILITIES, ns)) return { kind: "unknown-namespace", ns, cap };
+    if (!VARIANT_CAPABILITIES[ns].includes(cap)) return { kind: "unknown-capability", ns, cap };
+    return { kind: "capability", ns, cap };
+  }
+  return VARIANT_FAMILY_SET.has(t) ? { kind: "family" } : { kind: "unknown-family" };
+}
 
 // Bare prose words that must never be read as device tokens.
 const APPROX_WORDS = /^(all|other|others|remaining|various|etc|devices|nodes|node|pes|pe|routers|router)$/i;
@@ -183,9 +215,19 @@ export function parseSnip(text) {
       if (fams.length === 0) {
         diag(CODES.VARIANT_MALFORMED, trimmed);
       } else {
+        let sawFamily = false;
+        let sawCapability = false;
         for (const f of fams) {
-          if (!VARIANT_FAMILY_SET.has(f)) diag(CODES.VARIANT_PROVIDES_UNKNOWN_FAMILY, f);
+          const c = classifySelector(f);
+          if (c.kind === "family") sawFamily = true;
+          else if (c.kind === "capability") sawCapability = true;
+          else if (c.kind === "unknown-namespace") diag(CODES.VARIANT_UNKNOWN_NAMESPACE, f);
+          else if (c.kind === "unknown-capability") diag(CODES.VARIANT_UNKNOWN_CAPABILITY, f);
+          else diag(CODES.VARIANT_PROVIDES_UNKNOWN_FAMILY, f);
         }
+        // A member publishes one kind of selector; mixing the two vocabularies
+        // would make an atomic all-of requirement span unrelated dimensions.
+        if (sawFamily && sawCapability) diag(CODES.VARIANT_MIXED_SELECTOR, trimmed);
         if (variantGroup) variantGroup.provides = fams;
       }
       continue;
@@ -323,15 +365,37 @@ export function parseSnip(text) {
       if (b) {
         const bullet = b[1].trim();
         if (/^variant\s*:/i.test(bullet)) {
-          const vr = bullet.match(/^variant\s*:\s*([a-z0-9-]+)\s+families=([a-z0-9,\-]+)$/);
+          const vr = bullet.match(
+            /^variant\s*:\s*([a-z0-9-]+)\s+(families|capabilities)=([a-z0-9,:\-]+)$/,
+          );
           if (!vr) {
             diag(CODES.VARIANT_MALFORMED, bullet);
           } else {
-            const families = [...new Set(vr[2].split(",").filter(Boolean))];
-            if (families.length === 0 || families.some((f) => !VARIANT_FAMILY_SET.has(f))) {
+            const keyword = vr[2];
+            const tokens = [...new Set(vr[3].split(",").filter(Boolean))];
+            const kinds = tokens.map((t) => classifySelector(t));
+            const sawFamily = kinds.some((k) => k.kind === "family");
+            const sawCapability = kinds.some((k) => k.kind === "capability");
+            const unknownNs = tokens.filter((t, i) => kinds[i].kind === "unknown-namespace");
+            const unknownCap = tokens.filter((t, i) => kinds[i].kind === "unknown-capability");
+            const unknownFam = kinds.some((k) => k.kind === "unknown-family");
+            if (unknownNs.length) {
+              for (const t of unknownNs) diag(CODES.VARIANT_UNKNOWN_NAMESPACE, t);
+            } else if (unknownCap.length) {
+              for (const t of unknownCap) diag(CODES.VARIANT_UNKNOWN_CAPABILITY, t);
+            } else if (sawFamily && sawCapability) {
+              diag(CODES.VARIANT_MIXED_SELECTOR, bullet);
+            } else if (
+              tokens.length === 0 ||
+              unknownFam ||
+              (sawFamily && keyword !== "families") ||
+              (sawCapability && keyword !== "capabilities")
+            ) {
+              // Unknown bare family, or a keyword that disagrees with the
+              // selector kind, stays VARIANT_MALFORMED as before.
               diag(CODES.VARIANT_MALFORMED, bullet);
             } else {
-              variantRequires.push({ group: vr[1], families });
+              variantRequires.push({ group: vr[1], families: tokens });
             }
           }
           continue; // variant requirements never fall through to pairWith

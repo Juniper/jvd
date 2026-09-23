@@ -375,3 +375,239 @@ test("F2: group exists only under other OS -> UNRESOLVED (not GROUP_EMPTY)", () 
   });
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_UNRESOLVED]);
 });
+
+// --- Namespaced selector capabilities (ifl:) -----------------------------
+const irbSnip = (provides, body) => `/*
+ * Topic:   irb logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Variant group: mebs-irb-form
+ *   Provides: ${provides}
+ * Highlights:
+ *  - member
+ */
+${body}`;
+
+const IRB_BODY = `interfaces {
+    irb {
+        unit $UNIT {
+            family inet {
+                address $IRB_ADDR;
+            }
+        }
+    }
+}`;
+
+test("C1. existing bare BGP Provides is unchanged", () => {
+  const { header, diagnostics } = parseSnip(memberSnip("evpn, l2vpn", ["evpn", "l2vpn"]));
+  assert.deepEqual(diagnostics.map((d) => d.code), []);
+  assert.deepEqual(header.variantGroup.provides, ["evpn", "l2vpn"]);
+});
+
+test("C2. valid ifl:irb member parses and matches its body", () => {
+  const { header, diagnostics } = parseSnip(irbSnip("ifl:irb", IRB_BODY));
+  assert.deepEqual(diagnostics.map((d) => d.code), []);
+  assert.deepEqual(header.variantGroup.provides, ["ifl:irb"]);
+  assert.deepEqual(validateVariantMember({ variantGroup: header.variantGroup, body: IRB_BODY }), []);
+});
+
+test("C3. unknown namespace is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("iface:irb", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_UNKNOWN_NAMESPACE));
+});
+
+test("C4. unknown capability inside a known namespace is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("ifl:bogus", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_UNKNOWN_CAPABILITY));
+});
+
+test("C5. mixing a family and a capability is rejected", () => {
+  const { diagnostics } = parseSnip(irbSnip("evpn, ifl:irb", IRB_BODY));
+  assert.ok(diagnostics.map((d) => d.code).includes(CODES.VARIANT_MIXED_SELECTOR));
+});
+
+test("C6. declaring ifl:irb without an irb unit in the body is a mismatch", () => {
+  const body = "interfaces {\n    irb {\n    }\n}";
+  const { header } = parseSnip(irbSnip("ifl:irb", body));
+  assert.deepEqual(
+    validateVariantMember({ variantGroup: header.variantGroup, body }).map((f) => f.code),
+    [CODES.VARIANT_PROVIDES_MISMATCH],
+  );
+});
+
+test("C7. consumer keyword must match the selector kind", () => {
+  const bad = (b) => parseSnip(`/*
+ * Topic:   consumer
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - ${b}
+ */
+routing-instances { X { instance-type vrf; } }`).diagnostics.map((d) => d.code);
+  assert.ok(bad("variant:mebs-irb-form families=ifl:irb").includes(CODES.VARIANT_MALFORMED));
+  assert.ok(bad("variant:mebs-bgp-overlay capabilities=evpn").includes(CODES.VARIANT_MALFORMED));
+  assert.deepEqual(bad("variant:mebs-irb-form capabilities=ifl:irb"), []);
+  assert.deepEqual(bad("variant:mebs-bgp-overlay families=evpn"), []);
+});
+
+// Device-conditioned resolution: the two IRB forms are one group, selected by
+// exact Seen-on membership. Mirrors the real MEBS corpus.
+const IRB_INET = {
+  jvd: "mebs", os: "evo", group: "mebs-irb-form", provides: ["ifl:irb"],
+  seenOn: { junos: ["mse1_mx304", "mse2_mx304"], evo: ["an3_acx7100-48l"] },
+  rel: "evo/interfaces/ifl-irb-inet.conf",
+};
+const IRB_VGA = {
+  jvd: "mebs", os: "evo", group: "mebs-irb-form", provides: ["ifl:irb"],
+  seenOn: { junos: [], evo: ["meg1_acx7100-32c", "meg2_acx7509"] },
+  rel: "evo/interfaces/ifl-irb-virtual-gateway.conf",
+};
+
+test("C8. an3 resolves to the plain-inet IRB form", () => {
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "an3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "evo/interfaces/ifl-irb-inet.conf");
+});
+
+test("C9. meg1 and meg2 resolve to the virtual-gateway IRB form", () => {
+  for (const d of ["meg1_acx7100-32c", "meg2_acx7509"]) {
+    const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: d, targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+    assert.equal(r.status, "ok");
+    assert.equal(r.member.rel, "evo/interfaces/ifl-irb-virtual-gateway.conf");
+  }
+});
+
+test("C10. an unlisted device fails closed as unavailable", () => {
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "ma3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, IRB_VGA] });
+  assert.equal(r.status, "unavailable");
+});
+
+test("C11. overlapping device membership fails closed as ambiguous", () => {
+  const clash = { ...IRB_VGA, seenOn: { junos: [], evo: ["an3_acx7100-48l"] }, rel: "evo/interfaces/other.conf" };
+  const r = resolveVariant({ group: "mebs-irb-form", families: ["ifl:irb"], targetDevice: "an3_acx7100-48l", targetOS: "evo", consumerJvd: "mebs", members: [IRB_INET, clash] });
+  assert.equal(r.status, "ambiguous");
+});
+
+test("C12. device overlap inside one group is reported", () => {
+  const clash = { ...IRB_VGA, seenOn: { junos: [], evo: ["an3_acx7100-48l"] }, rel: "evo/interfaces/other.conf" };
+  const f = validateVariantOverlap({ os: "evo", variantGroup: { name: "mebs-irb-form" }, seenOn: IRB_INET.seenOn, selfRel: IRB_INET.rel, members: [IRB_INET, clash] });
+  assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_DEVICE_OVERLAP]);
+});
+
+// --- Applicability governs selection; equivalence collapses, never admits ---
+import { bodyIdentity } from "./variant-resolve.mjs";
+
+const BODY_A = "interfaces {\n    irb {\n        unit 0 {\n            family inet;\n        }\n    }\n}";
+const BODY_B = "interfaces {\n    irb {\n        unit 0 {\n            family inet6;\n        }\n    }\n}";
+const mem = (over) => ({ jvd: "J", os: "evo", group: "g", provides: ["x"], seenOn: { junos: [], evo: ["d1"] }, body: BODY_A, rel: "evo/a.conf", ...over });
+const NATIVE = mem({});
+const FOREIGN = mem({ os: "junos", rel: "junos/a.conf" });
+const R = (members, over = {}) =>
+  resolveVariant({ group: "g", selectors: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members, ...over });
+
+test("D1. identical bodies collapse; the same-directory representation is preferred", () => {
+  const r = R([NATIVE, FOREIGN]);
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "evo/a.conf");
+  assert.equal(r.crossDirectory, false);
+});
+
+test("D2. a lone exact-device other-directory representation is selected and flagged", () => {
+  const r = R([FOREIGN]);
+  assert.equal(r.status, "ok");
+  assert.equal(r.member.rel, "junos/a.conf");
+  assert.equal(r.crossDirectory, true);
+});
+
+test("D3. same- and other-directory candidates with DIFFERENT bodies are ambiguous", () => {
+  const r = R([NATIVE, mem({ os: "junos", rel: "junos/a.conf", body: BODY_B })]);
+  assert.equal(r.status, "ambiguous");
+});
+
+test("D4. two other-directory candidates with different bodies are ambiguous", () => {
+  const r = R([mem({ os: "junos", rel: "junos/a.conf" }), mem({ os: "junos", rel: "junos/b.conf", body: BODY_B })]);
+  assert.equal(r.status, "ambiguous");
+});
+
+test("D5. candidate order cannot change the result", () => {
+  const a = R([NATIVE, FOREIGN]);
+  const b = R([FOREIGN, NATIVE]);
+  assert.equal(a.member.rel, b.member.rel);
+  const c = R([NATIVE, mem({ os: "junos", rel: "junos/a.conf", body: BODY_B })]);
+  const d = R([mem({ os: "junos", rel: "junos/a.conf", body: BODY_B }), NATIVE]);
+  assert.equal(c.status, d.status);
+});
+
+test("D6. an identical body that does not name the device is never admitted", () => {
+  const elsewhere = mem({ os: "junos", rel: "junos/a.conf", seenOn: { junos: ["d9"], evo: ["d9"] } });
+  assert.equal(R([elsewhere]).status, "unavailable");
+});
+
+test("D7. CRLF and LF versions of one emitted body are equivalent", () => {
+  assert.equal(bodyIdentity(BODY_A), bodyIdentity(BODY_A.replace(/\n/g, "\r\n")));
+  assert.equal(bodyIdentity(BODY_A), bodyIdentity(BODY_A.split("\n").map((l) => l + "   ").join("\n") + "\n\n"));
+  const r = R([NATIVE, mem({ os: "junos", rel: "junos/a.conf", body: BODY_A.replace(/\n/g, "\r\n") })]);
+  assert.equal(r.status, "ok");
+});
+
+test("D8. a configuration difference remains distinct", () => {
+  assert.notEqual(bodyIdentity(BODY_A), bodyIdentity(BODY_B));
+  assert.notEqual(bodyIdentity(BODY_A), bodyIdentity(BODY_A.replace("unit 0", "unit $UNIT")));
+});
+
+test("D9. exact-device Seen-on membership is still mandatory, and JVD still bounds selection", () => {
+  assert.equal(R([mem({ seenOn: { junos: [], evo: [] } })]).status, "unavailable");
+  assert.equal(R([NATIVE], { consumerJvd: "OTHER" }).status, "unavailable");
+  assert.equal(R([NATIVE], { selectors: ["y"] }).status, "unavailable");
+});
+
+test("D10. an unknown body identity is never assumed equivalent", () => {
+  const noBody = { jvd: "J", os: "junos", group: "g", provides: ["x"], seenOn: { junos: [], evo: ["d1"] }, rel: "junos/a.conf" };
+  assert.equal(R([NATIVE, noBody]).status, "ambiguous");
+});
+
+test("D11. families is still accepted as a deprecated alias for selectors", () => {
+  const a = resolveVariant({ group: "g", families: ["x"], targetDevice: "d1", targetOS: "evo", consumerJvd: "J", members: [NATIVE] });
+  assert.equal(a.status, "ok");
+});
+
+test("D12. both external syntaxes map into one neutral selector model", () => {
+  const p = (b) => parseSnip(`/*
+ * Topic:   consumer
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - ${b}
+ */
+routing-instances { X { instance-type vrf; } }`).header.variantRequires[0];
+  assert.deepEqual(p("variant:g families=evpn"), { group: "g", families: ["evpn"] });
+  assert.deepEqual(p("variant:g capabilities=ifl:irb"), { group: "g", families: ["ifl:irb"] });
+});
+
+test("D13. a cross-directory selection is reported, and never blocks", () => {
+  const f = validateVariantConsumer({
+    os: "evo", seenOn: { junos: [], evo: ["d1"] },
+    variantRequires: [{ group: "g", families: ["x"] }], jvd: "J", members: [FOREIGN],
+  });
+  assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_CROSS_DIRECTORY]);
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "warn");
+});
+
+test("D14. overlap: identical bodies coexist, differing bodies clash, across directories", () => {
+  const withId = (m) => ({ ...m, bodyId: bodyIdentity(m.body) });
+  const nat = withId(NATIVE);
+  const twin = withId(FOREIGN);
+  const other = withId(mem({ os: "junos", rel: "junos/a.conf", body: BODY_B }));
+  assert.deepEqual(
+    validateVariantOverlap({ os: "evo", variantGroup: { name: "g" }, seenOn: nat.seenOn, selfRel: nat.rel, members: [nat, twin] }),
+    [],
+  );
+  assert.deepEqual(
+    validateVariantOverlap({ os: "evo", variantGroup: { name: "g" }, seenOn: nat.seenOn, selfRel: nat.rel, members: [nat, other] })
+      .map((x) => x.code),
+    [CODES.VARIANT_DEVICE_OVERLAP],
+  );
+});

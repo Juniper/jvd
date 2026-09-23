@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 1,
+  "jvd": "metro_ethernet_business_services",
+  "description": "Canonical machine-readable composition matrix. One entry per form advertised in byoai/MENU.md. Supported devices are NOT duplicated here: they are resolved from each entry snippet's Seen-on rows, which remain the single source of device applicability. Validated by portal/scripts/composition-validate.mjs.",
+  "statusVocabulary": {
+    "supported": "Every entry snippet resolves and the form composes for at least one device.",
+    "incomplete": "Advertised but not yet resolvable to a unique entry snippet set; reason required.",
+    "intentionally-unsupported": "Advertised as out of scope for this JVD; reason required.",
+    "deprecated": "Withdrawn; reason required."
+  },
+  "roles": {
+    "an": "access node",
+    "ma": "metro access",
+    "meg": "metro edge gateway",
+    "mse": "metro services edge",
+    "mdr": "metro distribution router",
+    "cr": "core router",
+    "ag": "aggregation"
+  },
+  "identityVariables": {
+    "description": "Correlated names: the reference and the definition bind the same value within one service, so they resolve by symbolic equality.",
+    "constructs": ["policy-statement:$INSTANCE_NAME", "community:$INSTANCE_NAME_RT", "policy-statement:$POLICY_NAME", "policy-statement:$PPLB_NAME"]
+  },
+  "roleBindings": {
+    "description": "Slots, not identities. A role parameter names a position to be filled by a selected construct, so it can never be resolved by symbolic equality. Keyed by construct (kind:name) because one spelling can be an identity in one kind and a role in another: policy-statement:$INSTANCE_NAME is correlated, community:$INSTANCE_NAME is not.",
+    "bindings": [
+      {
+        "construct": "community:$INSTANCE_NAME",
+        "families": ["l3vpn", "irb"],
+        "provider": {
+          "junos": "junos/policy-options/community/cm-l3vpn.conf",
+          "evo": "evo/policy-options/community/cm-l3vpn.conf"
+        },
+        "rationale": "The reference spells the per-service L3VPN route-target community as $INSTANCE_NAME (for example METRO_L3VPN_2002); the definition spells the same construct METRO_L3VPN_$L3VPN_ID. One construct, two spellings — not a missing definition."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["e-line", "e-lan", "e-tree", "e-access"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-export-l2-color.conf",
+          "evo": "evo/policy-options/policy-statement/ps-export-l2-color.conf"
+        },
+        "rationale": "Every device that runs only L2 services binds exactly this one policy body: an1_mx204, ma1-1_acx7024, ma1-2_acx7024 and ma5_mx204 each resolve to a single provider across every vrf-export on the device."
+      },
+      {
+        "construct": "community:$COLOR_COMMUNITY",
+        "families": ["e-line", "e-lan", "e-tree", "e-access"],
+        "selection": "required",
+        "providers": {
+          "junos": ["junos/policy-options/community/cm-tc-map2gold.conf", "junos/policy-options/community/cm-tc-map2bronze.conf"],
+          "evo": ["evo/policy-options/community/cm-tc-map2gold.conf", "evo/policy-options/community/cm-tc-map2bronze.conf"]
+        },
+        "rationale": "Service tier, and the operator must state it. Gold is the more common binding but it is not a default: bronze is validated on an3_acx7100-48l, ma1-1_acx7024, ma1-2_acx7024, meg1_acx7100-32c and meg2_acx7509, and the two steer onto different transport classes."
+      },
+      {
+        "construct": "policy-statement:$IMPORT_POL",
+        "families": ["l3vpn"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
+          "evo": "evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf"
+        },
+        "rationale": "Every PE-CE VRF on every device this family reaches binds this one import policy: 200 on an3_acx7100-48l, 200 on ma3_acx7100-48l, 2999 on ma4_mx204, 3299 on mse1_mx304 and 3299 on mse2_mx304, with no other body observed."
+      },
+      {
+        "construct": "policy-statement:$IMPORT_POL",
+        "families": ["irb"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-import-l3vpn.conf",
+          "evo": "evo/policy-options/policy-statement/ps-import-l3vpn.conf"
+        },
+        "rationale": "Every IP-prefix VRF binds this one import policy: 50 instances each on an3_acx7100-48l, mse1_mx304 and mse2_mx304, with no other body observed."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["irb"],
+        "provider": {
+          "junos": "junos/policy-options/policy-statement/ps-export-l3vpn-public.conf",
+          "evo": "evo/policy-options/policy-statement/ps-export-l3vpn-public.conf"
+        },
+        "rationale": "Both devices this family reaches bind this one export policy for their IP-prefix VRFs: 50 instances on an3_acx7100-48l and 50 on mse1_mx304. mse2_mx304 uses the RT-5 NLRI form instead, but no supported form reaches it for this family."
+      },
+      {
+        "construct": "policy-statement:$EXPORT_POL",
+        "families": ["l3vpn"],
+        "selection": "required",
+        "providers": {
+          "junos": [
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf",
+            "junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+          ],
+          "evo": [
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf",
+            "evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf"
+          ]
+        },
+        "rationale": "The export policy carries the customer prefixes, so the choice is a service parameter the operator must state: address family, how many CE prefixes the VRF advertises, and whether the routes are coloured. All forms are validated in the JVD and none is a default — ma4_mx204 alone splits 999 coloured v4 against 1000 v6."
+      }
+    ]
+  },
+  "unboundRoleParameters": [],
+  "forms": [
+    {
+      "id": "evpn-vpws",
+      "family": "e-line",
+      "form": "vlan-aware",
+      "aliases": ["EVPN-VPWS services", "MEF E-Line"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf"],
+        "evo": ["evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "vlan-ccc logical unit on a LAG or physical UNI",
+      "userInputs": ["service id", "UNI interface", "vlan id", "peer PE loopback"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vpws",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-vpws-port-based",
+      "family": "e-line",
+      "form": "port-based",
+      "aliases": ["port-based EVPN-VPWS services"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": { "junos": [], "evo": [] },
+      "pairedConstructs": [],
+      "attachment": "full-port UNI on unit 0",
+      "userInputs": [],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vpws",
+      "status": "incomplete",
+      "reason": "MENU advertises a port-based form but no distinct entry snippet models it; TIERS reaches it only through an interface pattern, and a pattern may not count as supported."
+    },
+    {
+      "id": "evpn-fxc",
+      "family": "e-line",
+      "form": "flexible-cross-connect",
+      "aliases": ["EVPN-FXC services", "Flexible Cross-Connect"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"],
+        "evo": ["evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "N vlan-ccc UNIs bundled under one FXC group",
+      "userInputs": ["service id", "UNI interfaces", "vlan ids"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-fxc-flexible-cross-connect",
+      "status": "supported",
+      "note": "2-UNI and 3-UNI forms and the vlan-aware forms exist as separate snippets; only the 4-UNI form is declared here until the UNI-count dimension is modelled."
+    },
+    {
+      "id": "l2vpn-kompella",
+      "family": "e-line",
+      "form": "rfc4761",
+      "aliases": ["Kompella L2VPN pseudowires", "RFC 4761"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": {
+        "junos": [],
+        "evo": ["evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=l2vpn"],
+      "attachment": "vlan-ccc logical unit",
+      "userInputs": ["instance name", "site id", "UNI interface"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "status": "supported",
+      "note": "ma5_mx204 runs two validated Kompella forms, 201 instances each. The advertised entry is the one whose service mapping records both devices it serves, an3_acx7100-48l and ma5_mx204; junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf is the second validated representation and is not advertised, because the two emit different bodies and the matrix may not choose between them silently."
+    },
+    {
+      "id": "l2circuit-hot-standby",
+      "family": "e-line",
+      "form": "hot-standby",
+      "aliases": ["L2Circuit hot-standby pseudowires"],
+      "osMode": "EVO",
+      "roles": ["ma", "meg"],
+      "entry": { "junos": [], "evo": ["evo/protocols/l2circuit-hsb-pe.conf"] },
+      "pairedConstructs": [],
+      "attachment": "vlan-ccc logical unit",
+      "userInputs": ["primary PE loopback", "backup PE loopback", "virtual-circuit id"],
+      "tiers": ["minimum", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2circuit-including-hot-standby",
+      "status": "supported",
+      "note": "LDP-signalled: carries no BGP overlay requirement. Hub-side forms are separate snippets."
+    },
+    {
+      "id": "l2circuit-floating-pw",
+      "family": "e-line",
+      "form": "floating-pseudowire",
+      "aliases": ["L2Circuit floating pseudowires"],
+      "osMode": "MIXED",
+      "roles": ["mse", "ma"],
+      "entry": { "junos": ["junos/protocols/l2circuit-floating-pw.conf"], "evo": [] },
+      "pairedConstructs": [],
+      "attachment": "static-label PW onto a ps<N> pseudowire-subscriber anchor",
+      "userInputs": ["static label", "anchor unit", "peer loopback"],
+      "tiers": ["minimum", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2circuit-floating-pseudowire",
+      "status": "supported",
+      "note": "MENU describes a Junos head-end plus an EVO vlan-ccc tail; only the Junos head-end has a declared entry snippet, so the EVO tail is not claimed here."
+    },
+    {
+      "id": "l2circuit-local-switching",
+      "family": "e-access",
+      "form": "local-switching",
+      "aliases": ["L2Circuit local-switching cross-connects", "MEF E-Access hand-off"],
+      "osMode": "EVO",
+      "roles": ["ma", "meg"],
+      "entry": { "junos": [], "evo": ["evo/protocols/l2circuit-lsw.conf"] },
+      "pairedConstructs": [],
+      "attachment": "two vlan-ccc UNIs on one PE",
+      "userInputs": ["both UNI interfaces", "vlan ids"],
+      "tiers": ["minimum", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2circuit-local-switching-cross-connect-on-one-pe",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan",
+      "family": "e-lan",
+      "form": "vlan-based",
+      "aliases": ["EVPN-ELAN instances", "MEF E-LAN"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf"],
+        "evo": ["evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "vlan-bridge logical unit",
+      "userInputs": ["instance name", "vlan id", "UNI interface"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "status": "supported",
+      "note": "EVO models mac-vrf and Junos MX models instance-type evpn; the two entry snippets are not twins."
+    },
+    {
+      "id": "evpn-elan-port-based",
+      "family": "e-lan",
+      "form": "port-based",
+      "aliases": ["port-based EVPN-ELAN instances", "service-type vlan-bundle"],
+      "osMode": "EVO",
+      "roles": ["an", "ma", "meg"],
+      "entry": { "junos": [], "evo": ["evo/routing-instances/evpn-elan/ri-evpn-port-based.conf"] },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "single full-port UNI",
+      "userInputs": ["instance name", "UNI interface"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "status": "supported"
+    },
+    {
+      "id": "bgp-vpls",
+      "family": "e-lan",
+      "form": "rfc4761-vpls",
+      "aliases": ["BGP-VPLS instances"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"],
+        "evo": ["evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=l2vpn"],
+      "attachment": "vlan-bridge logical unit",
+      "userInputs": ["instance name", "site id", "UNI interface"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "status": "supported"
+    },
+    {
+      "id": "ldp-vpls",
+      "family": "e-lan",
+      "form": "rfc4762-vpls",
+      "aliases": ["LDP-VPLS instances"],
+      "osMode": "EVO",
+      "roles": ["ma", "meg"],
+      "entry": { "junos": [], "evo": ["evo/routing-instances/vpls/ri-ldp-vpls.conf"] },
+      "pairedConstructs": [],
+      "attachment": "vlan-bridge logical unit",
+      "userInputs": ["instance name", "vpls-id", "neighbor loopback"],
+      "tiers": ["minimum", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "status": "supported",
+      "note": "LDP-signalled: carries no BGP overlay requirement. MENU states EVO only in this JVD."
+    },
+    {
+      "id": "evpn-etree",
+      "family": "e-tree",
+      "form": "root-leaf",
+      "aliases": ["EVPN E-Tree services", "MEF E-Tree"],
+      "osMode": "Junos",
+      "roles": ["ma"],
+      "entry": { "junos": ["junos/routing-instances/evpn-etree/ri-evpn-etree.conf"], "evo": [] },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "vlan-bridge logical unit, root or leaf",
+      "userInputs": ["instance name", "vlan id", "root/leaf role per UNI"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-e-tree",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-irb",
+      "family": "irb",
+      "form": "type2-only",
+      "aliases": ["EVPN-ELAN with IRB"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg"],
+      "entry": {
+        "junos": ["junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"],
+        "evo": ["evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-irb-form capabilities=ifl:irb", "variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "vlan-bridge unit plus an irb unit",
+      "userInputs": ["instance name", "vlan id", "irb unit", "anycast gateway address"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-l3-type5",
+      "family": "irb",
+      "form": "type2-plus-type5",
+      "aliases": ["EVPN-ELAN with L3 (Type-2 + Type-5)", "EVPN Type-5"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg"],
+      "entry": {
+        "junos": ["junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"],
+        "evo": ["evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"]
+      },
+      "pairedConstructs": ["evpn-elan-irb", "variant:mebs-bgp-overlay families=evpn"],
+      "attachment": "irb unit shared with the EVPN-ELAN half",
+      "userInputs": ["vrf name", "route target", "irb unit", "ip-prefix ranges"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-ip-prefix-vrfs",
+      "status": "supported",
+      "note": "JVD default. Requires its validated EVPN-ELAN/IRB half, declared as a paired construct."
+    },
+    {
+      "id": "l3vpn-irb-anchor",
+      "family": "irb",
+      "form": "slim-anchor",
+      "aliases": ["slim L3VPN anchor VRFs"],
+      "osMode": "MIXED",
+      "roles": ["an", "ma", "meg"],
+      "entry": {
+        "junos": ["junos/routing-instances/l3vpn/ri-l3vpn-irb.conf"],
+        "evo": ["evo/routing-instances/l3vpn/ri-l3vpn-irb.conf"]
+      },
+      "pairedConstructs": ["evpn-elan-irb"],
+      "attachment": "irb unit anchored to a MAC-VRF",
+      "userInputs": ["vrf name", "route target", "irb unit"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#slim-l3vpn-irb-anchor-vrf-host-32s-ride-rt-2",
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-pece-ebgp",
+      "family": "l3vpn",
+      "form": "pe-ce-ebgp",
+      "aliases": ["L3VPN VRFs with PE-CE eBGP"],
+      "osMode": "MIXED",
+      "roles": ["ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf"],
+        "evo": ["evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=inet-vpn"],
+      "attachment": "family inet logical unit toward the CE",
+      "userInputs": ["vrf name", "route target", "CE peer address", "customer AS"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-pe-ce-ebgp-or-pe-ce-ospf",
+      "status": "supported",
+      "note": "TIERS records that no snippet in this library captures the L3VPN family inet attachment interface."
+    },
+    {
+      "id": "l3vpn-pece-ospf",
+      "family": "l3vpn",
+      "form": "pe-ce-ospf",
+      "aliases": ["L3VPN VRFs with PE-CE OSPF"],
+      "osMode": "MIXED",
+      "roles": ["ma", "meg", "mse"],
+      "entry": {
+        "junos": ["junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf"],
+        "evo": ["evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"]
+      },
+      "pairedConstructs": ["variant:mebs-bgp-overlay families=inet-vpn"],
+      "attachment": "family inet logical unit toward the CE",
+      "userInputs": ["vrf name", "route target", "area", "CE interface"],
+      "tiers": ["minimum", "with-overlay", "as-deployed"],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-pe-ce-ebgp-or-pe-ce-ospf",
+      "status": "supported",
+      "note": "TIERS records that no snippet in this library captures the L3VPN family inet attachment interface."
+    }
+  ],
+  "nonServiceAsks": [
+    { "id": "add-cos", "aliases": ["Add CoS to <device>"], "status": "incomplete", "reason": "Device-scoped feature add; no declared entry set in TIERS." },
+    { "id": "add-oam-cfm", "aliases": ["Add OAM/CFM perf-mon to a service"], "status": "incomplete", "reason": "TIERS cites oam/oam-cfm-perf-mon.conf, a category that no longer exists." },
+    { "id": "add-uni-policers", "aliases": ["Add firewall policers to UNI on <device>"], "status": "incomplete", "reason": "Device-scoped feature add; no declared entry set in TIERS." },
+    { "id": "greenfield-acx7024", "aliases": ["Build a new access-node turn-up for an ACX7024"], "status": "incomplete", "reason": "Bootstrap section cites removed categories." },
+    { "id": "greenfield-mx304", "aliases": ["Bootstrap a new MX304 PE end-to-end"], "status": "incomplete", "reason": "Bootstrap section cites removed categories." }
+  ]
+}
