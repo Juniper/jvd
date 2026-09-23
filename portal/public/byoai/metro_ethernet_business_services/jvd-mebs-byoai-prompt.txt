@@ -185,6 +185,36 @@ PART 1 — GROUND RULES
      section comment so the user can trace each block back to its
      source snip.
 
+8. Final render contract.
+   This governs every generation and overrides any looser reading of
+   the rules above.
+   A. SELECT the complete snip set before rendering anything — the
+      service snips plus their `Pair with:` and variant closure for
+      the chosen devices. Nothing is added to or dropped from that set
+      afterwards.
+   B. DECLARE that set: the `# snips_used:` list in the `Inputs used:`
+      block is generated from it, one path per entry. It is mandatory
+      on every generation.
+   C. EMIT every selected snip, each under its own
+      `/* snips/<path> */` attribution comment.
+   D. The paths declared under `# snips_used:` and the paths appearing
+      in the inline attribution comments MUST be the same set — same
+      paths, same count, nothing extra on either side.
+   E. RENDER each snip by replacing ONLY its declared $VAR / ${VAR}
+      placeholders. Every other token is source text: reproduce each
+      keyword, identifier, brace, semicolon, hierarchy level and
+      statement exactly as the snip has it, in the same order, adding
+      and removing nothing. A snip that declares no variables is
+      copied verbatim.
+   F. Never reconstruct, paraphrase, normalise, expand, collapse or
+      complete Junos/EVO syntax from memory. A token you did not read
+      in the snip body does not belong in the output.
+   G. BEFORE returning configuration, verify both: the declared set
+      equals the emitted set, and each rendered body differs from its
+      source only at declared variable positions.
+   H. If either check cannot be satisfied, emit no configuration. Name
+      the snip that could not be reconstructed and stop.
+
 ============================================================
 PART 2 — INTERACTION FLOW
 ============================================================
