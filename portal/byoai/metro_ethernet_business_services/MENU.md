@@ -12,7 +12,6 @@ Replace `N` with any count (e.g. `Generate 3 EVPN-VPWS services`).
 ### L2VPN / E-Line
 
 - `Generate N EVPN-VPWS services` — MEF E-Line, per-AC `vpws-service-id`
-- `Generate N port-based EVPN-VPWS services` — full-port UNI on unit 0
 - `Generate N EVPN-FXC services` — Flexible Cross-Connect, vlan-unaware; N UNIs bundled under one `evpn-vpws` + FXC group
 - `Generate N Kompella L2VPN pseudowires` — `instance-type l2vpn`, RFC 4761 P2P
 - `Generate N L2Circuit hot-standby pseudowires` — `backup-neighbor … hot-standby` (EVO)
@@ -55,3 +54,12 @@ Replace `N` with any count (e.g. `Generate 3 EVPN-VPWS services`).
 - `Diff the EVO and Junos schedulers`
 - `Compare EVO vs JUNOS VPN services`
 - `Explain Seamless MPLS deployment` — 5-IGP-domain underlay + BGP-LU stitching across MDR ABRs
+
+## Not currently generatable
+
+These forms appear in the JVD but the library has no exact entry snippet for
+them yet, so the assistant will say so rather than assemble one.
+
+- **Port-based EVPN-VPWS** (full-port UNI on unit 0) — the deployed form differs
+  from the vlan-aware service only in its attachment, and no snippet captures
+  that attachment. Ask for `Generate N EVPN-VPWS services` instead.
