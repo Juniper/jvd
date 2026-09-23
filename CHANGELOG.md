@@ -8,9 +8,11 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 Completed the **Metro Ethernet Business Services (MEBS)** service composition
 model and brought the JVD AI Assistant into agreement with it. Every supported
-combination of service form, device and configuration tier now resolves to a
-complete, buildable set of snippets — **163 of 163** — and the assistant answers
-from that same model rather than from a fixed script.
+way of building a service — each combination of service form, validated device
+and configuration tier — now resolves to a complete set of snippets. All **163
+such combinations** resolve cleanly, drawing on the **335-snippet** MEBS
+library, and the assistant answers from that same model rather than from a fixed
+script.
 
 The previous release rebuilt the MEBS snippet library. This release makes the
 library *composable*: it records which services are validated on which devices,
@@ -24,10 +26,10 @@ yours to make rather than defaults someone has to guess.
 - **Every supported service combination now resolves completely** — the
   [MEBS composition model](service_provider/metro_ethernet_business_services/configuration/snips/_composition.json)
   describes **17 service forms**, 16 of them buildable, and each one closes
-  across every validated device and tier it applies to. All **163** supported
-  form-by-device-by-tier combinations resolve to a complete snippet set with no
-  unresolved parameters. The one form that is not buildable says so explicitly
-  rather than failing part-way through.
+  across every validated device and tier it applies to. That yields **163
+  supported combinations** of form, device and tier, and every one of them
+  resolves to a complete snippet set with no unresolved parameters. The one form
+  that is not buildable says so explicitly rather than failing part-way through.
 - **Deterministic bindings separated from real choices** — where a construct has
   exactly one validated provider for a service, it is bound for you. Where the
   JVD validates several and none is a default, it is presented as a choice. Each
@@ -43,7 +45,7 @@ yours to make rather than defaults someone has to guess.
   `self-contained` and `as-deployed` for a given device always name snippets
   that exist and match what the model resolves.
 - **One further snippet published** — the MEBS library grows to **335
-  snippets**, and the repository catalog to **937 across 18 JVDs**.
+  snippets**, up from 334, and the repository catalog to **937 across 18 JVDs**.
 
 #### JVD AI Assistant
 
