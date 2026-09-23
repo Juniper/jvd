@@ -18061,6 +18061,8 @@ This file is part of the [BYOAI](README.md) corpus. It defines the deterministic
 
 Every value comes from an IETF documentation range or a private/reserved range so the output is visibly safe to share.
 
+This file decides how an **already applicable** variable is handled — defaulted, asked, or supplied per device. It does not establish applicability. A variable applies only when a snippet in the resolved closure for the requested form, devices and selected variant members declares it; an entry here for a variable outside that closure does not apply to the request.
+
 ## Address space
 
 | Item | Value | Source |

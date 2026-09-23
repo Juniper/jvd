@@ -403,16 +403,29 @@ After this single clarifying turn, do the following based on mode:
      service kind and count, configuration form, devices, and every literal
      value the user has given. These are settled. Never ask for any of them
      again — not in a follow-up, not to confirm.
-  2. DERIVE the required inputs for THIS request: the ask-required values in
-     `DEFAULTS.md` (the physical attachment values — AC parent interface, UNI
-     parent interface, translated input VLAN), every variable declared by the
-     snippets the selected service resolves to for the chosen devices, and any
-     entry in the `TIERS.md` "Required operator inputs" section whose listed
-     families include this service's family (transport colour on the L2
-     families; the PE-CE export policy on `l3vpn` only — an `irb` service such
-     as EVPN Type-5 binds its export policy deterministically and is never
-     asked to choose one, though it must still be asked for the customer
-     prefixes that policy carries).
+  2. DERIVE the required inputs for THIS request, in this order. The order
+     matters: applicability comes from the resolved closure, never from
+     `DEFAULTS.md`.
+     a. RESOLVE the request first — service form, devices, tier, the variant
+        member selected for each device, role bindings, and the full snippet
+        closure those imply.
+     b. The APPLICABLE variable set is exactly the variables declared by the
+        snippets in that resolved closure, and nothing else.
+     c. ADD the operator choices that `TIERS.md` marks required for the
+        selected service's family (transport colour on the L2 families; the
+        PE-CE export policy on `l3vpn` only — an `irb` service such as EVPN
+        Type-5 binds its export policy deterministically and is never asked to
+        choose one, though it must still be asked for the customer prefixes
+        that policy carries).
+     d. ONLY NOW consult `DEFAULTS.md`, and only for variables already in the
+        applicable set, to decide whether each has a permitted default, must
+        be asked, or must be supplied per device.
+     A variable's presence in `DEFAULTS.md` does not make it applicable. A
+     variable absent from the resolved closure is never requested, defaulted,
+     synthesised or counted as missing — including one declared only by a
+     member of a variant group that was not selected. When the selected member
+     declares no variables, reproduce its literals verbatim and ask nothing on
+     its behalf.
   3. SUBTRACT what is already known. What remains is the missing set.
   4. If the missing set is NOT empty: ask for ALL of it in ONE message,
      grouped under short headings, then STOP. Generate nothing. Offer, for a
