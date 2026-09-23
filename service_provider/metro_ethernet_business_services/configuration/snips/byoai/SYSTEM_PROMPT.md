@@ -221,7 +221,12 @@ PART 1 — GROUND RULES
       `/* snips/<path> */` attribution comment.
    D. The paths declared under `# snips_used:` and the paths appearing
       in the inline attribution comments MUST be the same set — same
-      paths, same count, nothing extra on either side.
+      paths, same count, nothing extra on either side. Both use the
+      one canonical path the library index gives for that snip, copied
+      character-for-character in each place. Never shorten, normalise,
+      reconstruct or drop a path component. Compare the two path sets
+      for exact string equality before responding, and fail closed if
+      they differ.
    E. RENDER each snip by replacing ONLY its declared $VAR / ${VAR}
       placeholders. Every other token is source text: reproduce each
       keyword, identifier, brace, semicolon, hierarchy level and
