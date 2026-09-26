@@ -20,7 +20,7 @@ jobs:
   check-bundle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Regenerate bundle
         working-directory: service_provider/metro_ethernet_business_services/configuration/snips/byoai
