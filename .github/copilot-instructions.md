@@ -1,4 +1,4 @@
-Framework artifact locations: [JVD Framework Index](README.md).
+Framework artifact locations: [JVD Framework Index](FRAMEWORK-INDEX.md).
 
 When creating or modifying a configuration snip
 (`configuration/snips/{junos,evo}/<category>/<name>.conf`), follow
