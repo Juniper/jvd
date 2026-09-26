@@ -355,6 +355,12 @@ test("instance-recognition registry is well formed and self-consistent", async (
   }
 
   assert.equal(typeof reg.notSelectable, "object", "notSelectable must be an object");
+  assert.ok(Array.isArray(reg.contextLeafPaths));
+  assert.equal(new Set(reg.contextLeafPaths.map(trail => trail.join('/'))).size, reg.contextLeafPaths.length);
+  for (const trail of reg.contextLeafPaths) {
+    assert.ok(Array.isArray(trail) && trail.length > 1);
+    for (const token of trail) assert.match(token, /^[a-z][a-z0-9-]*$/);
+  }
   for (const [tok, reason] of Object.entries(reg.notSelectable)) {
     assert.match(tok, /^[a-z][a-z0-9-]*$/, `notSelectable key "${tok}" is not a bare grammar token`);
     assert.ok(reason.length > 0, `notSelectable["${tok}"] must record why`);

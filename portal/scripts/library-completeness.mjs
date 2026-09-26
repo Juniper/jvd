@@ -29,6 +29,7 @@
  *                                         [--json] [--by-construct]
  */
 import path from "node:path";
+import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { extractConstructs } from "./config-references.mjs";
 import { loadJvd } from "./object-ownership.mjs";
@@ -128,13 +129,18 @@ async function main() {
   const jvdArg = args.includes("--jvd") ? args[args.indexOf("--jvd") + 1] : "service_provider/metro_ethernet_business_services";
   const { snips } = await loadJvd(path.resolve(REPO_ROOT, jvdArg));
   const r = auditLibrary({ snips });
+  const matrix = await fs.readFile(path.resolve(REPO_ROOT, jvdArg, 'configuration/snips/_composition.json'), 'utf8').then(JSON.parse).catch(error => { if (error.code === 'ENOENT') return null; throw error; });
+  const requiresBinding = finding => (matrix?.occurrenceBindings || []).some(rule => rule.consumer === finding.consumer && rule.kind === finding.kind) || (matrix?.roleBindings?.bindings || []).some(rule => rule.construct === finding.construct);
+  const bindingRequired = r.external.filter(requiresBinding);
+  const staticExternal = r.external.filter(finding => !requiresBinding(finding));
 
   if (args.includes("--json")) {
-    console.log(JSON.stringify({ jvd: jvdArg, ...r, findings: r.findings }, null, 2));
-    return r.offDevice.length === 0 ? 0 : 1;
+    console.log(JSON.stringify({ jvd: jvdArg, ...r, scope: 'static-symbolic-references-only', bindingRequired, staticExternal, completeClosureVerified: false }, null, 2));
+    return r.offDevice.length === 0 && r.parseFailures.length === 0 ? 0 : 1;
   }
 
   console.log(`JVD: ${jvdArg}`);
+  console.log('Scope: static symbolic references only; variant closure and bound selections are separate gates.');
   console.log(`snips ${snips.length} | distinct constructs defined ${r.definedConstructs} | reference bindings checked ${r.findings.length}`);
   console.log(
     `resolved ${r.resolved.length} | off-device ${r.offDevice.length} | external ${r.external.length} | cross-directory ${r.crossDirectory.length} | parse failures ${r.parseFailures.length}`,
@@ -145,14 +151,16 @@ async function main() {
     for (const [k, v] of summarize(r.offDevice, (f) => f.construct)) {
       console.log(`  ${k.padEnd(46)} ${String(v.count).padStart(4)} bindings  ${v.devices.size} devices  ${v.consumers.size} consumers`);
     }
-    console.log("\n--- EXTERNAL: named but defined by no snip ---");
-    for (const [k, v] of summarize(r.external, (f) => f.construct)) {
+    console.log("\n--- STATIC UNRESOLVED: no literal/symbolic provider match; not proof of absent source ---");
+    for (const [k, v] of summarize(staticExternal, (f) => f.construct)) {
       console.log(`  ${k.padEnd(46)} ${String(v.count).padStart(4)} bindings  ${v.devices.size} devices  ${v.consumers.size} consumers`);
     }
+    console.log("\n--- BINDING REQUIRED: selection metadata exists; not verified by this static gate ---");
+    for (const [key, value] of summarize(bindingRequired, finding => finding.construct)) console.log(`  ${key.padEnd(46)} ${String(value.count).padStart(4)} bindings`);
   }
 
-  console.log(r.offDevice.length === 0 ? "\nRESULT: every referenced construct that the library models is applicable where it is used." : "\nRESULT: FAIL — see off-device findings.");
-  return r.offDevice.length === 0 ? 0 : 1;
+  console.log(r.offDevice.length === 0 && r.parseFailures.length === 0 ? "\nRESULT: static off-device/parse checks pass; unresolved bindings and complete closure remain unverified." : "\nRESULT: FAIL — see off-device or parse findings.");
+  return r.offDevice.length === 0 && r.parseFailures.length === 0 ? 0 : 1;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {

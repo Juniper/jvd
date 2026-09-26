@@ -144,6 +144,12 @@ export async function buildTiers(root) {
       out.push(`### ${t.device} (${t.os})`);
       out.push("");
       out.push(`- \`minimum\`: ${pick.selected.map((e) => `\`${e}\``).join(", ")}`);
+      if (r.failures.length || pick.status !== "ok") {
+        out.push("- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**");
+        out.push(...r.failures.map(failure => `  - ${failure.kind}: ${failure.detail ?? failure.from}`));
+        out.push("");
+        continue;
+      }
       const extra = r.included.filter((x) => !pick.selected.includes(x));
       out.push(
         `- \`self-contained\`: the above${extra.length ? ` plus ${extra.map((e) => `\`${e}\``).join(", ")}` : " — it names nothing further"}`,

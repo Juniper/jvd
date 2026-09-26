@@ -13,7 +13,9 @@
     "A canonical snip filename SHOULD begin with one of these prefixes followed by a hyphen, identifying the primary construct type or interface scope the body configures.",
     "The prefix is semantic: it follows the hierarchy the body is, not the folder it sits in and not the spelling of the deployed object.",
     "This vocabulary is living and incremental. A prefix is added only once its meaning is established from real configuration; absence of a prefix does not imply invalidity.",
-    "Recording a prefix here does not authorize renaming snips in JVDs that are not being revised."
+    "Recording a prefix here does not authorize renaming snips in JVDs that are not being revised.",
+    "Before creating a name, compare the proposed body with existing constructs and reuse an existing canonical name when its selected configuration and variable semantics agree.",
+    "Name a distinct form for positive, body-proven configuration differences. Content hashes belong in provenance, not in canonical filenames. When exact source forms differ without a useful semantic discriminator, an established representative-device suffix may distinguish them; record the source evidence and shared applicability separately."
   ],
   "prefixes": {
     "cl": { "construct": "classifier" },

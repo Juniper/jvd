@@ -1,3 +1,5 @@
+Framework artifact locations: [JVD Framework Index](README.md).
+
 When creating or modifying a configuration snip
 (`configuration/snips/{junos,evo}/<category>/<name>.conf`), follow
 [SNIP-CONTRACT.md](SNIP-CONTRACT.md) exactly.

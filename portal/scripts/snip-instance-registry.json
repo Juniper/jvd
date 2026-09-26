@@ -1,15 +1,21 @@
 {
   "_comment": "Instance-recognition registry for the SNIP-CONTRACT 'Fragment boundary' rule. A named child instance may be selected independently when its parent serves only as context for that child instance; sibling instances and context-parent statements are then outside the selected fragment. Whether a child block is such an instance is grammar knowledge, not tree shape — a named rib-group and a policy 'term' are structurally identical. This file is parser/validation knowledge ONLY. It is not a service taxonomy and carries no naming, category, or relationship meaning.",
 
-  "_stability": "Versioned and frozen for the duration of a Count/_bindings generation. Any change to instanceKeywords, bareNameContainers, or notSelectable MUST trigger a full 'Seen on' re-audit and regeneration of Count and _bindings for every affected JVD, because a registry change can change which devices a body reproduces on.",
+  "_stability": "Versioned and frozen for the duration of a Count/_bindings generation. Any change to instanceKeywords, bareNameContainers, contextLeafPaths, or notSelectable MUST trigger a full 'Seen on' re-audit and regeneration of Count and _bindings for every affected JVD, because a registry change can change which devices a body reproduces on.",
 
-  "version": 1,
+  "version": 3,
+
+  "_contextLeafPaths": "Exact root-to-leaf keyword paths whose ancestors provide context when the template selects only that leaf below them. This does not admit partial ports, tunnel-services blocks, or similarly named containers elsewhere.",
+  "contextLeafPaths": [
+    ["chassis", "fpc", "pic", "tunnel-services"]
+  ],
 
   "_instanceKeywords": "A child block is an instance of its container when its header has a leading grammar keyword listed here followed by a name or index (e.g. 'unit 0', 'neighbor 10.0.0.1').",
   "instanceKeywords": [
     "area",
     "bridge-domain",
     "community",
+    "filter",
     "forwarding-class",
     "group",
     "instance",

@@ -3,6 +3,33 @@
   "description": "Canonical template-variable vocabulary for configuration snips. A variable is named for the semantic object it parameterizes, not for the textual position it occupies in a CLI statement.",
   "aliasRule": "A legacy variable name may be recorded as a global alias only when its semantic intent is unambiguous across known evidence. Ambiguous legacy names are recorded as scoped migration provenance instead.",
   "variables": {
+    "UNIT": {
+      "intent": "Logical-interface unit number, without the parent interface name.",
+      "use": "The unit identifier in an interface definition or reference. It is not inherently a VLAN ID, even when the deployed numbers are equal.",
+      "example": "476"
+    },
+    "VLAN": {
+      "intent": "A single VLAN identifier.",
+      "use": "Identifies a service VLAN or a VLAN tag. It is not interchangeable with a logical-interface unit number merely because the values are equal.",
+      "example": "2800"
+    },
+    "IFD": {
+      "intent": "Interface-device identifier, excluding a logical unit.",
+      "use": "Identifies the interface device at the interfaces hierarchy, whether physical, aggregated Ethernet or pseudowire-subscriber. The unit identifier is separate.",
+      "example": "ae11"
+    },
+    "ROUTER_ID": {
+      "intent": "Complete router identifier in IPv4 dotted-decimal form.",
+      "use": "The router-id value at global or routing-instance scope. It is not inherently an assigned interface address and is not an alias of LOOPBACK_V4.",
+      "example": "192.168.255.2"
+    },
+    "AC_IFL": {
+      "intent": "Full logical attachment-circuit interface identifier, including its unit.",
+      "use": "The complete interface reference, such as ae2.1001, not the parent interface device or the unit number alone.",
+      "example": "ae2.1001",
+      "notes": "Ratified by Kevin Brown on 2026-09-24 with one prior snippet use; this establishes a convention rather than documenting an already widespread one. The AC_INTF rename remains separately scheduled, not executed.",
+      "establishedFrom": "service_provider/srv6_core_edge/configuration/snips/junos/services/evpn-vpws-srv6.conf"
+    },
     "INSTANCE_NAME": {
       "intent": "Identity stem of a service instance.",
       "use": "The routing-instance name, and the stem from which that service's derived object names are formed (for example PS-${INSTANCE_NAME}-IMPORT, PS-${INSTANCE_NAME}-EXPORT, ${INSTANCE_NAME}_RT, and a per-service community carrying the instance name itself). Do not introduce a separate variable for a name that is a deterministic derivative of this stem.",

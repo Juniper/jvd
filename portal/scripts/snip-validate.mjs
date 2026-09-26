@@ -23,6 +23,7 @@ import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-par
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
 import { extractIflCapabilities } from "./ifl-capabilities.mjs";
 import { extractGrCapabilities } from "./gr-capabilities.mjs";
+import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems } from "./transport-capabilities.mjs";
 import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -151,7 +152,7 @@ function declaredVariables(variables) {
  * namespaced capabilities the comparison runs against the matching structural
  * scanner instead of the BGP one; mixing is rejected by the parser.
  */
-export function validateVariantMember({ variantGroup, body }) {
+export function validateVariantMember({ variantGroup, body, capabilityRequirements = {} }) {
   const findings = [];
   if (!variantGroup) return findings;
   const tokens = variantGroup.provides || [];
@@ -161,6 +162,7 @@ export function validateVariantMember({ variantGroup, body }) {
     const actual = new Set([
       ...extractIflCapabilities(body || ""),
       ...extractGrCapabilities(body || ""),
+      ...extractConfiguredCapabilities(body || "", capabilityRequirements[variantGroup.name]),
     ]);
     const equal = declaredCaps.size === actual.size && [...actual].every((c) => declaredCaps.has(c));
     if (!equal) {
@@ -268,7 +270,7 @@ export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, memb
  * "<os>/<category>/<name>.conf" for the JVD) enable the context-dependent checks.
  * `os`, `jvd`, `members`, and `selfRel` enable cross-snip variant checks.
  */
-export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel } = {}) {
+export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {} } = {}) {
   const { header, body, diagnostics } = parseSnip(text);
   const findings = [...diagnostics];
   if (!header) return findings;
@@ -307,7 +309,8 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
   for (const v of declared) if (!used.has(v)) findings.push({ code: CODES.VARIABLE_UNUSED, detail: v });
 
   // Variant member integrity (declared Provides == structural capabilities).
-  for (const fd of validateVariantMember({ variantGroup: header.variantGroup, body })) findings.push(fd);
+  for (const fd of validateVariantMember({ variantGroup: header.variantGroup, body, capabilityRequirements })) findings.push(fd);
+  for (const detail of configuredCapabilityProblems(header, body, capabilityRequirements)) findings.push({ code: CODES.VARIANT_PROVIDES_MISMATCH, detail });
 
   // Cross-snip variant checks require JVD context (os + members).
   if (os && members) {
@@ -430,6 +433,7 @@ async function main() {
   const changed = allStrict ? null : changedSet(base);
 
   const invCache = new Map();
+  const capabilityCache = new Map();
   const sovCache = new Map();
   const indexCache = new Map(); // jvdRoot -> Set of "<os>/<category>/<name>.conf"
   const membersByJvd = new Map(); // jvdRoot -> [member descriptors]
@@ -471,6 +475,14 @@ async function main() {
     const jvdRoot = jvdRootForSnip(f);
     if (!jvdRoot) continue;
     if (!invCache.has(jvdRoot)) invCache.set(jvdRoot, await buildInventory(jvdRoot));
+    if (!capabilityCache.has(jvdRoot)) {
+      let requirements = {};
+      try { requirements = JSON.parse(await fs.readFile(path.join(jvdRoot, 'configuration/snips/_composition.json'), 'utf8')).capabilityRequirements ?? {}; }
+      catch (error) { if (error.code !== 'ENOENT') throw error; }
+      const problems = capabilityRequirementProblems(requirements);
+      if (problems.length) throw new Error(`${jvdRoot}: ${problems.join('; ')}`);
+      capabilityCache.set(jvdRoot, requirements);
+    }
     if (!sovCache.has(jvdRoot)) sovCache.set(jvdRoot, await readSeenOnValidation(jvdRoot));
     const inventory = invCache.get(jvdRoot);
     const seenOnValidation = sovCache.get(jvdRoot);
@@ -488,6 +500,7 @@ async function main() {
       jvd: jvdRoot,
       members: membersByJvd.get(jvdRoot) || [],
       selfRel: rel,
+      capabilityRequirements: capabilityCache.get(jvdRoot),
     });
     for (const fd of findings) {
       const sev = severity(fd.code, { changed: isChanged, seenOnValidation });
