@@ -23291,9 +23291,7 @@ Family e-access, form local-switching. OS mode EVO. Attachment: two vlan-ccc UNI
 - `minimum`: `evo/protocols/l2circuit-lsw.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF_1.$UNIT_1
-  - occurrence-provider-closure-failed: logical-interface:$AC_INTF_1.$UNIT_1
   - occurrence-selection-required: logical-interface:$AC_INTF_2.$UNIT_2
-  - occurrence-provider-closure-failed: logical-interface:$AC_INTF_2.$UNIT_2
 
 ---
 
@@ -23305,50 +23303,48 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ### ma1-1_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ### an1_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
-  - occurrence-provider-closure-failed: logical-interface:$AC_INTF.$VLAN_UNIT
 
 ### an2_acx5448 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
-  - occurrence-provider-closure-failed: logical-interface:$AC_INTF.$VLAN_UNIT
 
 ---
 
@@ -23456,22 +23452,22 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
-  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
 
 ### mse1_mx304 (junos)
 

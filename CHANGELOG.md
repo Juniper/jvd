@@ -4,6 +4,129 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-09-26
+
+Expanded the **Metro Ethernet Business Services (MEBS)** configuration snippet
+library from **335 to 488 snippets**, covering additional infrastructure and
+service attachment forms across the design's **20 archived devices**. This
+update strengthens source-bound configuration assembly: dependencies are selected
+for the actual interface, routing process or service instance, rather than
+assuming that one configuration form applies everywhere on a device.
+
+### Improvements
+
+#### Service Provider
+
+- **Broader transport and routing coverage** — the
+  [MEBS snippet library](service_provider/metro_ethernet_business_services/configuration/snips)
+  adds IS-IS interface and process forms, SR-MPLS and Flex-Algo configuration,
+  loopback and interface-route settings, and policy and transport-class
+  dependencies. Colour-resolution forms retain their archived statement order
+  and the policies and transport classes they require.
+- **Complete interface prerequisites within the requested scope** — logical
+  interfaces can be assembled with their matching parent settings and aggregate
+  members. Required tagging, encapsulation, MTU, LACP and applied-group settings
+  are preserved. Member selection follows the configured aggregate association,
+  including differences between physical-interface forms.
+- **Pseudowire-subscriber transport and service interfaces** — new
+  [PS service-unit](service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ifl-ps-vlan-bridge-esi.conf),
+  [device-allocation](service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/pseudowire-service.conf)
+  and [tunnel-services](service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/tunnel-services.conf)
+  snippets complement the existing transport interface. Source-bound selection
+  keeps service units on the same PS device as transport unit 0, aligns the
+  anchor with its FPC/PIC, and checks the configured device allocation.
+- **Additional service attachment forms** — the library includes outer-tag
+  802.1ad cross-connect interfaces, plain VLAN-bridge units and described
+  all-active ESI interfaces. These forms extend local-switching, EVPN and VPLS
+  assembly without removing configuration that distinguishes one attachment
+  from another.
+- **Instance-specific service dependencies** — the
+  [composition model](service_provider/metro_ethernet_business_services/configuration/snips/_composition.json)
+  follows actual import/export policy references, policy-to-community references
+  and shared IRB interfaces when selecting prerequisites. Scheduler maps select
+  the validated six-scheduler form while retaining forwarding-class dependencies.
+  Required declarations remain explicit, including when a different source-backed
+  provider form is selected.
+- **More precise applicability and source references** — per-device
+  [instance counts and bindings](service_provider/metro_ethernet_business_services/configuration/snips/_bindings.md)
+  identify repeated occurrences separately from alternative variable assignments.
+  Junos and Junos Evolved representations retain their validated device lists.
+  The archived MEG2 configuration also includes the multipath-resolution policy
+  required by its resolution configuration.
+
+#### Configuration Assembly and JVD AI Assistant
+
+- **Stronger reconstruction checks** — selected configuration is checked against
+  the archived source, including required parent, member, policy and service
+  statements. Shared statements are emitted once. Missing or ambiguous
+  prerequisites prevent a configuration from being presented as complete.
+- **Updated configuration guidance** — the
+  [MEBS assistant](service_provider/metro_ethernet_business_services/configuration/snips/byoai/README.md)
+  and [service tiers](service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md)
+  reflect the expanded library. Source-bound requests require the exact device
+  and service scope; changed deployments require explicit inputs and must not
+  be presented as exact replays of an archived configuration.
+
+### What this means for you
+
+- Use the expanded library for the infrastructure and attachment configuration
+  surrounding a MEBS service, not just its routing instance.
+- Check device applicability and recovered bindings before selecting a snippet;
+  similar names or matching example values do not establish interchangeability.
+- Supply the service, interface and role inputs required for your request.
+  Source-bound validation does not establish that arbitrary new deployment
+  values are supported on every platform or software release.
+- Provision physical port speeds separately. The library remains scoped to
+  reusable configuration and does not represent every device setting or replace
+  platform-specific commit and operational validation.
+
+---
+
+### By the numbers
+
+The following content totals cover changes since the September 22 entry,
+including [PR #226](https://github.com/Juniper/jvd/pull/226). File-change totals
+exclude this changelog entry. One archived device configuration is updated;
+the other 19 are unchanged.
+
+<details>
+<summary>Changes by area</summary>
+
+| Area | Files | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: | ---: |
+| Portal | 27 | 36,672 | 17,332 | +19,340 |
+| Service Provider | 194 | 40,667 | 8,139 | +32,528 |
+| Library metadata and validation | 6 | 91 | 5 | +86 |
+| **Total** | **227** | **77,430** | **25,476** | **+51,954** |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS — Junos | 157 | 222 | +65 |
+| MEBS — Junos Evolved | 178 | 266 | +88 |
+| **MEBS — total** | **335** | **488** | **+153** |
+| **All JVDs — total** | **937** | **1,090** | **+153** |
+
+</details>
+
+<details>
+<summary>MEBS source and coverage scope</summary>
+
+| Measure | Value |
+| --- | ---: |
+| Archived devices | 20 |
+| Snippet/device reconstruction comparisons | 9,760 |
+| Existing catalog JVDs with snippets | 18 |
+| Physical port-speed statement rows outside extracted coverage | 38 |
+
+</details>
+
+---
+
 ## 2026-09-22
 
 Completed the **Metro Ethernet Business Services (MEBS)** service composition

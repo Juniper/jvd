@@ -743,6 +743,48 @@ test("explicit E-Tree selection binds role, identity and VLAN before traversing 
   assert.ok(closeTuple(args).failures.some(row => row.kind === 'dependency-unresolved-path'));
 });
 
+test('whole-interface slots expose binding constraints and preserve nested required inputs', () => {
+  const make = (rel, body) => ({ ...snip(rel)[1], body });
+  const consumer = make('junos/service.conf', 'routing-instances { SERVICE { interface $AC_INTF; } }');
+  const provider = make('junos/unit.conf', 'interfaces { $IFD { unit $UNIT { family bridge; } } }');
+  const parent = make('junos/parent.conf', 'interfaces { $IFD { mtu 9192; } }');
+  const matrix = { occurrenceBindings: [
+    { consumer: consumer.rel, kind: 'logical-interface', scope: 'object', providers: [provider.rel], unbound: 'required' },
+    { consumer: provider.rel, kind: 'interface-parent', scope: 'object', providers: [parent.rel] },
+  ] };
+  const args = { entries: [consumer.rel], device: 'd1', os: 'junos', snipIndex: new Map([consumer, provider, parent].map(row => [row.rel, row])), headers: new Map([consumer, provider, parent].map(row => [row.rel, {}])), constructs: new Map(), variantMembers: [], definers: new Map(), matrix, family: 'e-lan' };
+  const result = closeTuple(args);
+  assert.deepEqual(result.failures.map(row => row.kind), ['occurrence-selection-required']);
+  assert.deepEqual(unboundSelectionProblems(result), []);
+  assert.deepEqual(result.requiredInputs[0].choices, [provider.rel]);
+  assert.deepEqual(result.requiredInputs[0].bindingConstraints[0].consumerBinding, { AC_INTF: '$IFD.$UNIT' });
+  assert.ok(result.requiredInputs[0].providerRequiredInputs[provider.rel].some(row => row.construct === 'interface-parent:source-occurrence'));
+  const selectionKey = `${consumer.rel}:logical-interface:$AC_INTF`;
+  const selection = { provider: provider.rel, consumerBinding: { AC_INTF: 'ae1.100' }, binding: { IFD: 'ae1', UNIT: '100' } };
+  const suppliedArgs = { ...args, matrix: { occurrenceBindings: [matrix.occurrenceBindings[0]] }, selections: { [selectionKey]: selection } };
+  assert.deepEqual(closeTuple(suppliedArgs).failures, []);
+  const wrong = closeTuple({ ...suppliedArgs, selections: { [selectionKey]: { ...selection, binding: { IFD: 'ae2', UNIT: '100' } } } });
+  assert.ok(wrong.failures.some(row => row.kind === 'occurrence-identity-mismatch'));
+  args.headers.set(provider.rel, { pairWith: ['junos/missing.conf'] });
+  assert.ok(unboundSelectionProblems(closeTuple(args)).some(row => row.kind === 'occurrence-provider-closure-failed'));
+  args.headers.set(provider.rel, {});
+  args.snipIndex.set(consumer.rel, { ...consumer, body: 'routing-instances { SERVICE { interface irb.10; } }' });
+  args.snipIndex.set(provider.rel, { ...provider, body: 'interfaces { ae1 { unit 20 { family bridge; } } }' });
+  assert.ok(closeTuple(args).failures.some(row => row.kind === 'occurrence-no-applicable-provider'));
+});
+
+test('the unbound composition CI command accepts only validated required selections', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const script = path.join(REPO_ROOT, 'portal/scripts/composition-validate.mjs');
+  const result = spawnSync(process.execPath, [script, '--audit', '--expect-required-inputs'], { cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 2 * 1024 * 1024 });
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /unbound required-input verification: PASS/);
+  assert.doesNotMatch(result.stdout, /occurrence-no-applicable-provider|occurrence-provider-closure-failed/);
+  const strict = spawnSync(process.execPath, [script, '--audit'], { cwd: REPO_ROOT, encoding: 'utf8', maxBuffer: 2 * 1024 * 1024 });
+  assert.equal(strict.status, 1, 'Strict mode must not label missing selections complete');
+  assert.match(strict.stdout, /occurrence-selection-required/);
+});
+
 test("literal policy references constrain provider identities and check provider prerequisites", () => {
   const make = (rel, body) => ({ ...snip(rel)[1], body });
   const consumer = make("junos/consumer.conf", "protocols { isis { export FLOAT-PW-CONDITIONAL; } }");

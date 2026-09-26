@@ -63,8 +63,8 @@ jobs:
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
       - name: Named objects have exactly one applicable owner
         run: node portal/scripts/object-ownership.mjs
-      - name: Composition matrix is valid and every supported tuple closes
-        run: node portal/scripts/composition-validate.mjs --audit
+      - name: Composition matrix closes or exposes validated required inputs
+        run: node portal/scripts/composition-validate.mjs --audit --expect-required-inputs
       - name: TIERS.md is generated from the matrix
         run: node portal/scripts/generate-tiers.mjs --check
       # Reported, not enforced: two known group constructs are still unreachable

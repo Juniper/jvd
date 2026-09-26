@@ -437,6 +437,10 @@ export function closeTuple({ entries, device, os, snipIndex, headers, constructs
           for (const definition of extractConstructOccurrences(candidate.body).definitions.filter(row => row.kind === ref.kind)) {
             const values = bindLine(definition.name, ref.name, {});
             if (values !== null) constraints.push({ provider, definition: definition.name, reference: ref.name, binding: values });
+            else if (/^\$(?:[A-Z][A-Z0-9_]*|\{[A-Z][A-Z0-9_]*\})$/.test(ref.name)) {
+              const consumerBinding = bindLine(ref.name, definition.name, {});
+              if (consumerBinding !== null) constraints.push({ provider, definition: definition.name, reference: ref.name, binding: {}, consumerBinding });
+            }
           }
         }
         const choices = [...new Set(constraints.map(row => row.provider))].sort();
@@ -455,12 +459,14 @@ export function closeTuple({ entries, device, os, snipIndex, headers, constructs
           continue;
         }
         const providerFailures = [];
+        const providerRequiredInputs = {};
         for (const provider of choices) {
           if ([...choiceTrail, rel].includes(provider)) { providerFailures.push({ provider, kind: "choice-cycle" }); continue; }
           const result = closeTuple({ entries: [provider], device, os, snipIndex, headers, constructs, variantMembers, definers, matrix, family, choiceTrail: [...choiceTrail, rel], selections });
-          providerFailures.push(...result.failures.map(failure => ({ provider, ...failure })));
+          if (result.requiredInputs.length) providerRequiredInputs[provider] = result.requiredInputs;
+          providerFailures.push(...unboundSelectionProblems(result).map(failure => ({ provider, ...failure })));
         }
-        requiredInputs.push({ construct: `${ref.kind}:${ref.name}`, from: rel, choices, bindingConstraints: constraints, selection: "source-occurrence-or-explicit-input", scope: binding.scope });
+        requiredInputs.push({ construct: `${ref.kind}:${ref.name}`, from: rel, choices, bindingConstraints: constraints, selection: "source-occurrence-or-explicit-input", scope: binding.scope, ...(Object.keys(providerRequiredInputs).length ? { providerRequiredInputs } : {}) });
         failures.push({ kind: "occurrence-selection-required", from: rel, detail: `${ref.kind}:${ref.name}` });
         if (providerFailures.length) failures.push({ kind: "occurrence-provider-closure-failed", from: rel, detail: `${ref.kind}:${ref.name}`, providerFailures });
       }
