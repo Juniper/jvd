@@ -20,6 +20,7 @@
  */
 
 import { promises as fs } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseSnip } from "./snip-parse.mjs";
@@ -28,6 +29,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const PORTAL_DIR = path.join(REPO_ROOT, "portal");
 const OUT_PATH = path.join(PORTAL_DIR, "src", "data", "snips.json");
+// Served as a static file, so it must sit outside portal/public/byoai, which is
+// wiped and rebuilt on every run.
+const EXPORT_PATH = path.join(PORTAL_DIR, "public", "snips.json");
 const USECASE_MAP_PATH = path.join(__dirname, "jvd-usecase-map.json");
 const TECH_MAP_PATH = path.join(__dirname, "snip-tech-map.json");
 // TEMPORARY Stage 2 artifact — delete when techFamily moves to categoryPath.
@@ -74,6 +78,45 @@ async function walk(dir, predicate, out = []) {
 /** Deterministic JSON.stringify (sorted keys) so --check is stable. */
 function stableStringify(value) {
   return JSON.stringify(value, null, 2) + "\n";
+}
+
+/**
+ * Key-sorted copy, used ONLY as input to a hash.
+ *
+ * The emitted files keep their authored field order; sorting them would churn
+ * every record for no gain. A digest cannot depend on that order, so hashing
+ * canonicalises first. Arrays keep their order, which is meaningful here.
+ */
+function canonical(value) {
+  if (Array.isArray(value)) return value.map(canonical);
+  if (value && typeof value === "object") {
+    const out = {};
+    for (const k of Object.keys(value).sort()) out[k] = canonical(value[k]);
+    return out;
+  }
+  return value;
+}
+
+const sha256 = (text) => createHash("sha256").update(text, "utf8").digest("hex");
+const digestOf = (value) => sha256(JSON.stringify(canonical(value)));
+
+/** Fields that describe presentation or the build, not the record itself. */
+const NON_RECORD_FIELDS = ["bodyHtml", "recordSha256", "parseWarnings"];
+
+/**
+ * A digest over everything that decides what a snip is and where it applies.
+ *
+ * Body alone is not enough: a changed `Seen on:` row, dependency or variable
+ * declaration changes which device the snip is selected for, silently. Identity
+ * is in scope too, so a record that has been renamed or moved does not verify
+ * against its old digest.
+ */
+function recordDigest(record) {
+  const subject = {};
+  for (const [k, v] of Object.entries(record)) {
+    if (!NON_RECORD_FIELDS.includes(k)) subject[k] = v;
+  }
+  return digestOf(subject);
 }
 
 function slug(s) {
@@ -558,11 +601,15 @@ async function main() {
   const records = [];
   const indexByJvdRel = new Map(); // "<jvd>::<os>/<cat>/<name>.conf" -> id
   const allWarnings = [];
+  // Whole-file text, kept for the source digest. Hashing parsed bodies instead
+  // would omit the headers, where Seen-on and Pair-with live.
+  const sourceText = new Map();
 
   for (const file of files) {
     const interp = interpretSnipPath(file);
     if (!interp) continue;
     const text = await fs.readFile(file, "utf8");
+    sourceText.set(interp.relPath, text);
     const { header, body, warnings } = parseSnip(text);
     if (warnings.length) {
       for (const w of warnings) {
@@ -664,8 +711,21 @@ async function main() {
   for (const v of seenJvds.values()) jvdsSummary.push(v);
   jvdsSummary.sort((a, b) => a.label.localeCompare(b.label));
 
+  for (const r of records) r.recordSha256 = recordDigest(r);
+
+  // Every .conf input in full, headers included. It does not cover this
+  // generator or the mapping files, which also shape the output -- exportDigest
+  // is what covers the emitted result.
+  const snippetSourceDigest = sha256(
+    [...sourceText.entries()]
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(([rel, text]) => `${rel}\n${text}`)
+      .join("\n\u0000\n"),
+  );
+
   const bundle = {
     generatedAt: new Date().toISOString(),
+    snippetSourceDigest,
     counts: {
       total: records.length,
       junos: records.filter((r) => r.osKey === "junos").length,
@@ -684,6 +744,22 @@ async function main() {
 
   const newJson = stableStringify(bundle);
 
+  // The published corpus: the same records without the pre-rendered HTML, which
+  // is for the browser, and without build diagnostics. One representation is
+  // derived from the other so they cannot describe different libraries.
+  const exportBundle = {
+    ...bundle,
+    snips: records.map(({ bodyHtml, parseWarnings, ...rest }) => rest),
+  };
+  delete exportBundle.parseWarnings;
+  // Excluded from its own digest: the digest field, the build timestamp (or
+  // identical content would hash differently every run), and publishedCommit,
+  // which is stamped into the deployed copy only and never tracked here.
+  const { generatedAt: _ts, exportDigest: _d, publishedCommit: _c, ...digestSubject } =
+    exportBundle;
+  exportBundle.exportDigest = digestOf(digestSubject);
+  const newExport = stableStringify(exportBundle);
+
   if (CHECK_ONLY) {
     let oldJson = "";
     try {
@@ -692,11 +768,25 @@ async function main() {
       /* missing */
     }
     // Strip the volatile generatedAt timestamp before comparing so re-runs
-    // on identical input compare equal.
+    // on identical input compare equal. The digests are deliberately NOT
+    // stripped: they are stable across runs, and excusing them from the
+    // comparison would leave them unvalidated.
     const stripTs = (s) => s.replace(/"generatedAt":\s*"[^"]+",?\n?/, "");
     if (stripTs(oldJson) !== stripTs(newJson)) {
       console.error(
         `[generate-snips --check] snips.json is out of date. Run: node portal/scripts/generate-snips.mjs`,
+      );
+      process.exit(2);
+    }
+    let oldExport = "";
+    try {
+      oldExport = await fs.readFile(EXPORT_PATH, "utf8");
+    } catch {
+      /* missing */
+    }
+    if (stripTs(oldExport) !== stripTs(newExport)) {
+      console.error(
+        `[generate-snips --check] public/snips.json is missing or out of date. Run: node portal/scripts/generate-snips.mjs`,
       );
       process.exit(2);
     }
@@ -710,9 +800,14 @@ async function main() {
   }
 
   await fs.writeFile(OUT_PATH, newJson, "utf8");
+  await fs.mkdir(path.dirname(EXPORT_PATH), { recursive: true });
+  await fs.writeFile(EXPORT_PATH, newExport, "utf8");
   console.log(
     `[generate-snips] wrote ${OUT_PATH} — ${records.length} snips, ` +
       `${jvdsSummary.length} JVDs, ${allWarnings.length} warning(s).`,
+  );
+  console.log(
+    `[generate-snips] wrote ${EXPORT_PATH} — export digest ${exportBundle.exportDigest.slice(0, 12)}…`,
   );
   if (allWarnings.length) {
     for (const w of allWarnings) console.log(`  ${w.warning}: ${w.file}`);
