@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, rmSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -44,11 +45,21 @@ test("the published export exists and is a superset-free lean copy", () => {
   for (const s of exp.snips) assert.equal(s.bodyHtml, undefined, `${s.id} carries bodyHtml`);
 });
 
-test("the export keeps every field selection depends on", () => {
-  const s = read(EXPORT).snips.find((x) => x.pairWith?.length && x.variables?.length);
-  assert.ok(s, "no record with dependencies and variables to check");
-  for (const f of ["id", "jvd", "path", "osKey", "categoryPath", "name", "seenOn", "pairWith", "variables", "body"]) {
-    assert.notEqual(s[f], undefined, `export dropped ${f}`);
+test("the export keeps every field of every record, bar presentation", () => {
+  // A sample proves nothing about the other thousand records, and dropping one
+  // field from one record is exactly how applicability goes missing.
+  const bundle = read(BUNDLE);
+  const exp = read(EXPORT);
+  const byId = new Map(exp.snips.map((s) => [s.id, s]));
+  for (const source of bundle.snips) {
+    const published = byId.get(source.id);
+    assert.ok(published, `${source.id} missing from the export`);
+    const { bodyHtml, parseWarnings, ...expected } = source;
+    assert.equal(
+      JSON.stringify(published),
+      JSON.stringify(expected),
+      `${source.id} differs between bundle and export`,
+    );
   }
 });
 
@@ -114,16 +125,67 @@ test("a record digest ignores pre-rendered presentation", () => {
 
 /* ------------------------ the source digest's scope ---------------------- */
 
-test("the source digest covers whole .conf files, headers included", () => {
-  // Headers carry Seen-on and Pair-with. A digest over parsed bodies would not
-  // change when applicability changed, despite its name.
+test("the source digest is recomputable from the whole .conf files", () => {
   const bundle = read(BUNDLE);
-  assert.match(bundle.snippetSourceDigest ?? "", /^[0-9a-f]{64}$/);
   const repoRoot = path.resolve(PORTAL, "..");
-  const sample = bundle.snips[0];
-  const raw = readFileSync(path.join(repoRoot, sample.path), "utf8");
-  assert.ok(
-    raw.length > sample.body.length,
-    "sample .conf is not larger than its parsed body, so this test proves nothing",
-  );
+  const whole = bundle.snips
+    .map((s) => [s.path, readFileSync(path.join(repoRoot, s.path), "utf8")])
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
+  const recomputed = createHash("sha256")
+    .update(whole.map(([rel, text]) => `${rel}\n${text}`).join("\n\u0000\n"), "utf8")
+    .digest("hex");
+  assert.equal(recomputed, bundle.snippetSourceDigest);
+});
+
+test("the source digest is not a body-only digest", () => {
+  // The earlier implementation hashed parsed bodies, which left Seen-on and
+  // Pair-with -- both header-only -- outside a digest named for the sources.
+  // This asserts the two are distinguishable, so that version cannot pass.
+  const bundle = read(BUNDLE);
+  const bodyOnly = createHash("sha256")
+    .update(
+      bundle.snips
+        .map((s) => `${s.path}\n${s.body}`)
+        .sort()
+        .join("\n\u0000\n"),
+      "utf8",
+    )
+    .digest("hex");
+  assert.notEqual(bodyOnly, bundle.snippetSourceDigest);
+});
+
+/* ------------------------- the gate actually gates ----------------------- */
+
+test("--check fails on a stale export and does not repair it", () => {
+  const original = readFileSync(EXPORT, "utf8");
+  try {
+    const stale = JSON.parse(original);
+    stale.counts = { ...stale.counts, total: stale.counts.total + 1 };
+    writeFileSync(EXPORT, JSON.stringify(stale, null, 2) + "\n");
+    const r = spawnSync("node", [path.join(HERE, "generate-snips.mjs"), "--check"], {
+      encoding: "utf8",
+    });
+    assert.notEqual(r.status, 0, "--check passed on a stale export");
+    assert.match(`${r.stderr}${r.stdout}`, /public\/snips\.json is missing or out of date/);
+    assert.equal(
+      readFileSync(EXPORT, "utf8"),
+      JSON.stringify(stale, null, 2) + "\n",
+      "--check rewrote the export instead of reporting it",
+    );
+  } finally {
+    writeFileSync(EXPORT, original);
+  }
+});
+
+test("--check fails on a missing export", () => {
+  const original = readFileSync(EXPORT, "utf8");
+  try {
+    rmSync(EXPORT);
+    const r = spawnSync("node", [path.join(HERE, "generate-snips.mjs"), "--check"], {
+      encoding: "utf8",
+    });
+    assert.notEqual(r.status, 0, "--check passed with no export at all");
+  } finally {
+    writeFileSync(EXPORT, original);
+  }
 });
