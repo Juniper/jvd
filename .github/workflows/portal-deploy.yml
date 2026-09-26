@@ -48,10 +48,11 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Stamp the publishing commit into the deployed corpus
-        # Deployment-only, and never committed: the tracked export has to stay
-        # reproducible from the sources alone. Excluded from exportDigest, so
-        # stamping cannot invalidate it.
+      - name: Stamp the publishing commit into the built corpus
+        # Runs in the build job, so pull-request CI exercises it. Never
+        # committed: the tracked export has to stay reproducible from the
+        # sources alone. Excluded from exportDigest, so stamping cannot
+        # invalidate what it stamps.
         run: |
           node -e '
             const fs = require("node:fs");
