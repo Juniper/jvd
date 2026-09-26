@@ -476,6 +476,7 @@ async function main() {
     for (const ent of mirrorEntries) {
       if (!ent.isFile()) continue;
       if (!/\.(txt|md|json)$/i.test(ent.name)) continue;
+      if (/^(?:isis|etree)-plan-.*\.(?:md|json)$/i.test(ent.name)) continue;
       const srcPath = path.join(sourceDir, ent.name);
       const dstPath = path.join(mirrorTargetDir, ent.name);
       // Rewrite raw.githubusercontent.com URLs that point INTO this

@@ -59,7 +59,7 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
 // VARIANT_FAMILIES: a family is a BGP address family, a capability is any other
 // selectable construct. `ifl` is the repository's established scope token for a
 // logical interface (see .github/glossary/snip-glossary.json).
-export const VARIANT_CAPABILITIES = { ifl: ["irb"], gr: ["edge-intf", "edge-intf-mh", "fatpw-label"] };
+export const VARIANT_CAPABILITIES = { ifl: ["irb"], gr: ["edge-intf", "edge-intf-mh", "fatpw-label"], transport: ["colour-classes", "mpls-admin-groups"], firewall: ["policers"] };
 
 /**
  * classifySelector(token) -> { kind, ns?, cap? }

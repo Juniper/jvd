@@ -330,8 +330,9 @@ directly after `Seen on:`:
   - **Bare families** — BGP address families: `evpn`, `l2vpn`, `inet-vpn`,
     `inet6-vpn`, `labeled-unicast`.
   - **Namespaced capabilities** — written `<namespace>:<capability>`, for
-    selectable constructs that are not address families. The only namespace is
-    `ifl` (a logical interface), and its only capability is `ifl:irb`.
+    selectable constructs that are not address families. These include
+    `ifl:irb` (a logical interface), `transport:colour-classes`,
+    `transport:mpls-admin-groups`, and `firewall:policers`.
 - A member publishes one vocabulary. Mixing a bare family and a namespaced
   capability in one `Provides:` row is `VARIANT_MIXED_SELECTOR`, because an
   atomic all-of requirement must not span unrelated dimensions.
@@ -345,6 +346,31 @@ directly after `Seen on:`:
   unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`. Families are
   compared against the `protocols bgp` hierarchy; `ifl:irb` requires an active
   `interfaces { irb { unit … } }` hierarchy.
+- The `transport` and `firewall` selectors use JVD-local requirements in
+  `configuration/snips/_composition.json`, under
+  `capabilityRequirements[group-name][selector]`. These declarations are scoped
+  to that JVD and variant group; no names, colour numbers or administrative-group
+  values are implied globally. Their closed value shapes are:
+  - `transport:colour-classes`: `{ "colours": ["<decimal colour>", ...] }`.
+    Each required colour must have one active named definition under global
+    `routing-options/transport-class`, with one literal `color` leaf. Duplicate
+    class names or ambiguous required colours do not establish the capability.
+  - `transport:mpls-admin-groups`: `{ "adminGroups": { "<name>": "<decimal value>", ... } }`.
+    Each required name must have one active leaf with the declared value under
+    global `protocols/mpls/admin-groups`.
+  - `firewall:policers`: `{ "policers": ["<policer name>", ...] }`.
+    Each required name must have one active global `firewall/policer` definition.
+- Requirement collections are nonempty; list members are unique. Unknown
+  selectors, extra fields and invalid value shapes are rejected. JVDs not using
+  these selectors do not need a composition file. Consumers and members using
+  them require a valid local declaration; missing declarations do not receive
+  defaults from another JVD.
+- Comments, quoted prose, inactive subtrees and unapplied group definitions do
+  not establish these capabilities. Concrete consumer references must be covered
+  by the declaration. Declarations are requirements, not source evidence:
+  providers must still reconstruct on the exact target device, and source-bound
+  closure checks the rendered consumer and provider against the declaration.
+  The selected member supplies its complete body and declared prerequisites.
 - Within one JVD and group, a target device **MUST** map to at most one distinct
   emitted body, evaluated across **both** storage directories
   (`VARIANT_DEVICE_OVERLAP`). Two members naming the same device are duplicate

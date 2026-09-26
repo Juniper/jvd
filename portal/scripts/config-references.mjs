@@ -109,6 +109,95 @@ function walkNodes(nodes, trail, visit) {
   }
 }
 
+function referencesOf(node, trail) {
+  if (node.children !== null || isCommunityDefinitionLeaf(node.words)) return [];
+  if (trail.length === 3 && trail[0] === 'class-of-service' && trail[1] === 'classifiers' && trail[2].startsWith('exp ') && node.words.join(' ') === 'import default') return [];
+  const parent = trail.at(-1) || "";
+  for (const rule of REFERENCE_RULES) {
+    if (rule.parent && parent !== rule.parent) continue;
+    const at = indexOfSeq(node.words, rule.keyword);
+    if (at === -1 || rule.atStart && at !== 0) continue;
+    return node.words.flatMap((raw, wordIndex) => wordIndex < at + rule.keyword.length || BRACKETS.has(raw) || MODIFIERS.has(raw)
+      ? [] : [{ kind: rule.kind, name: canonicalName(raw), wordIndex }]);
+  }
+  return [];
+}
+
+export function extractConstructOccurrences(body) {
+  const parsed = parseConfig(body);
+  if (!parsed.ok) return { ok: false, definitions: [], references: [] };
+  const definitions = [];
+  const references = [];
+  const subscriberDevices = parsed.nodes.filter(node => !node.inactive && node.words.join(' ') === 'interfaces')
+    .flatMap(node => node.children ?? []).filter(node => !node.inactive && /^ps\d+$/.test(node.words.join(' ')));
+  const minimumPsCapacity = Math.max(subscriberDevices.length, ...subscriberDevices.map(node => Number(node.words[0].slice(2))));
+  let nextId = 0;
+  const walk = (nodes, trail, inactive = false, parentNode = null) => {
+    for (const node of nodes) {
+      const nodeId = nextId++;
+      const disabled = inactive || node.inactive;
+      if (!disabled) {
+        const definition = definitionOf(node, trail);
+        if (definition) definitions.push({ ...definition, name: canonicalName(definition.name), nodeId, trail });
+        if (trail.length === 1 && trail[0] === "policy-options" && node.words[0] === "condition" && node.children !== null) {
+          definitions.push({ kind: "condition", name: canonicalName(node.words[1]), nodeId, trail });
+        }
+        if (trail.join('/') === 'routing-options/rib-groups' && node.words.length === 1 && node.children !== null) {
+          definitions.push({ kind: 'rib-group', name: canonicalName(node.words[0]), nodeId, trail });
+        }
+        if (trail.join('/') === 'routing-options/transport-class' && node.words[0] === 'name' && node.children !== null) {
+          const color = node.children.find(child => !child.inactive && child.words[0] === 'color');
+          if (color) definitions.push({ kind: 'transport-class', name: canonicalName(color.words[1]), nodeId, trail });
+        }
+        if (trail.length === 2 && trail[0] === 'routing-options' && trail[1].startsWith('flex-algorithm ') && node.words[0] === 'color' && parentNode?.children?.some(child => !child.inactive && child.words[0] === 'use-transport-class')) {
+          references.push({ kind: 'transport-class', name: canonicalName(node.words[1]), nodeId, wordIndex: 1, trail });
+        }
+        if (node.children === null && node.words[0] === 'rib-group' && node.words.length >= 2 && ['routing-options', 'protocols'].includes(trail[0])) {
+          references.push({ kind: 'rib-group', name: canonicalName(node.words.at(-1)), nodeId, wordIndex: node.words.length - 1, trail });
+        }
+        if (trail.length === 2 && trail[0] === "interfaces" && node.words[0] === "unit" && node.children !== null) {
+          definitions.push({ kind: "logical-interface", name: canonicalName(`${trail[1]}.${node.words[1]}`), nodeId, trail });
+          if (/^ps\d+$/.test(trail[1])) {
+            const anchors = parentNode.children.filter(child => !child.inactive && child.words.join(' ') === 'anchor-point')
+              .flatMap(child => child.children ?? []).filter(child => !child.inactive);
+            const anchor = anchors.length === 1 && anchors[0].children === null && anchors[0].words.join(' ').match(/^lt-(\d+)\/(\d+)\/\d+$/);
+            if (node.words[1] !== '0') references.push({ kind: 'logical-interface', name: `${trail[1]}.0`, nodeId, wordIndex: -1, trail, basis: 'functional-necessity' });
+            references.push({ kind: 'ps-device-capacity', name: 'global', nodeId, wordIndex: -2, trail, minimumExclusive: minimumPsCapacity, basis: 'functional-necessity' });
+            references.push({ kind: 'tunnel-pic', name: anchor ? `${anchor[1]}/${anchor[2]}` : `invalid-anchor:${trail[1]}`, nodeId, wordIndex: -3, trail, basis: 'functional-necessity' });
+          }
+        }
+        if (trail.join('/') === 'chassis/pseudowire-service' && node.words[0] === 'device-count' && node.children === null) {
+          definitions.push({ kind: 'ps-device-capacity', name: 'global', nodeId, trail });
+        }
+        if (trail.length === 3 && trail[0] === 'chassis' && trail[1].startsWith('fpc ') && trail[2].startsWith('pic ') && node.words[0] === 'tunnel-services') {
+          definitions.push({ kind: 'tunnel-pic', name: canonicalName(`${trail[1].slice(4)}/${trail[2].slice(4)}`), nodeId, trail });
+        }
+        const protocolInterface = trail.length === 2 && trail[0] === "protocols" && /^(isis|isis-instance|ldp)(?: |$)/.test(trail[1]);
+        const circuitInterface = trail.length === 3 && trail[0] === "protocols" && trail[1] === "l2circuit" && trail[2].startsWith("neighbor ");
+        const localCircuitInterface = trail[0] === 'protocols' && trail[1] === 'l2circuit' && trail[2] === 'local-switching'
+          && (trail.length === 3 || trail.length === 5 && trail[3].startsWith('interface ') && trail[4] === 'end-interface');
+        const bridgeInterface = trail.length === 2 && trail[0] === 'bridge-domains';
+        const serviceInterface = trail[0] === "routing-instances" && (trail.length === 2 || trail.length === 4 && ['bridge-domains', 'vlans'].includes(trail[2]));
+        if (node.words.length === 2 && (node.words[0] === 'interface' && (protocolInterface || serviceInterface || circuitInterface || localCircuitInterface || bridgeInterface)
+          || ['routing-interface', 'l3-interface'].includes(node.words[0]) && (serviceInterface || bridgeInterface))) {
+          references.push({ kind: "logical-interface", name: canonicalName(node.words[1]), nodeId, wordIndex: 1, trail });
+          if (circuitInterface && node.children !== null) definitions.push({ kind: "l2circuit-interface", name: canonicalName(node.words[1]), nodeId, trail });
+        }
+        if (node.children === null && trail[0] === "policy-options") {
+          if (node.words[0] === "condition" && trail[1]?.startsWith("policy-statement ")) references.push({ kind: "condition", name: canonicalName(node.words[1]), nodeId, wordIndex: 1, trail });
+          if (trail[1]?.startsWith("condition ") && trail.at(-1) === "ccc" && node.words.length === 1 && node.words[0] !== "table") {
+            references.push({ kind: "l2circuit-interface", name: canonicalName(node.words[0]), nodeId, wordIndex: 0, trail });
+          }
+        }
+        for (const reference of referencesOf(node, trail)) references.push({ ...reference, nodeId, trail });
+      }
+      if (node.children) walk(node.children, [...trail, node.words.join(" ")], disabled, node);
+    }
+  };
+  walk(parsed.nodes, []);
+  return { ok: true, definitions, references };
+}
+
 /**
  * extractConstructs(body) -> { ok, definitions, references }
  *
@@ -134,22 +223,11 @@ export function extractConstructs(body) {
   walkNodes(nodes, [], (node, trail) => {
     if (node.children !== null) return; // references are always leaf statements
     if (defNodes.has(node)) return;
-    const w = node.words;
-    const parent = trail[trail.length - 1] || "";
-    for (const rule of REFERENCE_RULES) {
-      if (rule.parent && parent !== rule.parent) continue;
-      const at = indexOfSeq(w, rule.keyword);
-      if (at === -1) continue;
-      if (rule.atStart && at !== 0) continue;
-      for (const raw of w.slice(at + rule.keyword.length)) {
-        if (BRACKETS.has(raw) || MODIFIERS.has(raw)) continue;
-        const name = canonicalName(raw);
-        const key = `${rule.kind}\u0000${name}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        references.push({ kind: rule.kind, name });
-      }
-      break; // one keyword classifies a statement; later rules must not re-read it
+    for (const { kind, name } of referencesOf(node, trail)) {
+      const key = `${kind}\u0000${name}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      references.push({ kind, name });
     }
   });
 

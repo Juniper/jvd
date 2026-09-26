@@ -35,6 +35,19 @@ The variables fall into a few groups.
 | `$SR_INDEX_V4` / `$SR_INDEX_V6` | Prefix-segment indices assigned to the SR non-zero IPv4 / IPv6 loopbacks. | `200` / `300` |
 | `$PREFIX`              | Prefix a route-filter matches where the prefix itself is what the policy selects. | `0.0.0.0/32` |
 
+## Transport Interface Parameters
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$TE_METRIC` | IS-IS interface ASLA traffic-engineering metric, independent of its IGP and delay metrics. | `10` |
+| `$DELAY_METRIC` | IS-IS interface delay metric; not a protocol timer. | `5` |
+| `$ISIS_METRIC` | IS-IS interface metric within the literal level hierarchy. | `25` |
+| `$ADMIN_GROUP` | One scalar MPLS administrative-group name referenced by an IS-IS interface ASLA block; not a BGP colour community or a list. | `blue` |
+
+For as-deployed reconstruction these values belong to a complete source occurrence
+binding, together with its device and interface identity. Independently observed
+values are not interchangeable defaults and do not establish arbitrary combinations.
+
 ## Neighbours / route reflectors
 
 | Variable               | What it is                                                  | Example value |
@@ -57,6 +70,8 @@ The variables fall into a few groups.
 | `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |
 | `$AE_BUNDLE`           | Aggregated-Ethernet bundle a member link joins (`802.3ad`).                      | `ae73`            |
 | `$AE_DEVICE_COUNT`     | Number of aggregated-Ethernet devices the chassis allocates.                     | `25`              |
+| `$PS_DEVICE_COUNT`     | Allocated pseudowire-subscriber devices; greater than the configured device count and highest PS index. | `100` |
+| `$TS_FPC` / `$TS_PIC`   | FPC and PIC indices providing tunnel services; must match the FPC/PIC in the subscriber anchor. | `0` / `0` |
 | `$UNIT`                | Logical-unit identifier — the `unit <n>` a construct configures, and the tail when an interface is written `<ifd>.<unit>`. | `3000`            |
 | `$UNI_INTF`           | Customer UNI physical interface. | `xe-0/0/3:1` |
 | `$AC_INTF_1` / `$AC_INTF_2` | The two attachment-circuit interfaces cross-connected by l2circuit local-switching. | `et-0/0/5` |
@@ -79,6 +94,14 @@ The variables fall into a few groups.
 | `$VLAN_LIST`          | VLAN range or list admitted by a `vlan-id-list` interface. | `1000-1001` |
 | `$VLAN_OUTER` / `$VLAN_INNER` | Outer and inner tags of a double-tagged (`vlan-tags`) interface. | `225` / `2250` |
 | `$COS_INTF`           | Interface to which the class-of-service configuration is applied, physical or aggregated and independent of topology role. | `ae11` |
+
+The PS transport and service-unit templates use `$PS_INTF` as the device name
+(`ps0`), with transport unit `0` literal. Repeat the service template per nonzero
+`$UNIT`; `$UNIT` and `$VLAN` are separate inputs. Use the same PS device and anchor
+for its transport and service units. Unit and device values must also be within
+the target platform and release limits; the archived values are examples, not
+those limits. The existing routing-instance template uses `$PS_INTF` for a full
+service interface (`ps0.300`); supply that complete attachment there.
 
 ## Service identifiers
 
@@ -170,6 +193,24 @@ vary across otherwise-identical deployed forms is parameterised instead (see
 | `$POLICY_NAME`         | Policy-statement name where the name is the object the body defines rather than part of the architectural model. | `ALLOW_LOOPBACK` |
 
 ## Header convention
+
+### Occurrence-bound transport inputs
+
+| Variable | Meaning | Source example |
+|---|---|---|
+| `$ISIS_INSTANCE` | Named IS-IS process, not a service routing instance. | `metro-a` |
+| `$CONDITION_NAME` | Routing-policy condition definition and its reference. | `Floating-PW-Condition` |
+| `$PREFIX_SID_INDEX` | Policy-applied prefix-segment index. | `210` |
+| `$ADMIN_GROUP_1` / `$ADMIN_GROUP_2` | Ordered members of a two-member administrative-group list. | `blue` / `green` |
+| `$EXPORT_POLICY` | IS-IS export-policy reference; reused from the Broadband Edge vocabulary. | `export_isis_metro_b_ribs` |
+
+Source replay uses complete observed occurrence bindings. The floating-PW
+conditional pattern may be instantiated per PS transport for a new deployment;
+the source contains only the `ps0.0` worked condition. Policy and condition names,
+watched transport, advertised prefix and SID index are correlated inputs, not
+values to copy indiscriminately to every PS device. Bindings are local to each
+snippet occurrence: legacy `$PS_INTF` may denote a PS device stem in a transport
+snippet and a complete logical-interface name in a service snippet.
 
 Every snip declares the variables it actually uses in a header
 section. The renderer skips the leading `/* ... */` C-comment block

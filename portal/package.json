@@ -16,7 +16,12 @@
     "snips:ownership": "node scripts/object-ownership.mjs",
     "snips:completeness": "node scripts/library-completeness.mjs --by-construct",
     "snips:composition": "node scripts/composition-validate.mjs --audit",
-    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs scripts/gr-capabilities.test.mjs scripts/config-objects.test.mjs scripts/object-ownership.test.mjs scripts/config-references.test.mjs scripts/dependency-resolve.test.mjs scripts/composition-validate.test.mjs",
+    "snips:bindings": "node scripts/generate-bindings.mjs",
+    "snips:bindings:check": "node scripts/generate-bindings.mjs --check",
+    "snips:occurrences": "node scripts/generate-occurrence-plans.mjs",
+    "snips:occurrences:check": "node --test --test-name-pattern='both ACX7509 source plans|removing colour resolution selections' scripts/composition-validate.test.mjs",
+    "snips:etree:check": "node --test --test-name-pattern='source-bound E-Tree plans' scripts/composition-validate.test.mjs",
+    "snips:test": "node --test scripts/snip-validate.test.mjs scripts/variant.test.mjs scripts/bgp-capabilities.test.mjs scripts/ifl-capabilities.test.mjs scripts/gr-capabilities.test.mjs scripts/config-objects.test.mjs scripts/object-ownership.test.mjs scripts/config-references.test.mjs scripts/dependency-resolve.test.mjs scripts/composition-validate.test.mjs scripts/vocabulary-inventory.test.mjs && node scripts/generate-bindings.mjs --self-test",
     "tiers": "node scripts/generate-tiers.mjs",
     "tiers:check": "node scripts/generate-tiers.mjs --check"
   },

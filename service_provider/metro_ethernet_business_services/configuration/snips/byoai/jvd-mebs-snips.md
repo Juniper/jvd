@@ -26,6 +26,93 @@ chassis {
 }
 ```
 
+## evo/class-of-service/classifiers/cl-6class-exp-import-default.conf
+
+```
+/*
+ * Topic:   Six-class DSCP, EXP and 802.1p classifiers with EXP default import
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ *
+ * Highlights:
+ *  - EXP imports the default classifier and explicitly maps code points
+ *    to forwarding classes and loss priorities.
+ *
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
+ *
+ * Variables: none
+ */
+class-of-service {
+    classifiers {
+        dscp DSCP {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-points be;
+                loss-priority low code-points [ cs1 af11 af12 af13 ];
+            }
+            forwarding-class BUSINESS {
+                loss-priority low code-points [ cs4 af41 af42 af43 ];
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points [ cs6 cs7 ];
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-points [ cs2 af21 af22 af23 ];
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-points [ cs5 ef ];
+            }
+            forwarding-class SIG-OAM {
+                loss-priority low code-points [ cs3 af31 af32 af33 ];
+            }
+        }
+        exp EXP {
+            import default;
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-points 000;
+                loss-priority low code-points 001;
+            }
+            forwarding-class BUSINESS {
+                loss-priority low code-points 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points [ 110 111 ];
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-points 010;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority low code-points 011;
+            }
+        }
+        ieee-802.1 8021P {
+            forwarding-class BEST-EFFORT {
+                loss-priority high code-points 000;
+                loss-priority low code-points 001;
+            }
+            forwarding-class BUSINESS {
+                loss-priority low code-points 100;
+            }
+            forwarding-class CONTROL {
+                loss-priority low code-points [ 110 111 ];
+            }
+            forwarding-class MEDIUM {
+                loss-priority high code-points 010;
+            }
+            forwarding-class REALTIME {
+                loss-priority low code-points 101;
+            }
+            forwarding-class SIG-OAM {
+                loss-priority low code-points 011;
+            }
+        }
+    }
+}```
+
 ## evo/class-of-service/classifiers/cl-6class.conf
 
 ```
@@ -549,16 +636,12 @@ class-of-service {
 
 ```
 /*
- * Topic:   Protocol-independent 50 Mbps rate-limit filter, without the 5 Mbps filter
+ * Topic:   Protocol-independent 50 Mbps rate-limit filter
  * Seen on:
- *   Junos: an2_acx5448
- *   EVO:   an3_acx7100-48l
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204
+ *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
- *  - The atomic form of 50MB_filter, for the two access nodes that carry this
- *    filter alone. Peers that also carry 5MB_filter use
- *    firewall/filter-family-any-policers.conf instead, and an1_mx204 carries
- *    its own compound form in junos/firewall/policers.conf.
  *  - `family any` acts on the logical interface regardless of payload protocol,
  *    and `interface-specific` gives every bound interface its own counter and
  *    policer instance, so one subscriber's rate limit is independent of
@@ -568,11 +651,11 @@ class-of-service {
  *  - On an3_acx7100-48l the filter is bound as `filter { input 50MB_filter; }`
  *    on 1400 service units. On an2_acx5448 the definition is present with no
  *    binding, so the filter exists there as a prepared profile.
- *  - The 50mbps_policer this term names is the 2 m burst form. The 10 m burst
- *    form is an1_mx204's alone and is not reachable from here.
+ *  - The named 50mbps_policer supplies the rate and burst limits; its
+ *    required provider is selected for the target device.
  *
  * Pair with:
- *  - evo/firewall/policers.conf
+ *  - variant:mebs-rate-limit-policers capabilities=firewall:policers
  *
  * Variables: none. All values here are JVD-wide constants
  *            (policer names and rates) — same on every PE.
@@ -630,6 +713,31 @@ firewall {
 }
 ```
 
+## evo/firewall/filter-ipv6-router-access.conf
+
+```
+/*
+ * Topic:   IPv6 router access filter
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Variables: none
+ */
+firewall {
+  family inet6 {
+    filter IPV6-ROUTER-ACCESS {
+      interface-specific;
+      term ALL-ELSE {
+        then {
+          count LAST;
+          accept;
+        }
+      }
+    }
+  }
+}
+```
+
 ## evo/firewall/policers.conf
 
 ```
@@ -638,6 +746,9 @@ firewall {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ *
+ * Variant group: mebs-rate-limit-policers
+ *   Provides: firewall:policers
  *
  * Highlights:
  *  - Same 5 Mbps and 50 Mbps templates as junos/firewall/policers.conf —
@@ -672,6 +783,43 @@ firewall {
             burst-size-limit 1m;
         }
         then discard;
+    }
+}
+```
+
+## evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf
+
+```
+/*
+ * Topic:   hash-key
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with: none
+ * Variables: none
+ */
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            all-labels;
+            payload {
+                ip {
+                    layer-3-only;
+                }
+            }
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
     }
 }
 ```
@@ -714,6 +862,28 @@ forwarding-options {
         family multiservice {
             source-mac;
             destination-mac;
+        }
+    }
+}
+```
+
+## evo/groups/gr-ae-interface-mtu.conf
+
+```
+/*
+ * Topic:   AE-INTERFACE-MTU
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710 ma5_mx204
+ *   EVO:   ma1-2_acx7024 meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    AE-INTERFACE-MTU {
+        interfaces {
+            <ae*> {
+                mtu 9192;
+            }
         }
     }
 }
@@ -788,6 +958,38 @@ groups {
                 hold-time 10;
                 bgp-error-tolerance;
                 tcp-mss 4096;
+            }
+        }
+    }
+}
+```
+
+## evo/groups/gr-core-intf-lag-member.conf
+
+```
+/*
+ * Topic:   GR-CORE-INTF-LAG-MEMBER
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-CORE-INTF-LAG-MEMBER {
+        interfaces {
+            <*> {
+                description "********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********";
+                traps;
+                hold-time up 2000 down 0;
+                optics-options {
+                    alarm low-light-alarm {
+                        link-down;
+                    }
+                    warning low-light-warning {
+                        syslog;
+                    }
+                }
             }
         }
     }
@@ -982,6 +1184,124 @@ groups {
     }
 }
 ```
+
+## evo/groups/gr-fatpw-label-elan-vpls-l2circuit.conf
+
+```
+/*
+ * Topic:   Flow labels for port-based EVPN-ELAN, VPLS and L2Circuit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-2_acx7024
+ * Variant group: mebs-fatpw-label-form
+ *   Provides: gr:fatpw-label
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-FATPW-LABEL {
+        routing-instances {
+            <EVPN_ELAN_PORT_*> {
+                protocols {
+                    evpn {
+                        flow-label;
+                        flow-label-static;
+                    }
+                }
+            }
+            <vpls_*> {
+                protocols {
+                    vpls {
+                        flow-label-transmit;
+                        flow-label-receive;
+                    }
+                }
+            }
+        }
+        protocols {
+            l2circuit {
+                neighbor <*> {
+                    interface <*> {
+                        flow-label-transmit;
+                        flow-label-receive;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## evo/groups/gr-fatpw-label-etree-vpws-vpls.conf
+
+```
+/*
+ * Topic:   Flow labels for EVPN E-Tree, EVPN-VPWS and VPLS
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Variant group: mebs-fatpw-label-form
+ *   Provides: gr:fatpw-label
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-FATPW-LABEL {
+        routing-instances {
+            <evpn_group_80_*> {
+                protocols {
+                    evpn {
+                        flow-label;
+                        flow-label-static;
+                    }
+                }
+            }
+            <evpn_group_10_*> {
+                protocols {
+                    evpn {
+                        flow-label-transmit-static;
+                        flow-label-receive-static;
+                    }
+                }
+            }
+            <vpls_*> {
+                protocols {
+                    vpls {
+                        flow-label-transmit;
+                        flow-label-receive;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## evo/groups/gr-fatpw-label-vpws-static.conf
+
+```
+/*
+ * Topic:   Static flow labels for port-based EVPN-VPWS
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024
+ * Variant group: mebs-fatpw-label-form
+ *   Provides: gr:fatpw-label
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-FATPW-LABEL {
+        routing-instances {
+            <EVPN_VPWS_PORT_*> {
+                protocols {
+                    evpn {
+                        flow-label-transmit-static;
+                        flow-label-receive-static;
+                    }
+                }
+            }
+        }
+    }
+}```
 
 ## evo/groups/gr-fatpw-label.conf
 
@@ -1208,6 +1528,40 @@ groups {
                             no-adaptation;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/groups/gr-isis-interface-spf.conf
+
+```
+/*
+ * Topic:   GR-ISIS-BCP
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-ISIS-BCP {
+        protocols {
+            isis {
+                interface <ae*> {
+                    max-hello-size 9106;
+                    lsp-interval 10;
+                }
+                interface <et-*> {
+                    max-hello-size 9106;
+                    lsp-interval 10;
+                }
+                spf-options {
+                    delay 50;
+                    holddown 2000;
+                    rapid-runs 5;
                 }
             }
         }
@@ -1530,6 +1884,256 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG2.2 rtme-mx-51 ae22"
+ *   $IFD   e.g. ae22
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-aggregate-flexible-lacp-fast.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MDR2 rtme-mx-51 ae55"
+ *   $IFD   e.g. ae55
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-aggregate-lacp-fast-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710 ma2_mx204
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23"
+ *   $IFD   e.g. ae23
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        mtu 9192;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-aggregate-lacp-fast.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: an2_acx5448 ma4_mx204 mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AN1 rtme-mx-45 ae73"
+ *   $IFD   e.g. ae73
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ * Pair with: none
+ * Variables:
+ *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/2"
+ *   $IFD   e.g. et-0/0/51
+ */
+interfaces {
+    $IFD {
+        description $CORE_DESC;
+        traps;
+        flexible-vlan-tagging;
+        speed 100g;
+        mtu 9192;
+        hold-time up 2000 down 0;
+        encapsulation flexible-ethernet-services;
+        ether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x8100 0x88a8 ];
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-group-100g-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr mdr1_acx7509
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MSE1 rtme-mx304-02 rtme-mx304-02"
+ *   $IFD   e.g. et-0/0/0
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        speed 100g;
+        mtu 9192;
+    }
+}
+```
+
+## evo/interfaces/ifd-core-group-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
+ *   $IFD   e.g. et-0/0/13
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        mtu 9192;
+    }
+}
+```
+
+## evo/interfaces/ifd-core-lag-member-ether-100g.conf
+
+```
+/*
+ * Topic:   Core aggregate member interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr ma3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-core-intf-lag-member.conf
+ * Variables:
+ *   $AE_BUNDLE   e.g. ae11
+ *   $IFD   e.g. et-0/0/1
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF-LAG-MEMBER;
+        speed 100g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-core-lag-member-ether-10g.conf
+
+```
+/*
+ * Topic:   Core aggregate member interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509
+ * Pair with:
+ *  - evo/groups/gr-core-intf-lag-member.conf
+ * Variables:
+ *   $AE_BUNDLE   e.g. ae22
+ *   $IFD   e.g. et-0/0/9
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF-LAG-MEMBER;
+        speed 10g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
 ## evo/interfaces/ifd-core-lag-member.conf
 
 ```
@@ -1546,7 +2150,7 @@ interfaces {
  *    core LAG member.
  *
  * Pair with:
- *  - evo/groups/gr-lag-member.conf
+ *  - evo/groups/gr-core-intf-lag-member.conf
  *
  * Variables (example values from an2_acx5448):
  *   $CORE_INTF   e.g. et-0/1/1
@@ -1557,6 +2161,212 @@ interfaces {
         apply-groups GR-CORE-INTF-LAG-MEMBER;
         ether-options {
             802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether.conf
+
+```
+/*
+ * Topic:   Core aggregate member interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $AE_BUNDLE   e.g. ae4
+ *   $IFD   e.g. et-1/0/0
+ */
+interfaces {
+    $IFD {
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-loopback-description.conf
+
+```
+/*
+ * Topic:   Loopback interface description
+ * Seen on:
+ *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
+ */
+interfaces {
+    lo0 {
+        description $LO0_DESC;
+    }
+}
+```
+
+## evo/interfaces/ifl-core-description-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with: none
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23;"
+ *   $CORE_V4_ADDR   e.g. 10.10.0.181/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:b5/126
+ *   $IFD   e.g. ae23
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $CORE_DESC;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:2:99/126
+ *   $IFD   e.g. et-0/0/51
+ *   $UNIT   e.g. 1
+ *   $VLAN   e.g. 1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            apply-groups GR-CORE-INTF;
+            vlan-id $VLAN;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with: none
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:51/126
+ *   $IFD   e.g. et-0/0/13
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:71/126
+ *   $IFD   e.g. et-0/0/14
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Pair with: none
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.1.137/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:1:89/126
+ *   $IFD   e.g. ae55
+ *   $UNIT   e.g. 1
+ *   $VLAN   e.g. 1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
         }
     }
 }
@@ -1636,6 +2446,184 @@ interfaces {
     }
 }
 ```
+
+## evo/interfaces/ifl-loopback-primary-iso-filter.conf
+
+```
+/*
+ * Topic:   Loopback logical interface with IPv6 access filter
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0004.00
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.4/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:4/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+  lo0 {
+    unit $UNIT {
+      family inet {
+        address $LOOPBACK_V4_PFX {
+          primary;
+        }
+      }
+      family iso {
+        address $ISIS_NET;
+      }
+      family inet6 {
+        filter {
+          input IPV6-ROUTER-ACCESS;
+        }
+        address $LOOPBACK_V6_PFX {
+          primary;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/interfaces/ifl-loopback-primary-iso-mpls.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0006.00
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.6/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:6/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-loopback-primary-iso.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.5/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:5/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-loopback-primary-preferred-iso.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0002.00
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.2/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:2/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                    preferred;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-bridge-description-esi.conf
+
+```
+/*
+ * Topic: Described bridge logical interface with all-active ESI
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifd-ae-lacp-fast.conf
+ * Variables:
+ *   $IFD    e.g. ae11
+ *   $UNIT   e.g. 700
+ *   $VLAN   e.g. 700
+ *   $ESI    e.g. 00:70:11:11:11:11:11:00:00:01
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description "evpn service IFL";
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                all-active;
+            }
+        }
+    }
+}```
 
 ## evo/interfaces/ifl-vlan-bridge-esi.conf
 
@@ -1772,6 +2760,28 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifl-vlan-bridge.conf
+
+```
+/*
+ * Topic: Bridged logical interface with a VLAN identifier
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma1-2_acx7024
+ * Variables:
+ *   $IFD    e.g. et-0/0/14
+ *   $UNIT   e.g. 849
+ *   $VLAN   e.g. 849
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}```
+
 ## evo/interfaces/ifl-vlan-ccc-dual-tag-esi.conf
 
 ```
@@ -1842,6 +2852,30 @@ interfaces {
     }
 }
 ```
+
+## evo/interfaces/ifl-vlan-ccc-outer-tag-tpid.conf
+
+```
+/*
+ * Topic: Cross-connect logical interface with an 802.1ad outer VLAN tag
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
+ * Variables:
+ *   $IFD          e.g. et-0/0/51
+ *   $UNIT         e.g. 4010
+ *   $VLAN_OUTER   e.g. 4010
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-tags outer 0x88a8.$VLAN_OUTER;
+        }
+    }
+}```
 
 ## evo/interfaces/ifl-vlan-ccc-vlan-list.conf
 
@@ -1969,12 +3003,12 @@ interfaces {
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
- *  - Ingress filter applies the UNI rate limit; 50MB_filter and its policer are
- *    defined in evo/firewall/policers.conf.
+ *  - Ingress 50MB_filter applies the UNI rate limit through its required
+ *    device-selected policer.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
  * Pair with:
- *  - evo/firewall/policers.conf
+ *  - evo/firewall/filter-family-any-50mb.conf
  *
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 2800):
  *   $IFD         e.g. et-0/0/0
@@ -3391,6 +4425,165 @@ policy-options {
 }
 ```
 
+## evo/policy-options/policy-statement/ps-export-isis-metro-a-ribs.conf
+
+```
+/*
+ * Topic:   policy-statement export_isis_metro_a_ribs
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement export_isis_metro_a_ribs {
+        term tag-reject {
+            from tag 333;
+            then reject;
+        }
+        term 4000 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib junos-rti-tc-4000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 4444;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 6000 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib junos-rti-tc-6000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 6666;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 1 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 2222;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-export-isis-metro-b-ribs.conf
+
+```
+/*
+ * Topic:   policy-statement export_isis_metro_b_ribs
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement export_isis_metro_b_ribs {
+        term tag-reject {
+            from tag 333;
+            then reject;
+        }
+        term 4000 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib junos-rti-tc-4000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 4444;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 6000 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib junos-rti-tc-6000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 6666;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 1 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 2222;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
 ## evo/policy-options/policy-statement/ps-export-l2-color.conf
 
 ```
@@ -4422,6 +5615,25 @@ policy-options {
     }
 }
 ```
+
+## evo/policy-options/policy-statement/ps-multipath.conf
+
+```
+/*
+ * Topic:   Recursive multipath resolution policy
+ * Seen on:
+ *   Junos: an1_mx204 ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-MULTIPATH {
+        term recursive-resolution {
+            then multipath-resolve;
+        }
+    }
+}```
 
 ## evo/policy-options/policy-statement/ps-prefix-sid.conf
 
@@ -6089,6 +7301,1865 @@ protocols {
 }
 ```
 
+## evo/protocols/esis-disable.conf
+
+```
+/*
+ * Topic:   esis
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   meg1_acx7100-32c
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    esis {
+        disable;
+    }
+}
+```
+
+## evo/protocols/isis-instance-intf-l2-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $CORE_INTF   e.g. ae82.1
+ *   $DELAY_METRIC   e.g. 5
+ *   $ISIS_INSTANCE   e.g. metro-a
+ *   $TE_METRIC   e.g. 5
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface $CORE_INTF {
+      level 1 disable;
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ green blue ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      delay-metric $DELAY_METRIC;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/protocols/isis-instance-intf-l2-bfd.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. green
+ *   $ADMIN_GROUP_2   e.g. blue
+ *   $CORE_INTF   e.g. ae55.1
+ *   $ISIS_INSTANCE   e.g. metro-a
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface $CORE_INTF {
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric 5;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      level 1 disable;
+      delay-metric 5;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/protocols/isis-instance-intf-l2-metric-bfd.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ * Variables:
+ *   $CORE_INTF   e.g. ae55.2
+ *   $ISIS_INSTANCE   e.g. metro-b
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface $CORE_INTF {
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric 5;
+            admin-group [ green blue ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+        metric 15;
+      }
+      level 1 disable;
+      delay-metric 5;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/protocols/isis-instance-l2-export.conf
+
+```
+/*
+ * Topic:   IS-IS SR-MPLS process settings
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Variables:
+ *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
+ *   $ISIS_INSTANCE   e.g. metro-b
+ *   $ISIS_NET   e.g. 49.0002.0010.0100.0012.00
+ *   $NODE_SID_V4   e.g. 12
+ *   $NODE_SID_V6   e.g. 112
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    apply-groups GR-ISIS-BCP;
+    source-packet-routing {
+      node-segment {
+        ipv4-index $NODE_SID_V4;
+        ipv6-index $NODE_SID_V6;
+      }
+      flex-algorithm [ 128 129 ];
+      strict-asla-based-flex-algorithm;
+      explicit-null;
+      traffic-statistics {
+        statistics-granularity per-interface;
+      }
+    }
+    level 2 wide-metrics-only;
+    level 1 disable;
+    spf-options {
+      microloop-avoidance {
+        post-convergence-path {
+          delay 5000;
+        }
+      }
+    }
+    backup-spf-options {
+      use-post-convergence-lfa maximum-labels 3;
+      use-source-packet-routing;
+    }
+    traffic-engineering {
+      advertisement {
+        application-specific {
+          all-applications;
+        }
+      }
+    }
+    export [ PS-ISIS-EXPORT $EXPORT_POLICY ];
+    net $ISIS_NET;
+  }
+}
+```
+
+## evo/protocols/isis-instance-l2-net.conf
+
+```
+/*
+ * Topic:   IS-IS SR-MPLS process settings
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ * Variables:
+ *   $ISIS_INSTANCE   e.g. metro-a
+ *   $ISIS_NET   e.g. 49.0001.0010.0100.0015.00
+ *   $NODE_SID_V4   e.g. 15
+ *   $NODE_SID_V6   e.g. 115
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    apply-groups GR-ISIS-BCP;
+    source-packet-routing {
+      node-segment {
+        ipv4-index $NODE_SID_V4;
+        ipv6-index $NODE_SID_V6;
+      }
+      flex-algorithm [ 128 129 ];
+      strict-asla-based-flex-algorithm;
+      explicit-null;
+      traffic-statistics {
+        statistics-granularity per-interface;
+      }
+    }
+    level 2 wide-metrics-only;
+    level 1 disable;
+    spf-options {
+      microloop-avoidance {
+        post-convergence-path {
+          delay 5000;
+        }
+      }
+    }
+    backup-spf-options {
+      use-post-convergence-lfa maximum-labels 3;
+      use-source-packet-routing;
+    }
+    traffic-engineering {
+      advertisement {
+        application-specific {
+          all-applications;
+        }
+      }
+    }
+    export PS-ISIS-EXPORT;
+    net $ISIS_NET;
+  }
+}
+```
+
+## evo/protocols/isis-instance-loopback-passive.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $ISIS_INSTANCE   e.g. metro-a
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-10-admin-group-blue-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/14.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group blue;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-10-admin-group-green-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/34.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-110-admin-group-blue-metric-15-delay-metric-105-asla.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifl-core-description-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae23.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group blue;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 15;
+            }
+            delay-metric 105;
+            point-to-point;
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-110-admin-group-blue-metric-25-delay-metric-105-asla.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae26.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group blue;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 25;
+            }
+            delay-metric 105;
+            point-to-point;
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-110-admin-group-green-blue-delay-metric-105-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae71.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group [ green blue ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 105;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-110-admin-group-green-delay-metric-105-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-2_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae25.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 105;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-15-admin-group-blue-delay-metric-8-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/13.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 15;
+                        admin-group blue;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 8;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-15-admin-group-blue-green-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-2_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/32.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 15;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-1-te-metric-15-admin-group-green-delay-metric-8-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/32.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 15;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 8;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-2-1-disable-te-metric-10-admin-group-blue-green-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-1/0/4.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            level 1 disable;
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-2-te-metric-10-admin-group-green-blue-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr1_ptx10001-36mr
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/1/2.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group [ green blue ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-2-te-metric-5-admin-group-blue-green-delay-metric-5-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-2_acx7024
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae84.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 5;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 5;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-2-te-metric-5-admin-group-blue-green-metric-15-delay-metric-5-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-2_acx7024
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae88.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 5;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 15;
+            }
+            delay-metric 5;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-interface-2-te-metric-5-admin-group-green-blue-metric-15-delay-metric-5-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma1-1_acx7024
+ * Pair with:
+ *  - evo/interfaces/core-isis-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae88.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 5;
+                        admin-group [ green blue ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 15;
+            }
+            delay-metric 5;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-bfd-meg2.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg2_acx7509
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-1/0/14.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 40;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            level 2 disable;
+            delay-metric 8;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-groups-bfd.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. green
+ *   $ADMIN_GROUP_2   e.g. blue
+ *   $CORE_INTF   e.g. ae71.0
+ *   $DELAY_METRIC   e.g. 105
+ *   $TE_METRIC   e.g. 110
+ */
+protocols {
+  isis {
+    interface $CORE_INTF {
+      level 1 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      delay-metric $DELAY_METRIC;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/protocols/isis-intf-l1-groups-metric-bfd.conf
+
+```
+/*
+ * Topic:   ISIS interface with administrative-group list
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/35.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group [ green blue ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 20;
+            }
+            level 2 disable;
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-metric-an3.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae24.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 20;
+            }
+            delay-metric 105;
+            inactive: delay-measurement;
+            point-to-point;
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-metric-bfd-ag1-1.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae24.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric 20;
+            }
+            delay-metric 105;
+            inactive: delay-measurement;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-metric-bfd-meg1.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $ADMIN_GROUP   e.g. green
+ *   $CORE_INTF   e.g. et-0/0/33.0
+ *   $DELAY_METRIC   e.g. 8
+ *   $ISIS_METRIC   e.g. 10
+ *   $TE_METRIC   e.g. 10
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group $ADMIN_GROUP;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric $ISIS_METRIC;
+            }
+            level 2 disable;
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1-metric-bfd.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c meg1_acx7100-32c
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae23.0
+ *   $DELAY_METRIC   e.g. 105
+ *   $ISIS_METRIC   e.g. 15
+ *   $TE_METRIC   e.g. 110
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group blue;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+                metric $ISIS_METRIC;
+            }
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l1.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. ae25.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 110;
+                        admin-group green;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 105;
+            point-to-point;
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l2-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $ADMIN_GROUP   e.g. blue
+ *   $CORE_INTF   e.g. et-1/0/3.0
+ *   $DELAY_METRIC   e.g. 8
+ *   $TE_METRIC   e.g. 25
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group $ADMIN_GROUP;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            level 1 disable;
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l2-bfd.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $ADMIN_GROUP   e.g. blue
+ *   $CORE_INTF   e.g. et-0/0/6.0
+ *   $DELAY_METRIC   e.g. 5
+ *   $TE_METRIC   e.g. 40
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group $ADMIN_GROUP;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/isis-intf-l2-groups-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. blue
+ *   $ADMIN_GROUP_2   e.g. green
+ *   $CORE_INTF   e.g. et-1/0/4.0
+ *   $TE_METRIC   e.g. 10
+ */
+protocols {
+  isis {
+    interface $CORE_INTF {
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      level 1 disable;
+      delay-metric 10;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## evo/protocols/isis-loopback-passive.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+protocols {
+  isis {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## evo/protocols/isis-source-packet-routing-enable.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ * Variables: none
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l1-bfd-group-max-lsp-8000.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/groups/gr-isis-bfd.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 2
+ *   $NODE_SID_V6   e.g. 102
+ */
+protocols {
+    isis {
+        apply-groups [ GR-ISIS-BCP GR-ISIS-BFD ];
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 {
+            purge-originator empty;
+            wide-metrics-only;
+            max-lsp-size 8000;
+        }
+        level 2 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l1-l2.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 6
+ *   $NODE_SID_V6   e.g. 106
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 wide-metrics-only;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l1-max-lsp-8000.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Pair with:
+ *  - evo/groups/gr-isis-interface-spf.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 4
+ *   $NODE_SID_V6   e.g. 104
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 {
+            purge-originator empty;
+            wide-metrics-only;
+            max-lsp-size 8000;
+        }
+        level 2 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
+ *   $NODE_SID_V4   e.g. 12
+ *   $NODE_SID_V6   e.g. 112
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 2 wide-metrics-only;
+        level 1 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+        net $ISIS_NET;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l2-net.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
+ *   $NODE_SID_V4   e.g. 18
+ *   $NODE_SID_V6   e.g. 118
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+        net $ISIS_NET;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l2-sensor-stats.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 9
+ *   $NODE_SID_V6   e.g. 109
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            sensor-based-stats {
+                per-sid ingress egress;
+            }
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
+## evo/protocols/isis-srmpls-tilfa-l2.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
+ *   EVO:   cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 8
+ *   $NODE_SID_V6   e.g. 108
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
 ## evo/protocols/isis-srmpls-tilfa.conf
 
 ```
@@ -6638,14 +9709,64 @@ protocols {
 }
 ```
 
+## evo/protocols/ldp-loopback.conf
+
+```
+/*
+ * Topic:   LDP loopback interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+protocols {
+  ldp {
+    interface lo0.0;
+  }
+}
+```
+
+## evo/protocols/mpls-controller-pccd.conf
+
+```
+/*
+ * Topic:   MPLS controller and segment-routing settings
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ * Pair with:
+ *  - evo/protocols/pcep-pccd.conf
+ * Variables: none
+ */
+protocols {
+  mpls {
+    lsp-external-controller pccd;
+    admin-groups {
+      blue 1;
+      green 2;
+      red 3;
+    }
+    no-propagate-ttl;
+    icmp-tunneling;
+    label-range {
+      srgb-label-range 16000 24000;
+    }
+    ipv6-tunneling;
+  }
+}
+```
+
 ## evo/protocols/mpls-segment-routing.conf
 
 ```
 /*
- * Topic:   MPLS / segment-routing chassis-wide knobs (EVO)
+ * Topic:   MPLS segment-routing global configuration
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Variant group: mebs-mpls-admin-groups
+ *   Provides: transport:mpls-admin-groups
  *
  * Highlights:
  *  - admin-groups blue/green/red define link colours used by ISIS ASLA
@@ -6659,8 +9780,7 @@ protocols {
  *
  * Pair with: none
  *
- * Variables: none. All values here (admin-group numbers, SRGB range)
- * are JVD-wide constants — same on every PE.
+ * Variables: none
  */
 protocols {
     mpls {
@@ -6797,6 +9917,54 @@ protocols {
 }
 ```
 
+## evo/protocols/pcep-pccd.conf
+
+```
+/*
+ * Topic:   Stateful PCEP controller
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ * Variables: none
+ */
+protocols {
+  pcep {
+    disable-multipath-capability;
+    pce pccd {
+      destination-ipv4-address 10.83.151.45;
+      destination-port 4189;
+      pce-type active stateful;
+      lsp-provisioning;
+      p2mp-lsp-report-capability;
+      p2mp-lsp-update-capability;
+      p2mp-lsp-init-capability;
+      lsp-cleanup-timer 10;
+      spring-capability;
+      delegation-cleanup-timeout 10;
+    }
+  }
+}
+```
+
+## evo/protocols/sr-controller-pccd.conf
+
+```
+/*
+ * Topic:   Segment-routing external controller
+ * Seen on:
+ *   Junos: (none)
+ *   EVO:   cr2_ptx10001-36mr
+ * Pair with:
+ *  - evo/protocols/pcep-pccd.conf
+ * Variables: none
+ */
+protocols {
+  source-packet-routing {
+    lsp-external-controller pccd;
+  }
+}
+```
+
 ## evo/routing-instances/apply-groups/gr-fatpw-label.conf
 
 ```
@@ -6825,7 +9993,7 @@ protocols {
  *    hierarchy point and a different statement.
  *
  * Pair with:
- *  - evo/groups/gr-fatpw-label.conf
+ *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
  * Variables: none
  */
@@ -6863,7 +10031,7 @@ routing-instances {
  *
  * Pair with:
  *  - evo/groups/gr-l3vpn.conf
- *  - evo/groups/gr-fatpw-label.conf
+ *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
  * Variables: none
  */
@@ -8895,6 +12063,44 @@ routing-options {
 }
 ```
 
+## evo/routing-options/flex-algorithm-128-transport-class.conf
+
+```
+/*
+ * Topic:   flex-algorithm 128
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    flex-algorithm 128 {
+        color 4000;
+        use-transport-class;
+    }
+}
+```
+
+## evo/routing-options/flex-algorithm-129-transport-class.conf
+
+```
+/*
+ * Topic:   flex-algorithm 129
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    flex-algorithm 129 {
+        color 6000;
+        use-transport-class;
+    }
+}
+```
+
 ## evo/routing-options/flex-algorithm.conf
 
 ```
@@ -8912,13 +12118,9 @@ routing-options {
  *    (`colour` + `use-transport-class`) without the definition.
  *  - `use-flex-algorithm-prefix-metric` + `use-transport-class` install the
  *    FA-derived path so a service's colour community resolves over it.
- *  - The `green`/`blue` admin-groups are defined in transport/mpls-segment-
- *    routing.conf; ISIS advertises participation in protocols/isis-srmpls-tilfa.conf.
  *
  * Pair with:
- *  - evo/routing-options/transport-class.conf    (maps colour 4000/6000 to gold/bronze)
- *  - evo/protocols/mpls-segment-routing.conf (defines admin-groups green/blue)
- *  - evo/protocols/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])
+ *  - variant:mebs-mpls-admin-groups capabilities=transport:mpls-admin-groups
  *
  * Variables: none. FA numbers, metric types, admin-group colours, and the
  *            colour values are the JVD-wide abstraction and are left literal.
@@ -9021,14 +12223,77 @@ routing-options {
 }
 ```
 
+## evo/routing-options/interface-routes-loopback.conf
+
+```
+/*
+ * Topic:   Interface routes using the local loopback RIB group
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+routing-options {
+  interface-routes {
+    rib-group inet RG-LOCAL-LOOPBACK;
+  }
+}
+```
+
+## evo/routing-options/protect-core.conf
+
+```
+/*
+ * Topic:   protect core
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    protect core;
+}
+```
+
+## evo/routing-options/resolution-transport-class-l3vpn-rib-v6-first.conf
+
+```
+/*
+ * Topic:   IPv6-first transport-class resolution with L3VPN multipath import
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-multipath.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ * Variables: none
+ */
+routing-options {
+  resolution {
+    rib bgp.l3vpn.0 {
+      import PS-MULTIPATH;
+    }
+    scheme gold-to-bronze-v6 {
+      resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+      mapping-community color:0:4000;
+    }
+    scheme gold-to-bronze {
+      resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+      mapping-community color:0:4000;
+    }
+  }
+}
+```
+
 ## evo/routing-options/resolution-transport-class-l3vpn-rib.conf
 
 ```
 /*
  * Topic:   Colour-mapped resolution schemes alongside an L3VPN RIB resolution import
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: ma4_mx204 mse2_mx304
+ *   EVO:   ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
@@ -9041,7 +12306,9 @@ routing-options {
  *  - Both schemes are selected by the same `color:0:4000` mapping community,
  *    so one colour on a route drives resolution in either address family.
  *
- * Pair with: none
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-multipath.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none
  */
@@ -9069,7 +12336,7 @@ routing-options {
  * Topic:   Colour-mapped resolution schemes over the gold and bronze transport-class RIBs
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
- *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 mdr1_acx7509
  *
  * Highlights:
  *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
@@ -9079,8 +12346,11 @@ routing-options {
  *    RIBs.
  *  - Both schemes are selected by the same `color:0:4000` mapping community,
  *    so one colour on a route drives resolution in either address family.
+ *  - Both schemes require same-device transport-class definitions for gold
+ *    (colour 4000) and bronze (colour 6000) to supply their resolution RIBs.
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none
  */
@@ -9115,8 +12385,8 @@ routing-options {
  *    inet.3/inet.0/inet6.3 using PS-REMOTE-LOOPBACKS.
  *
  * Pair with:
- *  - evo/routing-options/transport-class.conf   (defines the colour transport classes)
- *  - evo/policy-options/policy-statement/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)
+ *  - evo/policy-options/policy-statement/loopback-rib-leak.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none. RIB-group names, RIB names, and import-policy names are
  *            the JVD-wide abstraction and are left literal.
@@ -9135,24 +12405,74 @@ routing-options {
 }
 ```
 
+## evo/routing-options/rib-inet3-protect-core.conf
+
+```
+/*
+ * Topic:   rib inet.3
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    rib inet.3 {
+        protect core;
+    }
+}
+```
+
+## evo/routing-options/rib-inet6-protect-core.conf
+
+```
+/*
+ * Topic:   rib inet6.0
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    rib inet6.0 {
+        protect core;
+    }
+}
+```
+
+## evo/routing-options/router-id.conf
+
+```
+/*
+ * Topic:   Transport router identity
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $ROUTER_ID   e.g. 1.1.0.12
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}```
+
 ## evo/routing-options/transport-class.conf
 
 ```
 /*
- * Topic:   Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Topic:   Gold and bronze transport classes with local tunnel egress
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variant group: mebs-colour-transport
+ *   Provides: transport:colour-classes
  *
  * Highlights:
  *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).
  *    `auto-create` lets additional colours map without an explicit stanza.
  *  - Each class's `tunnel-egress end-point` is the local transport loopback
  *    the colour-tagged path terminates on.
- *  - Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over
- *    Flex-Algo 129 (TE) — see routing-options/flex-algorithm.conf.
- *  - Core PEs anchoring a shared egress add a second anycast `end-point`
- *    under the bronze class (see the Junos MSE variant).
  *
  * Pair with: none
  *
@@ -9177,6 +12497,22 @@ routing-options {
     }
 }
 ```
+
+## junos/apply-groups/gr-ae-interface-mtu.conf
+
+```
+/*
+ * Topic:   Apply AE-INTERFACE-MTU at the configuration root
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   (none)
+ *
+ * Pair with:
+ *  - junos/groups/gr-ae-interface-mtu.conf
+ *
+ * Variables: none
+ */
+apply-groups [ AE-INTERFACE-MTU ];```
 
 ## junos/bridge-domains/bridge-domain-irb.conf
 
@@ -9267,6 +12603,47 @@ chassis {
     }
 }
 ```
+
+## junos/chassis/pseudowire-service.conf
+
+```
+/*
+ * Topic: Pseudowire-subscriber device allocation
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Highlights:
+ *  - device-count allocates pseudowire-subscriber devices, not service units.
+ * Pair with: none
+ * Variables:
+ *   $PS_DEVICE_COUNT   e.g. 100
+ */
+chassis {
+    pseudowire-service {
+        device-count $PS_DEVICE_COUNT;
+    }
+}```
+
+## junos/chassis/tunnel-services.conf
+
+```
+/*
+ * Topic: Tunnel services on an FPC and PIC
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Pair with: none
+ * Variables:
+ *   $TS_FPC   e.g. 0
+ *   $TS_PIC   e.g. 0
+ */
+chassis {
+    fpc $TS_FPC {
+        pic $TS_PIC {
+            tunnel-services;
+        }
+    }
+}```
 
 ## junos/class-of-service/classifiers/cl-6class.conf
 
@@ -9844,6 +13221,8 @@ firewall {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Variant group: mebs-rate-limit-policers
+ *   Provides: firewall:policers
  *
  * Highlights:
  *  - Two reusable rate-limit policers (5 Mbps and 50 Mbps) and an
@@ -9970,6 +13349,28 @@ groups {
 }
 ```
 
+## junos/groups/gr-ae-interface-mtu.conf
+
+```
+/*
+ * Topic:   AE-INTERFACE-MTU
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710 ma5_mx204
+ *   EVO:   ma1-2_acx7024 meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    AE-INTERFACE-MTU {
+        interfaces {
+            <ae*> {
+                mtu 9192;
+            }
+        }
+    }
+}
+```
+
 ## junos/groups/gr-bgp-bcp.conf
 
 ```
@@ -10001,6 +13402,38 @@ groups {
                 hold-time 10;
                 bgp-error-tolerance;
                 tcp-mss 4096;
+            }
+        }
+    }
+}
+```
+
+## junos/groups/gr-core-intf-lag-member.conf
+
+```
+/*
+ * Topic:   GR-CORE-INTF-LAG-MEMBER
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+groups {
+    GR-CORE-INTF-LAG-MEMBER {
+        interfaces {
+            <*> {
+                description "********GR-CORE-INTF-LAG-MEMBERS-SETTINGS-APPLIED ********";
+                traps;
+                hold-time up 2000 down 0;
+                optics-options {
+                    alarm low-light-alarm {
+                        link-down;
+                    }
+                    warning low-light-warning {
+                        syslog;
+                    }
+                }
             }
         }
     }
@@ -10104,7 +13537,7 @@ groups {
  * Apply-group: GR-EDGE-INTF
  * Seen on:
  *   Junos: an1_mx204 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
- *   EVO:   (none)
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
  *
  * Variant group: mebs-edge-intf-form
  *   Provides: gr:edge-intf
@@ -10449,7 +13882,7 @@ groups {
  *
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
- *  - junos/groups/gr-lag-member.conf
+ *  - junos/interfaces/ifd-core-lag-member.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_PHYS         e.g. ae71
@@ -10487,21 +13920,14 @@ interfaces {
 
 ```
 /*
- * Topic:   Flexible-Ethernet-Services UNI with per-unit encapsulation vlan-bridge (EVPN-ELAN access)
+ * Topic:   VLAN-bridge logical interface with flexible Ethernet services
  * Seen on:
- *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
+ *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
  *
  * Highlights:
- *  - Parent physical (or aggregated) interface configured for
- *    flexible-vlan-tagging + encapsulation flexible-ethernet-services
- *    so each unit can carry a different encapsulation flavour.
- *  - Per-unit `encapsulation vlan-bridge` + `vlan-id <N>` exposes
- *    the unit as a `family bridge` UNI, ready to be referenced from
- *    a routing-instance of type virtual-switch (EVPN-ELAN).
- *  - apply-groups GR-EDGE-INTF supplies the common knobs
- *    (mtu, no-auto-negotiation, gigether-options, etc.) shared
- *    across all edge interfaces.
+ *  - Flexible VLAN tagging and flexible Ethernet services are configured
+ *    on the parent of the VLAN-bridge unit.
  *
  * Pair with:
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
@@ -10647,6 +14073,227 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG2.2 rtme-mx-51 ae22"
+ *   $IFD   e.g. ae22
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-aggregate-flexible-lacp-fast.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MDR2 rtme-mx-51 ae55"
+ *   $IFD   e.g. ae55
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-aggregate-lacp-fast-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710 ma2_mx204
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23"
+ *   $IFD   e.g. ae23
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        mtu 9192;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-aggregate-lacp-fast.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: an2_acx5448 ma4_mx204 mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to AN1 rtme-mx-45 ae73"
+ *   $IFD   e.g. ae73
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-flexible-gigether-tpid.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ * Pair with: none
+ * Variables:
+ *   $CORE_DESC   e.g. "to MA3 rtme-acx-48l-07 et-0/0/51"
+ *   $IFD   e.g. et-0/0/2
+ */
+interfaces {
+    $IFD {
+        description $CORE_DESC;
+        traps;
+        flexible-vlan-tagging;
+        mtu 9192;
+        hold-time up 2000 down 0;
+        encapsulation flexible-ethernet-services;
+        gigether-options {
+            ethernet-switch-profile {
+                tag-protocol-id [ 0x88a8 0x8100 ];
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-group-description.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/0"
+ *   $IFD   e.g. et-0/0/0
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+    }
+}
+```
+
+## junos/interfaces/ifd-core-group-mtu.conf
+
+```
+/*
+ * Topic:   Core interface device
+ * Seen on:
+ *   Junos: ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
+ *   $IFD   e.g. et-0/0/13
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF;
+        description $CORE_DESC;
+        mtu 9192;
+    }
+}
+```
+
+## junos/interfaces/ifd-core-lag-member-gigether.conf
+
+```
+/*
+ * Topic:   Core aggregate member interface
+ * Seen on:
+ *   Junos: an1_mx204 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/groups/gr-core-intf-lag-member.conf
+ * Variables:
+ *   $AE_BUNDLE   e.g. ae71
+ *   $IFD   e.g. et-0/0/1
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-CORE-INTF-LAG-MEMBER;
+        gigether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
 ## junos/interfaces/ifd-core-lag-member.conf
 
 ```
@@ -10663,7 +14310,7 @@ interfaces {
  *    core LAG member.
  *
  * Pair with:
- *  - junos/groups/gr-lag-member.conf
+ *  - junos/groups/gr-core-intf-lag-member.conf
  *
  * Variables (example values from an2_acx5448):
  *   $CORE_INTF   e.g. et-0/1/1
@@ -10675,6 +14322,25 @@ interfaces {
         ether-options {
             802.3ad $AE_BUNDLE;
         }
+    }
+}
+```
+
+## junos/interfaces/ifd-loopback-description.conf
+
+```
+/*
+ * Topic:   Loopback interface description
+ * Seen on:
+ *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
+ */
+interfaces {
+    lo0 {
+        description $LO0_DESC;
     }
 }
 ```
@@ -10698,7 +14364,9 @@ interfaces {
  *    device: it carries ethernet-ccc encapsulation and is the pseudowire
  *    landing point that the l2circuit stanza references as `ps<N>.0`.
  *
- * Pair with: none
+ * Pair with:
+ *  - junos/chassis/pseudowire-service.conf
+ *  - junos/chassis/tunnel-services.conf
  *
  * Variables (example values from mse1_mx304):
  *   $PS_INTF      e.g. ps0
@@ -10713,6 +14381,140 @@ interfaces {
         encapsulation flexible-ethernet-services;
         unit 0 {
             encapsulation ethernet-ccc;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-core-description-vlan-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ * Pair with: none
+ * Variables:
+ *   $CORE_DESC   e.g. "to AG2.1 global"
+ *   $CORE_V4_ADDR   e.g. 10.10.0.70/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:46/126
+ *   $IFD   e.g. ae22
+ *   $UNIT   e.g. 1
+ *   $VLAN   e.g. 1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $CORE_DESC;
+            vlan-id $VLAN;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   ma3_acx7100-48l
+ * Pair with:
+ *  - junos/groups/gr-core-intf.conf
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:2:99/126
+ *   $IFD   e.g. et-0/0/51
+ *   $UNIT   e.g. 1
+ *   $VLAN   e.g. 1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            apply-groups GR-CORE-INTF;
+            vlan-id $VLAN;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO:   ag1-1_acx7100-32c
+ * Pair with: none
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:51/126
+ *   $IFD   e.g. et-0/0/13
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic:   Core logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:0:71/126
+ *   $IFD   e.g. et-0/0/14
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
         }
     }
 }
@@ -10750,6 +14552,196 @@ interfaces {
     }
 }
 ```
+
+## junos/interfaces/ifl-loopback-description-primary-iso.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   (none)
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0000.00
+ *   $LO0_DESC   e.g. "AN1 Access Node Metro Fabric"
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.0/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:0/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            description $LO0_DESC;
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-iso-anycast-v4-sr-v6.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0005.0010.0100.0011.00
+ *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
+ *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:b
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.11/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:b/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ANYCAST_V4/32;
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+                address $LOOPBACK_SR_V6/128;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-iso-sr-v6.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
+ *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:a
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.10/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:a/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+                address $LOOPBACK_SR_V6/128;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-iso.conf
+
+```
+/*
+ * Topic:   Loopback logical interface
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   EVO:   ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
+ *   $LOOPBACK_V4_PFX   e.g. 1.1.0.5/32
+ *   $LOOPBACK_V6_PFX   e.g. 2001::1:1:0:5/128
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-ps-vlan-bridge-esi.conf
+
+```
+/*
+ * Topic: Anchored pseudowire-subscriber service unit with all-active ESI
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Highlights:
+ *  - Each nonzero service unit has an independent VLAN identifier and ESI.
+ *  - The anchor identifies the FPC and PIC hosting the subscriber device.
+ * Pair with:
+ *  - junos/interfaces/ifd-ps-transport.conf
+ *  - junos/chassis/pseudowire-service.conf
+ *  - junos/chassis/tunnel-services.conf
+ * Variables:
+ *   $PS_INTF      e.g. ps0
+ *   $ANCHOR_PIC   e.g. lt-0/0/0
+ *   $UNIT         e.g. 301
+ *   $VLAN         e.g. 301
+ *   $ESI          e.g. 00:11:11:11:11:11:11:11:02:02
+ */
+interfaces {
+    $PS_INTF {
+        anchor-point {
+            $ANCHOR_PIC;
+        }
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                all-active;
+            }
+        }
+    }
+}```
 
 ## junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf
 
@@ -10931,6 +14923,28 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ifl-vlan-bridge.conf
+
+```
+/*
+ * Topic: Bridged logical interface with a VLAN identifier
+ * Seen on:
+ *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma1-2_acx7024
+ * Variables:
+ *   $IFD    e.g. xe-0/1/4
+ *   $UNIT   e.g. 849
+ *   $VLAN   e.g. 849
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}```
+
 ## junos/interfaces/ifl-vlan-ccc-esi.conf
 
 ```
@@ -11018,12 +15032,12 @@ interfaces {
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
- *  - Ingress filter applies the UNI rate limit; 50MB_filter and its policer are
- *    defined in junos/firewall/policers.conf.
+ *  - Ingress 50MB_filter applies the UNI rate limit through its required
+ *    device-selected policer.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
  * Pair with:
- *  - junos/firewall/policers.conf
+ *  - evo/firewall/filter-family-any-50mb.conf
  *
  * Variables (example values from an4_acx710):
  *   $IFD         e.g. xe-0/1/4
@@ -11664,6 +15678,32 @@ policy-options {
 }
 ```
 
+## junos/policy-options/condition/condition-floating-pw.conf
+
+```
+/*
+ * Topic:   Floating-pseudowire route condition
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Variables:
+ *   $CONDITION_NAME   e.g. Floating-PW-Condition
+ *   $PS_INTF   e.g. ps0
+ */
+policy-options {
+  condition $CONDITION_NAME {
+    if-route-exists {
+      address-family {
+        ccc {
+          $PS_INTF.0;
+          table mpls.0;
+        }
+      }
+    }
+  }
+}
+```
+
 ## junos/policy-options/policy-statement/loopback-rib-leak.conf
 
 ```
@@ -12122,6 +16162,165 @@ policy-options {
             }
             then {
                 community add CM-SERVICE-EDGE;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-isis-metro-a-ribs.conf
+
+```
+/*
+ * Topic:   policy-statement export_isis_metro_a_ribs
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement export_isis_metro_a_ribs {
+        term tag-reject {
+            from tag 333;
+            then reject;
+        }
+        term 4000 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib junos-rti-tc-4000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 4444;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 6000 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib junos-rti-tc-6000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 6666;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 1 {
+            from {
+                igp-instance metro-a;
+                protocol l-isis;
+                rib inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.14/32 exact;
+                route-filter 1.1.0.17/32 exact;
+                route-filter 1.1.0.18/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 2222;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-export-isis-metro-b-ribs.conf
+
+```
+/*
+ * Topic:   policy-statement export_isis_metro_b_ribs
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement export_isis_metro_b_ribs {
+        term tag-reject {
+            from tag 333;
+            then reject;
+        }
+        term 4000 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib junos-rti-tc-4000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 4444;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 6000 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib junos-rti-tc-6000.inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 6666;
+                prefix-segment {
+                    redistribute;
+                }
+                accept;
+            }
+        }
+        term 1 {
+            from {
+                igp-instance metro-b;
+                protocol l-isis;
+                rib inet.3;
+                level 2;
+                inactive: route-filter 1.1.0.0/24 prefix-length-range /32-/32;
+                route-filter 1.1.0.16/32 exact;
+                route-filter 1.1.0.19/32 exact;
+            }
+            then {
+                tag 333;
+                tag2 2222;
+                prefix-segment {
+                    redistribute;
+                }
                 accept;
             }
         }
@@ -12761,6 +16960,42 @@ policy-options {
 }
 ```
 
+## junos/policy-options/policy-statement/ps-floating-pw-conditional.conf
+
+```
+/*
+ * Topic:   Conditional floating-pseudowire prefix advertisement
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Variables:
+ *   $CONDITION_NAME   e.g. Floating-PW-Condition
+ *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
+ *   $POLICY_NAME   e.g. FLOAT-PW-CONDITIONAL
+ *   $PREFIX_SID_INDEX   e.g. 210
+ */
+policy-options {
+  policy-statement $POLICY_NAME {
+    term ps-conditional {
+      from {
+        route-filter $LOOPBACK_ANYCAST_V4/32 exact;
+        condition $CONDITION_NAME;
+      }
+      then {
+        prefix-segment {
+          index $PREFIX_SID_INDEX;
+          node-segment;
+        }
+        accept;
+      }
+    }
+    term reject-if-down {
+      then reject;
+    }
+  }
+}
+```
+
 ## junos/policy-options/policy-statement/ps-ibgp-mdr-export-mdr2.conf
 
 ```
@@ -13371,6 +17606,39 @@ policy-options {
 }
 ```
 
+## junos/policy-options/policy-statement/ps-local-loopback-anycast.conf
+
+```
+/*
+ * Topic:   policy-statement PS-LOCAL-LOOPBACK
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/policy-options/community/cm-loopback.conf
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-LOCAL-LOOPBACK {
+        term LOCAL-LOOPBACK {
+            from {
+                protocol direct;
+                interface lo0.0;
+                route-filter 1.1.0.0/16 prefix-length-range /32-/32;
+                route-filter 1.1.10.10/32 exact;
+            }
+            then {
+                community add CM-LOOPBACK;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
 ## junos/policy-options/policy-statement/ps-loopback-allow.conf
 
 ```
@@ -13429,6 +17697,25 @@ policy-options {
     }
 }
 ```
+
+## junos/policy-options/policy-statement/ps-multipath.conf
+
+```
+/*
+ * Topic:   Recursive multipath resolution policy
+ * Seen on:
+ *   Junos: an1_mx204 ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+policy-options {
+    policy-statement PS-MULTIPATH {
+        term recursive-resolution {
+            then multipath-resolve;
+        }
+    }
+}```
 
 ## junos/policy-options/policy-statement/ps-prefix-sid.conf
 
@@ -14787,6 +19074,818 @@ protocols {
 }
 ```
 
+## junos/protocols/esis-disable.conf
+
+```
+/*
+ * Topic:   esis
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO:   meg1_acx7100-32c
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    esis {
+        disable;
+    }
+}
+```
+
+## junos/protocols/isis-instance-intf-l2-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $CORE_INTF   e.g. ae82.1
+ *   $DELAY_METRIC   e.g. 5
+ *   $ISIS_INSTANCE   e.g. metro-a
+ *   $TE_METRIC   e.g. 5
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface $CORE_INTF {
+      level 1 disable;
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ green blue ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      delay-metric $DELAY_METRIC;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## junos/protocols/isis-instance-intf-l2-bfd.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. green
+ *   $ADMIN_GROUP_2   e.g. blue
+ *   $CORE_INTF   e.g. ae55.1
+ *   $ISIS_INSTANCE   e.g. metro-a
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface $CORE_INTF {
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric 5;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      level 1 disable;
+      delay-metric 5;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## junos/protocols/isis-instance-l2-export.conf
+
+```
+/*
+ * Topic:   IS-IS SR-MPLS process settings
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Variables:
+ *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
+ *   $ISIS_INSTANCE   e.g. metro-b
+ *   $ISIS_NET   e.g. 49.0002.0010.0100.0012.00
+ *   $NODE_SID_V4   e.g. 12
+ *   $NODE_SID_V6   e.g. 112
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    apply-groups GR-ISIS-BCP;
+    source-packet-routing {
+      node-segment {
+        ipv4-index $NODE_SID_V4;
+        ipv6-index $NODE_SID_V6;
+      }
+      flex-algorithm [ 128 129 ];
+      strict-asla-based-flex-algorithm;
+      explicit-null;
+      traffic-statistics {
+        statistics-granularity per-interface;
+      }
+    }
+    level 2 wide-metrics-only;
+    level 1 disable;
+    spf-options {
+      microloop-avoidance {
+        post-convergence-path {
+          delay 5000;
+        }
+      }
+    }
+    backup-spf-options {
+      use-post-convergence-lfa maximum-labels 3;
+      use-source-packet-routing;
+    }
+    traffic-engineering {
+      advertisement {
+        application-specific {
+          all-applications;
+        }
+      }
+    }
+    export [ PS-ISIS-EXPORT $EXPORT_POLICY ];
+    net $ISIS_NET;
+  }
+}
+```
+
+## junos/protocols/isis-instance-loopback-passive.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Variables:
+ *   $ISIS_INSTANCE   e.g. metro-a
+ */
+protocols {
+  isis-instance $ISIS_INSTANCE {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## junos/protocols/isis-interface-2-1-disable-te-metric-10-admin-group-green-blue-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/1/1.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group [ green blue ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            level 1 disable;
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/isis-interface-2-te-metric-10-admin-group-blue-green-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/11.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 10;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/isis-interface-2-te-metric-20-admin-group-blue-green-delay-metric-10-bfd.conf
+
+```
+/*
+ * Topic:   ISIS core interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $CORE_INTF   e.g. et-0/0/9.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric 20;
+                        admin-group [ blue green ];
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric 10;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/isis-intf-l1-groups-bfd.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. green
+ *   $ADMIN_GROUP_2   e.g. blue
+ *   $CORE_INTF   e.g. ae71.0
+ *   $DELAY_METRIC   e.g. 105
+ *   $TE_METRIC   e.g. 110
+ */
+protocols {
+  isis {
+    interface $CORE_INTF {
+      level 1 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      delay-metric $DELAY_METRIC;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## junos/protocols/isis-intf-l2-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $ADMIN_GROUP   e.g. blue
+ *   $CORE_INTF   e.g. et-1/0/3.0
+ *   $DELAY_METRIC   e.g. 8
+ *   $TE_METRIC   e.g. 25
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group $ADMIN_GROUP;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            level 1 disable;
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/isis-intf-l2-bfd.conf
+
+```
+/*
+ * Topic:   ISIS interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ * Variables:
+ *   $ADMIN_GROUP   e.g. blue
+ *   $CORE_INTF   e.g. et-0/0/6.0
+ *   $DELAY_METRIC   e.g. 5
+ *   $TE_METRIC   e.g. 40
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                application-specific {
+                    attribute-group ASLA {
+                        advertise-delay-metric;
+                        te-metric $TE_METRIC;
+                        admin-group $ADMIN_GROUP;
+                        application {
+                            flex-algorithm;
+                        }
+                    }
+                }
+            }
+            delay-metric $DELAY_METRIC;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/isis-intf-l2-groups-bfd-mdr1.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Variables:
+ *   $ADMIN_GROUP_1   e.g. blue
+ *   $ADMIN_GROUP_2   e.g. green
+ *   $CORE_INTF   e.g. et-1/0/4.0
+ *   $TE_METRIC   e.g. 10
+ */
+protocols {
+  isis {
+    interface $CORE_INTF {
+      level 2 {
+        post-convergence-lfa {
+          node-protection cost 16777214;
+        }
+        application-specific {
+          attribute-group ASLA {
+            advertise-delay-metric;
+            te-metric $TE_METRIC;
+            admin-group [ $ADMIN_GROUP_1 $ADMIN_GROUP_2 ];
+            application {
+              flex-algorithm;
+            }
+          }
+        }
+      }
+      level 1 disable;
+      delay-metric 10;
+      point-to-point;
+      family inet {
+        bfd-liveness-detection {
+          minimum-interval 100;
+          multiplier 3;
+          no-adaptation;
+        }
+      }
+    }
+  }
+}
+```
+
+## junos/protocols/isis-loopback-passive.conf
+
+```
+/*
+ * Topic:   IS-IS logical interface
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+protocols {
+  isis {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## junos/protocols/isis-srmpls-tilfa-l1.conf
+
+```
+/*
+ * Topic:   IS-IS SR-MPLS process settings
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710
+ *   EVO:   (none)
+ * Variables:
+ *   $NODE_SID_V4   e.g. 0
+ *   $NODE_SID_V6   e.g. 100
+ */
+protocols {
+  isis {
+    apply-groups GR-ISIS-BCP;
+    source-packet-routing {
+      node-segment {
+        ipv4-index $NODE_SID_V4;
+        ipv6-index $NODE_SID_V6;
+      }
+      flex-algorithm [ 128 129 ];
+      strict-asla-based-flex-algorithm;
+      explicit-null;
+      traffic-statistics {
+        statistics-granularity per-interface;
+      }
+    }
+    level 1 {
+      purge-originator empty;
+      wide-metrics-only;
+    }
+    level 2 disable;
+    spf-options {
+      microloop-avoidance {
+        post-convergence-path {
+          delay 5000;
+        }
+      }
+    }
+    backup-spf-options {
+      use-post-convergence-lfa maximum-labels 3;
+      use-source-packet-routing;
+    }
+    traffic-engineering {
+      advertisement {
+        application-specific {
+          all-applications;
+        }
+      }
+    }
+    export PS-ISIS-EXPORT;
+  }
+}
+```
+
+## junos/protocols/isis-srmpls-tilfa-l2-conditional.conf
+
+```
+/*
+ * Topic:   IS-IS SR-MPLS process settings
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
+ *   $NODE_SID_V4   e.g. 10
+ *   $NODE_SID_V6   e.g. 110
+ */
+protocols {
+  isis {
+    apply-groups GR-ISIS-BCP;
+    source-packet-routing {
+      node-segment {
+        ipv4-index $NODE_SID_V4;
+        ipv6-index $NODE_SID_V6;
+      }
+      flex-algorithm [ 128 129 ];
+      strict-asla-based-flex-algorithm;
+      explicit-null;
+      traffic-statistics {
+        statistics-granularity per-interface;
+      }
+    }
+    level 1 disable;
+    level 2 wide-metrics-only;
+    spf-options {
+      microloop-avoidance {
+        post-convergence-path {
+          delay 5000;
+        }
+      }
+    }
+    backup-spf-options {
+      use-post-convergence-lfa maximum-labels 3;
+      use-source-packet-routing;
+    }
+    traffic-engineering {
+      advertisement {
+        application-specific {
+          all-applications;
+        }
+      }
+    }
+    export [ PS-ISIS-EXPORT FLOAT-PW-CONDITIONAL ];
+    net $ISIS_NET;
+  }
+}
+```
+
+## junos/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: mdr2_mx10003
+ *   EVO:   mdr1_acx7509
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
+ *   $NODE_SID_V4   e.g. 12
+ *   $NODE_SID_V6   e.g. 112
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 2 wide-metrics-only;
+        level 1 disable;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+        net $ISIS_NET;
+    }
+}
+```
+
+## junos/protocols/isis-srmpls-tilfa-l2-net.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
+ *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ * Variables:
+ *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
+ *   $NODE_SID_V4   e.g. 18
+ *   $NODE_SID_V6   e.g. 118
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+        net $ISIS_NET;
+    }
+}
+```
+
+## junos/protocols/isis-srmpls-tilfa-l2.conf
+
+```
+/*
+ * Topic:   ISIS source-packet-routing
+ * Seen on:
+ *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
+ *   EVO:   cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ * Variables:
+ *   $NODE_SID_V4   e.g. 8
+ *   $NODE_SID_V6   e.g. 108
+ */
+protocols {
+    isis {
+        apply-groups GR-ISIS-BCP;
+        source-packet-routing {
+            node-segment {
+                ipv4-index $NODE_SID_V4;
+                ipv6-index $NODE_SID_V6;
+            }
+            flex-algorithm [ 128 129 ];
+            strict-asla-based-flex-algorithm;
+            explicit-null;
+            traffic-statistics {
+                statistics-granularity per-interface;
+            }
+        }
+        level 1 disable;
+        level 2 wide-metrics-only;
+        spf-options {
+            microloop-avoidance {
+                post-convergence-path {
+                    delay 5000;
+                }
+            }
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 3;
+            use-source-packet-routing;
+        }
+        traffic-engineering {
+            advertisement {
+                application-specific {
+                    all-applications;
+                }
+            }
+        }
+        export PS-ISIS-EXPORT;
+    }
+}
+```
+
 ## junos/protocols/isis-srmpls-tilfa.conf
 
 ```
@@ -14937,7 +20036,6 @@ protocols {
  *    BGP-CT underlay.
  *
  * Pair with:
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/interfaces/ifd-ps-transport.conf
  *
  * Variables (example values from mse1_mx304):
@@ -15010,14 +20108,66 @@ protocols {
 }
 ```
 
+## junos/protocols/ldp-loopback.conf
+
+```
+/*
+ * Topic:   LDP loopback interface
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+protocols {
+  ldp {
+    interface lo0.0;
+  }
+}
+```
+
+## junos/protocols/mpls-segment-routing-loopback.conf
+
+```
+/*
+ * Topic:   MPLS segment routing
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ * Variant group: mebs-mpls-admin-groups
+ *   Provides: transport:mpls-admin-groups
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-primary-iso-sr-v6.conf
+ * Variables: none
+ */
+protocols {
+    mpls {
+        admin-groups {
+            blue 1;
+            green 2;
+            red 3;
+        }
+        no-propagate-ttl;
+        icmp-tunneling;
+        label-range {
+            srgb-label-range 16000 24000;
+        }
+        ipv6-tunneling;
+        interface lo0.0;
+    }
+}
+```
+
 ## junos/protocols/mpls-segment-routing.conf
 
 ```
 /*
  * Topic:   MPLS / Segment Routing global config
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ *
+ * Variant group: mebs-mpls-admin-groups
+ *   Provides: transport:mpls-admin-groups
  *
  * Highlights:
  *  - admin-groups (blue/green/red) referenced by ISIS attribute-groups
@@ -15026,10 +20176,9 @@ protocols {
  *  - icmp-tunneling for traceroute through MPLS
  *  - ipv6-tunneling enables 6PE over the SR-MPLS underlay
  *
- * Pair with:
+ * Pair with: none
  *
- * Variables: none. All values here (admin-group numbers, SRGB range)
- * are JVD-wide constants — same on every PE.
+ * Variables: none
  */
 protocols {
     mpls {
@@ -15163,7 +20312,7 @@ protocols {
  *    hierarchy point and a different statement.
  *
  * Pair with:
- *  - junos/groups/gr-fatpw-label.conf
+ *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
  * Variables: none
  */
@@ -15498,7 +20647,6 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/interfaces/ethernet-bridge.conf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
@@ -15542,7 +20690,7 @@ routing-instances {
 
 ```
 /*
- * Topic:   EVPN E-Tree (root/leaf) E-LAN service without a vrf-export policy
+ * Topic:   EVPN E-Tree routing instance
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   (none)
@@ -15551,10 +20699,6 @@ routing-instances {
  *  - `instance-type evpn` with a single-VLAN body and the `evpn-etree` knob
  *    inside `protocols evpn`, enabling MEF 6.2 E-Tree (rooted-multipoint)
  *    semantics on top of the standard EVPN-ELAN service.
- *  - Route advertisement is governed solely by `vrf-target` — the instance
- *    carries no `vrf-export` statement, so no per-instance export
- *    policy-statement is referenced and none needs to exist for this
- *    instance to be complete.
  *  - Root/leaf role is per-AC, configured on the customer-facing interface
  *    (not in this body); roots reach roots and leaves, leaves cannot reach
  *    other leaves.
@@ -15563,7 +20707,6 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
- *  - junos/interfaces/ethernet-bridge.conf
  *
  * Variables (example values from mse1_mx304 / evpn_group_80_1000):
  *   $INSTANCE_NAME    e.g. evpn_group_80_1000
@@ -17035,6 +22178,44 @@ routing-options {
 }
 ```
 
+## junos/routing-options/flex-algorithm-128-transport-class.conf
+
+```
+/*
+ * Topic:   flex-algorithm 128
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    flex-algorithm 128 {
+        color 4000;
+        use-transport-class;
+    }
+}
+```
+
+## junos/routing-options/flex-algorithm-129-transport-class.conf
+
+```
+/*
+ * Topic:   flex-algorithm 129
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    flex-algorithm 129 {
+        color 6000;
+        use-transport-class;
+    }
+}
+```
+
 ## junos/routing-options/flex-algorithm.conf
 
 ```
@@ -17052,13 +22233,9 @@ routing-options {
  *    reference (`colour` + `use-transport-class`) without the definition.
  *  - `use-flex-algorithm-prefix-metric` + `use-transport-class` install the
  *    FA-derived path so a service's colour community resolves over it.
- *  - The `green`/`blue` admin-groups are defined in transport/mpls-segment-
- *    routing.conf; ISIS advertises participation in protocols/isis-srmpls-tilfa.conf.
  *
  * Pair with:
- *  - junos/routing-options/transport-class.conf    (maps colour 4000/6000 to gold/bronze)
- *  - junos/protocols/mpls-segment-routing.conf (defines admin-groups green/blue)
- *  - junos/protocols/isis-srmpls-tilfa.conf  (ISIS carries flex-algorithm [128 129])
+ *  - variant:mebs-mpls-admin-groups capabilities=transport:mpls-admin-groups
  *
  * Variables: none. FA numbers, metric types, admin-group colours, and the
  *            colour values are the JVD-wide abstraction and are left literal.
@@ -17129,6 +22306,89 @@ routing-options {
 }
 ```
 
+## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-l2vpn.conf
+
+```
+/*
+ * Topic:   forwarding-table
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Variables:
+ *   $PPLB_NAME   e.g. pplb
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        dynamic-list-next-hop;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                l2vpn;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf
+
+```
+/*
+ * Topic:   forwarding-table
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Variables:
+ *   $PPLB_NAME   e.g. pplb
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        dynamic-list-next-hop;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+## junos/routing-options/forwarding-table-pplb-evpn-l3vpn.conf
+
+```
+/*
+ * Topic:   forwarding-table
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Variables:
+ *   $PPLB_NAME   e.g. pplb
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
 ## junos/routing-options/forwarding-table.conf
 
 ```
@@ -17176,14 +22436,77 @@ routing-options {
 }
 ```
 
+## junos/routing-options/interface-routes-loopback.conf
+
+```
+/*
+ * Topic:   Interface routes using the local loopback RIB group
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variables: none
+ */
+routing-options {
+  interface-routes {
+    rib-group inet RG-LOCAL-LOOPBACK;
+  }
+}
+```
+
+## junos/routing-options/protect-core.conf
+
+```
+/*
+ * Topic:   protect core
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    protect core;
+}
+```
+
+## junos/routing-options/resolution-transport-class-l3vpn-rib-v6-first.conf
+
+```
+/*
+ * Topic:   IPv6-first transport-class resolution with L3VPN multipath import
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   an3_acx7100-48l
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-multipath.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ * Variables: none
+ */
+routing-options {
+  resolution {
+    rib bgp.l3vpn.0 {
+      import PS-MULTIPATH;
+    }
+    scheme gold-to-bronze-v6 {
+      resolution-ribs [ junos-rti-tc-4000.inet6.3 junos-rti-tc-6000.inet6.3 ];
+      mapping-community color:0:4000;
+    }
+    scheme gold-to-bronze {
+      resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+      mapping-community color:0:4000;
+    }
+  }
+}
+```
+
 ## junos/routing-options/resolution-transport-class-l3vpn-rib.conf
 
 ```
 /*
  * Topic:   Colour-mapped resolution schemes alongside an L3VPN RIB resolution import
  * Seen on:
- *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
- *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ *   Junos: ma4_mx204 mse2_mx304
+ *   EVO:   ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
  *
  * Highlights:
  *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
@@ -17196,7 +22519,9 @@ routing-options {
  *  - Both schemes are selected by the same `color:0:4000` mapping community,
  *    so one colour on a route drives resolution in either address family.
  *
- * Pair with: none
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-multipath.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none
  */
@@ -17224,7 +22549,7 @@ routing-options {
  * Topic:   Colour-mapped resolution schemes over the gold and bronze transport-class RIBs
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
- *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 mdr1_acx7509
  *
  * Highlights:
  *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
@@ -17234,8 +22559,15 @@ routing-options {
  *    RIBs.
  *  - Both schemes are selected by the same `color:0:4000` mapping community,
  *    so one colour on a route drives resolution in either address family.
+ *  - Both schemes require same-device transport-class definitions for gold
+ *    (colour 4000) and bronze (colour 6000) to supply their resolution RIBs.
+ *  - The required provider depends on the device:
+ *    `junos/routing-options/transport-class-fallback-none.conf` on an4_acx710;
+ *    `junos/routing-options/transport-class.conf` on the other listed Junos
+ *    devices. These are alternatives, not cumulative prerequisites.
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none
  */
@@ -17281,6 +22613,33 @@ routing-options {
 }
 ```
 
+## junos/routing-options/rib-groups-local-loopback-transport-class.conf
+
+```
+/*
+ * Topic:   rib-groups
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO:   (none)
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-local-loopback-anycast.conf
+ *  - junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        RG-LOCAL-LOOPBACK {
+            import-rib [ inet.0 inet.3 junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ];
+            import-policy PS-LOCAL-LOOPBACK;
+        }
+        RG-REMOTE-LOOPBACKS {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy PS-REMOTE-LOOPBACKS;
+        }
+    }
+}
+```
+
 ## junos/routing-options/rib-groups.conf
 
 ```
@@ -17300,8 +22659,8 @@ routing-options {
  *    into RG-LOCAL-LOOPBACK; captured for a future PE-role snip.
  *
  * Pair with:
- *  - junos/routing-options/transport-class.conf   (defines the colour transport classes)
- *  - junos/policy-options/policy-statement/loopback-rib-leak.conf    (defines PS-LOCAL-LOOPBACK / PS-REMOTE-LOOPBACKS)
+ *  - junos/policy-options/policy-statement/loopback-rib-leak.conf
+ *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
  * Variables: none. RIB-group names, RIB names, and import-policy names are
  *            the JVD-wide abstraction and are left literal.
@@ -17320,25 +22679,181 @@ routing-options {
 }
 ```
 
+## junos/routing-options/rib-inet3-protect-core.conf
+
+```
+/*
+ * Topic:   rib inet.3
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    rib inet.3 {
+        protect core;
+    }
+}
+```
+
+## junos/routing-options/rib-inet6-protect-core.conf
+
+```
+/*
+ * Topic:   rib inet6.0
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables: none
+ */
+routing-options {
+    rib inet6.0 {
+        protect core;
+    }
+}
+```
+
+## junos/routing-options/router-id.conf
+
+```
+/*
+ * Topic:   Transport router identity
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Pair with: none
+ * Variables:
+ *   $ROUTER_ID   e.g. 1.1.0.14
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}```
+
+## junos/routing-options/transport-class-fallback-none.conf
+
+```
+/*
+ * Topic:   transport-class
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO:   (none)
+ * Variant group: mebs-colour-transport
+ *   Provides: transport:colour-classes
+ * Pair with: none
+ * Variables:
+ *   $TC_EGRESS   e.g. 1.1.0.3
+ */
+routing-options {
+    transport-class {
+        auto-create;
+        fallback {
+            none;
+        }
+        name gold {
+            color 4000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
+        name bronze {
+            color 6000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
+    }
+}
+```
+
+## junos/routing-options/transport-class-gold-bronze-anycast.conf
+
+```
+/*
+ * Topic:   transport-class
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO:   (none)
+ * Variant group: mebs-colour-transport
+ *   Provides: transport:colour-classes
+ * Pair with: none
+ * Variables:
+ *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
+ *   $TC_EGRESS   e.g. 1.1.0.11
+ */
+routing-options {
+    transport-class {
+        auto-create;
+        name gold {
+            color 4000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+                end-point $LOOPBACK_ANYCAST_V4;
+            }
+        }
+        name bronze {
+            color 6000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+                end-point $LOOPBACK_ANYCAST_V4;
+            }
+        }
+    }
+}
+```
+
+## junos/routing-options/transport-class-gold-local-bronze-anycast.conf
+
+```
+/*
+ * Topic:   transport-class
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO:   (none)
+ * Variant group: mebs-colour-transport
+ *   Provides: transport:colour-classes
+ * Pair with: none
+ * Variables:
+ *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
+ *   $TC_EGRESS   e.g. 1.1.0.10
+ */
+routing-options {
+    transport-class {
+        auto-create;
+        name gold {
+            color 4000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+            }
+        }
+        name bronze {
+            color 6000;
+            tunnel-egress {
+                end-point $TC_EGRESS;
+                end-point $LOOPBACK_ANYCAST_V4;
+            }
+        }
+    }
+}
+```
+
 ## junos/routing-options/transport-class.conf
 
 ```
 /*
- * Topic:   Transport-class definitions — bind BGP colour communities to Flex-Algo transport classes for colour-based (SR) forwarding.
+ * Topic:   Gold and bronze transport classes with local tunnel egress
  * Seen on:
- *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
+ *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Variant group: mebs-colour-transport
+ *   Provides: transport:colour-classes
  *
  * Highlights:
  *  - Two transport classes: `gold` (colour 4000) and `bronze` (colour 6000).
  *    `auto-create` lets additional colours map without an explicit stanza.
  *  - Each class's `tunnel-egress end-point` is the local transport loopback
- *    the colour-tagged path terminates on. This is the JVD-wide common form.
- *  - Colour 4000 resolves over Flex-Algo 128 (delay), colour 6000 over
- *    Flex-Algo 129 (TE) — see routing-options/flex-algorithm.conf.
- *  - Role variant: the services-edge PE nodes (mse1_mx304, mse2_mx304) add a
- *    second anycast `end-point` under the bronze class to anchor a shared
- *    egress; captured for a future PE-role snip, not in this common form.
+ *    the colour-tagged path terminates on.
  *
  * Pair with: none
  *
@@ -17403,6 +22918,19 @@ The variables fall into a few groups.
 | `$SR_INDEX_V4` / `$SR_INDEX_V6` | Prefix-segment indices assigned to the SR non-zero IPv4 / IPv6 loopbacks. | `200` / `300` |
 | `$PREFIX`              | Prefix a route-filter matches where the prefix itself is what the policy selects. | `0.0.0.0/32` |
 
+## Transport Interface Parameters
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$TE_METRIC` | IS-IS interface ASLA traffic-engineering metric, independent of its IGP and delay metrics. | `10` |
+| `$DELAY_METRIC` | IS-IS interface delay metric; not a protocol timer. | `5` |
+| `$ISIS_METRIC` | IS-IS interface metric within the literal level hierarchy. | `25` |
+| `$ADMIN_GROUP` | One scalar MPLS administrative-group name referenced by an IS-IS interface ASLA block; not a BGP colour community or a list. | `blue` |
+
+For as-deployed reconstruction these values belong to a complete source occurrence
+binding, together with its device and interface identity. Independently observed
+values are not interchangeable defaults and do not establish arbitrary combinations.
+
 ## Neighbours / route reflectors
 
 | Variable               | What it is                                                  | Example value |
@@ -17425,6 +22953,8 @@ The variables fall into a few groups.
 | `$CORE_PHYS`           | Parent of the core LAG.                                                          | `ae71`            |
 | `$AE_BUNDLE`           | Aggregated-Ethernet bundle a member link joins (`802.3ad`).                      | `ae73`            |
 | `$AE_DEVICE_COUNT`     | Number of aggregated-Ethernet devices the chassis allocates.                     | `25`              |
+| `$PS_DEVICE_COUNT`     | Allocated pseudowire-subscriber devices; greater than the configured device count and highest PS index. | `100` |
+| `$TS_FPC` / `$TS_PIC`   | FPC and PIC indices providing tunnel services; must match the FPC/PIC in the subscriber anchor. | `0` / `0` |
 | `$UNIT`                | Logical-unit identifier — the `unit <n>` a construct configures, and the tail when an interface is written `<ifd>.<unit>`. | `3000`            |
 | `$UNI_INTF`           | Customer UNI physical interface. | `xe-0/0/3:1` |
 | `$AC_INTF_1` / `$AC_INTF_2` | The two attachment-circuit interfaces cross-connected by l2circuit local-switching. | `et-0/0/5` |
@@ -17447,6 +22977,14 @@ The variables fall into a few groups.
 | `$VLAN_LIST`          | VLAN range or list admitted by a `vlan-id-list` interface. | `1000-1001` |
 | `$VLAN_OUTER` / `$VLAN_INNER` | Outer and inner tags of a double-tagged (`vlan-tags`) interface. | `225` / `2250` |
 | `$COS_INTF`           | Interface to which the class-of-service configuration is applied, physical or aggregated and independent of topology role. | `ae11` |
+
+The PS transport and service-unit templates use `$PS_INTF` as the device name
+(`ps0`), with transport unit `0` literal. Repeat the service template per nonzero
+`$UNIT`; `$UNIT` and `$VLAN` are separate inputs. Use the same PS device and anchor
+for its transport and service units. Unit and device values must also be within
+the target platform and release limits; the archived values are examples, not
+those limits. The existing routing-instance template uses `$PS_INTF` for a full
+service interface (`ps0.300`); supply that complete attachment there.
 
 ## Service identifiers
 
@@ -17539,6 +23077,24 @@ vary across otherwise-identical deployed forms is parameterised instead (see
 
 ## Header convention
 
+### Occurrence-bound transport inputs
+
+| Variable | Meaning | Source example |
+|---|---|---|
+| `$ISIS_INSTANCE` | Named IS-IS process, not a service routing instance. | `metro-a` |
+| `$CONDITION_NAME` | Routing-policy condition definition and its reference. | `Floating-PW-Condition` |
+| `$PREFIX_SID_INDEX` | Policy-applied prefix-segment index. | `210` |
+| `$ADMIN_GROUP_1` / `$ADMIN_GROUP_2` | Ordered members of a two-member administrative-group list. | `blue` / `green` |
+| `$EXPORT_POLICY` | IS-IS export-policy reference; reused from the Broadband Edge vocabulary. | `export_isis_metro_b_ribs` |
+
+Source replay uses complete observed occurrence bindings. The floating-PW
+conditional pattern may be instantiated per PS transport for a new deployment;
+the source contains only the `ps0.0` worked condition. Policy and condition names,
+watched transport, advertised prefix and SID index are correlated inputs, not
+values to copy indiscriminately to every PS device. Bindings are local to each
+snippet occurrence: legacy `$PS_INTF` may denote a PS device stem in a transport
+snippet and a complete logical-interface name in a service snippet.
+
 Every snip declares the variables it actually uses in a header
 section. The renderer skips the leading `/* ... */` C-comment block
 before substitution, so `$VAR` text inside the header survives
@@ -17607,49 +23163,49 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma1-1_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg1.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg2.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### an1_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### an2_acx5448 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### an4_acx710 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-an4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class-fallback-none.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17667,13 +23223,13 @@ Family e-line, form flexible-cross-connect. OS mode MIXED. Attachment: N vlan-cc
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/groups/gr-edge-intf.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17685,13 +23241,13 @@ Family e-line, form rfc4761. OS mode MIXED. Attachment: vlan-ccc logical unit.
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-fatpw-label.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma5_mx204 (junos)
 
 - `minimum`: `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/groups/gr-fatpw-label.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17715,13 +23271,13 @@ Family e-line, form floating-pseudowire. OS mode MIXED. Attachment: static-label
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
-- `self-contained`: the above plus `junos/interfaces/ifd-ps-transport.conf`
+- `self-contained`: the above plus `junos/chassis/pseudowire-service.conf`, `junos/chassis/tunnel-services.conf`, `junos/interfaces/ifd-ps-transport.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
-- `self-contained`: the above plus `junos/interfaces/ifd-ps-transport.conf`
+- `self-contained`: the above plus `junos/chassis/pseudowire-service.conf`, `junos/chassis/tunnel-services.conf`, `junos/interfaces/ifd-ps-transport.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17733,8 +23289,11 @@ Family e-access, form local-switching. OS mode EVO. Attachment: two vlan-ccc UNI
 ### ma3_acx7100-48l (evo)
 
 - `minimum`: `evo/protocols/l2circuit-lsw.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_1.$UNIT_1
+  - occurrence-provider-closure-failed: logical-interface:$AC_INTF_1.$UNIT_1
+  - occurrence-selection-required: logical-interface:$AC_INTF_2.$UNIT_2
+  - occurrence-provider-closure-failed: logical-interface:$AC_INTF_2.$UNIT_2
 
 ---
 
@@ -17745,49 +23304,51 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
-  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
 
 ### ma1-1_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
-  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
-  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
-  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge-esi.conf`, `evo/policy-options/community/cm-service-rt.conf`, `evo/policy-options/policy-statement/ps-export-l2-color.conf`
-  - ask for **community:$COLOR_COMMUNITY**, one of `evo/policy-options/community/cm-tc-map2bronze.conf`, `evo/policy-options/community/cm-tc-map2gold.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
 
 ### an1_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge-esi.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
+  - occurrence-provider-closure-failed: logical-interface:$AC_INTF.$VLAN_UNIT
 
 ### an2_acx5448 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge-esi.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
+  - occurrence-provider-closure-failed: logical-interface:$AC_INTF.$VLAN_UNIT
 
 ---
 
@@ -17798,13 +23359,13 @@ Family e-lan, form port-based. OS mode EVO. Attachment: single full-port UNI.
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17840,7 +23401,7 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
 ### ma5_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma5.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17864,26 +23425,26 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
 ### ma4_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
 
 ### ma5_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
 
 ---
 
@@ -17894,31 +23455,34 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-no-applicable-provider: logical-interface:$AC_INTF
+  - occurrence-no-applicable-provider: logical-interface:$IRB_UNIT
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17930,13 +23494,13 @@ Family irb, form type2-plus-type5. OS mode MIXED. Attachment: irb unit shared wi
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
-- `self-contained`: the above plus `evo/groups/gr-l3vpn.conf`, `evo/policy-options/community/cm-l3vpn-pub.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn.conf`
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/groups/gr-l3vpn.conf`, `evo/interfaces/ifl-irb-inet.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-l3vpn-pub.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17948,25 +23512,25 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/interfaces/ifl-irb-virtual-gateway.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg1.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above — it names nothing further
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/interfaces/ifl-irb-virtual-gateway.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg2.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ---
@@ -17978,37 +23542,35 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma3.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/protocols/bgp-overlay-ma3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma4_mx204 (junos)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-bgpv4.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-bgpv4.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
 
 ---
 
@@ -18019,35 +23581,35 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma3.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/protocols/bgp-overlay-ma3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/transport-class.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### ma4_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf`
-- `self-contained`: the above plus `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/transport-class.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`
+- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
   - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
 - `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
 

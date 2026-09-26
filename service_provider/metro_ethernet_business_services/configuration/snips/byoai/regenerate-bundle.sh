@@ -10,6 +10,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."   # cd into snips/
 
+node ../../../../portal/scripts/generate-tiers.mjs
+
 OUT="byoai/jvd-mebs-snips.md"
 
 {

@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parseSnip, CODES } from "./snip-parse.mjs";
 import { resolveVariant } from "./variant-resolve.mjs";
+import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems } from "./transport-capabilities.mjs";
 import {
   severity,
   validateSnipText,
@@ -399,6 +400,78 @@ const IRB_BODY = `interfaces {
     }
 }`;
 
+test("transport capability requires active global definitions for both resolution colours", () => {
+  const body = "routing-options { transport-class { name gold { color 4000; } name bronze { color 6000; } } }";
+  const parsed = parseSnip(irbSnip("transport:colour-classes", body));
+  const requirements = { "transport:colour-classes": { colours: ["4000", "6000"] } };
+  const capabilityRequirements = { [parsed.header.variantGroup.name]: requirements };
+  assert.deepEqual(parsed.diagnostics, []);
+  assert.deepEqual(extractConfiguredCapabilities(body, requirements), ["transport:colour-classes"]);
+  assert.deepEqual(validateVariantMember({ variantGroup: parsed.header.variantGroup, body, capabilityRequirements }), []);
+  for (const invalid of [
+    body.replace("6000", "5000"),
+    body.replace("color 6000;", "color $COLOR;"),
+    body.replace("color 6000;", "color 4000; color 6000;"),
+    body.replace("color 6000;", "inactive: color 6000;"),
+    body.replace("name bronze", "inactive: name bronze"),
+    body.replace("transport-class", "inactive: transport-class"),
+    `inactive: ${body}`,
+    `groups { TEST { ${body} } }`,
+    `routing-instances { TEST { ${body} } }`,
+    `/* ${body} */`,
+    `description "${body}";`,
+    body.slice(0, -1),
+  ]) {
+    assert.deepEqual(extractConfiguredCapabilities(invalid, requirements), [], invalid);
+    assert.ok(validateVariantMember({ variantGroup: parsed.header.variantGroup, body: invalid, capabilityRequirements }).some(row => row.code === CODES.VARIANT_PROVIDES_MISMATCH), invalid);
+  }
+  assert.ok(codes(parseSnip(irbSnip("transport:silver", body))).includes(CODES.VARIANT_UNKNOWN_CAPABILITY));
+});
+
+test("configured policer validation recognizes inline and block references", () => {
+  const capabilityRequirements = { rates: { 'firewall:policers': { policers: ['EXPECTED'] } } };
+  const header = `/*
+ * Topic: Filter
+ * Seen on:
+ *   Junos: d1
+ *   EVO: (none)
+ * Pair with:
+ *  - variant:rates capabilities=firewall:policers
+ * Variables: none
+ */\n`;
+  for (const action of ['then policer NAME;', 'then { policer NAME; }']) {
+    const body = `firewall { family any { filter F { term T { ${action} } } } }`;
+    assert.deepEqual(validateSnipText(header + body.replace('NAME', 'EXPECTED'), { capabilityRequirements }), []);
+    const wrong = body.replace('NAME', 'WRONG');
+    assert.ok(validateSnipText(header + wrong, { capabilityRequirements }).some(row => row.code === CODES.VARIANT_PROVIDES_MISMATCH));
+    for (const disabled of [`inactive: ${wrong}`, `groups { UNUSED { ${wrong} } }`, `/* ${wrong} */`, `system { description "${wrong}"; }`, wrong.replace('term T', 'inactive: term T')]) {
+      assert.deepEqual(validateSnipText(header + disabled, { capabilityRequirements }), [], disabled);
+    }
+  }
+});
+
+test("JVD capability declarations are isolated and checked against structural facts", () => {
+  const token = "transport:colour-classes";
+  const first = { sample: { [token]: { colours: ["101", "202"] } } };
+  const second = { sample: { [token]: { colours: ["303", "404"] } } };
+  const body = "routing-options { transport-class { name fast { color 101; } name reserve { color 202; } } }";
+  const header = { variantGroup: { name: "sample", provides: [token] }, variantRequires: [] };
+  assert.deepEqual(capabilityRequirementProblems(first), []);
+  assert.deepEqual(configuredCapabilityProblems(header, body, first), []);
+  assert.ok(configuredCapabilityProblems(header, body, second).length);
+  assert.ok(configuredCapabilityProblems(header, body).length);
+  assert.ok(capabilityRequirementProblems({ sample: { [token]: { colours: [] } } }).length);
+  assert.ok(capabilityRequirementProblems({ sample: { [token]: { colours: ["101", "101"] } } }).length);
+  assert.ok(capabilityRequirementProblems({ sample: { [token]: { colours: ["101"], extra: true } } }).length);
+  const consumer = { variantRequires: [{ group: "sample", families: [token] }] };
+  assert.ok(configuredCapabilityProblems(consumer, "routing-options { resolution { scheme x { resolution-ribs junos-rti-tc-909.inet.3; } } }", first).length);
+  assert.deepEqual(configuredCapabilityProblems(consumer, "routing-options { resolution { scheme x { resolution-ribs junos-rti-tc-101.inet.3; } } }", first), []);
+  const mpls = { "transport:mpls-admin-groups": { adminGroups: { lowlatency: "7", protected: "12" } } };
+  assert.deepEqual(extractConfiguredCapabilities("protocols { mpls { admin-groups { lowlatency 7; protected 12; } } }", mpls), ["transport:mpls-admin-groups"]);
+  assert.deepEqual(extractConfiguredCapabilities("protocols { mpls { admin-groups { lowlatency 7; lowlatency 8; protected 12; } } }", mpls), []);
+  assert.deepEqual(extractConfiguredCapabilities('firewall { policer custom { if-exceeding { bandwidth-limit 25m; } then discard; } }', { "firewall:policers": { policers: ["custom"] } }), ["firewall:policers"]);
+});
+
 test("C1. existing bare BGP Provides is unchanged", () => {
   const { header, diagnostics } = parseSnip(memberSnip("evpn, l2vpn", ["evpn", "l2vpn"]));
   assert.deepEqual(diagnostics.map((d) => d.code), []);
@@ -410,6 +483,17 @@ test("C2. valid ifl:irb member parses and matches its body", () => {
   assert.deepEqual(diagnostics.map((d) => d.code), []);
   assert.deepEqual(header.variantGroup.provides, ["ifl:irb"]);
   assert.deepEqual(validateVariantMember({ variantGroup: header.variantGroup, body: IRB_BODY }), []);
+});
+
+test("MPLS admin-group capability requires active global definitions with exact values", () => {
+  const body = "protocols { mpls { admin-groups { blue 1; green 2; red 3; } } }";
+  const { header, diagnostics } = parseSnip(irbSnip("transport:mpls-admin-groups", body));
+  const capabilityRequirements = { [header.variantGroup.name]: { "transport:mpls-admin-groups": { adminGroups: { blue: "1", green: "2", red: "3" } } } };
+  assert.deepEqual(diagnostics, []);
+  assert.deepEqual(validateVariantMember({ variantGroup: header.variantGroup, body, capabilityRequirements }), []);
+  for (const invalid of [body.replace("green 2;", ""), body.replace("blue 1", "blue 9"), `inactive: ${body}`, body.replace("mpls {", "inactive: mpls {"), body.replace("admin-groups {", "inactive: admin-groups {"), body.replace("green 2", "inactive: green 2"), `groups { TEST { ${body} } }`, `/* ${body} */`, `system { description "${body}"; }`, body.slice(0, -1)]) {
+    assert.ok(validateVariantMember({ variantGroup: header.variantGroup, body: invalid, capabilityRequirements }).some(row => row.code === CODES.VARIANT_PROVIDES_MISMATCH), invalid);
+  }
 });
 
 test("C3. unknown namespace is rejected", () => {

@@ -1,10 +1,89 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { extractConstructs, canonicalName } from "./config-references.mjs";
+import { extractConstructs, extractConstructOccurrences, canonicalName } from "./config-references.mjs";
 import { auditLibrary } from "./library-completeness.mjs";
 
 const defs = (body) => extractConstructs(body).definitions.map((d) => `${d.kind}:${d.name}`);
 const refs = (body) => extractConstructs(body).references.map((r) => `${r.kind}:${r.name}`);
+
+test('MAC-VRF VLAN attachments and L3 gateways are exact logical-interface references', () => {
+  const result = extractConstructOccurrences('routing-instances { V { instance-type mac-vrf; vlans { VLAN { interface ae1.100; l3-interface irb.100; } } } }');
+  assert.deepEqual(result.references.map(row => [row.kind, row.name]), [['logical-interface', 'ae1.100'], ['logical-interface', 'irb.100']]);
+});
+
+test('local-switching pins both circuit endpoints and bridge domains pin attachment and IRB', () => {
+  const body = 'protocols { l2circuit { local-switching { interface et-0/0/5.3000 { end-interface { interface et-0/0/51.4010; } ignore-mtu-mismatch; } } } } bridge-domains { BD { interface xe-0/0/3:1.4050; routing-interface irb.4050; } }';
+  assert.deepEqual(extractConstructOccurrences(body).references.map(row => [row.kind, row.name]), [
+    ['logical-interface', 'et-0/0/5.3000'], ['logical-interface', 'et-0/0/51.4010'],
+    ['logical-interface', 'xe-0/0/3:1.4050'], ['logical-interface', 'irb.4050'],
+  ]);
+  assert.deepEqual(extractConstructOccurrences('groups { UNUSED { bridge-domains { BD { interface xe-0/0/3:1.4050; } } } } protocols { inactive: l2circuit { local-switching { interface et-0/0/5.3000; } } }').references, []);
+});
+
+test('EXP classifier default import is built-in, not a routing-policy reference', () => {
+  const classifier = 'class-of-service { classifiers { exp EXP { import default; forwarding-class BE { loss-priority low code-points 000; } } } }';
+  assert.deepEqual(refs(classifier), []);
+  assert.deepEqual(extractConstructOccurrences(classifier).references, []);
+  const policyImport = 'protocols { bgp { group TRANSIT { import default; } } }';
+  assert.deepEqual(refs(policyImport), ['policy-statement:default']);
+  assert.deepEqual(extractConstructOccurrences(policyImport).references.map(row => [row.kind, row.name]), [['policy-statement', 'default']]);
+});
+
+test("occurrence extraction retains distinct named-process reference slots", () => {
+  const body = "protocols { isis-instance metro-a { interface ae82.1 { point-to-point; } export [ COMMON export_isis_metro_b_ribs ]; } isis-instance metro-b { interface ae82.2 { point-to-point; } export [ COMMON export_isis_metro_a_ribs ]; } }";
+  const result = extractConstructOccurrences(body);
+  assert.equal(result.ok, true);
+  assert.equal(result.references.length, 6);
+  const common = result.references.filter(row => row.name === "COMMON");
+  assert.equal(common.length, 2);
+  assert.notEqual(common[0].nodeId, common[1].nodeId);
+  assert.notDeepEqual(common[0].trail, common[1].trail);
+  assert.deepEqual(common.map(row => row.wordIndex), [2, 2]);
+  assert.deepEqual(result.references.filter(row => row.kind === "logical-interface").map(row => row.name), ["ae82.1", "ae82.2"]);
+});
+
+test("logical units are definitions, while service attachments are references", () => {
+  const body = "interfaces { $IFD { unit $UNIT { family bridge; } } } routing-instances { SERVICE { interface ${IFD}.${UNIT}; bridge-domains { VLAN { interface ae1.2; } } } }";
+  const result = extractConstructOccurrences(body);
+  assert.deepEqual(result.definitions.filter(row => row.kind === "logical-interface").map(row => row.name), ["$IFD.$UNIT"]);
+  assert.deepEqual(result.references.filter(row => row.kind === "logical-interface").map(row => row.name), ["$IFD.$UNIT", "ae1.2"]);
+  assert.equal(extractConstructs(body).references.length, 0);
+});
+
+test("inactive ancestors do not emit occurrences or shift later source IDs", async () => {
+  const { sourceTree } = await import("./generate-bindings.mjs");
+  const body = "protocols { inactive: isis-instance metro-a { interface ae1.1 { passive; } } isis-instance metro-b { interface ae1.2 { passive; } } }";
+  const result = extractConstructOccurrences(body);
+  assert.equal(result.references.length, 1);
+  const row = result.references[0];
+  assert.equal(row.name, "ae1.2");
+  assert.deepEqual(sourceTree(body).index[row.nodeId].words, ["interface", "ae1.2"]);
+  assert.deepEqual(extractConstructOccurrences("interfaces {"), { ok: false, definitions: [], references: [] });
+});
+
+test("floating-PW condition traces the transport circuit rather than its service unit", () => {
+  const result = extractConstructOccurrences("policy-options { policy-statement FLOAT-PW-CONDITIONAL { term ps-conditional { from { condition Floating-PW-Condition; } then accept; } } condition Floating-PW-Condition { if-route-exists { address-family { ccc { ps0.0; table mpls.0; } } } } } protocols { l2circuit { neighbor 1.1.0.18 { interface ps0.0 { virtual-circuit-id 1001; } } } } routing-instances { FLOATING { interface ps0.300; } }");
+  assert.deepEqual(result.definitions.filter(row => row.kind === "condition").map(row => row.name), ["Floating-PW-Condition"]);
+  assert.deepEqual(result.definitions.filter(row => row.kind === "l2circuit-interface").map(row => row.name), ["ps0.0"]);
+  assert.deepEqual(result.references.map(row => [row.kind, row.name]), [["condition", "Floating-PW-Condition"], ["l2circuit-interface", "ps0.0"], ["logical-interface", "ps0.0"], ["logical-interface", "ps0.300"]]);
+});
+
+test("interface-route RIB-group application resolves a typed group identity", () => {
+  const result = extractConstructOccurrences('routing-options { interface-routes { rib-group inet RG-LOCAL-LOOPBACK; } rib-groups { RG-LOCAL-LOOPBACK { import-rib [ inet.0 inet.3 ]; } } }');
+  assert.deepEqual(result.definitions.filter(row => row.kind === 'rib-group').map(row => row.name), ['RG-LOCAL-LOOPBACK']);
+  assert.deepEqual(result.references.filter(row => row.kind === 'rib-group').map(row => row.name), ['RG-LOCAL-LOOPBACK']);
+});
+
+test("Flex-Algo transport-class references use configured colors, not provider filenames", () => {
+  const result = extractConstructOccurrences('routing-options { flex-algorithm 128 { color 4000; use-transport-class; } transport-class { name gold { color 4000; tunnel-egress { end-point 1.1.0.10; } } } }');
+  assert.deepEqual(result.references.filter(row => row.kind === 'transport-class').map(row => row.name), ['4000']);
+  assert.deepEqual(result.definitions.filter(row => row.kind === 'transport-class').map(row => row.name), ['4000']);
+});
+
+test("LDP loopback participation carries its logical-interface dependency", () => {
+  const result = extractConstructOccurrences('protocols { ldp { interface lo0.0; } }');
+  assert.deepEqual(result.references.map(row => [row.kind, row.name]), [['logical-interface', 'lo0.0']]);
+});
 
 test("${FOO} and $FOO are the same construct name", () => {
   assert.equal(canonicalName("${FOO}"), "$FOO");
@@ -61,6 +140,11 @@ test("a bracketed list yields every name", () => {
 test("a route-target value is not a policy reference", () => {
   assert.deepEqual(refs("routing-instances { RI { vrf-target import target:63536:22222; } }"), []);
   assert.deepEqual(refs("routing-instances { RI { vrf-target target:1:1; } }"), []);
+});
+
+test('a literal resolution mapping-community is not a named policy community', () => {
+  const body = 'routing-options { resolution { scheme gold-to-bronze { resolution-ribs [ junos-rti-tc-4000.inet.3 junos-rti-tc-6000.inet.3 ]; mapping-community color:0:4000; } } }';
+  assert.deepEqual(extractConstructOccurrences(body).references.filter(row => row.kind === 'community'), []);
 });
 
 test("vrf-export is not read by the bare export rule", () => {
