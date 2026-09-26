@@ -48,6 +48,21 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Stamp the publishing commit into the built corpus
+        # Runs in the build job, so pull-request CI exercises it. Never
+        # committed: the tracked export has to stay reproducible from the
+        # sources alone. Excluded from exportDigest, so stamping cannot
+        # invalidate what it stamps.
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const f = "dist/snips.json";
+            const b = JSON.parse(fs.readFileSync(f, "utf8"));
+            b.publishedCommit = process.env.GITHUB_SHA;
+            fs.writeFileSync(f, JSON.stringify(b, null, 2) + "\n");
+            console.log(`stamped ${f} with ${b.publishedCommit}`);
+          '
+
       - name: Copy index.html to 404.html (SPA fallback)
         run: cp dist/index.html dist/404.html
 

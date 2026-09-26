@@ -29,6 +29,9 @@ on:
       - 'portal/scripts/composition-validate.test.mjs'
       - '**/configuration/snips/_composition.json'
       - 'portal/scripts/generate-snips.mjs'
+      - 'portal/scripts/snips-provenance.test.mjs'
+      - 'portal/public/snips.json'
+      - 'portal/src/data/snips.json'
       - '.github/SNIP-CONTRACT.md'
       - '.github/workflows/snip-contract.yml'
 
@@ -57,6 +60,7 @@ jobs:
           portal/scripts/config-references.test.mjs
           portal/scripts/dependency-resolve.test.mjs
           portal/scripts/composition-validate.test.mjs
+          portal/scripts/snips-provenance.test.mjs
       - name: snips.json is up to date
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
