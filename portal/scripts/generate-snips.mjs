@@ -90,7 +90,7 @@ function stableStringify(value) {
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
   if (value && typeof value === "object") {
-    const out = {};
+    const out = Object.create(null);
     for (const k of Object.keys(value).sort()) out[k] = canonical(value[k]);
     return out;
   }
@@ -98,7 +98,7 @@ function canonical(value) {
 }
 
 const sha256 = (text) => createHash("sha256").update(text, "utf8").digest("hex");
-const digestOf = (value) => sha256(JSON.stringify(canonical(value)));
+export const digestOf = (value) => sha256(JSON.stringify(canonical(value)));
 
 /** Fields that describe presentation or the build, not the record itself. */
 const NON_RECORD_FIELDS = ["bodyHtml", "recordSha256", "parseWarnings"];
@@ -111,8 +111,8 @@ const NON_RECORD_FIELDS = ["bodyHtml", "recordSha256", "parseWarnings"];
  * is in scope too, so a record that has been renamed or moved does not verify
  * against its old digest.
  */
-function recordDigest(record) {
-  const subject = {};
+export function recordDigest(record) {
+  const subject = Object.create(null);
   for (const [k, v] of Object.entries(record)) {
     if (!NON_RECORD_FIELDS.includes(k)) subject[k] = v;
   }
@@ -814,7 +814,9 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
