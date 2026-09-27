@@ -7,11 +7,16 @@ on:
       - '.lycheeignore'
       - '.github/workflows/link-check.yml'
 
+permissions:
+  contents: read
+
 jobs:
   link-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - name: Check internal markdown links
         uses: lycheeverse/lychee-action@v2
         with:

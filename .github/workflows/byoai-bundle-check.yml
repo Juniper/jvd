@@ -16,11 +16,16 @@ on:
     paths:
       - 'service_provider/metro_ethernet_business_services/configuration/snips/**'
 
+permissions:
+  contents: read
+
 jobs:
   check-bundle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Regenerate bundle
         working-directory: service_provider/metro_ethernet_business_services/configuration/snips/byoai

@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { digestOf as generatedDigest, recordDigest as generatedRecordDigest } from "./generate-snips.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORTAL = path.resolve(HERE, "..");
@@ -18,9 +19,7 @@ const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 function canonical(value) {
   if (Array.isArray(value)) return value.map(canonical);
   if (value && typeof value === "object") {
-    const out = {};
-    for (const k of Object.keys(value).sort()) out[k] = canonical(value[k]);
-    return out;
+    return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]));
   }
   return value;
 }
@@ -36,6 +35,26 @@ const exportSubject = (b) =>
   Object.fromEntries(Object.entries(b).filter(([k]) => !DIGEST_EXCLUDED.includes(k)));
 
 /* ------------------------------ the export ------------------------------- */
+
+test("producer hashes own special JSON keys without changing object prototypes", () => {
+  const plain = JSON.parse('{"body":"example","seenOn":{"junos":[],"evo":[]}}');
+  const topLevel = JSON.parse('{"body":"example","seenOn":{"junos":[],"evo":[]},"__proto__":{"reviewMarker":"one"}}');
+  const nested = JSON.parse('{"body":"example","seenOn":{"junos":[],"evo":[],"__proto__":{"reviewMarker":"two"}}}');
+  const otherNames = JSON.parse('{"constructor":{"prototype":{"reviewMarker":"three"}},"toString":"data"}');
+  for (const value of [topLevel, nested, otherNames]) {
+    assert.equal(generatedDigest(value), digestOf(value));
+    assert.equal(generatedRecordDigest(value), recordDigest(value));
+    assert.notEqual(generatedDigest(value), generatedDigest(plain));
+    assert.notEqual(generatedRecordDigest(value), generatedRecordDigest(plain));
+    assert.equal(Object.getPrototypeOf(value), Object.prototype);
+  }
+  assert.equal(Object.hasOwn(topLevel, "__proto__"), true);
+  assert.equal(Object.hasOwn(nested.seenOn, "__proto__"), true);
+  assert.equal({}.reviewMarker, undefined);
+  for (const record of read(BUNDLE).snips) {
+    assert.equal(generatedRecordDigest(record), record.recordSha256, record.id);
+  }
+});
 
 test("the published export exists and is a superset-free lean copy", () => {
   const bundle = read(BUNDLE);

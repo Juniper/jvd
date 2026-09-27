@@ -4,6 +4,58 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-09-27
+
+Published a machine-readable snippet catalog with source traceability, restored
+the repository overview, and updated portal dependencies and repository safeguards.
+
+### New content
+
+- **Snippet catalog export** — the [published catalog](portal/public/snips.json)
+  includes source and integrity metadata to support consistent reuse by
+  downstream tools and integrations.
+- **Repository navigation** — the [repository overview](README.md) is again
+  the GitHub landing page, providing direct access to the JVD areas and portal.
+- **Portal maintenance** — updated dependencies, additional integrity checks
+  and ongoing dependency monitoring support reliable delivery of repository content.
+
+### What this means for you
+
+- Use the published catalog when integrating JVD snippets into your tools.
+  Existing configuration examples and snippet bodies are unchanged.
+
+---
+
+### By the numbers
+
+Changes since the September 26 entry, covering PRs #227–#230 and excluding this
+changelog update. Line totals include generated catalog data, not new device
+configuration content.
+
+<details>
+<summary>Per-area changes</summary>
+
+| Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Portal | 2 | 0 | 0 | 4 | 0 |
+| Repository support | 2 | 1 | 0 | 7 | 1 |
+| **Total** | **4** | **1** | **0** | **11** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Portal | 78,851 | 1,160 | +77,691 |
+| Repository support | 93 | 8 | +85 |
+| **Total** | **78,944** | **1,168** | **+77,776** |
+
+</details>
+
+---
+
 ## 2026-09-26
 
 Expanded the **Metro Ethernet Business Services (MEBS)** configuration snippet

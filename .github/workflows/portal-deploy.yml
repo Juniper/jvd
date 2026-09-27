@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -75,6 +77,8 @@ jobs:
 
   deploy:
     needs: build
+    permissions:
+      contents: write
     # Publish on a push to main, or when manually re-run (workflow_dispatch) —
     # the latter is needed to recover a deploy after a GitHub Actions/Pages incident.
     if: >-
