@@ -8,6 +8,20 @@ const idx = (...snips) => new Map(snips.map((s) => [s.rel, s]));
 const BODY_A = "firewall {\n    policer P {\n        then discard;\n    }\n}";
 const BODY_B = "firewall {\n    policer P {\n        then accept;\n    }\n}";
 
+test('single occurrence lookup preserves identity and isolates returned mutations', () => {
+  const record = snip('junos/interface.conf', { junos: ['fixture'], evo: [] }, 'interfaces { $IFD { unit 0 { family inet; } } }');
+  const resolver = createOccurrenceResolver({ sourceText: 'interfaces { ae1 { unit 0 { family inet; } } ae2 { unit 0 { family inet; } } }', device: 'fixture', os: 'junos', snips: [record] });
+  const entries = resolver.occurrences(record.rel);
+  assert.equal(entries.length, 2);
+  for (const entry of entries) assert.deepEqual(resolver.occurrence(record.rel, entry.id), entry);
+  const selected = resolver.occurrence(record.rel, entries[0].id);
+  selected.binding.IFD = 'changed';
+  selected.sourceIds.length = 0;
+  assert.deepEqual(resolver.occurrence(record.rel, entries[0].id), entries[0]);
+  assert.equal(resolver.occurrence('junos/other.conf', entries[0].id), undefined);
+  assert.equal(resolver.occurrence(record.rel, 'unknown'), undefined);
+});
+
 test('IRB service selection uses the explicit gateway interface and rejects ambiguous companions', () => {
   const seenOn = { junos: ['fixture'], evo: [] };
   const snips = [

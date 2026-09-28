@@ -43,6 +43,19 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
   const instances = new Map();
   const subtreeIds = node => [node.id, ...(node.children ?? []).flatMap(subtreeIds)];
   const definitions = constructs.definitions.map(definition => ({ ...definition, sourceIds: subtreeIds(tree.index[definition.nodeId]) }));
+  const definitionsByKind = new Map();
+  for (const definition of definitions) {
+    if (!definitionsByKind.has(definition.kind)) definitionsByKind.set(definition.kind, new Map());
+    const names = definitionsByKind.get(definition.kind);
+    if (!names.has(definition.name)) names.set(definition.name, []);
+    names.get(definition.name).push(definition);
+  }
+  const findDefinitions = (kind, name) => definitionsByKind.get(kind)?.get(name) ?? [];
+  const sourceIdSets = new WeakMap();
+  const sourceIdsOf = record => {
+    if (!sourceIdSets.has(record)) sourceIdSets.set(record, new Set(record.sourceIds));
+    return sourceIdSets.get(record);
+  };
   const measure = rel => {
     if (measured.has(rel)) return measured.get(rel);
     const snip = catalog.get(rel);
@@ -53,7 +66,8 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
       const binding = Object.fromEntries(matches.variables.map((variable, index) => [variable, match.binding[index]]));
       const rendered = snip.body.replace(/\$\{([A-Z][A-Z0-9_]*)\}|\$([A-Z][A-Z0-9_]*)/g, (_, braced, bare) => binding[braced ?? bare]);
       const id = digest(JSON.stringify([device, sourceSha256, exclusionsSha256, rel, bodySha256, match.sourceIds, binding]));
-      const references = constructs.references.filter(reference => match.sourceIds.includes(reference.nodeId));
+      const sourceIds = new Set(match.sourceIds);
+      const references = constructs.references.filter(reference => sourceIds.has(reference.nodeId));
       const requiredContextSourceIds = [...new Set(references.filter(reference => reference.kind === 'tunnel-pic').flatMap(reference => {
         const parent = tree.index[tree.index[reference.nodeId].parent];
         return (parent?.children ?? []).filter(node => !node.inactive && node.words.join(' ') === 'anchor-point').flatMap(subtreeIds);
@@ -66,6 +80,11 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
     return records;
   };
   const occurrences = rel => structuredClone(measure(rel));
+  const occurrence = (rel, id) => {
+    measure(rel);
+    const record = instances.get(id);
+    return record?.rel === rel ? structuredClone(record) : undefined;
+  };
   const resolve = ({ consumerId, sourceSha256: expectedHash, nodeId, wordIndex, candidates, scope = "whole", preferObject = false }) => {
     if (expectedHash !== sourceSha256) return { status: "stale-source" };
     if (!["whole", "object"].includes(scope)) return { status: "invalid-scope" };
@@ -76,7 +95,7 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
     if (!Array.isArray(candidates) || !candidates.length) return { status: "unavailable" };
     const unknown = candidates.filter(rel => !catalog.has(rel));
     if (unknown.length) return { status: "unresolved-path", members: [...new Set(unknown)].sort() };
-    const targets = definitions.filter(row => row.kind === reference.kind && row.name === reference.name);
+    const targets = findDefinitions(reference.kind, reference.name);
     if (!targets.length) return { status: "missing-source-definition", reference: structuredClone(reference) };
     if (targets.length !== 1) return { status: "ambiguous-source-definition", reference: structuredClone(reference) };
     const target = targets[0];
@@ -87,7 +106,7 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
         return { status: 'insufficient-ps-capacity', reference: structuredClone(reference), capacity };
       }
     }
-    if (['prefix-list', 'community', 'policer'].includes(reference.kind) && target.sourceIds.every(id => consumer.sourceIds.includes(id))) {
+    if (['prefix-list', 'community', 'policer'].includes(reference.kind) && target.sourceIds.every(id => sourceIdsOf(consumer).has(id))) {
       return { status: 'ok', internal: true, selected: structuredClone(consumer), reference: structuredClone(reference), targetSourceIds: [...target.sourceIds], equivalents: [] };
     }
     const allowed = new Set(target.sourceIds);
@@ -96,7 +115,7 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
       allowed.add(parent);
       parent = tree.index[parent].parent;
     }
-    let providers = [...new Set(candidates)].flatMap(measure).filter(provider => target.sourceIds.every(id => provider.sourceIds.includes(id)) && (scope !== "object" || provider.sourceIds.every(id => allowed.has(id))));
+    let providers = [...new Set(candidates)].flatMap(measure).filter(provider => target.sourceIds.every(id => sourceIdsOf(provider).has(id)) && (scope !== "object" || provider.sourceIds.every(id => allowed.has(id))));
     if (preferObject) {
       const focused = providers.filter(provider => provider.sourceIds.every(id => allowed.has(id)));
       if (focused.length) providers = focused;
@@ -120,7 +139,7 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
     if (!consumer) return { status: 'unknown-occurrence' };
     if (!Array.isArray(candidates) || !candidates.length || candidates.some(rel => !catalog.has(rel))) return { status: 'unresolved-path' };
     const interfaces = tree.nodes.filter(node => !node.inactive && node.words.join(' ') === 'interfaces').flatMap(node => node.children ?? []);
-    const parents = interfaces.filter(node => !node.inactive && consumer.sourceIds.includes(node.id));
+    const parents = interfaces.filter(node => !node.inactive && sourceIdsOf(consumer).has(node.id));
     if (['interface-parent', 'lag-member'].includes(kind) && !parents.length) return { status: 'no-interface-context' };
     const targets = [];
     const witnesses = new Set();
@@ -135,10 +154,10 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
         return [...direct, ...nested];
       };
       for (const reference of references) {
-        const interfaces = definitions.filter(row => row.kind === 'logical-interface' && row.name === reference.name);
+        const interfaces = findDefinitions('logical-interface', reference.name);
         if (interfaces.length !== 1) return { status: interfaces.length ? 'ambiguous-source-definition' : 'missing-source-definition', reference };
         for (const id of [reference.nodeId, ...interfaces[0].sourceIds]) witnesses.add(id);
-        const matching = services.filter(service => !consumer.sourceIds.includes(service.id) && gatewayNames(service).includes(reference.name));
+        const matching = services.filter(service => !sourceIdsOf(consumer).has(service.id) && gatewayNames(service).includes(reference.name));
         if (matching.length !== 1) return { status: matching.length ? 'ambiguous-irb-service' : 'missing-irb-service', reference };
         if (!targets.some(target => target.node.id === matching[0].id)) targets.push({ node: matching[0], sourceIds: subtreeIds(matching[0]) });
       }
@@ -149,13 +168,13 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
       const policyReferences = consumer.references.filter(row => row.kind === 'policy-statement' && row.trail.length === 2 && row.trail[0] === 'routing-instances' && ['vrf-import', 'vrf-export'].includes(tree.index[row.nodeId].words[0]));
       if (!policyReferences.length || !patterns.length) return { status: 'missing-policy-reference' };
       for (const reference of policyReferences) {
-        const policies = definitions.filter(row => row.kind === 'policy-statement' && row.name === reference.name);
+        const policies = findDefinitions('policy-statement', reference.name);
         if (policies.length !== 1) return { status: policies.length ? 'ambiguous-source-definition' : 'missing-source-definition', reference };
         const policy = policies[0];
         for (const id of [reference.nodeId, ...policy.sourceIds]) witnesses.add(id);
-        const communities = constructs.references.filter(row => row.kind === 'community' && policy.sourceIds.includes(row.nodeId) && patterns.some(pattern => bindLine(pattern, row.name, {}) !== null));
+        const communities = constructs.references.filter(row => row.kind === 'community' && sourceIdsOf(policy).has(row.nodeId) && patterns.some(pattern => bindLine(pattern, row.name, {}) !== null));
         for (const community of communities) {
-          const found = definitions.filter(row => row.kind === 'community' && row.name === community.name);
+          const found = findDefinitions('community', community.name);
           if (found.length !== 1) return { status: found.length ? 'ambiguous-source-definition' : 'missing-source-definition', reference: community };
           if (!targets.some(target => target.node.id === found[0].nodeId)) targets.push({ node: tree.index[found[0].nodeId], sourceIds: found[0].sourceIds });
         }
@@ -178,11 +197,11 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
     for (const target of targets) {
       for (const id of target.sourceIds) requiredSourceIds.add(id);
       if (target.sourceIds.some(id => tree.excludedIds.has(id))) return { status: 'excluded-source-defect', interface: target.node.words[0] };
-      if (target.sourceIds.every(id => consumer.sourceIds.includes(id))) continue;
+      if (target.sourceIds.every(id => sourceIdsOf(consumer).has(id))) continue;
       const allowed = new Set(target.sourceIds);
       let ancestor = target.node.parent;
       while (ancestor !== null) { allowed.add(ancestor); ancestor = tree.index[ancestor].parent; }
-      const providers = [...new Set(candidates)].flatMap(measure).filter(provider => target.sourceIds.every(id => provider.sourceIds.includes(id)) && provider.sourceIds.every(id => allowed.has(id)));
+      const providers = [...new Set(candidates)].flatMap(measure).filter(provider => target.sourceIds.every(id => sourceIdsOf(provider).has(id)) && provider.sourceIds.every(id => allowed.has(id)));
       if (!providers.length) return { status: 'unavailable', interface: target.node.words[0], targetSourceIds: target.sourceIds };
       const groups = new Map();
       for (const provider of providers) {
@@ -223,7 +242,7 @@ export function createOccurrenceResolver({ sourceText, device, os, snips, exclus
     const project = nodes => nodes.filter(node => sourceIds.has(node.id)).map(node => ({ ...node, children: node.children === null ? null : project(node.children) }));
     return { status: "ok", sourceSha256, body: canonicalize(project(tree.nodes)), occurrences: structuredClone(emitted), aliases, emittedSourceIds: [...sourceIds].sort((left, right) => left - right) };
   };
-  return { sourceSha256, occurrences, resolve, resolveRelated, render };
+  return { sourceSha256, occurrences, occurrence, resolve, resolveRelated, render };
 }
 
 /** The same relative path under the other OS directory, or null. */
