@@ -7,6 +7,7 @@ import { validateMatrix, formDevices, closeTuple, closeOccurrenceTuple, resolveR
 import { createOccurrenceResolver } from "./dependency-resolve.mjs";
 import { parseSnip } from "./snip-parse.mjs";
 import { resolveVariant } from "./variant-resolve.mjs";
+import { readCorpusScope, selectCorpusCase } from './validation-scope.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 const MATRIX = JSON.parse(
@@ -19,14 +20,18 @@ const MATRIX = JSON.parse(
 const snip = (rel, seenOn = { junos: ["d1"], evo: [] }) => [rel, { rel, dir: rel.split("/")[0], seenOn, body: "" }];
 const idxOf = (...rels) => new Map(rels.map((r) => snip(r)));
 
-test('VLAN-bundle and VPLS downstream attachments close all claimed source occurrences', async () => {
+const corpusScope = readCorpusScope({ repoRoot: REPO_ROOT, jvd: 'service_provider/metro_ethernet_business_services', base: process.env.SNIP_VALIDATION_BASE });
+if (process.env.SNIP_VALIDATION_BASE) console.log(`[MEBS corpus] ${corpusScope.reason}; affected snippets: ${corpusScope.affected?.size ?? 'all'}`);
+const corpusTest = (name, roots, run) => test(name, { skip: selectCorpusCase(corpusScope.affected, roots?.length ? roots : null) ? false : 'No affected corpus inputs' }, () => run(roots));
+const transportEntries = [...new Set(['isis', 'flex-algo-definitions', 'colour-resolution'].flatMap(name => MATRIX.occurrenceEntrySets[name]))];
+
+corpusTest('VLAN-bundle and VPLS downstream attachments close all claimed source occurrences', ['evo/routing-instances/vpls/ri-bgp-vpls-export.conf', 'junos/routing-instances/vpls/ri-bgp-vpls-export.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf'], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
   const headers = new Map(snips.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
   const variantMembers = snips.filter(row => headers.get(row.rel).variantGroup).map(row => ({ ...row, os: row.dir, jvd: 'mebs', group: headers.get(row.rel).variantGroup.name, provides: headers.get(row.rel).variantGroup.provides }));
-  const consumers = ['evo/routing-instances/vpls/ri-bgp-vpls-export.conf', 'junos/routing-instances/vpls/ri-bgp-vpls-export.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf'];
   for (const os of ['junos', 'evo']) for (const device of [...new Set(consumers.flatMap(rel => headers.get(rel).seenOn[os]))]) {
     const resolver = createOccurrenceResolver({ sourceText: fs.readFileSync(path.join(root, 'configuration/conf', `${device}.conf`), 'utf8'), device, os, snips });
     for (const rel of consumers.filter(rel => headers.get(rel).seenOn[os].includes(device))) {
@@ -41,7 +46,7 @@ test('VLAN-bundle and VPLS downstream attachments close all claimed source occur
   }
 });
 
-test('MEBS shared IRB companion declarations close every claimed source occurrence', async () => {
+corpusTest('MEBS shared IRB companion declarations close every claimed source occurrence', MATRIX.occurrenceBindings.filter(row => row.kind === 'irb-service').map(row => row.consumer), async () => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
@@ -61,14 +66,13 @@ test('MEBS shared IRB companion declarations close every claimed source occurren
   }
 });
 
-test('MEBS indirect community requirements close every declared VRF occurrence', async () => {
+corpusTest('MEBS indirect community requirements close every declared VRF occurrence', ['junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf'], async ([rel]) => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
   const headers = new Map(snips.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
   const variantMembers = snips.filter(row => headers.get(row.rel).variantGroup).map(row => ({ ...row, os: row.dir, jvd: 'mebs', group: headers.get(row.rel).variantGroup.name, provides: headers.get(row.rel).variantGroup.provides }));
-  const rel = 'junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf';
   for (const device of headers.get(rel).seenOn.junos) {
     const resolver = createOccurrenceResolver({ sourceText: fs.readFileSync(path.join(root, 'configuration/conf', `${device}.conf`), 'utf8'), device, os: 'junos', snips });
     const entries = resolver.occurrences(rel);
@@ -197,14 +201,13 @@ test('scheduler maps select all six source definitions through existing occurren
   assert.equal(checked, 40);
 });
 
-test('MEBS parent and member bindings close every claimed unit occurrence', async () => {
+corpusTest('MEBS parent and member bindings close every claimed unit occurrence', [...new Set(MATRIX.occurrenceBindings.filter(row => ['interface-parent', 'lag-member'].includes(row.kind)).map(row => row.consumer))], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
   const headers = new Map(snips.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
   const variantMembers = snips.filter(row => headers.get(row.rel).variantGroup).map(row => ({ ...row, os: row.dir, jvd: 'mebs', group: headers.get(row.rel).variantGroup.name, provides: headers.get(row.rel).variantGroup.provides }));
-  const consumers = [...new Set(MATRIX.occurrenceBindings.filter(row => ['interface-parent', 'lag-member'].includes(row.kind)).map(row => row.consumer))];
   assert.ok(consumers.length);
   let checked = 0;
   let aggregateCount = 0;
@@ -246,14 +249,13 @@ test('MEBS parent and member bindings close every claimed unit occurrence', asyn
   assert.equal(plainMemberCount, 1);
 });
 
-test('MEBS interface repairs retain declarations and reconstruct every affected source occurrence', async () => {
+corpusTest('MEBS interface repairs retain declarations and reconstruct every affected source occurrence', ['evo/protocols/isis-srmpls-tilfa.conf', 'evo/protocols/l2circuit-lsw.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf', 'junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf'], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
   const headers = new Map(snips.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
   const variantMembers = snips.filter(row => headers.get(row.rel).variantGroup).map(row => ({ ...row, os: row.dir, jvd: 'mebs', group: headers.get(row.rel).variantGroup.name, provides: headers.get(row.rel).variantGroup.provides }));
-  const consumers = ['evo/protocols/isis-srmpls-tilfa.conf', 'evo/protocols/l2circuit-lsw.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf', 'junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf'];
   for (const os of ['junos', 'evo']) for (const device of [...new Set(consumers.flatMap(rel => headers.get(rel).seenOn[os]))]) {
     const resolver = createOccurrenceResolver({ sourceText: fs.readFileSync(path.join(root, 'configuration/conf', `${device}.conf`), 'utf8'), device, os, snips });
     for (const rel of consumers.filter(rel => headers.get(rel).seenOn[os].includes(device))) {
@@ -382,14 +384,13 @@ test('PS service occurrences emit matching transport, capacity and tunnel prereq
   }
 });
 
-test('MCP-reported FAT-PW, physical-member and filter consumers close every claimed source occurrence', async () => {
+corpusTest('MCP-reported FAT-PW, physical-member and filter consumers close every claimed source occurrence', ['evo/routing-instances/apply-groups/gr-fatpw-label.conf', 'junos/routing-instances/apply-groups/gr-fatpw-label.conf', 'evo/routing-instances/apply-groups/gr-l3vpn-fatpw-label.conf', ...['junos', 'evo'].flatMap(os => [`${os}/interfaces/ifd-core-lag-member.conf`, `${os}/interfaces/ifl-vlan-ccc-vlan-map-filter.conf`])], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
   const { snips } = await loadJvd(root);
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
   const headers = new Map(snips.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
   const variantMembers = snips.filter(row => headers.get(row.rel).variantGroup).map(row => ({ ...row, os: row.dir, jvd: 'mebs', group: headers.get(row.rel).variantGroup.name, provides: headers.get(row.rel).variantGroup.provides }));
-  const consumers = ['evo/routing-instances/apply-groups/gr-fatpw-label.conf', 'junos/routing-instances/apply-groups/gr-fatpw-label.conf', 'evo/routing-instances/apply-groups/gr-l3vpn-fatpw-label.conf', ...['junos', 'evo'].flatMap(os => [`${os}/interfaces/ifd-core-lag-member.conf`, `${os}/interfaces/ifl-vlan-ccc-vlan-map-filter.conf`])];
   const exclusions = JSON.parse(fs.readFileSync(path.join(root, 'configuration/snips/_source-exclusions.json')));
   for (const os of ['junos', 'evo']) {
     const devices = [...new Set(consumers.flatMap(rel => headers.get(rel).seenOn[os]))];
@@ -411,7 +412,7 @@ test('MCP-reported FAT-PW, physical-member and filter consumers close every clai
   }
 });
 
-test('residual root application and default-import classifier reconstruct with declared prerequisites', async () => {
+corpusTest('residual root application and default-import classifier reconstruct with declared prerequisites', ['junos/apply-groups/gr-ae-interface-mtu.conf', 'evo/class-of-service/classifiers/cl-6class-exp-import-default.conf'], async () => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services/configuration');
   const { sourceTree, occurrenceMap } = await import('./generate-bindings.mjs');
   const cases = [
@@ -513,7 +514,7 @@ test('resolution requires emitted transport-class witnesses even without named r
   assert.ok(closeOccurrenceTuple({ ...args, entrySets: { transport: [] } }).failures.some(row => row.kind === 'source-requirement-unavailable'));
 });
 
-test("all resolution headers conserve policy edges and resolve transport providers without matrix relationships", () => {
+corpusTest("all resolution headers conserve policy edges and resolve transport providers without matrix relationships", ['', '-l3vpn-rib', '-l3vpn-rib-v6-first'].flatMap(form => ['junos', 'evo'].map(os => `${os}/routing-options/resolution-transport-class${form}.conf`)), () => {
   const root = path.join(REPO_ROOT, "service_provider/metro_ethernet_business_services/configuration");
   const load = rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, "snips", rel), "utf8")) });
   const members = ["junos/routing-options/transport-class.conf", "evo/routing-options/transport-class.conf", "junos/routing-options/transport-class-fallback-none.conf", "junos/routing-options/transport-class-gold-bronze-anycast.conf", "junos/routing-options/transport-class-gold-local-bronze-anycast.conf"].map(rel => {
@@ -575,7 +576,7 @@ test("all resolution headers conserve policy edges and resolve transport provide
   assert.equal(checkedDevices.size, 17);
 });
 
-test("filter applicability and policer closure reconstruct on all seven devices including AN1", () => {
+corpusTest("filter applicability and policer closure reconstruct on all seven devices including AN1", ['evo/firewall/filter-family-any-50mb.conf', 'evo/firewall/policers.conf', 'junos/firewall/policers.conf'], () => {
   const root = path.join(REPO_ROOT, "service_provider/metro_ethernet_business_services/configuration");
   const paths = ["evo/firewall/filter-family-any-50mb.conf", "evo/firewall/policers.conf", "junos/firewall/policers.conf"];
   const parsed = paths.map(rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, "snips", rel), "utf8")) }));
@@ -1129,7 +1130,7 @@ test('validation plan CLI requires a private output directory', async () => {
   }
 });
 
-test("removing colour resolution selections cannot shrink the archived plan denominator", async () => {
+corpusTest("removing colour resolution selections cannot shrink the archived plan denominator", transportEntries, async () => {
   const { buildOccurrencePlan } = await import("./generate-occurrence-plans.mjs");
   for (const device of ["mdr1_acx7509", "meg2_acx7509"]) {
     const complete = await buildOccurrencePlan({ device });
@@ -1143,7 +1144,7 @@ test("removing colour resolution selections cannot shrink the archived plan deno
   }
 });
 
-test("both ACX7509 source plans cover every requested IS-IS and Flex-Algo statement", async () => {
+corpusTest("both ACX7509 source plans cover every requested IS-IS and Flex-Algo statement", transportEntries, async () => {
   const { buildOccurrencePlan } = await import("./generate-occurrence-plans.mjs");
   for (const device of ["mdr1_acx7509", "meg2_acx7509"]) {
     const plan = await buildOccurrencePlan({ device });
@@ -1166,7 +1167,7 @@ test("both ACX7509 source plans cover every requested IS-IS and Flex-Algo statem
   }
 });
 
-test("source-bound E-Tree plans validate all four device attachments and reject the opposite role", async () => {
+corpusTest("source-bound E-Tree plans validate all four device attachments and reject the opposite role", Object.values(MATRIX.forms.find(form => form.id === 'evpn-etree')?.entry ?? {}).flat(), async () => {
   const { buildOccurrencePlan } = await import('./generate-occurrence-plans.mjs');
   for (const device of ['ma4_mx204', 'ma5_mx204', 'mse1_mx304', 'mse2_mx304']) {
     const edge = device.startsWith('ma');

@@ -531,8 +531,7 @@ export function closeOccurrenceTuple({ entries, resolver, bindings, sourceSha256
   const failures = [];
   const stack = [];
   for (const entry of entries) {
-    const occurrences = resolver.occurrences(entry.rel);
-    const occurrence = occurrences.find(row => row.id === entry.id);
+    const occurrence = resolver.occurrence(entry.rel, entry.id);
     if (!occurrence) failures.push({ kind: "unknown-entry-occurrence", from: entry.rel, id: entry.id });
     else stack.push(occurrence);
   }
@@ -700,7 +699,7 @@ export function verifyOccurrenceEmission({ closure, rendered, resolver, headers,
         requireOccurrence(selected, consumer.id, rule.kind);
       }
     }
-    const authoritative = resolver.occurrences(consumer.rel).find(row => row.id === consumer.id);
+    const authoritative = resolver.occurrence(consumer.rel, consumer.id);
     if (!authoritative) failures.push({ kind: 'unknown-context-occurrence', from: consumer.id });
     else {
       for (const id of authoritative.requiredContextSourceIds) requiredIds.add(id);
