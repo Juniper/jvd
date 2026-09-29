@@ -21,11 +21,11 @@ reordering policy terms or substituting one semantic object for another.
 
 | | |
 |---|---|
-| Snippets | 488 |
+| Snippets | 490 |
 | Devices | 20 |
-| Snippet/device pairs with at least one instance | 2,967 |
-| Instances counted | 241,668 |
-| Structural assignments represented | 349,929 |
+| Snippet/device pairs with at least one instance | 3,003 |
+| Instances counted | 241,704 |
+| Structural assignments represented | 349,965 |
 
 ## Instances per snippet
 
@@ -295,6 +295,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/routing-options/rib-groups.conf` | 15 | 15 | _none_ |
 | `evo/routing-options/rib-inet3-protect-core.conf` | 17 | 17 | _none_ |
 | `evo/routing-options/rib-inet6-protect-core.conf` | 17 | 17 | _none_ |
+| `evo/routing-options/route-distinguisher-id.conf` | 18 | 18 | `$RD_SEED_AUTO` |
 | `evo/routing-options/router-id.conf` | 20 | 20 | `$ROUTER_ID` |
 | `evo/routing-options/transport-class.conf` | 14 | 14 | `$TC_EGRESS` |
 | `junos/apply-groups/gr-ae-interface-mtu.conf` | 1 | 1 | _none_ |
@@ -514,6 +515,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/rib-groups.conf` | 15 | 15 | _none_ |
 | `junos/routing-options/rib-inet3-protect-core.conf` | 17 | 17 | _none_ |
 | `junos/routing-options/rib-inet6-protect-core.conf` | 17 | 17 | _none_ |
+| `junos/routing-options/route-distinguisher-id.conf` | 18 | 18 | `$RD_SEED_AUTO` |
 | `junos/routing-options/router-id.conf` | 20 | 20 | `$ROUTER_ID` |
 | `junos/routing-options/transport-class-fallback-none.conf` | 1 | 1 | `$TC_EGRESS` |
 | `junos/routing-options/transport-class-gold-bronze-anycast.conf` | 1 | 1 | `$LOOPBACK_ANYCAST_V4`, `$TC_EGRESS` |
@@ -890,6 +892,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/routing-options/rib-groups.conf` | an1_mx204 | `{}` |
 | `evo/routing-options/rib-inet3-protect-core.conf` | an1_mx204 | `{}` |
 | `evo/routing-options/rib-inet6-protect-core.conf` | an1_mx204 | `{}` |
+| `evo/routing-options/route-distinguisher-id.conf` | an1_mx204 | `{"RD_SEED_AUTO":"1.1.0.0"}` |
 | `evo/routing-options/router-id.conf` | ag1-1_acx7100-32c | `{"ROUTER_ID":"1.1.0.4"}` |
 | `evo/routing-options/transport-class.conf` | an1_mx204 | `{"TC_EGRESS":"1.1.0.0"}` |
 | `junos/apply-groups/gr-ae-interface-mtu.conf` | an1_mx204 | `{}` |
@@ -1109,6 +1112,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/rib-groups.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/rib-inet3-protect-core.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/rib-inet6-protect-core.conf` | an1_mx204 | `{}` |
+| `junos/routing-options/route-distinguisher-id.conf` | an1_mx204 | `{"RD_SEED_AUTO":"1.1.0.0"}` |
 | `junos/routing-options/router-id.conf` | ag1-1_acx7100-32c | `{"ROUTER_ID":"1.1.0.4"}` |
 | `junos/routing-options/transport-class-fallback-none.conf` | an4_acx710 | `{"TC_EGRESS":"1.1.0.3"}` |
 | `junos/routing-options/transport-class-gold-bronze-anycast.conf` | mse2_mx304 | `{"LOOPBACK_ANYCAST_V4":"1.1.10.10","TC_EGRESS":"1.1.0.11"}` |

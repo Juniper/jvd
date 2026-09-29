@@ -68,6 +68,12 @@
       "use": "The entire RD is parameterized as one value.",
       "example": "63535:6500"
     },
+    "RD_SEED_AUTO": {
+      "intent": "Seed for automatic Route Distinguisher generation.",
+      "use": "The IPv4 value configured by route-distinguisher-id, used as the Administrator subfield of automatically generated Type 1 RDs. It is not a complete RD, an Assigned Number, or inherently a loopback or router ID. Preserve the independently configured per-device value; do not infer equality with LOOPBACK_V4, ROUTER_ID or TC_EGRESS.",
+      "example": "1.1.1.2",
+      "notes": "Ratified by Kevin Brown on 2026-09-29. Remains distinct from RD_SEED even if that legacy name is later freed by SRv6 reconciliation. RD_SEED currently supplies the prefix of explicitly configured RDs; Juniper's conflict-avoidance guidance requires that explicit RD IPv4 prefix to differ from the automatic seed. These objects are not interchangeable, and RD_SEED is not an alias. Reference: https://www.juniper.net/documentation/us/en/software/junos/cli-reference/topics/ref/statement/route-distinguisher-id-edit-routing-options.html"
+    },
     "RD_SUB_ADMIN": {
       "intent": "Route Distinguisher Administrator subfield.",
       "use": "Only when the variable itself represents the RD Administrator subfield. If that subfield is supplied by a variable whose primary intent is broader (for example $LOOPBACK_V4), retain the broader variable.",
@@ -110,6 +116,6 @@
   },
   "notes": [
     "RD encoding (2-byte ASN, IPv4 address, or 4-byte ASN administrator) is per-occurrence evidence, not part of the variable name. Do not introduce $RD_ASN2, $RD_ASN4, or $RD_FIELD1 unless a construct genuinely requires that semantic distinction.",
-    "$RD_ID as the operand of route-distinguisher-id is a different semantic object and still awaits its own canonical name."
+    "$RD_SEED_AUTO is the canonical automatic-RD seed. Legacy $RD_ID in that operand position remains scoped migration evidence, not a global alias; no legacy snippet rename is implied by this registration."
   ]
 }

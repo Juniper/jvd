@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedFrom": {
-    "inputsSha256": "f55d7000c67d62b7d877bb6706b500d3c1f1ac8a2c8fc4074337850900aa8b4b",
+    "inputsSha256": "4ad6758974cfe7ecb4cd3f156676fd67189b081734b2d32893d6bdfa6e128e52",
     "registryVersion": 3,
     "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
     "toolsSha256": "b6774ef5ead5cbc9fe39e78d46e36aa08059ae48168e47700a339933be0d0edb",
     "devices": 20,
-    "snips": 488,
+    "snips": 490,
     "peerToolsSha256": "47b9a747ce4794b62e504d96502698e29e2c02524b1c94ec09206195784e094c"
   },
   "snips": {
@@ -3581,6 +3581,12 @@
         "state": "not-applicable"
       }
     },
+    "evo/routing-options/route-distinguisher-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/routing-options/router-id.conf": {
       "status": "verified",
       "peersWith": {
@@ -6314,6 +6320,12 @@
       }
     },
     "junos/routing-options/rib-inet6-protect-core.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/route-distinguisher-id.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"

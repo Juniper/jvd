@@ -2,7 +2,7 @@
   "schema_version": 1,
   "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
-  "snip_count": 488,
+  "snip_count": 490,
   "snips": [
     {
       "path": "evo/chassis/aggregated-devices-ethernet.conf",
@@ -4393,6 +4393,35 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/rib-inet6-protect-core.conf"
     },
     {
+      "path": "evo/routing-options/route-distinguisher-id.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "route-distinguisher-id",
+      "topic": "Automatic Route Distinguisher seed",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 838,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/route-distinguisher-id.conf"
+    },
+    {
       "path": "evo/routing-options/router-id.conf",
       "os": "evo",
       "category": "routing-options",
@@ -4445,7 +4474,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1491,
+      "size_bytes": 1540,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/transport-class.conf"
     },
     {
@@ -8248,6 +8277,35 @@
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/rib-inet6-protect-core.conf"
     },
     {
+      "path": "junos/routing-options/route-distinguisher-id.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "route-distinguisher-id",
+      "topic": "Automatic Route Distinguisher seed",
+      "seen_on": [
+        "an1_mx204",
+        "an2_acx5448",
+        "an4_acx710",
+        "ma2_mx204",
+        "ma4_mx204",
+        "ma5_mx204",
+        "mdr2_mx10003",
+        "mse1_mx304",
+        "mse2_mx304",
+        "an3_acx7100-48l",
+        "cr1_ptx10001-36mr",
+        "cr2_ptx10001-36mr",
+        "ma1-1_acx7024",
+        "ma1-2_acx7024",
+        "ma3_acx7100-48l",
+        "mdr1_acx7509",
+        "meg1_acx7100-32c",
+        "meg2_acx7509"
+      ],
+      "size_bytes": 838,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/route-distinguisher-id.conf"
+    },
+    {
       "path": "junos/routing-options/router-id.conf",
       "os": "junos",
       "category": "routing-options",
@@ -8287,7 +8345,7 @@
       "seen_on": [
         "an4_acx710"
       ],
-      "size_bytes": 660,
+      "size_bytes": 711,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class-fallback-none.conf"
     },
     {
@@ -8299,7 +8357,7 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 753,
+      "size_bytes": 804,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class-gold-bronze-anycast.conf"
     },
     {
@@ -8311,7 +8369,7 @@
       "seen_on": [
         "mse1_mx304"
       ],
-      "size_bytes": 705,
+      "size_bytes": 756,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class-gold-local-bronze-anycast.conf"
     },
     {
@@ -8336,7 +8394,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1487,
+      "size_bytes": 1538,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/transport-class.conf"
     }
   ],

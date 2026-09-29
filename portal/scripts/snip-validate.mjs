@@ -25,6 +25,8 @@ import { extractIflCapabilities } from "./ifl-capabilities.mjs";
 import { extractGrCapabilities } from "./gr-capabilities.mjs";
 import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems } from "./transport-capabilities.mjs";
 import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
+import { extractConstructs } from "./config-references.mjs";
+import { resolveDependency, dependencyPath } from "./dependency-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -271,7 +273,7 @@ export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, memb
  * "<os>/<category>/<name>.conf" for the JVD) enable the context-dependent checks.
  * `os`, `jvd`, `members`, and `selfRel` enable cross-snip variant checks.
  */
-export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {}, countValidation, peersValidation, enforceEvidenceEnrollment = false } = {}) {
+export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {}, countValidation, peersValidation, enforceEvidenceEnrollment = false, dependencyIndex } = {}) {
   const { header, body, diagnostics } = parseSnip(text);
   const findings = [...diagnostics];
   if (!header) return findings;
@@ -331,6 +333,24 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
       const p = raw.replace(/^-\s*/, "").split(/\s+/)[0].replace(/[(),;]+$/, "");
       if (!p || p.toLowerCase() === "none") continue;
       if (!snipIndex.has(p)) findings.push({ code: CODES.PAIR_WITH_UNRESOLVED, detail: p });
+    }
+  }
+
+  if (dependencyIndex) {
+    const constructs = extractConstructs(body);
+    const requirements = constructs.references.filter(reference => reference.kind === "route-distinguisher-id");
+    for (const requirement of requirements) {
+      const defines = candidate => extractConstructs(candidate).definitions.filter(definition => definition.kind === requirement.kind && definition.name === requirement.name).length === 1;
+      if (defines(body)) continue;
+      for (const targetOS of ["junos", "evo"]) for (const targetDevice of header.seenOn[targetOS]) {
+        const supplied = header.pairWith.some(bullet => {
+          const targetRel = dependencyPath(bullet);
+          if (!targetRel) return false;
+          const resolution = resolveDependency({ targetRel, targetDevice, targetOS, index: dependencyIndex });
+          return resolution.status === "ok" && defines(dependencyIndex.get(resolution.selected).body);
+        });
+        if (!supplied) findings.push({ code: "PAIR_WITH_MISSING_REQUIREMENT", detail: `${requirement.kind}:${requirement.name} on ${targetDevice} (${targetOS})` });
+      }
     }
   }
 
@@ -476,6 +496,7 @@ async function main() {
   const sovCache = new Map();
   const indexCache = new Map(); // jvdRoot -> Set of "<os>/<category>/<name>.conf"
   const membersByJvd = new Map(); // jvdRoot -> [member descriptors]
+  const dependenciesByJvd = new Map();
 
   // Pre-build per-JVD snip index for Pair-with resolution, and the variant
   // member index for cross-snip variant resolution.
@@ -491,6 +512,9 @@ async function main() {
     const os = osOfRel(relRepo);
     const parsedForMember = parseSnip(await fs.readFile(f, "utf8"));
     const { header } = parsedForMember;
+    if (!dependenciesByJvd.has(jvdRoot)) dependenciesByJvd.set(jvdRoot, new Map());
+    const relative = rel.slice(i + "/snips/".length);
+    dependenciesByJvd.get(jvdRoot).set(relative, { rel: relative, dir: os, seenOn: header?.seenOn, body: parsedForMember.body });
     if (os && header?.variantGroup) {
       if (!membersByJvd.has(jvdRoot)) membersByJvd.set(jvdRoot, []);
       membersByJvd.get(jvdRoot).push({
@@ -544,6 +568,7 @@ async function main() {
       countValidation: validation.countValidation,
       peersValidation: validation.peersValidation,
       enforceEvidenceEnrollment: true,
+      dependencyIndex: dependenciesByJvd.get(jvdRoot),
     });
     for (const fd of findings) {
       const sev = severity(fd.code, { changed: isChanged, seenOnValidation });

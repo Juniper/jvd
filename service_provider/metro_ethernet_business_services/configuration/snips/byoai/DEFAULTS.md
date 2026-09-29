@@ -35,6 +35,13 @@ This file decides how an **already applicable** variable is handled — defaulte
 - Admin groups: literal — keep as in `transport/mpls-segment-routing.conf`
 - Flex-algo: `128` (gold), `129` (bronze) — literal
 
+- `$RD_SEED_AUTO`: **ask** for the target device's automatic-RD seed unless an
+  exact archived source binding was supplied for an as-deployed rebuild. Never
+  derive it from `$LOOPBACK_V4`, `$ROUTER_ID`, `$TC_EGRESS`, or `$RD_SEED`.
+  Preserve the archived exceptions: `an3_acx7100-48l` uses `1.1.1.2` and
+  `meg1_acx7100-32c` uses `1.1.1.6`. Explicit RD IPv4 prefixes and the automatic
+  seed must remain distinct under Juniper's conflict-avoidance guidance.
+
 ## L3VPN VRF (vrf-id N, sequential from 2001 unless overridden)
 
 - Instance name: `METRO_BGPv4_L3VPN_<N>`

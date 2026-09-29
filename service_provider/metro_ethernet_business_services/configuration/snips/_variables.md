@@ -109,6 +109,7 @@ service interface (`ps0.300`); supply that complete attachment there.
 |---------------------------|------------------------------------------------------------------|---------------|
 | `$INSTANCE_NAME`          | The service-instance name (per-service, often encodes IDs).      | `evpn_group_30_2400` |
 | `$RD_SUB_ASSIGNED`        | Route-distinguisher Assigned Number subfield (RD = `$LOOPBACK_V4:$RD_SUB_ASSIGNED`). | `2400`        |
+| `$RD_SEED_AUTO` | Per-device IPv4 seed for automatic Route Distinguisher generation. Distinct from explicit RD prefixes and not inferred from the primary loopback. | `1.1.1.2` |
 | `$RT_AS`                  | Route-target Administrator subfield; service-scoped, not the node's own AS. | `63535`       |
 | `$RT_ID`                  | Route-target Assigned Number (the tail), independent of the variable supplying the Administrator. | `2400`        |
 | `$VPWS_SVC_ID_LOCAL`      | EVPN-VPWS local service-id.                                      | `2`           |

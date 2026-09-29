@@ -25,6 +25,65 @@ if (process.env.SNIP_VALIDATION_BASE) console.log(`[MEBS corpus] ${corpusScope.r
 const corpusTest = (name, roots, run) => test(name, { skip: selectCorpusCase(corpusScope.affected, roots?.length ? roots : null) ? false : 'No affected corpus inputs' }, () => run(roots));
 const transportEntries = [...new Set(['isis', 'flex-algo-definitions', 'colour-resolution'].flatMap(name => MATRIX.occurrenceEntrySets[name]))];
 
+corpusTest('MEBS transport-class forms retain the exact auto-RD seed across the source population', [
+  'junos/routing-options/route-distinguisher-id.conf', 'evo/routing-options/route-distinguisher-id.conf',
+  'junos/routing-options/transport-class.conf', 'evo/routing-options/transport-class.conf',
+  'junos/routing-options/transport-class-fallback-none.conf',
+  'junos/routing-options/transport-class-gold-bronze-anycast.conf',
+  'junos/routing-options/transport-class-gold-local-bronze-anycast.conf',
+], async roots => {
+  const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
+  const { loadJvd } = await import('./object-ownership.mjs');
+  const { snips } = await loadJvd(root);
+  const { extractConstructOccurrences } = await import('./config-references.mjs');
+  const { validateSnipText } = await import('./snip-validate.mjs');
+  const selected = snips.filter(row => roots.includes(row.rel));
+  const snipIndex = new Map(selected.map(row => [row.rel, row]));
+  const headers = new Map(selected.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
+  const providers = roots.filter(rel => rel.endsWith('/route-distinguisher-id.conf'));
+  const consumers = roots.filter(rel => !providers.includes(rel));
+  const actualConsumers = snips.filter(row => extractConstructOccurrences(row.body).references.some(reference => reference.kind === 'route-distinguisher-id')).map(row => row.rel).sort();
+  assert.deepEqual(actualConsumers, [...consumers].sort(), 'Every active auto-create form must be covered');
+  for (const rel of consumers) {
+    const text = fs.readFileSync(path.join(root, 'configuration/snips', rel), 'utf8');
+    const options = { dependencyIndex: snipIndex, capabilityRequirements: MATRIX.capabilityRequirements };
+    assert.ok(!validateSnipText(text, options).some(finding => finding.code === 'PAIR_WITH_MISSING_REQUIREMENT'), rel);
+    const undeclared = text.replace(/^\s*\*\s*-\s*[^\n]*\/route-distinguisher-id\.conf\r?\n/gm, '');
+    assert.notEqual(undeclared, text, 'Fixture must remove the real declaration');
+    assert.ok(validateSnipText(undeclared, options).some(finding => finding.code === 'PAIR_WITH_MISSING_REQUIREMENT'), `Removed declaration must fail: ${rel}`);
+  }
+  const osByDevice = new Map();
+  for (const row of snips) for (const os of ['junos', 'evo']) for (const device of row.seenOn[os] ?? []) osByDevice.set(device, os);
+  let seedDevices = 0;
+  let consumerDevices = 0;
+  for (const [device, os] of osByDevice) {
+    const sourceText = fs.readFileSync(path.join(root, 'configuration/conf', `${device}.conf`), 'utf8');
+    const resolver = createOccurrenceResolver({ sourceText, device, os, snips: selected });
+    const seeds = resolver.occurrences(providers[0]);
+    if (seeds.length) seedDevices++;
+    const sourceRequirements = extractConstructOccurrences(sourceText).references.filter(row => row.kind === 'route-distinguisher-id');
+    if (sourceRequirements.length) consumerDevices++;
+    for (const rel of consumers) {
+      const entries = resolver.occurrences(rel);
+      if (!entries.length) continue;
+      assert.equal(seeds.length, 1, device);
+      const args = { entries, resolver, sourceSha256: resolver.sourceSha256, headers, snipIndex, device, os, bindings: [], capabilityRequirements: MATRIX.capabilityRequirements };
+      const closure = closeOccurrenceTuple(args);
+      assert.deepEqual(closure.failures, [], `${device}:${rel}`);
+      const includedSeeds = closure.included.filter(row => providers.includes(row.rel));
+      assert.equal(includedSeeds.length, 1, `${device}:${rel}`);
+      const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
+      assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], `${device}:${rel}`);
+      if (device === 'an3_acx7100-48l') assert.equal(includedSeeds[0].binding.RD_SEED_AUTO, '1.1.1.2');
+      if (device === 'meg1_acx7100-32c') assert.equal(includedSeeds[0].binding.RD_SEED_AUTO, '1.1.1.6');
+      const withoutSeeds = new Map([...snipIndex].filter(([name]) => !providers.includes(name)));
+      assert.ok(closeOccurrenceTuple({ ...args, snipIndex: withoutSeeds }).failures.length > 0, 'Removed provider must not pass');
+    }
+  }
+  assert.equal(seedDevices, 18);
+  assert.equal(consumerDevices, 17);
+});
+
 corpusTest('VLAN-bundle and VPLS downstream attachments close all claimed source occurrences', ['evo/routing-instances/vpls/ri-bgp-vpls-export.conf', 'junos/routing-instances/vpls/ri-bgp-vpls-export.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf'], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
@@ -538,7 +597,7 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
       checkedDevices.add(device);
       const suffix = { an4_acx710: "-fallback-none", mse1_mx304: "-gold-local-bronze-anycast", mse2_mx304: "-gold-bronze-anycast" }[device] ?? "";
       const provider = load(`${os}/routing-options/transport-class${suffix}.conf`);
-      const selectedSnips = [consumer, provider, ...consumer.header.pairWith.map(load)];
+      const selectedSnips = [consumer, provider, ...consumer.header.pairWith.map(load), ...provider.header.pairWith.map(load)];
       assert.ok(provider.header.seenOn[os].includes(device));
       const request = { group: consumer.header.variantRequires[0].group, selectors: consumer.header.variantRequires[0].families, consumerJvd: "mebs", targetDevice: device, targetOS: os, members };
       const selected = resolveVariant(request);
@@ -567,6 +626,7 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
       assert.deepEqual(closure.failures, [], device);
       assert.ok(closure.included.some(row => row.rel === provider.rel), device);
       for (const fixed of consumer.header.pairWith) assert.ok(closure.included.some(row => row.rel === fixed), `${device}: retained ${fixed}`);
+      for (const fixed of provider.header.pairWith) assert.ok(closure.included.some(row => row.rel === fixed), `${device}: transitive prerequisite ${fixed}`);
       const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
       assert.deepEqual(verifyOccurrenceEmission({ ...closureArgs, closure, rendered }).failures, [], device);
       const missing = resolver.render({ ids: closureArgs.entries.map(row => row.id), sourceSha256: resolver.sourceSha256 });

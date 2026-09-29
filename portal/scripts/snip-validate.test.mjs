@@ -32,6 +32,26 @@ test("clean snip produces no findings", () => {
   assert.deepEqual(findings, []);
 });
 
+test("auto-RD consumers must declare an applicable seed provider or contain it", () => {
+  const body = "routing-options { transport-class { auto-create; } }";
+  const seed = { rel: "junos/seed.conf", dir: "junos", seenOn: { junos: ["mse1_mx304"], evo: [] }, body: "routing-options { route-distinguisher-id 1.1.1.2; }" };
+  const index = new Map([[seed.rel, seed]]);
+  const missing = text => codes(validateSnipText(text, { dependencyIndex: index })).includes("PAIR_WITH_MISSING_REQUIREMENT");
+  assert.equal(missing(snip({ body })), true);
+  assert.equal(missing(snip({ body, pair: seed.rel })), false);
+  assert.equal(missing(snip({ body: "routing-options { route-distinguisher-id 1.1.1.2; transport-class { auto-create; } }" })), false);
+  index.set(seed.rel, { ...seed, seenOn: { junos: ["other"], evo: [] } });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  index.set("evo/seed.conf", { ...seed, rel: "evo/seed.conf", dir: "evo" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), false);
+  index.delete("evo/seed.conf");
+  index.set(seed.rel, { ...seed, body: "routing-instances { V { route-distinguisher 65000:1; } }" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  index.set(seed.rel, { ...seed, body: "routing-options { inactive: route-distinguisher-id 1.1.1.2; }" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  assert.equal(missing(snip({ body: "routing-instances { V { route-distinguisher 65000:1; } }" })), false);
+});
+
 function measuredSnip(count = "mse1_mx304 2\n *   total 2", peers = "[mse1_mx304] <-> [mse2_mx304]") {
   return snip({})
     .replace(" * Pair with:", ` * Count:\n *   ${count}\n * Pair with:`)
