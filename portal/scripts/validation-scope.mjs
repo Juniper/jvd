@@ -83,8 +83,8 @@ export function selectCorpusCase(scope, roots) {
   return scope === null || (roots === null ? scope.size > 0 : roots.some(root => scope.has(root)));
 }
 
-export function readCorpusScope({ repoRoot, jvd, base }) {
-  if (!base) return { mode: 'full', reason: 'Default full validation', affected: null };
+export function readValidationChanges({ repoRoot, base }) {
+  if (!base) throw new Error('A validation base is required');
   const git = args => execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] });
   const baseCommit = git(['rev-parse', '--verify', '--end-of-options', `${base}^{commit}`]).trim();
   const ancestor = git(['merge-base', baseCommit, 'HEAD']).trim();
@@ -93,6 +93,28 @@ export function readCorpusScope({ repoRoot, jvd, base }) {
     ...git(['diff', '--name-only', '--no-renames', '-z', 'HEAD']).split('\0'),
     ...git(['ls-files', '--others', '--exclude-standard', '-z']).split('\0'),
   ].filter(Boolean))];
+  return { git, ancestor, paths };
+}
+
+export function selectEvidenceChecks({ before, after, paths = null }) {
+  const findings = [];
+  const jobs = [];
+  for (const jvd of new Set([...Object.keys(before), ...Object.keys(after)])) {
+    const previous = before[jvd] ?? {};
+    const current = after[jvd] ?? {};
+    for (const field of ['countValidation', 'peersValidation']) {
+      if (previous[field] && !current[field] || previous[field] === 'complete' && current[field] !== 'complete') findings.push({ code: 'EVIDENCE_ENROLLMENT_REGRESSION', jvd, field });
+    }
+    if (!current.countValidation && !current.peersValidation) continue;
+    const decision = paths === null ? { mode: 'full' } : classifyChanges(paths, jvd);
+    jobs.push({ jvd, countValidation: current.countValidation, peersValidation: current.peersValidation, mode: decision.mode });
+  }
+  return { jobs, findings };
+}
+
+export function readCorpusScope({ repoRoot, jvd, base }) {
+  if (!base) return { mode: 'full', reason: 'Default full validation', affected: null };
+  const { git, ancestor, paths } = readValidationChanges({ repoRoot, base });
   const decision = classifyChanges(paths, jvd);
   if (decision.mode !== 'snippets') return { ...decision, affected: decision.mode === 'full' ? null : new Set() };
   const prefix = `${jvd}/configuration/snips/`;

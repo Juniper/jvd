@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { parseConfig, canonicalize } from './config-objects.mjs';
 import { parseSnip } from './snip-parse.mjs';
+import { confinedPath, readConfinedFile, writeConfinedFile } from './snip-files.mjs';
 
 const scripts = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(scripts, '../..');
@@ -174,36 +175,71 @@ export function occurrenceMap(body, source, limit = 2000000) {
   return { variables, instances };
 }
 
-function filesBelow(directory) {
-  return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? filesBelow(path.join(directory, entry.name)) : entry.name.endsWith('.conf') ? [path.join(directory, entry.name)] : []).sort();
+function filesBelow(root, directory) {
+  const safeDirectory = confinedPath(root, directory);
+  return fs.readdirSync(safeDirectory, { withFileTypes: true }).flatMap(entry => {
+    const file = confinedPath(root, path.join(safeDirectory, entry.name));
+    return entry.isDirectory() ? filesBelow(root, file) : entry.isFile() && entry.name.endsWith('.conf') ? [file] : [];
+  }).sort();
 }
 
-export function generateBindings(configuration) {
+export function readBindingsInputs(configuration) {
+  configuration = fs.realpathSync(configuration);
   const sourceRoot = path.join(configuration, 'conf');
   const snipsRoot = path.join(configuration, 'snips');
-  const sources = filesBelow(sourceRoot).map(file => ({ device: path.relative(sourceRoot, file).replace(/\.conf$/, '').split(path.sep).join('/'), file, text: fs.readFileSync(file, 'utf8') }));
-  const exclusionsPath = path.join(snipsRoot, '_source-exclusions.json');
-  const exclusions = fs.existsSync(exclusionsPath) ? JSON.parse(fs.readFileSync(exclusionsPath, 'utf8')) : null;
-  const trees = sources.map(source => ({ ...source, tree: sourceTree(source.text, { device: source.device, exclusions }) }));
-  const snips = {};
+  const sources = filesBelow(configuration, sourceRoot).map(file => {
+    const bytes = readConfinedFile(configuration, file);
+    const text = bytes.toString('utf8');
+    assert.ok(Buffer.from(text).equals(bytes), `Source is not valid UTF-8: ${file}`);
+    return { device: path.relative(sourceRoot, file).replace(/\.conf$/, '').split(path.sep).join('/'), file, text, sha256: digest(bytes) };
+  });
+  const exclusionsPath = confinedPath(configuration, path.join(snipsRoot, '_source-exclusions.json'), { allowMissing: true });
+  const exclusions = fs.existsSync(exclusionsPath) ? JSON.parse(readConfinedFile(configuration, exclusionsPath, 'utf8')) : null;
   const inputs = [];
   if (exclusions) inputs.push(['snips/_source-exclusions.json', digest(JSON.stringify(exclusions))]);
-  for (const source of sources) inputs.push([`conf/${source.device}.conf`, digest(fs.readFileSync(source.file))]);
-  const bodyCache = new Map();
-  for (const file of [...filesBelow(path.join(snipsRoot, 'evo')), ...filesBelow(path.join(snipsRoot, 'junos'))].sort()) {
+  for (const source of sources) inputs.push([`conf/${source.device}.conf`, source.sha256]);
+  const templates = [];
+  const files = ['evo', 'junos'].flatMap(os => {
+    const directory = confinedPath(configuration, path.join(snipsRoot, os), { allowMissing: true });
+    return fs.existsSync(directory) ? filesBelow(configuration, directory) : [];
+  }).sort();
+  assert.ok(sources.length && files.length, 'Source and snippet populations must be nonempty');
+  for (const file of files) {
     const relative = path.relative(snipsRoot, file).split(path.sep).join('/');
-    const text = fs.readFileSync(file, 'utf8');
+    const text = readConfinedFile(configuration, file, 'utf8');
     const { body } = parseSnip(text);
     const parsed = parseConfig(body);
     assert.ok(parsed.ok, relative);
     const normalized = canonicalize(parsed.nodes);
     inputs.push([`snips/${relative}`, digest(normalized)]);
+    templates.push({ relative, file, text, body, normalized });
+  }
+  const tools = ['generate-bindings.mjs', 'config-objects.mjs', 'snip-parse.mjs', 'snip-files.mjs'].map(name => [name, digest(fs.readFileSync(path.join(scripts, name)))]);
+  const generatedFrom = { inputsSha256: digest(JSON.stringify(inputs)), registryVersion: registry.version, registrySha256: digest(fs.readFileSync(registryPath)), toolsSha256: digest(JSON.stringify(tools)), devices: sources.length, snips: templates.length };
+  return { sources, exclusions, templates, generatedFrom };
+}
+
+export function bindingsFreshness(result, inputs) {
+  const differences = Object.keys(inputs.generatedFrom).filter(key => result.generatedFrom?.[key] !== inputs.generatedFrom[key]);
+  if (result.schema !== 2) differences.push('schema');
+  if (JSON.stringify(result.deviceInventory) !== JSON.stringify(inputs.sources.map(source => source.device))) differences.push('deviceInventory');
+  if (JSON.stringify(Object.keys(result.snips ?? {}).sort()) !== JSON.stringify(inputs.templates.map(template => template.relative).sort())) differences.push('snipInventory');
+  return { fresh: differences.length === 0, differences };
+}
+
+export function generateBindings(configuration, { onMeasurement } = {}) {
+  const { sources, exclusions, templates, generatedFrom } = readBindingsInputs(configuration);
+  const trees = sources.map(source => ({ ...source, tree: sourceTree(source.text, { device: source.device, exclusions }) }));
+  const snips = {};
+  const bodyCache = new Map();
+  for (const { relative, normalized } of templates) {
     if (!bodyCache.has(normalized)) {
       const count = {};
       const instances = {};
       let variables;
       for (const source of trees) {
         const measured = occurrenceMap(normalized, source.tree);
+        onMeasurement?.({ body: normalized, device: source.device, measured });
         variables = measured.variables;
         if (measured.instances.length) {
           count[source.device] = measured.instances.length;
@@ -214,7 +250,7 @@ export function generateBindings(configuration) {
     }
     snips[relative] = bodyCache.get(normalized);
   }
-  return { schema: 2, jvd: path.basename(path.dirname(configuration)), generatedFrom: { inputsSha256: digest(JSON.stringify(inputs)), registryVersion: registry.version, registrySha256: digest(fs.readFileSync(registryPath)), devices: sources.length, snips: Object.keys(snips).length }, deviceInventory: sources.map(source => source.device), snips };
+  return { schema: 2, jvd: path.basename(path.dirname(configuration)), generatedFrom, deviceInventory: sources.map(source => source.device), snips };
 }
 
 export function bindingsMarkdown(result) {
@@ -260,6 +296,11 @@ export function bindingsMarkdown(result) {
   return lines.join('\n') + '\n';
 }
 
+export function bindingsText(result) {
+  const { snips, ...metadata } = result;
+  return '{\n' + Object.entries(metadata).map(([name, value]) => ` ${JSON.stringify(name)}: ${JSON.stringify(value)},\n`).join('') + ' "snips": {\n' + Object.entries(snips).map(([name, value]) => `  ${JSON.stringify(name)}: ${JSON.stringify(value)}`).join(',\n') + '\n }\n}\n';
+}
+
 function selfTest() {
   const source = sourceTree('interfaces { ae1 { mtu 9192; unit 0 { family inet; } unit 1 { family inet; } } }');
   const repeated = occurrenceMap('interfaces { $IFD { unit $UNIT { family inet; } } }', source);
@@ -293,20 +334,28 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const configuration = rootIndex < 0 ? path.join(repo, 'service_provider/metro_ethernet_business_services/configuration') : path.resolve(process.argv[rootIndex + 1]);
     const outputIndex = process.argv.indexOf('--out');
     const output = outputIndex < 0 ? path.join(configuration, 'snips/_bindings.json') : path.resolve(process.argv[outputIndex + 1]);
-    const result = generateBindings(configuration);
-    const { snips, ...metadata } = result;
-    const text = '{\n' + Object.entries(metadata).map(([name, value]) => ` ${JSON.stringify(name)}: ${JSON.stringify(value)},\n`).join('') + ' "snips": {\n' + Object.entries(snips).map(([name, value]) => `  ${JSON.stringify(name)}: ${JSON.stringify(value)}`).join(',\n') + '\n }\n}\n';
+    const outputRoot = outputIndex < 0 ? configuration : path.dirname(output);
     const markdownPath = output.replace(/\.json$/, '.md');
-    const markdown = bindingsMarkdown(result);
-    if (process.argv.includes('--check')) {
-      if (!fs.existsSync(output) || fs.readFileSync(output, 'utf8') !== text || !fs.existsSync(markdownPath) || fs.readFileSync(markdownPath, 'utf8') !== markdown) {
-        console.error(`Bindings are stale: ${output}`);
-        process.exitCode = 1;
-      } else console.log(`Bindings check: ${result.generatedFrom.snips} snippets, ${result.generatedFrom.devices} devices`);
+    confinedPath(outputRoot, output, { allowMissing: true });
+    confinedPath(outputRoot, markdownPath, { allowMissing: true });
+    if (process.argv.includes('--freshness-check')) {
+      const result = bindingsFreshness(JSON.parse(readConfinedFile(outputRoot, output, 'utf8')), readBindingsInputs(configuration));
+      console.log(JSON.stringify({ ...result, verification: 'input freshness only; not source remeasurement' }));
+      if (!result.fresh) process.exitCode = 1;
     } else {
-      fs.writeFileSync(output, text);
-      fs.writeFileSync(markdownPath, markdown);
-      console.log(`Generated ${result.generatedFrom.snips} snippet bindings across ${result.generatedFrom.devices} devices: ${output}`);
+      const result = generateBindings(configuration);
+      const text = bindingsText(result);
+      const markdown = bindingsMarkdown(result);
+      if (process.argv.includes('--check')) {
+        if (!fs.existsSync(output) || readConfinedFile(outputRoot, output, 'utf8') !== text || !fs.existsSync(markdownPath) || readConfinedFile(outputRoot, markdownPath, 'utf8') !== markdown) {
+          console.error(`Bindings are stale: ${output}`);
+          process.exitCode = 1;
+        } else console.log(`Bindings check: ${result.generatedFrom.snips} snippets, ${result.generatedFrom.devices} devices`);
+      } else {
+        writeConfinedFile(outputRoot, output, text);
+        writeConfinedFile(outputRoot, markdownPath, markdown);
+        console.log(`Generated ${result.generatedFrom.snips} snippet bindings across ${result.generatedFrom.devices} devices: ${output}`);
+      }
     }
   }
 }

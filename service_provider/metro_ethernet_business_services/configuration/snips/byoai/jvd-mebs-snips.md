@@ -8,6 +8,27 @@
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 19
  *
  * Highlights:
  *  - Reserves the aggregated Ethernet interface pool, so `ae0` through
@@ -34,6 +55,9 @@ chassis {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  *
  * Highlights:
  *  - EXP imports the default classifier and explicitly maps code points
@@ -121,6 +145,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Three ingress classifiers — dscp DSCP, exp EXP and ieee-802.1 8021P —
@@ -211,6 +257,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Queue numbers 0–5 mapped to: BEST-EFFORT(0), MEDIUM(1), REALTIME(2),
@@ -243,6 +311,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 9
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 3
+ *   an2_acx5448 3
+ *   an3_acx7100-48l 8
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 5
+ *   ma1-1_acx7024 3
+ *   ma1-2_acx7024 4
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 4
+ *   ma4_mx204 3
+ *   ma5_mx204 3
+ *   mdr1_acx7509 6
+ *   mdr2_mx10003 6
+ *   meg1_acx7100-32c 11
+ *   meg2_acx7509 11
+ *   mse1_mx304 7
+ *   mse2_mx304 6
+ *   total 110
  *
  * Highlights:
  *  - Binds the 5G_SCHEDULER scheduler-map to one interface, so the queues
@@ -271,6 +361,13 @@ class-of-service {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 200
+ *   ma3_acx7100-48l 200
+ *   ma4_mx204 999
+ *   mse1_mx304 200
+ *   mse2_mx304 200
+ *   total 1799
  *
  * Highlights:
  *  - Ingress DSCP classifier and egress DSCP rewrite rule applied to one
@@ -308,6 +405,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 9
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 5
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 6
+ *   ma4_mx204 2
+ *   ma5_mx204 2
+ *   mdr1_acx7509 9
+ *   mdr2_mx10003 9
+ *   meg1_acx7100-32c 8
+ *   meg2_acx7509 8
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 98
  *
  * Highlights:
  *  - Ingress MPLS EXP classifier and egress EXP rewrite rule applied to one
@@ -345,6 +464,16 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 200
+ *   an2_acx5448 200
+ *   an3_acx7100-48l 1584
+ *   an4_acx710 200
+ *   ma1-1_acx7024 200
+ *   ma1-2_acx7024 200
+ *   meg1_acx7100-32c 2000
+ *   meg2_acx7509 2384
+ *   total 6968
  *
  * Highlights:
  *  - Assigns every packet arriving on the logical unit to one forwarding
@@ -382,6 +511,19 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 5681
+ *   ma1-1_acx7024 200
+ *   ma1-2_acx7024 400
+ *   ma4_mx204 1000
+ *   ma5_mx204 1500
+ *   meg1_acx7100-32c 400
+ *   meg2_acx7509 500
+ *   mse1_mx304 3000
+ *   mse2_mx304 1000
+ *   total 13881
  *
  * Highlights:
  *  - Ingress 802.1p classifier and egress 802.1p rewrite rule applied to one
@@ -419,6 +561,9 @@ class-of-service {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 100
+ *   total 100
  *
  * Highlights:
  *  - Ingress 802.1p classifier applied to one logical unit.
@@ -451,6 +596,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Three rewrite rules, one per marking: DSCP-REWRITE for IP, EXP-REWRITE for
@@ -544,6 +711,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - One scheduler-map, 5G_SCHEDULER, that pairs each of the six
@@ -580,6 +769,19 @@ class-of-service {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 11
  *
  * Highlights:
  *  - Six schedulers consumed by the 5G_SCHEDULER scheduler-map.
@@ -640,6 +842,15 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
  *
  * Highlights:
  *  - `family any` acts on the logical interface regardless of payload protocol,
@@ -680,6 +891,12 @@ firewall {
  * Seen on:
  *   Junos: an4_acx710 ma5_mx204
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an4_acx710 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - `family any` filters act on the logical interface regardless of payload
@@ -721,6 +938,9 @@ firewall {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Variables: none
  */
 firewall {
@@ -746,6 +966,18 @@ firewall {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
  *
  * Variant group: mebs-rate-limit-policers
  *   Provides: firewall:policers
@@ -795,6 +1027,9 @@ firewall {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with: none
  * Variables: none
  */
@@ -832,6 +1067,16 @@ forwarding-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 8
  *
  * Highlights:
  *  - `family inet` and `family inet6` hash on both the Layer 3 header and the
@@ -875,6 +1120,13 @@ forwarding-options {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710 ma5_mx204
  *   EVO:   ma1-2_acx7024 meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an4_acx710 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg2_acx7509 1
+ *   total 5
  * Pair with: none
  * Variables: none
  */
@@ -897,6 +1149,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed GR-BGP-BCP apply-group form specific to an3_acx7100-48l.
@@ -929,6 +1184,27 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 19
  *
  * Highlights:
  *  - Identical to junos/groups/gr-bgp-bcp.conf.
@@ -972,6 +1248,28 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Pair with: none
  * Variables: none
  */
@@ -1004,6 +1302,28 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Identical structure to junos/groups/gr-core-intf.conf.
@@ -1065,6 +1385,17 @@ groups {
  * Seen on:
  *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an4_acx710 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 9
  * Variant group: mebs-edge-intf-mh
  *   Provides: gr:edge-intf-mh
  *
@@ -1128,6 +1459,19 @@ groups {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 11
  *
  * Variant group: mebs-edge-intf-form
  *   Provides: gr:edge-intf
@@ -1193,6 +1537,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 1
+ *   total 1
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
@@ -1239,6 +1586,10 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
@@ -1283,6 +1634,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   total 1
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
@@ -1311,6 +1665,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  *
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
@@ -1407,6 +1764,18 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
  * Highlights:
  *  - Enables Flow-Aware Transport (FAT) pseudowire load-balancing
  *    at the forwarding-options level. The companion GR-FATPW-LABEL
@@ -1438,6 +1807,23 @@ groups {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 15
  *
  * Highlights:
  *  - Identical to junos/groups/gr-isis-bcp.conf.
@@ -1493,6 +1879,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Highlights:
  *  - Aggressive BFD overlay applied to every ISIS interface, combined with
  *    GR-ISIS-BCP via `set protocols isis apply-groups [ GR-ISIS-BCP
@@ -1543,6 +1932,10 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -1577,6 +1970,11 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 3
  * Highlights:
  *  - Adds hot-standby (active/standby) protection knobs to every L2Circuit
  *    pseudowire. Combined with backup-neighbor under each PW, this delivers
@@ -1617,6 +2015,15 @@ groups {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 7
  * Highlights:
  *  - Wildcard L3VPN VRF baseline applied to every routing-instance whose
  *    name matches METRO_*. Provides:
@@ -1657,6 +2064,26 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 18
  * Highlights:
  *  - Templated knobs for individual physical members of a LAG bundle:
  *  - GR-EDGE-INTF-LAG-MEMBER       members of a single-homed edge LAG
@@ -1735,6 +2162,9 @@ groups {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 2
+ *   total 2
  *
  * Highlights:
  *  - Same shape as junos/interfaces/core-isis-mpls.conf — one LAG per
@@ -1811,6 +2241,12 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 2
+ *   total 6
  *
  * Highlights:
  *  - The bundle itself: LACP active with an explicit system-id, one
@@ -1852,6 +2288,12 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - The bundle itself: LACP active with an explicit system-id and nothing
@@ -1892,6 +2334,10 @@ interfaces {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 1
+ *   total 3
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -1924,6 +2370,10 @@ interfaces {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr2_mx10003 1
+ *   total 3
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -1955,6 +2405,20 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710 ma2_mx204
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 5
+ *   ag1-2_acx7100-32c 5
+ *   an1_mx204 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 2
+ *   cr2_ptx10001-36mr 2
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 2
+ *   total 31
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -1985,6 +2449,12 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 ma4_mx204 mdr2_mx10003
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   an2_acx5448 2
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mdr2_mx10003 1
+ *   total 5
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -2014,6 +2484,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/2"
@@ -2045,6 +2518,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr mdr1_acx7509
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   mdr1_acx7509 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -2069,6 +2546,19 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 4
+ *   ag1-2_acx7100-32c 3
+ *   cr1_ptx10001-36mr 3
+ *   cr2_ptx10001-36mr 4
+ *   ma5_mx204 1
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 3
+ *   meg1_acx7100-32c 6
+ *   meg2_acx7509 7
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 43
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -2092,6 +2582,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr ma3_acx7100-48l
+ * Count:
+ *   cr1_ptx10001-36mr 2
+ *   ma3_acx7100-48l 2
+ *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
  * Variables:
@@ -2117,6 +2611,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 4
+ *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
  * Variables:
@@ -2142,6 +2639,20 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 5
+ *   ag1-2_acx7100-32c 5
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 1
+ *   cr2_ptx10001-36mr 2
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 1
+ *   total 30
  *
  * Highlights:
  *  - `ether-options 802.3ad` enslaves the physical port to a core-facing
@@ -2174,6 +2685,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $AE_BUNDLE   e.g. ae4
@@ -2196,6 +2710,26 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 18
  * Pair with: none
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
@@ -2215,6 +2749,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23;"
@@ -2248,6 +2785,10 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma5_mx204 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  * Variables:
@@ -2283,6 +2824,10 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   an4_acx710 2
+ *   total 3
  * Pair with: none
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
@@ -2316,6 +2861,26 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 8
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 3
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 6
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 2
+ *   ma5_mx204 1
+ *   mdr1_acx7509 4
+ *   mdr2_mx10003 4
+ *   meg1_acx7100-32c 8
+ *   meg2_acx7509 9
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 78
  * Pair with: none
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
@@ -2347,6 +2912,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 4
+ *   mdr1_acx7509 5
+ *   total 9
  * Pair with: none
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.1.137/30
@@ -2380,6 +2949,11 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 51
+ *   mse1_mx304 75
+ *   mse2_mx304 75
+ *   total 201
  * Variant group: mebs-irb-form
  *   Provides: ifl:irb
  *
@@ -2413,6 +2987,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 75
+ *   meg2_acx7509 75
+ *   total 150
  * Variant group: mebs-irb-form
  *   Provides: ifl:irb
  *
@@ -2455,6 +3033,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0004.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.4/32
@@ -2493,6 +3074,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0006.00
@@ -2530,6 +3114,22 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
+ * Count:
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg2_acx7509 1
+ *   total 14
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
@@ -2566,6 +3166,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0002.00
@@ -2603,6 +3206,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifd-ae-lacp-fast.conf
  * Variables:
@@ -2633,6 +3239,17 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 99
+ *   an2_acx5448 99
+ *   an3_acx7100-48l 99
+ *   ma1-1_acx7024 100
+ *   ma1-2_acx7024 100
+ *   meg1_acx7100-32c 513
+ *   meg2_acx7509 513
+ *   mse1_mx304 220
+ *   mse2_mx304 220
+ *   total 1963
  *
  * Highlights:
  *  - vlan-bridge logical interface carrying one VLAN into a bridged service.
@@ -2668,6 +3285,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 31
+ *   meg2_acx7509 31
+ *   total 62
  *
  * Highlights:
  *  - vlan-bridge logical interface admitting a range of VLANs rather than a
@@ -2703,6 +3324,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 31
+ *   total 31
  *
  * Highlights:
  *  - `encapsulation vlan-bridge` exposes the unit as a bridged UNI that a
@@ -2733,6 +3357,12 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 300
+ *   ma1-2_acx7024 100
+ *   meg1_acx7100-32c 300
+ *   meg2_acx7509 300
+ *   total 1000
  *
  * Highlights:
  *  - vlan-bridge attachment circuit with input push / output pop VLAN mapping.
@@ -2768,6 +3398,13 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO: an3_acx7100-48l ma1-2_acx7024
+ * Count:
+ *   an3_acx7100-48l 438
+ *   ma1-2_acx7024 100
+ *   ma5_mx204 119
+ *   mse1_mx304 125
+ *   mse2_mx304 75
+ *   total 857
  * Variables:
  *   $IFD    e.g. et-0/0/14
  *   $UNIT   e.g. 849
@@ -2790,6 +3427,12 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ma1-1_acx7024 50
+ *   ma1-2_acx7024 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   total 200
  *
  * Highlights:
  *  - vlan-ccc logical interface matched on an outer and an inner VLAN tag,
@@ -2826,6 +3469,11 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   total 3
  *
  * Highlights:
  *  - vlan-ccc logical interface carrying one VLAN, with no VLAN rewriting:
@@ -2861,6 +3509,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO: ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 10
+ *   total 10
  * Pair with:
  *  - evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
  * Variables:
@@ -2885,6 +3536,10 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-2_acx7024
+ * Count:
+ *   an3_acx7100-48l 21
+ *   ma1-2_acx7024 10
+ *   total 31
  *
  * Highlights:
  *  - `encapsulation vlan-ccc` exposes the unit as a cross-connect attachment
@@ -2915,6 +3570,15 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 400
+ *   an2_acx5448 400
+ *   an3_acx7100-48l 400
+ *   ma1-1_acx7024 450
+ *   ma1-2_acx7024 450
+ *   meg1_acx7100-32c 1050
+ *   meg2_acx7509 1050
+ *   total 4200
  *
  * Highlights:
  *  - vlan-ccc logical interface with an input push and an output pop, which
@@ -2956,6 +3620,11 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1000
+ *   meg1_acx7100-32c 1000
+ *   meg2_acx7509 1000
+ *   total 3000
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping,
@@ -3000,6 +3669,11 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710 ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 400
+ *   an4_acx710 200
+ *   ma5_mx204 200
+ *   total 800
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
@@ -3042,6 +3716,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 20
+ *   total 20
  *
  * Highlights:
  *  - vlan-ccc attachment circuit matching a contiguous customer VLAN range with
@@ -3082,6 +3759,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 2
+ *   total 2
  *
  * Highlights:
  *  - vlan-ccc attachment circuit matching a contiguous customer VLAN range with
@@ -3117,6 +3797,9 @@ interfaces {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1000
+ *   total 1000
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
@@ -3152,6 +3835,13 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mse1_mx304
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1938
+ *   ma1-2_acx7024 11
+ *   ma3_acx7100-48l 412
+ *   ma5_mx204 400
+ *   mse1_mx304 1981
+ *   total 4742
  *
  * Highlights:
  *  - The Layer 2 attachment circuit of a point-to-point service: the unit is
@@ -3184,6 +3874,13 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 225
+ *   ma3_acx7100-48l 200
+ *   ma4_mx204 1999
+ *   mse1_mx304 2199
+ *   mse2_mx304 2199
+ *   total 6822
  *
  * Highlights:
  *  - The routed attachment circuit of an L3VPN service: one VLAN presented to
@@ -3220,6 +3917,13 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3400
  *
  * Highlights:
  *  - The routed attachment circuit of an IPv6 L3VPN service: one VLAN
@@ -3255,6 +3959,28 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix as belonging to the access fabric. Carried on the
@@ -3278,6 +4004,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target marking the backup Internet path.
@@ -3300,6 +4048,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target carried by the Internet default routes, matched by the
@@ -3324,6 +4094,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target marking the primary Internet path. One of the three
@@ -3347,6 +4139,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 999
+ *   mse1_mx304 1099
+ *   mse2_mx304 1099
+ *   total 3397
  *
  * Highlights:
  *  - One community per L3VPN service: name METRO_BGPv4_L3VPN_$L3VPN_ID with a
@@ -3377,6 +4176,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3400
  *
  * Highlights:
  *  - One community per IPv6 L3VPN service. The service id appears both in
@@ -3403,6 +4209,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target tagging the public L3VPN prefixes an export policy
@@ -3426,6 +4254,15 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 150
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 1150
+ *   mse2_mx304 1150
+ *   total 3650
  *
  * Highlights:
  *  - One community per L3VPN service, without the address-family qualifier
@@ -3455,6 +4292,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - CM-LOOPBACK tags local lo0 /32s; imported by PS-LOCAL-LOOPBACK
@@ -3480,6 +4339,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix as belonging to the metro fabric, the peer tag to
@@ -3503,6 +4384,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag on the metro ring community administrator,
@@ -3526,6 +4429,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - The well-known no-advertise community. Unlike every other community
@@ -3548,6 +4473,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag identifying the region edge.
@@ -3570,6 +4517,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix originated at a regional border, so border routers
@@ -3593,6 +4562,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag identifying the service edge, where
@@ -3616,6 +4607,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 1601
+ *   ma1-1_acx7024 150
+ *   ma1-2_acx7024 350
+ *   ma4_mx204 1000
+ *   ma5_mx204 1400
+ *   meg1_acx7100-32c 1051
+ *   meg2_acx7509 1051
+ *   mse1_mx304 1500
+ *   mse2_mx304 1000
+ *   total 9303
  *
  * Highlights:
  *  - One community per service instance, named from the instance itself with
@@ -3647,6 +4651,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed CM-TC-4000-GOLD community definition.
@@ -3668,6 +4678,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed CM-TC-6000-BRONZE community definition.
@@ -3689,6 +4705,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 11
  *
  * Highlights:
  *  - Transport Class color community for the bronze class (`color:0:6000`).
@@ -3711,6 +4740,21 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 13
  *
  * Highlights:
  *  - Transport Class color community for the gold class (`color:0:4000`).
@@ -3733,6 +4777,24 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 16
  *
  * Highlights:
  *  - PS-LOCAL-LOOPBACK accepts local lo0 /32s from the JVD loopback supernet
@@ -3788,6 +4850,12 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed nhs1 routing policy.
@@ -3823,6 +4891,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed nhs1 routing policy.
@@ -3865,6 +4936,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Single unconditional term: `load-balance per-packet; accept;`.
@@ -3895,6 +4988,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-AS63536-IMPORT routing policy.
@@ -3925,6 +5022,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed PS-BGP-EXPORT-RING routing policy.
@@ -3985,6 +5085,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed PS-BGP-EXPORT-RING routing policy.
@@ -4038,6 +5141,12 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PS-BGP-EXPORT routing policy.
@@ -4095,6 +5204,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - `term LOOP-PREVENT` rejects anything already carrying CM-SERVICE-EDGE,
@@ -4151,6 +5264,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
@@ -4252,6 +5369,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-BGP-RR-EXPORT routing policy.
@@ -4313,6 +5434,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 5
  *
  * Highlights:
  *  - As-deployed PS-BGP-TRANSPORT-EXPORT routing policy.
@@ -4363,6 +5491,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-CR-IMPORT routing policy.
@@ -4391,6 +5523,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-EBGP-MSE-EXPORT routing policy.
@@ -4433,6 +5569,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -4514,6 +5654,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -4592,6 +5736,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 1601
+ *   ma1-1_acx7024 150
+ *   ma1-2_acx7024 350
+ *   ma4_mx204 1000
+ *   ma5_mx204 1400
+ *   meg1_acx7100-32c 1051
+ *   meg2_acx7509 1051
+ *   mse1_mx304 1500
+ *   mse2_mx304 1000
+ *   total 9303
  *
  * Highlights:
  *  - The single export-policy structure shared by every L2 service family in
@@ -4648,6 +5805,11 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 99
+ *   mse1_mx304 2099
+ *   mse2_mx304 2098
+ *   total 4296
  *
  * Highlights:
  *  - `term tag-public-routes` matches two customer aggregates `orlonger` and
@@ -4702,6 +5864,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 99
+ *   ma4_mx204 1000
+ *   mse1_mx304 100
+ *   mse2_mx304 2
+ *   total 1301
  *
  * Highlights:
  *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
@@ -4758,6 +5927,11 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 101
+ *   mse2_mx304 99
+ *   total 201
  *
  * Highlights:
  *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
@@ -4816,6 +5990,12 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 99
+ *   ma3_acx7100-48l 99
+ *   mse1_mx304 99
+ *   mse2_mx304 99
+ *   total 396
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches two customer
@@ -4870,6 +6050,11 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 1
+ *   mse2_mx304 1
+ *   total 3
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches four customer
@@ -4928,6 +6113,12 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 50
+ *   total 200
  *
  * Highlights:
  *  - A single term matches four customer aggregates `orlonger`, so the
@@ -4981,6 +6172,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-CR-EXPORT routing policy.
@@ -5032,6 +6227,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-CR-EXPORT routing policy.
@@ -5124,6 +6323,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
@@ -5172,6 +6375,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-RR-EXPORT routing policy.
@@ -5224,6 +6431,11 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 3
  *
  * Highlights:
  *  - `term 1` drops routes matching `prefix-list LOOPBACK`; `term 2` accepts
@@ -5264,6 +6476,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 300
+ *   ma3_acx7100-48l 300
+ *   ma4_mx204 2999
+ *   mse1_mx304 3299
+ *   mse2_mx304 3299
+ *   total 10197
  *
  * Highlights:
  *  - Two ordered terms. `L3VPN-CUST` accepts routes carrying the VRF's own
@@ -5305,6 +6524,13 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 50
+ *   mse2_mx304 50
+ *   total 250
  *
  * Highlights:
  *  - A single term accepts routes carrying the VRF's own route-target
@@ -5343,6 +6569,15 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -5430,6 +6665,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -5495,6 +6734,19 @@ policy-options {
  * Seen on:
  *   Junos: an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an2_acx5448 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 11
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -5563,6 +6815,25 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma3_acx7100-48l 2
+ *   ma4_mx204 2
+ *   ma5_mx204 2
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 22
  *
  * Highlights:
  *  - One unnamed term matches the prefix `orlonger` and accepts it, so the
@@ -5594,6 +6865,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-METRO-FABRIC-IMPORT routing policy.
@@ -5624,6 +6899,18 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
  * Pair with: none
  * Variables: none
  */
@@ -5643,6 +6930,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - A single term matches the node's own loopback /32 `exact`.
@@ -5684,6 +6993,26 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 18
  *
  * Highlights:
  *  - A `/32 exact` route-filter selects the node's Segment Routing IPv4
@@ -5720,6 +7049,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - `from family inet6` with a `/128 exact` route-filter selects the node's
@@ -5757,6 +7108,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed BORDER-NODES prefix-list.
@@ -5783,6 +7137,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-AN-NODES prefix-list.
@@ -5811,6 +7169,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PL-AN-REGION prefix-list.
@@ -5841,6 +7205,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
  *
  * Highlights:
  *  - As-deployed PL-BORDER-NODES prefix-list.
@@ -5867,6 +7234,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-CORE-NODES prefix-list.
@@ -5891,6 +7262,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-CORE prefix-list.
@@ -5915,6 +7290,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-FABRIC prefix-list.
@@ -5945,6 +7324,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-METRO-FABRIC prefix-list.
@@ -5975,6 +7358,10 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-METRO-RING prefix-list.
@@ -6007,6 +7394,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PL-MSE prefix-list.
@@ -6032,6 +7425,9 @@ policy-options {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -6129,6 +7525,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: labeled-unicast
  *
@@ -6320,6 +7719,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: labeled-unicast
  *
@@ -6511,6 +7913,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -6621,6 +8026,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: labeled-unicast
  *
@@ -6793,6 +8201,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -6991,6 +8402,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -7182,6 +8596,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   total 2
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, labeled-unicast
  *
@@ -7309,6 +8727,10 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   an1_mx204 1
+ *   meg1_acx7100-32c 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -7327,6 +8749,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 6
  * Variables:
  *   $CORE_INTF   e.g. ae82.1
  *   $DELAY_METRIC   e.g. 5
@@ -7374,6 +8801,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 3
+ *   mdr1_acx7509 3
+ *   mdr2_mx10003 3
+ *   total 9
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -7421,6 +8853,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   total 1
  * Variables:
  *   $CORE_INTF   e.g. ae55.2
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -7467,6 +8902,10 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 4
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -7523,6 +8962,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   total 2
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0015.00
@@ -7578,6 +9020,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 6
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  */
@@ -7598,6 +9045,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7643,6 +9093,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7688,6 +9141,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-description-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7727,6 +9183,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7766,6 +9225,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 3
+ *   total 3
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7811,6 +9273,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-2_acx7100-32c
+ * Count:
+ *   ag1-2_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7856,6 +9321,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
  * Variables:
@@ -7901,6 +9369,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-2_acx7100-32c
+ * Count:
+ *   ag1-2_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7946,6 +9417,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   total 2
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -7991,6 +9466,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   meg2_acx7509 1
+ *   total 2
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8037,6 +9516,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8082,6 +9564,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8127,6 +9612,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8173,6 +9661,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/core-isis-mpls.conf
  * Variables:
@@ -8219,6 +9710,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8265,6 +9759,13 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 3
+ *   ag1-2_acx7100-32c 4
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an4_acx710 2
+ *   total 13
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -8312,6 +9813,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8359,6 +9863,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8399,6 +9906,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8446,6 +9956,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 3
+ *   total 4
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8497,6 +10011,11 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c meg1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 2
+ *   meg1_acx7100-32c 1
+ *   total 4
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8546,6 +10065,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8584,6 +10106,12 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   meg1_acx7100-32c 5
+ *   meg2_acx7509 4
+ *   total 13
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8633,6 +10161,12 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 5
+ *   mse1_mx304 2
+ *   mse2_mx304 2
+ *   total 13
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -8681,6 +10215,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   meg2_acx7509 1
+ *   total 5
  * Variables:
  *   $ADMIN_GROUP_1   e.g. blue
  *   $ADMIN_GROUP_2   e.g. green
@@ -8728,6 +10267,28 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Variables: none
  */
 protocols {
@@ -8747,6 +10308,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  * Variables: none
@@ -8767,6 +10331,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/groups/gr-isis-bfd.conf
@@ -8827,6 +10394,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
@@ -8882,6 +10453,10 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-isis-interface-spf.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
@@ -8941,6 +10516,10 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
@@ -8998,6 +10577,13 @@ protocols {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 5
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
@@ -9055,6 +10641,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
@@ -9113,6 +10702,14 @@ protocols {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
  *   EVO:   cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 6
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
@@ -9168,6 +10765,12 @@ protocols {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma2_mx204 2
+ *   ma4_mx204 2
+ *   ma5_mx204 2
+ *   total 7
  *
  * Highlights:
  *  - source-packet-routing (SR-MPLS) with per-router node-segment IDs
@@ -9276,6 +10879,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 499
+ *   total 499
  *
  * Highlights:
  *  - LDP-signalled L2Circuit PW to a primary neighbour with a backup-neighbour
@@ -9337,6 +10943,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  *
  * Highlights:
  *  - LDP-signalled L2Circuit PW to a primary neighbour with a backup-neighbour
@@ -9394,6 +11003,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 500
+ *   total 500
  *
  * Highlights:
  *  - LDP-signalled L2Circuit PW to a primary neighbour with a backup-neighbour
@@ -9450,6 +11062,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 500
+ *   total 500
  *
  * Highlights:
  *  - Backup (standby) PE endpoint of a hot-standby L2Circuit. It targets the
@@ -9510,6 +11125,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 500
+ *   total 500
  *
  * Highlights:
  *  - Primary (active) PE endpoint of a hot-standby L2Circuit. It targets
@@ -9566,6 +11184,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 500
+ *   total 500
  *
  * Highlights:
  *  - PE endpoint of a hot-standby L2Circuit, targeting the hub's loopback.
@@ -9613,6 +11234,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg2_acx7509
+ * Count:
+ *   meg2_acx7509 500
+ *   total 500
  *
  * Highlights:
  *  - PE endpoint of a hot-standby L2Circuit, targeting the hub's loopback.
@@ -9663,6 +11287,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 10
+ *   total 10
  *
  * Highlights:
  *  - `l2circuit local-switching { interface AC1 { end-interface AC2 } }`
@@ -9717,6 +11344,14 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma1-2_acx7024 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 6
  * Variables: none
  */
 protocols {
@@ -9734,6 +11369,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
  * Variables: none
@@ -9764,6 +11402,26 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 18
  *
  * Variant group: mebs-mpls-admin-groups
  *   Provides: transport:mpls-admin-groups
@@ -9807,6 +11465,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 100
+ *   total 100
  *
  * Highlights:
  *  - One maintenance-association under the CFM maintenance-domain, carrying a
@@ -9843,6 +11504,12 @@ protocols {
  * Seen on:
  *   Junos: an4_acx710 ma5_mx204
  *   EVO:   an3_acx7100-48l ma1-2_acx7024
+ * Count:
+ *   an3_acx7100-48l 400
+ *   an4_acx710 200
+ *   ma1-2_acx7024 100
+ *   ma5_mx204 300
+ *   total 1000
  *
  * Highlights:
  *  - performance-monitoring with hardware-assisted-timestamping for
@@ -9925,6 +11592,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  * Variables: none
  */
 protocols {
@@ -9954,6 +11624,9 @@ protocols {
  * Seen on:
  *   Junos: (none)
  *   EVO:   cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
  * Variables: none
@@ -9973,6 +11646,11 @@ protocols {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   total 3
  *
  * Highlights:
  *  - The application statement that makes apply-group GR-FATPW-LABEL take
@@ -10010,6 +11688,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 3
  *
  * Highlights:
  *  - The observed site serialization on the three EVO nodes that apply both
@@ -10048,6 +11731,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - The application statement that makes apply-group GR-L3VPN take effect. A
@@ -10084,6 +11773,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   total 150
  *
  * Highlights:
  *  - instance-type mac-vrf (preferred over instance-type evpn for
@@ -10152,6 +11846,13 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma1-1_acx7024 50
+ *   ma1-2_acx7024 49
+ *   meg1_acx7100-32c 49
+ *   meg2_acx7509 49
+ *   total 247
  *
  * Highlights:
  *  - `instance-type mac-vrf` holds one or more vlan-based bridge-domains, each
@@ -10220,6 +11921,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 69
+ *   meg1_acx7100-32c 69
+ *   meg2_acx7509 69
+ *   total 207
  *
  * Highlights:
  *  - `instance-type mac-vrf` with `service-type vlan-bundle` maps the whole
@@ -10277,6 +11983,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 100
+ *   meg1_acx7100-32c 100
+ *   meg2_acx7509 100
+ *   total 300
  *
  * Highlights:
  *  - `instance-type mac-vrf` with `service-type vlan-bundle` maps the whole
@@ -10329,6 +12040,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 31
+ *   meg1_acx7100-32c 31
+ *   meg2_acx7509 31
+ *   total 93
  *
  * Highlights:
  *  - EVPN E-LAN where selected customer VLANs share one MAC-VRF /
@@ -10391,6 +12107,10 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-2_acx7024
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma1-2_acx7024 1
+ *   total 2
  *
  * Highlights:
  *  - EVPN E-LAN where the entire UNI is the attachment circuit — all
@@ -10446,6 +12166,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 8
+ *   mse1_mx304 8
+ *   total 16
  *
  * Highlights:
  *  - `flexible-cross-connect-vlan-unaware` bundles the listed logical
@@ -10503,6 +12227,9 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 23
+ *   total 23
  *
  * Highlights:
  *  - EVPN-VPWS Flexible Cross-Connect on the ACX/EVO PE: `evpn-vpws` +
@@ -10572,6 +12299,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 219
+ *   mse1_mx304 240
+ *   total 459
  *
  * Highlights:
  *  - Identical body to junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf;
@@ -10644,6 +12375,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 250
+ *   mse1_mx304 250
+ *   total 500
  *
  * Highlights:
  *  - Identical body to junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf;
@@ -10714,6 +12449,12 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ma1-1_acx7024 25
+ *   ma1-2_acx7024 25
+ *   meg1_acx7100-32c 25
+ *   meg2_acx7509 25
+ *   total 100
  *
  * Highlights:
  *  - `flexible-cross-connect-vlan-aware` keeps the customer VLAN significant,
@@ -10777,6 +12518,12 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ma1-1_acx7024 25
+ *   ma1-2_acx7024 25
+ *   meg1_acx7100-32c 25
+ *   meg2_acx7509 25
+ *   total 100
  *
  * Highlights:
  *  - `flexible-cross-connect-vlan-aware` keeps the customer VLAN significant,
@@ -10839,6 +12586,9 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 10
+ *   total 10
  *
  * Highlights:
  *  - `instance-type evpn-vpws` signals a point-to-point pseudowire in EVPN
@@ -10904,6 +12654,11 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 500
+ *   meg1_acx7100-32c 500
+ *   meg2_acx7509 500
+ *   total 1500
  *
  * Highlights:
  *  - `instance-type evpn-vpws` with a single attachment circuit carrying a
@@ -10959,6 +12714,16 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 400
+ *   an2_acx5448 400
+ *   an3_acx7100-48l 1101
+ *   an4_acx710 200
+ *   ma1-1_acx7024 401
+ *   ma1-2_acx7024 400
+ *   meg1_acx7100-32c 500
+ *   meg2_acx7509 500
+ *   total 3902
  *
  * Highlights:
  *  - Same syntax as junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf — instance-type
@@ -11019,6 +12784,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma5_mx204 50
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -11075,6 +12844,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 49
+ *   ma5_mx204 49
+ *   total 98
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -11130,6 +12903,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma5_mx204 50
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -11186,6 +12963,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 51
+ *   ma5_mx204 51
+ *   total 102
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -11241,6 +13022,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma5_mx204 1
+ *   total 2
  *
  * Highlights:
  *  - instance-type l2vpn  → BGP-signalled (Kompella) draft-Kompella PW
@@ -11299,6 +13084,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3300
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
@@ -11365,6 +13156,9 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 100
+ *   total 100
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
@@ -11430,6 +13224,11 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 999
+ *   total 1199
  *
  * Highlights:
  *  - `instance-type vrf` with `protocols bgp group v4Ixia` carrying
@@ -11504,6 +13303,10 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   total 100
  *
  * Highlights:
  *  - The metro-edge gateway variant of the EVPN-IRB L3VPN service. Body is
@@ -11576,6 +13379,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   mse1_mx304 50
+ *   total 100
  *
  * Highlights:
  *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
@@ -11667,6 +13474,12 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 25
+ *   meg2_acx7509 25
+ *   mse1_mx304 25
+ *   mse2_mx304 25
+ *   total 100
  *
  * Highlights:
  *  - The L3 half of the EVPN-IRB pair: the VRF terminates the IRB and performs
@@ -11721,6 +13534,12 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 2400
  *
  * Highlights:
  *  - `instance-type vrf` with `protocols ospf area 0.0.0.0 interface <AC>
@@ -11786,6 +13605,9 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 25
+ *   total 25
  *
  * Highlights:
  *  - An L3VPN VRF attached through a routed attachment-circuit sub-interface
@@ -11841,6 +13663,12 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 150
+ *   ma1-2_acx7024 99
+ *   meg1_acx7100-32c 99
+ *   meg2_acx7509 49
+ *   total 397
  *
  * Highlights:
  *  - `instance-type virtual-switch` + `protocols vpls site <r-name>
@@ -11919,6 +13747,12 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 150
+ *   ma1-2_acx7024 100
+ *   meg1_acx7100-32c 100
+ *   meg2_acx7509 50
+ *   total 400
  *
  * Highlights:
  *  - `instance-type virtual-switch` carries the VPLS in a bridging instance, so
@@ -11977,6 +13811,9 @@ routing-instances {
  * Seen on:
  *   Junos: (none)
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
  *
  * Highlights:
  *  - instance-type virtual-switch  → multi-VLAN MAC learning domain
@@ -12031,6 +13868,15 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
  *
  * Highlights:
  *  - Two locally generated aggregates summarize the loopback supernet and the
@@ -12071,6 +13917,19 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 11
  * Pair with: none
  * Variables: none
  */
@@ -12090,6 +13949,19 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 11
  * Pair with: none
  * Variables: none
  */
@@ -12109,6 +13981,14 @@ routing-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 6
  *
  * Highlights:
  *  - FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.
@@ -12159,6 +14039,14 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 6
  *
  * Highlights:
  *  - `export` applies the per-packet load-balancing policy to the forwarding
@@ -12199,6 +14087,16 @@ routing-options {
  * Seen on:
  *   Junos: ma2_mx204 mdr2_mx10003
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 8
  *
  * Highlights:
  *  - This is the minimal EVO form (`export $PPLB_NAME` only). The forwarding-
@@ -12231,6 +14129,23 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 15
  * Variables: none
  */
 routing-options {
@@ -12248,6 +14163,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -12264,6 +14198,10 @@ routing-options {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   mse1_mx304 1
+ *   total 2
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
@@ -12294,6 +14232,13 @@ routing-options {
  * Seen on:
  *   Junos: ma4_mx204 mse2_mx304
  *   EVO:   ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 5
  *
  * Highlights:
  *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
@@ -12337,6 +14282,18 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 mdr1_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 10
  *
  * Highlights:
  *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
@@ -12376,6 +14333,23 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 15
  *
  * Highlights:
  *  - RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using
@@ -12413,6 +14387,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -12431,6 +14424,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -12449,6 +14461,28 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Pair with: none
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.12
@@ -12465,6 +14499,22 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 14
  * Variant group: mebs-colour-transport
  *   Provides: transport:colour-classes
  *
@@ -12506,6 +14556,9 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   total 1
  *
  * Pair with:
  *  - junos/groups/gr-ae-interface-mtu.conf
@@ -12522,6 +14575,10 @@ apply-groups [ AE-INTERFACE-MTU ];```
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 25
+ *   mse2_mx304 25
+ *   total 50
  *
  * Highlights:
  *  - `vlan-id` gives the domain a single normalized VLAN.
@@ -12556,6 +14613,9 @@ bridge-domains {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 20
+ *   total 20
  *
  * Highlights:
  *  - Two bridged logical interfaces are placed in one domain, so traffic is
@@ -12586,6 +14646,27 @@ bridge-domains {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 19
  *
  * Highlights:
  *  - Reserves the aggregated Ethernet interface pool, so `ae0` through
@@ -12612,6 +14693,10 @@ chassis {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Highlights:
  *  - device-count allocates pseudowire-subscriber devices, not service units.
  * Pair with: none
@@ -12632,6 +14717,10 @@ chassis {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Pair with: none
  * Variables:
  *   $TS_FPC   e.g. 0
@@ -12653,6 +14742,28 @@ chassis {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Three ingress classifiers — dscp DSCP, exp EXP and ieee-802.1 8021P —
@@ -12743,6 +14854,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Highlights:
  *  - 6-class model used across the Metro EBS CoS design:
  *    queue 0  BEST-EFFORT
@@ -12780,6 +14913,9 @@ class-of-service {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
  *
  * Highlights:
  *  - Binds the 5G_SCHEDULER scheduler-map to one interface and shapes the
@@ -12809,6 +14945,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 9
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 3
+ *   an2_acx5448 3
+ *   an3_acx7100-48l 8
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 5
+ *   ma1-1_acx7024 3
+ *   ma1-2_acx7024 4
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 4
+ *   ma4_mx204 3
+ *   ma5_mx204 3
+ *   mdr1_acx7509 6
+ *   mdr2_mx10003 6
+ *   meg1_acx7100-32c 11
+ *   meg2_acx7509 11
+ *   mse1_mx304 7
+ *   mse2_mx304 6
+ *   total 110
  *
  * Highlights:
  *  - Binds the 5G_SCHEDULER scheduler-map to one interface, so the queues
@@ -12837,6 +14995,13 @@ class-of-service {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 200
+ *   ma3_acx7100-48l 200
+ *   ma4_mx204 999
+ *   mse1_mx304 200
+ *   mse2_mx304 200
+ *   total 1799
  *
  * Highlights:
  *  - Ingress DSCP classifier and egress DSCP rewrite rule applied to one
@@ -12874,6 +15039,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 9
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 5
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 6
+ *   ma4_mx204 2
+ *   ma5_mx204 2
+ *   mdr1_acx7509 9
+ *   mdr2_mx10003 9
+ *   meg1_acx7100-32c 8
+ *   meg2_acx7509 8
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 98
  *
  * Highlights:
  *  - Ingress MPLS EXP classifier and egress EXP rewrite rule applied to one
@@ -12911,6 +15098,16 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 200
+ *   an2_acx5448 200
+ *   an3_acx7100-48l 1584
+ *   an4_acx710 200
+ *   ma1-1_acx7024 200
+ *   ma1-2_acx7024 200
+ *   meg1_acx7100-32c 2000
+ *   meg2_acx7509 2384
+ *   total 6968
  *
  * Highlights:
  *  - Assigns every packet arriving on the logical unit to one forwarding
@@ -12948,6 +15145,19 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 5681
+ *   ma1-1_acx7024 200
+ *   ma1-2_acx7024 400
+ *   ma4_mx204 1000
+ *   ma5_mx204 1500
+ *   meg1_acx7100-32c 400
+ *   meg2_acx7509 500
+ *   mse1_mx304 3000
+ *   mse2_mx304 1000
+ *   total 13881
  *
  * Highlights:
  *  - Ingress 802.1p classifier and egress 802.1p rewrite rule applied to one
@@ -12985,6 +15195,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Three rewrite rules, one per marking: DSCP-REWRITE for IP, EXP-REWRITE for
@@ -13078,6 +15310,28 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - One scheduler-map, 5G_SCHEDULER, that pairs each of the six
@@ -13114,6 +15368,17 @@ class-of-service {
  * Seen on:
  *   Junos: an1_mx204 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   an1_mx204 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 9
  *
  * Highlights:
  *  - Six schedulers consumed by the 5G_SCHEDULER scheduler-map:
@@ -13181,6 +15446,12 @@ class-of-service {
  * Seen on:
  *   Junos: an4_acx710 ma5_mx204
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an4_acx710 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - `family any` filters act on the logical interface regardless of payload
@@ -13221,6 +15492,9 @@ firewall {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   total 1
  * Variant group: mebs-rate-limit-policers
  *   Provides: firewall:policers
  *
@@ -13272,6 +15546,13 @@ firewall {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003
  *   EVO:   (none)
+ * Count:
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   mdr2_mx10003 1
+ *   total 5
  *
  * Highlights:
  *  - `family inet` and `family inet6` hash on both the Layer 3 header and the
@@ -13328,6 +15609,10 @@ forwarding-options {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed BGP-BCP apply-group specific to ma5_mx204.
@@ -13357,6 +15642,13 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710 ma5_mx204
  *   EVO:   ma1-2_acx7024 meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an4_acx710 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg2_acx7509 1
+ *   total 5
  * Pair with: none
  * Variables: none
  */
@@ -13379,6 +15671,27 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 19
  * Highlights:
  *  - Best-current-practice BGP knobs:
  *  - external-router-id path-selection
@@ -13416,6 +15729,28 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Pair with: none
  * Variables: none
  */
@@ -13448,6 +15783,28 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Highlights:
  *  - Templated baseline for core/underlay-facing interfaces:
  *  - jumbo MTU at the physical layer (9192)
@@ -13505,6 +15862,17 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 9
  * Variant group: mebs-edge-intf-mh
  *   Provides: gr:edge-intf-mh
  *
@@ -13538,6 +15906,17 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   an1_mx204 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 9
  *
  * Variant group: mebs-edge-intf-form
  *   Provides: gr:edge-intf
@@ -13599,6 +15978,9 @@ groups {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
  *
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
@@ -13662,6 +16044,18 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
  *
  * Highlights:
  *  - Identical to evo/groups/gr-fatpw-lb.conf — Junos and
@@ -13698,6 +16092,11 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   total 3
  * Highlights:
  *  - Best-current-practice ISIS knobs applied to the protocols { isis }
  *    stanza. Tunes hello sizes for jumbo links, SPF timers, and
@@ -13744,6 +16143,15 @@ groups {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 7
  *
  * Highlights:
  *  - Identical to evo/groups/gr-l3vpn.conf — Junos and EVO
@@ -13792,6 +16200,26 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 18
  *
  * Highlights:
  *  - Three apply-groups for the three roles a physical member port can
@@ -13873,6 +16301,19 @@ groups {
  * Seen on:
  *   Junos: an1_mx204 ma2_mx204
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 5
+ *   ag1-2_acx7100-32c 5
+ *   an1_mx204 2
+ *   an3_acx7100-48l 3
+ *   cr1_ptx10001-36mr 2
+ *   cr2_ptx10001-36mr 2
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 2
+ *   total 28
  * Highlights:
  *  - A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1).
  *    Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.
@@ -13924,6 +16365,12 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 438
+ *   ma5_mx204 100
+ *   mse1_mx304 125
+ *   mse2_mx304 75
+ *   total 738
  *
  * Highlights:
  *  - Flexible VLAN tagging and flexible Ethernet services are configured
@@ -13958,6 +16405,9 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448
  *   EVO:   (none)
+ * Count:
+ *   an2_acx5448 1
+ *   total 1
  *
  * Highlights:
  *  - The bundle carries `disable`, so the aggregate is held down while its
@@ -14000,6 +16450,12 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 2
+ *   total 6
  *
  * Highlights:
  *  - The bundle itself: LACP active with an explicit system-id, one
@@ -14041,6 +16497,12 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - The bundle itself: LACP active with an explicit system-id and nothing
@@ -14081,6 +16543,10 @@ interfaces {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 1
+ *   total 3
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14113,6 +16579,10 @@ interfaces {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr2_mx10003 1
+ *   total 3
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14144,6 +16614,20 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710 ma2_mx204
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 5
+ *   ag1-2_acx7100-32c 5
+ *   an1_mx204 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 2
+ *   cr1_ptx10001-36mr 2
+ *   cr2_ptx10001-36mr 2
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   mdr1_acx7509 1
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 2
+ *   total 31
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14174,6 +16658,12 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 ma4_mx204 mdr2_mx10003
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   an2_acx5448 2
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mdr2_mx10003 1
+ *   total 5
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14203,6 +16693,9 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $CORE_DESC   e.g. "to MA3 rtme-acx-48l-07 et-0/0/51"
@@ -14233,6 +16726,9 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1
+ *   total 1
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14255,6 +16751,19 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 4
+ *   ag1-2_acx7100-32c 3
+ *   cr1_ptx10001-36mr 3
+ *   cr2_ptx10001-36mr 4
+ *   ma5_mx204 1
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 3
+ *   meg1_acx7100-32c 6
+ *   meg2_acx7509 7
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 43
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14278,6 +16787,13 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710 ma2_mx204 ma4_mx204 mdr2_mx10003
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 2
+ *   an4_acx710 1
+ *   ma2_mx204 2
+ *   ma4_mx204 4
+ *   mdr2_mx10003 10
+ *   total 19
  * Pair with:
  *  - junos/groups/gr-core-intf-lag-member.conf
  * Variables:
@@ -14302,6 +16818,20 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 5
+ *   ag1-2_acx7100-32c 5
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 4
+ *   an4_acx710 1
+ *   cr2_ptx10001-36mr 2
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   meg1_acx7100-32c 2
+ *   meg2_acx7509 1
+ *   total 30
  *
  * Highlights:
  *  - `ether-options 802.3ad` enslaves the physical port to a core-facing
@@ -14334,6 +16864,26 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 18
  * Pair with: none
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
@@ -14353,6 +16903,10 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 20
+ *   mse2_mx304 20
+ *   total 40
  *
  * Highlights:
  *  - A `ps` device terminates an access-side pseudowire inside the router,
@@ -14394,6 +16948,9 @@ interfaces {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   (none)
+ * Count:
+ *   mdr2_mx10003 5
+ *   total 5
  * Pair with: none
  * Variables:
  *   $CORE_DESC   e.g. "to AG2.1 global"
@@ -14429,6 +16986,10 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma5_mx204 1
+ *   total 2
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  * Variables:
@@ -14464,6 +17025,10 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710
  *   EVO:   ag1-1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   an4_acx710 2
+ *   total 3
  * Pair with: none
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
@@ -14497,6 +17062,26 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 8
+ *   ag1-2_acx7100-32c 8
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an3_acx7100-48l 3
+ *   cr1_ptx10001-36mr 6
+ *   cr2_ptx10001-36mr 6
+ *   ma1-2_acx7024 2
+ *   ma2_mx204 2
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 2
+ *   ma5_mx204 1
+ *   mdr1_acx7509 4
+ *   mdr2_mx10003 4
+ *   meg1_acx7100-32c 8
+ *   meg2_acx7509 9
+ *   mse1_mx304 5
+ *   mse2_mx304 5
+ *   total 78
  * Pair with: none
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
@@ -14528,6 +17113,11 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 51
+ *   mse1_mx304 75
+ *   mse2_mx304 75
+ *   total 201
  * Variant group: mebs-irb-form
  *   Provides: ifl:irb
  *
@@ -14561,6 +17151,9 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0000.00
@@ -14599,6 +17192,9 @@ interfaces {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0011.00
@@ -14639,6 +17235,9 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
@@ -14677,6 +17276,22 @@ interfaces {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg2_acx7509
+ * Count:
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg2_acx7509 1
+ *   total 14
  * Pair with: none
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
@@ -14713,6 +17328,10 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO: (none)
+ * Count:
+ *   mse1_mx304 110
+ *   mse2_mx304 110
+ *   total 220
  * Highlights:
  *  - Each nonzero service unit has an independent VLAN identifier and ESI.
  *  - The anchor identifies the FPC and PIC hosting the subscriber device.
@@ -14751,6 +17370,10 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   total 2
  *
  * Highlights:
  *  - vlan-bridge logical interface carrying one VLAN into a bridged service.
@@ -14791,6 +17414,10 @@ interfaces {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1000
+ *   mse2_mx304 1000
+ *   total 2000
  *
  * Highlights:
  *  - vlan-bridge logical interface carrying one VLAN into a bridged service.
@@ -14828,6 +17455,17 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 99
+ *   an2_acx5448 99
+ *   an3_acx7100-48l 99
+ *   ma1-1_acx7024 100
+ *   ma1-2_acx7024 100
+ *   meg1_acx7100-32c 513
+ *   meg2_acx7509 513
+ *   mse1_mx304 220
+ *   mse2_mx304 220
+ *   total 1963
  *
  * Highlights:
  *  - vlan-bridge logical interface carrying one VLAN into a bridged service.
@@ -14863,6 +17501,10 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1000
+ *   ma5_mx204 1000
+ *   total 2000
  *
  * Highlights:
  *  - The attachment circuit of an EVPN E-Tree service: the unit is bridged
@@ -14896,6 +17538,9 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 20
+ *   total 20
  *
  * Highlights:
  *  - vlan-bridge attachment circuit matching a contiguous customer VLAN range
@@ -14931,6 +17576,13 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO: an3_acx7100-48l ma1-2_acx7024
+ * Count:
+ *   an3_acx7100-48l 438
+ *   ma1-2_acx7024 100
+ *   ma5_mx204 119
+ *   mse1_mx304 125
+ *   mse2_mx304 75
+ *   total 857
  * Variables:
  *   $IFD    e.g. xe-0/1/4
  *   $UNIT   e.g. 849
@@ -14953,6 +17605,11 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   total 3
  *
  * Highlights:
  *  - vlan-ccc logical interface carrying one VLAN, with no VLAN rewriting:
@@ -14988,6 +17645,15 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 400
+ *   an2_acx5448 400
+ *   an3_acx7100-48l 400
+ *   ma1-1_acx7024 450
+ *   ma1-2_acx7024 450
+ *   meg1_acx7100-32c 1050
+ *   meg2_acx7509 1050
+ *   total 4200
  *
  * Highlights:
  *  - vlan-ccc logical interface with an input push and an output pop, which
@@ -15029,6 +17695,11 @@ interfaces {
  * Seen on:
  *   Junos: an4_acx710 ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 400
+ *   an4_acx710 200
+ *   ma5_mx204 200
+ *   total 800
  *
  * Highlights:
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
@@ -15071,6 +17742,13 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204 mse1_mx304
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1938
+ *   ma1-2_acx7024 11
+ *   ma3_acx7100-48l 412
+ *   ma5_mx204 400
+ *   mse1_mx304 1981
+ *   total 4742
  *
  * Highlights:
  *  - The Layer 2 attachment circuit of a point-to-point service: the unit is
@@ -15103,6 +17781,13 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 225
+ *   ma3_acx7100-48l 200
+ *   ma4_mx204 1999
+ *   mse1_mx304 2199
+ *   mse2_mx304 2199
+ *   total 6822
  *
  * Highlights:
  *  - The routed attachment circuit of an L3VPN service: one VLAN presented to
@@ -15139,6 +17824,13 @@ interfaces {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3400
  *
  * Highlights:
  *  - The routed attachment circuit of an IPv6 L3VPN service: one VLAN
@@ -15174,6 +17866,9 @@ interfaces {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 200
+ *   total 200
  *
  * Highlights:
  *  - vlan-vpls attachment circuit with input push / output pop VLAN mapping.
@@ -15208,6 +17903,28 @@ interfaces {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix as belonging to the access fabric. Carried on the
@@ -15231,6 +17948,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target marking the backup Internet path.
@@ -15253,6 +17992,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target carried by the Internet default routes, matched by the
@@ -15277,6 +18038,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target marking the primary Internet path. One of the three
@@ -15300,6 +18083,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 999
+ *   mse1_mx304 1099
+ *   mse2_mx304 1099
+ *   total 3397
  *
  * Highlights:
  *  - One community per L3VPN service: name METRO_BGPv4_L3VPN_$L3VPN_ID with a
@@ -15330,6 +18120,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3400
  *
  * Highlights:
  *  - One community per IPv6 L3VPN service. The service id appears both in
@@ -15356,6 +18153,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Route target tagging the public L3VPN prefixes an export policy
@@ -15379,6 +18198,15 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 150
+ *   ma3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 1150
+ *   mse2_mx304 1150
+ *   total 3650
  *
  * Highlights:
  *  - One community per L3VPN service, without the address-family qualifier
@@ -15408,6 +18236,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - CM-LOOPBACK tags local lo0 /32s; imported by PS-LOCAL-LOOPBACK
@@ -15433,6 +18283,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix as belonging to the metro fabric, the peer tag to
@@ -15456,6 +18328,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag on the metro ring community administrator,
@@ -15479,6 +18373,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - The well-known no-advertise community. Unlike every other community
@@ -15501,6 +18417,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag identifying the region edge.
@@ -15523,6 +18461,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Marks a prefix originated at a regional border, so border routers
@@ -15546,6 +18506,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Ring-region topology tag identifying the service edge, where
@@ -15569,6 +18551,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 1601
+ *   ma1-1_acx7024 150
+ *   ma1-2_acx7024 350
+ *   ma4_mx204 1000
+ *   ma5_mx204 1400
+ *   meg1_acx7100-32c 1051
+ *   meg2_acx7509 1051
+ *   mse1_mx304 1500
+ *   mse2_mx304 1000
+ *   total 9303
  *
  * Highlights:
  *  - One community per service instance, named from the instance itself with
@@ -15600,6 +18595,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed CM-TC-4000-GOLD community definition.
@@ -15621,6 +18622,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed CM-TC-6000-BRONZE community definition.
@@ -15642,6 +18649,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 11
  *
  * Highlights:
  *  - Transport Class color community for the bronze class (`color:0:6000`).
@@ -15664,6 +18684,21 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 13
  *
  * Highlights:
  *  - Transport Class color community for the gold class (`color:0:4000`).
@@ -15686,6 +18721,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
  *   $PS_INTF   e.g. ps0
@@ -15712,6 +18751,24 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 16
  *
  * Highlights:
  *  - PS-LOCAL-LOOPBACK accepts local lo0 /32s from the JVD loopback supernet
@@ -15767,6 +18824,12 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed nhs1 routing policy.
@@ -15802,6 +18865,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - Single unconditional term: `load-balance per-packet; accept;`.
@@ -15832,6 +18917,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-AS63535-IMPORT routing policy.
@@ -15862,6 +18951,12 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PS-BGP-EXPORT routing policy.
@@ -15919,6 +19014,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - `term LOOP-PREVENT` rejects anything already carrying CM-SERVICE-EDGE,
@@ -15975,6 +19074,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
@@ -16076,6 +19179,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 5
  *
  * Highlights:
  *  - As-deployed PS-BGP-TRANSPORT-EXPORT routing policy.
@@ -16126,6 +19236,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-EBGP-CR-EXPORT routing policy.
@@ -16177,6 +19291,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -16258,6 +19376,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -16336,6 +19458,19 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 100
+ *   an2_acx5448 100
+ *   an3_acx7100-48l 1601
+ *   ma1-1_acx7024 150
+ *   ma1-2_acx7024 350
+ *   ma4_mx204 1000
+ *   ma5_mx204 1400
+ *   meg1_acx7100-32c 1051
+ *   meg2_acx7509 1051
+ *   mse1_mx304 1500
+ *   mse2_mx304 1000
+ *   total 9303
  *
  * Highlights:
  *  - The single export-policy structure shared by every L2 service family in
@@ -16392,6 +19527,9 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 50
+ *   total 50
  *
  * Highlights:
  *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
@@ -16458,6 +19596,11 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 99
+ *   mse1_mx304 2099
+ *   mse2_mx304 2098
+ *   total 4296
  *
  * Highlights:
  *  - `term tag-public-routes` matches two customer aggregates `orlonger` and
@@ -16512,6 +19655,9 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 999
+ *   total 999
  *
  * Highlights:
  *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
@@ -16572,6 +19718,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 99
+ *   ma4_mx204 1000
+ *   mse1_mx304 100
+ *   mse2_mx304 2
+ *   total 1301
  *
  * Highlights:
  *  - `term tag-public-routes` matches three customer aggregates `orlonger` and
@@ -16628,6 +19781,11 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 101
+ *   mse2_mx304 99
+ *   total 201
  *
  * Highlights:
  *  - `term tag-public-routes` matches four customer aggregates `orlonger` and
@@ -16686,6 +19844,12 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 99
+ *   ma3_acx7100-48l 99
+ *   mse1_mx304 99
+ *   mse2_mx304 99
+ *   total 396
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches two customer
@@ -16740,6 +19904,11 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1000
+ *   mse1_mx304 1001
+ *   mse2_mx304 999
+ *   total 3000
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches three
@@ -16796,6 +19965,11 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma3_acx7100-48l 1
+ *   mse2_mx304 1
+ *   total 3
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches four customer
@@ -16854,6 +20028,9 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  *
  * Highlights:
  *  - `term tag-public-routes` selects `family inet6` and matches three
@@ -16915,6 +20092,12 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 50
+ *   total 200
  *
  * Highlights:
  *  - A single term matches four customer aggregates `orlonger`, so the
@@ -16968,6 +20151,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
@@ -17004,6 +20191,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
@@ -17052,6 +20243,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
@@ -17108,6 +20303,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-MSE-EXPORT routing policy.
@@ -17162,6 +20361,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-IBGP-RR-EXPORT routing policy.
@@ -17214,6 +20417,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - `term EVPN` accepts BGP EVPN routes before any prefix match, so overlay
@@ -17263,6 +20470,13 @@ policy-options {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 300
+ *   ma3_acx7100-48l 300
+ *   ma4_mx204 2999
+ *   mse1_mx304 3299
+ *   mse2_mx304 3299
+ *   total 10197
  *
  * Highlights:
  *  - Two ordered terms. `L3VPN-CUST` accepts routes carrying the VRF's own
@@ -17304,6 +20518,13 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   mse1_mx304 50
+ *   mse2_mx304 50
+ *   total 250
  *
  * Highlights:
  *  - A single term accepts routes carrying the VRF's own route-target
@@ -17342,6 +20563,9 @@ policy-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  *
  * Highlights:
  *  - Exported from the Internet VRF so the locally originated default routes
@@ -17394,6 +20618,15 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -17481,6 +20714,10 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -17546,6 +20783,19 @@ policy-options {
  * Seen on:
  *   Junos: an2_acx5448 ma2_mx204 ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an2_acx5448 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 11
  *
  * Highlights:
  *  - `term OOB-MGMT` rejects anything learned on the out-of-band management
@@ -17614,6 +20864,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Pair with:
  *  - junos/policy-options/community/cm-loopback.conf
  * Variables: none
@@ -17647,6 +20901,25 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   ma3_acx7100-48l 2
+ *   ma4_mx204 2
+ *   ma5_mx204 2
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 22
  *
  * Highlights:
  *  - One unnamed term matches the prefix `orlonger` and accepts it, so the
@@ -17678,6 +20951,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PS-MSE-IMPORT routing policy.
@@ -17706,6 +20983,18 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
  * Pair with: none
  * Variables: none
  */
@@ -17725,6 +21014,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - A single term matches the node's own loopback /32 `exact`.
@@ -17766,6 +21077,26 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 18
  *
  * Highlights:
  *  - As-deployed PS-REMOTE-LOOPBACKS import policy for the services-edge PEs.
@@ -17799,6 +21130,26 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 18
  *
  * Highlights:
  *  - A `/32 exact` route-filter selects the node's Segment Routing IPv4
@@ -17835,6 +21186,28 @@ policy-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  *
  * Highlights:
  *  - `from family inet6` with a `/128 exact` route-filter selects the node's
@@ -17872,6 +21245,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PL-AN-REGION prefix-list.
@@ -17902,6 +21281,10 @@ policy-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - As-deployed PL-MSE-PRIMARY prefix-list.
@@ -17926,6 +21309,12 @@ policy-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - As-deployed PL-MSE prefix-list.
@@ -17951,6 +21340,9 @@ policy-options {
  * Seen on:
  *   Junos: an4_acx710
  *   EVO:   (none)
+ * Count:
+ *   an4_acx710 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -18042,6 +21434,9 @@ protocols {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -18169,6 +21564,9 @@ protocols {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, labeled-unicast
  *
@@ -18276,6 +21674,9 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   (none)
+ * Count:
+ *   mdr2_mx10003 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: labeled-unicast
  *
@@ -18448,6 +21849,9 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -18709,6 +22113,9 @@ protocols {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -18970,6 +22377,10 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   total 2
  * Variant group: mebs-bgp-overlay
  *   Provides: evpn, l2vpn, inet-vpn, inet6-vpn, labeled-unicast
  *
@@ -19082,6 +22493,10 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   meg1_acx7100-32c
+ * Count:
+ *   an1_mx204 1
+ *   meg1_acx7100-32c 1
+ *   total 2
  * Pair with: none
  * Variables: none
  */
@@ -19100,6 +22515,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 6
  * Variables:
  *   $CORE_INTF   e.g. ae82.1
  *   $DELAY_METRIC   e.g. 5
@@ -19147,6 +22567,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 3
+ *   mdr1_acx7509 3
+ *   mdr2_mx10003 3
+ *   total 9
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -19194,6 +22619,10 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 4
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -19250,6 +22679,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   ma3_acx7100-48l mdr1_acx7509
+ * Count:
+ *   ma3_acx7100-48l 2
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   total 6
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  */
@@ -19270,6 +22704,9 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   (none)
+ * Count:
+ *   mdr2_mx10003 1
+ *   total 1
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -19316,6 +22753,10 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -19361,6 +22802,10 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -19406,6 +22851,13 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 3
+ *   ag1-2_acx7100-32c 4
+ *   an1_mx204 2
+ *   an2_acx5448 2
+ *   an4_acx710 2
+ *   total 13
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -19453,6 +22905,12 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   meg1_acx7100-32c 5
+ *   meg2_acx7509 4
+ *   total 13
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -19502,6 +22960,12 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 5
+ *   mse1_mx304 2
+ *   mse2_mx304 2
+ *   total 13
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
  * Variables:
@@ -19550,6 +23014,11 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509 meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 2
+ *   mdr2_mx10003 2
+ *   meg2_acx7509 1
+ *   total 5
  * Variables:
  *   $ADMIN_GROUP_1   e.g. blue
  *   $ADMIN_GROUP_2   e.g. green
@@ -19597,6 +23066,28 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Variables: none
  */
 protocols {
@@ -19616,6 +23107,11 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   total 3
  * Variables:
  *   $NODE_SID_V4   e.g. 0
  *   $NODE_SID_V6   e.g. 100
@@ -19671,6 +23167,10 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
  *   $NODE_SID_V4   e.g. 10
@@ -19725,6 +23225,10 @@ protocols {
  * Seen on:
  *   Junos: mdr2_mx10003
  *   EVO:   mdr1_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 2
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
@@ -19782,6 +23286,13 @@ protocols {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 5
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
@@ -19839,6 +23350,14 @@ protocols {
  * Seen on:
  *   Junos: ma2_mx204 ma4_mx204 ma5_mx204
  *   EVO:   cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 6
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
@@ -19894,6 +23413,9 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 1
+ *   total 1
  *
  * Highlights:
  *  - source-packet-routing (Segment Routing) with SRGB 16000-24000
@@ -20022,6 +23544,10 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 10
+ *   total 11
  *
  * Highlights:
  *  - The PW lands on a pseudowire-subscriber interface (`ps<N>.0`) rather than
@@ -20071,6 +23597,10 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 19
+ *   mse2_mx304 10
+ *   total 29
  *
  * Highlights:
  *  - The PW lands on a pseudowire-subscriber interface (`ps<N>.0`) rather than
@@ -20116,6 +23646,14 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 1
+ *   ma1-2_acx7024 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 6
  * Variables: none
  */
 protocols {
@@ -20133,6 +23671,9 @@ protocols {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
  * Variant group: mebs-mpls-admin-groups
  *   Provides: transport:mpls-admin-groups
  * Pair with:
@@ -20165,6 +23706,26 @@ protocols {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 18
  *
  * Variant group: mebs-mpls-admin-groups
  *   Provides: transport:mpls-admin-groups
@@ -20205,6 +23766,13 @@ protocols {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 300
+ *   ma1-2_acx7024 100
+ *   ma5_mx204 200
+ *   meg1_acx7100-32c 200
+ *   meg2_acx7509 100
+ *   total 900
  *
  * Highlights:
  *  - Identical structure to evo/protocols/oam-cfm-perf-mon.conf —
@@ -20292,6 +23860,11 @@ protocols {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   ma1-1_acx7024 ma1-2_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   total 3
  *
  * Highlights:
  *  - The application statement that makes apply-group GR-FATPW-LABEL take
@@ -20329,6 +23902,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
  *
  * Highlights:
  *  - The application statement that makes apply-group GR-L3VPN take effect. A
@@ -20365,6 +23944,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 50
+ *   mse2_mx304 50
+ *   total 100
  *
  * Highlights:
  *  - `instance-type virtual-switch` with an inner `bridge-domains` block, and
@@ -20441,6 +24024,9 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 49
+ *   total 49
  *
  * Highlights:
  *  - VLAN-based EVPN E-LAN, policy-export variant: the service
@@ -20520,6 +24106,10 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448
  *   EVO:   (none)
+ * Count:
+ *   an1_mx204 50
+ *   an2_acx5448 100
+ *   total 150
  *
  * Highlights:
  *  - VLAN-based EVPN E-LAN: the service VLAN is defined on the
@@ -20583,6 +24173,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 110
+ *   mse2_mx304 110
+ *   total 220
  *
  * Highlights:
  *  - An EVPN instance carrying one VLAN, with two logical interfaces bound to
@@ -20630,6 +24224,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 500
+ *   ma5_mx204 500
+ *   mse1_mx304 500
+ *   mse2_mx304 500
+ *   total 2000
  *
  * Highlights:
  *  - `instance-type evpn` with a single-VLAN body and the
@@ -20694,6 +24294,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 ma5_mx204 mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 500
+ *   ma5_mx204 500
+ *   mse1_mx304 500
+ *   mse2_mx304 500
+ *   total 2000
  *
  * Highlights:
  *  - `instance-type evpn` with a single-VLAN body and the `evpn-etree` knob
@@ -20743,6 +24349,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 8
+ *   mse1_mx304 8
+ *   total 16
  *
  * Highlights:
  *  - `flexible-cross-connect-vlan-unaware` bundles the listed logical
@@ -20800,6 +24410,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 219
+ *   mse1_mx304 240
+ *   total 459
  *
  * Highlights:
  *  - `instance-type evpn-vpws` with the FXC knob
@@ -20876,6 +24490,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 250
+ *   mse1_mx304 250
+ *   total 500
  *
  * Highlights:
  *  - `instance-type evpn-vpws` with the FXC knob
@@ -20950,6 +24568,16 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 400
+ *   an2_acx5448 400
+ *   an3_acx7100-48l 1101
+ *   an4_acx710 200
+ *   ma1-1_acx7024 401
+ *   ma1-2_acx7024 400
+ *   meg1_acx7100-32c 500
+ *   meg2_acx7509 500
+ *   total 3902
  *
  * Highlights:
  *  - instance-type evpn-vpws
@@ -21011,6 +24639,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma5_mx204 50
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -21067,6 +24699,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 49
+ *   ma5_mx204 49
+ *   total 98
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -21122,6 +24758,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma5_mx204 50
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -21178,6 +24818,10 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 51
+ *   ma5_mx204 51
+ *   total 102
  *
  * Highlights:
  *  - A BGP-signalled (Kompella) L2VPN: the named site carries this node's site
@@ -21233,6 +24877,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
  *
  * Highlights:
  *  - instance-type l2vpn — Kompella-style, BGP-signalled pseudowire
@@ -21298,6 +24945,9 @@ routing-instances {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  *
  * Highlights:
  *  - `instance-type vrf` holding the Internet default for the metro: the
@@ -21389,6 +25039,12 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma4_mx204 1000
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 3300
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer IPv6 routes; PE-CE eBGP under
@@ -21455,6 +25111,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1099
+ *   mse2_mx304 1099
+ *   total 2198
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer routes; PE-CE eBGP
@@ -21537,6 +25197,9 @@ routing-instances {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 50
+ *   total 50
  *
  * Highlights:
  *  - The Internet-attached form of the EVPN-IRB L3VPN service: routing-options
@@ -21607,6 +25270,10 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 50
+ *   mse1_mx304 50
+ *   total 100
  *
  * Highlights:
  *  - This snip is the L3 (RT-5) HALF of the JVD's EVPN-IRB pattern.
@@ -21701,6 +25368,12 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 25
+ *   meg2_acx7509 25
+ *   mse1_mx304 25
+ *   mse2_mx304 25
+ *   total 100
  *
  * Highlights:
  *  - The L3 half of the EVPN-IRB pair: the VRF terminates the IRB and performs
@@ -21759,6 +25432,12 @@ routing-instances {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 100
+ *   ma3_acx7100-48l 100
+ *   mse1_mx304 1100
+ *   mse2_mx304 1100
+ *   total 2400
  *
  * Highlights:
  *  - `instance-type vrf` carrying customer routes; PE-CE OSPF
@@ -21827,6 +25506,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1000
+ *   total 1000
  *
  * Highlights:
  *  - PE-CE routing is OSPF: the VRF runs `area 0.0.0.0` with the attachment
@@ -21897,6 +25579,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 50
+ *   total 50
  *
  * Highlights:
  *  - `instance-type virtual-switch` carries the VPLS in a bridging instance, so
@@ -21961,6 +25646,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 50
+ *   total 50
  *
  * Highlights:
  *  - instance-type virtual-switch with `protocols vpls` carrying
@@ -22037,6 +25725,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 100
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled VPLS instance: the named site carries a site identifier
@@ -22092,6 +25783,9 @@ routing-instances {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 100
+ *   total 100
  *
  * Highlights:
  *  - A BGP-signalled VPLS instance: the named site carries a site identifier
@@ -22146,6 +25840,15 @@ routing-instances {
  * Seen on:
  *   Junos: an1_mx204 an4_acx710
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
  *
  * Highlights:
  *  - Two locally generated aggregates summarize the loopback supernet and the
@@ -22186,6 +25889,19 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 11
  * Pair with: none
  * Variables: none
  */
@@ -22205,6 +25921,19 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   total 11
  * Pair with: none
  * Variables: none
  */
@@ -22224,6 +25953,14 @@ routing-options {
  * Seen on:
  *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 6
  *
  * Highlights:
  *  - FA 128: delay-metric SPF, includes admin-group `green`, colour 4000.
@@ -22274,6 +26011,14 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 6
  *
  * Highlights:
  *  - `export` applies the per-packet load-balancing policy to the forwarding
@@ -22314,6 +26059,9 @@ routing-options {
  * Seen on:
  *   Junos: ma5_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
  * Variables:
@@ -22343,6 +26091,9 @@ routing-options {
  * Seen on:
  *   Junos: ma4_mx204
  *   EVO:   (none)
+ * Count:
+ *   ma4_mx204 1
+ *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
  * Variables:
@@ -22371,6 +26122,10 @@ routing-options {
  * Seen on:
  *   Junos: an2_acx5448 an4_acx710
  *   EVO:   (none)
+ * Count:
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   total 2
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
  * Variables:
@@ -22397,6 +26152,10 @@ routing-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  *
  * Highlights:
  *  - This is the services-edge PE form (the richest variant). The
@@ -22444,6 +26203,23 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 15
  * Variables: none
  */
 routing-options {
@@ -22461,6 +26237,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -22477,6 +26272,10 @@ routing-options {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   mse1_mx304 1
+ *   total 2
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
@@ -22507,6 +26306,13 @@ routing-options {
  * Seen on:
  *   Junos: ma4_mx204 mse2_mx304
  *   EVO:   ma3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse2_mx304 1
+ *   total 5
  *
  * Highlights:
  *  - `rib bgp.l3vpn.0` applies PS-MULTIPATH during resolution, so VPN routes
@@ -22550,6 +26356,18 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma5_mx204 mdr2_mx10003
  *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 mdr1_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   total 10
  *
  * Highlights:
  *  - `scheme gold-to-bronze` resolves service next hops over the IPv4
@@ -22593,6 +26411,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  *
  * Highlights:
  *  - As-deployed RG-REMOTE-LOOPBACKS rib-group, carried by every PE that
@@ -22621,6 +26458,10 @@ routing-options {
  * Seen on:
  *   Junos: mse1_mx304 mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-local-loopback-anycast.conf
  *  - junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
@@ -22648,6 +26489,23 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 15
  *
  * Highlights:
  *  - RG-LOCAL-LOOPBACK imports lo0 routes into inet.0/inet.3 using
@@ -22687,6 +26545,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -22705,6 +26582,25 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 17
  * Pair with: none
  * Variables: none
  */
@@ -22723,6 +26619,28 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
  *   EVO:   ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
  * Pair with: none
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.14
@@ -22739,6 +26657,9 @@ routing-options {
  * Seen on:
  *   Junos: an4_acx710
  *   EVO:   (none)
+ * Count:
+ *   an4_acx710 1
+ *   total 1
  * Variant group: mebs-colour-transport
  *   Provides: transport:colour-classes
  * Pair with: none
@@ -22775,6 +26696,9 @@ routing-options {
  * Seen on:
  *   Junos: mse2_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
  * Variant group: mebs-colour-transport
  *   Provides: transport:colour-classes
  * Pair with: none
@@ -22811,6 +26735,9 @@ routing-options {
  * Seen on:
  *   Junos: mse1_mx304
  *   EVO:   (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
  * Variant group: mebs-colour-transport
  *   Provides: transport:colour-classes
  * Pair with: none
@@ -22846,6 +26773,22 @@ routing-options {
  * Seen on:
  *   Junos: an1_mx204 an2_acx5448 ma4_mx204 ma5_mx204 mdr2_mx10003
  *   EVO:   an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 14
  * Variant group: mebs-colour-transport
  *   Provides: transport:colour-classes
  *

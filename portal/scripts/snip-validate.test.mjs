@@ -32,6 +32,50 @@ test("clean snip produces no findings", () => {
   assert.deepEqual(findings, []);
 });
 
+function measuredSnip(count = "mse1_mx304 2\n *   total 2", peers = "[mse1_mx304] <-> [mse2_mx304]") {
+  return snip({})
+    .replace(" * Pair with:", ` * Count:\n *   ${count}\n * Pair with:`)
+    .replace(" * Variables:", ` * Peers with:\n *   ${peers}\n * Variables:`);
+}
+
+test("generated Count and Peers parse without becoming dependencies", () => {
+  const text = measuredSnip();
+  const { header, diagnostics } = parseSnip(text);
+  assert.deepEqual(diagnostics, []);
+  assert.deepEqual({ ...header.count.byDevice }, { mse1_mx304: 2 });
+  assert.equal(header.count.total, 2);
+  assert.deepEqual(header.peersWith, { state: "groups", groups: [{ left: ["mse1_mx304"], right: ["mse2_mx304"] }] });
+  assert.deepEqual(header.pairWith, ["none"]);
+  assert.deepEqual(validateSnipText(text, { inventory: INVENTORY }), []);
+});
+
+test("generated fields preserve unknown, none and not-applicable as distinct states", () => {
+  const legacy = parseSnip(snip({})).header;
+  assert.equal(legacy.count, undefined);
+  assert.equal(legacy.peersWith, undefined);
+  assert.deepEqual(parseSnip(measuredSnip(undefined, "(none)")).header.peersWith, { state: "none" });
+  assert.deepEqual(parseSnip(measuredSnip(undefined, "n/a")).header.peersWith, { state: "not-applicable" });
+});
+
+test("Count rejects malformed rows, duplicate devices, unsafe values and inconsistent totals", () => {
+  for (const value of ["", "total 1", "mse1_mx304 0\n *   total 0", "mse1_mx304 -1\n *   total -1", "mse1_mx304 1.5\n *   total 1.5", "mse1_mx304 9007199254740992\n *   total 9007199254740992", "mse1_mx304 1\n *   mse1_mx304 1\n *   total 2", "mse1_mx304 2", "mse1_mx304 2\n *   total 3", "total 2\n *   mse1_mx304 2", "mse1_mx304 2\n *   total 2\n *   total 2"]) {
+    assert.ok(parseSnip(measuredSnip(value)).diagnostics.some(({ code }) => code.startsWith("COUNT_")), value);
+  }
+});
+
+test("Peers rejects mixed states, malformed groups, self edges and duplicate edges", () => {
+  for (const value of ["", "none", "unknown", "[mse1_mx304] -> [mse2_mx304]", "[] <-> [mse2_mx304]", "[mse1_mx304, mse1_mx304] <-> [mse2_mx304]", "[mse1_mx304] <-> [mse1_mx304]", "(none)\n *   [mse1_mx304] <-> [mse2_mx304]", "[mse1_mx304] <-> [mse2_mx304]\n *   [mse2_mx304] <-> [mse1_mx304]"]) {
+    assert.ok(parseSnip(measuredSnip(undefined, value)).diagnostics.some(({ code }) => code.startsWith("PEERS_")), value);
+  }
+});
+
+test("generated claims resolve devices and Count agrees with Seen on", () => {
+  const findings = validateSnipText(measuredSnip("ghost 2\n *   total 2", "[mse1_mx304] <-> [ghost]"), { inventory: INVENTORY });
+  for (const code of ["COUNT_UNKNOWN_DEVICE", "COUNT_SEEN_ON_MISMATCH", "PEERS_UNKNOWN_DEVICE"]) assert.ok(codes(findings).includes(code), code);
+  assert.equal(severity("COUNT_MALFORMED", { changed: false, seenOnValidation: "partial" }), "error");
+  assert.equal(severity("PEERS_MALFORMED", { changed: false, seenOnValidation: "partial" }), "error");
+});
+
 test("native-OS guard: evo/** snip with EVO:(none) -> SEEN_ON_NATIVE_EMPTY", () => {
   const text = snip({ seenJunos: "mse1_mx304", seenEvo: "(none)" });
   const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set(), os: "evo" }));
@@ -107,13 +151,13 @@ test("scenario-qualified path token resolves end-to-end (no non-device / unknown
   assert.ok(!found.includes(CODES.SEEN_ON_UNKNOWN_DEVICE));
 });
 
-test("a reserved field after Pair with does not leak its bullets into dependencies", () => {
+test("a malformed peer field after Pair with does not leak its bullets into dependencies", () => {
   const text =
     `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
     ` * Pair with:\n *  - junos/policy/real.conf\n * Peers with:\n *  - junos/other/leaked.conf\n */\n` +
     `routing-options {\n    autonomous-system 65000;\n}\n`;
   const parsed = parseSnip(text);
-  assert.ok(codes(parsed.diagnostics).includes(CODES.UNKNOWN_HEADER_SECTION));
+  assert.ok(codes(parsed.diagnostics).includes(CODES.PEERS_MALFORMED));
   assert.deepEqual(parsed.header.pairWith, ["junos/policy/real.conf"]);
 });
 

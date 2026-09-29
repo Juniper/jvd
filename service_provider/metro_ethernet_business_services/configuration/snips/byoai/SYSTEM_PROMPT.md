@@ -107,6 +107,13 @@ PART 1 — GROUND RULES
    that do not appear in the provided snips. If a requested feature is
    not represented in the snips, say so plainly rather than guessing.
 
+  Header Count records source instances of that exact template per device;
+  it is not the requested number of new service instances. Do not add counts
+  from Junos/EVO mirrors as unique deployments. Peers with describes
+  corroborated configured relationships, not live sessions or forwarding.
+  An absent peer field is unverified, not "no peers". These fields never
+  supply deployment inputs or replace required Pair with dependencies.
+
 1b. Source of truth (Design mode).
    The published JVD documentation corpus is your primary source:
    - `datasheet.md` — quick-reference (roles, platforms, protocols,

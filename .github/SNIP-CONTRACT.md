@@ -12,11 +12,13 @@ contract makes:
   path resolution, variable declaration — are enforced deterministically by
   `portal/scripts/snip-validate.mjs` and its committed tests. This document is
   the human-readable source of truth for that check.
-- **Semantic reconstruction claims** — `Seen on` exactness and fragment-boundary
-  applicability — require rendering a body against an authoritative source
-  configuration. No committed script does that, so those claims are established
-  by the authorized roundtrip verification described under *Fragment boundary*,
-  **not** by CI.
+- **Source-backed claims** require exact body matching or relation-specific
+  corroboration against authoritative configurations. `snip-evidence.mjs`
+  remeasures enrolled libraries in CI when evidence inputs or claims change.
+  Initial publication also requires the authorized independent verification
+  described under *Fragment boundary*. Freshness or agreement with the same
+  producer is not an independent audit; unenrolled libraries do not receive
+  enrolled source-verification coverage.
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are used as in
 RFC 2119.
@@ -36,10 +38,15 @@ followed by the templated configuration body.
  * Seen on:
  *   Junos: <device tokens | (none)>
  *   EVO:   <device tokens | (none)>
+ * Count:                 (optional, generated)
+ *   <device token> <positive integer>
+ *   total <nonnegative integer>
  * Highlights:            (optional)
  *  - <bullet>
  * Pair with:             (optional)
  *  - <snip path>
+ * Peers with:            (optional, generated)
+ *   [<device token>] <-> [<device token>]
  * JVD service mapping:   (optional)
  * Variables:             (optional)
  *   $VAR   e.g. <example>
@@ -48,7 +55,8 @@ followed by the templated configuration body.
 ```
 
 Sections, when present, **MUST** appear in this order: `Topic`, `Seen on`,
-`Variant group`, `Highlights`, `Pair with`, `JVD service mapping`, `Variables`.
+`Count`, `Variant group`, `Highlights`, `Pair with`, `Peers with`,
+`JVD service mapping`, `Variables`.
 `Variables` is last, adjacent to the templated body it declares. Any other order
 is reported as `INVALID_SECTION_ORDER`.
 
@@ -150,6 +158,61 @@ configuration and **MAY** be described.
   cross-file navigation. Scenario-qualified **device** identities (see *Device
   identity*) are permitted. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
 
+### Count (optional, generated)
+
+`Count:` records distinct consumed source-node instances of this exact template
+on each device, followed by their `total`. Alternative matcher assignments of
+the same node set do not increase Count; `equivalentBindings` is separate.
+
+- Rows are `<exact device token> <positive integer>`; omit zero device rows.
+  The final row is `total <nonnegative integer>`. Integers and their sum MUST be
+  safe integers. Duplicate sections, devices or totals are invalid.
+- The total MUST equal the sum of device rows. Nonzero device membership MUST
+  equal `Seen on` in both directions. Tokens use the same device inventory.
+- Values MUST be generated from full-population exact matching with consistent
+  variable bindings, literal constraints, activity, order and fragment boundaries.
+  Source exclusions apply. Truncated enumeration is not a successful measurement.
+- A missing field is unknown, not zero. A measured zero requires a complete
+  source population. Totals belong to one template, not to a unique-service
+  census; Junos/EVO mirror totals MUST NOT be added as unique deployments.
+- Header/ledger agreement establishes consistency, not independent source proof.
+  Source remeasurement and authorized independent verification remain required
+  before publishing generated claims.
+
+### Peers with (optional, generated)
+
+`Peers with:` summarizes source-corroborated configured cross-device relationships,
+not live session establishment or forwarding. Same-device prerequisites remain
+`Pair with`. The counterpart MAY use a different snippet or OS.
+
+The field contains exactly one of:
+
+- One or more `[device_a] <-> [device_b, device_c]` rows. Each bracket contains
+  a nonempty comma-separated list of exact device tokens. Each row asserts every
+  left/right pair, but no within-side edges. Compression MUST preserve exactly
+  the corroborated pair set; connected components do not imply a clique.
+- `(none)`: an applicable, supported search completed without a validated
+  counterpart. Absence requires adjudication before publication.
+- `n/a`: supported construct classification establishes that a cross-device
+  relationship is not applicable.
+
+Duplicates, self edges, mixed states and unknown devices are invalid. At least
+one endpoint of each pair MUST be in this snippet's `Seen on`. Generated rows
+and device lists SHOULD be sorted deterministically. Local names, co-occurrence
+and shared route-targets alone do not universally establish a peer relationship.
+Concrete source values and relation-specific semantics MUST corroborate it.
+
+Missing, ambiguous, unsupported or partially examined evidence is neither
+`(none)` nor `n/a`: leave the field absent until every applicable instance is
+classified. A group summarizes the existence of proven relationships, not that
+every instance on those devices belongs to one common service. Directional
+relationships MUST NOT be silently converted into symmetric `<->` claims.
+
+Generated-field syntax and inventory findings are always errors, independently
+of legacy applicability status. These structural checks do not certify semantic
+peer correctness. Retain `JVD service mapping` until all useful information has
+a verified replacement in structured fields or an appropriate existing home.
+
 ### Adjudicated exclusions
 
 A construct present in a source configuration remains eligible for modelling
@@ -201,14 +264,12 @@ The registry is the normative source for that vocabulary; it is parser and
 validation knowledge only, **not** a service taxonomy, and carries no naming,
 category, or relationship meaning.
 
-The registry's *semantics* are consumed by the authorized roundtrip
-verification, which runs outside this repository. No committed production script
-applies them: `snip-parse.mjs`, `snip-validate.mjs` and `generate-snips.mjs`
-parse and check headers and do not evaluate a body against a source
-configuration, so they neither apply nor enforce this rule. The committed
-contract test (`snip-validate.test.mjs`) does read the registry, but only to
-check its shape and internal consistency. A `Seen on` claim is therefore
-established by the roundtrip verification, not by CI.
+`generate-bindings.mjs` applies the registry during exact source matching and
+ordered reconstruction. `snip-evidence.mjs` compares those measurements with
+the enrolled library's ledger and header claims. The separate authorized
+roundtrip verification independently checks source-instance identities and
+reconstruction before initial publication. Header parsing and catalog generation
+alone do not establish these semantic claims.
 
 The registry is versioned. Because a registry change can change which devices a
 body reproduces on, any modification to it **MUST** trigger a full `Seen on`
@@ -317,7 +378,7 @@ as-deployed form actually fits a given device, instead of naming one fixed file.
 A snip participates in one of two roles.
 
 **Member** — a snip that publishes an as-deployed form declares its membership
-directly after `Seen on:`:
+after `Seen on:` and optional `Count:`:
 
 ```
  * Variant group: mebs-bgp-overlay
@@ -425,7 +486,7 @@ every variant finding is an error regardless of whether the file itself changed.
 ### Reserved / unsupported fields
 
 Until their parser, schema, and portal behaviour exist, headers **MUST NOT**
-author `Augments with:` or `Peers with:`.
+author `Augments with:`.
 
 The free-form `Variant:` and `Role:` fields are **deprecated** legacy metadata:
 they are recognised but not retained, and are reported as `LEGACY_HEADER_SECTION`
@@ -452,7 +513,30 @@ Each JVD **MAY** carry `configuration/snips/_snip-library.json`:
   applicability; any approximate or unresolved `Seen on:` becomes an error.
 - Absence of the file defaults to `"partial"`.
 
-This describes `Seen on:` **applicability** integrity only. It is independent of
+Optional `countValidation` and `peersValidation` fields independently enroll a
+library in generated-evidence validation. Each accepts `"partial"` or
+`"complete"`; absence means not enrolled, never verified zero or no peers.
+Partial enrollment permits missing headers but does not relax any published
+claim. Complete enrollment requires that field on every snippet and supporting
+verified evidence for the full population. An existing enrollment MUST NOT be
+removed or downgraded silently when comparing the base and tested revisions.
+Publishing either field without its corresponding enrollment is an error.
+
+`npm --prefix portal run snips:evidence -- --base <ref>` discovers enrolled
+libraries in both revisions. It always checks freshness and projection
+consistency. Changed template bodies or generated claims are remeasured across
+the full source-device population; source, evidence, rule or uncertain changes
+fall back to the whole affected JVD. New remote candidates participate in peer
+analysis even if previously unpaired. Missing evidence or an invalid base fails.
+Without a base, the command remeasures all enrolled libraries.
+
+The measurement fingerprint excludes derived header text, preventing a
+self-hashing cycle, and includes source bytes, canonical bodies, exclusions,
+registry and implementation hashes. Publication digests still cover generated
+header claims. `generate-bindings.mjs --freshness-check` checks provenance only;
+the existing `--check` continues to perform full measurement.
+
+`seenOnValidation` describes **applicability** integrity only. It is independent of
 whether every source configuration form has been extracted (extraction coverage)
 and independent of role support (`_roles.json`).
 

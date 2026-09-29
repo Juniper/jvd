@@ -68,6 +68,7 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
  *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
+  if (code.startsWith("COUNT_") || code.startsWith("PEERS_")) return "error";
   // A cross-directory selection is evidence-backed and legitimate; it is
   // surfaced so audits can see it, never to block.
   if (code === CODES.VARIANT_CROSS_DIRECTORY) return "warn";
@@ -270,10 +271,41 @@ export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, memb
  * "<os>/<category>/<name>.conf" for the JVD) enable the context-dependent checks.
  * `os`, `jvd`, `members`, and `selfRel` enable cross-snip variant checks.
  */
-export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {} } = {}) {
+export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {}, countValidation, peersValidation, enforceEvidenceEnrollment = false } = {}) {
   const { header, body, diagnostics } = parseSnip(text);
   const findings = [...diagnostics];
   if (!header) return findings;
+
+  if (enforceEvidenceEnrollment && header.count && !countValidation) findings.push({ code: "COUNT_NOT_ENROLLED" });
+  if (enforceEvidenceEnrollment && header.peersWith && !peersValidation) findings.push({ code: "PEERS_NOT_ENROLLED" });
+  if (countValidation === "complete" && !header.count) findings.push({ code: CODES.COUNT_MISSING_HEADER });
+  if (peersValidation === "complete" && !header.peersWith) findings.push({ code: CODES.PEERS_MISSING_HEADER });
+  const seenDevices = new Set([...header.seenOn.junos, ...header.seenOn.evo]);
+  if (header.count) {
+    const countDevices = Object.keys(header.count.byDevice);
+    if (countDevices.length !== seenDevices.size || countDevices.some((device) => !seenDevices.has(device))) {
+      findings.push({ code: CODES.COUNT_SEEN_ON_MISMATCH, detail: "nonzero Count devices must equal Seen on" });
+    }
+    if (inventory) {
+      for (const device of countDevices) {
+        if (resolveToken(device, inventory) !== "ok") findings.push({ code: CODES.COUNT_UNKNOWN_DEVICE, detail: device });
+      }
+    }
+  }
+  for (const group of header.peersWith?.groups || []) {
+    if (inventory) {
+      for (const device of [...group.left, ...group.right]) {
+        if (resolveToken(device, inventory) !== "ok") findings.push({ code: CODES.PEERS_UNKNOWN_DEVICE, detail: device });
+      }
+    }
+    for (const left of group.left) {
+      for (const right of group.right) {
+        if (!seenDevices.has(left) && !seenDevices.has(right)) {
+          findings.push({ code: CODES.PEERS_NOT_APPLICABLE_DEVICE, detail: `${left} <-> ${right}` });
+        }
+      }
+    }
+  }
 
   // SEEN_ON_UNKNOWN_DEVICE — resolve each device token against the inventory.
   if (inventory) {
@@ -352,17 +384,24 @@ function jvdRootForSnip(absPath) {
 
 /** Parse + validate _snip-library.json content. Throws on malformed metadata. */
 export function parseSnipLibraryMeta(raw, label = "_snip-library.json") {
+  return parseLibraryValidation(raw, label).seenOnValidation;
+}
+
+export function parseLibraryValidation(raw, label = "_snip-library.json") {
   let meta;
   try {
     meta = JSON.parse(raw);
   } catch (e) {
     throw new Error(`${label}: invalid JSON (${e.message})`);
   }
-  if (meta.schemaVersion !== 1) throw new Error(`${label}: unsupported schemaVersion ${JSON.stringify(meta.schemaVersion)}`);
+  if (!meta || typeof meta !== "object" || Array.isArray(meta) || meta.schemaVersion !== 1) throw new Error(`${label}: unsupported schemaVersion`);
   if (meta.seenOnValidation !== "partial" && meta.seenOnValidation !== "complete") {
     throw new Error(`${label}: invalid seenOnValidation ${JSON.stringify(meta.seenOnValidation)}`);
   }
-  return meta.seenOnValidation;
+  for (const field of ["countValidation", "peersValidation"]) {
+    if (Object.hasOwn(meta, field) && meta[field] !== "partial" && meta[field] !== "complete") throw new Error(`${label}: invalid ${field}`);
+  }
+  return meta;
 }
 
 async function readSeenOnValidation(jvdRoot) {
@@ -371,10 +410,10 @@ async function readSeenOnValidation(jvdRoot) {
   try {
     raw = await fs.readFile(p, "utf8");
   } catch (e) {
-    if (e.code === "ENOENT") return "partial"; // genuinely absent = default partial
+    if (e.code === "ENOENT") return { seenOnValidation: "partial" };
     throw e;
   }
-  return parseSnipLibraryMeta(raw, p);
+  return parseLibraryValidation(raw, p);
 }
 
 async function walkSnips(dir, out = []) {
@@ -485,7 +524,8 @@ async function main() {
     }
     if (!sovCache.has(jvdRoot)) sovCache.set(jvdRoot, await readSeenOnValidation(jvdRoot));
     const inventory = invCache.get(jvdRoot);
-    const seenOnValidation = sovCache.get(jvdRoot);
+    const validation = sovCache.get(jvdRoot);
+    const seenOnValidation = validation.seenOnValidation;
     const snipIndex = indexCache.get(jvdRoot);
 
     const rel = path.relative(REPO_ROOT, f).split(path.sep).join("/");
@@ -501,6 +541,9 @@ async function main() {
       members: membersByJvd.get(jvdRoot) || [],
       selfRel: rel,
       capabilityRequirements: capabilityCache.get(jvdRoot),
+      countValidation: validation.countValidation,
+      peersValidation: validation.peersValidation,
+      enforceEvidenceEnrollment: true,
     });
     for (const fd of findings) {
       const sev = severity(fd.code, { changed: isChanged, seenOnValidation });

@@ -18,6 +18,15 @@ export const CODES = {
   SEEN_ON_APPROXIMATION: "SEEN_ON_APPROXIMATION",
   SEEN_ON_UNKNOWN_DEVICE: "SEEN_ON_UNKNOWN_DEVICE",
   SEEN_ON_NATIVE_EMPTY: "SEEN_ON_NATIVE_EMPTY",
+  COUNT_MALFORMED: "COUNT_MALFORMED",
+  COUNT_MISSING_HEADER: "COUNT_MISSING_HEADER",
+  COUNT_TOTAL_MISMATCH: "COUNT_TOTAL_MISMATCH",
+  COUNT_UNKNOWN_DEVICE: "COUNT_UNKNOWN_DEVICE",
+  COUNT_SEEN_ON_MISMATCH: "COUNT_SEEN_ON_MISMATCH",
+  PEERS_MALFORMED: "PEERS_MALFORMED",
+  PEERS_MISSING_HEADER: "PEERS_MISSING_HEADER",
+  PEERS_UNKNOWN_DEVICE: "PEERS_UNKNOWN_DEVICE",
+  PEERS_NOT_APPLICABLE_DEVICE: "PEERS_NOT_APPLICABLE_DEVICE",
   PAIR_WITH_UNRESOLVED: "PAIR_WITH_UNRESOLVED",
   VARIABLE_UNDECLARED: "VARIABLE_UNDECLARED",
   VARIABLE_UNUSED: "VARIABLE_UNUSED",
@@ -42,9 +51,11 @@ export const CODES = {
 const SECTION_ORDER = [
   "topic",
   "seen-on",
+  "count",
   "variant-group",
   "highlights",
   "pair-with",
+  "peers-with",
   "jvd-service-mapping",
   "variables",
 ];
@@ -86,7 +97,61 @@ export function classifySelector(token) {
 const APPROX_WORDS = /^(all|other|others|remaining|various|etc|devices|nodes|node|pes|pe|routers|router)$/i;
 
 // Canonical field labels for fuzzy misspelling detection.
-const KNOWN_LABELS = ["topic", "seen on", "highlights", "pair with", "variables", "jvd service mapping"];
+const KNOWN_LABELS = ["topic", "seen on", "count", "highlights", "pair with", "peers with", "variables", "jvd service mapping"];
+
+const DEVICE_TOKEN = /^[A-Za-z0-9][A-Za-z0-9_./-]*$/;
+
+function parseCount(rows, diag) {
+  const byDevice = Object.create(null);
+  let total;
+  for (const row of rows) {
+    const match = row.match(/^(\S+)\s+(0|[1-9][0-9]*)$/);
+    if (!match || !Number.isSafeInteger(Number(match[2])) || total !== undefined) {
+      diag(CODES.COUNT_MALFORMED, row);
+      continue;
+    }
+    const [, device, value] = match;
+    if (device === "total") total = Number(value);
+    else if (!DEVICE_TOKEN.test(device) || Number(value) === 0 || Object.hasOwn(byDevice, device)) {
+      diag(CODES.COUNT_MALFORMED, row);
+    } else byDevice[device] = Number(value);
+  }
+  if (total === undefined) diag(CODES.COUNT_MALFORMED, "missing total");
+  const sum = Object.values(byDevice).reduce((acc, value) => acc + value, 0);
+  if (!Number.isSafeInteger(sum) || total !== sum) diag(CODES.COUNT_TOTAL_MISMATCH, `rows=${sum} total=${total}`);
+  return { byDevice, total };
+}
+
+function parsePeers(rows, diag) {
+  if (rows.length === 1 && rows[0] === "(none)") return { state: "none" };
+  if (rows.length === 1 && rows[0] === "n/a") return { state: "not-applicable" };
+  const groups = [];
+  const edges = new Set();
+  for (const row of rows) {
+    const match = row.match(/^\[([^\[\]]+)\]\s+<->\s+\[([^\[\]]+)\]$/);
+    if (!match) {
+      diag(CODES.PEERS_MALFORMED, row);
+      continue;
+    }
+    const left = match[1].split(",").map((token) => token.trim());
+    const right = match[2].split(",").map((token) => token.trim());
+    const devices = [...left, ...right];
+    if (devices.some((device) => !DEVICE_TOKEN.test(device)) || new Set(devices).size !== devices.length) {
+      diag(CODES.PEERS_MALFORMED, row);
+      continue;
+    }
+    for (const leftDevice of left) {
+      for (const rightDevice of right) {
+        const edge = JSON.stringify([leftDevice, rightDevice].sort());
+        if (edges.has(edge)) diag(CODES.PEERS_MALFORMED, `duplicate edge: ${row}`);
+        edges.add(edge);
+      }
+    }
+    groups.push({ left, right });
+  }
+  if (!groups.length) diag(CODES.PEERS_MALFORMED, "missing groups or explicit state");
+  return { state: "groups", groups };
+}
 
 /** Bounded Levenshtein distance for short header labels. */
 function editDistance(a, b) {
@@ -149,6 +214,8 @@ export function parseSnip(text) {
   const pairWith = [];
   const variables = [];
   const jvdServiceMapping = [];
+  let countRows;
+  let peersRows;
   let variantGroup = null;
   const variantRequires = [];
   let variantGroupSeen = false;
@@ -163,10 +230,7 @@ export function parseSnip(text) {
       continue;
     }
 
-    // Reserved relationship fields have no schema yet and MUST NOT appear.
-    // Detect them regardless of the current section and drop out so their
-    // bullets are not miscaptured as dependencies.
-    if (/^\s{0,1}(Peers with|Augments with)\b\s*:/i.test(line)) {
+    if (/^\s{0,1}Augments with\b\s*:/i.test(line)) {
       diag(CODES.UNKNOWN_HEADER_SECTION, trimmed);
       section = null;
       continue;
@@ -242,7 +306,7 @@ export function parseSnip(text) {
     // mistaken for metadata. A colonless annotated field (e.g. `Variables (none —
     // literal)`) parses for backward compatibility but is flagged for migration.
     const sec = line.match(
-      /^\s{0,1}(Topic|Apply-groups?|Seen on|Highlights|Pair with|Variables|JVD service mapping|Variant|Role)\s*(?:(\([^)]*\))\s*(:)?|(:))\s*(.*)$/i,
+      /^\s{0,1}(Topic|Apply-groups?|Seen on|Count|Highlights|Pair with|Peers with|Variables|JVD service mapping|Variant|Role)\s*(?:(\([^)]*\))\s*(:)?|(:))\s*(.*)$/i,
     );
     if (sec) {
       const key = sec[1].toLowerCase();
@@ -255,6 +319,15 @@ export function parseSnip(text) {
       } else if (key === "seen on") {
         section = "seen-on";
         seenOnSectionPresent = true;
+      } else if (key === "count") {
+        section = "count";
+        if (countRows !== undefined || value || (sec[2] && !sec[3])) diag(CODES.COUNT_MALFORMED, trimmed);
+        countRows ??= [];
+      } else if (key === "peers with") {
+        section = "peers-with";
+        if (peersRows !== undefined || (sec[2] && !sec[3])) diag(CODES.PEERS_MALFORMED, trimmed);
+        peersRows ??= [];
+        if (value) peersRows.push(value.trim());
       } else if (key === "highlights") {
         section = "highlights";
       } else if (key === "pair with") {
@@ -291,6 +364,15 @@ export function parseSnip(text) {
     // Lines under a misspelled field are already accounted for by the
     // UNKNOWN_HEADER_SECTION above; do not report them twice.
     if (section === "unknown") continue;
+
+    if (section === "count") {
+      countRows.push(trimmed);
+      continue;
+    }
+    if (section === "peers-with") {
+      peersRows.push(trimmed);
+      continue;
+    }
 
     if (section === "topic") {
       // A non-empty line after the Topic keyword, before any new section, is a
@@ -451,10 +533,14 @@ export function parseSnip(text) {
     if (!seenOnRows.evo) diag(CODES.MISSING_SEEN_ON_BUCKET, "EVO");
   }
 
+  const generated = {};
+  if (countRows !== undefined) generated.count = parseCount(countRows, diag);
+  if (peersRows !== undefined) generated.peersWith = parsePeers(peersRows, diag);
+
   return {
     warnings,
     diagnostics,
-    header: { topic, seenOn, variantGroup, variantRequires, highlights, pairWith, variables, jvdServiceMapping },
+    header: { topic, seenOn, variantGroup, variantRequires, highlights, pairWith, variables, jvdServiceMapping, ...generated },
     body,
   };
 }

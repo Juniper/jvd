@@ -651,6 +651,8 @@ async function main() {
       otherOsFormId: null, // filled in pass 2 (cross-OS sibling by jvd+category+name)
       topic: header?.topic || "",
       seenOn: header?.seenOn || { junos: [], evo: [] },
+      ...(header?.count ? { count: header.count } : {}),
+      ...(header?.peersWith ? { peersWith: header.peersWith } : {}),
       highlights: header?.highlights || [],
       pairWith: [], // filled in pass 2
       variables: header?.variables || [],

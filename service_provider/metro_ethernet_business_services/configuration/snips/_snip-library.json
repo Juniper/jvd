@@ -1,4 +1,6 @@
 {
   "schemaVersion": 1,
-  "seenOnValidation": "complete"
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial"
 }

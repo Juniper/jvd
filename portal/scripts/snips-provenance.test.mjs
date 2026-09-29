@@ -64,6 +64,20 @@ test("the published export exists and is a superset-free lean copy", () => {
   for (const s of exp.snips) assert.equal(s.bodyHtml, undefined, `${s.id} carries bodyHtml`);
 });
 
+test("generated claims participate in record and publication digests", () => {
+  const record = { id: "fixture", count: { byDevice: { device: 2 }, total: 2 }, peersWith: { state: "groups", groups: [{ left: ["device"], right: ["peer"] }] } };
+  for (const mutate of [
+    changed => { changed.count.byDevice.device = 3; changed.count.total = 3; },
+    changed => { changed.peersWith.groups[0].right = ["different-peer"]; },
+  ]) {
+    const changed = structuredClone(record);
+    mutate(changed);
+    assert.notEqual(generatedRecordDigest(record), generatedRecordDigest(changed));
+    assert.notEqual(generatedDigest({ snips: [record] }), generatedDigest({ snips: [changed] }));
+    assert.equal(generatedRecordDigest(changed), recordDigest(changed));
+  }
+});
+
 test("the export keeps every field of every record, bar presentation", () => {
   // A sample proves nothing about the other thousand records, and dropping one
   // field from one record is exactly how applicability goes missing.
