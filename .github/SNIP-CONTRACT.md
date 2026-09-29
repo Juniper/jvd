@@ -393,7 +393,7 @@ after `Seen on:` and optional `Count:`:
   - **Namespaced capabilities** — written `<namespace>:<capability>`, for
     selectable constructs that are not address families. These include
     `ifl:irb` (a logical interface), `transport:colour-classes`,
-    `transport:mpls-admin-groups`, and `firewall:policers`.
+    `transport:mpls-admin-groups`, `firewall:policers`, and `cos:schedulers`.
 - A member publishes one vocabulary. Mixing a bare family and a namespaced
   capability in one `Provides:` row is `VARIANT_MIXED_SELECTOR`, because an
   atomic all-of requirement must not span unrelated dimensions.
@@ -407,7 +407,7 @@ after `Seen on:` and optional `Count:`:
   unknown declared capability is `VARIANT_PROVIDES_UNKNOWN_FAMILY`. Families are
   compared against the `protocols bgp` hierarchy; `ifl:irb` requires an active
   `interfaces { irb { unit … } }` hierarchy.
-- The `transport` and `firewall` selectors use JVD-local requirements in
+- The `transport`, `firewall` and `cos` selectors use JVD-local requirements in
   `configuration/snips/_composition.json`, under
   `capabilityRequirements[group-name][selector]`. These declarations are scoped
   to that JVD and variant group; no names, colour numbers or administrative-group
@@ -421,6 +421,13 @@ after `Seen on:` and optional `Count:`:
     global `protocols/mpls/admin-groups`.
   - `firewall:policers`: `{ "policers": ["<policer name>", ...] }`.
     Each required name must have one active global `firewall/policer` definition.
+  - `cos:schedulers`: `{ "schedulers": ["<scheduler name>", ...] }`.
+    Each required name must have exactly one active global
+    `class-of-service/schedulers` definition containing active configuration.
+    In JVDs declaring this selector, active global scheduler-map references must
+    be supplied by applicable fixed or variant prerequisites, or by the
+    consumer's own body. Internal occurrence bindings do not replace the
+    exported prerequisite declaration.
 - Requirement collections are nonempty; list members are unique. Unknown
   selectors, extra fields and invalid value shapes are rejected. JVDs not using
   these selectors do not need a composition file. Consumers and members using

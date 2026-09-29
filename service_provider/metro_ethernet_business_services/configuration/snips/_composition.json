@@ -10,6 +10,9 @@
     },
     "mebs-rate-limit-policers": {
       "firewall:policers": { "policers": ["50mbps_policer", "5mbps_policer"] }
+    },
+    "mebs-cos-schedulers": {
+      "cos:schedulers": { "schedulers": ["BEST-EFFORT-SC", "BUSINESS-SC", "CONTROL-SC", "MEDIUM-SC", "REALTIME-SC", "SIG-OAM-SC"] }
     }
   },
   "description": "Canonical machine-readable composition matrix. One entry per form advertised in byoai/MENU.md. Supported devices are NOT duplicated here: they are resolved from each entry snippet's Seen-on rows, which remain the single source of device applicability. Validated by portal/scripts/composition-validate.mjs.",
@@ -1082,16 +1085,6 @@
       "providers": [
         "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
         "junos/class-of-service/scheduler-maps/sm-6class-mapping.conf"
-      ]
-    },
-    {
-      "consumer": "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
-      "kind": "scheduler",
-      "scope": "whole",
-      "declaredDependency": "evo/class-of-service/schedulers/sc-2-priority-model.conf",
-      "providers": [
-        "evo/class-of-service/schedulers/sc-2-priority-model.conf",
-        "junos/class-of-service/schedulers/sc-2-priority-model.conf"
       ]
     },
     {
@@ -11019,16 +11012,6 @@
       "providers": [
         "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
         "junos/class-of-service/scheduler-maps/sm-6class-mapping.conf"
-      ]
-    },
-    {
-      "consumer": "junos/class-of-service/scheduler-maps/sm-6class-mapping.conf",
-      "kind": "scheduler",
-      "scope": "whole",
-      "declaredDependency": "junos/class-of-service/schedulers/sc-2-priority-model.conf",
-      "providers": [
-        "evo/class-of-service/schedulers/sc-2-priority-model.conf",
-        "junos/class-of-service/schedulers/sc-2-priority-model.conf"
       ]
     },
     {

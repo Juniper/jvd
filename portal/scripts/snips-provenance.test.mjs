@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { digestOf as generatedDigest, recordDigest as generatedRecordDigest } from "./generate-snips.mjs";
+import { resolveVariant } from "./variant-resolve.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PORTAL = path.resolve(HERE, "..");
@@ -62,6 +63,34 @@ test("the published export exists and is a superset-free lean copy", () => {
   assert.equal(exp.snips.length, bundle.snips.length);
   assert.equal(exp.parseWarnings, undefined, "build diagnostics must not be published");
   for (const s of exp.snips) assert.equal(s.bodyHtml, undefined, `${s.id} carries bodyHtml`);
+});
+
+test("published scheduler requirements select all 20 devices through both mirrors", () => {
+  const records = read(EXPORT).snips.filter(row => row.jvd === 'metro_ethernet_business_services');
+  const maps = records.filter(row => row.path.endsWith('/scheduler-maps/sm-6class-mapping.conf'));
+  const providers = records.filter(row => row.path.endsWith('/schedulers/sc-2-priority-model.conf'));
+  assert.equal(maps.length, 2);
+  assert.equal(providers.length, 2);
+  const members = providers.map(row => ({ rel: row.id, jvd: row.jvd, os: row.path.split('/snips/')[1].split('/')[0], body: row.body, seenOn: row.seenOn, group: row.variantGroup?.name, provides: row.variantGroup?.provides }));
+  const byId = new Map(records.map(row => [row.id, row]));
+  for (const map of maps) {
+    assert.deepEqual(map.variantRequires, [{ group: 'mebs-cos-schedulers', families: ['cos:schedulers'] }]);
+    assert.equal(map.pairWith.length, 1);
+    const forwarding = byId.get(map.pairWith[0].id);
+    assert.ok(forwarding?.path.endsWith('/forwarding-classes/fc-6queue-model.conf'));
+    const counts = { junos: 0, evo: 0 };
+    const request = map.variantRequires[0];
+    for (const targetOS of ['junos', 'evo']) for (const targetDevice of map.seenOn[targetOS]) {
+      const args = { group: request.group, selectors: request.families, consumerJvd: map.jvd, targetDevice, targetOS, members };
+      const selected = resolveVariant(args);
+      assert.equal(selected.status, 'ok', `${map.id}:${targetDevice}`);
+      counts[selected.member.os]++;
+      assert.ok(forwarding.seenOn[targetOS].includes(targetDevice));
+      assert.equal(resolveVariant({ ...args, members: members.filter(row => row.rel !== selected.member.rel) }).status, 'unavailable');
+      assert.equal(resolveVariant({ ...args, members: [...members, { ...selected.member, rel: 'conflicting', body: selected.member.body.replace('priority low;', 'priority high;') }] }).status, 'ambiguous');
+    }
+    assert.deepEqual(counts, { junos: 9, evo: 11 });
+  }
 });
 
 test("generated claims participate in record and publication digests", () => {

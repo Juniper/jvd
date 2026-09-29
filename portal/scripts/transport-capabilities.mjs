@@ -1,7 +1,7 @@
 import { parseConfig } from "./config-objects.mjs";
 import { extractConstructOccurrences } from "./config-references.mjs";
 
-const fields = { "transport:colour-classes": "colours", "transport:mpls-admin-groups": "adminGroups", "firewall:policers": "policers" };
+const fields = { "transport:colour-classes": "colours", "transport:mpls-admin-groups": "adminGroups", "firewall:policers": "policers", "cos:schedulers": "schedulers" };
 const literal = value => typeof value === "string" && /^[A-Za-z0-9_.-]+$/.test(value);
 const number = value => typeof value === "string" && /^\d+$/.test(value);
 
@@ -23,7 +23,7 @@ export function capabilityRequirementProblems(requirements = {}) {
 
 export function capabilityFacts(body) {
   const parsed = parseConfig(body);
-  const facts = { ok: parsed.ok, colours: [], adminGroups: [], policers: [], requiredColours: [], requiredAdminGroups: [], requiredPolicers: [] };
+  const facts = { ok: parsed.ok, colours: [], adminGroups: [], policers: [], schedulers: [], requiredColours: [], requiredAdminGroups: [], requiredPolicers: [], requiredSchedulers: [] };
   const walk = (nodes, trail) => {
     for (const node of nodes) {
       if (node.inactive) continue;
@@ -34,6 +34,7 @@ export function capabilityFacts(body) {
       }
       if (location === "protocols/mpls/admin-groups" && node.children === null && node.words.length === 2 && literal(node.words[0]) && number(node.words[1])) facts.adminGroups.push({ name: node.words[0], value: node.words[1] });
       if (location === "firewall" && node.children !== null && node.words.length === 2 && node.words[0] === "policer" && literal(node.words[1])) facts.policers.push(node.words[1]);
+      if (location === "class-of-service/schedulers" && node.children !== null && node.words.length === 1 && literal(node.words[0])) facts.schedulers.push({ name: node.words[0], nonempty: node.children.some(child => !child.inactive) });
       if (trail[0] === "routing-options" && trail[1] === "resolution" && node.words[0] === "resolution-ribs") {
         for (const word of node.words.slice(1)) { const match = word.match(/^junos-rti-tc-(\d+)\.inet6?\.3$/); if (match) facts.requiredColours.push(match[1]); }
       }
@@ -44,7 +45,9 @@ export function capabilityFacts(body) {
   };
   if (parsed.ok) {
     walk(parsed.nodes, []);
-    facts.requiredPolicers = extractConstructOccurrences(body).references.filter(reference => reference.kind === 'policer' && reference.trail[0] !== 'groups' && literal(reference.name)).map(reference => reference.name);
+    const references = extractConstructOccurrences(body).references;
+    facts.requiredPolicers = references.filter(reference => reference.kind === 'policer' && reference.trail[0] !== 'groups' && literal(reference.name)).map(reference => reference.name);
+    facts.requiredSchedulers = references.filter(reference => reference.kind === 'scheduler' && reference.trail.length === 3 && reference.trail[0] === 'class-of-service' && reference.trail[1] === 'scheduler-maps').map(reference => reference.name);
   }
   return facts;
 }
@@ -56,6 +59,7 @@ export function extractConfiguredCapabilities(body, requirements = {}) {
     if (!validCapabilityRequirement(token, requirement)) return false;
     if (token === "transport:colour-classes") return requirement.colours.every(value => facts.colours.filter(row => row.value === value).length === 1) && facts.colours.every(row => facts.colours.filter(other => other.name === row.name).length === 1);
     if (token === "transport:mpls-admin-groups") return Object.entries(requirement.adminGroups).every(([name, value]) => facts.adminGroups.filter(row => row.name === name).length === 1 && facts.adminGroups.some(row => row.name === name && row.value === value));
+    if (token === "cos:schedulers") return requirement.schedulers.every(name => facts.schedulers.filter(row => row.name === name).length === 1 && facts.schedulers.some(row => row.name === name && row.nonempty));
     return requirement.policers.every(name => facts.policers.filter(value => value === name).length === 1);
   }).map(([token]) => token);
 }
@@ -67,8 +71,8 @@ export function configuredCapabilityProblems(header, body, requirements = {}) {
     if (!fields[token]) continue;
     const requirement = requirements?.[request.group]?.[token];
     if (!validCapabilityRequirement(token, requirement)) { problems.push(`Missing or invalid declaration: ${request.group}/${token}`); continue; }
-    const requested = token === "transport:colour-classes" ? facts.requiredColours : token === "transport:mpls-admin-groups" ? facts.requiredAdminGroups : facts.requiredPolicers;
-    const declared = token === "transport:colour-classes" ? requirement.colours : token === "transport:mpls-admin-groups" ? Object.keys(requirement.adminGroups) : requirement.policers;
+    const requested = token === "transport:colour-classes" ? facts.requiredColours : token === "transport:mpls-admin-groups" ? facts.requiredAdminGroups : token === "cos:schedulers" ? facts.requiredSchedulers : facts.requiredPolicers;
+    const declared = token === "transport:mpls-admin-groups" ? Object.keys(requirement.adminGroups) : requirement[fields[token]];
     if (!facts.ok || requested.some(value => !declared.includes(value))) problems.push(`Consumer reference not covered by ${request.group}/${token}`);
   }
   if (header.variantGroup) for (const token of header.variantGroup.provides) {

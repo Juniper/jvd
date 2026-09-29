@@ -204,7 +204,8 @@ test('occurrence bindings include matching parent settings and every physical me
   }
 });
 
-test('scheduler maps select all six source definitions through existing occurrence bindings', () => {
+test('scheduler variants conserve 20 device outcomes through both map mirrors without overrides', async () => {
+  const { validateSnipText } = await import('./snip-validate.mjs');
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services/configuration');
   const rels = ['junos', 'evo'].flatMap(os => [
     `${os}/class-of-service/scheduler-maps/sm-6class-mapping.conf`,
@@ -215,6 +216,20 @@ test('scheduler maps select all six source definitions through existing occurren
   const snips = parsed.map(row => ({ rel: row.rel, dir: row.rel.split('/')[0], seenOn: row.header.seenOn, body: row.body }));
   const headers = new Map(parsed.map(row => [row.rel, row.header]));
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
+  const maps = rels.filter(rel => rel.includes('/scheduler-maps/'));
+  const schedulerPaths = rels.filter(rel => rel.includes('/schedulers/'));
+  const variantMembers = parsed.filter(row => row.header.variantGroup).map(row => ({ ...snipIndex.get(row.rel), os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides }));
+  const oldBindings = maps.map(consumer => ({ consumer, kind: 'scheduler', scope: 'whole', declaredDependency: `${consumer.split('/')[0]}/class-of-service/schedulers/sc-2-priority-model.conf`, providers: schedulerPaths }));
+  const oldHeaders = new Map(headers);
+  for (const binding of oldBindings) {
+    const header = headers.get(binding.consumer);
+    assert.deepEqual(header.pairWith, [`${binding.consumer.split('/')[0]}/class-of-service/forwarding-classes/fc-6queue-model.conf`]);
+    assert.deepEqual(header.variantRequires, [{ group: 'mebs-cos-schedulers', families: ['cos:schedulers'] }]);
+    assert.ok(!MATRIX.occurrenceBindings.some(row => row.consumer === binding.consumer && row.kind === 'scheduler'), 'Obsolete override must be absent, not repointed');
+    oldHeaders.set(binding.consumer, { ...header, pairWith: [...header.pairWith, binding.declaredDependency], variantRequires: [] });
+  }
+  const distribution = new Map(maps.map(rel => [rel, { junos: 0, evo: 0 }]));
+  const checkedDevices = new Set();
   let checked = 0;
   for (const file of fs.readdirSync(path.join(root, 'conf')).filter(file => file.endsWith('.conf'))) {
     const device = file.slice(0, -5);
@@ -222,10 +237,9 @@ test('scheduler maps select all six source definitions through existing occurren
     assert.ok(os, device);
     const sourceText = fs.readFileSync(path.join(root, 'conf', file), 'utf8');
     const resolver = createOccurrenceResolver({ sourceText, device, os, snips });
-    for (const rel of rels.filter(rel => rel.includes('/scheduler-maps/'))) {
-      const declared = `${rel.split('/')[0]}/class-of-service/schedulers/sc-2-priority-model.conf`;
-      assert.ok(headers.get(rel).pairWith.includes(declared), 'The required scheduler declaration must remain');
-      const args = { entries: resolver.occurrences(rel), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, bindings: MATRIX.occurrenceBindings };
+    checkedDevices.add(device);
+    for (const rel of maps) {
+      const args = { entries: resolver.occurrences(rel), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, bindings: [], variantMembers, capabilityRequirements: MATRIX.capabilityRequirements };
       assert.equal(args.entries.length, 1, `${rel}:${device}`);
       const closure = closeOccurrenceTuple(args);
       assert.deepEqual(closure.failures, [], `${rel}:${device}`);
@@ -234,7 +248,11 @@ test('scheduler maps select all six source definitions through existing occurren
       assert.equal(new Set(schedulerReferences.map(reference => reference.name)).size, 6);
       const providers = closure.included.filter(row => row.rel.includes('/schedulers/'));
       assert.equal(providers.length, 1);
-      assert.ok(closure.edges.some(edge => edge.requirement === declared && edge.to === providers[0].id));
+      distribution.get(rel)[providers[0].rel.split('/')[0]]++;
+      assert.ok(closure.edges.some(edge => edge.requirement === 'variant:mebs-cos-schedulers' && edge.to === providers[0].id));
+      const previous = closeOccurrenceTuple({ ...args, headers: oldHeaders, bindings: oldBindings });
+      assert.deepEqual(previous.failures, []);
+      assert.deepEqual(closure.included.map(row => row.id).sort(), previous.included.map(row => row.id).sort(), `${rel}:${device}: preserve every old emitted occurrence`);
       for (const reference of schedulerReferences) {
         const resolution = resolver.resolve({ consumerId: args.entries[0].id, sourceSha256: resolver.sourceSha256, ...reference, candidates: [providers[0].rel], scope: 'whole' });
         assert.equal(resolution.status, 'ok');
@@ -245,19 +263,24 @@ test('scheduler maps select all six source definitions through existing occurren
       assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, []);
       const missing = resolver.render({ ids: closure.included.filter(row => row.id !== providers[0].id).map(row => row.id), sourceSha256: resolver.sourceSha256 });
       assert.ok(verifyOccurrenceEmission({ ...args, closure, rendered: missing }).failures.length);
-      const withoutProvider = new Map(snipIndex);
-      withoutProvider.delete(providers[0].rel);
-      assert.ok(closeOccurrenceTuple({ ...args, snipIndex: withoutProvider }).failures.some(row => row.kind === 'dependency-invalid-binding'));
-      const badScope = MATRIX.occurrenceBindings.map(binding => binding.consumer === rel && binding.kind === 'scheduler' ? { ...binding, scope: 'object' } : binding);
-      assert.ok(closeOccurrenceTuple({ ...args, bindings: badScope }).failures.some(row => row.kind === 'dependency-invalid-binding'));
-      if (providers[0].rel !== declared) {
-        const noSelection = MATRIX.occurrenceBindings.map(binding => binding.consumer === rel && binding.kind === 'scheduler' ? { ...binding, declaredDependency: undefined } : binding);
-        assert.ok(closeOccurrenceTuple({ ...args, bindings: noSelection }).failures.some(row => row.kind === 'dependency-unavailable'));
-      }
+      assert.ok(closeOccurrenceTuple({ ...args, variantMembers: variantMembers.filter(row => row.rel !== providers[0].rel) }).failures.some(row => row.kind === 'variant-unavailable'));
+      const undeclaredHeaders = new Map(headers);
+      undeclaredHeaders.set(rel, { ...headers.get(rel), variantRequires: [] });
+      assert.ok(closeOccurrenceTuple({ ...args, headers: undeclaredHeaders }).failures.some(row => row.kind === 'missing-reference-rule'));
+      const masked = closeOccurrenceTuple({ ...args, headers: undeclaredHeaders, bindings: oldBindings });
+      assert.deepEqual(masked.failures, [], 'Old override can mask the missing public declaration internally');
+      const text = fs.readFileSync(path.join(root, 'snips', rel), 'utf8');
+      const validationOptions = { dependencyIndex: snipIndex, jvd: 'mebs', members: variantMembers, capabilityRequirements: MATRIX.capabilityRequirements };
+      assert.deepEqual(validateSnipText(text, validationOptions), []);
+      const undeclared = text.replace(/^.*variant:mebs-cos-schedulers.*\n/gm, '');
+      assert.notEqual(undeclared, text);
+      assert.ok(validateSnipText(undeclared, { ...validationOptions, occurrenceBindings: oldBindings }).some(row => row.code === 'PAIR_WITH_MISSING_REQUIREMENT'));
       checked++;
     }
   }
   assert.equal(checked, 40);
+  assert.equal(checkedDevices.size, 20);
+  for (const counts of distribution.values()) assert.deepEqual(counts, { junos: 9, evo: 11 });
 });
 
 corpusTest('MEBS parent and member bindings close every claimed unit occurrence', [...new Set(MATRIX.occurrenceBindings.filter(row => ['interface-parent', 'lag-member'].includes(row.kind)).map(row => row.consumer))], async consumers => {

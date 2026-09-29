@@ -52,6 +52,28 @@ test("auto-RD consumers must declare an applicable seed provider or contain it",
   assert.equal(missing(snip({ body: "routing-instances { V { route-distinguisher 65000:1; } }" })), false);
 });
 
+test("scheduler declarations are enforced only for enrolled JVDs and cannot rely on internal bindings", () => {
+  const body = 'class-of-service { scheduler-maps { arbitrary { forwarding-class queue scheduler alpha; } } }';
+  const provider = { rel: 'evo/provider.conf', dir: 'evo', os: 'evo', jvd: 'fixture', group: 'custom', provides: ['cos:schedulers'], seenOn: { junos: ['mse1_mx304'], evo: [] }, body: 'class-of-service { schedulers { alpha { priority low; } } }' };
+  const dependencyIndex = new Map([[provider.rel, provider]]);
+  const capabilityRequirements = { custom: { 'cos:schedulers': { schedulers: ['alpha'] } } };
+  const options = { dependencyIndex, capabilityRequirements, jvd: 'fixture', members: [provider] };
+  const missing = (text, context = options) => codes(validateSnipText(text, context)).includes('PAIR_WITH_MISSING_REQUIREMENT');
+  const declared = snip({ body, pair: 'variant:custom capabilities=cos:schedulers' });
+  assert.equal(missing(declared), false);
+  assert.equal(missing(declared, { ...options, members: [{ ...provider, rel: `service_provider/fixture/configuration/snips/${provider.rel}`, snipRel: provider.rel }] }), false);
+  assert.equal(missing(snip({ body, pair: provider.rel })), false);
+  assert.equal(missing(snip({ body })), true);
+  assert.equal(missing(snip({ body }), { ...options, capabilityRequirements: {} }), false);
+  assert.equal(missing(snip({ body }), { ...options, occurrenceBindings: [{ consumer: 'map', kind: 'scheduler', providers: [provider.rel] }] }), true);
+  assert.equal(missing(declared, { ...options, members: [] }), true);
+  assert.equal(missing(declared, { ...options, members: [{ ...provider, seenOn: { junos: ['other'], evo: [] } }] }), true);
+  assert.equal(missing(declared, { ...options, members: [provider, { ...provider, rel: 'evo/other.conf', body: provider.body.replace('low', 'high') }] }), true);
+  for (const invalid of [`inactive: ${provider.body}`, `groups { UNUSED { ${provider.body} } }`, provider.body.replace('alpha { priority low; }', 'alpha {}'), provider.body.replace('alpha { priority low; }', 'alpha { priority low; } alpha { priority low; }')]) {
+    assert.equal(missing(declared, { ...options, dependencyIndex: new Map([[provider.rel, { ...provider, body: invalid }]]) }), true);
+  }
+});
+
 function measuredSnip(count = "mse1_mx304 2\n *   total 2", peers = "[mse1_mx304] <-> [mse2_mx304]") {
   return snip({})
     .replace(" * Pair with:", ` * Count:\n *   ${count}\n * Pair with:`)

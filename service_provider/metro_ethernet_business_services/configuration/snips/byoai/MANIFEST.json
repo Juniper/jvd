@@ -298,7 +298,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1824,
+      "size_bytes": 1823,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/scheduler-maps/sm-6class-mapping.conf"
     },
     {
@@ -320,7 +320,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1995,
+      "size_bytes": 2066,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/sc-2-priority-model.conf"
     },
     {
@@ -4822,7 +4822,7 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1828,
+      "size_bytes": 1825,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/scheduler-maps/sm-6class-mapping.conf"
     },
     {
@@ -4842,7 +4842,7 @@
         "cr1_ptx10001-36mr",
         "cr2_ptx10001-36mr"
       ],
-      "size_bytes": 2152,
+      "size_bytes": 2223,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/schedulers/sc-2-priority-model.conf"
     },
     {

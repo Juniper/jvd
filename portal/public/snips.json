@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-29T17:54:02.827Z",
-  "snippetSourceDigest": "c57362b92f0559e34f446434a9840e6f1913382a164bc3d761ff7803a7648d73",
+  "generatedAt": "2026-09-29T19:03:01.823Z",
+  "snippetSourceDigest": "1ef7642b021960236ee3706f85b65657cef23679c2759bb2afb8fade8cf65111",
   "counts": {
     "total": 1092,
     "junos": 531,
@@ -41622,15 +41622,18 @@
           "raw": "evo/class-of-service/forwarding-classes/fc-6queue-model.conf",
           "id": "metro_ethernet_business_services/evo/class-of-service/forwarding-classes/fc-6queue-model",
           "note": null
-        },
-        {
-          "raw": "evo/class-of-service/schedulers/sc-2-priority-model.conf",
-          "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/sc-2-priority-model",
-          "note": null
         }
       ],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-cos-schedulers",
+          "families": [
+            "cos:schedulers"
+          ]
+        }
+      ],
       "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n}",
       "bytes": 444,
       "lineCount": 12,
@@ -41644,7 +41647,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "d310e0ac401aa94c26f4e8652c0da3a71384578919b9f645c3648095f02728b1"
+      "recordSha256": "28ac2f96aeb486a4f0ec4519c04988b46031f43981c62643d2822e41643b51f0"
     },
     {
       "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/sc-2-priority-model",
@@ -41701,6 +41704,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-cos-schedulers",
+        "provides": [
+          "cos:schedulers"
+        ]
+      },
       "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            shaping-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
       "bytes": 899,
       "lineCount": 38,
@@ -41714,7 +41723,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "dd39362fa104e6471a5dd58d3b348071b7c013d77c587e5d01bd249c6c4a365e"
+      "recordSha256": "65175df4f8632093f623fd5f87e3637b4a2f092845504118663971bebbdb920a"
     },
     {
       "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
@@ -61705,15 +61714,18 @@
           "raw": "junos/class-of-service/forwarding-classes/fc-6queue-model.conf",
           "id": "metro_ethernet_business_services/junos/class-of-service/forwarding-classes/fc-6queue-model",
           "note": null
-        },
-        {
-          "raw": "junos/class-of-service/schedulers/sc-2-priority-model.conf",
-          "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/sc-2-priority-model",
-          "note": null
         }
       ],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-cos-schedulers",
+          "families": [
+            "cos:schedulers"
+          ]
+        }
+      ],
       "body": "class-of-service {\n    scheduler-maps {\n        5G_SCHEDULER {\n            forwarding-class BEST-EFFORT scheduler BEST-EFFORT-SC;\n            forwarding-class BUSINESS scheduler BUSINESS-SC;\n            forwarding-class CONTROL scheduler CONTROL-SC;\n            forwarding-class MEDIUM scheduler MEDIUM-SC;\n            forwarding-class REALTIME scheduler REALTIME-SC;\n            forwarding-class SIG-OAM scheduler SIG-OAM-SC;\n        }\n    }\n}",
       "bytes": 444,
       "lineCount": 12,
@@ -61727,7 +61739,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "9ee0620f0acd1bcf5eb4621e982e84cd13ecacd948b5798d7e898fc19f53f0f3"
+      "recordSha256": "e628b71da127605f1b2d9b4c9325eb981199073ee59f4edc8de0bc12bbf7153c"
     },
     {
       "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/sc-2-priority-model",
@@ -61780,6 +61792,12 @@
       "pairWith": [],
       "variables": [],
       "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-cos-schedulers",
+        "provides": [
+          "cos:schedulers"
+        ]
+      },
       "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            transmit-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
       "bytes": 900,
       "lineCount": 38,
@@ -61793,7 +61811,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "3ee8e1cda2d68e18ddfe6cd146798f4d4a5295dfc5ae2620d474200f125c45bb"
+      "recordSha256": "9aee8acf94fed0f1ef2c742510dbdd8e3c17f524788d02fbcf86dda7ea496320"
     },
     {
       "id": "metro_ethernet_business_services/junos/firewall/filter-family-any-policers",
@@ -81900,5 +81918,5 @@
       "vscodePromptName": "jvd-srv6"
     }
   ],
-  "exportDigest": "f87cf4187e0c3bb20b7dcb55967c7a2cbddf68e4755ad4f5afef29a52fbb682f"
+  "exportDigest": "4a98a1fda1f9b6d428364e13166737848645038d2c7527bbe9a404a6c0dd3308"
 }

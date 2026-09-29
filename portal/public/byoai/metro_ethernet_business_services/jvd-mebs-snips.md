@@ -742,7 +742,7 @@ class-of-service {
  *
  * Pair with:
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
- *  - evo/class-of-service/schedulers/sc-2-priority-model.conf
+ *  - variant:mebs-cos-schedulers capabilities=cos:schedulers
  *
  * Variables: none. The scheduler-map name, class names and scheduler names are
  *            JVD-wide constants, identical on every device in the design.
@@ -782,6 +782,9 @@ class-of-service {
  *   meg1_acx7100-32c 1
  *   meg2_acx7509 1
  *   total 11
+ *
+ * Variant group: mebs-cos-schedulers
+ *   Provides: cos:schedulers
  *
  * Highlights:
  *  - Six schedulers consumed by the 5G_SCHEDULER scheduler-map.
@@ -15378,7 +15381,7 @@ class-of-service {
  *
  * Pair with:
  *  - junos/class-of-service/forwarding-classes/fc-6queue-model.conf
- *  - junos/class-of-service/schedulers/sc-2-priority-model.conf
+ *  - variant:mebs-cos-schedulers capabilities=cos:schedulers
  *
  * Variables: none. The scheduler-map name, class names and scheduler names are
  *            JVD-wide constants, identical on every device in the design.
@@ -15416,6 +15419,9 @@ class-of-service {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 9
+ *
+ * Variant group: mebs-cos-schedulers
+ *   Provides: cos:schedulers
  *
  * Highlights:
  *  - Six schedulers consumed by the 5G_SCHEDULER scheduler-map:

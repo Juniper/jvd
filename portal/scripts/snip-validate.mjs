@@ -23,7 +23,7 @@ import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-par
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
 import { extractIflCapabilities } from "./ifl-capabilities.mjs";
 import { extractGrCapabilities } from "./gr-capabilities.mjs";
-import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems } from "./transport-capabilities.mjs";
+import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems, capabilityFacts } from "./transport-capabilities.mjs";
 import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
 import { extractConstructs } from "./config-references.mjs";
 import { resolveDependency, dependencyPath } from "./dependency-resolve.mjs";
@@ -339,8 +339,13 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
   if (dependencyIndex) {
     const constructs = extractConstructs(body);
     const requirements = constructs.references.filter(reference => reference.kind === "route-distinguisher-id");
+    if (Object.values(capabilityRequirements).some(selectors => selectors && Object.hasOwn(selectors, 'cos:schedulers'))) {
+      requirements.push(...capabilityFacts(body).requiredSchedulers.map(name => ({ kind: 'scheduler', name })));
+    }
     for (const requirement of requirements) {
-      const defines = candidate => extractConstructs(candidate).definitions.filter(definition => definition.kind === requirement.kind && definition.name === requirement.name).length === 1;
+      const defines = candidate => requirement.kind === 'scheduler'
+        ? extractConfiguredCapabilities(candidate, { 'cos:schedulers': { schedulers: [requirement.name] } }).includes('cos:schedulers')
+        : extractConstructs(candidate).definitions.filter(definition => definition.kind === requirement.kind && definition.name === requirement.name).length === 1;
       if (defines(body)) continue;
       for (const targetOS of ["junos", "evo"]) for (const targetDevice of header.seenOn[targetOS]) {
         const supplied = header.pairWith.some(bullet => {
@@ -348,7 +353,12 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
           if (!targetRel) return false;
           const resolution = resolveDependency({ targetRel, targetDevice, targetOS, index: dependencyIndex });
           return resolution.status === "ok" && defines(dependencyIndex.get(resolution.selected).body);
-        });
+        }) || (requirement.kind === 'scheduler' && header.variantRequires.some(request => {
+          const resolution = resolveVariant({ group: request.group, selectors: request.families, consumerJvd: jvd, targetDevice, targetOS, members: members ?? [] });
+          if (resolution.status !== 'ok') return false;
+          const provider = dependencyIndex.get(resolution.member.snipRel ?? resolution.member.rel);
+          return !!provider && defines(provider.body) && validateVariantMember({ variantGroup: { name: resolution.member.group, provides: resolution.member.provides }, body: provider.body, capabilityRequirements }).length === 0;
+        }));
         if (!supplied) findings.push({ code: "PAIR_WITH_MISSING_REQUIREMENT", detail: `${requirement.kind}:${requirement.name} on ${targetDevice} (${targetOS})` });
       }
     }
@@ -526,6 +536,7 @@ async function main() {
         variantGroup: header.variantGroup,
         bodyId: bodyIdentity(parsedForMember.body),
         rel: relRepo,
+        snipRel: relative,
       });
     }
   }
