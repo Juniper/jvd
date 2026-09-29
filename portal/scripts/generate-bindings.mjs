@@ -214,6 +214,33 @@ export function readBindingsInputs(configuration) {
     inputs.push([`snips/${relative}`, digest(normalized)]);
     templates.push({ relative, file, text, body, normalized });
   }
+  const libraryPath = confinedPath(configuration, path.join(snipsRoot, '_snip-library.json'), { allowMissing: true });
+  const mirrorPairs = fs.existsSync(libraryPath) ? JSON.parse(readConfinedFile(configuration, libraryPath, 'utf8')).osScopedMirrors ?? [] : [];
+  assert.ok(Array.isArray(mirrorPairs), 'osScopedMirrors must be an array');
+  const scopedPaths = new Set();
+  const deviceOs = new Map();
+  if (mirrorPairs.length) {
+    for (const template of templates) {
+      const header = parseSnip(template.text).header;
+      for (const os of ['junos', 'evo']) for (const device of header?.seenOn?.[os] ?? []) {
+        assert.ok(!deviceOs.has(device) || deviceOs.get(device) === os, `Conflicting source OS: ${device}`);
+        deviceOs.set(device, os);
+      }
+    }
+    const byPath = new Map(templates.map(template => [template.relative, template]));
+    for (const pair of mirrorPairs) {
+      assert.ok(pair && Object.keys(pair).sort().join(',') === 'evo,junos', 'A mirror pair requires exactly junos and evo paths');
+      for (const os of ['junos', 'evo']) {
+        assert.ok(typeof pair[os] === 'string' && pair[os].startsWith(`${os}/`) && byPath.has(pair[os]) && !scopedPaths.has(pair[os]), `Invalid or duplicate mirror: ${pair[os]}`);
+        scopedPaths.add(pair[os]);
+      }
+      assert.equal(byPath.get(pair.junos).body, byPath.get(pair.evo).body, `Mirror bodies differ: ${pair.junos}, ${pair.evo}`);
+    }
+    for (const source of sources) assert.ok(deviceOs.has(source.device), `Missing source OS: ${source.device}`);
+    inputs.push(['snips/osScopedMirrors', digest(JSON.stringify({ mirrorPairs, deviceOs: sources.map(source => [source.device, deviceOs.get(source.device)]) }))]);
+    for (const source of sources) source.os = deviceOs.get(source.device);
+    for (const template of templates) if (scopedPaths.has(template.relative)) template.sourceOS = template.relative.split('/')[0];
+  }
   const tools = ['generate-bindings.mjs', 'config-objects.mjs', 'snip-parse.mjs', 'snip-files.mjs'].map(name => [name, digest(fs.readFileSync(path.join(scripts, name)))]);
   const generatedFrom = { inputsSha256: digest(JSON.stringify(inputs)), registryVersion: registry.version, registrySha256: digest(fs.readFileSync(registryPath)), toolsSha256: digest(JSON.stringify(tools)), devices: sources.length, snips: templates.length };
   return { sources, exclusions, templates, generatedFrom };
@@ -232,7 +259,7 @@ export function generateBindings(configuration, { onMeasurement } = {}) {
   const trees = sources.map(source => ({ ...source, tree: sourceTree(source.text, { device: source.device, exclusions }) }));
   const snips = {};
   const bodyCache = new Map();
-  for (const { relative, normalized } of templates) {
+  for (const { relative, normalized, sourceOS } of templates) {
     if (!bodyCache.has(normalized)) {
       const count = {};
       const instances = {};
@@ -248,7 +275,13 @@ export function generateBindings(configuration, { onMeasurement } = {}) {
       }
       bodyCache.set(normalized, { variables, count, instances });
     }
-    snips[relative] = bodyCache.get(normalized);
+    const measured = bodyCache.get(normalized);
+    if (sourceOS) {
+      const devices = new Set(sources.filter(source => source.os === sourceOS).map(source => source.device));
+      const count = Object.fromEntries(Object.entries(measured.count).filter(([device]) => devices.has(device)));
+      assert.ok(Object.keys(count).length, `Unsupported empty mirror: ${relative}`);
+      snips[relative] = { variables: measured.variables, count, instances: Object.fromEntries(Object.entries(measured.instances).filter(([device]) => devices.has(device))) };
+    } else snips[relative] = measured;
   }
   return { schema: 2, jvd: path.basename(path.dirname(configuration)), generatedFrom, deviceInventory: sources.map(source => source.device), snips };
 }

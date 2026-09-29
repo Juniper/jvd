@@ -1470,11 +1470,14 @@ export function createPeerAnalysis(inputs) {
     return { required, unresolved };
   };
   const bodies = new Map();
+  const templateKey = template => JSON.stringify([template.normalized, template.sourceOS ?? null]);
   for (const template of inputs.templates) {
-    if (bodies.has(template.normalized)) continue;
+    if (bodies.has(templateKey(template))) continue;
     const features = peerFeatures(template.body);
     const { required, unresolved } = requiredKinds(features);
-    bodies.set(template.normalized, {
+    bodies.set(templateKey(template), {
+      normalized: template.normalized,
+      sourceOS: template.sourceOS,
       features,
       required,
       unresolved,
@@ -1485,13 +1488,15 @@ export function createPeerAnalysis(inputs) {
     });
   }
   const observe = ({ body, device, measured }) => {
-    const result = bodies.get(body);
-    assert.ok(result, "Unknown peer template");
+    const results = [...bodies.values()].filter(result => result.normalized === body);
+    assert.ok(results.length, "Unknown peer template");
+    for (const result of results) {
     assert.ok(
       inputs.sources.some((source) => source.device === device) && !result.examined.has(device),
       "Unknown or duplicate peer measurement device",
     );
     result.examined.add(device);
+    if (result.sourceOS && inputs.sources.find(source => source.device === device).os !== result.sourceOS) continue;
     result.instances += measured.instances.length;
     const index = byDevice.get(device) ?? new Map();
     for (const instance of measured.instances) {
@@ -1526,11 +1531,12 @@ export function createPeerAnalysis(inputs) {
         }
       }
     }
+    }
   };
   const summary = () =>
     Object.fromEntries(
       inputs.templates.map((template) => {
-        const result = bodies.get(template.normalized);
+        const result = bodies.get(templateKey(template));
         const reasons = [...result.reasons.values()]
           .map((finding) => ({ ...finding, devices: [...finding.devices].sort() }))
           .sort((left, right) => left.reason.localeCompare(right.reason, "en"));

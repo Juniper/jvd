@@ -94,6 +94,48 @@ test("materialization and peer generation reject linked assets without changing 
   assert.throws(() => readBindingsInputs(configuration), /Symbolic links/);
 });
 
+test("registered byte-identical mirrors partition OS evidence without dropping source matches", context => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'mirror-evidence-'));
+  context.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(root, 'conf'));
+  const body = 'routing-options { router-id $ROUTER_ID; }\n';
+  const pair = { junos: 'junos/routing-options/id.conf', evo: 'evo/routing-options/id-copy.conf' };
+  for (const [directory, device, address] of [['junos', 'first', '192.0.2.1'], ['evo', 'second', '192.0.2.2']]) {
+    fs.mkdirSync(path.dirname(path.join(root, 'snips', pair[directory])), { recursive: true });
+    fs.writeFileSync(path.join(root, 'conf', `${device}.conf`), `routing-options { router-id ${address}; }`);
+    fs.writeFileSync(path.join(root, 'snips', pair[directory]), `/*\n * Topic: Router ID\n * Seen on:\n *   Junos: ${directory === 'junos' ? device : '(none)'}\n *   EVO: ${directory === 'evo' ? device : '(none)'}\n * Variables:\n *   $ROUTER_ID e.g. ${address}\n */\n${body}`);
+  }
+  const metadata = path.join(root, 'snips/_snip-library.json');
+  fs.writeFileSync(metadata, JSON.stringify({ schemaVersion: 1, osScopedMirrors: [pair] }));
+  const result = generateBindings(root);
+  assert.deepEqual(result.snips[pair.junos].count, { first: 1 });
+  assert.deepEqual(result.snips[pair.evo].count, { second: 1 });
+  fs.writeFileSync(path.join(root, 'snips/_bindings.json'), JSON.stringify(result));
+  assert.deepEqual(verifyCountEvidence(root, { remeasure: true }).findings, []);
+  const inputs = readBindingsInputs(root);
+  assert.equal(inputs.templates.filter(template => template.sourceOS).length, 2);
+  fs.writeFileSync(metadata, JSON.stringify({ schemaVersion: 1 }));
+  const unscoped = generateBindings(root);
+  assert.deepEqual(unscoped.snips[pair.junos].count, { first: 1, second: 1 });
+  assert.notEqual(result.generatedFrom.inputsSha256, unscoped.generatedFrom.inputsSha256);
+  fs.writeFileSync(metadata, JSON.stringify({ schemaVersion: 1, osScopedMirrors: [pair] }));
+  for (const [directory, device, iface] of [['junos', 'first', 'ae1'], ['evo', 'second', 'ae2']]) {
+    const file = path.join(root, 'snips', pair[directory]);
+    const protocol = 'protocols { isis { interface $IFD { point-to-point; } } }\n';
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(body, protocol).replace('$ROUTER_ID e.g.', '$IFD e.g.'));
+    fs.writeFileSync(path.join(root, 'conf', `${device}.conf`), protocol.replace('$IFD', iface));
+  }
+  const peers = generatePeerEvidence(root);
+  for (const [directory, device] of [['junos', 'first'], ['evo', 'second']]) {
+    const record = peers.snips[pair[directory]];
+    assert.equal(record.status, 'unresolved');
+    assert.ok(record.reasons.length);
+    for (const reason of record.reasons) assert.deepEqual(reason.devices, [device]);
+  }
+  fs.appendFileSync(path.join(root, 'snips', pair.evo), 'routing-options { autonomous-system 65000; }\n');
+  assert.throws(() => readBindingsInputs(root), /Mirror bodies differ/);
+});
+
 test("Count and Peers enrollment is independent and complete fields cannot disappear", () => {
   const meta = parseLibraryValidation(
     '{"schemaVersion":1,"seenOnValidation":"partial","countValidation":"complete","peersValidation":"partial"}',

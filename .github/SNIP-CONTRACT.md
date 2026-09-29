@@ -150,8 +150,16 @@ configuration and **MAY** be described.
 - A token **MUST** resolve to exactly one source configuration under the JVD's
   `configuration/conf/` tree (see *Device identity*). The file's `junos/` or
   `evo/` directory does **not** limit which devices may appear: if the same body
-  roundtrips on a device of the other OS family, that device **MUST** still be
-  listed in its bucket.
+  roundtrips on a device of the other OS family, that evidence may appear in its
+  bucket, but it never substitutes for a full-body mirror in that OS directory.
+  A cross-row without an exact native representation is
+  `SEEN_ON_MISSING_OS_MIRROR`, enforced on change.
+  Explicit `osScopedMirrors` pairs in the library metadata partition claims and
+  Counts between byte-identical Junos/EVO representations. Each pair must name
+  one existing file per directory; all source devices are still measured and
+  their OS identities must be unambiguous. Opposite-OS matches belong to the
+  registered counterpart, not to the scoped file's Count. Unregistered files
+  retain full-population evidence; no source match may be silently discarded.
 - `(none)` is the only valid empty value. (`SEEN_ON_APPROXIMATION`)
 - It **MUST NOT** contain: `see`, snip or navigation paths, `.conf` filenames,
   `all`/`all PEs`/`other devices`, inferred applicability, prose notes, or
@@ -227,7 +235,9 @@ modified by such a decision.
 
 For constructs that remain in scope the `Seen on` rule above applies unchanged:
 every validated source device on which the snip renders the selected
-configuration exactly **MUST** be listed, regardless of OS directory.
+configuration exactly **MUST** be accounted for, either in the file's evidence
+or its explicitly registered OS-scoped mirror. Cross-OS evidence alone never
+replaces the native mirror.
 
 ### Fragment boundary
 
@@ -316,6 +326,11 @@ fact that does not belong in `Topic:` but is present in the body and genuinely
 explains behaviour belongs here.
 
 ### Pair with
+
+Every literal target MUST be in the same OS directory as the declaring snip.
+Cross-OS Seen-on evidence and equivalent bodies do not waive this rule.
+`PAIR_WITH_CROSS_OS` is always an error, including unchanged legacy files.
+Create the required native mirror rather than deleting the dependency.
 
 `Pair with:` answers exactly one question:
 

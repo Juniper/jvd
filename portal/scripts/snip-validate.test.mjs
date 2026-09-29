@@ -32,6 +32,29 @@ test("clean snip produces no findings", () => {
   assert.deepEqual(findings, []);
 });
 
+test("fixed Pair-with paths never cross the consumer storage directory", () => {
+  for (const os of ['junos', 'evo']) {
+    const other = os === 'junos' ? 'evo' : 'junos';
+    const index = new Set([`${os}/groups/provider.conf`, `${other}/groups/provider.conf`]);
+    assert.ok(codes(validateSnipText(snip({ pair: `${other}/groups/provider.conf` }), { os, snipIndex: index })).includes(CODES.PAIR_WITH_CROSS_OS));
+    assert.ok(!codes(validateSnipText(snip({ pair: `${os}/groups/provider.conf` }), { os, snipIndex: index })).includes(CODES.PAIR_WITH_CROSS_OS));
+  }
+  assert.equal(severity(CODES.PAIR_WITH_CROSS_OS, { changed: false, seenOnValidation: 'partial' }), 'error');
+});
+
+test("cross-row evidence requires an actual native mirror but legacy gaps stay on the change ratchet", () => {
+  const body = 'routing-options { router-id 192.0.2.1; }';
+  const text = snip({ body, seenEvo: 'other' });
+  const mirror = { rel: 'evo/alternate.conf', dir: 'evo', body, seenOn: { junos: [], evo: ['other'] } };
+  const options = { os: 'junos', dependencyIndex: new Map([[mirror.rel, mirror]]) };
+  const missing = context => codes(validateSnipText(text, context)).includes(CODES.SEEN_ON_MISSING_OS_MIRROR);
+  assert.equal(missing(options), false);
+  assert.equal(missing({ ...options, dependencyIndex: new Map() }), true);
+  assert.equal(missing({ ...options, dependencyIndex: new Map([[mirror.rel, { ...mirror, body: body.replace('192.0.2.1', '192.0.2.2') }]]) }), true);
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'complete' }), 'warn');
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: true, seenOnValidation: 'partial' }), 'error');
+});
+
 test("auto-RD consumers must declare an applicable seed provider or contain it", () => {
   const body = "routing-options { transport-class { auto-create; } }";
   const seed = { rel: "junos/seed.conf", dir: "junos", seenOn: { junos: ["mse1_mx304"], evo: [] }, body: "routing-options { route-distinguisher-id 1.1.1.2; }" };

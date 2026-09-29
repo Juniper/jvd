@@ -213,13 +213,14 @@ export function verifyCountEvidence(
         if (!cache.has(template.normalized))
           cache.set(template.normalized, occurrenceMap(template.normalized, tree));
         const actual = cache.get(template.normalized);
+        const instances = template.sourceOS && template.sourceOS !== source.os ? [] : actual.instances;
         const record = evidence.snips?.[template.relative];
         try {
           assert.deepEqual(record?.variables, actual.variables);
-          assert.equal(record?.count[source.device] ?? 0, actual.instances.length);
+          assert.equal(record?.count[source.device] ?? 0, instances.length);
           assert.deepEqual(
             record?.instances[source.device] ?? [],
-            actual.instances.map(({ binding, equivalentBindings }) => ({
+            instances.map(({ binding, equivalentBindings }) => ({
               binding,
               equivalentBindings,
             })),

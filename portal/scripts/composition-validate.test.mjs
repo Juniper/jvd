@@ -212,6 +212,7 @@ test('scheduler variants conserve 20 device outcomes through both map mirrors wi
     `${os}/class-of-service/schedulers/sc-2-priority-model.conf`,
     `${os}/class-of-service/forwarding-classes/fc-6queue-model.conf`,
   ]);
+  rels.push('junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf', 'evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf');
   const parsed = rels.map(rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, 'snips', rel), 'utf8')) }));
   const snips = parsed.map(row => ({ rel: row.rel, dir: row.rel.split('/')[0], seenOn: row.header.seenOn, body: row.body }));
   const headers = new Map(parsed.map(row => [row.rel, row.header]));
@@ -228,7 +229,7 @@ test('scheduler variants conserve 20 device outcomes through both map mirrors wi
     assert.ok(!MATRIX.occurrenceBindings.some(row => row.consumer === binding.consumer && row.kind === 'scheduler'), 'Obsolete override must be absent, not repointed');
     oldHeaders.set(binding.consumer, { ...header, pairWith: [...header.pairWith, binding.declaredDependency], variantRequires: [] });
   }
-  const distribution = new Map(maps.map(rel => [rel, { junos: 0, evo: 0 }]));
+  const distribution = new Map(maps.map(rel => [rel, { transmit: 0, shaping: 0 }]));
   const checkedDevices = new Set();
   let checked = 0;
   for (const file of fs.readdirSync(path.join(root, 'conf')).filter(file => file.endsWith('.conf'))) {
@@ -248,7 +249,8 @@ test('scheduler variants conserve 20 device outcomes through both map mirrors wi
       assert.equal(new Set(schedulerReferences.map(reference => reference.name)).size, 6);
       const providers = closure.included.filter(row => row.rel.includes('/schedulers/'));
       assert.equal(providers.length, 1);
-      distribution.get(rel)[providers[0].rel.split('/')[0]]++;
+      assert.equal(providers[0].rel.split('/')[0], os, 'The selected provider must be native');
+      distribution.get(rel)[providers[0].rendered.includes('shaping-rate percent 40;') ? 'shaping' : 'transmit']++;
       assert.ok(closure.edges.some(edge => edge.requirement === 'variant:mebs-cos-schedulers' && edge.to === providers[0].id));
       const previous = closeOccurrenceTuple({ ...args, headers: oldHeaders, bindings: oldBindings });
       assert.deepEqual(previous.failures, []);
@@ -280,7 +282,7 @@ test('scheduler variants conserve 20 device outcomes through both map mirrors wi
   }
   assert.equal(checked, 40);
   assert.equal(checkedDevices.size, 20);
-  for (const counts of distribution.values()) assert.deepEqual(counts, { junos: 9, evo: 11 });
+  for (const counts of distribution.values()) assert.deepEqual(counts, { transmit: 9, shaping: 11 });
 });
 
 corpusTest('MEBS parent and member bindings close every claimed unit occurrence', [...new Set(MATRIX.occurrenceBindings.filter(row => ['interface-parent', 'lag-member'].includes(row.kind)).map(row => row.consumer))], async consumers => {
@@ -303,14 +305,14 @@ corpusTest('MEBS parent and member bindings close every claimed unit occurrence'
       const args = { entries, resolver, sourceSha256: resolver.sourceSha256, headers, snipIndex, variantMembers, device, os, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
       const closure = closeOccurrenceTuple(args);
       assert.deepEqual(closure.failures, [], `${device}:${rel}`);
-      if (rel === 'junos/interfaces/core-isis-mpls.conf') {
+      if (['junos/interfaces/core-isis-mpls.conf', 'evo/interfaces/core-isis-mpls-interface.conf'].includes(rel)) {
         aggregateCount += entries.length;
         for (const entry of entries) {
           const selected = resolver.resolveRelated({ consumerId: entry.id, sourceSha256: resolver.sourceSha256, kind: 'lag-member', candidates: MATRIX.occurrenceBindings.find(row => row.consumer === rel && row.kind === 'lag-member').providers });
           assert.equal(selected.status, 'ok');
           assert.equal(selected.selected.length, 1);
           for (const member of selected.selected) {
-            assert.ok(closure.edges.some(edge => edge.from === entry.id && edge.to === member.id && edge.requirement === 'junos/interfaces/ifd-core-lag-member.conf'));
+            assert.ok(closure.edges.some(edge => edge.from === entry.id && edge.to === member.id && edge.requirement === `${rel.split('/')[0]}/interfaces/ifd-core-lag-member.conf`));
             if (member.rel === 'evo/interfaces/ifd-lag-member-ether.conf') {
               assert.equal(device, 'meg2_acx7509');
               assert.equal(entry.binding.CORE_PHYS, 'ae4');
@@ -486,8 +488,8 @@ corpusTest('MCP-reported FAT-PW, physical-member and filter consumers close ever
         const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
         assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], `${rel}:${device}`);
         if (rel.includes('vlan-map-filter')) {
-          assert.ok(closure.included.some(row => row.rel === 'evo/firewall/filter-family-any-50mb.conf'));
-          assert.ok(closure.included.some(row => row.rel.endsWith('/firewall/policers.conf')));
+          assert.ok(closure.included.some(row => row.rel === `${os}/firewall/filter-family-any-50mb.conf`));
+          assert.ok(closure.included.some(row => row.rel === (os === 'junos' ? 'junos/firewall/policers-2m-burst.conf' : 'evo/firewall/policers.conf')));
         }
       }
     }
@@ -659,22 +661,22 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
   assert.equal(checkedDevices.size, 17);
 });
 
-corpusTest("filter applicability and policer closure reconstruct on all seven devices including AN1", ['evo/firewall/filter-family-any-50mb.conf', 'evo/firewall/policers.conf', 'junos/firewall/policers.conf'], () => {
+corpusTest("filter applicability and policer closure reconstruct on all seven devices including AN1", ['evo/firewall/filter-family-any-50mb.conf', 'junos/firewall/filter-family-any-50mb.conf', 'evo/firewall/policers.conf', 'junos/firewall/policers.conf', 'junos/firewall/policers-2m-burst.conf'], () => {
   const root = path.join(REPO_ROOT, "service_provider/metro_ethernet_business_services/configuration");
-  const paths = ["evo/firewall/filter-family-any-50mb.conf", "evo/firewall/policers.conf", "junos/firewall/policers.conf"];
+  const paths = ["evo/firewall/filter-family-any-50mb.conf", "evo/firewall/policers.conf", "junos/firewall/policers.conf", "junos/firewall/filter-family-any-50mb.conf", "junos/firewall/policers-2m-burst.conf"];
   const parsed = paths.map(rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, "snips", rel), "utf8")) }));
   const snips = parsed.map(row => ({ rel: row.rel, dir: row.rel.split('/')[0], body: row.body, seenOn: row.header.seenOn }));
   const headers = new Map(parsed.map(row => [row.rel, row.header]));
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
-  const variantMembers = parsed.slice(1).map(row => ({ rel: row.rel, os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides, body: row.body, seenOn: row.header.seenOn }));
+  const variantMembers = parsed.filter(row => row.header.variantGroup).map(row => ({ rel: row.rel, os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides, body: row.body, seenOn: row.header.seenOn }));
   let checked = 0;
-  for (const os of ['junos', 'evo']) for (const device of parsed[0].header.seenOn[os]) {
+  for (const os of ['junos', 'evo']) for (const device of parsed[os === 'junos' ? 3 : 0].header.seenOn[os]) {
     const resolver = createOccurrenceResolver({ sourceText: fs.readFileSync(path.join(root, 'conf', `${device}.conf`), 'utf8'), device, os, snips });
-    const args = { entries: resolver.occurrences(paths[0]), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, variantMembers, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
+    const args = { entries: resolver.occurrences(paths[os === 'junos' ? 3 : 0]), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, variantMembers, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
     assert.equal(args.entries.length, 1);
     const closure = closeOccurrenceTuple(args);
     assert.deepEqual(closure.failures, [], device);
-    const provider = device === 'an1_mx204' ? paths[2] : paths[1];
+    const provider = device === 'an1_mx204' ? paths[2] : paths[os === 'junos' ? 4 : 1];
     assert.ok(closure.included.some(row => row.rel === provider));
     const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
     assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], device);
@@ -686,6 +688,16 @@ corpusTest("filter applicability and policer closure reconstruct on all seven de
     checked++;
   }
   assert.equal(checked, 7);
+});
+
+test('cross-directory declarations fail before an occurrence override can hide them', () => {
+  const consumer = { rel: 'junos/consumer.conf', dir: 'junos', body: 'protocols { isis { export policy; } }', seenOn: { junos: ['d1'], evo: [] } };
+  const provider = { rel: 'evo/provider.conf', dir: 'evo', body: 'policy-options { policy-statement policy { then accept; } }', seenOn: consumer.seenOn };
+  const snips = [consumer, provider];
+  const resolver = createOccurrenceResolver({ sourceText: snips.map(row => row.body).join('\n'), device: 'd1', os: 'junos', snips });
+  const headers = new Map([[consumer.rel, { pairWith: [provider.rel] }], [provider.rel, {}]]);
+  const args = { entries: resolver.occurrences(consumer.rel), resolver, sourceSha256: resolver.sourceSha256, device: 'd1', os: 'junos', snipIndex: new Map(snips.map(row => [row.rel, row])), headers, bindings: [{ consumer: consumer.rel, kind: 'policy-statement', scope: 'whole', declaredDependency: provider.rel, providers: [provider.rel] }] };
+  assert.ok(closeOccurrenceTuple(args).failures.some(row => row.kind === 'dependency-cross-os'));
 });
 
 test("parsed variant prerequisites reach both closures and traverse member dependencies", () => {

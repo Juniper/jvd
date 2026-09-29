@@ -2,5 +2,87 @@
   "schemaVersion": 1,
   "seenOnValidation": "complete",
   "countValidation": "complete",
-  "peersValidation": "partial"
+  "peersValidation": "partial",
+  "osScopedMirrors": [
+    {
+      "evo": "evo/firewall/filter-family-any-50mb.conf",
+      "junos": "junos/firewall/filter-family-any-50mb.conf"
+    },
+    {
+      "evo": "evo/firewall/policers.conf",
+      "junos": "junos/firewall/policers-2m-burst.conf"
+    },
+    {
+      "evo": "evo/groups/gr-edge-intf-mh.conf",
+      "junos": "junos/groups/gr-edge-intf-mh-optics.conf"
+    },
+    {
+      "evo": "evo/groups/gr-edge-intf.conf",
+      "junos": "junos/groups/gr-edge-intf-flexible-ethernet.conf"
+    },
+    {
+      "evo": "evo/groups/gr-isis-bcp.conf",
+      "junos": "junos/groups/gr-isis-bcp-high-metrics.conf"
+    },
+    {
+      "evo": "evo/protocols/isis-srmpls-tilfa.conf",
+      "junos": "junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf"
+    },
+    {
+      "evo": "evo/protocols/oam-cfm-perf-mon.conf",
+      "junos": "junos/protocols/oam-cfm-perf-mon-single-remote.conf"
+    },
+    {
+      "evo": "evo/routing-options/forwarding-table.conf",
+      "junos": "junos/routing-options/forwarding-table-export.conf"
+    },
+    {
+      "junos": "junos/groups/gr-edge-intf-mh.conf",
+      "evo": "evo/groups/gr-edge-intf-mh-interface.conf"
+    },
+    {
+      "junos": "junos/groups/gr-edge-intf.conf",
+      "evo": "evo/groups/gr-edge-intf-accept-data.conf"
+    },
+    {
+      "junos": "junos/interfaces/core-isis-mpls.conf",
+      "evo": "evo/interfaces/core-isis-mpls-interface.conf"
+    },
+    {
+      "junos": "junos/interfaces/ethernet-bridge.conf",
+      "evo": "evo/interfaces/ethernet-bridge.conf"
+    },
+    {
+      "junos": "junos/protocols/oam-cfm-perf-mon.conf",
+      "evo": "evo/protocols/oam-cfm-perf-mon-dual-remote.conf"
+    },
+    {
+      "junos": "junos/routing-options/rib-group-remote-loopbacks-mse.conf",
+      "evo": "evo/routing-options/rib-group-remote-loopbacks-mse.conf"
+    },
+    {
+      "evo": "evo/class-of-service/schedulers/sc-2-priority-model.conf",
+      "junos": "junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf"
+    },
+    {
+      "evo": "evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf",
+      "junos": "junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf"
+    },
+    {
+      "evo": "evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
+      "junos": "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf"
+    },
+    {
+      "evo": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
+      "junos": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
+    },
+    {
+      "junos": "junos/class-of-service/schedulers/sc-2-priority-model.conf",
+      "evo": "evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf",
+      "evo": "evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf"
+    }
+  ]
 }

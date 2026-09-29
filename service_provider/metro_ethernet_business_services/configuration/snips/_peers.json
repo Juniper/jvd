@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "generatedFrom": {
-    "inputsSha256": "4ad6758974cfe7ecb4cd3f156676fd67189b081734b2d32893d6bdfa6e128e52",
+    "inputsSha256": "6fb425078e82f02cda72364853b456bbf3eb753d6de1510b56fdc2d5cff46322",
     "registryVersion": 3,
     "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
-    "toolsSha256": "898ad88ec5674d9ce1e30ff7fcb8232e9f342254335eef83f260104405a66c30",
+    "toolsSha256": "8e84cf2681c333b5b9257985ea72ef41dc8604c90ecb1420784d8171e21fe586",
     "devices": 20,
-    "snips": 490,
-    "peerToolsSha256": "47b9a747ce4794b62e504d96502698e29e2c02524b1c94ec09206195784e094c"
+    "snips": 510,
+    "peerToolsSha256": "ee6eb97571a721fd06d10f2496592d7690f463034d66a9b6c35881501490f605"
   },
   "snips": {
     "evo/chassis/aggregated-devices-ethernet.conf": {
@@ -82,6 +82,12 @@
         "state": "not-applicable"
       }
     },
+    "evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/class-of-service/schedulers/sc-2-priority-model.conf": {
       "status": "verified",
       "peersWith": {
@@ -149,6 +155,18 @@
       }
     },
     "evo/groups/gr-core-intf.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-edge-intf-accept-data.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-edge-intf-mh-interface.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -232,6 +250,33 @@
         "state": "not-applicable"
       }
     },
+    "evo/interfaces/core-isis-mpls-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 24,
+          "devices": [
+            "ag1-1_acx7100-32c",
+            "ag1-2_acx7100-32c",
+            "an3_acx7100-48l",
+            "cr1_ptx10001-36mr",
+            "cr2_ptx10001-36mr",
+            "ma1-2_acx7024",
+            "mdr1_acx7509",
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ],
+          "witness": {
+            "device": "ag1-1_acx7100-32c",
+            "sourceId": 274
+          }
+        }
+      ]
+    },
     "evo/interfaces/core-isis-mpls.conf": {
       "status": "unresolved",
       "features": [
@@ -250,6 +295,12 @@
           }
         }
       ]
+    },
+    "evo/interfaces/ethernet-bridge.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
     },
     "evo/interfaces/ifd-ae-lacp-fast.conf": {
       "status": "unresolved",
@@ -1105,6 +1156,12 @@
       }
     },
     "evo/policy-options/policy-statement/ps-prefix-sid.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -2227,12 +2284,9 @@
       "reasons": [
         {
           "reason": "physical-topology-not-in-configuration",
-          "instances": 7,
+          "instances": 1,
           "devices": [
-            "ma1-1_acx7024",
-            "ma2_mx204",
-            "ma4_mx204",
-            "ma5_mx204"
+            "ma1-1_acx7024"
           ],
           "witness": {
             "device": "ma1-1_acx7024",
@@ -2407,6 +2461,36 @@
         "state": "not-applicable"
       }
     },
+    "evo/protocols/oam-cfm-perf-mon-dual-remote.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:oam"
+      ],
+      "reasons": [
+        {
+          "reason": "directional-cfm-monitoring",
+          "instances": 100,
+          "devices": [
+            "an3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "an3_acx7100-48l",
+            "sourceId": 141357
+          }
+        },
+        {
+          "reason": "unresolved-peer-counterpart",
+          "instances": 100,
+          "devices": [
+            "meg1_acx7100-32c"
+          ],
+          "witness": {
+            "device": "meg1_acx7100-32c",
+            "sourceId": 70786
+          }
+        }
+      ]
+    },
     "evo/protocols/oam-cfm-perf-mon.conf": {
       "status": "unresolved",
       "features": [
@@ -2415,10 +2499,9 @@
       "reasons": [
         {
           "reason": "unresolved-cfm-service-context",
-          "instances": 400,
+          "instances": 200,
           "devices": [
-            "an3_acx7100-48l",
-            "ma5_mx204"
+            "an3_acx7100-48l"
           ],
           "witness": {
             "device": "an3_acx7100-48l",
@@ -3255,11 +3338,10 @@
       "reasons": [
         {
           "reason": "counterpart-not-found",
-          "instances": 1199,
+          "instances": 200,
           "devices": [
             "an3_acx7100-48l",
-            "ma3_acx7100-48l",
-            "ma4_mx204"
+            "ma3_acx7100-48l"
           ],
           "witness": {
             "device": "an3_acx7100-48l",
@@ -3268,11 +3350,10 @@
         },
         {
           "reason": "export-policy-semantics",
-          "instances": 1199,
+          "instances": 200,
           "devices": [
             "an3_acx7100-48l",
-            "ma3_acx7100-48l",
-            "ma4_mx204"
+            "ma3_acx7100-48l"
           ],
           "witness": {
             "device": "an3_acx7100-48l",
@@ -3563,6 +3644,12 @@
         "state": "not-applicable"
       }
     },
+    "evo/routing-options/rib-group-remote-loopbacks-mse.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/routing-options/rib-groups.conf": {
       "status": "verified",
       "peersWith": {
@@ -3695,13 +3782,31 @@
         "state": "not-applicable"
       }
     },
+    "junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/class-of-service/schedulers/sc-2-priority-model.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
       }
     },
+    "junos/firewall/filter-family-any-50mb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/firewall/filter-family-any-policers.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/policers-2m-burst.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -3749,6 +3854,18 @@
         "state": "not-applicable"
       }
     },
+    "junos/groups/gr-edge-intf-flexible-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-edge-intf-mh-optics.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/groups/gr-edge-intf-mh.conf": {
       "status": "verified",
       "peersWith": {
@@ -3768,6 +3885,12 @@
       }
     },
     "junos/groups/gr-fatpw-lb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-isis-bcp-high-metrics.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -3799,23 +3922,14 @@
       "reasons": [
         {
           "reason": "lacp-remote-actor-not-configured",
-          "instances": 28,
+          "instances": 4,
           "devices": [
-            "ag1-1_acx7100-32c",
-            "ag1-2_acx7100-32c",
             "an1_mx204",
-            "an3_acx7100-48l",
-            "cr1_ptx10001-36mr",
-            "cr2_ptx10001-36mr",
-            "ma1-2_acx7024",
-            "ma2_mx204",
-            "mdr1_acx7509",
-            "meg1_acx7100-32c",
-            "meg2_acx7509"
+            "ma2_mx204"
           ],
           "witness": {
-            "device": "ag1-1_acx7100-32c",
-            "sourceId": 274
+            "device": "an1_mx204",
+            "sourceId": 4760
           }
         }
       ]
@@ -4608,6 +4722,12 @@
         "state": "not-applicable"
       }
     },
+    "junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf": {
       "status": "verified",
       "peersWith": {
@@ -5201,6 +5321,27 @@
         "state": "not-applicable"
       }
     },
+    "junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:isis"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 6,
+          "devices": [
+            "ma2_mx204",
+            "ma4_mx204",
+            "ma5_mx204"
+          ],
+          "witness": {
+            "device": "ma2_mx204",
+            "sourceId": 463
+          }
+        }
+      ]
+    },
     "junos/protocols/isis-srmpls-tilfa-l2.conf": {
       "status": "verified",
       "peersWith": {
@@ -5284,6 +5425,25 @@
         "state": "not-applicable"
       }
     },
+    "junos/protocols/oam-cfm-perf-mon-single-remote.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:oam"
+      ],
+      "reasons": [
+        {
+          "reason": "unresolved-cfm-service-context",
+          "instances": 200,
+          "devices": [
+            "ma5_mx204"
+          ],
+          "witness": {
+            "device": "ma5_mx204",
+            "sourceId": 50086
+          }
+        }
+      ]
+    },
     "junos/protocols/oam-cfm-perf-mon.conf": {
       "status": "unresolved",
       "features": [
@@ -5299,28 +5459,6 @@
           "witness": {
             "device": "ma5_mx204",
             "sourceId": 48586
-          }
-        },
-        {
-          "reason": "directional-cfm-monitoring",
-          "instances": 100,
-          "devices": [
-            "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 141357
-          }
-        },
-        {
-          "reason": "unresolved-peer-counterpart",
-          "instances": 100,
-          "devices": [
-            "meg1_acx7100-32c"
-          ],
-          "witness": {
-            "device": "meg1_acx7100-32c",
-            "sourceId": 70786
           }
         }
       ]
@@ -5809,6 +5947,22 @@
         ]
       }
     },
+    "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "an3_acx7100-48l"
+            ],
+            "right": [
+              "ma5_mx204"
+            ]
+          }
+        ]
+      }
+    },
     "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf": {
       "status": "verified",
       "peersWith": {
@@ -5986,6 +6140,37 @@
           "witness": {
             "device": "mse1_mx304",
             "sourceId": 131792
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 999,
+          "devices": [
+            "ma4_mx204"
+          ],
+          "witness": {
+            "device": "ma4_mx204",
+            "sourceId": 104518
+          }
+        },
+        {
+          "reason": "export-policy-semantics",
+          "instances": 999,
+          "devices": [
+            "ma4_mx204"
+          ],
+          "witness": {
+            "device": "ma4_mx204",
+            "sourceId": 104509
           }
         }
       ]
@@ -6230,6 +6415,12 @@
       }
     },
     "junos/routing-options/flex-algorithm.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-export.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"

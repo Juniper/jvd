@@ -70,6 +70,7 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
  *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
+  if (code === CODES.PAIR_WITH_CROSS_OS) return "error";
   if (code.startsWith("COUNT_") || code.startsWith("PEERS_")) return "error";
   // A cross-directory selection is evidence-backed and legitimate; it is
   // surfaced so audits can see it, never to block.
@@ -327,6 +328,13 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
     findings.push({ code: CODES.SEEN_ON_NATIVE_EMPTY, detail: `${os} bucket is empty` });
   }
 
+  for (const bullet of header.pairWith) {
+    const target = dependencyPath(bullet);
+    if (os && target && /^(junos|evo)\//.test(target) && target.split('/')[0] !== os) {
+      findings.push({ code: CODES.PAIR_WITH_CROSS_OS, detail: `${os} -> ${target}` });
+    }
+  }
+
   // PAIR_WITH_UNRESOLVED — every declared path must resolve to a real snip.
   if (snipIndex) {
     for (const raw of header.pairWith) {
@@ -337,6 +345,14 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
   }
 
   if (dependencyIndex) {
+    if (os) {
+      const other = os === 'junos' ? 'evo' : 'junos';
+      const identity = bodyIdentity(body);
+      const mirrors = [...dependencyIndex.values()].filter(candidate => candidate.dir === other && bodyIdentity(candidate.body) === identity);
+      for (const device of header.seenOn[other]) {
+        if (!mirrors.some(candidate => candidate.seenOn?.[other]?.includes(device))) findings.push({ code: CODES.SEEN_ON_MISSING_OS_MIRROR, detail: `${device} requires a byte-equivalent ${other} representation` });
+      }
+    }
     const constructs = extractConstructs(body);
     const requirements = constructs.references.filter(reference => reference.kind === "route-distinguisher-id");
     if (Object.values(capabilityRequirements).some(selectors => selectors && Object.hasOwn(selectors, 'cos:schedulers'))) {

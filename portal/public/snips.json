@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-29T19:03:01.823Z",
-  "snippetSourceDigest": "1ef7642b021960236ee3706f85b65657cef23679c2759bb2afb8fade8cf65111",
+  "generatedAt": "2026-09-29T22:27:10.200Z",
+  "snippetSourceDigest": "dfe93f45c217b1d784274a6285a850f4546a0a86c3532de23af30d5177172ba7",
   "counts": {
-    "total": 1092,
-    "junos": 531,
-    "evo": 561,
+    "total": 1112,
+    "junos": 543,
+    "evo": 569,
     "jvds": 18
   },
   "categories": [
@@ -235,9 +235,9 @@
       "area": "Service Provider",
       "repoPath": "service_provider/metro_ethernet_business_services",
       "counts": {
-        "junos": 223,
-        "evo": 267,
-        "total": 490
+        "junos": 235,
+        "evo": 275,
+        "total": 510
       }
     },
     {
@@ -41650,6 +41650,63 @@
       "recordSha256": "28ac2f96aeb486a4f0ec4519c04988b46031f43981c62643d2822e41643b51f0"
     },
     {
+      "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/sc-2-priority-model-ptx",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "class-of-service",
+      "subCategory": "schedulers",
+      "categoryPath": "class-of-service/schedulers",
+      "name": "sc-2-priority-model-ptx",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf",
+      "otherOsFormId": null,
+      "topic": "CoS schedulers for the 6-class model, transmit-rate form",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "cr1_ptx10001-36mr": 1,
+          "cr2_ptx10001-36mr": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Six schedulers consumed by the 5G_SCHEDULER scheduler-map: class         priority      transmit-rate     buffer-size",
+        "---------    -----------   --------------    ------------ REALTIME      strict-high   40%               30% BUSINESS      low           20%               20% MEDIUM        low           20%               20% CONTROL       low            5%                2% SIG-OAM       low            5%                2% BEST-EFFORT   low           remainder         remainder",
+        "Two scheduling priority levels: REALTIME is strict-high, the other five classes are low."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-cos-schedulers",
+        "provides": [
+          "cos:schedulers"
+        ]
+      },
+      "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            transmit-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
+      "bytes": 900,
+      "lineCount": 38,
+      "techFamily": "QoS / CoS",
+      "subfamily": "CoS Building Blocks",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "a46f2c0c6446de637e4a8a7af4bec3996f6dc973e2ab2e85ae52b72780abc01b"
+    },
+    {
       "id": "metro_ethernet_business_services/evo/class-of-service/schedulers/sc-2-priority-model",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -41664,10 +41721,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/class-of-service/schedulers/sc-2-priority-model",
       "topic": "CoS schedulers for the 6-class model, shaping-rate form",
       "seenOn": {
-        "junos": [
-          "an2_acx5448",
-          "an4_acx710"
-        ],
+        "junos": [],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
@@ -41684,9 +41738,7 @@
         "byDevice": {
           "ag1-1_acx7100-32c": 1,
           "ag1-2_acx7100-32c": 1,
-          "an2_acx5448": 1,
           "an3_acx7100-48l": 1,
-          "an4_acx710": 1,
           "ma1-1_acx7024": 1,
           "ma1-2_acx7024": 1,
           "ma3_acx7100-48l": 1,
@@ -41694,7 +41746,7 @@
           "meg1_acx7100-32c": 1,
           "meg2_acx7509": 1
         },
-        "total": 11
+        "total": 9
       },
       "highlights": [
         "Six schedulers consumed by the 5G_SCHEDULER scheduler-map.",
@@ -41723,7 +41775,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "65175df4f8632093f623fd5f87e3637b4a2f092845504118663971bebbdb920a"
+      "recordSha256": "af74ba4586167254421e1234d303cf6e4ce66945c5f2396a5b14353969035a7c"
     },
     {
       "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
@@ -41736,15 +41788,10 @@
       "categoryPath": "firewall",
       "name": "filter-family-any-50mb",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/firewall/filter-family-any-50mb.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/junos/firewall/filter-family-any-50mb",
       "topic": "Protocol-independent 50 Mbps rate-limit filter",
       "seenOn": {
-        "junos": [
-          "an1_mx204",
-          "an2_acx5448",
-          "an4_acx710",
-          "ma5_mx204"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l",
           "meg1_acx7100-32c",
@@ -41753,15 +41800,11 @@
       },
       "count": {
         "byDevice": {
-          "an1_mx204": 1,
-          "an2_acx5448": 1,
           "an3_acx7100-48l": 1,
-          "an4_acx710": 1,
-          "ma5_mx204": 1,
           "meg1_acx7100-32c": 1,
           "meg2_acx7509": 1
         },
-        "total": 7
+        "total": 3
       },
       "highlights": [
         "`family any` acts on the logical interface regardless of payload protocol, and `interface-specific` gives every bound interface its own counter and policer instance, so one subscriber's rate limit is independent of another's.",
@@ -41793,7 +41836,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "ca944455456255050a6569af88b918fb055da3a1c5d5050ae6267d5a411704ea"
+      "recordSha256": "c396a84dbf5191d3f8f0d027259207a3193bfdac8c4d9ba95193ea83e2b49ff2"
     },
     {
       "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-policers",
@@ -41914,13 +41957,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/firewall/policers",
       "topic": "Rate-limit policers (EVO)",
       "seenOn": {
-        "junos": [
-          "an2_acx5448",
-          "an4_acx710",
-          "ma5_mx204",
-          "mse1_mx304",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l",
           "ma1-1_acx7024",
@@ -41931,18 +41968,13 @@
       },
       "count": {
         "byDevice": {
-          "an2_acx5448": 1,
           "an3_acx7100-48l": 1,
-          "an4_acx710": 1,
           "ma1-1_acx7024": 1,
           "ma1-2_acx7024": 1,
-          "ma5_mx204": 1,
           "meg1_acx7100-32c": 1,
-          "meg2_acx7509": 1,
-          "mse1_mx304": 1,
-          "mse2_mx304": 1
+          "meg2_acx7509": 1
         },
-        "total": 10
+        "total": 5
       },
       "highlights": [
         "Same 5 Mbps and 50 Mbps templates as junos/firewall/policers.conf — used at the UNI to enforce CIR per attachment-circuit unit (typical Metro EVPL/EVPLAN service tiering).",
@@ -41971,7 +42003,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "baf9fdaf3da4946d7ce43edf7d9691de60808eee9741d4e386ffad43ae659809"
+      "recordSha256": "87069ff3d482afaa0b59e2adeda7e995670744b6df34afda7fe2edb64027893a"
     },
     {
       "id": "metro_ethernet_business_services/evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload",
@@ -42438,6 +42470,119 @@
       "recordSha256": "7a93e3e427e5e9ee15ec399406140c55403d47fbebd77a7b1bb11664fd2caef7"
     },
     {
+      "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf-accept-data",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-edge-intf-accept-data",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-edge-intf-accept-data.conf",
+      "otherOsFormId": null,
+      "topic": "Apply-group: GR-EDGE-INTF",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "cr1_ptx10001-36mr": 1,
+          "cr2_ptx10001-36mr": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Templated baseline for customer-facing (edge) interfaces. Applied to physical and aggregated-ethernet interfaces to set common properties (description marker, MTU, flex-vlan tagging, flex-ethernet-services encapsulation, optics alarm/warning).",
+        "Apply with:   set interfaces et-0/0/0 apply-groups GR-EDGE-INTF"
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-form",
+        "provides": [
+          "gr:edge-intf"
+        ]
+      },
+      "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        accept-data;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 930,
+      "lineCount": 33,
+      "techFamily": "Apply-groups",
+      "subfamily": "Interface Groups",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "22e65667b7f9e2b434624fd830d35ee0f9d14e1734f29943dee2a78d6ea442c4"
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf-mh-interface",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-edge-intf-mh-interface",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-edge-intf-mh-interface.conf",
+      "otherOsFormId": null,
+      "topic": "Apply-group: GR-EDGE-INTF-MH",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "an3_acx7100-48l": 1,
+          "ma1-1_acx7024": 1,
+          "ma1-2_acx7024": 1,
+          "meg1_acx7100-32c": 1,
+          "meg2_acx7509": 1
+        },
+        "total": 5
+      },
+      "highlights": [],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
+      "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                encapsulation flexible-ethernet-services;\n            }\n        }\n    }\n}",
+      "bytes": 349,
+      "lineCount": 13,
+      "techFamily": "Apply-groups",
+      "subfamily": "Interface Groups",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "697601f9d3a1af85644ea7f0bcad9309db06de401a4324ca85ccb7fc55a342db"
+    },
+    {
       "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf-mh",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -42451,13 +42596,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
       "topic": "Customer-facing interface baseline — multihomed variant (EVO)",
       "seenOn": {
-        "junos": [
-          "an4_acx710",
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003"
-        ],
+        "junos": [],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
@@ -42469,15 +42608,10 @@
         "byDevice": {
           "ag1-1_acx7100-32c": 1,
           "ag1-2_acx7100-32c": 1,
-          "an4_acx710": 1,
-          "ma2_mx204": 1,
           "ma3_acx7100-48l": 1,
-          "ma4_mx204": 1,
-          "ma5_mx204": 1,
-          "mdr1_acx7509": 1,
-          "mdr2_mx10003": 1
+          "mdr1_acx7509": 1
         },
-        "total": 9
+        "total": 4
       },
       "highlights": [
         "Same as GR-EDGE-INTF but WITHOUT a port-restoration delay (`hold-time up`). Multihomed bundles rely on EVPN ESI / EVPN-MH convergence (fast DF election + aliasing) for sub-second failover, so port-level damping on the bring-up direction would only delay convergence. `hold-time down 0` stays to keep failure detection immediate.",
@@ -42506,7 +42640,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "4807a76b65007202b71342be22340939406a41e4f5b16377637d0fda48c9160b"
+      "recordSha256": "b462b20f0e58d0f01afe684ed138223ba7debf0e9cb2cc3bf28af23205c69abc"
     },
     {
       "id": "metro_ethernet_business_services/evo/groups/gr-edge-intf",
@@ -42522,10 +42656,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
       "topic": "Customer-facing interface baseline",
       "seenOn": {
-        "junos": [
-          "an2_acx5448",
-          "an4_acx710"
-        ],
+        "junos": [],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
@@ -42542,9 +42673,7 @@
         "byDevice": {
           "ag1-1_acx7100-32c": 1,
           "ag1-2_acx7100-32c": 1,
-          "an2_acx5448": 1,
           "an3_acx7100-48l": 1,
-          "an4_acx710": 1,
           "ma1-1_acx7024": 1,
           "ma1-2_acx7024": 1,
           "ma3_acx7100-48l": 1,
@@ -42552,7 +42681,7 @@
           "meg1_acx7100-32c": 1,
           "meg2_acx7509": 1
         },
-        "total": 11
+        "total": 9
       },
       "highlights": [
         "Identical structure to junos/groups/gr-edge-intf.conf on Junos OS — Junos and Junos Evolved share this BCP unchanged.",
@@ -42583,7 +42712,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "438ec3ce53653d8a9dd1e28c06fb67306abeac96d852d7bdc7e6b9fff25f2e46"
+      "recordSha256": "44e49e9dfe83fe7d79dcb7eb3f4634ae7951f013ab2f20c3924e16689df9771a"
     },
     {
       "id": "metro_ethernet_business_services/evo/groups/gr-fatpw-label-elan-vpls-l2circuit",
@@ -42868,16 +42997,9 @@
       "name": "gr-isis-bcp",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/groups/gr-isis-bcp.conf",
       "otherOsFormId": "metro_ethernet_business_services/junos/groups/gr-isis-bcp",
-      "topic": "ISIS best-current-practice timers (EVO)",
+      "topic": "ISIS best-current-practice timers with overload high metrics",
       "seenOn": {
-        "junos": [
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204",
-          "mdr2_mx10003",
-          "mse1_mx304",
-          "mse2_mx304"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l",
           "cr1_ptx10001-36mr",
@@ -42897,21 +43019,14 @@
           "cr2_ptx10001-36mr": 1,
           "ma1-1_acx7024": 1,
           "ma1-2_acx7024": 1,
-          "ma2_mx204": 1,
           "ma3_acx7100-48l": 1,
-          "ma4_mx204": 1,
-          "ma5_mx204": 1,
           "mdr1_acx7509": 1,
-          "mdr2_mx10003": 1,
           "meg1_acx7100-32c": 1,
-          "meg2_acx7509": 1,
-          "mse1_mx304": 1,
-          "mse2_mx304": 1
+          "meg2_acx7509": 1
         },
-        "total": 15
+        "total": 9
       },
       "highlights": [
-        "Identical to junos/groups/gr-isis-bcp.conf.",
         "max-hello-size 9106 on ae*/et* lets ISIS hellos use the full jumbo MTU (verifies path MTU before the protocol commits).",
         "lsp-interval 10 (ms) — fast LSP flooding on point-to-point links.",
         "SPF: delay 50 ms / holddown 2000 ms / rapid-runs 5 → fast initial reaction with a backoff window, the textbook BCP.",
@@ -42933,7 +43048,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "fc06265c49ad13eb418191c1f6b05f4aa3934cad65c50230575b1fbf517580f7"
+      "recordSha256": "d09bf2aeca6a236abe62a797f360fa6a70105be1e79adba188319c963eb00a67"
     },
     {
       "id": "metro_ethernet_business_services/evo/groups/gr-isis-bfd",
@@ -43226,6 +43341,97 @@
       "recordSha256": "d3be17990ff6d5fd397fdb91e4fa25bd7b2c4c3326c9c88d7ea64b724c80f187"
     },
     {
+      "id": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls-interface",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "core-isis-mpls-interface",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls-interface.conf",
+      "otherOsFormId": null,
+      "topic": "Core-facing LAG (ISIS + MPLS underlay attachment)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "ag1-1_acx7100-32c",
+          "ag1-2_acx7100-32c",
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-2_acx7024",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "ag1-1_acx7100-32c": 5,
+          "ag1-2_acx7100-32c": 5,
+          "an3_acx7100-48l": 3,
+          "cr1_ptx10001-36mr": 2,
+          "cr2_ptx10001-36mr": 2,
+          "ma1-2_acx7024": 2,
+          "mdr1_acx7509": 1,
+          "meg1_acx7100-32c": 2,
+          "meg2_acx7509": 2
+        },
+        "total": 24
+      },
+      "highlights": [
+        "A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1). Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.",
+        "Common core knobs (jumbo MTU 9192, per-family MTU overrides, mpls maximum-labels 14, LACP) come from apply-groups GR-CORE-INTF (see groups/gr-core-intf)."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/groups/gr-core-intf.conf",
+          "id": "metro_ethernet_business_services/evo/groups/gr-core-intf",
+          "note": null
+        },
+        {
+          "raw": "evo/interfaces/ifd-core-lag-member.conf",
+          "id": "metro_ethernet_business_services/evo/interfaces/ifd-core-lag-member",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$CORE_PHYS",
+          "example": "ae71"
+        },
+        {
+          "name": "$CORE_DESC",
+          "example": "\"to AG1.1 rtme-acx7100-32c-a ae71\""
+        },
+        {
+          "name": "$CORE_V4_ADDR",
+          "example": "10.10.0.197/30"
+        },
+        {
+          "name": "$CORE_V6_ADDR",
+          "example": "2001::10:10:0:c5/126"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $CORE_PHYS {\n        apply-groups GR-CORE-INTF;\n        description $CORE_DESC;\n        mtu 9192;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $CORE_V4_ADDR;\n            }\n            family iso;\n            family inet6 {\n                address $CORE_V6_ADDR;\n            }\n            family mpls;\n        }\n    }\n}",
+      "bytes": 519,
+      "lineCount": 24,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "3affbb963f01a2bc26246f9b6bcbbbce2195c4707f1ef26badf2008f6a2f0b9d"
+    },
+    {
       "id": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -43312,6 +43518,73 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "956b9b2586b74f08bcd5ea82d4de326f10412fa154fc14d24da7c8e8d9ba2c5d"
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/interfaces/ethernet-bridge",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ethernet-bridge",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ethernet-bridge.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
+      "topic": "VLAN-bridge logical interface with flexible Ethernet services",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "an3_acx7100-48l": 438
+        },
+        "total": 438
+      },
+      "highlights": [
+        "Flexible VLAN tagging and flexible Ethernet services are configured on the parent of the VLAN-bridge unit."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$UNI_INTF",
+          "example": "xe-0/0/3:1"
+        },
+        {
+          "name": "$UNIT",
+          "example": "3000"
+        },
+        {
+          "name": "$VLAN",
+          "example": "3000"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-edge-intf-form",
+          "families": [
+            "gr:edge-intf"
+          ]
+        }
+      ],
+      "body": "interfaces {\n    $UNI_INTF {\n        apply-groups GR-EDGE-INTF;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n        unit $UNIT {\n            encapsulation vlan-bridge;\n            vlan-id $VLAN;\n        }\n    }\n}",
+      "bytes": 249,
+      "lineCount": 11,
+      "techFamily": "Interfaces",
+      "subfamily": "Bridge Domains",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "53e5953d899a3d2d9a333e2a2a9c1f32d49859fc4581b527cacbfcdecc307a3d"
     },
     {
       "id": "metro_ethernet_business_services/evo/interfaces/ifd-ae-lacp-fast",
@@ -49977,12 +50250,10 @@
       "categoryPath": "policy-options/policy-statement",
       "name": "ps-import-bgp-lo0-filter",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-import-bgp-lo0-filter",
       "topic": "BGP import policy IMPORT-BGP (LOOPBACK reject) with the LOOPBACK prefix-list it matches",
       "seenOn": {
-        "junos": [
-          "mdr2_mx10003"
-        ],
+        "junos": [],
         "evo": [
           "meg1_acx7100-32c",
           "meg2_acx7509"
@@ -49990,11 +50261,10 @@
       },
       "count": {
         "byDevice": {
-          "mdr2_mx10003": 1,
           "meg1_acx7100-32c": 1,
           "meg2_acx7509": 1
         },
-        "total": 3
+        "total": 2
       },
       "highlights": [
         "`term 1` drops routes matching `prefix-list LOOPBACK`; `term 2` accepts everything else.",
@@ -50025,7 +50295,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "a5ade58431b301b0c9ea6eda190b276adcb9a27aeed3030f6aa0a11905ca74f4"
+      "recordSha256": "d64ebf44361da1a0e474fd969e1fc6adc883368c76376ab735b38077bdebdc48"
     },
     {
       "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-import-l3vpn-internet",
@@ -50749,6 +51019,75 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "e1858667e7879d267feee7b449619c5ead97123bd37db4548b6844f7439ebd69"
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-remote-loopbacks-mse",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-remote-loopbacks-mse",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-remote-loopbacks-mse",
+      "topic": "BGP policy PS-REMOTE-LOOPBACKS (services-edge PEs, Junos)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "an3_acx7100-48l": 1,
+          "cr1_ptx10001-36mr": 1,
+          "cr2_ptx10001-36mr": 1,
+          "ma1-1_acx7024": 1,
+          "ma1-2_acx7024": 1,
+          "ma3_acx7100-48l": 1,
+          "mdr1_acx7509": 1,
+          "meg1_acx7100-32c": 1,
+          "meg2_acx7509": 1
+        },
+        "total": 9
+      },
+      "highlights": [
+        "As-deployed PS-REMOTE-LOOPBACKS import policy for the services-edge PEs."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy-options/community/cm-no-advertise.conf",
+          "id": "metro_ethernet_business_services/evo/policy-options/community/cm-no-advertise",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement PS-REMOTE-LOOPBACKS {\n        term ALL-LOOPBACKS {\n            from protocol bgp;\n            then {\n                community add CM-NO-ADVERTISE;\n                accept;\n            }\n        }\n        term REJECT {\n            then reject;\n        }\n    }\n}",
+      "bytes": 298,
+      "lineCount": 14,
+      "techFamily": "Policy & Routing",
+      "subfamily": "Routing Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "b07f13a1a921fe34f6da72a65a30db9067439c9b5ed0a79b9ff241777d6a9ac9"
     },
     {
       "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4",
@@ -54637,23 +54976,16 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa",
       "topic": "ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo",
       "seenOn": {
-        "junos": [
-          "ma2_mx204",
-          "ma4_mx204",
-          "ma5_mx204"
-        ],
+        "junos": [],
         "evo": [
           "ma1-1_acx7024"
         ]
       },
       "count": {
         "byDevice": {
-          "ma1-1_acx7024": 1,
-          "ma2_mx204": 2,
-          "ma4_mx204": 2,
-          "ma5_mx204": 2
+          "ma1-1_acx7024": 1
         },
-        "total": 7
+        "total": 1
       },
       "highlights": [
         "source-packet-routing (SR-MPLS) with per-router node-segment IDs (ipv4-index 17, ipv6-index 117 on this PE) into the global SRGB (16000–24000, set in protocols mpls).",
@@ -54717,7 +55049,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "6c5c78b6ef4f0f638dd4cb9ba018a8a58b2fa358d9305e8ede3448b8b3b259ba"
+      "recordSha256": "535ef02cb4ccf0cc7c1552b2f25538de45071ea3d4e9285fedf0d7237ceaeb98"
     },
     {
       "id": "metro_ethernet_business_services/evo/protocols/l2circuit-hsb-hub-color-ignore-encap",
@@ -55646,6 +55978,87 @@
       "recordSha256": "c1ececbc837adf10863a386562e7bfe761f8fbbefa3f65d15051d366d0f4d21d"
     },
     {
+      "id": "metro_ethernet_business_services/evo/protocols/oam-cfm-perf-mon-dual-remote",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "oam-cfm-perf-mon-dual-remote",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/oam-cfm-perf-mon-dual-remote.conf",
+      "otherOsFormId": null,
+      "topic": "Y.1731 performance-monitoring (CFM) with HW timestamping",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "ma1-2_acx7024",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "an3_acx7100-48l": 300,
+          "ma1-2_acx7024": 100,
+          "meg1_acx7100-32c": 200,
+          "meg2_acx7509": 100
+        },
+        "total": 700
+      },
+      "highlights": [
+        "Identical structure to evo/protocols/oam-cfm-perf-mon.conf — Junos and Junos Evolved share the OAM CFM config language.",
+        "hardware-assisted-timestamping puts the Y.1731 DM/SLM packet timestamps in the PFE rather than the RE — required for accurate sub-millisecond delay/loss measurements.",
+        "enhanced-sla-iterator + measurement-interval 5 → finer statistics granularity.",
+        "sla-iterator-profile 2WD-P3: two-way-delay measurements at 1 s cycle / 2 s iteration, weighting delay and delay-variation equally — feeds Bin-and-percentile stats for SLA reporting.",
+        "One maintenance-domain MD_63535 at level 5 with one maintenance-association per attachment-circuit unit. Each MEP has remote-mep entries pointing at the far-end MEPs on the peer PEs (1002 and 1006 here)."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$MD_NAME",
+          "example": "MD_63535"
+        },
+        {
+          "name": "$MA_ID",
+          "example": "1100"
+        },
+        {
+          "name": "$MEP_LOCAL",
+          "example": "1019"
+        },
+        {
+          "name": "$MEP_REMOTE_1",
+          "example": "1002"
+        },
+        {
+          "name": "$MEP_REMOTE_2",
+          "example": "1006"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "xe-0/1/4.400"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    oam {\n        ethernet {\n            connectivity-fault-management {\n                performance-monitoring {\n                    hardware-assisted-timestamping;\n                    enhanced-sla-iterator;\n                    measurement-interval 5;\n                    sla-iterator-profiles {\n                        2WD-P3 {\n                            measurement-type two-way-delay;\n                            cycle-time 1000;\n                            iteration-period 2000;\n                            calculation-weight {\n                                delay 300;\n                                delay-variation 300;\n                            }\n                        }\n                    }\n                }\n                maintenance-domain $MD_NAME {\n                    level 5;\n                    name-format none;\n                    maintenance-association $MA_ID {\n                        short-name-format 2octet;\n                        continuity-check {\n                            interval 1s;\n                            loss-threshold 10;\n                            hold-interval 1;\n                        }\n                        mep $MEP_LOCAL {\n                            interface $AC_INTF;\n                            direction up;\n                            remote-mep $MEP_REMOTE_1 {\n                                sla-iterator-profile 2WD-P3 {\n                                    priority 1;\n                                }\n                            }\n                            remote-mep $MEP_REMOTE_2 {\n                                sla-iterator-profile 2WD-P3 {\n                                    priority 1;\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 1843,
+      "lineCount": 50,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "fd22313642c0a2fd887cdd6434c26ef5b5ef9ccb01088b190b8651aa78c0db24"
+    },
+    {
       "id": "metro_ethernet_business_services/evo/protocols/oam-cfm-perf-mon",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -55659,10 +56072,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/protocols/oam-cfm-perf-mon",
       "topic": "Ethernet OAM CFM with hardware-assisted SLA performance monitoring",
       "seenOn": {
-        "junos": [
-          "an4_acx710",
-          "ma5_mx204"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l",
           "ma1-2_acx7024"
@@ -55671,11 +56081,9 @@
       "count": {
         "byDevice": {
           "an3_acx7100-48l": 400,
-          "an4_acx710": 200,
-          "ma1-2_acx7024": 100,
-          "ma5_mx204": 300
+          "ma1-2_acx7024": 100
         },
-        "total": 1000
+        "total": 500
       },
       "highlights": [
         "performance-monitoring with hardware-assisted-timestamping for accurate two-way delay (Y.1731 DM) measurements at line rate",
@@ -55720,7 +56128,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "0a595f23014750aa38267868d7404490e9cb5cdabbb513aed6acfdce34cdb84f"
+      "recordSha256": "ad7b37513e19d6be25a0216f092669f9249885b54e332d9e1bffbdf591ae2e24"
     },
     {
       "id": "metro_ethernet_business_services/evo/protocols/pcep-pccd",
@@ -57974,19 +58382,16 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella",
       "topic": "BGP-signalled L2VPN (Kompella) routing-instance, port-based",
       "seenOn": {
-        "junos": [
-          "ma5_mx204"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l"
         ]
       },
       "count": {
         "byDevice": {
-          "an3_acx7100-48l": 1,
-          "ma5_mx204": 1
+          "an3_acx7100-48l": 1
         },
-        "total": 2
+        "total": 1
       },
       "highlights": [
         "instance-type l2vpn  → BGP-signalled (Kompella) draft-Kompella PW",
@@ -58054,7 +58459,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "0f404c498cb12a96f5f18408b144c5726b34b7686748b07eda9fbea52f9242a7"
+      "recordSha256": "dacc18a9623826d3764621fd908bf08bb2a528e547d9802bea6fdd16e1824486"
     },
     {
       "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export",
@@ -58261,12 +58666,10 @@
       "categoryPath": "routing-instances/l3vpn",
       "name": "ri-l3vpn-bgp-vrf-policy",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy",
       "topic": "L3VPN VRF with PE-CE eBGP and as-override",
       "seenOn": {
-        "junos": [
-          "ma4_mx204"
-        ],
+        "junos": [],
         "evo": [
           "an3_acx7100-48l",
           "ma3_acx7100-48l"
@@ -58275,10 +58678,9 @@
       "count": {
         "byDevice": {
           "an3_acx7100-48l": 100,
-          "ma3_acx7100-48l": 100,
-          "ma4_mx204": 999
+          "ma3_acx7100-48l": 100
         },
-        "total": 1199
+        "total": 200
       },
       "highlights": [
         "`instance-type vrf` with `protocols bgp group v4Ixia` carrying `peer-as <CUST_ASN>` and `as-override` as the PE-CE protocol.",
@@ -58360,7 +58762,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "a5092346668222fd77a1758bc08c1bd6ec252d501d070cdb7a762c30cdc08c9a"
+      "recordSha256": "9c5b0f102ca7bf89398a45e52b2a5e92bc7adae241a52ed8e09887269c45aa2a"
     },
     {
       "id": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt",
@@ -59543,10 +59945,7 @@
       "otherOsFormId": "metro_ethernet_business_services/junos/routing-options/forwarding-table",
       "topic": "Forwarding-table export — per-packet load-balance applied to the forwarding table (minimal EVO form).",
       "seenOn": {
-        "junos": [
-          "ma2_mx204",
-          "mdr2_mx10003"
-        ],
+        "junos": [],
         "evo": [
           "ag1-1_acx7100-32c",
           "ag1-2_acx7100-32c",
@@ -59562,12 +59961,10 @@
           "ag1-2_acx7100-32c": 1,
           "cr1_ptx10001-36mr": 1,
           "cr2_ptx10001-36mr": 1,
-          "ma2_mx204": 1,
           "ma3_acx7100-48l": 1,
-          "mdr1_acx7509": 1,
-          "mdr2_mx10003": 1
+          "mdr1_acx7509": 1
         },
-        "total": 8
+        "total": 6
       },
       "highlights": [
         "This is the minimal EVO form (`export $PPLB_NAME` only). The forwarding- table stanza is strongly role-dependent: other EVO nodes add a `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block (see the Junos PE variant), and an3/meg1 carry that block too. A full role-variant model is a post-extraction follow-up.",
@@ -59600,7 +59997,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "40b592cd2f38c494cb4815912bf331f8a49d063bae80dc7c0259b04f4cf23f23"
+      "recordSha256": "a860425a4402d4830920504e5cd39c073921b945d762afa355c74ba1d76d21b0"
     },
     {
       "id": "metro_ethernet_business_services/evo/routing-options/interface-routes-loopback",
@@ -59960,6 +60357,74 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "d4bd3025229219bc4dcb13ba43914eb50fa02a6f0c421f1f4af14227ad5e9da1"
+    },
+    {
+      "id": "metro_ethernet_business_services/evo/routing-options/rib-group-remote-loopbacks-mse",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "rib-group-remote-loopbacks-mse",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/rib-group-remote-loopbacks-mse.conf",
+      "otherOsFormId": "metro_ethernet_business_services/junos/routing-options/rib-group-remote-loopbacks-mse",
+      "topic": "RIB group RG-REMOTE-LOOPBACKS for remote loopback resolution",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "an3_acx7100-48l",
+          "cr1_ptx10001-36mr",
+          "cr2_ptx10001-36mr",
+          "ma1-1_acx7024",
+          "ma1-2_acx7024",
+          "ma3_acx7100-48l",
+          "mdr1_acx7509",
+          "meg1_acx7100-32c",
+          "meg2_acx7509"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "an3_acx7100-48l": 1,
+          "cr1_ptx10001-36mr": 1,
+          "cr2_ptx10001-36mr": 1,
+          "ma1-1_acx7024": 1,
+          "ma1-2_acx7024": 1,
+          "ma3_acx7100-48l": 1,
+          "mdr1_acx7509": 1,
+          "meg1_acx7100-32c": 1,
+          "meg2_acx7509": 1
+        },
+        "total": 9
+      },
+      "highlights": [
+        "As-deployed RG-REMOTE-LOOPBACKS rib-group, carried by every PE that resolves remote loopbacks, on both OS families."
+      ],
+      "pairWith": [
+        {
+          "raw": "evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf",
+          "id": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-remote-loopbacks-mse",
+          "note": null
+        }
+      ],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    rib-groups {\n        RG-REMOTE-LOOPBACKS {\n            import-rib [ inet.3 inet.0 inet6.3 ];\n            import-policy PS-REMOTE-LOOPBACKS;\n        }\n    }\n}",
+      "bytes": 179,
+      "lineCount": 8,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "be62d17bf2edd839652ea1e7cdf6ee1a9a6da8579317e7d2debef648b3c6124b"
     },
     {
       "id": "metro_ethernet_business_services/evo/routing-options/rib-groups",
@@ -61742,6 +62207,63 @@
       "recordSha256": "e628b71da127605f1b2d9b4c9325eb981199073ee59f4edc8de0bc12bbf7153c"
     },
     {
+      "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "class-of-service",
+      "subCategory": "schedulers",
+      "categoryPath": "class-of-service/schedulers",
+      "name": "sc-2-priority-model-legacy-acx",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf",
+      "otherOsFormId": null,
+      "topic": "CoS schedulers for the 6-class model, shaping-rate form",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448",
+          "an4_acx710"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an2_acx5448": 1,
+          "an4_acx710": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Six schedulers consumed by the 5G_SCHEDULER scheduler-map.",
+        "Two scheduling priority levels: REALTIME is strict-high, the other five classes are low. CONTROL and SIG-OAM are small low-priority queues, BUSINESS and MEDIUM take 20% each, BEST-EFFORT gets the remainder.",
+        "REALTIME-SC is rated with shaping-rate percent 40; the other five use transmit-rate."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-cos-schedulers",
+        "provides": [
+          "cos:schedulers"
+        ]
+      },
+      "body": "class-of-service {\n    schedulers {\n        BEST-EFFORT-SC {\n            transmit-rate {\n                remainder;\n            }\n            buffer-size {\n                remainder;\n            }\n            priority low;\n        }\n        BUSINESS-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        CONTROL-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n        MEDIUM-SC {\n            transmit-rate percent 20;\n            buffer-size percent 20;\n            priority low;\n        }\n        REALTIME-SC {\n            shaping-rate percent 40;\n            buffer-size percent 30;\n            priority strict-high;\n        }\n        SIG-OAM-SC {\n            transmit-rate percent 5;\n            buffer-size percent 2;\n            priority low;\n        }\n    }\n}",
+      "bytes": 899,
+      "lineCount": 38,
+      "techFamily": "QoS / CoS",
+      "subfamily": "CoS Building Blocks",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "8a76dc311560149c9e3728b311a2b29607fce0d8b7a0ed127a9b11cc40f8c041"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/class-of-service/schedulers/sc-2-priority-model",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -61765,16 +62287,11 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
           "an1_mx204": 1,
-          "cr1_ptx10001-36mr": 1,
-          "cr2_ptx10001-36mr": 1,
           "ma2_mx204": 1,
           "ma4_mx204": 1,
           "ma5_mx204": 1,
@@ -61782,7 +62299,7 @@
           "mse1_mx304": 1,
           "mse2_mx304": 1
         },
-        "total": 9
+        "total": 7
       },
       "highlights": [
         "Six schedulers consumed by the 5G_SCHEDULER scheduler-map: class         priority      transmit-rate     buffer-size",
@@ -61811,7 +62328,70 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "9aee8acf94fed0f1ef2c742510dbdd8e3c17f524788d02fbcf86dda7ea496320"
+      "recordSha256": "7cf4dcd98a8480867f16b1be02b40bc6b230bc18e8209d3cbcfd0bb4e476d894"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/firewall/filter-family-any-50mb",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "firewall",
+      "categoryPath": "firewall",
+      "name": "filter-family-any-50mb",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/filter-family-any-50mb.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
+      "topic": "Protocol-independent 50 Mbps rate-limit filter",
+      "seenOn": {
+        "junos": [
+          "an1_mx204",
+          "an2_acx5448",
+          "an4_acx710",
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an1_mx204": 1,
+          "an2_acx5448": 1,
+          "an4_acx710": 1,
+          "ma5_mx204": 1
+        },
+        "total": 4
+      },
+      "highlights": [
+        "`family any` acts on the logical interface regardless of payload protocol, and `interface-specific` gives every bound interface its own counter and policer instance, so one subscriber's rate limit is independent of another's.",
+        "A single unconditional term whose only action is the policer, which makes the filter a pure bandwidth profile.",
+        "On an3_acx7100-48l the filter is bound as `filter { input 50MB_filter; }` on 1400 service units. On an2_acx5448 the definition is present with no binding, so the filter exists there as a prepared profile.",
+        "The named 50mbps_policer supplies the rate and burst limits; its required provider is selected for the target device."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantRequires": [
+        {
+          "group": "mebs-rate-limit-policers",
+          "families": [
+            "firewall:policers"
+          ]
+        }
+      ],
+      "body": "firewall {\n    family any {\n        filter 50MB_filter {\n            interface-specific;\n            term t1 {\n                then policer 50mbps_policer;\n            }\n        }\n    }\n}",
+      "bytes": 187,
+      "lineCount": 10,
+      "techFamily": "Firewall & Policing",
+      "subfamily": "Filters",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "48b98bf5716b3652ec47bf548188ec17c8b987e18235920c9fd1dd198b275b20"
     },
     {
       "id": "metro_ethernet_business_services/junos/firewall/filter-family-any-policers",
@@ -61867,6 +62447,68 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "76b4dd92ffc43e82ba84932b1809609500e9423b83ddab6483db599eab4a04e7"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/firewall/policers-2m-burst",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "firewall",
+      "categoryPath": "firewall",
+      "name": "policers-2m-burst",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/policers-2m-burst.conf",
+      "otherOsFormId": null,
+      "topic": "Rate-limit policers (EVO)",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448",
+          "an4_acx710",
+          "ma5_mx204",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an2_acx5448": 1,
+          "an4_acx710": 1,
+          "ma5_mx204": 1,
+          "mse1_mx304": 1,
+          "mse2_mx304": 1
+        },
+        "total": 5
+      },
+      "highlights": [
+        "Same 5 Mbps and 50 Mbps templates as junos/firewall/policers.conf — used at the UNI to enforce CIR per attachment-circuit unit (typical Metro EVPL/EVPLAN service tiering).",
+        "then discard — out-of-profile traffic is dropped, not marked (use a colored-marking variant if you want trTCM behaviour).",
+        "Note: ma1-1_acx7024 in this JVD does NOT carry a generic \"any\" filter; policers are referenced directly per-unit via `unit X { filter { input 50MB_filter; } }` where 50MB_filter lives on filter-equipped peers (e.g. an3_acx7100-48l). On EVO devices that need a filter, build it as a family-any filter referencing these policers — same pattern as Junos."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-rate-limit-policers",
+        "provides": [
+          "firewall:policers"
+        ]
+      },
+      "body": "firewall {\n    policer 50mbps_policer {\n        if-exceeding {\n            bandwidth-limit 50m;\n            burst-size-limit 2m;\n        }\n        then discard;\n    }\n    policer 5mbps_policer {\n        if-exceeding {\n            bandwidth-limit 5m;\n            burst-size-limit 1m;\n        }\n        then discard;\n    }\n}",
+      "bytes": 322,
+      "lineCount": 16,
+      "techFamily": "Firewall & Policing",
+      "subfamily": "Policers / DDoS",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "cbf5048c781364b71847f061340769a25fe3c71f43a7e0e947d15b271a3f4754"
     },
     {
       "id": "metro_ethernet_business_services/junos/firewall/policers",
@@ -62339,6 +62981,126 @@
       "recordSha256": "d90cad571a43e06c55626214b067128ad24d1a5d5f69b19bf74edc34e9a94ade"
     },
     {
+      "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-flexible-ethernet",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-edge-intf-flexible-ethernet",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-edge-intf-flexible-ethernet.conf",
+      "otherOsFormId": null,
+      "topic": "Customer-facing interface baseline",
+      "seenOn": {
+        "junos": [
+          "an2_acx5448",
+          "an4_acx710"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an2_acx5448": 1,
+          "an4_acx710": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Identical structure to junos/groups/gr-edge-intf.conf on Junos OS — Junos and Junos Evolved share this BCP unchanged.",
+        "flexible-vlan-tagging + flexible-ethernet-services so the same physical port can carry vlan-bridge, vlan-ccc and family-ccc units side-by-side (mixed L2 services on one UNI).",
+        "hold-time up 180000 down 0 → 3-min damp on link UP, immediate down (so transient flaps don't reattach customer ACs into a half-built EVPN/L2VPN service).",
+        "LACP active w/ hold-time up 2 for AE bundles.",
+        "Optics low-light alarms tied to link-down for fast convergence."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-form",
+        "provides": [
+          "gr:edge-intf"
+        ]
+      },
+      "body": "groups {\n    GR-EDGE-INTF {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time up 180000 down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        active;\n                        hold-time up 2;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 893,
+      "lineCount": 32,
+      "techFamily": "Apply-groups",
+      "subfamily": "Interface Groups",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "0da1baeb595f1afa91e3f8f940c933d37507634f3860f75b963d88fa7da3fbe9"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh-optics",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-edge-intf-mh-optics",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-edge-intf-mh-optics.conf",
+      "otherOsFormId": null,
+      "topic": "Customer-facing interface baseline — multihomed variant (EVO)",
+      "seenOn": {
+        "junos": [
+          "an4_acx710",
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an4_acx710": 1,
+          "ma2_mx204": 1,
+          "ma4_mx204": 1,
+          "ma5_mx204": 1,
+          "mdr2_mx10003": 1
+        },
+        "total": 5
+      },
+      "highlights": [
+        "Same as GR-EDGE-INTF but WITHOUT a port-restoration delay (`hold-time up`). Multihomed bundles rely on EVPN ESI / EVPN-MH convergence (fast DF election + aliasing) for sub-second failover, so port-level damping on the bring-up direction would only delay convergence. `hold-time down 0` stays to keep failure detection immediate.",
+        "LACP `hold-time up 180` (vs 2 sec in GR-EDGE-INTF) lets the ESI peer aggregate before this PE starts forwarding, avoiding micro-loops during bundle bring-up.",
+        "Pair this group with a parent ae* unit that has esi { all-active }"
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "variantGroup": {
+        "name": "mebs-edge-intf-mh",
+        "provides": [
+          "gr:edge-intf-mh"
+        ]
+      },
+      "body": "groups {\n    GR-EDGE-INTF-MH {\n        interfaces {\n            <*> {\n                description ********GR-EDGE-INTF-Multihomed-SETTINGS-APPLIED-ADD-DESCRIPTION********;\n                traps;\n                flexible-vlan-tagging;\n                mtu 9102;\n                hold-time down 0;\n                encapsulation flexible-ethernet-services;\n            }\n            <ae*> {\n                aggregated-ether-options {\n                    lacp {\n                        hold-time up 180;\n                    }\n                }\n            }\n            \"<[egx][te]-*>\" {\n                optics-options {\n                    alarm low-light-alarm {\n                        link-down;\n                    }\n                    warning low-light-warning {\n                        syslog;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 867,
+      "lineCount": 31,
+      "techFamily": "Apply-groups",
+      "subfamily": "Interface Groups",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "7b0c4dc3fcbe7d2d6f87718e18c45b1d71e850031e19a6f99f2b24896164264f"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf-mh",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -62358,27 +63120,16 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
           "an1_mx204": 1,
           "an2_acx5448": 1,
-          "an3_acx7100-48l": 1,
-          "ma1-1_acx7024": 1,
-          "ma1-2_acx7024": 1,
-          "meg1_acx7100-32c": 1,
-          "meg2_acx7509": 1,
           "mse1_mx304": 1,
           "mse2_mx304": 1
         },
-        "total": 9
+        "total": 4
       },
       "highlights": [],
       "pairWith": [],
@@ -62403,7 +63154,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "32ac8afc6faa190f5fdab68a5afa10bc6d0e1dd2e2eea4c88530622ce1ca586b"
+      "recordSha256": "b35f8e8b8f72f86cd2cab1cddf6c80c53c7096f9b72d72780ee043070ccb122e"
     },
     {
       "id": "metro_ethernet_business_services/junos/groups/gr-edge-intf",
@@ -62428,16 +63179,11 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
           "an1_mx204": 1,
-          "cr1_ptx10001-36mr": 1,
-          "cr2_ptx10001-36mr": 1,
           "ma2_mx204": 1,
           "ma4_mx204": 1,
           "ma5_mx204": 1,
@@ -62445,7 +63191,7 @@
           "mse1_mx304": 1,
           "mse2_mx304": 1
         },
-        "total": 9
+        "total": 7
       },
       "highlights": [
         "Templated baseline for customer-facing (edge) interfaces. Applied to physical and aggregated-ethernet interfaces to set common properties (description marker, MTU, flex-vlan tagging, flex-ethernet-services encapsulation, optics alarm/warning).",
@@ -62473,7 +63219,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "593631a3ad134edfcace28591253d6e70c0e2d4d0fa2ee517a5e237cc903fb92"
+      "recordSha256": "4fb9a4cbebfdda5dda8495d5dacad35178bb87a14198b0be90409ff1f5bdc1f5"
     },
     {
       "id": "metro_ethernet_business_services/junos/groups/gr-fatpw-label",
@@ -62595,6 +63341,65 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "c50b97be32537d874aa266f0908db818de85032934b896449ab6e5e1f0c9b7ef"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp-high-metrics",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-isis-bcp-high-metrics",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/gr-isis-bcp-high-metrics.conf",
+      "otherOsFormId": null,
+      "topic": "ISIS best-current-practice timers with overload high metrics",
+      "seenOn": {
+        "junos": [
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204",
+          "mdr2_mx10003",
+          "mse1_mx304",
+          "mse2_mx304"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "ma2_mx204": 1,
+          "ma4_mx204": 1,
+          "ma5_mx204": 1,
+          "mdr2_mx10003": 1,
+          "mse1_mx304": 1,
+          "mse2_mx304": 1
+        },
+        "total": 6
+      },
+      "highlights": [
+        "max-hello-size 9106 on ae*/et* lets ISIS hellos use the full jumbo MTU (verifies path MTU before the protocol commits).",
+        "lsp-interval 10 (ms) — fast LSP flooding on point-to-point links.",
+        "SPF: delay 50 ms / holddown 2000 ms / rapid-runs 5 → fast initial reaction with a backoff window, the textbook BCP.",
+        "overload bit timeout 300s + advertise-high-metrics → router comes up \"drained\" so traffic doesn't shift onto it before BGP converges. Omitted on ag1-1/ag1-2 aggregation switches (they don't run BGP and have no reason to drain)."
+      ],
+      "pairWith": [],
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    GR-ISIS-BCP {\n        protocols {\n            isis {\n                interface <ae*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                interface <et-*> {\n                    max-hello-size 9106;\n                    lsp-interval 10;\n                }\n                spf-options {\n                    delay 50;\n                    holddown 2000;\n                    rapid-runs 5;\n                }\n                overload {\n                    timeout 300;\n                    advertise-high-metrics;\n                }\n            }\n        }\n    }\n}",
+      "bytes": 627,
+      "lineCount": 25,
+      "techFamily": "Apply-groups",
+      "subfamily": "IS-IS Groups",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "19d1a19e2ddb3fc91ee1970f6a039da91eeafb4e588a4500e1d3c2a1870e9d24"
     },
     {
       "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp",
@@ -62811,33 +63616,14 @@
           "an1_mx204",
           "ma2_mx204"
         ],
-        "evo": [
-          "ag1-1_acx7100-32c",
-          "ag1-2_acx7100-32c",
-          "an3_acx7100-48l",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
-          "ma1-2_acx7024",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
-          "ag1-1_acx7100-32c": 5,
-          "ag1-2_acx7100-32c": 5,
           "an1_mx204": 2,
-          "an3_acx7100-48l": 3,
-          "cr1_ptx10001-36mr": 2,
-          "cr2_ptx10001-36mr": 2,
-          "ma1-2_acx7024": 2,
-          "ma2_mx204": 2,
-          "mdr1_acx7509": 1,
-          "meg1_acx7100-32c": 2,
-          "meg2_acx7509": 2
+          "ma2_mx204": 2
         },
-        "total": 28
+        "total": 4
       },
       "highlights": [
         "A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1). Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.",
@@ -62887,7 +63673,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "7f4c93cb4df4610637258d7baea7aaeeebbee7e95ccf62371fc57d72bdcade57"
+      "recordSha256": "22dc4329d01ee9d7c28d993ba0b5c53cd2465dc60c218f1ff104b27ea5ac29e0"
     },
     {
       "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
@@ -62900,7 +63686,7 @@
       "categoryPath": "interfaces",
       "name": "ethernet-bridge",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/ethernet-bridge.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/evo/interfaces/ethernet-bridge",
       "topic": "VLAN-bridge logical interface with flexible Ethernet services",
       "seenOn": {
         "junos": [
@@ -62908,18 +63694,15 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "an3_acx7100-48l"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
-          "an3_acx7100-48l": 438,
           "ma5_mx204": 100,
           "mse1_mx304": 125,
           "mse2_mx304": 75
         },
-        "total": 738
+        "total": 300
       },
       "highlights": [
         "Flexible VLAN tagging and flexible Ethernet services are configured on the parent of the VLAN-bridge unit."
@@ -62961,7 +63744,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "720909d85f20c8d8ff1c98f22f4d841bbef1e633f44cfcdbc62c3b8af93f41ec"
+      "recordSha256": "44fb18b3888c446d9c54c18ab1185d8d9c2881dd0e999964d9dc0d77f3f7cd89"
     },
     {
       "id": "metro_ethernet_business_services/junos/interfaces/ifd-ae-lacp-fast-disabled",
@@ -65279,8 +66062,8 @@
       ],
       "pairWith": [
         {
-          "raw": "evo/firewall/filter-family-any-50mb.conf",
-          "id": "metro_ethernet_business_services/evo/firewall/filter-family-any-50mb",
+          "raw": "junos/firewall/filter-family-any-50mb.conf",
+          "id": "metro_ethernet_business_services/junos/firewall/filter-family-any-50mb",
           "note": null
         }
       ],
@@ -65316,7 +66099,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "9847141af8a38511c77fc40c0e57e6cddd77bb12d08940213c8ab75a28085ff1"
+      "recordSha256": "ae7605eaca19e1e236be0591c284fdc45dfb75f5577ea1e49796f9d46ab128b2"
     },
     {
       "id": "metro_ethernet_business_services/junos/interfaces/ifl-vlan-ccc",
@@ -69387,6 +70170,63 @@
       "recordSha256": "66e219bab77f8861142b5a99e0af746197b8878ad4aa164ca85ee24f7f1f06b2"
     },
     {
+      "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-import-bgp-lo0-filter",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-import-bgp-lo0-filter",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-import-bgp-lo0-filter",
+      "topic": "BGP import policy IMPORT-BGP (LOOPBACK reject) with the LOOPBACK prefix-list it matches",
+      "seenOn": {
+        "junos": [
+          "mdr2_mx10003"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "mdr2_mx10003": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "`term 1` drops routes matching `prefix-list LOOPBACK`; `term 2` accepts everything else.",
+        "The prefix-list carries the node's primary loopback and its SR non-zero loopback address, so the policy and the list it matches are one unit."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4",
+          "example": "1.1.0.6"
+        },
+        {
+          "name": "$LOOPBACK_SR_V4",
+          "example": "1.1.10.6"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    prefix-list LOOPBACK {\n        $LOOPBACK_V4/32;\n        $LOOPBACK_SR_V4/32;\n    }\n    policy-statement IMPORT-BGP {\n        term 1 {\n            from {\n                prefix-list LOOPBACK;\n            }\n            then reject;\n        }\n        term 2 {\n            then accept;\n        }\n    }\n}",
+      "bytes": 319,
+      "lineCount": 17,
+      "techFamily": "Policy & Routing",
+      "subfamily": "VPN Route Policy",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "403b07552c9601547f46e561c7b4dfd34b00509400cddc973aa82377d67ddda0"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-import-l3vpn-internet",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -70225,7 +71065,7 @@
       "categoryPath": "policy-options/policy-statement",
       "name": "ps-remote-loopbacks-mse",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/evo/policy-options/policy-statement/ps-remote-loopbacks-mse",
       "topic": "BGP policy PS-REMOTE-LOOPBACKS (services-edge PEs, Junos)",
       "seenOn": {
         "junos": [
@@ -70239,40 +71079,21 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
           "an1_mx204": 1,
           "an2_acx5448": 1,
-          "an3_acx7100-48l": 1,
           "an4_acx710": 1,
-          "cr1_ptx10001-36mr": 1,
-          "cr2_ptx10001-36mr": 1,
-          "ma1-1_acx7024": 1,
-          "ma1-2_acx7024": 1,
           "ma2_mx204": 1,
-          "ma3_acx7100-48l": 1,
           "ma4_mx204": 1,
           "ma5_mx204": 1,
-          "mdr1_acx7509": 1,
           "mdr2_mx10003": 1,
-          "meg1_acx7100-32c": 1,
-          "meg2_acx7509": 1,
           "mse1_mx304": 1,
           "mse2_mx304": 1
         },
-        "total": 18
+        "total": 9
       },
       "highlights": [
         "As-deployed PS-REMOTE-LOOPBACKS import policy for the services-edge PEs."
@@ -70299,7 +71120,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "751251b4d43c2019a7f7b6efc9d041ee4ed400d8fb5fe14d785558cb9baa22a1"
+      "recordSha256": "531307008fe3b2ebdd169a287e8fd4af82565e8fad2e1337cafb979c7a824977"
     },
     {
       "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4",
@@ -72208,8 +73029,8 @@
       "highlights": [],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-isis-bcp.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-isis-bcp",
+          "raw": "junos/groups/gr-isis-bcp-high-metrics.conf",
+          "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp-high-metrics",
           "note": null
         },
         {
@@ -72246,7 +73067,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "9d8a75aec36dae40da8d6bc6fa1ca144d74f5a2302115b53864fc4524347d4ea"
+      "recordSha256": "ac283f966a3a4c20017f9551127836a7ed792e6f9c3cca3d310d99d1dbd41259"
     },
     {
       "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa-l2-net",
@@ -72285,8 +73106,8 @@
       "highlights": [],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-isis-bcp.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-isis-bcp",
+          "raw": "junos/groups/gr-isis-bcp-high-metrics.conf",
+          "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp-high-metrics",
           "note": null
         },
         {
@@ -72323,7 +73144,100 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "69459c0c3f97f16f0469da959139b0afbbe3a8be1833052fca89e7e648c51818"
+      "recordSha256": "facf8c8e22dc358ee36a7f1b109e4a39c5e29eb5121e3e5c8c3d0122b0583806"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa-l2-single-interface",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "isis-srmpls-tilfa-l2-single-interface",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf",
+      "otherOsFormId": null,
+      "topic": "ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo",
+      "seenOn": {
+        "junos": [
+          "ma2_mx204",
+          "ma4_mx204",
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "ma2_mx204": 2,
+          "ma4_mx204": 2,
+          "ma5_mx204": 2
+        },
+        "total": 6
+      },
+      "highlights": [
+        "source-packet-routing (SR-MPLS) with per-router node-segment IDs (ipv4-index 17, ipv6-index 117 on this PE) into the global SRGB (16000–24000, set in protocols mpls).",
+        "flex-algorithm [ 128 129 ] — two custom topologies (here delay-optimised and color-constrained) advertised alongside the default 0/SPF.",
+        "strict-asla-based-flex-algorithm — only ASLA-tagged links participate in flex-algo computation (clean separation).",
+        "TI-LFA: post-convergence-lfa with node-protection on every core interface, plus backup-spf-options use-source-packet-routing so backup paths are computed via SR (label-stack push, no LDP).",
+        "microloop-avoidance with 5 s post-convergence delay.",
+        "BFD 100ms × 3 no-adaptation under family inet — sub-second failure detection that triggers TI-LFA."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/protocols/mpls-segment-routing.conf",
+          "id": "metro_ethernet_business_services/junos/protocols/mpls-segment-routing",
+          "note": null
+        },
+        {
+          "raw": "junos/groups/gr-isis-bcp-high-metrics.conf",
+          "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp-high-metrics",
+          "note": null
+        },
+        {
+          "raw": "junos/groups/gr-core-intf.conf",
+          "id": "metro_ethernet_business_services/junos/groups/gr-core-intf",
+          "note": null
+        },
+        {
+          "raw": "junos/interfaces/core-isis-mpls.conf",
+          "id": "metro_ethernet_business_services/junos/interfaces/core-isis-mpls",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$CORE_INTF",
+          "example": "ae83.0   (repeat the per-interface block"
+        },
+        {
+          "name": "$NODE_SID_V4",
+          "example": "17"
+        },
+        {
+          "name": "$NODE_SID_V6",
+          "example": "117"
+        },
+        {
+          "name": "$ISIS_NET",
+          "example": "49.0001.0010.0100.0017.00"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    isis {\n        apply-groups GR-ISIS-BCP;\n        interface $CORE_INTF {\n            level 2 {\n                post-convergence-lfa {\n                    node-protection cost 16777214;\n                }\n                application-specific {\n                    attribute-group ASLA {\n                        advertise-delay-metric;\n                        te-metric 5;\n                        admin-group [ green blue ];\n                        application {\n                            flex-algorithm;\n                        }\n                    }\n                }\n            }\n            delay-metric 5;\n            point-to-point;\n            family inet {\n                bfd-liveness-detection {\n                    minimum-interval 100;\n                    multiplier 3;\n                    no-adaptation;\n                }\n            }\n        }\n        interface lo0.0 {\n            passive;\n        }\n        source-packet-routing {\n            node-segment {\n                ipv4-index $NODE_SID_V4;\n                ipv6-index $NODE_SID_V6;\n            }\n            flex-algorithm [ 128 129 ];\n            strict-asla-based-flex-algorithm;\n            explicit-null;\n            traffic-statistics {\n                statistics-granularity per-interface;\n            }\n        }\n        level 1 disable;\n        level 2 wide-metrics-only;\n        spf-options {\n            microloop-avoidance {\n                post-convergence-path {\n                    delay 5000;\n                }\n            }\n        }\n        backup-spf-options {\n            use-post-convergence-lfa maximum-labels 3;\n            use-source-packet-routing;\n        }\n        traffic-engineering {\n            advertisement {\n                application-specific {\n                    all-applications;\n                }\n            }\n        }\n        export PS-ISIS-EXPORT;\n        net $ISIS_NET;\n    }\n}",
+      "bytes": 1912,
+      "lineCount": 68,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "28421cbf9ac5a7f882a3721f67518981330eca6ee9d1cf8cc154d206ee2066f7"
     },
     {
       "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa-l2",
@@ -72364,8 +73278,8 @@
       "highlights": [],
       "pairWith": [
         {
-          "raw": "evo/groups/gr-isis-bcp.conf",
-          "id": "metro_ethernet_business_services/evo/groups/gr-isis-bcp",
+          "raw": "junos/groups/gr-isis-bcp-high-metrics.conf",
+          "id": "metro_ethernet_business_services/junos/groups/gr-isis-bcp-high-metrics",
           "note": null
         },
         {
@@ -72398,7 +73312,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "607ef78866ba434263e1730a7f2bc736abcf6648a3fbc43463da8dd58e78fdcd"
+      "recordSha256": "371ce8cbe939fd089536f6843ececc0c18c07e4c9448f53a212c5036f96786e1"
     },
     {
       "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa",
@@ -72836,6 +73750,78 @@
       "recordSha256": "6ed964b0ab5c797fd09d53fb5f3cc4ba00936bbd1f2125eee6e0cfd31fa43577"
     },
     {
+      "id": "metro_ethernet_business_services/junos/protocols/oam-cfm-perf-mon-single-remote",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "oam-cfm-perf-mon-single-remote",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/oam-cfm-perf-mon-single-remote.conf",
+      "otherOsFormId": null,
+      "topic": "Ethernet OAM CFM with hardware-assisted SLA performance monitoring",
+      "seenOn": {
+        "junos": [
+          "an4_acx710",
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "an4_acx710": 200,
+          "ma5_mx204": 300
+        },
+        "total": 500
+      },
+      "highlights": [
+        "performance-monitoring with hardware-assisted-timestamping for accurate two-way delay (Y.1731 DM) measurements at line rate",
+        "SLA iterator profile 2WD-P3: measurement-type   two-way-delay cycle-time         1000 ms iteration-period   2000 ms calculation-weight delay 300 / delay-variation 300",
+        "One maintenance-domain (level 5) holds many maintenance-associations (one per service / VLAN unit). Continuity-check 1s with loss-threshold 10 + hold-interval 1 detects PW liveness.",
+        "One representative maintenance-association is shown; the source file repeats this template for each service-bound subinterface. Apply on a per-unit basis: each MEP binds to a vlan-ccc subinterface (e.g., et-0/0/0.2800) that is also the L2Circuit attachment-circuit."
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$MD_NAME",
+          "example": "MD_63535"
+        },
+        {
+          "name": "$MA_ID",
+          "example": "100"
+        },
+        {
+          "name": "$MEP_LOCAL",
+          "example": "1002"
+        },
+        {
+          "name": "$MEP_REMOTE",
+          "example": "1003"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/0.2800"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    oam {\n        ethernet {\n            connectivity-fault-management {\n                performance-monitoring {\n                    hardware-assisted-timestamping;\n                    enhanced-sla-iterator;\n                    measurement-interval 5;\n                    sla-iterator-profiles {\n                        2WD-P3 {\n                            measurement-type two-way-delay;\n                            cycle-time 1000;\n                            iteration-period 2000;\n                            calculation-weight {\n                                delay 300;\n                                delay-variation 300;\n                            }\n                        }\n                    }\n                }\n                maintenance-domain $MD_NAME {\n                    level 5;\n                    name-format none;\n                    maintenance-association $MA_ID {\n                        short-name-format 2octet;\n                        continuity-check {\n                            interval 1s;\n                            loss-threshold 10;\n                            hold-interval 1;\n                        }\n                        mep $MEP_LOCAL {\n                            interface $AC_INTF;\n                            direction up;\n                            remote-mep $MEP_REMOTE {\n                                sla-iterator-profile 2WD-P3 {\n                                    priority 1;\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 1612,
+      "lineCount": 45,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "1e50af9d35f2ab4e094ed8da1ee942704e2e41681232ec50f85d88a44b109e73"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/protocols/oam-cfm-perf-mon",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -72852,22 +73838,13 @@
         "junos": [
           "ma5_mx204"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "ma1-2_acx7024",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
-          "an3_acx7100-48l": 300,
-          "ma1-2_acx7024": 100,
-          "ma5_mx204": 200,
-          "meg1_acx7100-32c": 200,
-          "meg2_acx7509": 100
+          "ma5_mx204": 200
         },
-        "total": 900
+        "total": 200
       },
       "highlights": [
         "Identical structure to evo/protocols/oam-cfm-perf-mon.conf — Junos and Junos Evolved share the OAM CFM config language.",
@@ -72917,7 +73894,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "d5e7fd8e1eaa279abe949bf51af321db539f17af0c21766754674ea51209742b"
+      "recordSha256": "efbaeb536a51630cec1570cbbd9546a1a72d3d3ccd282e4beac50a35fd61e6e8"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-instances/apply-groups/gr-fatpw-label",
@@ -74145,6 +75122,100 @@
       "recordSha256": "75718df653d8b859d20798567c54b9038257d405fc790cf5ca01e5ed8167e2ff"
     },
     {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-site",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l2vpn",
+      "categoryPath": "routing-instances/l2vpn",
+      "name": "ri-l2vpn-kompella-site",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf",
+      "otherOsFormId": null,
+      "topic": "BGP-signalled L2VPN (Kompella) routing-instance, port-based",
+      "seenOn": {
+        "junos": [
+          "ma5_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "ma5_mx204": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "instance-type l2vpn  → BGP-signalled (Kompella) draft-Kompella PW",
+        "Single attachment-circuit (et-0/0/8.0) on the local site (1102), cross-connected to remote-site-id 1119 on a peer PE",
+        "encapsulation-type ethernet (port-based — entire interface is the AC)",
+        "no-control-word matches the remote PE",
+        "vrf-target establishes the BGP route-target community for the L2VPN"
+      ],
+      "pairWith": [],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "L2VPN_PORT_BASED"
+        },
+        {
+          "name": "$L2VPN_SITE",
+          "example": "r2"
+        },
+        {
+          "name": "$L2VPN_LOCAL_SITE_ID",
+          "example": "1102"
+        },
+        {
+          "name": "$L2VPN_REMOTE_SITE_ID",
+          "example": "1119"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/8.0"
+        },
+        {
+          "name": "$RD",
+          "example": "63535:6500"
+        },
+        {
+          "name": "$RT",
+          "example": "63535:6500"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  201 instances total (high 102 / med 99 / low 0)",
+        "  On devices: an3_acx7100-48l (201), ma5_mx204 (201)",
+        "  Example: L2VPN_PORT_BASED (RD 63535:6500, RT target:63535:6500)",
+        "    an3_acx7100-48l  et-0/0/8.0",
+        "    ma5_mx204  xe-0/1/2.0"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-fatpw-label-form",
+          "families": [
+            "gr:fatpw-label"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type l2vpn;\n        protocols {\n            l2vpn {\n                site $L2VPN_SITE {\n                    interface $AC_INTF {\n                        remote-site-id $L2VPN_REMOTE_SITE_ID;\n                    }\n                    site-identifier $L2VPN_LOCAL_SITE_ID;\n                }\n                encapsulation-type ethernet;\n                no-control-word;\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-target target:$RT;\n    }\n}",
+      "bytes": 547,
+      "lineCount": 20,
+      "techFamily": "Service Overlay",
+      "subfamily": "BGP L2VPN (Kompella)",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "2eae3dd159623c946c2df0a53b3840469b4a9c4a7ba9a65b8cde48a6656428a7"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -74929,6 +76000,114 @@
         "Mobile Backhaul"
       ],
       "recordSha256": "9361aa4f8559b4f58cf9601f5bd2a7005372a2e6887d6781fd3f0652f0ebe0de"
+    },
+    {
+      "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-instances",
+      "subCategory": "l3vpn",
+      "categoryPath": "routing-instances/l3vpn",
+      "name": "ri-l3vpn-bgp-vrf-policy",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy",
+      "topic": "L3VPN VRF with PE-CE eBGP and as-override",
+      "seenOn": {
+        "junos": [
+          "ma4_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "ma4_mx204": 999
+        },
+        "total": 999
+      },
+      "highlights": [
+        "`instance-type vrf` with `protocols bgp group v4Ixia` carrying `peer-as <CUST_ASN>` and `as-override` as the PE-CE protocol.",
+        "`routing-options router-id;` is the only routing-options child; the per-VRF RT-import policies do the route control on these EVO ACX PEs.",
+        "The per-VRF policy names differ across the devices this form covers: ma3 and ma4 bind `${INSTANCE_NAME}-IMPORT` / `-EXPORT` while an3 binds the `PS-`-prefixed spelling, so the binding is parameterized as $IMPORT_POL / $EXPORT_POL."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf",
+          "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/ps-import-l3vpn-internet",
+          "note": null
+        }
+      ],
+      "variables": [
+        {
+          "name": "$INSTANCE_NAME",
+          "example": "METRO_BGPv4_L3VPN_2101"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.0.15"
+        },
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/5.2101"
+        },
+        {
+          "name": "$CE_PEER_V4",
+          "example": "115.2.0.2"
+        },
+        {
+          "name": "$PE_LOCAL_V4",
+          "example": "115.2.0.1"
+        },
+        {
+          "name": "$AS_CUST",
+          "example": "64514"
+        },
+        {
+          "name": "$RD",
+          "example": "63536:2101"
+        },
+        {
+          "name": "$IMPORT_POL",
+          "example": "METRO_BGPv4_L3VPN_2101-IMPORT"
+        },
+        {
+          "name": "$EXPORT_POL",
+          "example": "METRO_BGPv4_L3VPN_2101-EXPORT"
+        }
+      ],
+      "jvdServiceMapping": [
+        "  200 instances total (high 200 / med 0 / low 0)",
+        "  On devices: an3_acx7100-48l (200), ma3_acx7100-48l (200), mse1_mx304 (200), mse2_mx304 (200)",
+        "  Example: METRO_BGPv4_L3VPN_2101 (RD 63535:2101, RT —)",
+        "    an3_acx7100-48l  et-0/0/4.2101",
+        "    ma3_acx7100-48l  et-0/0/5.2101",
+        "    mse1_mx304  et-0/0/5.2101",
+        "    mse2_mx304  xe-0/0/15:0.2101"
+      ],
+      "variantRequires": [
+        {
+          "group": "mebs-bgp-overlay",
+          "families": [
+            "inet-vpn"
+          ]
+        }
+      ],
+      "body": "routing-instances {\n    $INSTANCE_NAME {\n        instance-type vrf;\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n        protocols {\n            bgp {\n                group v4Ixia {\n                    family inet {\n                        any;\n                    }\n                    neighbor $CE_PEER_V4 {\n                        local-address $PE_LOCAL_V4;\n                        peer-as $AS_CUST;\n                        as-override;\n                    }\n                }\n            }\n        }\n        interface $AC_INTF;\n        route-distinguisher $RD;\n        vrf-import $IMPORT_POL;\n        vrf-export $EXPORT_POL;\n        vrf-table-label;\n    }\n}",
+      "bytes": 687,
+      "lineCount": 27,
+      "techFamily": "Service Overlay",
+      "subfamily": "L3VPN",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "6311da1ff2432a2292339feaa44242df250e51f757c5f4b2f4ff61aa353b4a7a"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table",
@@ -76136,6 +77315,66 @@
       "recordSha256": "b87561f9376dc7e7816649723c47200d85ff0244d159180aa58623b89909bcfc"
     },
     {
+      "id": "metro_ethernet_business_services/junos/routing-options/forwarding-table-export",
+      "jvd": "metro_ethernet_business_services",
+      "jvdLabel": "Metro Ethernet Business Services",
+      "area": "Service Provider",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "forwarding-table-export",
+      "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/forwarding-table-export.conf",
+      "otherOsFormId": null,
+      "topic": "Forwarding-table export — per-packet load-balance applied to the forwarding table (minimal EVO form).",
+      "seenOn": {
+        "junos": [
+          "ma2_mx204",
+          "mdr2_mx10003"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "ma2_mx204": 1,
+          "mdr2_mx10003": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "This is the minimal EVO form (`export $PPLB_NAME` only). The forwarding- table stanza is strongly role-dependent: other EVO nodes add a `chained-composite-next-hop ingress { l2vpn l2ckt evpn l3vpn }` block (see the Junos PE variant), and an3/meg1 carry that block too. A full role-variant model is a post-extraction follow-up.",
+        "`export $PPLB_NAME` applies the per-packet load-balance policy to the forwarding table (ECMP across equal-cost paths). The policy name is `pplb` on most nodes and `PS-PPLB` on ag1-1/ag1-2."
+      ],
+      "pairWith": [
+        {
+          "raw": "junos/policy-options/policy-statement/per-packet-load-balance.conf  (defines the pplb policy)",
+          "id": "metro_ethernet_business_services/junos/policy-options/policy-statement/per-packet-load-balance",
+          "note": "defines the pplb policy"
+        }
+      ],
+      "variables": [
+        {
+          "name": "$PPLB_NAME",
+          "example": "pplb"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    forwarding-table {\n        export $PPLB_NAME;\n    }\n}",
+      "bytes": 75,
+      "lineCount": 5,
+      "techFamily": "Transport & Underlay",
+      "subfamily": "Routing & Forwarding",
+      "usecases": [
+        "Cloud Metro",
+        "Metro Fabric",
+        "Carrier Ethernet (MEF)",
+        "Business VPN Services",
+        "Route Reflector",
+        "Mobile Backhaul"
+      ],
+      "recordSha256": "411a01facbec3bb9d29a2ccba076abcca9b977ad264c4bf96633e3db087d7672"
+    },
+    {
       "id": "metro_ethernet_business_services/junos/routing-options/forwarding-table-pplb-chained-nh",
       "jvd": "metro_ethernet_business_services",
       "jvdLabel": "Metro Ethernet Business Services",
@@ -76804,7 +78043,7 @@
       "categoryPath": "routing-options",
       "name": "rib-group-remote-loopbacks-mse",
       "path": "service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/rib-group-remote-loopbacks-mse.conf",
-      "otherOsFormId": null,
+      "otherOsFormId": "metro_ethernet_business_services/evo/routing-options/rib-group-remote-loopbacks-mse",
       "topic": "RIB group RG-REMOTE-LOOPBACKS for remote loopback resolution",
       "seenOn": {
         "junos": [
@@ -76817,39 +78056,20 @@
           "mse1_mx304",
           "mse2_mx304"
         ],
-        "evo": [
-          "an3_acx7100-48l",
-          "cr1_ptx10001-36mr",
-          "cr2_ptx10001-36mr",
-          "ma1-1_acx7024",
-          "ma1-2_acx7024",
-          "ma3_acx7100-48l",
-          "mdr1_acx7509",
-          "meg1_acx7100-32c",
-          "meg2_acx7509"
-        ]
+        "evo": []
       },
       "count": {
         "byDevice": {
           "an1_mx204": 1,
           "an2_acx5448": 1,
-          "an3_acx7100-48l": 1,
           "an4_acx710": 1,
-          "cr1_ptx10001-36mr": 1,
-          "cr2_ptx10001-36mr": 1,
-          "ma1-1_acx7024": 1,
-          "ma1-2_acx7024": 1,
-          "ma3_acx7100-48l": 1,
           "ma4_mx204": 1,
           "ma5_mx204": 1,
-          "mdr1_acx7509": 1,
           "mdr2_mx10003": 1,
-          "meg1_acx7100-32c": 1,
-          "meg2_acx7509": 1,
           "mse1_mx304": 1,
           "mse2_mx304": 1
         },
-        "total": 17
+        "total": 8
       },
       "highlights": [
         "As-deployed RG-REMOTE-LOOPBACKS rib-group, carried by every PE that resolves remote loopbacks, on both OS families."
@@ -76876,7 +78096,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "fa63c9588e0016e92bb81499c8da00f97604fc5352f3298415e589097e23cc11"
+      "recordSha256": "1089cf9d773c0efdbc6c8197a679448acebeb4bd606f9f44fc6de99214b332d9"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-options/rib-groups-local-loopback-transport-class",
@@ -81918,5 +83138,5 @@
       "vscodePromptName": "jvd-srv6"
     }
   ],
-  "exportDigest": "4a98a1fda1f9b6d428364e13166737848645038d2c7527bbe9a404a6c0dd3308"
+  "exportDigest": "34e12416159330f06e2b4884270ece4e770da5c6503cea42914f01bafaf93b1b"
 }
