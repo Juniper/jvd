@@ -40,6 +40,7 @@ const APPLICABILITY_CODES = new Set([
   CODES.SEEN_ON_UNKNOWN_DEVICE,
   CODES.SEEN_ON_NON_DEVICE_TOKEN,
   CODES.SEEN_ON_NATIVE_EMPTY,
+  CODES.SEEN_ON_MISSING_OS_MIRROR,
   CODES.MISSING_SEEN_ON_BUCKET,
   CODES.MISSING_SEEN_ON_SECTION,
 ]);
@@ -58,6 +59,7 @@ const VARIANT_CODES = new Set([
   CODES.VARIANT_AMBIGUOUS,
   CODES.VARIANT_DEVICE_OVERLAP,
   CODES.VARIANT_GROUP_EMPTY,
+  CODES.VARIANT_CROSS_DIRECTORY,
 ]);
 
 const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
@@ -72,9 +74,6 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
 export function severity(code, { changed, seenOnValidation }) {
   if (code === CODES.PAIR_WITH_CROSS_OS) return "error";
   if (code.startsWith("COUNT_") || code.startsWith("PEERS_")) return "error";
-  // A cross-directory selection is evidence-backed and legitimate; it is
-  // surfaced so audits can see it, never to block.
-  if (code === CODES.VARIANT_CROSS_DIRECTORY) return "warn";
   if (changed) return "error";
   if (seenOnValidation === "complete" && (APPLICABILITY_CODES.has(code) || VARIANT_CODES.has(code))) return "error";
   return "warn";

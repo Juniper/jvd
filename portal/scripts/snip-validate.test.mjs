@@ -42,7 +42,7 @@ test("fixed Pair-with paths never cross the consumer storage directory", () => {
   assert.equal(severity(CODES.PAIR_WITH_CROSS_OS, { changed: false, seenOnValidation: 'partial' }), 'error');
 });
 
-test("cross-row evidence requires an actual native mirror but legacy gaps stay on the change ratchet", () => {
+test("native mirror gaps block complete libraries and changed files, not legacy partial libraries", () => {
   const body = 'routing-options { router-id 192.0.2.1; }';
   const text = snip({ body, seenEvo: 'other' });
   const mirror = { rel: 'evo/alternate.conf', dir: 'evo', body, seenOn: { junos: [], evo: ['other'] } };
@@ -51,7 +51,8 @@ test("cross-row evidence requires an actual native mirror but legacy gaps stay o
   assert.equal(missing(options), false);
   assert.equal(missing({ ...options, dependencyIndex: new Map() }), true);
   assert.equal(missing({ ...options, dependencyIndex: new Map([[mirror.rel, { ...mirror, body: body.replace('192.0.2.1', '192.0.2.2') }]]) }), true);
-  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'complete' }), 'warn');
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'complete' }), 'error');
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'partial' }), 'warn');
   assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: true, seenOnValidation: 'partial' }), 'error');
 });
 

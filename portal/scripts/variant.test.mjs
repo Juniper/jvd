@@ -702,13 +702,16 @@ routing-instances { X { instance-type vrf; } }`).header.variantRequires[0];
   assert.deepEqual(p("variant:g capabilities=ifl:irb"), { group: "g", families: ["ifl:irb"] });
 });
 
-test("D13. a cross-directory selection is reported, and never blocks", () => {
+test("D13. foreign variant selection blocks complete libraries and changed files", () => {
   const f = validateVariantConsumer({
     os: "evo", seenOn: { junos: [], evo: ["d1"] },
     variantRequires: [{ group: "g", families: ["x"] }], jvd: "J", members: [FOREIGN],
   });
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_CROSS_DIRECTORY]);
-  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "warn");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: false, seenOnValidation: "complete" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "partial" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: false, seenOnValidation: "partial" }), "warn");
 });
 
 test("D14. overlap: identical bodies coexist, differing bodies clash, across directories", () => {

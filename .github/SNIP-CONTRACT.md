@@ -153,7 +153,8 @@ configuration and **MAY** be described.
   roundtrips on a device of the other OS family, that evidence may appear in its
   bucket, but it never substitutes for a full-body mirror in that OS directory.
   A cross-row without an exact native representation is
-  `SEEN_ON_MISSING_OS_MIRROR`, enforced on change.
+  `SEEN_ON_MISSING_OS_MIRROR`: an error on changed files and in libraries with
+  complete applicability, a warning on unchanged files in partial libraries.
   Explicit `osScopedMirrors` pairs in the library metadata partition claims and
   Counts between byte-identical Junos/EVO representations. Each pair must name
   one existing file per directory; all source devices are still measured and
@@ -492,10 +493,12 @@ bullet inside `Pair with:`:
 - If more than one distinct applicable body remains, the requirement is
   `VARIANT_AMBIGUOUS`, **regardless of directory** — directory preference can
   never hide a differing body. If exactly one distinct body remains, its
-  same-directory representation is preferred; otherwise its opposite-directory
-  representation is selected and reported as a **cross-directory selection**
-  (`VARIANT_CROSS_DIRECTORY`, informational). Selection is independent of
-  candidate order.
+  representation in the target device's OS directory is preferred. If only a
+  foreign-directory representation remains, the resolver reports
+  `VARIANT_CROSS_DIRECTORY`; this is an error on changed files and in complete
+  libraries, and a warning only on unchanged files in partial libraries. The
+  warning preserves legacy visibility, not permission to omit a native mirror.
+  Selection is independent of candidate order.
   Zero applicable candidates is `VARIANT_UNRESOLVED`; a referenced group with no
   members is `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen,
   and selection never crosses device or JVD.
