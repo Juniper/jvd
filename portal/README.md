@@ -54,6 +54,36 @@ projects verified Count evidence into headers without changing bodies. Run it
 only after independent verification. Peer evidence generation uses
 `--generate-peers`; unresolved cases remain explicit, never `(none)` or `n/a`.
 
+After independent source verification and approval, publish a selected set with:
+
+```sh
+node portal/scripts/snip-evidence.mjs --configuration <jvd>/configuration --materialize-peers --approval <reviewed-approval.json>
+```
+
+The approval file contains `evidenceSha256` (the SHA-256 of the exact `_peers.json`
+bytes reviewed) and `snips` (an explicit list of approved library-relative paths).
+The writer rejects stale evidence and unresolved claims, validates all selected
+headers before writing, and preserves bodies, Counts, dependencies and service
+mappings. The approval file records the publication decision; it is not a
+substitute for independent verification. Keep review artifacts outside the public
+repository.
+
+Writes are atomic per file, not transactional across the batch. An I/O failure
+can leave earlier files updated; there is no batch rollback or journal. The
+`expectedText` check detects concurrent file changes, not recovery completeness.
+Inspect the working-tree diff after a failure. If the approved evidence and
+inputs are unchanged, rerunning the same approval is idempotent and completes
+the remaining writes. Do not discard unrelated working-tree changes during
+recovery.
+
+`_peers.json` supplies the current configured-relationship graph and held-case
+reasons. New source evidence or maintainer clarification nominates a reconciliation;
+it does not itself certify a peer edge. Update the applicable relation rule and
+its tests, remeasure and independently verify the affected claims, then approve
+their publication. Keep unresolved fields absent and the library partial until
+every applicable case is verified. Peer relationships are distinct from required
+same-device `Pair with` dependencies and do not establish live connectivity.
+
 From the repository root, run all tests with:
 
 ```sh

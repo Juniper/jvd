@@ -202,7 +202,7 @@ export function parseSnip(text) {
   const body = text.slice(m[0].length).trimEnd();
 
   // Strip the leading " * " from each header line.
-  const rawLines = headerBlock.split("\n").map((l) => l.replace(/^\s*\*\s?/, ""));
+  const rawLines = headerBlock.replace(/\r\n?/g, "\n").split("\n").map((l) => l.replace(/^\s*\*\s?/, ""));
 
   // Walk lines, classifying by section.
   let section = null;

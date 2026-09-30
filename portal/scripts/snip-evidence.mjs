@@ -116,6 +116,64 @@ export function materializeCounts(configuration) {
   return { changed: updates.filter((update) => update.before !== update.after).length };
 }
 
+export function materializePeerHeader(text, claim) {
+  const before = parseSnip(text);
+  assert.ok(before.header && !before.diagnostics.some(row => row.code.startsWith('PEERS_')), 'Invalid existing peer header');
+  const terminator = text.match(/\n[ \t]*\*\/[ \t]*(?:\r?\n|$)/);
+  assert.ok(terminator, 'Cannot materialize a missing header');
+  const boundary = terminator.index + terminator[0].length;
+  const header = text.slice(0, boundary);
+  const body = text.slice(boundary);
+  const newline = header.includes('\r\n') ? '\r\n' : '\n';
+  const lines = header.split(newline);
+  assert.ok(claim && ['groups', 'none', 'not-applicable'].includes(claim.state), 'Invalid peer state');
+  const rows = claim.state === 'groups'
+    ? [' * Peers with:', ...claim.groups.map(group => ` *   [${group.left.join(', ')}] <-> [${group.right.join(', ')}]`)]
+    : [` * Peers with: ${claim.state === 'none' ? '(none)' : 'n/a'}`];
+  const start = lines.findIndex(line => /^\s*\*\s*Peers with(?:\s*\([^)]*\))?\s*:/.test(line));
+  const nextSection = line => /^\s*\*\s*(?:JVD service mapping|Variables)(?:\s*\([^)]*\))?\s*:/.test(line) || /^\s*\*\/\s*$/.test(line);
+  if (start >= 0) {
+    let end = start + 1;
+    while (end < lines.length && !nextSection(lines[end])) end++;
+    lines.splice(start, end - start, ...rows);
+  } else {
+    const insertion = lines.findIndex(nextSection);
+    assert.ok(insertion >= 0, 'Cannot locate peer header boundary');
+    lines.splice(insertion, 0, ...rows);
+  }
+  const result = lines.join(newline) + body;
+  const after = parseSnip(result);
+  assert.ok(!after.diagnostics.some(row => row.code.startsWith('PEERS_') || row.code === 'INVALID_SECTION_ORDER'), 'Invalid generated peer header');
+  assert.deepEqual(after.header.peersWith, claim);
+  const { peersWith: previousPeers, ...previousHeader } = before.header;
+  const { peersWith: nextPeers, ...nextHeader } = after.header;
+  assert.deepEqual(nextHeader, previousHeader, 'Peer materialization changed other header fields');
+  assert.equal(after.body, before.body, 'Peer materialization changed the body');
+  return result;
+}
+
+export function materializePeers(configuration, approval) {
+  configuration = fs.realpathSync(configuration);
+  const evidenceBytes = readConfinedFile(configuration, 'snips/_peers.json');
+  assert.ok(approval && /^[a-f0-9]{64}$/.test(approval.evidenceSha256 ?? ''), 'Explicit evidence digest approval required');
+  assert.equal(digest(evidenceBytes), approval.evidenceSha256, 'Approved peer evidence changed');
+  assert.ok(Array.isArray(approval.snips) && approval.snips.length > 0 && approval.snips.every(rel => typeof rel === 'string') && new Set(approval.snips).size === approval.snips.length, 'Explicit unique snippet approval required');
+  assert.deepEqual(verifyPeerEvidence(configuration, { compareHeaders: false }).findings, [], 'Cannot materialize stale or invalid peer evidence');
+  const evidence = JSON.parse(evidenceBytes);
+  const inputs = readBindingsInputs(configuration);
+  const byPath = new Map(inputs.templates.map(template => [template.relative, template]));
+  const updates = approval.snips.map(rel => {
+    const template = byPath.get(rel);
+    const record = evidence.snips[rel];
+    assert.ok(template && record?.status === 'verified', `Unverified or unknown peer claim: ${rel}`);
+    return { file: template.file, before: template.text, after: materializePeerHeader(template.text, record.peersWith) };
+  });
+  assert.equal(digest(readConfinedFile(configuration, 'snips/_peers.json')), approval.evidenceSha256, 'Peer evidence changed during materialization');
+  for (const update of updates) assert.equal(readConfinedFile(configuration, update.file, 'utf8'), update.before, 'Snippet changed during materialization');
+  for (const update of updates) if (update.before !== update.after) writeConfinedFile(configuration, update.file, update.after, { expectedText: update.before });
+  return { approved: updates.length, changed: updates.filter(update => update.before !== update.after).length };
+}
+
 export function validateBindingsEvidence(
   result,
   inputs,
@@ -245,7 +303,7 @@ export function verifyCountEvidence(
 
 export function verifyPeerEvidence(
   configuration,
-  { remeasure = false, requireHeaders = false, selected = null } = {},
+  { remeasure = false, requireHeaders = false, selected = null, compareHeaders = true } = {},
 ) {
   const inputs = readBindingsInputs(configuration);
   const evidence = JSON.parse(readConfinedFile(configuration, "snips/_peers.json", "utf8"));
@@ -279,7 +337,7 @@ export function verifyPeerEvidence(
       )
         fail("PEERS_INVALID_EVIDENCE");
       if (requireHeaders && !header?.peersWith) fail("PEERS_MISSING_HEADER");
-      if (header?.peersWith) {
+      if (compareHeaders && header?.peersWith) {
         try {
           assert.deepEqual(header.peersWith, record.peersWith);
         } catch {
@@ -434,6 +492,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const configuration = path.resolve(args[position + 1]);
     if (args.includes("--materialize-count")) {
       console.log(JSON.stringify(materializeCounts(configuration)));
+    } else if (args.includes('--materialize-peers')) {
+      const approvedPosition = args.indexOf('--approval');
+      assert.ok(approvedPosition >= 0 && args[approvedPosition + 1], '--approval is required');
+      const approvedPath = path.resolve(args[approvedPosition + 1]);
+      const approval = JSON.parse(readConfinedFile(path.dirname(approvedPath), path.basename(approvedPath), 'utf8'));
+      console.log(JSON.stringify(materializePeers(configuration, approval)));
     } else if (args.includes("--generate-peers")) {
       const output = confinedPath(configuration, "snips/_peers.json", { allowMissing: true });
       const result = generatePeerEvidence(configuration);

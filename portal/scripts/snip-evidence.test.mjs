@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { createHash } from 'node:crypto';
 import { readBindingsInputs, generateBindings, bindingsFreshness } from "./generate-bindings.mjs";
 import {
   validateBindingsEvidence,
@@ -14,11 +15,14 @@ import {
   evidenceClaimChanged,
   materializeCountHeader,
   materializeCounts,
+  materializePeerHeader,
+  materializePeers,
   verifyEnrolledEvidence,
   countClaim,
 } from "./snip-evidence.mjs";
 import { selectEvidenceChecks } from "./validation-scope.mjs";
 import { parseLibraryValidation, validateSnipText } from "./snip-validate.mjs";
+import { parseSnip } from './snip-parse.mjs';
 import { confinedPath, readConfinedFile, writeConfinedFile } from "./snip-files.mjs";
 
 test("evidence filesystem rejects symlink escapes and replaces regular files atomically", (context) => {
@@ -353,6 +357,52 @@ test("display-only edits do not require measurement but edited generated claims 
   assert.equal(evidenceClaimChanged(text, text.replace("Topic: x", "Topic: y")), false);
   assert.equal(evidenceClaimChanged(text, text.replace("device 1", "device 2")), true);
   assert.equal(evidenceClaimChanged(text, text.replace("foo;", "bar;")), true);
+});
+
+test('peer headers preserve bodies, mappings and dependencies and refresh idempotently', () => {
+  for (const newline of ['\n', '\r\n']) {
+    const body = `routing-options {${newline}\trouter-id 192.0.2.1;${newline}}  ${newline}${newline}`;
+    const text = ['/*', ' * Topic: Router ID', ' * Seen on:', ' *   Junos: first', ' *   EVO: (none)', ' * Count:', ' *   first 1', ' *   total 1', ' * Pair with:', ' *  - junos/system/required.conf', ' * JVD service mapping:', ' *   Existing role and example', ' * Variables: none', ' */', ''].join(newline) + body;
+    const claims = [{ state: 'not-applicable' }, { state: 'none' }, { state: 'groups', groups: [{ left: ['first'], right: ['second'] }] }];
+    let current = text;
+    for (const claim of claims) {
+      const updated = materializePeerHeader(current, claim);
+      assert.ok(updated.endsWith(body));
+      assert.deepEqual(parseSnip(updated).header.peersWith, claim);
+      assert.equal(materializePeerHeader(updated, claim), updated);
+      assert.ok(updated.includes(' *   Existing role and example'));
+      assert.ok(updated.includes(' *  - junos/system/required.conf'));
+      current = updated;
+    }
+    assert.throws(() => materializePeerHeader(text, { state: 'groups', groups: [] }));
+    assert.throws(() => materializePeerHeader(text, { state: 'groups', groups: [{ left: ['first'], right: ['first'] }] }));
+    assert.throws(() => materializePeerHeader(text, { state: 'unresolved' }));
+  }
+});
+
+test('peer publication requires pinned explicit approval and refuses unresolved claims before writing', context => {
+  const configuration = fs.mkdtempSync(path.join(os.tmpdir(), 'peer-publish-'));
+  context.after(() => fs.rmSync(configuration, { recursive: true, force: true }));
+  fs.mkdirSync(path.join(configuration, 'conf'));
+  fs.mkdirSync(path.join(configuration, 'snips/junos'), { recursive: true });
+  const bodies = { 'junos/local.conf': 'routing-options { router-id 192.0.2.1; }', 'junos/held.conf': 'protocols { isis { interface ae1.0 { point-to-point; } } }' };
+  for (const [rel, body] of Object.entries(bodies)) fs.writeFileSync(path.join(configuration, 'snips', rel), `/*\n * Topic: Fixture\n * Seen on:\n *   Junos: first\n *   EVO: (none)\n * Variables: none\n */\n${body}\n`);
+  fs.writeFileSync(path.join(configuration, 'conf/first.conf'), Object.values(bodies).join('\n'));
+  const peerFile = path.join(configuration, 'snips/_peers.json');
+  fs.writeFileSync(peerFile, JSON.stringify(generatePeerEvidence(configuration)));
+  const approval = { evidenceSha256: createHash('sha256').update(fs.readFileSync(peerFile)).digest('hex'), snips: ['junos/local.conf'] };
+  const before = fs.readFileSync(path.join(configuration, 'snips/junos/local.conf'), 'utf8');
+  assert.throws(() => materializePeers(configuration), /approval required/);
+  assert.throws(() => materializePeers(configuration, { ...approval, evidenceSha256: '0'.repeat(64) }), /evidence changed/);
+  assert.throws(() => materializePeers(configuration, { ...approval, snips: [...approval.snips, 'junos/held.conf'] }), /Unverified/);
+  assert.throws(() => materializePeers(configuration, { ...approval, snips: [...approval.snips, 'junos/missing.conf'] }), /Unverified/);
+  assert.equal(fs.readFileSync(path.join(configuration, 'snips/junos/local.conf'), 'utf8'), before);
+  assert.deepEqual(materializePeers(configuration, approval), { approved: 1, changed: 1 });
+  assert.deepEqual(materializePeers(configuration, approval), { approved: 1, changed: 0 });
+  assert.equal(parseSnip(fs.readFileSync(path.join(configuration, 'snips/junos/held.conf'), 'utf8')).header.peersWith, undefined);
+  assert.deepEqual(verifyPeerEvidence(configuration, { remeasure: true }).findings, []);
+  fs.appendFileSync(path.join(configuration, 'conf/first.conf'), '\n');
+  assert.throws(() => materializePeers(configuration, approval), /stale or invalid/);
 });
 
 test("Count materialization is idempotent and preserves body bytes and existing mapping", () => {

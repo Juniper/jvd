@@ -115,6 +115,16 @@ test("generated Count and Peers parse without becoming dependencies", () => {
   assert.deepEqual(validateSnipText(text, { inventory: INVENTORY }), []);
 });
 
+test('CRLF headers preserve the same metadata and inline peer states as LF', () => {
+  for (const peers of ['n/a', '(none)', '[mse1_mx304] <-> [mse2_mx304]']) {
+    const lf = measuredSnip(undefined, peers);
+    const crlf = lf.replaceAll('\n', '\r\n');
+    assert.deepEqual(parseSnip(crlf).header, parseSnip(lf).header);
+    assert.deepEqual(parseSnip(crlf).diagnostics, parseSnip(lf).diagnostics);
+    assert.equal(parseSnip(crlf).body, parseSnip(lf).body.replaceAll('\n', '\r\n'));
+  }
+});
+
 test("generated fields preserve unknown, none and not-applicable as distinct states", () => {
   const legacy = parseSnip(snip({})).header;
   assert.equal(legacy.count, undefined);
