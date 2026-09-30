@@ -31,6 +31,7 @@ export type SnipRecord = {
     | { state: "none" | "not-applicable" };
   highlights: string[];
   pairWith: SnipPairRef[];
+  variantRequires?: { group: string; families: string[] }[];
   variables: SnipVariable[];
   jvdServiceMapping: string[];
   body: string;

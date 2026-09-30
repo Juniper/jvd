@@ -539,7 +539,7 @@ function SnipDetail({
           </Section>
         )}
 
-        {snip.pairWith.length > 0 && (
+        {(snip.pairWith.length > 0 || (snip.variantRequires?.length ?? 0) > 0) && (
           <Section title="Pair with">
             <ul className="space-y-1.5 text-sm">
               {snip.pairWith.map((p, i) => {
@@ -571,6 +571,17 @@ function SnipDetail({
                   </li>
                 );
               })}
+              {snip.variantRequires?.map((requirement) => (
+                <li key={`variant-${requirement.group}`} className="break-words">
+                  <span className="font-mono text-[12px]">{requirement.group}</span>
+                  <span className="ml-2 text-[11px] text-muted-foreground">Device-selected form</span>
+                  {requirement.families.length > 0 && (
+                    <div className="mt-0.5 pl-3 text-[12px] leading-snug text-muted-foreground">
+                      Required families: {requirement.families.join(", ")}
+                    </div>
+                  )}
+                </li>
+              ))}
             </ul>
           </Section>
         )}
