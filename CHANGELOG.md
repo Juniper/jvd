@@ -9,7 +9,8 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 Expanded the **Metro Ethernet Business Services (MEBS)** library from **488 to
 510 snippets**, adding native Junos and Junos Evolved representations and
 required configuration prerequisites. Source-instance counts make the archived
-evidence visible in snippet headers, the catalog, and the portal.
+evidence visible in snippet headers, the catalog, and the portal. Configured-peer
+metadata adds source-backed relationship details to 416 MEBS snippets.
 
 ### New content
 
@@ -17,6 +18,10 @@ evidence visible in snippet headers, the catalog, and the portal.
   include per-device `Count` rows and a total, displayed as **Source instances**
   in the portal. Counts describe distinct matched source instances, not requested
   deployment quantities or a sum of unique services across overlapping templates.
+- **Configured peers** — 416 MEBS headers include `Peers with`: 63 describe grouped
+  device relationships and 353 identify snippets where peers are not applicable.
+  The remaining 94 fields stay absent pending verification. All 34 existing
+  service mappings remain available alongside the peer metadata.
 - **Native OS mirrors** — twenty additional representations make validated
   forms available in their own OS directories. The scheduler family includes
   [PTX transmit-rate](service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf)
@@ -34,8 +39,10 @@ evidence visible in snippet headers, the catalog, and the portal.
   unchanged partial libraries retain warnings. The
   [catalog](portal/public/snips.json) and
   [MEBS assistant content](service_provider/metro_ethernet_business_services/configuration/snips/byoai/README.md)
-  reflect the updated library. Peer-evidence support is partial; MEBS peer
-  headers are not published in this update.
+  include the published peer metadata; MEBS peer coverage remains partial.
+- **Compact evidence display** — Source instances shows the total immediately,
+  with expandable per-device counts. Configured peers is collapsed by default
+  and expands to show the available relationship details.
 - **Portal maintenance** — dependency updates and affected-content validation
   improve maintenance while retaining the existing source-reconstruction checks.
 
@@ -45,6 +52,9 @@ evidence visible in snippet headers, the catalog, and the portal.
   Cross-OS source observations do not replace a native mirror.
 - Use recovered source bindings or explicit deployment inputs; do not treat
   illustrative addresses as defaults for another device.
+- Read Configured peers as relationships corroborated by archived configuration,
+  not proof of live reachability. An absent field means unresolved or unverified,
+  not that the snippet has no peers.
 - Treat reconstruction and provenance separately from assembly disjointness.
   Known overlapping forms and five fail-closed MEBS underlay batches remain;
   arbitrary batches are not certified as disjoint or deployable. Validate the
@@ -55,8 +65,9 @@ evidence visible in snippet headers, the catalog, and the portal.
 ### By the numbers
 
 Changes since the September 27 entry, including PRs
-[#232](https://github.com/Juniper/jvd/pull/232) and
-[#233](https://github.com/Juniper/jvd/pull/233) and this update's MEBS changes.
+[#232](https://github.com/Juniper/jvd/pull/232),
+[#233](https://github.com/Juniper/jvd/pull/233),
+[#234](https://github.com/Juniper/jvd/pull/234), and this update's MEBS changes.
 File and line totals exclude this changelog entry and include generated catalog,
 evidence and assistant content. All 20 archived MEBS configurations and all
 602 snippet records from other JVDs are unchanged by the MEBS changes.
@@ -78,10 +89,10 @@ evidence and assistant content. All 20 archived MEBS configurations and all
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Service Provider / MEBS | 19,643 | 893 | +18,750 |
-| Portal | 25,972 | 2,419 | +23,553 |
+| Service Provider / MEBS | 20,930 | 896 | +20,034 |
+| Portal | 33,179 | 2,444 | +30,735 |
 | Repository support | 169 | 75 | +94 |
-| **Total** | **45,784** | **3,387** | **+42,397** |
+| **Total** | **54,278** | **3,415** | **+50,863** |
 
 </details>
 

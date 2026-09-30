@@ -494,7 +494,12 @@ function SnipDetail({
         )}
 
         {snip.count && (
-          <Section title="Source instances">
+          <Section
+            key={`instances-${snip.id}`}
+            title="Source instances"
+            collapsible
+            summary={`Total ${snip.count.total.toLocaleString()}`}
+          >
             <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
               {Object.entries(snip.count.byDevice).map(([device, count]) => (
                 <Fragment key={device}>
@@ -502,13 +507,11 @@ function SnipDetail({
                   <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
                 </Fragment>
               ))}
-              <dt className="border-t border-border pt-1 font-semibold">Total</dt>
-              <dd className="border-t border-border pt-1 text-right font-semibold tabular-nums">{snip.count.total.toLocaleString()}</dd>
             </dl>
           </Section>
         )}
 
-        <Section title="Configured peers">
+        <Section key={`peers-${snip.id}`} title="Configured peers" collapsible>
           {!snip.peersWith ? (
             <p className="text-xs text-muted-foreground">Not verified</p>
           ) : snip.peersWith.state === "groups" ? (
@@ -610,7 +613,26 @@ function SnipDetail({
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children, collapsible = false, summary }: {
+  title: string;
+  children: React.ReactNode;
+  collapsible?: boolean;
+  summary?: string;
+}) {
+  if (collapsible) {
+    return (
+      <details className="group mb-6">
+        <summary className="flex min-h-9 cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden">
+          <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-open:rotate-90" />
+          <h3 className="min-w-0 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            {title}
+          </h3>
+          {summary && <span className="ml-auto shrink-0 text-xs font-semibold tabular-nums">{summary}</span>}
+        </summary>
+        <div className="pt-2">{children}</div>
+      </details>
+    );
+  }
   return (
     <div className="mb-6">
       <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">

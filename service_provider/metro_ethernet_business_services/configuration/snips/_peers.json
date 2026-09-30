@@ -4,10 +4,10 @@
     "inputsSha256": "6fb425078e82f02cda72364853b456bbf3eb753d6de1510b56fdc2d5cff46322",
     "registryVersion": 3,
     "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
-    "toolsSha256": "8e84cf2681c333b5b9257985ea72ef41dc8604c90ecb1420784d8171e21fe586",
+    "toolsSha256": "e8b3b67a4ec2264c29462a892e9d72a2d223497c591f5bda88f0aeb238a066a8",
     "devices": 20,
     "snips": 510,
-    "peerToolsSha256": "ee6eb97571a721fd06d10f2496592d7690f463034d66a9b6c35881501490f605"
+    "peerToolsSha256": "a7242e2ccb41ff4a02306fd4b472bbdaddd7332cbe08f478b5f0fdfbef61de64"
   },
   "snips": {
     "evo/chassis/aggregated-devices-ethernet.conf": {

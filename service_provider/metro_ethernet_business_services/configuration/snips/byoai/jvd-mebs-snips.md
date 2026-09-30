@@ -35,6 +35,7 @@
  *    `ae<count-1>` can be configured on the node.
  *  - The count is a chassis-wide ceiling, not a count of bundles in use.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $AE_DEVICE_COUNT   e.g. 25
  */
@@ -66,6 +67,7 @@ chassis {
  * Pair with:
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 class-of-service {
@@ -177,6 +179,7 @@ class-of-service {
  * Pair with:
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
  *
+ * Peers with: n/a
  * Variables: none. Classifier names, class names and code-points are JVD-wide
  *            constants, identical on every device in the design.
  */
@@ -288,6 +291,7 @@ class-of-service {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Class names and queue numbers are JVD-wide constants,
  *            identical on every device in the design.
  */
@@ -341,6 +345,7 @@ class-of-service {
  * Pair with:
  *  - evo/class-of-service/scheduler-maps/sm-6class-mapping.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF   e.g. ae71
  */
@@ -377,6 +382,7 @@ class-of-service {
  *  - evo/class-of-service/classifiers/cl-6class.conf
  *  - evo/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. xe-0/0/15:0
  *   $UNIT        e.g. 2001
@@ -436,6 +442,7 @@ class-of-service {
  *  - evo/class-of-service/classifiers/cl-6class.conf
  *  - evo/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. ae71
  *   $UNIT        e.g. 0
@@ -484,6 +491,7 @@ class-of-service {
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
  *  - evo/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF          e.g. ae11
  *   $UNIT              e.g. 2400
@@ -533,6 +541,7 @@ class-of-service {
  *  - evo/class-of-service/classifiers/cl-6class.conf
  *  - evo/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. ae11
  *   $UNIT        e.g. 702
@@ -571,6 +580,7 @@ class-of-service {
  * Pair with:
  *  - evo/class-of-service/classifiers/cl-6class.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. ae12
  *   $UNIT        e.g. 700
@@ -631,6 +641,7 @@ class-of-service {
  * Pair with:
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
  *
+ * Peers with: n/a
  * Variables: none. Rule names, class names and code-points are JVD-wide
  *            constants, identical on every device in the design.
  */
@@ -744,6 +755,7 @@ class-of-service {
  *  - evo/class-of-service/forwarding-classes/fc-6queue-model.conf
  *  - variant:mebs-cos-schedulers capabilities=cos:schedulers
  *
+ * Peers with: n/a
  * Variables: none. The scheduler-map name, class names and scheduler names are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -792,6 +804,7 @@ class-of-service {
  *  - Two scheduling priority levels: REALTIME is strict-high, the other five
  *    classes are low.
  *
+ * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -866,6 +879,7 @@ class-of-service {
  *  - REALTIME-SC is rated with shaping-rate percent 40; the other five use
  *    transmit-rate.
  *
+ * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -939,6 +953,7 @@ class-of-service {
  * Pair with:
  *  - variant:mebs-rate-limit-policers capabilities=firewall:policers
  *
+ * Peers with: n/a
  * Variables: none. All values here are JVD-wide constants
  *            (policer names and rates) — same on every PE.
  */
@@ -981,6 +996,7 @@ firewall {
  * Pair with:
  *  - evo/firewall/policers.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 firewall {
@@ -1012,6 +1028,7 @@ firewall {
  * Count:
  *   ag1-1_acx7100-32c 1
  *   total 1
+ * Peers with: n/a
  * Variables: none
  */
 firewall {
@@ -1063,6 +1080,7 @@ firewall {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
  *            community names, policer rates) — same on every PE.
@@ -1097,6 +1115,7 @@ firewall {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 forwarding-options {
@@ -1152,6 +1171,7 @@ forwarding-options {
  *  - `family multiservice` adds the source and destination MAC, which is what
  *    spreads bridged traffic that carries no IP header.
  *
+ * Peers with: n/a
  * Variables: none
  */
 forwarding-options {
@@ -1194,6 +1214,7 @@ forwarding-options {
  *   meg2_acx7509 1
  *   total 5
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1224,6 +1245,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1286,6 +1308,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1337,6 +1360,7 @@ groups {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1403,6 +1427,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1468,6 +1493,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1528,6 +1554,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1579,6 +1606,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1654,6 +1682,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1707,6 +1736,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1757,6 +1787,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1804,6 +1835,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -1850,6 +1882,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1949,6 +1982,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -1996,6 +2030,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -2048,6 +2083,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -2094,6 +2130,7 @@ groups {
  *   ag1-2_acx7100-32c 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -2141,6 +2178,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -2190,6 +2228,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -2253,6 +2292,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -2471,6 +2511,7 @@ interfaces {
  * Pair with:
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 xe-0/0/3:1):
  *   $UNI_INTF     e.g. xe-0/0/3:1
  *   $UNIT         e.g. 3000
@@ -2744,6 +2785,7 @@ interfaces {
  *   ma3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/2"
  *   $IFD   e.g. et-0/0/51
@@ -2780,6 +2822,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MSE1 rtme-mx304-02 rtme-mx304-02"
  *   $IFD   e.g. et-0/0/0
@@ -2817,6 +2860,7 @@ interfaces {
  *   total 43
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
  *   $IFD   e.g. et-0/0/13
@@ -2844,6 +2888,7 @@ interfaces {
  *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
+ * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae11
  *   $IFD   e.g. et-0/0/1
@@ -2872,6 +2917,7 @@ interfaces {
  *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
+ * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae22
  *   $IFD   e.g. et-0/0/9
@@ -2919,6 +2965,7 @@ interfaces {
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
  *
+ * Peers with: n/a
  * Variables (example values from an2_acx5448):
  *   $CORE_INTF   e.g. et-0/1/1
  *   $AE_BUNDLE   e.g. ae73
@@ -2945,6 +2992,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae4
  *   $IFD   e.g. et-1/0/0
@@ -2987,6 +3035,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
  */
@@ -3009,6 +3058,7 @@ interfaces {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23;"
  *   $CORE_V4_ADDR   e.g. 10.10.0.181/30
@@ -3047,6 +3097,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:2:99/126
@@ -3085,6 +3136,7 @@ interfaces {
  *   an4_acx710 2
  *   total 3
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:0:51/126
@@ -3138,6 +3190,7 @@ interfaces {
  *   mse2_mx304 5
  *   total 78
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:0:71/126
@@ -3173,6 +3226,7 @@ interfaces {
  *   mdr1_acx7509 5
  *   total 9
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.1.137/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:1:89/126
@@ -3220,6 +3274,7 @@ interfaces {
  *  - The address is node-local, with no `virtual-gateway-address`, so the
  *    gateway is not shared with the other PEs in the EVPN.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $UNIT        e.g. 4000
  *   $IRB_ADDR    e.g. 40.2.2.3/24
@@ -3260,6 +3315,7 @@ interfaces {
  *  - `virtual-gateway-accept-data` lets the node accept traffic addressed to
  *    the virtual gateway itself, not only forward through it.
  *
+ * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $UNIT        e.g. 4000
  *   $IRB_ADDR    e.g. 41.2.2.3/24
@@ -3292,6 +3348,7 @@ interfaces {
  * Count:
  *   ag1-1_acx7100-32c 1
  *   total 1
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0004.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.4/32
@@ -3334,6 +3391,7 @@ interfaces {
  *   meg1_acx7100-32c 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0006.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.6/32
@@ -3387,6 +3445,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 14
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.5/32
@@ -3426,6 +3485,7 @@ interfaces {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0002.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.2/32
@@ -3467,6 +3527,9 @@ interfaces {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifd-ae-lacp-fast.conf
+ * Peers with:
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
  * Variables:
  *   $IFD    e.g. ae11
  *   $UNIT   e.g. 700
@@ -3513,6 +3576,13 @@ interfaces {
  *    the peer PE of the same Ethernet Segment, and designated-forwarder
  *    election is left at its default.
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from an1_mx204):
  *   $IFD    e.g. ae11
  *   $UNIT   e.g. 701
@@ -3552,6 +3622,8 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Peers with:
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from meg1_acx7100-32c):
  *   $IFD         e.g. ae66
  *   $UNIT        e.g. 1000
@@ -3590,6 +3662,7 @@ interfaces {
  *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
  *    unit, so several VLANs share a single attachment circuit.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD         e.g. et-0/0/50
  *   $UNIT        e.g. 1000
@@ -3625,6 +3698,7 @@ interfaces {
  *  - Used for EVPN-ELAN attachment circuits in this JVD.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 400):
  *   $IFD         e.g. et-0/0/0
  *   $UNIT        e.g. 400
@@ -3661,6 +3735,7 @@ interfaces {
  *   mse1_mx304 125
  *   mse2_mx304 75
  *   total 857
+ * Peers with: n/a
  * Variables:
  *   $IFD    e.g. et-0/0/14
  *   $UNIT   e.g. 849
@@ -3696,6 +3771,9 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from ma1-1_acx7024):
  *   $IFD          e.g. ae12
  *   $UNIT         e.g. 225
@@ -3770,6 +3848,7 @@ interfaces {
  *   total 10
  * Pair with:
  *  - evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
+ * Peers with: n/a
  * Variables:
  *   $IFD          e.g. et-0/0/51
  *   $UNIT         e.g. 4010
@@ -3803,6 +3882,7 @@ interfaces {
  *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
  *    unit, so several VLANs share a single attachment circuit.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD         e.g. et-0/0/0
  *   $UNIT        e.g. 810
@@ -3842,6 +3922,12 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from an1_mx204):
  *   $IFD         e.g. ae11
  *   $UNIT        e.g. 2400
@@ -3892,6 +3978,7 @@ interfaces {
  * Pair with:
  *  - evo/firewall/policers.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 3000):
  *   $IFD         e.g. et-0/0/0
  *   $UNIT        e.g. 3000
@@ -3940,6 +4027,7 @@ interfaces {
  * Pair with:
  *  - evo/firewall/filter-family-any-50mb.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 2800):
  *   $IFD         e.g. et-0/0/0
  *   $UNIT        e.g. 2800
@@ -3985,6 +4073,7 @@ interfaces {
  *  - The TPID is set on the vlan-map itself, not via an ether-options
  *    ethernet-switch-profile on the parent interface.
  *
+ * Peers with: n/a
  * Variables (example values from ma3_acx7100-48l et-0/0/5 unit 1000):
  *   $IFD         e.g. et-0/0/5
  *   $UNIT        e.g. 1000
@@ -4024,6 +4113,7 @@ interfaces {
  *    vlan-id-list.
  *  - input push / output pop maps the whole range to one service-internal VLAN.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 800):
  *   $IFD         e.g. et-0/0/0
  *   $UNIT        e.g. 800
@@ -4062,6 +4152,7 @@ interfaces {
  *  - Single-homed and unfiltered: the base CCC attachment-circuit form.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/50 unit 3000):
  *   $IFD         e.g. et-0/0/50
  *   $UNIT        e.g. 3000
@@ -4107,6 +4198,7 @@ interfaces {
  *    unchanged, and no `esi`, so the circuit is single-homed.
  *  - The unit index and the VLAN tag are independent values.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD     e.g. et-0/0/0
  *   $UNIT    e.g. 862
@@ -4147,6 +4239,7 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD           e.g. et-0/0/4
  *   $UNIT          e.g. 2001
@@ -4189,6 +4282,7 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD           e.g. et-0/0/4
  *   $UNIT          e.g. 2201
@@ -4244,6 +4338,7 @@ interfaces {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -4288,6 +4383,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4334,6 +4430,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4379,6 +4476,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4415,6 +4513,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 1001
  *   $RT_AS         e.g. 63536
@@ -4448,6 +4547,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 2201
  *   $RT_AS         e.g. 63535
@@ -4494,6 +4594,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4530,6 +4631,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 2001
  *   $RT_AS         e.g. 63535
@@ -4579,6 +4681,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_COMMUNITY   e.g. 63535:10000
  */
@@ -4624,6 +4727,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -4669,6 +4773,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4714,6 +4819,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. The community value is a JVD-wide constant.
  */
 policy-options {
@@ -4757,6 +4863,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4802,6 +4909,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -4847,6 +4955,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -4889,6 +4998,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $INSTANCE_NAME   e.g. evpn_group_90_700
  *   $RT_AS           e.g. 63535
@@ -4919,6 +5029,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -4946,6 +5057,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -4980,6 +5092,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $COLOR_COMMUNITY   e.g. map2bronze
  */
@@ -5017,6 +5130,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $COLOR_COMMUNITY   e.g. map2gold
  */
@@ -5063,6 +5177,7 @@ policy-options {
  *  - evo/policy-options/community/cm-no-advertise.conf
  *  - evo/policy-options/community/cm-loopback.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_SUPERNET   e.g. 1.1.0.0/16
  */
@@ -5118,6 +5233,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5157,6 +5273,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5223,6 +5340,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -5255,6 +5373,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-service-edge.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5292,6 +5411,7 @@ policy-options {
  *  - evo/policy-options/prefix-list/pl-border-nodes.conf
  *  - evo/policy-options/prefix-list/pl-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5355,6 +5475,7 @@ policy-options {
  *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/prefix-list/pl-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5410,6 +5531,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-access-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5481,6 +5603,7 @@ policy-options {
  *  - evo/policy-options/community/cm-metro-ring.conf
  *  - evo/policy-options/prefix-list/pl-an-region.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5537,6 +5660,7 @@ policy-options {
  *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/prefix-list/pl-an-region.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5640,6 +5764,7 @@ policy-options {
  *  - evo/policy-options/prefix-list/pl-core.conf
  *  - evo/policy-options/prefix-list/pl-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5704,6 +5829,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5757,6 +5883,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5794,6 +5921,7 @@ policy-options {
  *  - evo/policy-options/prefix-list/pl-core-nodes.conf
  *  - evo/policy-options/prefix-list/pl-metro-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5830,6 +5958,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -5915,6 +6044,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -6030,6 +6160,7 @@ policy-options {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c / evpn_group_80_1000):
  *   $INSTANCE_NAME     e.g. evpn_group_80_1000
  *                      (the routing instance this policy serves; the policy and
@@ -6081,6 +6212,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_2002):
  *   $EXPORT_POL      e.g. PS-METRO_L3VPN_2002-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6142,6 +6274,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
  *   $EXPORT_POL      e.g. PS-METRO_BGPv4_L3VPN_2101-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6203,6 +6336,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_2001):
  *   $EXPORT_POL      e.g. PS-METRO_L3VPN_2001-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6266,6 +6400,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2202):
  *   $EXPORT_POL      e.g. PS-METRO_BGPv6_L3VPN_2202-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6325,6 +6460,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
  *   $EXPORT_POL      e.g. PS-METRO_BGPv6_L3VPN_2201-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6391,6 +6527,7 @@ policy-options {
  *  - evo/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
  *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -6442,6 +6579,7 @@ policy-options {
  *  - evo/policy-options/community/cm-loopback.conf
  *  - evo/policy-options/prefix-list/pl-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -6499,6 +6637,7 @@ policy-options {
  *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/prefix-list/pl-an-nodes.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -6592,6 +6731,7 @@ policy-options {
  *  - evo/policy-options/community/cm-metro-ring.conf
  *  - evo/policy-options/community/cm-loopback.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -6645,6 +6785,7 @@ policy-options {
  *  - evo/policy-options/prefix-list/pl-an-region.conf
  *  - evo/policy-options/prefix-list/pl-mse.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -6700,6 +6841,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $LOOPBACK_V4     e.g. 1.1.0.6
  *   $LOOPBACK_SR_V4  e.g. 1.1.10.6
@@ -6751,6 +6893,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-inet-default.conf
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_BGPv4_L3VPN_2101):
  *   $IMPORT_POL      e.g. PS-METRO_BGPv4_L3VPN_2101-IMPORT
  *                    (the configured policy name; the VRF's `vrf-import`
@@ -6800,6 +6943,7 @@ policy-options {
  *  - evo/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4000):
  *   $IMPORT_POL      e.g. PS-METRO_L3VPN_4000-IMPORT
  *                    (the configured policy name; the VRF's `vrf-import`
@@ -6848,6 +6992,7 @@ policy-options {
  *    1001 with `tag2 0`, keeping the summary out of the flooded database.
  *  - `term REJECT` terminates the policy.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4          e.g. 1.1.0.0
  *   $SR_INDEX_ALGO128     e.g. 500
@@ -6936,6 +7081,7 @@ policy-options {
  *  - The policy ends after the loopback terms, so everything it does not match
  *    falls through to the IS-IS default action.
  *
+ * Peers with: n/a
  * Variables (example values from mdr2_mx10003):
  *   $LOOPBACK_V4        e.g. 1.1.0.13
  *   $SR_INDEX_ALGO128   e.g. 513
@@ -7014,6 +7160,7 @@ policy-options {
  *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
  *    loopbacks.
  *
+ * Peers with: n/a
  * Variables (example values from an2_acx5448):
  *   $LOOPBACK_V4        e.g. 1.1.0.1
  *   $SR_INDEX_ALGO128   e.g. 501
@@ -7096,6 +7243,7 @@ policy-options {
  *  - The configured policy name is a value: a node may carry this same body
  *    under more than one name.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $POLICY_NAME   e.g. ALLOW_LOOPBACK
  *                  (the configured policy name; configuration that references
@@ -7131,6 +7279,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-access-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7167,6 +7316,7 @@ policy-options {
  *   mse2_mx304 1
  *   total 10
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7214,6 +7364,7 @@ policy-options {
  *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
  *    and 129.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4        e.g. 1.1.0.0
  *   $SR_INDEX_ALGO128   e.g. 500
@@ -7266,6 +7417,7 @@ policy-options {
  * Pair with:
  *  - evo/policy-options/community/cm-no-advertise.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7319,6 +7471,7 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
  *   $SR_INDEX_V4      e.g. 200
@@ -7377,6 +7530,7 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:0
  *   $SR_INDEX_V6      e.g. 300
@@ -7416,6 +7570,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7446,6 +7601,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7480,6 +7636,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7513,6 +7670,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7543,6 +7701,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7571,6 +7730,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7599,6 +7759,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7633,6 +7794,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7667,6 +7829,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7705,6 +7868,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -7738,6 +7902,9 @@ policy-options {
  *  - evo/policy-options/policy-statement/ps-bgp-export.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables: none
  */
 protocols {
@@ -8227,6 +8394,11 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-bgp-transport-export.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma3_acx7100-48l] <-> [mdr1_acx7509]
+ *   [ma3_acx7100-48l] <-> [mdr2_mx10003]
+ *   [ma3_acx7100-48l] <-> [mse1_mx304]
+ *   [ma3_acx7100-48l] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -8341,6 +8513,15 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-ibgp-rr-export.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [mdr1_acx7509]
+ *   [ma1-2_acx7024] <-> [mdr1_acx7509]
+ *   [ma3_acx7100-48l] <-> [mdr1_acx7509]
+ *   [ma4_mx204] <-> [mdr1_acx7509]
+ *   [ma5_mx204] <-> [mdr1_acx7509]
+ *   [mdr1_acx7509] <-> [mdr2_mx10003]
+ *   [mdr1_acx7509] <-> [mse1_mx304]
+ *   [mdr1_acx7509] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -8516,6 +8697,16 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [meg1_acx7100-32c]
+ *   [an2_acx5448] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an4_acx710] <-> [meg1_acx7100-32c]
+ *   [cr1_ptx10001-36mr] <-> [meg1_acx7100-32c]
+ *   [cr2_ptx10001-36mr] <-> [meg1_acx7100-32c]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [mse1_mx304]
+ *   [meg1_acx7100-32c] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -8717,6 +8908,16 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [meg2_acx7509]
+ *   [an2_acx5448] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [an4_acx710] <-> [meg2_acx7509]
+ *   [cr1_ptx10001-36mr] <-> [meg2_acx7509]
+ *   [cr2_ptx10001-36mr] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [meg2_acx7509] <-> [mse1_mx304]
+ *   [meg2_acx7509] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -8926,6 +9127,15 @@ protocols {
  *  - evo/groups/gr-bgp-bcp.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [mdr1_acx7509]
+ *   [ma1-1_acx7024] <-> [mdr2_mx10003]
+ *   [ma1-1_acx7024] <-> [mse1_mx304]
+ *   [ma1-1_acx7024] <-> [mse2_mx304]
+ *   [ma1-2_acx7024] <-> [mdr1_acx7509]
+ *   [ma1-2_acx7024] <-> [mdr2_mx10003]
+ *   [ma1-2_acx7024] <-> [mse1_mx304]
+ *   [ma1-2_acx7024] <-> [mse2_mx304]
  * Variables (example values from ma1-1_acx7024):
  *   $LOOPBACK_V4         e.g. 1.1.0.17
  *   $TRANSPORT_RR1_V4    e.g. 1.1.0.12
@@ -9031,6 +9241,7 @@ protocols {
  *   meg1_acx7100-32c 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -9205,6 +9416,7 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
+ * Peers with: n/a
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -9264,6 +9476,7 @@ protocols {
  * Count:
  *   ma3_acx7100-48l 2
  *   total 2
+ * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0015.00
@@ -9324,6 +9537,7 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  */
@@ -10588,6 +10802,7 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 20
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -10612,6 +10827,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -10637,6 +10853,7 @@ protocols {
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/groups/gr-isis-bfd.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 2
  *   $NODE_SID_V6   e.g. 102
@@ -10700,6 +10917,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 6
  *   $NODE_SID_V6   e.g. 106
@@ -10759,6 +10977,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-interface-spf.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 4
  *   $NODE_SID_V6   e.g. 104
@@ -10822,6 +11041,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
  *   $NODE_SID_V4   e.g. 12
@@ -10886,6 +11106,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
  *   $NODE_SID_V4   e.g. 18
@@ -10946,6 +11167,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 9
  *   $NODE_SID_V6   e.g. 109
@@ -11012,6 +11234,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 8
  *   $NODE_SID_V6   e.g. 108
@@ -11199,6 +11422,9 @@ protocols {
  *  - evo/groups/gr-fatpw-lb.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $AC_INTF          e.g. et-0/0/0
  *   $UNIT             e.g. 3001
@@ -11260,6 +11486,9 @@ protocols {
  *  - evo/groups/gr-fatpw-lb.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $AC_INTF          e.g. et-0/0/0
  *   $UNIT             e.g. 3000
@@ -11320,6 +11549,9 @@ protocols {
  *  - evo/groups/gr-fatpw-lb.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $AC_INTF          e.g. et-0/0/0
  *   $UNIT             e.g. 3500
@@ -11380,6 +11612,8 @@ protocols {
  *  - evo/groups/gr-l2ckt-hs.conf (hot-standby-vc-on knob)
  *  - evo/groups/gr-fatpw-lb.conf (forwarding-options)
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * JVD service mapping:
  *   2000 instances total (high 2000 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (2000), meg1_acx7100-32c (1000), meg2_acx7509 (1000)
@@ -11441,6 +11675,8 @@ protocols {
  *  - evo/policy-options/community/cm-tc-map2gold.conf
  *  - evo/groups/gr-fatpw-lb.conf (forwarding-options)
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
  * JVD service mapping:
  *   2000 instances total (high 2000 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (2000), meg1_acx7100-32c (1000), meg2_acx7509 (1000)
@@ -11498,6 +11734,8 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-fatpw-lb.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
  * Variables (example values from meg1_acx7100-32c):
  *   $AC_INTF       e.g. et-0/0/26:3
  *   $UNIT          e.g. 3500
@@ -11549,6 +11787,8 @@ protocols {
  *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/groups/gr-fatpw-lb.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables (example values from meg2_acx7509):
  *   $AC_INTF       e.g. et-2/0/2
  *   $UNIT          e.g. 3500
@@ -11606,6 +11846,7 @@ protocols {
  * Pair with:
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf
  *
+ * Peers with: n/a
  * JVD service mapping:
  *   10 instances total (high 10 / med 0 / low 0)
  *   On devices: ma3_acx7100-48l (10)
@@ -11648,6 +11889,7 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 6
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -11670,6 +11912,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -11734,6 +11977,7 @@ protocols {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -11771,6 +12015,7 @@ protocols {
  *  - `interval 1s` sends a continuity-check message every second, so loss of
  *    the association is detected within a few seconds.
  *
+ * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $MD_NAME   e.g. MD_63535
  *   $MA_ID     e.g. 12009
@@ -12016,6 +12261,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -12060,6 +12306,7 @@ protocols {
  * Pair with:
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-instances {
@@ -12103,6 +12350,7 @@ routing-instances {
  *  - evo/groups/gr-l3vpn.conf
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-instances {
@@ -12145,6 +12393,7 @@ routing-instances {
  * Pair with:
  *  - evo/groups/gr-l3vpn.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-instances {
@@ -12179,6 +12428,16 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
+ *   [an3_acx7100-48l] <-> [mse2_mx304]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [mse1_mx304]
+ *   [meg1_acx7100-32c] <-> [mse2_mx304]
+ *   [meg2_acx7509] <-> [mse1_mx304]
+ *   [meg2_acx7509] <-> [mse2_mx304]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
@@ -12255,6 +12514,27 @@ routing-instances {
  *  - evo/interfaces/ifl-vlan-bridge-esi.conf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an1_mx204] <-> [ma1-1_acx7024]
+ *   [an1_mx204] <-> [ma1-2_acx7024]
+ *   [an1_mx204] <-> [meg1_acx7100-32c]
+ *   [an1_mx204] <-> [meg2_acx7509]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [ma1-1_acx7024]
+ *   [an2_acx5448] <-> [ma1-2_acx7024]
+ *   [an2_acx5448] <-> [meg1_acx7100-32c]
+ *   [an2_acx5448] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
+ *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-1_acx7024] <-> [meg2_acx7509]
+ *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-2_acx7024] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * JVD service mapping:
  *   175 instances total (high 175 / med 0 / low 0)
  *   On devices: meg1_acx7100-32c (175), meg2_acx7509 (175), an3_acx7100-48l (150), an1_mx204 (100), an2_acx5448 (100), ma1-1_acx7024 (100), +3 more
@@ -12329,6 +12609,10 @@ routing-instances {
  *
  * Pair with: none
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. evpn_group_80_1062
  *                       (also the configured vrf-export policy name)
@@ -12388,6 +12672,10 @@ routing-instances {
  *
  * Pair with: none
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. evpn_group_80_1200
  *   $LOOPBACK_V4        e.g. 1.1.0.2
@@ -12450,6 +12738,10 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * JVD service mapping:
  *   VLAN-scoped bundle EVIs (vlan-bridge, vlan-id / vlan-id-list) across the EVO metro edge.
  *   On devices: an3_acx7100-48l, meg1_acx7100-32c, meg2_acx7509
@@ -12511,6 +12803,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
  * JVD service mapping:
  *   Whole-UNI (ethernet-bridge, unit 0) form — the EVPN_ELAN_PORT_BASED service.
  *   On devices: an3_acx7100-48l, ma1-2_acx7024
@@ -12571,6 +12865,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * Variables (example values from an3_acx7100-48l / evpn_group_40_10):
  *   $INSTANCE_NAME      e.g. evpn_group_40_10
  *   $AC_INTF            e.g. et-0/0/0
@@ -12636,6 +12932,8 @@ routing-instances {
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * JVD service mapping:
  *   23 instances on an3_acx7100-48l.
  *   Example: evpn_group_40_1 (RD 1.1.0.2:401, RT target:63535:401)
@@ -12710,6 +13008,8 @@ routing-instances {
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * JVD service mapping:
  *   219 instances on an3_acx7100-48l, 240 on mse1_mx304.
  *   Example: evpn_group_40_100 (RD 1.1.0.2:500, RT target:63535:500)
@@ -12785,6 +13085,8 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * JVD service mapping:
  *   250 instances on an3_acx7100-48l, 250 on mse1_mx304.
  *   Example: evpn_group_40_251 (RD 1.1.0.2:651, RT target:63535:651)
@@ -12855,6 +13157,11 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-1_acx7024] <-> [meg2_acx7509]
+ *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-2_acx7024] <-> [meg2_acx7509]
  * Variables (example values from ma1-1_acx7024 / evpn_group_50_1):
  *   $INSTANCE_NAME      e.g. evpn_group_50_1
  *   $AC_INTF_A          e.g. ae12.200
@@ -12924,6 +13231,11 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-1_acx7024] <-> [meg2_acx7509]
+ *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
+ *   [ma1-2_acx7024] <-> [meg2_acx7509]
  * Variables (example values from ma1-1_acx7024 / evpn_group_50_26):
  *   $INSTANCE_NAME      e.g. evpn_group_50_26
  *   $AC_INTF_A          e.g. ae12.225
@@ -13062,6 +13374,9 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * Variables (example values from an3_acx7100-48l / evpn_group_10_3000):
  *   $INSTANCE_NAME        e.g. evpn_group_10_3000
  *   $AC_INTF              e.g. et-0/0/50.3000
@@ -13126,6 +13441,16 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an1_mx204] <-> [ma1-1_acx7024]
+ *   [an1_mx204] <-> [ma1-2_acx7024]
+ *   [an2_acx5448] <-> [ma1-1_acx7024]
+ *   [an2_acx5448] <-> [ma1-2_acx7024]
+ *   [an3_acx7100-48l] <-> [an4_acx710]
+ *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
+ *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * JVD service mapping:
  *   1661 instances total (high 1661 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (1601), meg1_acx7100-32c (1050), meg2_acx7509 (1050), ma1-1_acx7024 (451), ma1-2_acx7024 (450), an1_mx204 (400), +3 more
@@ -13191,6 +13516,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from an3_acx7100-48l / l2vpn_group_105_350):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_350
  *   $L2VPN_SITE              e.g. r2
@@ -13251,6 +13578,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from an3_acx7100-48l / l2vpn_group_105_201):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_201
  *   $L2VPN_SITE              e.g. r2
@@ -13310,6 +13639,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from an3_acx7100-48l / l2vpn_group_105_300):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_300
  *   $L2VPN_SITE              e.g. r2
@@ -13370,6 +13701,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from an3_acx7100-48l / l2vpn_group_105_200):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_200
  *   $L2VPN_SITE              e.g. r2
@@ -13424,6 +13757,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * JVD service mapping:
  *   201 instances total (high 102 / med 99 / low 0)
  *   On devices: an3_acx7100-48l (201), ma5_mx204 (201)
@@ -14272,6 +14607,7 @@ routing-instances {
  *  - `preference 14` keeps the aggregate below the contributing routes, so a
  *    more specific route always wins.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
  *   $CORE_LINK_SUPERNET    e.g. 10.10.0.0/24
@@ -14316,6 +14652,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14348,6 +14685,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14387,6 +14725,7 @@ routing-options {
  * Pair with:
  *  - variant:mebs-mpls-admin-groups capabilities=transport:mpls-admin-groups
  *
+ * Peers with: n/a
  * Variables: none. FA numbers, metric types, admin-group colours, and the
  *            colour values are the JVD-wide abstraction and are left literal.
  */
@@ -14444,6 +14783,7 @@ routing-options {
  * Pair with:
  *  - evo/policy-options/policy-statement/per-packet-load-balance.conf
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $PPLB_NAME   e.g. pplb
  *                (the configured load-balancing policy name; the forwarding
@@ -14494,6 +14834,7 @@ routing-options {
  * Pair with:
  *  - evo/policy-options/policy-statement/per-packet-load-balance.conf  (defines the pplb policy)
  *
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -14529,6 +14870,7 @@ routing-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 15
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14566,6 +14908,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14588,6 +14931,7 @@ routing-options {
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14638,6 +14982,7 @@ routing-options {
  *  - evo/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14692,6 +15037,7 @@ routing-options {
  * Pair with:
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14735,6 +15081,7 @@ routing-options {
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14784,6 +15131,7 @@ routing-options {
  *  - evo/policy-options/policy-statement/loopback-rib-leak.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none. RIB-group names, RIB names, and import-policy names are
  *            the JVD-wide abstraction and are left literal.
  */
@@ -14829,6 +15177,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14866,6 +15215,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -14904,6 +15254,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $RD_SEED_AUTO   e.g. 1.1.1.2
  */
@@ -14942,6 +15293,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.12
  */
@@ -14985,6 +15337,7 @@ routing-options {
  * Pair with:
  *  - evo/routing-options/route-distinguisher-id.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma1-1_acx7024):
  *   $TC_EGRESS   e.g. 1.1.0.17   (this node's transport-class egress loopback)
  */
@@ -15022,6 +15375,7 @@ routing-options {
  * Pair with:
  *  - junos/groups/gr-ae-interface-mtu.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 apply-groups [ AE-INTERFACE-MTU ];```
@@ -15049,6 +15403,7 @@ apply-groups [ AE-INTERFACE-MTU ];```
  *  - junos/interfaces/ethernet-bridge.conf
  *  - junos/interfaces/ifl-irb-inet.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304):
  *   $BD_NAME    e.g. BD_group_70_4050
  *   $VLAN       e.g. 4050
@@ -15084,6 +15439,7 @@ bridge-domains {
  *  - The two `interface` statements are interchangeable, so one deployed
  *    domain has two equivalent bindings of this body.
  *
+ * Peers with: n/a
  * Variables (example values from ma5_mx204):
  *   $BD_NAME      e.g. bd_group_lsw_1000
  *   $AC_INTF_A    e.g. et-0/0/2.4000
@@ -15132,6 +15488,7 @@ bridge-domains {
  *    `ae<count-1>` can be configured on the node.
  *  - The count is a chassis-wide ceiling, not a count of bundles in use.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $AE_DEVICE_COUNT   e.g. 25
  */
@@ -15159,6 +15516,7 @@ chassis {
  * Highlights:
  *  - device-count allocates pseudowire-subscriber devices, not service units.
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $PS_DEVICE_COUNT   e.g. 100
  */
@@ -15181,6 +15539,7 @@ chassis {
  *   mse2_mx304 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $TS_FPC   e.g. 0
  *   $TS_PIC   e.g. 0
@@ -15233,6 +15592,7 @@ chassis {
  * Pair with:
  *  - junos/class-of-service/forwarding-classes/fc-6queue-model.conf
  *
+ * Peers with: n/a
  * Variables: none. Classifier names, class names and code-points are JVD-wide
  *            constants, identical on every device in the design.
  */
@@ -15349,6 +15709,7 @@ class-of-service {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Class names and queue numbers are JVD-wide constants,
  *            identical on every device in the design.
  */
@@ -15383,6 +15744,7 @@ class-of-service {
  * Pair with:
  *  - junos/class-of-service/scheduler-maps/sm-6class-mapping.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF   e.g. et-0/0/5
  */
@@ -15434,6 +15796,7 @@ class-of-service {
  * Pair with:
  *  - junos/class-of-service/scheduler-maps/sm-6class-mapping.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF   e.g. ae71
  */
@@ -15470,6 +15833,7 @@ class-of-service {
  *  - junos/class-of-service/classifiers/cl-6class.conf
  *  - junos/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. xe-0/0/15:0
  *   $UNIT        e.g. 2001
@@ -15529,6 +15893,7 @@ class-of-service {
  *  - junos/class-of-service/classifiers/cl-6class.conf
  *  - junos/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. ae71
  *   $UNIT        e.g. 0
@@ -15577,6 +15942,7 @@ class-of-service {
  *  - junos/class-of-service/forwarding-classes/fc-6queue-model.conf
  *  - junos/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF          e.g. ae11
  *   $UNIT              e.g. 2400
@@ -15626,6 +15992,7 @@ class-of-service {
  *  - junos/class-of-service/classifiers/cl-6class.conf
  *  - junos/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $COS_INTF    e.g. ae11
  *   $UNIT        e.g. 702
@@ -15689,6 +16056,7 @@ class-of-service {
  * Pair with:
  *  - junos/class-of-service/forwarding-classes/fc-6queue-model.conf
  *
+ * Peers with: n/a
  * Variables: none. Rule names, class names and code-points are JVD-wide
  *            constants, identical on every device in the design.
  */
@@ -15802,6 +16170,7 @@ class-of-service {
  *  - junos/class-of-service/forwarding-classes/fc-6queue-model.conf
  *  - variant:mebs-cos-schedulers capabilities=cos:schedulers
  *
+ * Peers with: n/a
  * Variables: none. The scheduler-map name, class names and scheduler names are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -15843,6 +16212,7 @@ class-of-service {
  *  - REALTIME-SC is rated with shaping-rate percent 40; the other five use
  *    transmit-rate.
  *
+ * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -15922,6 +16292,7 @@ class-of-service {
  *  - Two scheduling priority levels: REALTIME is strict-high, the other five
  *    classes are low.
  *
+ * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
  */
@@ -15996,6 +16367,7 @@ class-of-service {
  * Pair with:
  *  - variant:mebs-rate-limit-policers capabilities=firewall:policers
  *
+ * Peers with: n/a
  * Variables: none. All values here are JVD-wide constants
  *            (policer names and rates) — same on every PE.
  */
@@ -16037,6 +16409,7 @@ firewall {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 firewall {
@@ -16091,6 +16464,7 @@ firewall {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
  *            community names, policer rates) — same on every PE.
@@ -16137,6 +16511,7 @@ firewall {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. All values here are JVD-wide constants
  *            (queue numbers, class names, scheduler weights,
  *            community names, policer rates) — same on every PE.
@@ -16194,6 +16569,7 @@ firewall {
  *  - `family multiservice` adds the source and destination MAC, which is what
  *    spreads bridged traffic that carries no IP header.
  *
+ * Peers with: n/a
  * Variables: none
  */
 forwarding-options {
@@ -16248,6 +16624,7 @@ forwarding-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -16279,6 +16656,7 @@ groups {
  *   meg2_acx7509 1
  *   total 5
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -16330,6 +16708,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16381,6 +16760,7 @@ groups {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 groups {
@@ -16443,6 +16823,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16513,6 +16894,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16584,6 +16966,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16641,6 +17024,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16691,6 +17075,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16760,6 +17145,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16831,6 +17217,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16875,6 +17262,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16927,6 +17315,7 @@ groups {
  *
  * Pair with:
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -16992,6 +17381,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -17058,6 +17448,7 @@ groups {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
  *            wildcard-driven (e.g. <ae*>, <METRO_*>) and carry
  *            only network-wide constants — there are no per-PE
@@ -17192,6 +17583,7 @@ interfaces {
  * Pair with:
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 xe-0/0/3:1):
  *   $UNI_INTF     e.g. xe-0/0/3:1
  *   $UNIT         e.g. 3000
@@ -17510,6 +17902,7 @@ interfaces {
  *   ma5_mx204 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA3 rtme-acx-48l-07 et-0/0/51"
  *   $IFD   e.g. et-0/0/2
@@ -17544,6 +17937,7 @@ interfaces {
  *   total 1
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/0"
  *   $IFD   e.g. et-0/0/0
@@ -17579,6 +17973,7 @@ interfaces {
  *   total 43
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
  *   $IFD   e.g. et-0/0/13
@@ -17609,6 +18004,7 @@ interfaces {
  *   total 19
  * Pair with:
  *  - junos/groups/gr-core-intf-lag-member.conf
+ * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae71
  *   $IFD   e.g. et-0/0/1
@@ -17655,6 +18051,7 @@ interfaces {
  * Pair with:
  *  - junos/groups/gr-core-intf-lag-member.conf
  *
+ * Peers with: n/a
  * Variables (example values from an2_acx5448):
  *   $CORE_INTF   e.g. et-0/1/1
  *   $AE_BUNDLE   e.g. ae73
@@ -17698,6 +18095,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
  */
@@ -17735,6 +18133,7 @@ interfaces {
  *  - junos/chassis/pseudowire-service.conf
  *  - junos/chassis/tunnel-services.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304):
  *   $PS_INTF      e.g. ps0
  *   $ANCHOR_PIC   e.g. lt-0/0/0
@@ -17765,6 +18164,7 @@ interfaces {
  *   mdr2_mx10003 5
  *   total 5
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to AG2.1 global"
  *   $CORE_V4_ADDR   e.g. 10.10.0.70/30
@@ -17805,6 +18205,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:2:99/126
@@ -17843,6 +18244,7 @@ interfaces {
  *   an4_acx710 2
  *   total 3
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:0:51/126
@@ -17896,6 +18298,7 @@ interfaces {
  *   mse2_mx304 5
  *   total 78
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
  *   $CORE_V6_ADDR   e.g. 2001::10:10:0:71/126
@@ -17941,6 +18344,7 @@ interfaces {
  *  - The address is node-local, with no `virtual-gateway-address`, so the
  *    gateway is not shared with the other PEs in the EVPN.
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304):
  *   $UNIT        e.g. 4000
  *   $IRB_ADDR    e.g. 43.2.2.3/24
@@ -17968,6 +18372,7 @@ interfaces {
  *   an1_mx204 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0000.00
  *   $LO0_DESC   e.g. "AN1 Access Node Metro Fabric"
@@ -18009,6 +18414,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0011.00
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
@@ -18052,6 +18458,7 @@ interfaces {
  *   mse1_mx304 1
  *   total 1
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
  *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:a
@@ -18106,6 +18513,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 14
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
  *   $LOOPBACK_V4_PFX   e.g. 1.1.0.5/32
@@ -18152,6 +18560,8 @@ interfaces {
  *  - junos/interfaces/ifd-ps-transport.conf
  *  - junos/chassis/pseudowire-service.conf
  *  - junos/chassis/tunnel-services.conf
+ * Peers with:
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables:
  *   $PS_INTF      e.g. ps0
  *   $ANCHOR_PIC   e.g. lt-0/0/0
@@ -18196,6 +18606,10 @@ interfaces {
  *    designated forwarder for this segment follows a configured preference
  *    rather than the service-carving default.
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
  * Variables (example values from an1_mx204):
  *   $IFD    e.g. ae11
  *   $UNIT   e.g. 700
@@ -18239,6 +18653,8 @@ interfaces {
  *  - etree-ac-role root marks this attachment circuit as an E-Tree root, so
  *    it may reach both root and leaf attachment circuits.
  *
+ * Peers with:
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from mse1_mx304):
  *   $IFD    e.g. ae10
  *   $UNIT   e.g. 2000
@@ -18286,6 +18702,13 @@ interfaces {
  *    the peer PE of the same Ethernet Segment, and designated-forwarder
  *    election is left at its default.
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from an1_mx204):
  *   $IFD    e.g. ae11
  *   $UNIT   e.g. 701
@@ -18327,6 +18750,7 @@ interfaces {
  *  - One VLAN with no rewriting, so the customer tag is bridged unchanged, and
  *    no `esi`, so the circuit is single-homed.
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $IFD     e.g. xe-0/1/4
  *   $UNIT    e.g. 2000
@@ -18360,6 +18784,7 @@ interfaces {
  *    with vlan-id-list.
  *  - input push / output pop maps the whole range to one service-internal VLAN.
  *
+ * Peers with: n/a
  * Variables (example values from ma5_mx204 xe-0/1/4 unit 1000):
  *   $IFD         e.g. xe-0/1/4
  *   $UNIT        e.g. 1000
@@ -18396,6 +18821,7 @@ interfaces {
  *   mse1_mx304 125
  *   mse2_mx304 75
  *   total 857
+ * Peers with: n/a
  * Variables:
  *   $IFD    e.g. xe-0/1/4
  *   $UNIT   e.g. 849
@@ -18474,6 +18900,12 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
+ *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from an1_mx204):
  *   $IFD         e.g. ae11
  *   $UNIT        e.g. 2400
@@ -18523,6 +18955,7 @@ interfaces {
  * Pair with:
  *  - junos/firewall/filter-family-any-50mb.conf
  *
+ * Peers with: n/a
  * Variables (example values from an4_acx710):
  *   $IFD         e.g. xe-0/1/4
  *   $UNIT        e.g. 2800
@@ -18571,6 +19004,7 @@ interfaces {
  *    unchanged, and no `esi`, so the circuit is single-homed.
  *  - The unit index and the VLAN tag are independent values.
  *
+ * Peers with: n/a
  * Variables (example values from ma5_mx204):
  *   $IFD     e.g. et-0/0/2
  *   $UNIT    e.g. 600
@@ -18611,6 +19045,7 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $IFD           e.g. xe-0/1/4
  *   $UNIT          e.g. 1
@@ -18653,6 +19088,7 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $IFD           e.g. xe-0/1/4
  *   $UNIT          e.g. 3001
@@ -18687,6 +19123,7 @@ interfaces {
  *  - vlan-vpls attachment circuit with input push / output pop VLAN mapping.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
+ * Peers with: n/a
  * Variables (example values from ma5_mx204 xe-0/1/4 unit 400):
  *   $IFD         e.g. xe-0/1/4
  *   $UNIT        e.g. 400
@@ -18745,6 +19182,7 @@ interfaces {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -18789,6 +19227,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -18835,6 +19274,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -18880,6 +19320,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -18916,6 +19357,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 1001
  *   $RT_AS         e.g. 63536
@@ -18949,6 +19391,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 2201
  *   $RT_AS         e.g. 63535
@@ -18995,6 +19438,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -19031,6 +19475,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $L3VPN_ID      e.g. 2001
  *   $RT_AS         e.g. 63535
@@ -19080,6 +19525,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_COMMUNITY   e.g. 63535:10000
  */
@@ -19125,6 +19571,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -19170,6 +19617,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -19215,6 +19663,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none. The community value is a JVD-wide constant.
  */
 policy-options {
@@ -19258,6 +19707,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -19303,6 +19753,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $FABRIC_COMMUNITY_AS    e.g. 63535
  */
@@ -19348,6 +19799,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $RING_COMMUNITY_AS      e.g. 63536
  */
@@ -19390,6 +19842,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $INSTANCE_NAME   e.g. evpn_group_90_700
  *   $RT_AS           e.g. 63535
@@ -19420,6 +19873,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19447,6 +19901,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19481,6 +19936,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $COLOR_COMMUNITY   e.g. map2bronze
  */
@@ -19518,6 +19974,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $COLOR_COMMUNITY   e.g. map2gold
  */
@@ -19538,6 +19995,7 @@ policy-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Peers with: n/a
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
  *   $PS_INTF   e.g. ps0
@@ -19594,6 +20052,7 @@ policy-options {
  *  - junos/policy-options/community/cm-no-advertise.conf
  *  - junos/policy-options/community/cm-loopback.conf
  *
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_SUPERNET   e.g. 1.1.0.0/16
  */
@@ -19649,6 +20108,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19709,6 +20169,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -19741,6 +20202,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-metro-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19777,6 +20239,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-access-fabric.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19848,6 +20311,7 @@ policy-options {
  *  - junos/policy-options/community/cm-metro-ring.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -19904,6 +20368,7 @@ policy-options {
  *  - junos/policy-options/community/cm-service-edge.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -20006,6 +20471,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-metro-ring.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -20065,6 +20531,7 @@ policy-options {
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *  - junos/policy-options/prefix-list/pl-mse.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -20109,6 +20576,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -20194,6 +20662,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -20309,6 +20778,7 @@ policy-options {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204 / evpn_group_90_700):
  *   $INSTANCE_NAME     e.g. evpn_group_90_700
  *                      (the routing instance this policy serves; the policy and
@@ -20362,6 +20832,7 @@ policy-options {
  *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from mse2_mx304 / METRO_L3VPN_4000):
  *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20429,6 +20900,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 / METRO_BGPv4_L3VPN_1001):
  *   $EXPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20488,6 +20960,7 @@ policy-options {
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *  - junos/policy-options/community/cm-tc-map2gold.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
  *   $EXPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20553,6 +21026,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204 / METRO_L3VPN_1):
  *   $EXPORT_POL      e.g. METRO_L3VPN_1-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20614,6 +21088,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse2_mx304 / METRO_L3VPN_2002):
  *   $EXPORT_POL      e.g. METRO_L3VPN_2002-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20677,6 +21152,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 / METRO_BGPv6_L3VPN_2202):
  *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_2202-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20736,6 +21212,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204 / METRO_BGPv6_L3VPN_3001):
  *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_3001-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20797,6 +21274,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse2_mx304 / METRO_BGPv6_L3VPN_2201):
  *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_2201-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20862,6 +21340,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-l3vpn-pub.conf
  *
+ * Peers with: n/a
  * Variables (example values from mse2_mx304 / METRO_BGPv6_L3VPN_3001):
  *   $EXPORT_POL      e.g. METRO_BGPv6_L3VPN_3001-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20927,6 +21406,7 @@ policy-options {
  *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
  *   $EXPORT_POL      e.g. PS-METRO_L3VPN_4000-EXPORT
  *                    (the configured policy name; the VRF's `vrf-export`
@@ -20968,6 +21448,7 @@ policy-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Peers with: n/a
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
@@ -21017,6 +21498,7 @@ policy-options {
  *  - junos/policy-options/community/cm-metro-ring.conf
  *  - junos/policy-options/community/cm-loopback.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21070,6 +21552,7 @@ policy-options {
  *  - junos/policy-options/community/cm-region-edge.conf
  *  - junos/policy-options/prefix-list/pl-mse-primary.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21130,6 +21613,7 @@ policy-options {
  *  - junos/policy-options/community/cm-loopback.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21188,6 +21672,7 @@ policy-options {
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *  - junos/policy-options/prefix-list/pl-mse.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21245,6 +21730,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304):
  *   $LOOPBACK_V4          e.g. 1.1.0.10
  *   $LOOPBACK_ANYCAST_V4  e.g. 1.1.10.10
@@ -21295,6 +21781,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $LOOPBACK_V4     e.g. 1.1.0.6
  *   $LOOPBACK_SR_V4  e.g. 1.1.10.6
@@ -21346,6 +21833,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-inet-default.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204 / METRO_BGPv4_L3VPN_1001):
  *   $IMPORT_POL      e.g. METRO_BGPv4_L3VPN_1001-IMPORT
  *                    (the configured policy name; the VRF's `vrf-import`
@@ -21395,6 +21883,7 @@ policy-options {
  *  - junos/policy-options/community/cm-l3vpn.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with: n/a
  * Variables (example values from mse1_mx304 / METRO_L3VPN_4000):
  *   $IMPORT_POL      e.g. PS-METRO_L3VPN_4000-IMPORT
  *                    (the configured policy name; the VRF's `vrf-import`
@@ -21438,6 +21927,7 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy-options/community/cm-inet-default.conf
+ * Peers with: n/a
  */
 policy-options {
     policy-statement INET-VRF-DEFAULT_1 {
@@ -21498,6 +21988,7 @@ policy-options {
  *    1001 with `tag2 0`, keeping the summary out of the flooded database.
  *  - `term REJECT` terminates the policy.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4          e.g. 1.1.0.0
  *   $SR_INDEX_ALGO128     e.g. 500
@@ -21586,6 +22077,7 @@ policy-options {
  *  - The policy ends after the loopback terms, so everything it does not match
  *    falls through to the IS-IS default action.
  *
+ * Peers with: n/a
  * Variables (example values from mdr2_mx10003):
  *   $LOOPBACK_V4        e.g. 1.1.0.13
  *   $SR_INDEX_ALGO128   e.g. 513
@@ -21664,6 +22156,7 @@ policy-options {
  *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
  *    loopbacks.
  *
+ * Peers with: n/a
  * Variables (example values from an2_acx5448):
  *   $LOOPBACK_V4        e.g. 1.1.0.1
  *   $SR_INDEX_ALGO128   e.g. 501
@@ -21726,6 +22219,7 @@ policy-options {
  *   total 2
  * Pair with:
  *  - junos/policy-options/community/cm-loopback.conf
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21783,6 +22277,7 @@ policy-options {
  *  - The configured policy name is a value: a node may carry this same body
  *    under more than one name.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $POLICY_NAME   e.g. ALLOW_LOOPBACK
  *                  (the configured policy name; configuration that references
@@ -21817,6 +22312,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21852,6 +22348,7 @@ policy-options {
  *   mse2_mx304 1
  *   total 10
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -21899,6 +22396,7 @@ policy-options {
  *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
  *    and 129.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4        e.g. 1.1.0.0
  *   $SR_INDEX_ALGO128   e.g. 500
@@ -21951,6 +22449,7 @@ policy-options {
  * Pair with:
  *  - junos/policy-options/community/cm-no-advertise.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -22004,6 +22503,7 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
  *   $SR_INDEX_V4      e.g. 200
@@ -22062,6 +22562,7 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V6   e.g. 2001::1:1:10:0
  *   $SR_INDEX_V6      e.g. 300
@@ -22104,6 +22605,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -22138,6 +22640,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -22168,6 +22671,7 @@ policy-options {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 policy-options {
@@ -22200,6 +22704,9 @@ policy-options {
  *  - junos/policy-options/policy-statement/ps-bgp-export.conf
  *  - junos/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [an4_acx710] <-> [meg1_acx7100-32c]
+ *   [an4_acx710] <-> [meg2_acx7509]
  * Variables: none
  */
 protocols {
@@ -22295,6 +22802,11 @@ protocols {
  *  - junos/policy-options/policy-statement/ps-bgp-transport-export.conf
  *  - junos/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma4_mx204] <-> [mdr1_acx7509]
+ *   [ma4_mx204] <-> [mdr2_mx10003]
+ *   [ma4_mx204] <-> [mse1_mx304]
+ *   [ma4_mx204] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -22426,6 +22938,11 @@ protocols {
  *  - junos/policy-options/policy-statement/ps-bgp-transport-export.conf
  *  - junos/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma5_mx204] <-> [mdr1_acx7509]
+ *   [ma5_mx204] <-> [mdr2_mx10003]
+ *   [ma5_mx204] <-> [mse1_mx304]
+ *   [ma5_mx204] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -22537,6 +23054,15 @@ protocols {
  *  - junos/policy-options/policy-statement/ps-ibgp-rr-export.conf
  *  - junos/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [ma1-1_acx7024] <-> [mdr2_mx10003]
+ *   [ma1-2_acx7024] <-> [mdr2_mx10003]
+ *   [ma3_acx7100-48l] <-> [mdr2_mx10003]
+ *   [ma4_mx204] <-> [mdr2_mx10003]
+ *   [ma5_mx204] <-> [mdr2_mx10003]
+ *   [mdr1_acx7509] <-> [mdr2_mx10003]
+ *   [mdr2_mx10003] <-> [mse1_mx304]
+ *   [mdr2_mx10003] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -23255,6 +23781,11 @@ protocols {
  *  - junos/groups/gr-bgp-bcp.conf
  *  - junos/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [meg1_acx7100-32c]
+ *   [an1_mx204] <-> [meg2_acx7509]
+ *   [an2_acx5448] <-> [meg1_acx7100-32c]
+ *   [an2_acx5448] <-> [meg2_acx7509]
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4   e.g. 1.1.0.0
  *   $RR1_V4        e.g. 1.1.0.6
@@ -23345,6 +23876,7 @@ protocols {
  *   meg1_acx7100-32c 1
  *   total 2
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -23470,6 +24002,7 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
+ * Peers with: n/a
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -23531,6 +24064,7 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
  */
@@ -23935,6 +24469,7 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 20
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -23959,6 +24494,7 @@ protocols {
  *   an2_acx5448 1
  *   an4_acx710 1
  *   total 3
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 0
  *   $NODE_SID_V6   e.g. 100
@@ -24018,6 +24554,7 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
  *   $NODE_SID_V4   e.g. 10
@@ -24079,6 +24616,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
  *   $NODE_SID_V4   e.g. 12
@@ -24143,6 +24681,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
  *   $NODE_SID_V4   e.g. 18
@@ -24321,6 +24860,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 8
  *   $NODE_SID_V6   e.g. 108
@@ -24614,6 +25154,7 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 6
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -24638,6 +25179,7 @@ protocols {
  *   Provides: transport:mpls-admin-groups
  * Pair with:
  *  - junos/interfaces/ifl-loopback-primary-iso-sr-v6.conf
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -24699,6 +25241,7 @@ protocols {
  *
  * Pair with: none
  *
+ * Peers with: n/a
  * Variables: none
  */
 protocols {
@@ -24929,6 +25472,7 @@ protocols {
  * Pair with:
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-instances {
@@ -24971,6 +25515,7 @@ routing-instances {
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-instances {
@@ -25013,6 +25558,14 @@ routing-instances {
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
+ *   [an3_acx7100-48l] <-> [mse2_mx304]
+ *   [meg1_acx7100-32c] <-> [mse1_mx304]
+ *   [meg1_acx7100-32c] <-> [mse2_mx304]
+ *   [meg2_acx7509] <-> [mse1_mx304]
+ *   [meg2_acx7509] <-> [mse2_mx304]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
@@ -25103,6 +25656,13 @@ routing-instances {
  *  - junos/interfaces/ifl-vlan-bridge-esi.conf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an1_mx204] <-> [ma1-1_acx7024]
+ *   [an1_mx204] <-> [ma1-2_acx7024]
+ *   [an1_mx204] <-> [meg1_acx7100-32c]
+ *   [an1_mx204] <-> [meg2_acx7509]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
@@ -25171,6 +25731,18 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/ifl-vlan-bridge-esi.conf
  *
+ * Peers with:
+ *   [an1_mx204] <-> [an2_acx5448]
+ *   [an1_mx204] <-> [an3_acx7100-48l]
+ *   [an1_mx204] <-> [ma1-1_acx7024]
+ *   [an1_mx204] <-> [ma1-2_acx7024]
+ *   [an1_mx204] <-> [meg1_acx7100-32c]
+ *   [an1_mx204] <-> [meg2_acx7509]
+ *   [an2_acx5448] <-> [an3_acx7100-48l]
+ *   [an2_acx5448] <-> [ma1-1_acx7024]
+ *   [an2_acx5448] <-> [ma1-2_acx7024]
+ *   [an2_acx5448] <-> [meg1_acx7100-32c]
+ *   [an2_acx5448] <-> [meg2_acx7509]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
@@ -25233,6 +25805,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from mse1_mx304 / 300-evpn-floating-pw):
  *   $INSTANCE_NAME     e.g. 300-evpn-floating-pw
  *   $VLAN              e.g. 300
@@ -25291,6 +25865,13 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [ma4_mx204] <-> [ma5_mx204]
+ *   [ma4_mx204] <-> [mse1_mx304]
+ *   [ma4_mx204] <-> [mse2_mx304]
+ *   [ma5_mx204] <-> [mse1_mx304]
+ *   [ma5_mx204] <-> [mse2_mx304]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * JVD service mapping:
  *   1050 instances total (high 1050 / med 0 / low 0)
  *   On devices: ma4_mx204 (1000), ma5_mx204 (1000), mse1_mx304 (1000), mse2_mx304 (1000), an3_acx7100-48l (51), meg1_acx7100-32c (51), +5 more
@@ -25356,6 +25937,13 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [ma4_mx204] <-> [ma5_mx204]
+ *   [ma4_mx204] <-> [mse1_mx304]
+ *   [ma4_mx204] <-> [mse2_mx304]
+ *   [ma5_mx204] <-> [mse1_mx304]
+ *   [ma5_mx204] <-> [mse2_mx304]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from mse1_mx304 / evpn_group_80_1000):
  *   $INSTANCE_NAME    e.g. evpn_group_80_1000
  *   $AC_INTF          e.g. ae10
@@ -25409,6 +25997,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * Variables (example values from mse1_mx304 / evpn_group_40_10):
  *   $INSTANCE_NAME      e.g. evpn_group_40_10
  *   $AC_INTF            e.g. et-0/0/4
@@ -25480,6 +26070,8 @@ routing-instances {
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * JVD service mapping:
  *   240 instances on mse1_mx304, 219 on an3_acx7100-48l.
  *   Example: evpn_group_40_100 (RD 1.1.0.10:500, RT target:63535:500)
@@ -25559,6 +26151,8 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [mse1_mx304]
  * JVD service mapping:
  *   250 instances on mse1_mx304, 250 on an3_acx7100-48l.
  *   Example: evpn_group_40_251 (RD 1.1.0.10:651, RT target:63535:651)
@@ -25633,6 +26227,16 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
+ * Peers with:
+ *   [an1_mx204] <-> [ma1-1_acx7024]
+ *   [an1_mx204] <-> [ma1-2_acx7024]
+ *   [an2_acx5448] <-> [ma1-1_acx7024]
+ *   [an2_acx5448] <-> [ma1-2_acx7024]
+ *   [an3_acx7100-48l] <-> [an4_acx710]
+ *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
+ *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [meg2_acx7509]
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
  *   On devices: an1_mx204 (400), an2_acx5448 (400), an3_acx7100-48l (400), ma1-1_acx7024 (400), ma1-2_acx7024 (400)
@@ -25696,6 +26300,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * JVD service mapping:
  *   201 instances total (high 102 / med 99 / low 0)
  *   On devices: an3_acx7100-48l (201), ma5_mx204 (201)
@@ -25762,6 +26368,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from ma5_mx204 / l2vpn_group_105_350):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_350
  *   $L2VPN_SITE              e.g. r19
@@ -25822,6 +26430,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from ma5_mx204 / l2vpn_group_105_201):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_201
  *   $L2VPN_SITE              e.g. r19
@@ -25881,6 +26491,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from ma5_mx204 / l2vpn_group_105_300):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_300
  *   $L2VPN_SITE              e.g. r19
@@ -25941,6 +26553,8 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * Variables (example values from ma5_mx204 / l2vpn_group_105_200):
  *   $INSTANCE_NAME           e.g. l2vpn_group_105_200
  *   $L2VPN_SITE              e.g. r19
@@ -26001,6 +26615,8 @@ routing-instances {
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
+ * Peers with:
+ *   [an3_acx7100-48l] <-> [ma5_mx204]
  * JVD service mapping:
  *   201 instances total (high 102 / med 99 / low 0)
  *   On devices: an3_acx7100-48l (201), ma5_mx204 (201)
@@ -27039,6 +27655,7 @@ routing-instances {
  *  - `preference 14` keeps the aggregate below the contributing routes, so a
  *    more specific route always wins.
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
  *   $CORE_LINK_SUPERNET    e.g. 10.10.0.0/24
@@ -27083,6 +27700,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27115,6 +27733,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27154,6 +27773,7 @@ routing-options {
  * Pair with:
  *  - variant:mebs-mpls-admin-groups capabilities=transport:mpls-admin-groups
  *
+ * Peers with: n/a
  * Variables: none. FA numbers, metric types, admin-group colours, and the
  *            colour values are the JVD-wide abstraction and are left literal.
  */
@@ -27209,6 +27829,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf  (defines the pplb policy)
  *
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -27247,6 +27868,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
  *
+ * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $PPLB_NAME   e.g. pplb
  *                (the configured load-balancing policy name; the forwarding
@@ -27280,6 +27902,7 @@ routing-options {
  *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -27312,6 +27935,7 @@ routing-options {
  *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -27344,6 +27968,7 @@ routing-options {
  *   total 2
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -27390,6 +28015,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf  (defines the pplb policy)
  *
+ * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
  */
@@ -27436,6 +28062,7 @@ routing-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 15
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27473,6 +28100,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27495,6 +28123,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27545,6 +28174,7 @@ routing-options {
  *  - junos/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27603,6 +28233,7 @@ routing-options {
  * Pair with:
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27645,6 +28276,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
  *
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27672,6 +28304,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-local-loopback-anycast.conf
  *  - junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27727,6 +28360,7 @@ routing-options {
  *  - junos/policy-options/policy-statement/loopback-rib-leak.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
  *
+ * Peers with: n/a
  * Variables: none. RIB-group names, RIB names, and import-policy names are
  *            the JVD-wide abstraction and are left literal.
  */
@@ -27772,6 +28406,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27809,6 +28444,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ * Peers with: n/a
  * Variables: none
  */
 routing-options {
@@ -27847,6 +28483,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $RD_SEED_AUTO   e.g. 1.1.1.2
  */
@@ -27885,6 +28522,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ * Peers with: n/a
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.14
  */
@@ -27907,6 +28545,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ * Peers with: n/a
  * Variables:
  *   $TC_EGRESS   e.g. 1.1.0.3
  */
@@ -27947,6 +28586,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
  *   $TC_EGRESS   e.g. 1.1.0.11
@@ -27987,6 +28627,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ * Peers with: n/a
  * Variables:
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
  *   $TC_EGRESS   e.g. 1.1.0.10
@@ -28047,6 +28688,7 @@ routing-options {
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
  *
+ * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $TC_EGRESS   e.g. 1.1.0.16   (this node's transport-class egress loopback)
  */
