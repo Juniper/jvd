@@ -8,6 +8,28 @@ const idx = (...snips) => new Map(snips.map((s) => [s.rel, s]));
 const BODY_A = "firewall {\n    policer P {\n        then discard;\n    }\n}";
 const BODY_B = "firewall {\n    policer P {\n        then accept;\n    }\n}";
 
+test('transport auto-RD resolves the exact global seed and rejects missing or ambiguous providers', () => {
+  const seenOn = { junos: ['fixture'], evo: [] };
+  const consumer = snip('junos/transport.conf', seenOn, 'routing-options { transport-class { auto-create; } }');
+  const provider = snip('junos/seed.conf', seenOn, 'routing-options { route-distinguisher-id $RD_SEED_AUTO; }');
+  const check = (seed, candidate = provider) => {
+    const sourceText = `${consumer.body} routing-options { router-id 1.1.0.2; ${seed} }`;
+    const resolver = createOccurrenceResolver({ sourceText, device: 'fixture', os: 'junos', snips: [consumer, candidate] });
+    const occurrence = resolver.occurrences(consumer.rel)[0];
+    const reference = occurrence.references.find(row => row.kind === 'route-distinguisher-id');
+    assert.ok(reference);
+    return resolver.resolve({ consumerId: occurrence.id, sourceSha256: resolver.sourceSha256, ...reference, candidates: [candidate.rel] });
+  };
+  const resolved = check('route-distinguisher-id 1.1.1.2;');
+  assert.equal(resolved.status, 'ok');
+  assert.equal(resolved.selected.binding.RD_SEED_AUTO, '1.1.1.2');
+  assert.equal(check('').status, 'missing-source-definition');
+  assert.equal(check('inactive: route-distinguisher-id 1.1.1.2;').status, 'missing-source-definition');
+  assert.equal(check('route-distinguisher-id 1.1.1.2; route-distinguisher-id 1.1.1.3;').status, 'ambiguous-source-definition');
+  assert.equal(check('route-distinguisher-id 1.1.1.2;', { ...provider, seenOn: { junos: ['other'], evo: [] } }).status, 'unavailable');
+  assert.equal(check('route-distinguisher-id 1.1.1.2;', { ...provider, body: 'routing-instances { V { route-distinguisher $RD_SEED_AUTO:1; } }' }).status, 'unavailable');
+});
+
 test('single occurrence lookup preserves identity and isolates returned mutations', () => {
   const record = snip('junos/interface.conf', { junos: ['fixture'], evo: [] }, 'interfaces { $IFD { unit 0 { family inet; } } }');
   const resolver = createOccurrenceResolver({ sourceText: 'interfaces { ae1 { unit 0 { family inet; } } ae2 { unit 0 { family inet; } } }', device: 'fixture', os: 'junos', snips: [record] });

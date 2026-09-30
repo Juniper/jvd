@@ -21,11 +21,11 @@ reordering policy terms or substituting one semantic object for another.
 
 | | |
 |---|---|
-| Snippets | 488 |
+| Snippets | 510 |
 | Devices | 20 |
-| Snippet/device pairs with at least one instance | 2,967 |
-| Instances counted | 241,668 |
-| Structural assignments represented | 349,929 |
+| Snippet/device pairs with at least one instance | 3,003 |
+| Instances counted | 241,704 |
+| Structural assignments represented | 349,965 |
 
 ## Instances per snippet
 
@@ -43,11 +43,12 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf` | 1 | 100 | `$COS_INTF`, `$UNIT` |
 | `evo/class-of-service/rewrite-rules/rr-6class-marking.conf` | 20 | 20 | _none_ |
 | `evo/class-of-service/scheduler-maps/sm-6class-mapping.conf` | 20 | 20 | _none_ |
-| `evo/class-of-service/schedulers/sc-2-priority-model.conf` | 11 | 11 | _none_ |
-| `evo/firewall/filter-family-any-50mb.conf` | 7 | 7 | _none_ |
+| `evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf` | 2 | 2 | _none_ |
+| `evo/class-of-service/schedulers/sc-2-priority-model.conf` | 9 | 9 | _none_ |
+| `evo/firewall/filter-family-any-50mb.conf` | 3 | 3 | _none_ |
 | `evo/firewall/filter-family-any-policers.conf` | 4 | 4 | _none_ |
 | `evo/firewall/filter-ipv6-router-access.conf` | 1 | 1 | _none_ |
-| `evo/firewall/policers.conf` | 10 | 10 | _none_ |
+| `evo/firewall/policers.conf` | 5 | 5 | _none_ |
 | `evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf` | 1 | 1 | _none_ |
 | `evo/forwarding-options/hash-key-mpls-all-labels.conf` | 8 | 8 | _none_ |
 | `evo/groups/gr-ae-interface-mtu.conf` | 5 | 5 | _none_ |
@@ -55,20 +56,24 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/groups/gr-bgp-bcp.conf` | 19 | 19 | _none_ |
 | `evo/groups/gr-core-intf-lag-member.conf` | 20 | 20 | _none_ |
 | `evo/groups/gr-core-intf.conf` | 20 | 20 | _none_ |
-| `evo/groups/gr-edge-intf-mh.conf` | 9 | 9 | _none_ |
-| `evo/groups/gr-edge-intf.conf` | 11 | 11 | _none_ |
+| `evo/groups/gr-edge-intf-accept-data.conf` | 2 | 2 | _none_ |
+| `evo/groups/gr-edge-intf-mh-interface.conf` | 5 | 5 | _none_ |
+| `evo/groups/gr-edge-intf-mh.conf` | 4 | 4 | _none_ |
+| `evo/groups/gr-edge-intf.conf` | 9 | 9 | _none_ |
 | `evo/groups/gr-fatpw-label-elan-vpls-l2circuit.conf` | 1 | 1 | _none_ |
 | `evo/groups/gr-fatpw-label-etree-vpws-vpls.conf` | 2 | 2 | _none_ |
 | `evo/groups/gr-fatpw-label-vpws-static.conf` | 1 | 1 | _none_ |
 | `evo/groups/gr-fatpw-label.conf` | 1 | 1 | _none_ |
 | `evo/groups/gr-fatpw-lb.conf` | 10 | 10 | _none_ |
-| `evo/groups/gr-isis-bcp.conf` | 15 | 15 | _none_ |
+| `evo/groups/gr-isis-bcp.conf` | 9 | 9 | _none_ |
 | `evo/groups/gr-isis-bfd.conf` | 1 | 1 | _none_ |
 | `evo/groups/gr-isis-interface-spf.conf` | 2 | 2 | _none_ |
 | `evo/groups/gr-l2ckt-hs.conf` | 3 | 3 | _none_ |
 | `evo/groups/gr-l3vpn.conf` | 7 | 7 | _none_ |
 | `evo/groups/gr-lag-member.conf` | 18 | 18 | _none_ |
+| `evo/interfaces/core-isis-mpls-interface.conf` | 9 | 24 | `$CORE_DESC`, `$CORE_PHYS`, `$CORE_V4_ADDR`, `$CORE_V6_ADDR` |
 | `evo/interfaces/core-isis-mpls.conf` | 1 | 2 | `$CORE_DESC`, `$CORE_PHYS`, `$CORE_V4_ADDR`, `$CORE_V6_ADDR`, `$ISIS_NET`, `$LO0_DESC`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX` |
+| `evo/interfaces/ethernet-bridge.conf` | 1 | 438 | `$UNIT`, `$UNI_INTF`, `$VLAN` |
 | `evo/interfaces/ifd-ae-lacp-fast.conf` | 4 | 6 | `$IFD`, `$LACP_SYS_ID` |
 | `evo/interfaces/ifd-ae-lacp.conf` | 4 | 4 | `$IFD`, `$LACP_SYS_ID` |
 | `evo/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf` | 2 | 3 | `$CORE_DESC`, `$IFD` |
@@ -160,7 +165,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ibgp-mdr-export.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-ibgp-rr-export.conf` | 2 | 2 | _none_ |
-| `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | 3 | 3 | `$LOOPBACK_SR_V4`, `$LOOPBACK_V4` |
+| `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | 2 | 2 | `$LOOPBACK_SR_V4`, `$LOOPBACK_V4` |
 | `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | 5 | 10,197 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `evo/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `evo/policy-options/policy-statement/ps-isis-export-core.conf` | 7 | 7 | `$CORE_LINK_SUPERNET`, `$LOOPBACK_V4`, `$LOOPBACK_V6`, `$SR_INDEX`, `$SR_INDEX_ALGO128`, `$SR_INDEX_ALGO129` |
@@ -170,6 +175,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/policy-options/policy-statement/ps-metro-fabric-import.conf` | 2 | 2 | _none_ |
 | `evo/policy-options/policy-statement/ps-multipath.conf` | 10 | 10 | _none_ |
 | `evo/policy-options/policy-statement/ps-prefix-sid.conf` | 20 | 20 | `$LOOPBACK_V4`, `$SR_INDEX`, `$SR_INDEX_ALGO128`, `$SR_INDEX_ALGO129` |
+| `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf` | 9 | 9 | _none_ |
 | `evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf` | 18 | 18 | `$LOOPBACK_SR_V4`, `$SR_INDEX_V4` |
 | `evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf` | 20 | 20 | `$LOOPBACK_SR_V6`, `$SR_INDEX_V6` |
 | `evo/policy-options/prefix-list/border-nodes.conf` | 1 | 1 | _none_ |
@@ -231,7 +237,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/protocols/isis-srmpls-tilfa-l2-net.conf` | 5 | 5 | `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `evo/protocols/isis-srmpls-tilfa-l2-sensor-stats.conf` | 1 | 1 | `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `evo/protocols/isis-srmpls-tilfa-l2.conf` | 6 | 6 | `$NODE_SID_V4`, `$NODE_SID_V6` |
-| `evo/protocols/isis-srmpls-tilfa.conf` | 4 | 7 | `$CORE_INTF`, `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
+| `evo/protocols/isis-srmpls-tilfa.conf` | 1 | 1 | `$CORE_INTF`, `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `evo/protocols/l2circuit-hsb-hub-color-ignore-encap.conf` | 1 | 499 | `$AC_INTF`, `$BACKUP_LOOPBACK`, `$PRIMARY_LOOPBACK`, `$UNIT`, `$VC_ID_BACKUP`, `$VC_ID_PRIMARY` |
 | `evo/protocols/l2circuit-hsb-hub-color.conf` | 1 | 1 | `$AC_INTF`, `$BACKUP_LOOPBACK`, `$PRIMARY_LOOPBACK`, `$UNIT`, `$VC_ID_BACKUP`, `$VC_ID_PRIMARY` |
 | `evo/protocols/l2circuit-hsb-hub-ignore-encap.conf` | 1 | 500 | `$AC_INTF`, `$BACKUP_LOOPBACK`, `$PRIMARY_LOOPBACK`, `$UNIT`, `$VC_ID_BACKUP`, `$VC_ID_PRIMARY` |
@@ -244,7 +250,8 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/protocols/mpls-controller-pccd.conf` | 1 | 1 | _none_ |
 | `evo/protocols/mpls-segment-routing.conf` | 18 | 18 | _none_ |
 | `evo/protocols/oam-cfm-continuity-check.conf` | 1 | 100 | `$MA_ID`, `$MD_NAME` |
-| `evo/protocols/oam-cfm-perf-mon.conf` | 4 | 1,000 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE` |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | 4 | 700 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE_1`, `$MEP_REMOTE_2` |
+| `evo/protocols/oam-cfm-perf-mon.conf` | 2 | 500 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE` |
 | `evo/protocols/pcep-pccd.conf` | 1 | 1 | _none_ |
 | `evo/protocols/sr-controller-pccd.conf` | 1 | 1 | _none_ |
 | `evo/routing-instances/apply-groups/gr-fatpw-label.conf` | 3 | 3 | _none_ |
@@ -269,10 +276,10 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` | 2 | 98 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf` | 2 | 102 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
-| `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 2 | 2 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
+| `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf` | 1 | 1 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf` | 1 | 100 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
-| `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` | 3 | 1,199 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
+| `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` | 2 | 200 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
 | `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf` | 4 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
@@ -286,15 +293,17 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/routing-options/flex-algorithm-129-transport-class.conf` | 11 | 11 | _none_ |
 | `evo/routing-options/flex-algorithm.conf` | 6 | 6 | _none_ |
 | `evo/routing-options/forwarding-table-pplb-chained-nh.conf` | 6 | 6 | `$PPLB_NAME` |
-| `evo/routing-options/forwarding-table.conf` | 8 | 8 | `$PPLB_NAME` |
+| `evo/routing-options/forwarding-table.conf` | 6 | 6 | `$PPLB_NAME` |
 | `evo/routing-options/interface-routes-loopback.conf` | 15 | 15 | _none_ |
 | `evo/routing-options/protect-core.conf` | 17 | 17 | _none_ |
 | `evo/routing-options/resolution-transport-class-l3vpn-rib-v6-first.conf` | 2 | 2 | _none_ |
 | `evo/routing-options/resolution-transport-class-l3vpn-rib.conf` | 5 | 5 | _none_ |
 | `evo/routing-options/resolution-transport-class.conf` | 10 | 10 | _none_ |
+| `evo/routing-options/rib-group-remote-loopbacks-mse.conf` | 9 | 9 | _none_ |
 | `evo/routing-options/rib-groups.conf` | 15 | 15 | _none_ |
 | `evo/routing-options/rib-inet3-protect-core.conf` | 17 | 17 | _none_ |
 | `evo/routing-options/rib-inet6-protect-core.conf` | 17 | 17 | _none_ |
+| `evo/routing-options/route-distinguisher-id.conf` | 18 | 18 | `$RD_SEED_AUTO` |
 | `evo/routing-options/router-id.conf` | 20 | 20 | `$ROUTER_ID` |
 | `evo/routing-options/transport-class.conf` | 14 | 14 | `$TC_EGRESS` |
 | `junos/apply-groups/gr-ae-interface-mtu.conf` | 1 | 1 | _none_ |
@@ -313,8 +322,11 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf` | 11 | 13,881 | `$COS_INTF`, `$UNIT` |
 | `junos/class-of-service/rewrite-rules/rr-6class-marking.conf` | 20 | 20 | _none_ |
 | `junos/class-of-service/scheduler-maps/sm-6class-mapping.conf` | 20 | 20 | _none_ |
-| `junos/class-of-service/schedulers/sc-2-priority-model.conf` | 9 | 9 | _none_ |
+| `junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf` | 2 | 2 | _none_ |
+| `junos/class-of-service/schedulers/sc-2-priority-model.conf` | 7 | 7 | _none_ |
+| `junos/firewall/filter-family-any-50mb.conf` | 4 | 4 | _none_ |
 | `junos/firewall/filter-family-any-policers.conf` | 4 | 4 | _none_ |
+| `junos/firewall/policers-2m-burst.conf` | 5 | 5 | _none_ |
 | `junos/firewall/policers.conf` | 1 | 1 | _none_ |
 | `junos/forwarding-options/hash-key-mpls-label-stack.conf` | 5 | 5 | _none_ |
 | `junos/groups/bgp-bcp-ma5.conf` | 2 | 2 | _none_ |
@@ -322,15 +334,18 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/groups/gr-bgp-bcp.conf` | 19 | 19 | _none_ |
 | `junos/groups/gr-core-intf-lag-member.conf` | 20 | 20 | _none_ |
 | `junos/groups/gr-core-intf.conf` | 20 | 20 | _none_ |
-| `junos/groups/gr-edge-intf-mh.conf` | 9 | 9 | _none_ |
-| `junos/groups/gr-edge-intf.conf` | 9 | 9 | _none_ |
+| `junos/groups/gr-edge-intf-flexible-ethernet.conf` | 2 | 2 | _none_ |
+| `junos/groups/gr-edge-intf-mh-optics.conf` | 5 | 5 | _none_ |
+| `junos/groups/gr-edge-intf-mh.conf` | 4 | 4 | _none_ |
+| `junos/groups/gr-edge-intf.conf` | 7 | 7 | _none_ |
 | `junos/groups/gr-fatpw-label.conf` | 1 | 1 | _none_ |
 | `junos/groups/gr-fatpw-lb.conf` | 10 | 10 | _none_ |
+| `junos/groups/gr-isis-bcp-high-metrics.conf` | 6 | 6 | _none_ |
 | `junos/groups/gr-isis-bcp.conf` | 3 | 3 | _none_ |
 | `junos/groups/gr-l3vpn.conf` | 7 | 7 | _none_ |
 | `junos/groups/gr-lag-member.conf` | 18 | 18 | _none_ |
-| `junos/interfaces/core-isis-mpls.conf` | 11 | 28 | `$CORE_DESC`, `$CORE_PHYS`, `$CORE_V4_ADDR`, `$CORE_V6_ADDR` |
-| `junos/interfaces/ethernet-bridge.conf` | 4 | 738 | `$UNIT`, `$UNI_INTF`, `$VLAN` |
+| `junos/interfaces/core-isis-mpls.conf` | 2 | 4 | `$CORE_DESC`, `$CORE_PHYS`, `$CORE_V4_ADDR`, `$CORE_V6_ADDR` |
+| `junos/interfaces/ethernet-bridge.conf` | 3 | 300 | `$UNIT`, `$UNI_INTF`, `$VLAN` |
 | `junos/interfaces/ifd-ae-lacp-fast-disabled.conf` | 1 | 1 | `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ae-lacp-fast.conf` | 4 | 6 | `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ae-lacp.conf` | 4 | 4 | `$IFD`, `$LACP_SYS_ID` |
@@ -417,6 +432,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-ibgp-rr-export.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` | 2 | 2 | `$LOOPBACK_ANYCAST_V4`, `$LOOPBACK_V4` |
+| `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | 1 | 1 | `$LOOPBACK_SR_V4`, `$LOOPBACK_V4` |
 | `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | 5 | 10,197 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `junos/policy-options/policy-statement/ps-import-l3vpn.conf` | 5 | 250 | `$IMPORT_POL`, `$INSTANCE_NAME` |
 | `junos/policy-options/policy-statement/ps-inet-vrf-default.conf` | 1 | 1 | _none_ |
@@ -428,7 +444,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/policy-options/policy-statement/ps-mse-import.conf` | 2 | 2 | _none_ |
 | `junos/policy-options/policy-statement/ps-multipath.conf` | 10 | 10 | _none_ |
 | `junos/policy-options/policy-statement/ps-prefix-sid.conf` | 20 | 20 | `$LOOPBACK_V4`, `$SR_INDEX`, `$SR_INDEX_ALGO128`, `$SR_INDEX_ALGO129` |
-| `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf` | 18 | 18 | _none_ |
+| `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf` | 9 | 9 | _none_ |
 | `junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf` | 18 | 18 | `$LOOPBACK_SR_V4`, `$SR_INDEX_V4` |
 | `junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf` | 20 | 20 | `$LOOPBACK_SR_V6`, `$SR_INDEX_V6` |
 | `junos/policy-options/prefix-list/pl-an-region.conf` | 4 | 4 | _none_ |
@@ -458,6 +474,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/isis-srmpls-tilfa-l2-conditional.conf` | 2 | 2 | `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `junos/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf` | 2 | 2 | `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `junos/protocols/isis-srmpls-tilfa-l2-net.conf` | 5 | 5 | `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
+| `junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf` | 3 | 6 | `$CORE_INTF`, `$ISIS_NET`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `junos/protocols/isis-srmpls-tilfa-l2.conf` | 6 | 6 | `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `junos/protocols/isis-srmpls-tilfa.conf` | 1 | 1 | `$CORE_INTF_1`, `$CORE_INTF_2`, `$NODE_SID_V4`, `$NODE_SID_V6` |
 | `junos/protocols/l2circuit-floating-pw-color.conf` | 2 | 11 | `$COLOR_COMMUNITY`, `$LABEL_IN`, `$LABEL_OUT`, `$PS_INTF`, `$REMOTE_PE_V4`, `$VC_ID` |
@@ -465,7 +482,8 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/ldp-loopback.conf` | 6 | 6 | _none_ |
 | `junos/protocols/mpls-segment-routing-loopback.conf` | 1 | 1 | _none_ |
 | `junos/protocols/mpls-segment-routing.conf` | 18 | 18 | _none_ |
-| `junos/protocols/oam-cfm-perf-mon.conf` | 5 | 900 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE_1`, `$MEP_REMOTE_2` |
+| `junos/protocols/oam-cfm-perf-mon-single-remote.conf` | 2 | 500 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE` |
+| `junos/protocols/oam-cfm-perf-mon.conf` | 1 | 200 | `$AC_INTF`, `$MA_ID`, `$MD_NAME`, `$MEP_LOCAL`, `$MEP_REMOTE_1`, `$MEP_REMOTE_2` |
 | `junos/routing-instances/apply-groups/gr-fatpw-label.conf` | 3 | 3 | _none_ |
 | `junos/routing-instances/apply-groups/gr-l3vpn.conf` | 4 | 4 | _none_ |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` | 2 | 100 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$UNIT`, `$VLAN` |
@@ -478,6 +496,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | 2 | 459 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | 2 | 500 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$SVC_ID_LOCAL`, `$SVC_ID_REMOTE`, `$UNIT_A`, `$UNIT_B`, `$UNIT_C`, `$UNIT_D` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | 8 | 3,902 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VPWS_SVC_ID_LOCAL`, `$VPWS_SVC_ID_REMOTE` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf` | 1 | 1 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` | 2 | 98 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` | 2 | 100 | `$AC_INTF`, `$INSTANCE_NAME`, `$L2VPN_LOCAL_SITE_ID`, `$L2VPN_REMOTE_SITE_ID`, `$L2VPN_SITE`, `$RD`, `$RT` |
@@ -486,6 +505,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` | 1 | 1 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$CE_PEER_V6`, `$EXPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | 4 | 3,300 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V6`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V6`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` | 2 | 2,198 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` | 1 | 999 | `$AC_INTF`, `$AS_CUST`, `$CE_PEER_V4`, `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$PE_LOCAL_V4`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` | 1 | 50 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | 2 | 100 | `$EXPORT_POL`, `$IMPORT_POL`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf` | 4 | 100 | `$INSTANCE_NAME`, `$IRB_UNIT`, `$RD`, `$ROUTER_ID`, `$RT_AS`, `$RT_ID` |
@@ -499,6 +519,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/flex-algorithm-128-transport-class.conf` | 11 | 11 | _none_ |
 | `junos/routing-options/flex-algorithm-129-transport-class.conf` | 11 | 11 | _none_ |
 | `junos/routing-options/flex-algorithm.conf` | 6 | 6 | _none_ |
+| `junos/routing-options/forwarding-table-export.conf` | 2 | 2 | `$PPLB_NAME` |
 | `junos/routing-options/forwarding-table-pplb-chained-nh.conf` | 6 | 6 | `$PPLB_NAME` |
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-l2vpn.conf` | 1 | 1 | `$PPLB_NAME` |
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf` | 1 | 1 | `$PPLB_NAME` |
@@ -509,11 +530,12 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/resolution-transport-class-l3vpn-rib-v6-first.conf` | 2 | 2 | _none_ |
 | `junos/routing-options/resolution-transport-class-l3vpn-rib.conf` | 5 | 5 | _none_ |
 | `junos/routing-options/resolution-transport-class.conf` | 10 | 10 | _none_ |
-| `junos/routing-options/rib-group-remote-loopbacks-mse.conf` | 17 | 17 | _none_ |
+| `junos/routing-options/rib-group-remote-loopbacks-mse.conf` | 8 | 8 | _none_ |
 | `junos/routing-options/rib-groups-local-loopback-transport-class.conf` | 2 | 2 | _none_ |
 | `junos/routing-options/rib-groups.conf` | 15 | 15 | _none_ |
 | `junos/routing-options/rib-inet3-protect-core.conf` | 17 | 17 | _none_ |
 | `junos/routing-options/rib-inet6-protect-core.conf` | 17 | 17 | _none_ |
+| `junos/routing-options/route-distinguisher-id.conf` | 18 | 18 | `$RD_SEED_AUTO` |
 | `junos/routing-options/router-id.conf` | 20 | 20 | `$ROUTER_ID` |
 | `junos/routing-options/transport-class-fallback-none.conf` | 1 | 1 | `$TC_EGRESS` |
 | `junos/routing-options/transport-class-gold-bronze-anycast.conf` | 1 | 1 | `$LOOPBACK_ANYCAST_V4`, `$TC_EGRESS` |
@@ -546,11 +568,14 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | meg1_acx7100-32c | 50 | 24 |
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | meg2_acx7509 | 50 | 24 |
 | `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf` | mse1_mx304 | 50 | 24 |
-| `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | mdr2_mx10003 | 1 | 2 |
 | `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | meg1_acx7100-32c | 1 | 2 |
 | `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | meg2_acx7509 | 1 | 2 |
 | `evo/protocols/bgp-overlay.conf` | ma1-1_acx7024 | 1 | 4 |
 | `evo/protocols/bgp-overlay.conf` | ma1-2_acx7024 | 1 | 4 |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | an3_acx7100-48l | 300 | 2 |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | ma1-2_acx7024 | 100 | 2 |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | meg1_acx7100-32c | 200 | 2 |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | meg2_acx7509 | 100 | 2 |
 | `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf` | an3_acx7100-48l | 69 | 2 |
 | `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf` | meg1_acx7100-32c | 69 | 2 |
 | `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf` | meg2_acx7509 | 69 | 2 |
@@ -604,14 +629,11 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf` | mse1_mx304 | 50 | 24 |
 | `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` | mse1_mx304 | 1 | 2 |
 | `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` | mse2_mx304 | 1 | 2 |
+| `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | mdr2_mx10003 | 1 | 2 |
 | `junos/protocols/bgp-overlay.conf` | an1_mx204 | 1 | 2 |
 | `junos/protocols/bgp-overlay.conf` | an2_acx5448 | 1 | 2 |
 | `junos/protocols/isis-srmpls-tilfa.conf` | an1_mx204 | 1 | 2 |
-| `junos/protocols/oam-cfm-perf-mon.conf` | an3_acx7100-48l | 300 | 2 |
-| `junos/protocols/oam-cfm-perf-mon.conf` | ma1-2_acx7024 | 100 | 2 |
 | `junos/protocols/oam-cfm-perf-mon.conf` | ma5_mx204 | 200 | 2 |
-| `junos/protocols/oam-cfm-perf-mon.conf` | meg1_acx7100-32c | 200 | 2 |
-| `junos/protocols/oam-cfm-perf-mon.conf` | meg2_acx7509 | 100 | 2 |
 | `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` | mse1_mx304 | 110 | 2 |
 | `junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf` | mse2_mx304 | 110 | 2 |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf` | an3_acx7100-48l | 8 | 2 |
@@ -638,11 +660,12 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf` | meg2_acx7509 | `{"COS_INTF":"ae12","UNIT":"700"}` |
 | `evo/class-of-service/rewrite-rules/rr-6class-marking.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/class-of-service/scheduler-maps/sm-6class-mapping.conf` | ag1-1_acx7100-32c | `{}` |
+| `evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf` | cr1_ptx10001-36mr | `{}` |
 | `evo/class-of-service/schedulers/sc-2-priority-model.conf` | ag1-1_acx7100-32c | `{}` |
-| `evo/firewall/filter-family-any-50mb.conf` | an1_mx204 | `{}` |
+| `evo/firewall/filter-family-any-50mb.conf` | an3_acx7100-48l | `{}` |
 | `evo/firewall/filter-family-any-policers.conf` | an4_acx710 | `{}` |
 | `evo/firewall/filter-ipv6-router-access.conf` | ag1-1_acx7100-32c | `{}` |
-| `evo/firewall/policers.conf` | an2_acx5448 | `{}` |
+| `evo/firewall/policers.conf` | an3_acx7100-48l | `{}` |
 | `evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf` | an3_acx7100-48l | `{}` |
 | `evo/forwarding-options/hash-key-mpls-all-labels.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/groups/gr-ae-interface-mtu.conf` | an1_mx204 | `{}` |
@@ -650,6 +673,8 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/groups/gr-bgp-bcp.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/groups/gr-core-intf-lag-member.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/groups/gr-core-intf.conf` | ag1-1_acx7100-32c | `{}` |
+| `evo/groups/gr-edge-intf-accept-data.conf` | cr1_ptx10001-36mr | `{}` |
+| `evo/groups/gr-edge-intf-mh-interface.conf` | an3_acx7100-48l | `{}` |
 | `evo/groups/gr-edge-intf-mh.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/groups/gr-edge-intf.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/groups/gr-fatpw-label-elan-vpls-l2circuit.conf` | ma1-2_acx7024 | `{}` |
@@ -663,7 +688,9 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/groups/gr-l2ckt-hs.conf` | an3_acx7100-48l | `{}` |
 | `evo/groups/gr-l3vpn.conf` | an3_acx7100-48l | `{}` |
 | `evo/groups/gr-lag-member.conf` | ag1-1_acx7100-32c | `{}` |
+| `evo/interfaces/core-isis-mpls-interface.conf` | ag1-1_acx7100-32c | `{"CORE_DESC":"\"to AN1 rtme-mx-45 ae71\"","CORE_PHYS":"ae71","CORE_V4_ADDR":"10.10.0.198/30","CORE_V6_ADDR":"2001::10:10:0:c6/126"}` |
 | `evo/interfaces/core-isis-mpls.conf` | ma1-1_acx7024 | `{"CORE_DESC":"\"to MA1.1 rtme-acx7024-04 ae88\"","CORE_PHYS":"ae88","CORE_V4_ADDR":"10.10.1.118/30","CORE_V6_ADDR":"2001::10:10:1:76/126","ISIS_NET":"49.0001.0010.0100.0017.00","LO0_DESC":"\"MA1.1 Metro Ring Blue metro-a\"","LOOPBACK_V4_PFX":"1.1.0.17/32","LOOPBACK_V6_PFX":"2001::1:1:0:11/128"}` |
+| `evo/interfaces/ethernet-bridge.conf` | an3_acx7100-48l | `{"UNIT":"1062","UNI_INTF":"et-0/0/50","VLAN":"1062"}` |
 | `evo/interfaces/ifd-ae-lacp-fast.conf` | an1_mx204 | `{"IFD":"ae11","LACP_SYS_ID":"00:00:00:00:00:01"}` |
 | `evo/interfaces/ifd-ae-lacp.conf` | ma1-1_acx7024 | `{"IFD":"ae12","LACP_SYS_ID":"00:00:00:00:00:01"}` |
 | `evo/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf` | mdr1_acx7509 | `{"CORE_DESC":"\"to AG2.2 rtme-mx-51 ae22\"","IFD":"ae22"}` |
@@ -755,7 +782,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf` | meg1_acx7100-32c | `{}` |
 | `evo/policy-options/policy-statement/ps-ibgp-mdr-export.conf` | mdr1_acx7509 | `{}` |
 | `evo/policy-options/policy-statement/ps-ibgp-rr-export.conf` | mdr1_acx7509 | `{}` |
-| `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | mdr2_mx10003 | `{"LOOPBACK_SR_V4":"1.1.10.13","LOOPBACK_V4":"1.1.0.13"}` |
+| `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | meg1_acx7100-32c | `{"LOOPBACK_SR_V4":"1.1.10.6","LOOPBACK_V4":"1.1.0.6"}` |
 | `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | an3_acx7100-48l | `{"IMPORT_POL":"PS-METRO_BGPv4_L3VPN_2101-IMPORT","INSTANCE_NAME":"METRO_BGPv4_L3VPN_2101"}` |
 | `evo/policy-options/policy-statement/ps-import-l3vpn.conf` | an3_acx7100-48l | `{"IMPORT_POL":"PS-METRO_L3VPN_4000-IMPORT","INSTANCE_NAME":"METRO_L3VPN_4000"}` |
 | `evo/policy-options/policy-statement/ps-isis-export-core.conf` | ag1-1_acx7100-32c | `{"CORE_LINK_SUPERNET":"10.10.0.0/24","LOOPBACK_V4":"1.1.0.4","LOOPBACK_V6":"2001::1:1:0:4","SR_INDEX":"904","SR_INDEX_ALGO128":"504","SR_INDEX_ALGO129":"604"}` |
@@ -765,6 +792,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/policy-options/policy-statement/ps-metro-fabric-import.conf` | cr1_ptx10001-36mr | `{}` |
 | `evo/policy-options/policy-statement/ps-multipath.conf` | an1_mx204 | `{}` |
 | `evo/policy-options/policy-statement/ps-prefix-sid.conf` | ag1-1_acx7100-32c | `{"LOOPBACK_V4":"1.1.0.4","SR_INDEX":"904","SR_INDEX_ALGO128":"504","SR_INDEX_ALGO129":"604"}` |
+| `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf` | an3_acx7100-48l | `{}` |
 | `evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf` | ag1-1_acx7100-32c | `{"LOOPBACK_SR_V4":"1.1.10.4","SR_INDEX_V4":"204"}` |
 | `evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf` | ag1-1_acx7100-32c | `{"LOOPBACK_SR_V6":"2001::1:1:10:34","SR_INDEX_V6":"304"}` |
 | `evo/policy-options/prefix-list/border-nodes.conf` | cr2_ptx10001-36mr | `{}` |
@@ -839,6 +867,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/protocols/mpls-controller-pccd.conf` | cr2_ptx10001-36mr | `{}` |
 | `evo/protocols/mpls-segment-routing.conf` | ag1-1_acx7100-32c | `{}` |
 | `evo/protocols/oam-cfm-continuity-check.conf` | meg1_acx7100-32c | `{"MA_ID":"12009","MD_NAME":"MD_63535"}` |
+| `evo/protocols/oam-cfm-perf-mon-dual-remote.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/0.400","MA_ID":"1100","MD_NAME":"MD_63535","MEP_LOCAL":"1002","MEP_REMOTE_1":"1019","MEP_REMOTE_2":"1006"}` |
 | `evo/protocols/oam-cfm-perf-mon.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/0.2800","MA_ID":"100","MD_NAME":"MD_63535","MEP_LOCAL":"1002","MEP_REMOTE":"1003"}` |
 | `evo/protocols/pcep-pccd.conf` | cr2_ptx10001-36mr | `{}` |
 | `evo/protocols/sr-controller-pccd.conf` | cr2_ptx10001-36mr | `{}` |
@@ -887,9 +916,11 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/routing-options/resolution-transport-class-l3vpn-rib-v6-first.conf` | an3_acx7100-48l | `{}` |
 | `evo/routing-options/resolution-transport-class-l3vpn-rib.conf` | ma3_acx7100-48l | `{}` |
 | `evo/routing-options/resolution-transport-class.conf` | an1_mx204 | `{}` |
+| `evo/routing-options/rib-group-remote-loopbacks-mse.conf` | an3_acx7100-48l | `{}` |
 | `evo/routing-options/rib-groups.conf` | an1_mx204 | `{}` |
 | `evo/routing-options/rib-inet3-protect-core.conf` | an1_mx204 | `{}` |
 | `evo/routing-options/rib-inet6-protect-core.conf` | an1_mx204 | `{}` |
+| `evo/routing-options/route-distinguisher-id.conf` | an1_mx204 | `{"RD_SEED_AUTO":"1.1.0.0"}` |
 | `evo/routing-options/router-id.conf` | ag1-1_acx7100-32c | `{"ROUTER_ID":"1.1.0.4"}` |
 | `evo/routing-options/transport-class.conf` | an1_mx204 | `{"TC_EGRESS":"1.1.0.0"}` |
 | `junos/apply-groups/gr-ae-interface-mtu.conf` | an1_mx204 | `{}` |
@@ -908,8 +939,11 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf` | an1_mx204 | `{"COS_INTF":"ae11","UNIT":"700"}` |
 | `junos/class-of-service/rewrite-rules/rr-6class-marking.conf` | ag1-1_acx7100-32c | `{}` |
 | `junos/class-of-service/scheduler-maps/sm-6class-mapping.conf` | ag1-1_acx7100-32c | `{}` |
+| `junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf` | an2_acx5448 | `{}` |
 | `junos/class-of-service/schedulers/sc-2-priority-model.conf` | an1_mx204 | `{}` |
+| `junos/firewall/filter-family-any-50mb.conf` | an1_mx204 | `{}` |
 | `junos/firewall/filter-family-any-policers.conf` | an4_acx710 | `{}` |
+| `junos/firewall/policers-2m-burst.conf` | an2_acx5448 | `{}` |
 | `junos/firewall/policers.conf` | an1_mx204 | `{}` |
 | `junos/forwarding-options/hash-key-mpls-label-stack.conf` | an2_acx5448 | `{}` |
 | `junos/groups/bgp-bcp-ma5.conf` | ma4_mx204 | `{}` |
@@ -917,15 +951,18 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/groups/gr-bgp-bcp.conf` | ag1-1_acx7100-32c | `{}` |
 | `junos/groups/gr-core-intf-lag-member.conf` | ag1-1_acx7100-32c | `{}` |
 | `junos/groups/gr-core-intf.conf` | ag1-1_acx7100-32c | `{}` |
+| `junos/groups/gr-edge-intf-flexible-ethernet.conf` | an2_acx5448 | `{}` |
+| `junos/groups/gr-edge-intf-mh-optics.conf` | an4_acx710 | `{}` |
 | `junos/groups/gr-edge-intf-mh.conf` | an1_mx204 | `{}` |
 | `junos/groups/gr-edge-intf.conf` | an1_mx204 | `{}` |
 | `junos/groups/gr-fatpw-label.conf` | ma5_mx204 | `{}` |
 | `junos/groups/gr-fatpw-lb.conf` | an1_mx204 | `{}` |
+| `junos/groups/gr-isis-bcp-high-metrics.conf` | ma2_mx204 | `{}` |
 | `junos/groups/gr-isis-bcp.conf` | an1_mx204 | `{}` |
 | `junos/groups/gr-l3vpn.conf` | an3_acx7100-48l | `{}` |
 | `junos/groups/gr-lag-member.conf` | ag1-1_acx7100-32c | `{}` |
-| `junos/interfaces/core-isis-mpls.conf` | ag1-1_acx7100-32c | `{"CORE_DESC":"\"to AN1 rtme-mx-45 ae71\"","CORE_PHYS":"ae71","CORE_V4_ADDR":"10.10.0.198/30","CORE_V6_ADDR":"2001::10:10:0:c6/126"}` |
-| `junos/interfaces/ethernet-bridge.conf` | an3_acx7100-48l | `{"UNIT":"1062","UNI_INTF":"et-0/0/50","VLAN":"1062"}` |
+| `junos/interfaces/core-isis-mpls.conf` | an1_mx204 | `{"CORE_DESC":"\"to AG1.1 rtme-acx7100-32c-a ae71\"","CORE_PHYS":"ae71","CORE_V4_ADDR":"10.10.0.197/30","CORE_V6_ADDR":"2001::10:10:0:c5/126"}` |
+| `junos/interfaces/ethernet-bridge.conf` | ma5_mx204 | `{"UNIT":"800","UNI_INTF":"xe-0/1/4","VLAN":"800"}` |
 | `junos/interfaces/ifd-ae-lacp-fast-disabled.conf` | an2_acx5448 | `{"IFD":"ae11","LACP_SYS_ID":"00:00:00:00:00:01"}` |
 | `junos/interfaces/ifd-ae-lacp-fast.conf` | an1_mx204 | `{"IFD":"ae11","LACP_SYS_ID":"00:00:00:00:00:01"}` |
 | `junos/interfaces/ifd-ae-lacp.conf` | ma1-1_acx7024 | `{"IFD":"ae12","LACP_SYS_ID":"00:00:00:00:00:01"}` |
@@ -1012,6 +1049,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf` | mse1_mx304 | `{}` |
 | `junos/policy-options/policy-statement/ps-ibgp-rr-export.conf` | mdr1_acx7509 | `{}` |
 | `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf` | mse1_mx304 | `{"LOOPBACK_ANYCAST_V4":"1.1.10.10","LOOPBACK_V4":"1.1.0.10"}` |
+| `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf` | mdr2_mx10003 | `{"LOOPBACK_SR_V4":"1.1.10.13","LOOPBACK_V4":"1.1.0.13"}` |
 | `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf` | an3_acx7100-48l | `{"IMPORT_POL":"PS-METRO_BGPv4_L3VPN_2101-IMPORT","INSTANCE_NAME":"METRO_BGPv4_L3VPN_2101"}` |
 | `junos/policy-options/policy-statement/ps-import-l3vpn.conf` | an3_acx7100-48l | `{"IMPORT_POL":"PS-METRO_L3VPN_4000-IMPORT","INSTANCE_NAME":"METRO_L3VPN_4000"}` |
 | `junos/policy-options/policy-statement/ps-inet-vrf-default.conf` | mse2_mx304 | `{}` |
@@ -1053,6 +1091,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/isis-srmpls-tilfa-l2-conditional.conf` | mse1_mx304 | `{"ISIS_NET":"49.0005.0010.0100.0010.00","NODE_SID_V4":"10","NODE_SID_V6":"110"}` |
 | `junos/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf` | mdr1_acx7509 | `{"ISIS_NET":"49.0005.0010.0100.0012.00","NODE_SID_V4":"12","NODE_SID_V6":"112"}` |
 | `junos/protocols/isis-srmpls-tilfa-l2-net.conf` | ma1-1_acx7024 | `{"ISIS_NET":"49.0001.0010.0100.0017.00","NODE_SID_V4":"17","NODE_SID_V6":"117"}` |
+| `junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf` | ma2_mx204 | `{"CORE_INTF":"ae81.0","ISIS_NET":"49.0001.0010.0100.0014.00","NODE_SID_V4":"14","NODE_SID_V6":"114"}` |
 | `junos/protocols/isis-srmpls-tilfa-l2.conf` | cr1_ptx10001-36mr | `{"NODE_SID_V4":"8","NODE_SID_V6":"108"}` |
 | `junos/protocols/isis-srmpls-tilfa.conf` | an1_mx204 | `{"CORE_INTF_1":"ae71.0","CORE_INTF_2":"ae72.0","NODE_SID_V4":"0","NODE_SID_V6":"100"}` |
 | `junos/protocols/l2circuit-floating-pw-color.conf` | mse1_mx304 | `{"COLOR_COMMUNITY":"map2gold","LABEL_IN":"1000001","LABEL_OUT":"1000001","PS_INTF":"ps0","REMOTE_PE_V4":"1.1.0.18","VC_ID":"1001"}` |
@@ -1060,7 +1099,8 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/ldp-loopback.conf` | an3_acx7100-48l | `{}` |
 | `junos/protocols/mpls-segment-routing-loopback.conf` | mse1_mx304 | `{}` |
 | `junos/protocols/mpls-segment-routing.conf` | ag1-1_acx7100-32c | `{}` |
-| `junos/protocols/oam-cfm-perf-mon.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/0.400","MA_ID":"1100","MD_NAME":"MD_63535","MEP_LOCAL":"1002","MEP_REMOTE_1":"1019","MEP_REMOTE_2":"1006"}` |
+| `junos/protocols/oam-cfm-perf-mon-single-remote.conf` | an4_acx710 | `{"AC_INTF":"et-0/1/0.2800","MA_ID":"100","MD_NAME":"MD_63535","MEP_LOCAL":"1003","MEP_REMOTE":"1002"}` |
+| `junos/protocols/oam-cfm-perf-mon.conf` | ma5_mx204 | `{"AC_INTF":"xe-0/1/4.400","MA_ID":"1100","MD_NAME":"MD_63535","MEP_LOCAL":"1019","MEP_REMOTE_1":"1002","MEP_REMOTE_2":"1006"}` |
 | `junos/routing-instances/apply-groups/gr-fatpw-label.conf` | ma1-1_acx7024 | `{}` |
 | `junos/routing-instances/apply-groups/gr-l3vpn.conf` | ma3_acx7100-48l | `{}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf` | mse1_mx304 | `{"AC_INTF":"xe-0/0/3:1","BD_NAME":"BD_evpn_group_60_4000","INSTANCE_NAME":"evpn_group_60_4000","IRB_UNIT":"4000","LOOPBACK_V4":"1.1.0.10","RD_SUB_ASSIGNED":"14000","RT_AS":"61535","RT_ID":"14000","UNIT":"3000","VLAN":"3000"}` |
@@ -1073,6 +1113,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/0","INSTANCE_NAME":"evpn_group_40_100","LOOPBACK_V4":"1.1.0.2","RD_SUB_ASSIGNED":"500","RT_AS":"63535","RT_ID":"500","SVC_ID_LOCAL":"1","SVC_ID_REMOTE":"2","UNIT_A":"1899","UNIT_B":"2399","UNIT_C":"998","UNIT_D":"999"}` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/0","INSTANCE_NAME":"evpn_group_40_251","LOOPBACK_V4":"1.1.0.2","RD_SUB_ASSIGNED":"651","RT_AS":"63535","RT_ID":"651","SVC_ID_LOCAL":"1","SVC_ID_REMOTE":"2","UNIT_A":"2050","UNIT_B":"2550","UNIT_C":"1300","UNIT_D":"1301"}` |
 | `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf` | an1_mx204 | `{"AC_INTF":"ae11.2400","INSTANCE_NAME":"evpn_group_30_2400","LOOPBACK_V4":"1.1.0.0","RD_SUB_ASSIGNED":"2400","RT_AS":"63535","RT_ID":"2400","VPWS_SVC_ID_LOCAL":"1","VPWS_SVC_ID_REMOTE":"2"}` |
+| `junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf` | ma5_mx204 | `{"AC_INTF":"xe-0/1/2.0","INSTANCE_NAME":"L2VPN_PORT_BASED","L2VPN_LOCAL_SITE_ID":"1119","L2VPN_REMOTE_SITE_ID":"1102","L2VPN_SITE":"r19","RD":"60535:8500","RT":"63535:6500"}` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/50.350","INSTANCE_NAME":"l2vpn_group_105_350","L2VPN_LOCAL_SITE_ID":"1102","L2VPN_REMOTE_SITE_ID":"1119","L2VPN_SITE":"r2","RD":"63535:1092150","RT":"63535:1092150"}` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/50.201","INSTANCE_NAME":"l2vpn_group_105_201","L2VPN_LOCAL_SITE_ID":"1102","L2VPN_REMOTE_SITE_ID":"1119","L2VPN_SITE":"r2","RD":"63535:1092001","RT":"63535:1092001"}` |
 | `junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/50.300","INSTANCE_NAME":"l2vpn_group_105_300","L2VPN_LOCAL_SITE_ID":"1102","L2VPN_REMOTE_SITE_ID":"1119","L2VPN_SITE":"r2","RD":"63535:1092100","RT":"63535:1092100"}` |
@@ -1081,6 +1122,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-instances/l3vpn/ri-internet-vrf-export.conf` | mse2_mx304 | `{"AC_INTF":"xe-0/0/15:2.2001","AS_CUST":"64514","CE_PEER_V4":"22.2.0.2","CE_PEER_V6":"2001::22:2:0:2","EXPORT_POL":"INET-VRF-DEFAULT_1","INSTANCE_NAME":"INTERNET-VRF","PE_LOCAL_V4":"22.2.0.1","PE_LOCAL_V6":"2001::22:2:0:1","RD":"1.1.0.11:63536","ROUTER_ID":"1.1.0.11","RT_AS":"63536","RT_ID":"22222"}` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf` | an3_acx7100-48l | `{"AC_INTF":"et-0/0/4.2201","AS_CUST":"64514","CE_PEER_V6":"2001:0:0:0:13:3:0:2","EXPORT_POL":"PS-METRO_BGPv6_L3VPN_2201-EXPORT","IMPORT_POL":"PS-METRO_BGPv6_L3VPN_2201-IMPORT","INSTANCE_NAME":"METRO_BGPv6_L3VPN_2201","PE_LOCAL_V6":"2001:0:0:0:13:3:0:1","RD":"63535:2201","ROUTER_ID":"1.1.0.2"}` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf` | mse1_mx304 | `{"AC_INTF":"et-0/0/5.1001","AS_CUST":"64514","CE_PEER_V4":"19.2.0.2","EXPORT_POL":"METRO_BGPv4_L3VPN_1001-EXPORT","IMPORT_POL":"METRO_BGPv4_L3VPN_1001-IMPORT","INSTANCE_NAME":"METRO_BGPv4_L3VPN_1001","PE_LOCAL_V4":"19.2.0.1","RD":"63536:11001","ROUTER_ID":"1.1.0.10"}` |
+| `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf` | ma4_mx204 | `{"AC_INTF":"xe-0/1/4.1001","AS_CUST":"64514","CE_PEER_V4":"17.2.0.2","EXPORT_POL":"METRO_BGPv4_L3VPN_1001-EXPORT","IMPORT_POL":"METRO_BGPv4_L3VPN_1001-IMPORT","INSTANCE_NAME":"METRO_BGPv4_L3VPN_1001","PE_LOCAL_V4":"17.2.0.1","RD":"63536:41001","ROUTER_ID":"1.1.0.16"}` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf` | mse2_mx304 | `{"EXPORT_POL":"PS-METRO_L3VPN_4000-EXPORT","IMPORT_POL":"PS-METRO_L3VPN_4000-IMPORT","INSTANCE_NAME":"METRO_L3VPN_4000","IRB_UNIT":"4000","RD":"63300:13000","ROUTER_ID":"1.1.0.11"}` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf` | an3_acx7100-48l | `{"EXPORT_POL":"PS-METRO_L3VPN_4000-EXPORT","IMPORT_POL":"PS-METRO_L3VPN_4000-IMPORT","INSTANCE_NAME":"METRO_L3VPN_4000","IRB_UNIT":"4000","RD":"63000:13000","ROUTER_ID":"1.1.0.2"}` |
 | `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf` | meg1_acx7100-32c | `{"INSTANCE_NAME":"METRO_L3VPN_4050","IRB_UNIT":"4050","RD":"64200:15000","ROUTER_ID":"1.1.0.6","RT_AS":"51535","RT_ID":"15000"}` |
@@ -1094,6 +1136,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/flex-algorithm-128-transport-class.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/flex-algorithm-129-transport-class.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/flex-algorithm.conf` | mdr1_acx7509 | `{}` |
+| `junos/routing-options/forwarding-table-export.conf` | ma2_mx204 | `{"PPLB_NAME":"pplb"}` |
 | `junos/routing-options/forwarding-table-pplb-chained-nh.conf` | an1_mx204 | `{"PPLB_NAME":"pplb"}` |
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-l2vpn.conf` | ma5_mx204 | `{"PPLB_NAME":"pplb"}` |
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf` | ma4_mx204 | `{"PPLB_NAME":"pplb"}` |
@@ -1109,6 +1152,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/rib-groups.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/rib-inet3-protect-core.conf` | an1_mx204 | `{}` |
 | `junos/routing-options/rib-inet6-protect-core.conf` | an1_mx204 | `{}` |
+| `junos/routing-options/route-distinguisher-id.conf` | an1_mx204 | `{"RD_SEED_AUTO":"1.1.0.0"}` |
 | `junos/routing-options/router-id.conf` | ag1-1_acx7100-32c | `{"ROUTER_ID":"1.1.0.4"}` |
 | `junos/routing-options/transport-class-fallback-none.conf` | an4_acx710 | `{"TC_EGRESS":"1.1.0.3"}` |
 | `junos/routing-options/transport-class-gold-bronze-anycast.conf` | mse2_mx304 | `{"LOOPBACK_ANYCAST_V4":"1.1.10.10","TC_EGRESS":"1.1.0.11"}` |

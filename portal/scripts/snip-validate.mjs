@@ -23,8 +23,10 @@ import { parseSnip, CODES, VARIANT_FAMILIES, classifySelector } from "./snip-par
 import { extractBgpCapabilities } from "./bgp-capabilities.mjs";
 import { extractIflCapabilities } from "./ifl-capabilities.mjs";
 import { extractGrCapabilities } from "./gr-capabilities.mjs";
-import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems } from "./transport-capabilities.mjs";
+import { extractConfiguredCapabilities, configuredCapabilityProblems, capabilityRequirementProblems, capabilityFacts } from "./transport-capabilities.mjs";
 import { resolveVariant, groupHasMembers, bodyIdentity } from "./variant-resolve.mjs";
+import { extractConstructs } from "./config-references.mjs";
+import { resolveDependency, dependencyPath } from "./dependency-resolve.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -38,6 +40,7 @@ const APPLICABILITY_CODES = new Set([
   CODES.SEEN_ON_UNKNOWN_DEVICE,
   CODES.SEEN_ON_NON_DEVICE_TOKEN,
   CODES.SEEN_ON_NATIVE_EMPTY,
+  CODES.SEEN_ON_MISSING_OS_MIRROR,
   CODES.MISSING_SEEN_ON_BUCKET,
   CODES.MISSING_SEEN_ON_SECTION,
 ]);
@@ -56,6 +59,7 @@ const VARIANT_CODES = new Set([
   CODES.VARIANT_AMBIGUOUS,
   CODES.VARIANT_DEVICE_OVERLAP,
   CODES.VARIANT_GROUP_EMPTY,
+  CODES.VARIANT_CROSS_DIRECTORY,
 ]);
 
 const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
@@ -68,9 +72,8 @@ const VARIANT_FAMILY_SET = new Set(VARIANT_FAMILIES);
  *   findings escalate to error; other contract debt stays a warning.
  */
 export function severity(code, { changed, seenOnValidation }) {
-  // A cross-directory selection is evidence-backed and legitimate; it is
-  // surfaced so audits can see it, never to block.
-  if (code === CODES.VARIANT_CROSS_DIRECTORY) return "warn";
+  if (code === CODES.PAIR_WITH_CROSS_OS) return "error";
+  if (code.startsWith("COUNT_") || code.startsWith("PEERS_")) return "error";
   if (changed) return "error";
   if (seenOnValidation === "complete" && (APPLICABILITY_CODES.has(code) || VARIANT_CODES.has(code))) return "error";
   return "warn";
@@ -270,10 +273,41 @@ export function validateVariantOverlap({ os, variantGroup, seenOn, selfRel, memb
  * "<os>/<category>/<name>.conf" for the JVD) enable the context-dependent checks.
  * `os`, `jvd`, `members`, and `selfRel` enable cross-snip variant checks.
  */
-export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {} } = {}) {
+export function validateSnipText(text, { inventory, snipIndex, os, jvd, members, selfRel, capabilityRequirements = {}, countValidation, peersValidation, enforceEvidenceEnrollment = false, dependencyIndex } = {}) {
   const { header, body, diagnostics } = parseSnip(text);
   const findings = [...diagnostics];
   if (!header) return findings;
+
+  if (enforceEvidenceEnrollment && header.count && !countValidation) findings.push({ code: "COUNT_NOT_ENROLLED" });
+  if (enforceEvidenceEnrollment && header.peersWith && !peersValidation) findings.push({ code: "PEERS_NOT_ENROLLED" });
+  if (countValidation === "complete" && !header.count) findings.push({ code: CODES.COUNT_MISSING_HEADER });
+  if (peersValidation === "complete" && !header.peersWith) findings.push({ code: CODES.PEERS_MISSING_HEADER });
+  const seenDevices = new Set([...header.seenOn.junos, ...header.seenOn.evo]);
+  if (header.count) {
+    const countDevices = Object.keys(header.count.byDevice);
+    if (countDevices.length !== seenDevices.size || countDevices.some((device) => !seenDevices.has(device))) {
+      findings.push({ code: CODES.COUNT_SEEN_ON_MISMATCH, detail: "nonzero Count devices must equal Seen on" });
+    }
+    if (inventory) {
+      for (const device of countDevices) {
+        if (resolveToken(device, inventory) !== "ok") findings.push({ code: CODES.COUNT_UNKNOWN_DEVICE, detail: device });
+      }
+    }
+  }
+  for (const group of header.peersWith?.groups || []) {
+    if (inventory) {
+      for (const device of [...group.left, ...group.right]) {
+        if (resolveToken(device, inventory) !== "ok") findings.push({ code: CODES.PEERS_UNKNOWN_DEVICE, detail: device });
+      }
+    }
+    for (const left of group.left) {
+      for (const right of group.right) {
+        if (!seenDevices.has(left) && !seenDevices.has(right)) {
+          findings.push({ code: CODES.PEERS_NOT_APPLICABLE_DEVICE, detail: `${left} <-> ${right}` });
+        }
+      }
+    }
+  }
 
   // SEEN_ON_UNKNOWN_DEVICE — resolve each device token against the inventory.
   if (inventory) {
@@ -293,12 +327,55 @@ export function validateSnipText(text, { inventory, snipIndex, os, jvd, members,
     findings.push({ code: CODES.SEEN_ON_NATIVE_EMPTY, detail: `${os} bucket is empty` });
   }
 
+  for (const bullet of header.pairWith) {
+    const target = dependencyPath(bullet);
+    if (os && target && /^(junos|evo)\//.test(target) && target.split('/')[0] !== os) {
+      findings.push({ code: CODES.PAIR_WITH_CROSS_OS, detail: `${os} -> ${target}` });
+    }
+  }
+
   // PAIR_WITH_UNRESOLVED — every declared path must resolve to a real snip.
   if (snipIndex) {
     for (const raw of header.pairWith) {
       const p = raw.replace(/^-\s*/, "").split(/\s+/)[0].replace(/[(),;]+$/, "");
       if (!p || p.toLowerCase() === "none") continue;
       if (!snipIndex.has(p)) findings.push({ code: CODES.PAIR_WITH_UNRESOLVED, detail: p });
+    }
+  }
+
+  if (dependencyIndex) {
+    if (os) {
+      const other = os === 'junos' ? 'evo' : 'junos';
+      const identity = bodyIdentity(body);
+      const mirrors = [...dependencyIndex.values()].filter(candidate => candidate.dir === other && bodyIdentity(candidate.body) === identity);
+      for (const device of header.seenOn[other]) {
+        if (!mirrors.some(candidate => candidate.seenOn?.[other]?.includes(device))) findings.push({ code: CODES.SEEN_ON_MISSING_OS_MIRROR, detail: `${device} requires a byte-equivalent ${other} representation` });
+      }
+    }
+    const constructs = extractConstructs(body);
+    const requirements = constructs.references.filter(reference => reference.kind === "route-distinguisher-id");
+    if (Object.values(capabilityRequirements).some(selectors => selectors && Object.hasOwn(selectors, 'cos:schedulers'))) {
+      requirements.push(...capabilityFacts(body).requiredSchedulers.map(name => ({ kind: 'scheduler', name })));
+    }
+    for (const requirement of requirements) {
+      const defines = candidate => requirement.kind === 'scheduler'
+        ? extractConfiguredCapabilities(candidate, { 'cos:schedulers': { schedulers: [requirement.name] } }).includes('cos:schedulers')
+        : extractConstructs(candidate).definitions.filter(definition => definition.kind === requirement.kind && definition.name === requirement.name).length === 1;
+      if (defines(body)) continue;
+      for (const targetOS of ["junos", "evo"]) for (const targetDevice of header.seenOn[targetOS]) {
+        const supplied = header.pairWith.some(bullet => {
+          const targetRel = dependencyPath(bullet);
+          if (!targetRel) return false;
+          const resolution = resolveDependency({ targetRel, targetDevice, targetOS, index: dependencyIndex });
+          return resolution.status === "ok" && defines(dependencyIndex.get(resolution.selected).body);
+        }) || (requirement.kind === 'scheduler' && header.variantRequires.some(request => {
+          const resolution = resolveVariant({ group: request.group, selectors: request.families, consumerJvd: jvd, targetDevice, targetOS, members: members ?? [] });
+          if (resolution.status !== 'ok') return false;
+          const provider = dependencyIndex.get(resolution.member.snipRel ?? resolution.member.rel);
+          return !!provider && defines(provider.body) && validateVariantMember({ variantGroup: { name: resolution.member.group, provides: resolution.member.provides }, body: provider.body, capabilityRequirements }).length === 0;
+        }));
+        if (!supplied) findings.push({ code: "PAIR_WITH_MISSING_REQUIREMENT", detail: `${requirement.kind}:${requirement.name} on ${targetDevice} (${targetOS})` });
+      }
     }
   }
 
@@ -352,17 +429,24 @@ function jvdRootForSnip(absPath) {
 
 /** Parse + validate _snip-library.json content. Throws on malformed metadata. */
 export function parseSnipLibraryMeta(raw, label = "_snip-library.json") {
+  return parseLibraryValidation(raw, label).seenOnValidation;
+}
+
+export function parseLibraryValidation(raw, label = "_snip-library.json") {
   let meta;
   try {
     meta = JSON.parse(raw);
   } catch (e) {
     throw new Error(`${label}: invalid JSON (${e.message})`);
   }
-  if (meta.schemaVersion !== 1) throw new Error(`${label}: unsupported schemaVersion ${JSON.stringify(meta.schemaVersion)}`);
+  if (!meta || typeof meta !== "object" || Array.isArray(meta) || meta.schemaVersion !== 1) throw new Error(`${label}: unsupported schemaVersion`);
   if (meta.seenOnValidation !== "partial" && meta.seenOnValidation !== "complete") {
     throw new Error(`${label}: invalid seenOnValidation ${JSON.stringify(meta.seenOnValidation)}`);
   }
-  return meta.seenOnValidation;
+  for (const field of ["countValidation", "peersValidation"]) {
+    if (Object.hasOwn(meta, field) && meta[field] !== "partial" && meta[field] !== "complete") throw new Error(`${label}: invalid ${field}`);
+  }
+  return meta;
 }
 
 async function readSeenOnValidation(jvdRoot) {
@@ -371,10 +455,10 @@ async function readSeenOnValidation(jvdRoot) {
   try {
     raw = await fs.readFile(p, "utf8");
   } catch (e) {
-    if (e.code === "ENOENT") return "partial"; // genuinely absent = default partial
+    if (e.code === "ENOENT") return { seenOnValidation: "partial" };
     throw e;
   }
-  return parseSnipLibraryMeta(raw, p);
+  return parseLibraryValidation(raw, p);
 }
 
 async function walkSnips(dir, out = []) {
@@ -437,6 +521,7 @@ async function main() {
   const sovCache = new Map();
   const indexCache = new Map(); // jvdRoot -> Set of "<os>/<category>/<name>.conf"
   const membersByJvd = new Map(); // jvdRoot -> [member descriptors]
+  const dependenciesByJvd = new Map();
 
   // Pre-build per-JVD snip index for Pair-with resolution, and the variant
   // member index for cross-snip variant resolution.
@@ -452,6 +537,9 @@ async function main() {
     const os = osOfRel(relRepo);
     const parsedForMember = parseSnip(await fs.readFile(f, "utf8"));
     const { header } = parsedForMember;
+    if (!dependenciesByJvd.has(jvdRoot)) dependenciesByJvd.set(jvdRoot, new Map());
+    const relative = rel.slice(i + "/snips/".length);
+    dependenciesByJvd.get(jvdRoot).set(relative, { rel: relative, dir: os, seenOn: header?.seenOn, body: parsedForMember.body });
     if (os && header?.variantGroup) {
       if (!membersByJvd.has(jvdRoot)) membersByJvd.set(jvdRoot, []);
       membersByJvd.get(jvdRoot).push({
@@ -463,6 +551,7 @@ async function main() {
         variantGroup: header.variantGroup,
         bodyId: bodyIdentity(parsedForMember.body),
         rel: relRepo,
+        snipRel: relative,
       });
     }
   }
@@ -485,7 +574,8 @@ async function main() {
     }
     if (!sovCache.has(jvdRoot)) sovCache.set(jvdRoot, await readSeenOnValidation(jvdRoot));
     const inventory = invCache.get(jvdRoot);
-    const seenOnValidation = sovCache.get(jvdRoot);
+    const validation = sovCache.get(jvdRoot);
+    const seenOnValidation = validation.seenOnValidation;
     const snipIndex = indexCache.get(jvdRoot);
 
     const rel = path.relative(REPO_ROOT, f).split(path.sep).join("/");
@@ -501,6 +591,10 @@ async function main() {
       members: membersByJvd.get(jvdRoot) || [],
       selfRel: rel,
       capabilityRequirements: capabilityCache.get(jvdRoot),
+      countValidation: validation.countValidation,
+      peersValidation: validation.peersValidation,
+      enforceEvidenceEnrollment: true,
+      dependencyIndex: dependenciesByJvd.get(jvdRoot),
     });
     for (const fd of findings) {
       const sev = severity(fd.code, { changed: isChanged, seenOnValidation });

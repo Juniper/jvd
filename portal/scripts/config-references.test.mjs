@@ -6,6 +6,30 @@ import { auditLibrary } from "./library-completeness.mjs";
 const defs = (body) => extractConstructs(body).definitions.map((d) => `${d.kind}:${d.name}`);
 const refs = (body) => extractConstructs(body).references.map((r) => `${r.kind}:${r.name}`);
 
+test('transport-class auto-create requires the active global RD seed, not an explicit service RD', () => {
+  const consumer = 'routing-options { transport-class { auto-create; name gold { color 4000; } } }';
+  const requirement = extractConstructOccurrences(consumer).references.filter(row => row.kind === 'route-distinguisher-id');
+  assert.equal(requirement.length, 1);
+  assert.equal(requirement[0].name, 'global');
+  assert.equal(requirement[0].basis, 'functional-necessity');
+  assert.equal(requirement[0].wordIndex, -1);
+  assert.deepEqual(refs(consumer), ['route-distinguisher-id:global']);
+  assert.deepEqual(defs('routing-options { route-distinguisher-id 1.1.1.2; }'), ['route-distinguisher-id:global']);
+  assert.deepEqual(extractConstructOccurrences('routing-options { route-distinguisher-id 1.1.1.2; }').definitions.map(row => [row.kind, row.name]), [['route-distinguisher-id', 'global']]);
+  for (const body of [
+    'routing-options { inactive: route-distinguisher-id 1.1.1.2; }',
+    'inactive: routing-options { route-distinguisher-id 1.1.1.2; }',
+    'groups { UNUSED { routing-options { route-distinguisher-id 1.1.1.2; } } }',
+    'routing-instances { CUSTOMER { route-distinguisher 65000:1; routing-options { route-distinguisher-id 1.1.1.2; } } }',
+  ]) assert.equal(extractConstructOccurrences(body).definitions.filter(row => row.kind === 'route-distinguisher-id').length, 0, body);
+  for (const body of [
+    'routing-options { transport-class { inactive: auto-create; name gold { color 4000; } } }',
+    'routing-options { inactive: transport-class { auto-create; } }',
+    'groups { UNUSED { routing-options { transport-class { auto-create; } } } }',
+    'routing-instances { CUSTOMER { route-distinguisher 65000:1; } }',
+  ]) assert.equal(extractConstructOccurrences(body).references.filter(row => row.kind === 'route-distinguisher-id').length, 0, body);
+});
+
 test('MAC-VRF VLAN attachments and L3 gateways are exact logical-interface references', () => {
   const result = extractConstructOccurrences('routing-instances { V { instance-type mac-vrf; vlans { VLAN { interface ae1.100; l3-interface irb.100; } } } }');
   assert.deepEqual(result.references.map(row => [row.kind, row.name]), [['logical-interface', 'ae1.100'], ['logical-interface', 'irb.100']]);

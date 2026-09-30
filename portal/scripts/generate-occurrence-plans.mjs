@@ -21,6 +21,7 @@ export async function buildOccurrencePlan({ root = defaultRoot, device, entrySet
   const { snips } = await loadJvd(root);
   const matrixText = await fs.readFile(path.join(root, "configuration/snips/_composition.json"), "utf8");
   const matrix = JSON.parse(matrixText);
+  const metadata = JSON.parse(await fs.readFile(path.join(root, 'configuration/snips/_snip-library.json'), 'utf8').catch(error => { if (error.code === 'ENOENT') return '{}'; throw error; }));
   const exclusionsText = await fs.readFile(path.join(root, 'configuration/snips/_source-exclusions.json'), 'utf8').catch(error => { if (error.code === 'ENOENT') return 'null'; throw error; });
   const exclusions = JSON.parse(exclusionsText);
   const snipIndex = new Map(snips.map(snip => [snip.rel, snip]));
@@ -43,8 +44,14 @@ export async function buildOccurrencePlan({ root = defaultRoot, device, entrySet
     return matrix.occurrenceEntrySets[name];
   }))];
   assert.ok(paths.every(rel => snipIndex.has(rel)), "Entry path does not exist");
+  const nativePaths = metadata.osScopedMirrors?.length ? [...new Set(paths.map(rel => {
+    const original = snipIndex.get(rel);
+    if (original.dir === os) return rel;
+    const candidates = snips.filter(candidate => candidate.dir === os && candidate.seenOn[os]?.includes(device) && bodyIdentity(candidate.body) === bodyIdentity(original.body));
+    return candidates.sort((left, right) => left.rel.localeCompare(right.rel))[0]?.rel ?? rel;
+  }))] : paths;
   const resolver = createOccurrenceResolver({ sourceText, device, os, snips, exclusions });
-  const entries = paths.flatMap(rel => resolver.occurrences(rel)).filter(row => !service || row.binding.INSTANCE_NAME === service.instanceName);
+  const entries = nativePaths.flatMap(rel => resolver.occurrences(rel)).filter(row => !service || row.binding.INSTANCE_NAME === service.instanceName);
   assert.ok(entries.length, "No exact source entry occurrences");
   const closure = closeOccurrenceTuple({ entries, resolver, sourceSha256: resolver.sourceSha256, bindings: matrix.occurrenceBindings ?? [], headers, snipIndex, variantMembers, device, os, sourceRequirements: matrix.sourceRequirements ?? [], entrySets: matrix.occurrenceEntrySets ?? {}, capabilityRequirements: matrix.capabilityRequirements ?? {} });
   if (service) for (const consumer of entries) {

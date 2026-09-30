@@ -25,6 +25,65 @@ if (process.env.SNIP_VALIDATION_BASE) console.log(`[MEBS corpus] ${corpusScope.r
 const corpusTest = (name, roots, run) => test(name, { skip: selectCorpusCase(corpusScope.affected, roots?.length ? roots : null) ? false : 'No affected corpus inputs' }, () => run(roots));
 const transportEntries = [...new Set(['isis', 'flex-algo-definitions', 'colour-resolution'].flatMap(name => MATRIX.occurrenceEntrySets[name]))];
 
+corpusTest('MEBS transport-class forms retain the exact auto-RD seed across the source population', [
+  'junos/routing-options/route-distinguisher-id.conf', 'evo/routing-options/route-distinguisher-id.conf',
+  'junos/routing-options/transport-class.conf', 'evo/routing-options/transport-class.conf',
+  'junos/routing-options/transport-class-fallback-none.conf',
+  'junos/routing-options/transport-class-gold-bronze-anycast.conf',
+  'junos/routing-options/transport-class-gold-local-bronze-anycast.conf',
+], async roots => {
+  const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
+  const { loadJvd } = await import('./object-ownership.mjs');
+  const { snips } = await loadJvd(root);
+  const { extractConstructOccurrences } = await import('./config-references.mjs');
+  const { validateSnipText } = await import('./snip-validate.mjs');
+  const selected = snips.filter(row => roots.includes(row.rel));
+  const snipIndex = new Map(selected.map(row => [row.rel, row]));
+  const headers = new Map(selected.map(row => [row.rel, parseSnip(fs.readFileSync(path.join(root, 'configuration/snips', row.rel), 'utf8')).header]));
+  const providers = roots.filter(rel => rel.endsWith('/route-distinguisher-id.conf'));
+  const consumers = roots.filter(rel => !providers.includes(rel));
+  const actualConsumers = snips.filter(row => extractConstructOccurrences(row.body).references.some(reference => reference.kind === 'route-distinguisher-id')).map(row => row.rel).sort();
+  assert.deepEqual(actualConsumers, [...consumers].sort(), 'Every active auto-create form must be covered');
+  for (const rel of consumers) {
+    const text = fs.readFileSync(path.join(root, 'configuration/snips', rel), 'utf8');
+    const options = { dependencyIndex: snipIndex, capabilityRequirements: MATRIX.capabilityRequirements };
+    assert.ok(!validateSnipText(text, options).some(finding => finding.code === 'PAIR_WITH_MISSING_REQUIREMENT'), rel);
+    const undeclared = text.replace(/^\s*\*\s*-\s*[^\n]*\/route-distinguisher-id\.conf\r?\n/gm, '');
+    assert.notEqual(undeclared, text, 'Fixture must remove the real declaration');
+    assert.ok(validateSnipText(undeclared, options).some(finding => finding.code === 'PAIR_WITH_MISSING_REQUIREMENT'), `Removed declaration must fail: ${rel}`);
+  }
+  const osByDevice = new Map();
+  for (const row of snips) for (const os of ['junos', 'evo']) for (const device of row.seenOn[os] ?? []) osByDevice.set(device, os);
+  let seedDevices = 0;
+  let consumerDevices = 0;
+  for (const [device, os] of osByDevice) {
+    const sourceText = fs.readFileSync(path.join(root, 'configuration/conf', `${device}.conf`), 'utf8');
+    const resolver = createOccurrenceResolver({ sourceText, device, os, snips: selected });
+    const seeds = resolver.occurrences(providers[0]);
+    if (seeds.length) seedDevices++;
+    const sourceRequirements = extractConstructOccurrences(sourceText).references.filter(row => row.kind === 'route-distinguisher-id');
+    if (sourceRequirements.length) consumerDevices++;
+    for (const rel of consumers) {
+      const entries = resolver.occurrences(rel);
+      if (!entries.length) continue;
+      assert.equal(seeds.length, 1, device);
+      const args = { entries, resolver, sourceSha256: resolver.sourceSha256, headers, snipIndex, device, os, bindings: [], capabilityRequirements: MATRIX.capabilityRequirements };
+      const closure = closeOccurrenceTuple(args);
+      assert.deepEqual(closure.failures, [], `${device}:${rel}`);
+      const includedSeeds = closure.included.filter(row => providers.includes(row.rel));
+      assert.equal(includedSeeds.length, 1, `${device}:${rel}`);
+      const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
+      assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], `${device}:${rel}`);
+      if (device === 'an3_acx7100-48l') assert.equal(includedSeeds[0].binding.RD_SEED_AUTO, '1.1.1.2');
+      if (device === 'meg1_acx7100-32c') assert.equal(includedSeeds[0].binding.RD_SEED_AUTO, '1.1.1.6');
+      const withoutSeeds = new Map([...snipIndex].filter(([name]) => !providers.includes(name)));
+      assert.ok(closeOccurrenceTuple({ ...args, snipIndex: withoutSeeds }).failures.length > 0, 'Removed provider must not pass');
+    }
+  }
+  assert.equal(seedDevices, 18);
+  assert.equal(consumerDevices, 17);
+});
+
 corpusTest('VLAN-bundle and VPLS downstream attachments close all claimed source occurrences', ['evo/routing-instances/vpls/ri-bgp-vpls-export.conf', 'junos/routing-instances/vpls/ri-bgp-vpls-export.conf', 'evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf'], async consumers => {
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services');
   const { loadJvd } = await import('./object-ownership.mjs');
@@ -145,17 +204,33 @@ test('occurrence bindings include matching parent settings and every physical me
   }
 });
 
-test('scheduler maps select all six source definitions through existing occurrence bindings', () => {
+test('scheduler variants conserve 20 device outcomes through both map mirrors without overrides', async () => {
+  const { validateSnipText } = await import('./snip-validate.mjs');
   const root = path.join(REPO_ROOT, 'service_provider/metro_ethernet_business_services/configuration');
   const rels = ['junos', 'evo'].flatMap(os => [
     `${os}/class-of-service/scheduler-maps/sm-6class-mapping.conf`,
     `${os}/class-of-service/schedulers/sc-2-priority-model.conf`,
     `${os}/class-of-service/forwarding-classes/fc-6queue-model.conf`,
   ]);
+  rels.push('junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf', 'evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf');
   const parsed = rels.map(rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, 'snips', rel), 'utf8')) }));
   const snips = parsed.map(row => ({ rel: row.rel, dir: row.rel.split('/')[0], seenOn: row.header.seenOn, body: row.body }));
   const headers = new Map(parsed.map(row => [row.rel, row.header]));
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
+  const maps = rels.filter(rel => rel.includes('/scheduler-maps/'));
+  const schedulerPaths = rels.filter(rel => rel.includes('/schedulers/'));
+  const variantMembers = parsed.filter(row => row.header.variantGroup).map(row => ({ ...snipIndex.get(row.rel), os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides }));
+  const oldBindings = maps.map(consumer => ({ consumer, kind: 'scheduler', scope: 'whole', declaredDependency: `${consumer.split('/')[0]}/class-of-service/schedulers/sc-2-priority-model.conf`, providers: schedulerPaths }));
+  const oldHeaders = new Map(headers);
+  for (const binding of oldBindings) {
+    const header = headers.get(binding.consumer);
+    assert.deepEqual(header.pairWith, [`${binding.consumer.split('/')[0]}/class-of-service/forwarding-classes/fc-6queue-model.conf`]);
+    assert.deepEqual(header.variantRequires, [{ group: 'mebs-cos-schedulers', families: ['cos:schedulers'] }]);
+    assert.ok(!MATRIX.occurrenceBindings.some(row => row.consumer === binding.consumer && row.kind === 'scheduler'), 'Obsolete override must be absent, not repointed');
+    oldHeaders.set(binding.consumer, { ...header, pairWith: [...header.pairWith, binding.declaredDependency], variantRequires: [] });
+  }
+  const distribution = new Map(maps.map(rel => [rel, { transmit: 0, shaping: 0 }]));
+  const checkedDevices = new Set();
   let checked = 0;
   for (const file of fs.readdirSync(path.join(root, 'conf')).filter(file => file.endsWith('.conf'))) {
     const device = file.slice(0, -5);
@@ -163,10 +238,9 @@ test('scheduler maps select all six source definitions through existing occurren
     assert.ok(os, device);
     const sourceText = fs.readFileSync(path.join(root, 'conf', file), 'utf8');
     const resolver = createOccurrenceResolver({ sourceText, device, os, snips });
-    for (const rel of rels.filter(rel => rel.includes('/scheduler-maps/'))) {
-      const declared = `${rel.split('/')[0]}/class-of-service/schedulers/sc-2-priority-model.conf`;
-      assert.ok(headers.get(rel).pairWith.includes(declared), 'The required scheduler declaration must remain');
-      const args = { entries: resolver.occurrences(rel), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, bindings: MATRIX.occurrenceBindings };
+    checkedDevices.add(device);
+    for (const rel of maps) {
+      const args = { entries: resolver.occurrences(rel), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, bindings: [], variantMembers, capabilityRequirements: MATRIX.capabilityRequirements };
       assert.equal(args.entries.length, 1, `${rel}:${device}`);
       const closure = closeOccurrenceTuple(args);
       assert.deepEqual(closure.failures, [], `${rel}:${device}`);
@@ -175,7 +249,12 @@ test('scheduler maps select all six source definitions through existing occurren
       assert.equal(new Set(schedulerReferences.map(reference => reference.name)).size, 6);
       const providers = closure.included.filter(row => row.rel.includes('/schedulers/'));
       assert.equal(providers.length, 1);
-      assert.ok(closure.edges.some(edge => edge.requirement === declared && edge.to === providers[0].id));
+      assert.equal(providers[0].rel.split('/')[0], os, 'The selected provider must be native');
+      distribution.get(rel)[providers[0].rendered.includes('shaping-rate percent 40;') ? 'shaping' : 'transmit']++;
+      assert.ok(closure.edges.some(edge => edge.requirement === 'variant:mebs-cos-schedulers' && edge.to === providers[0].id));
+      const previous = closeOccurrenceTuple({ ...args, headers: oldHeaders, bindings: oldBindings });
+      assert.deepEqual(previous.failures, []);
+      assert.deepEqual(closure.included.map(row => row.id).sort(), previous.included.map(row => row.id).sort(), `${rel}:${device}: preserve every old emitted occurrence`);
       for (const reference of schedulerReferences) {
         const resolution = resolver.resolve({ consumerId: args.entries[0].id, sourceSha256: resolver.sourceSha256, ...reference, candidates: [providers[0].rel], scope: 'whole' });
         assert.equal(resolution.status, 'ok');
@@ -186,19 +265,24 @@ test('scheduler maps select all six source definitions through existing occurren
       assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, []);
       const missing = resolver.render({ ids: closure.included.filter(row => row.id !== providers[0].id).map(row => row.id), sourceSha256: resolver.sourceSha256 });
       assert.ok(verifyOccurrenceEmission({ ...args, closure, rendered: missing }).failures.length);
-      const withoutProvider = new Map(snipIndex);
-      withoutProvider.delete(providers[0].rel);
-      assert.ok(closeOccurrenceTuple({ ...args, snipIndex: withoutProvider }).failures.some(row => row.kind === 'dependency-invalid-binding'));
-      const badScope = MATRIX.occurrenceBindings.map(binding => binding.consumer === rel && binding.kind === 'scheduler' ? { ...binding, scope: 'object' } : binding);
-      assert.ok(closeOccurrenceTuple({ ...args, bindings: badScope }).failures.some(row => row.kind === 'dependency-invalid-binding'));
-      if (providers[0].rel !== declared) {
-        const noSelection = MATRIX.occurrenceBindings.map(binding => binding.consumer === rel && binding.kind === 'scheduler' ? { ...binding, declaredDependency: undefined } : binding);
-        assert.ok(closeOccurrenceTuple({ ...args, bindings: noSelection }).failures.some(row => row.kind === 'dependency-unavailable'));
-      }
+      assert.ok(closeOccurrenceTuple({ ...args, variantMembers: variantMembers.filter(row => row.rel !== providers[0].rel) }).failures.some(row => row.kind === 'variant-unavailable'));
+      const undeclaredHeaders = new Map(headers);
+      undeclaredHeaders.set(rel, { ...headers.get(rel), variantRequires: [] });
+      assert.ok(closeOccurrenceTuple({ ...args, headers: undeclaredHeaders }).failures.some(row => row.kind === 'missing-reference-rule'));
+      const masked = closeOccurrenceTuple({ ...args, headers: undeclaredHeaders, bindings: oldBindings });
+      assert.deepEqual(masked.failures, [], 'Old override can mask the missing public declaration internally');
+      const text = fs.readFileSync(path.join(root, 'snips', rel), 'utf8');
+      const validationOptions = { dependencyIndex: snipIndex, jvd: 'mebs', members: variantMembers, capabilityRequirements: MATRIX.capabilityRequirements };
+      assert.deepEqual(validateSnipText(text, validationOptions), []);
+      const undeclared = text.replace(/^.*variant:mebs-cos-schedulers.*\n/gm, '');
+      assert.notEqual(undeclared, text);
+      assert.ok(validateSnipText(undeclared, { ...validationOptions, occurrenceBindings: oldBindings }).some(row => row.code === 'PAIR_WITH_MISSING_REQUIREMENT'));
       checked++;
     }
   }
   assert.equal(checked, 40);
+  assert.equal(checkedDevices.size, 20);
+  for (const counts of distribution.values()) assert.deepEqual(counts, { transmit: 9, shaping: 11 });
 });
 
 corpusTest('MEBS parent and member bindings close every claimed unit occurrence', [...new Set(MATRIX.occurrenceBindings.filter(row => ['interface-parent', 'lag-member'].includes(row.kind)).map(row => row.consumer))], async consumers => {
@@ -221,14 +305,14 @@ corpusTest('MEBS parent and member bindings close every claimed unit occurrence'
       const args = { entries, resolver, sourceSha256: resolver.sourceSha256, headers, snipIndex, variantMembers, device, os, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
       const closure = closeOccurrenceTuple(args);
       assert.deepEqual(closure.failures, [], `${device}:${rel}`);
-      if (rel === 'junos/interfaces/core-isis-mpls.conf') {
+      if (['junos/interfaces/core-isis-mpls.conf', 'evo/interfaces/core-isis-mpls-interface.conf'].includes(rel)) {
         aggregateCount += entries.length;
         for (const entry of entries) {
           const selected = resolver.resolveRelated({ consumerId: entry.id, sourceSha256: resolver.sourceSha256, kind: 'lag-member', candidates: MATRIX.occurrenceBindings.find(row => row.consumer === rel && row.kind === 'lag-member').providers });
           assert.equal(selected.status, 'ok');
           assert.equal(selected.selected.length, 1);
           for (const member of selected.selected) {
-            assert.ok(closure.edges.some(edge => edge.from === entry.id && edge.to === member.id && edge.requirement === 'junos/interfaces/ifd-core-lag-member.conf'));
+            assert.ok(closure.edges.some(edge => edge.from === entry.id && edge.to === member.id && edge.requirement === `${rel.split('/')[0]}/interfaces/ifd-core-lag-member.conf`));
             if (member.rel === 'evo/interfaces/ifd-lag-member-ether.conf') {
               assert.equal(device, 'meg2_acx7509');
               assert.equal(entry.binding.CORE_PHYS, 'ae4');
@@ -404,8 +488,8 @@ corpusTest('MCP-reported FAT-PW, physical-member and filter consumers close ever
         const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
         assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], `${rel}:${device}`);
         if (rel.includes('vlan-map-filter')) {
-          assert.ok(closure.included.some(row => row.rel === 'evo/firewall/filter-family-any-50mb.conf'));
-          assert.ok(closure.included.some(row => row.rel.endsWith('/firewall/policers.conf')));
+          assert.ok(closure.included.some(row => row.rel === `${os}/firewall/filter-family-any-50mb.conf`));
+          assert.ok(closure.included.some(row => row.rel === (os === 'junos' ? 'junos/firewall/policers-2m-burst.conf' : 'evo/firewall/policers.conf')));
         }
       }
     }
@@ -538,7 +622,7 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
       checkedDevices.add(device);
       const suffix = { an4_acx710: "-fallback-none", mse1_mx304: "-gold-local-bronze-anycast", mse2_mx304: "-gold-bronze-anycast" }[device] ?? "";
       const provider = load(`${os}/routing-options/transport-class${suffix}.conf`);
-      const selectedSnips = [consumer, provider, ...consumer.header.pairWith.map(load)];
+      const selectedSnips = [consumer, provider, ...consumer.header.pairWith.map(load), ...provider.header.pairWith.map(load)];
       assert.ok(provider.header.seenOn[os].includes(device));
       const request = { group: consumer.header.variantRequires[0].group, selectors: consumer.header.variantRequires[0].families, consumerJvd: "mebs", targetDevice: device, targetOS: os, members };
       const selected = resolveVariant(request);
@@ -567,6 +651,7 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
       assert.deepEqual(closure.failures, [], device);
       assert.ok(closure.included.some(row => row.rel === provider.rel), device);
       for (const fixed of consumer.header.pairWith) assert.ok(closure.included.some(row => row.rel === fixed), `${device}: retained ${fixed}`);
+      for (const fixed of provider.header.pairWith) assert.ok(closure.included.some(row => row.rel === fixed), `${device}: transitive prerequisite ${fixed}`);
       const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
       assert.deepEqual(verifyOccurrenceEmission({ ...closureArgs, closure, rendered }).failures, [], device);
       const missing = resolver.render({ ids: closureArgs.entries.map(row => row.id), sourceSha256: resolver.sourceSha256 });
@@ -576,22 +661,22 @@ corpusTest("all resolution headers conserve policy edges and resolve transport p
   assert.equal(checkedDevices.size, 17);
 });
 
-corpusTest("filter applicability and policer closure reconstruct on all seven devices including AN1", ['evo/firewall/filter-family-any-50mb.conf', 'evo/firewall/policers.conf', 'junos/firewall/policers.conf'], () => {
+corpusTest("filter applicability and policer closure reconstruct on all seven devices including AN1", ['evo/firewall/filter-family-any-50mb.conf', 'junos/firewall/filter-family-any-50mb.conf', 'evo/firewall/policers.conf', 'junos/firewall/policers.conf', 'junos/firewall/policers-2m-burst.conf'], () => {
   const root = path.join(REPO_ROOT, "service_provider/metro_ethernet_business_services/configuration");
-  const paths = ["evo/firewall/filter-family-any-50mb.conf", "evo/firewall/policers.conf", "junos/firewall/policers.conf"];
+  const paths = ["evo/firewall/filter-family-any-50mb.conf", "evo/firewall/policers.conf", "junos/firewall/policers.conf", "junos/firewall/filter-family-any-50mb.conf", "junos/firewall/policers-2m-burst.conf"];
   const parsed = paths.map(rel => ({ rel, ...parseSnip(fs.readFileSync(path.join(root, "snips", rel), "utf8")) }));
   const snips = parsed.map(row => ({ rel: row.rel, dir: row.rel.split('/')[0], body: row.body, seenOn: row.header.seenOn }));
   const headers = new Map(parsed.map(row => [row.rel, row.header]));
   const snipIndex = new Map(snips.map(row => [row.rel, row]));
-  const variantMembers = parsed.slice(1).map(row => ({ rel: row.rel, os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides, body: row.body, seenOn: row.header.seenOn }));
+  const variantMembers = parsed.filter(row => row.header.variantGroup).map(row => ({ rel: row.rel, os: row.rel.split('/')[0], jvd: 'mebs', group: row.header.variantGroup.name, provides: row.header.variantGroup.provides, body: row.body, seenOn: row.header.seenOn }));
   let checked = 0;
-  for (const os of ['junos', 'evo']) for (const device of parsed[0].header.seenOn[os]) {
+  for (const os of ['junos', 'evo']) for (const device of parsed[os === 'junos' ? 3 : 0].header.seenOn[os]) {
     const resolver = createOccurrenceResolver({ sourceText: fs.readFileSync(path.join(root, 'conf', `${device}.conf`), 'utf8'), device, os, snips });
-    const args = { entries: resolver.occurrences(paths[0]), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, variantMembers, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
+    const args = { entries: resolver.occurrences(paths[os === 'junos' ? 3 : 0]), resolver, sourceSha256: resolver.sourceSha256, device, os, headers, snipIndex, variantMembers, bindings: MATRIX.occurrenceBindings, capabilityRequirements: MATRIX.capabilityRequirements };
     assert.equal(args.entries.length, 1);
     const closure = closeOccurrenceTuple(args);
     assert.deepEqual(closure.failures, [], device);
-    const provider = device === 'an1_mx204' ? paths[2] : paths[1];
+    const provider = device === 'an1_mx204' ? paths[2] : paths[os === 'junos' ? 4 : 1];
     assert.ok(closure.included.some(row => row.rel === provider));
     const rendered = resolver.render({ ids: closure.included.map(row => row.id), sourceSha256: resolver.sourceSha256 });
     assert.deepEqual(verifyOccurrenceEmission({ ...args, closure, rendered }).failures, [], device);
@@ -603,6 +688,16 @@ corpusTest("filter applicability and policer closure reconstruct on all seven de
     checked++;
   }
   assert.equal(checked, 7);
+});
+
+test('cross-directory declarations fail before an occurrence override can hide them', () => {
+  const consumer = { rel: 'junos/consumer.conf', dir: 'junos', body: 'protocols { isis { export policy; } }', seenOn: { junos: ['d1'], evo: [] } };
+  const provider = { rel: 'evo/provider.conf', dir: 'evo', body: 'policy-options { policy-statement policy { then accept; } }', seenOn: consumer.seenOn };
+  const snips = [consumer, provider];
+  const resolver = createOccurrenceResolver({ sourceText: snips.map(row => row.body).join('\n'), device: 'd1', os: 'junos', snips });
+  const headers = new Map([[consumer.rel, { pairWith: [provider.rel] }], [provider.rel, {}]]);
+  const args = { entries: resolver.occurrences(consumer.rel), resolver, sourceSha256: resolver.sourceSha256, device: 'd1', os: 'junos', snipIndex: new Map(snips.map(row => [row.rel, row])), headers, bindings: [{ consumer: consumer.rel, kind: 'policy-statement', scope: 'whole', declaredDependency: provider.rel, providers: [provider.rel] }] };
+  assert.ok(closeOccurrenceTuple(args).failures.some(row => row.kind === 'dependency-cross-os'));
 });
 
 test("parsed variant prerequisites reach both closures and traverse member dependencies", () => {

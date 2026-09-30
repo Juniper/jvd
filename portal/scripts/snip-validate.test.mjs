@@ -32,6 +32,116 @@ test("clean snip produces no findings", () => {
   assert.deepEqual(findings, []);
 });
 
+test("fixed Pair-with paths never cross the consumer storage directory", () => {
+  for (const os of ['junos', 'evo']) {
+    const other = os === 'junos' ? 'evo' : 'junos';
+    const index = new Set([`${os}/groups/provider.conf`, `${other}/groups/provider.conf`]);
+    assert.ok(codes(validateSnipText(snip({ pair: `${other}/groups/provider.conf` }), { os, snipIndex: index })).includes(CODES.PAIR_WITH_CROSS_OS));
+    assert.ok(!codes(validateSnipText(snip({ pair: `${os}/groups/provider.conf` }), { os, snipIndex: index })).includes(CODES.PAIR_WITH_CROSS_OS));
+  }
+  assert.equal(severity(CODES.PAIR_WITH_CROSS_OS, { changed: false, seenOnValidation: 'partial' }), 'error');
+});
+
+test("native mirror gaps block complete libraries and changed files, not legacy partial libraries", () => {
+  const body = 'routing-options { router-id 192.0.2.1; }';
+  const text = snip({ body, seenEvo: 'other' });
+  const mirror = { rel: 'evo/alternate.conf', dir: 'evo', body, seenOn: { junos: [], evo: ['other'] } };
+  const options = { os: 'junos', dependencyIndex: new Map([[mirror.rel, mirror]]) };
+  const missing = context => codes(validateSnipText(text, context)).includes(CODES.SEEN_ON_MISSING_OS_MIRROR);
+  assert.equal(missing(options), false);
+  assert.equal(missing({ ...options, dependencyIndex: new Map() }), true);
+  assert.equal(missing({ ...options, dependencyIndex: new Map([[mirror.rel, { ...mirror, body: body.replace('192.0.2.1', '192.0.2.2') }]]) }), true);
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'complete' }), 'error');
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: false, seenOnValidation: 'partial' }), 'warn');
+  assert.equal(severity(CODES.SEEN_ON_MISSING_OS_MIRROR, { changed: true, seenOnValidation: 'partial' }), 'error');
+});
+
+test("auto-RD consumers must declare an applicable seed provider or contain it", () => {
+  const body = "routing-options { transport-class { auto-create; } }";
+  const seed = { rel: "junos/seed.conf", dir: "junos", seenOn: { junos: ["mse1_mx304"], evo: [] }, body: "routing-options { route-distinguisher-id 1.1.1.2; }" };
+  const index = new Map([[seed.rel, seed]]);
+  const missing = text => codes(validateSnipText(text, { dependencyIndex: index })).includes("PAIR_WITH_MISSING_REQUIREMENT");
+  assert.equal(missing(snip({ body })), true);
+  assert.equal(missing(snip({ body, pair: seed.rel })), false);
+  assert.equal(missing(snip({ body: "routing-options { route-distinguisher-id 1.1.1.2; transport-class { auto-create; } }" })), false);
+  index.set(seed.rel, { ...seed, seenOn: { junos: ["other"], evo: [] } });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  index.set("evo/seed.conf", { ...seed, rel: "evo/seed.conf", dir: "evo" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), false);
+  index.delete("evo/seed.conf");
+  index.set(seed.rel, { ...seed, body: "routing-instances { V { route-distinguisher 65000:1; } }" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  index.set(seed.rel, { ...seed, body: "routing-options { inactive: route-distinguisher-id 1.1.1.2; }" });
+  assert.equal(missing(snip({ body, pair: seed.rel })), true);
+  assert.equal(missing(snip({ body: "routing-instances { V { route-distinguisher 65000:1; } }" })), false);
+});
+
+test("scheduler declarations are enforced only for enrolled JVDs and cannot rely on internal bindings", () => {
+  const body = 'class-of-service { scheduler-maps { arbitrary { forwarding-class queue scheduler alpha; } } }';
+  const provider = { rel: 'evo/provider.conf', dir: 'evo', os: 'evo', jvd: 'fixture', group: 'custom', provides: ['cos:schedulers'], seenOn: { junos: ['mse1_mx304'], evo: [] }, body: 'class-of-service { schedulers { alpha { priority low; } } }' };
+  const dependencyIndex = new Map([[provider.rel, provider]]);
+  const capabilityRequirements = { custom: { 'cos:schedulers': { schedulers: ['alpha'] } } };
+  const options = { dependencyIndex, capabilityRequirements, jvd: 'fixture', members: [provider] };
+  const missing = (text, context = options) => codes(validateSnipText(text, context)).includes('PAIR_WITH_MISSING_REQUIREMENT');
+  const declared = snip({ body, pair: 'variant:custom capabilities=cos:schedulers' });
+  assert.equal(missing(declared), false);
+  assert.equal(missing(declared, { ...options, members: [{ ...provider, rel: `service_provider/fixture/configuration/snips/${provider.rel}`, snipRel: provider.rel }] }), false);
+  assert.equal(missing(snip({ body, pair: provider.rel })), false);
+  assert.equal(missing(snip({ body })), true);
+  assert.equal(missing(snip({ body }), { ...options, capabilityRequirements: {} }), false);
+  assert.equal(missing(snip({ body }), { ...options, occurrenceBindings: [{ consumer: 'map', kind: 'scheduler', providers: [provider.rel] }] }), true);
+  assert.equal(missing(declared, { ...options, members: [] }), true);
+  assert.equal(missing(declared, { ...options, members: [{ ...provider, seenOn: { junos: ['other'], evo: [] } }] }), true);
+  assert.equal(missing(declared, { ...options, members: [provider, { ...provider, rel: 'evo/other.conf', body: provider.body.replace('low', 'high') }] }), true);
+  for (const invalid of [`inactive: ${provider.body}`, `groups { UNUSED { ${provider.body} } }`, provider.body.replace('alpha { priority low; }', 'alpha {}'), provider.body.replace('alpha { priority low; }', 'alpha { priority low; } alpha { priority low; }')]) {
+    assert.equal(missing(declared, { ...options, dependencyIndex: new Map([[provider.rel, { ...provider, body: invalid }]]) }), true);
+  }
+});
+
+function measuredSnip(count = "mse1_mx304 2\n *   total 2", peers = "[mse1_mx304] <-> [mse2_mx304]") {
+  return snip({})
+    .replace(" * Pair with:", ` * Count:\n *   ${count}\n * Pair with:`)
+    .replace(" * Variables:", ` * Peers with:\n *   ${peers}\n * Variables:`);
+}
+
+test("generated Count and Peers parse without becoming dependencies", () => {
+  const text = measuredSnip();
+  const { header, diagnostics } = parseSnip(text);
+  assert.deepEqual(diagnostics, []);
+  assert.deepEqual({ ...header.count.byDevice }, { mse1_mx304: 2 });
+  assert.equal(header.count.total, 2);
+  assert.deepEqual(header.peersWith, { state: "groups", groups: [{ left: ["mse1_mx304"], right: ["mse2_mx304"] }] });
+  assert.deepEqual(header.pairWith, ["none"]);
+  assert.deepEqual(validateSnipText(text, { inventory: INVENTORY }), []);
+});
+
+test("generated fields preserve unknown, none and not-applicable as distinct states", () => {
+  const legacy = parseSnip(snip({})).header;
+  assert.equal(legacy.count, undefined);
+  assert.equal(legacy.peersWith, undefined);
+  assert.deepEqual(parseSnip(measuredSnip(undefined, "(none)")).header.peersWith, { state: "none" });
+  assert.deepEqual(parseSnip(measuredSnip(undefined, "n/a")).header.peersWith, { state: "not-applicable" });
+});
+
+test("Count rejects malformed rows, duplicate devices, unsafe values and inconsistent totals", () => {
+  for (const value of ["", "total 1", "mse1_mx304 0\n *   total 0", "mse1_mx304 -1\n *   total -1", "mse1_mx304 1.5\n *   total 1.5", "mse1_mx304 9007199254740992\n *   total 9007199254740992", "mse1_mx304 1\n *   mse1_mx304 1\n *   total 2", "mse1_mx304 2", "mse1_mx304 2\n *   total 3", "total 2\n *   mse1_mx304 2", "mse1_mx304 2\n *   total 2\n *   total 2"]) {
+    assert.ok(parseSnip(measuredSnip(value)).diagnostics.some(({ code }) => code.startsWith("COUNT_")), value);
+  }
+});
+
+test("Peers rejects mixed states, malformed groups, self edges and duplicate edges", () => {
+  for (const value of ["", "none", "unknown", "[mse1_mx304] -> [mse2_mx304]", "[] <-> [mse2_mx304]", "[mse1_mx304, mse1_mx304] <-> [mse2_mx304]", "[mse1_mx304] <-> [mse1_mx304]", "(none)\n *   [mse1_mx304] <-> [mse2_mx304]", "[mse1_mx304] <-> [mse2_mx304]\n *   [mse2_mx304] <-> [mse1_mx304]"]) {
+    assert.ok(parseSnip(measuredSnip(undefined, value)).diagnostics.some(({ code }) => code.startsWith("PEERS_")), value);
+  }
+});
+
+test("generated claims resolve devices and Count agrees with Seen on", () => {
+  const findings = validateSnipText(measuredSnip("ghost 2\n *   total 2", "[mse1_mx304] <-> [ghost]"), { inventory: INVENTORY });
+  for (const code of ["COUNT_UNKNOWN_DEVICE", "COUNT_SEEN_ON_MISMATCH", "PEERS_UNKNOWN_DEVICE"]) assert.ok(codes(findings).includes(code), code);
+  assert.equal(severity("COUNT_MALFORMED", { changed: false, seenOnValidation: "partial" }), "error");
+  assert.equal(severity("PEERS_MALFORMED", { changed: false, seenOnValidation: "partial" }), "error");
+});
+
 test("native-OS guard: evo/** snip with EVO:(none) -> SEEN_ON_NATIVE_EMPTY", () => {
   const text = snip({ seenJunos: "mse1_mx304", seenEvo: "(none)" });
   const found = codes(validateSnipText(text, { inventory: INVENTORY, snipIndex: new Set(), os: "evo" }));
@@ -107,13 +217,13 @@ test("scenario-qualified path token resolves end-to-end (no non-device / unknown
   assert.ok(!found.includes(CODES.SEEN_ON_UNKNOWN_DEVICE));
 });
 
-test("a reserved field after Pair with does not leak its bullets into dependencies", () => {
+test("a malformed peer field after Pair with does not leak its bullets into dependencies", () => {
   const text =
     `/*\n * Topic:   x\n * Seen on:\n *   Junos: mse1_mx304\n *   EVO:   (none)\n` +
     ` * Pair with:\n *  - junos/policy/real.conf\n * Peers with:\n *  - junos/other/leaked.conf\n */\n` +
     `routing-options {\n    autonomous-system 65000;\n}\n`;
   const parsed = parseSnip(text);
-  assert.ok(codes(parsed.diagnostics).includes(CODES.UNKNOWN_HEADER_SECTION));
+  assert.ok(codes(parsed.diagnostics).includes(CODES.PEERS_MALFORMED));
   assert.deepEqual(parsed.header.pairWith, ["junos/policy/real.conf"]);
 });
 

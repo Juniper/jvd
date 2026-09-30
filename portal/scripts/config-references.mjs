@@ -84,6 +84,7 @@ function definitionOf(node, trail) {
   const w = node.words;
   const parent = trail[trail.length - 1] || "";
   if (node.children === null) {
+    if (trail.length === 1 && parent === 'routing-options' && w[0] === 'route-distinguisher-id' && w.length === 2) return { kind: 'route-distinguisher-id', name: 'global' };
     // `community NAME members ...;`
     if (isCommunityDefinitionLeaf(w)) return { kind: "community", name: w[1] };
     return null;
@@ -111,6 +112,9 @@ function walkNodes(nodes, trail, visit) {
 
 function referencesOf(node, trail) {
   if (node.children !== null || isCommunityDefinitionLeaf(node.words)) return [];
+  if (trail.join('/') === 'routing-options/transport-class' && node.words.length === 1 && node.words[0] === 'auto-create') {
+    return [{ kind: 'route-distinguisher-id', name: 'global', wordIndex: -1, basis: 'functional-necessity' }];
+  }
   if (trail.length === 3 && trail[0] === 'class-of-service' && trail[1] === 'classifiers' && trail[2].startsWith('exp ') && node.words.join(' ') === 'import default') return [];
   const parent = trail.at(-1) || "";
   for (const rule of REFERENCE_RULES) {

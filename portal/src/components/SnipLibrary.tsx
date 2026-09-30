@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import {
   Search,
   Github,
@@ -492,6 +492,39 @@ function SnipDetail({
             )}
           </Section>
         )}
+
+        {snip.count && (
+          <Section title="Source instances">
+            <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
+              {Object.entries(snip.count.byDevice).map(([device, count]) => (
+                <Fragment key={device}>
+                  <dt className="min-w-0 break-all font-mono text-muted-foreground">{device}</dt>
+                  <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
+                </Fragment>
+              ))}
+              <dt className="border-t border-border pt-1 font-semibold">Total</dt>
+              <dd className="border-t border-border pt-1 text-right font-semibold tabular-nums">{snip.count.total.toLocaleString()}</dd>
+            </dl>
+          </Section>
+        )}
+
+        <Section title="Configured peers">
+          {!snip.peersWith ? (
+            <p className="text-xs text-muted-foreground">Not verified</p>
+          ) : snip.peersWith.state === "groups" ? (
+            <ul className="space-y-1.5 text-xs">
+              {snip.peersWith.groups.map((group, index) => (
+                <li key={index} className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2">
+                  <span className="min-w-0 break-all font-mono">{group.left.join(", ")}</span>
+                  <span aria-label="configured peer relationship">&harr;</span>
+                  <span className="min-w-0 break-all font-mono">{group.right.join(", ")}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-muted-foreground">{snip.peersWith.state === "none" ? "No validated counterpart" : "Not applicable"}</p>
+          )}
+        </Section>
 
         {snip.highlights.length > 0 && (
           <Section title="Highlights">

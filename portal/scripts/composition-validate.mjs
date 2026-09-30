@@ -89,7 +89,13 @@ export function resolutionTransportColors(body) {
 }
 
 function sourceWitnesses({ consumer, requirement, resolver, entrySets }) {
-  const candidates = (entrySets[requirement.entrySet] ?? []).flatMap(rel => resolver.occurrences(rel));
+  const representations = new Map();
+  for (const candidate of (entrySets[requirement.entrySet] ?? []).flatMap(rel => resolver.occurrences(rel))) {
+    const key = JSON.stringify([candidate.sourceIds, candidate.rendered]);
+    const previous = representations.get(key);
+    if (!previous || candidate.rel.startsWith(`${consumer.os}/`) && !previous.rel.startsWith(`${consumer.os}/`)) representations.set(key, candidate);
+  }
+  const candidates = [...representations.values()];
   if (requirement.kind === 'resolution-transport-class') {
     return resolutionTransportColors(consumer.rendered).map(color => {
       const matching = candidates.filter(row => extractConstructOccurrences(row.rendered).definitions.some(definition => definition.kind === 'transport-class' && definition.name === color));
@@ -307,6 +313,11 @@ function declaredDependencies({ header, device, os, snipIndex, variantMembers = 
     const raw = String(bullet).replace(/^-\s*/, "").trim();
     if (!raw || /^none$/i.test(raw)) continue;
     const targetRel = dependencyPath(raw);
+    const consumerOS = consumer?.split('/')[0];
+    if (['junos', 'evo'].includes(consumerOS) && /^(junos|evo)\//.test(targetRel ?? '') && targetRel.split('/')[0] !== consumerOS) {
+      dependencies.push({ requirement: raw, failure: 'dependency-cross-os' });
+      continue;
+    }
     const mapped = bindings.filter(binding => binding.consumer === consumer && binding.declaredDependency === targetRel);
     if (mapped.length) {
       const binding = mapped[0];

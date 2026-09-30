@@ -40,6 +40,10 @@ jobs:
         run: node portal/scripts/generate-snips.mjs --check
       - name: Validate changed snips against the contract
         run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
+      - name: Verify enrolled Count and peer evidence
+        env:
+          VALIDATION_BASE: ${{ github.event.pull_request.base.sha }}
+        run: npm --prefix portal run snips:evidence -- --base "$VALIDATION_BASE"
       - name: Named objects have exactly one applicable owner
         if: steps.scope.outputs.required == 'true'
         run: node portal/scripts/object-ownership.mjs --jvd service_provider/metro_ethernet_business_services

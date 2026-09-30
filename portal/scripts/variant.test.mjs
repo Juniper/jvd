@@ -472,6 +472,37 @@ test("JVD capability declarations are isolated and checked against structural fa
   assert.deepEqual(extractConfiguredCapabilities('firewall { policer custom { if-exceeding { bandwidth-limit 25m; } then discard; } }', { "firewall:policers": { policers: ["custom"] } }), ["firewall:policers"]);
 });
 
+test("scheduler capabilities use only the declaring JVD's configured names", () => {
+  const token = 'cos:schedulers';
+  const body = 'class-of-service { schedulers { alpha { priority low; } beta { priority high; } } }';
+  const capabilityRequirements = { sample: { [token]: { schedulers: ['alpha', 'beta'] } } };
+  const variantGroup = { name: 'sample', provides: [token] };
+  assert.deepEqual(capabilityRequirementProblems(capabilityRequirements), []);
+  assert.deepEqual(validateVariantMember({ variantGroup, body, capabilityRequirements }), []);
+  assert.deepEqual(extractConfiguredCapabilities(body), []);
+  assert.deepEqual(configuredCapabilityProblems({}, body), []);
+  assert.deepEqual(configuredCapabilityProblems({}, body, capabilityRequirements), []);
+  assert.ok(validateVariantMember({ variantGroup, body }).length);
+  assert.deepEqual(extractConfiguredCapabilities(body, { [token]: { schedulers: ['gamma'] } }), []);
+  assert.deepEqual(extractConfiguredCapabilities(body.replaceAll('alpha', 'gamma').replaceAll('beta', 'delta'), { [token]: { schedulers: ['gamma', 'delta'] } }), [token]);
+  for (const invalid of [
+    body.replace('beta { priority high; }', ''),
+    body.replace('beta { priority high; }', 'beta {}'),
+    body.replace('beta { priority high; }', 'beta { inactive: priority high; }'),
+    body.replace('beta { priority high; }', 'beta { priority high; } beta { priority low; }'),
+    body.replace('beta { priority high; }', 'beta { priority high; } beta {}'),
+    body.replace('beta {', 'inactive: beta {'),
+    `inactive: ${body}`, `groups { UNUSED { ${body} } }`,
+    `routing-instances { OTHER { ${body} } }`, `/* ${body} */`, body.slice(0, -1),
+  ]) assert.deepEqual(extractConfiguredCapabilities(invalid, capabilityRequirements.sample), [], invalid);
+  const consumer = { variantRequires: [{ group: 'sample', families: [token] }] };
+  const map = 'class-of-service { scheduler-maps { custom { forwarding-class arbitrary scheduler beta; } } }';
+  assert.deepEqual(configuredCapabilityProblems(consumer, map, capabilityRequirements), []);
+  assert.ok(configuredCapabilityProblems(consumer, map, { sample: { [token]: { schedulers: ['alpha'] } } }).length);
+  assert.deepEqual(configuredCapabilityProblems({}, map), []);
+  assert.ok(capabilityRequirementProblems({ sample: { [token]: { schedulers: ['alpha', 'alpha'] } } }).length);
+});
+
 test("C1. existing bare BGP Provides is unchanged", () => {
   const { header, diagnostics } = parseSnip(memberSnip("evpn, l2vpn", ["evpn", "l2vpn"]));
   assert.deepEqual(diagnostics.map((d) => d.code), []);
@@ -671,13 +702,16 @@ routing-instances { X { instance-type vrf; } }`).header.variantRequires[0];
   assert.deepEqual(p("variant:g capabilities=ifl:irb"), { group: "g", families: ["ifl:irb"] });
 });
 
-test("D13. a cross-directory selection is reported, and never blocks", () => {
+test("D13. foreign variant selection blocks complete libraries and changed files", () => {
   const f = validateVariantConsumer({
     os: "evo", seenOn: { junos: [], evo: ["d1"] },
     variantRequires: [{ group: "g", families: ["x"] }], jvd: "J", members: [FOREIGN],
   });
   assert.deepEqual(f.map((x) => x.code), [CODES.VARIANT_CROSS_DIRECTORY]);
-  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "warn");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "complete" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: false, seenOnValidation: "complete" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: true, seenOnValidation: "partial" }), "error");
+  assert.equal(severity(CODES.VARIANT_CROSS_DIRECTORY, { changed: false, seenOnValidation: "partial" }), "warn");
 });
 
 test("D14. overlap: identical bodies coexist, differing bodies clash, across directories", () => {

@@ -25,6 +25,10 @@ export type SnipRecord = {
   otherOsFormId: string | null;
   topic: string;
   seenOn: { junos: string[]; evo: string[] };
+  count?: { byDevice: Record<string, number>; total: number };
+  peersWith?:
+    | { state: "groups"; groups: { left: string[]; right: string[] }[] }
+    | { state: "none" | "not-applicable" };
   highlights: string[];
   pairWith: SnipPairRef[];
   variables: SnipVariable[];
