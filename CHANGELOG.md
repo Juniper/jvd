@@ -4,6 +4,101 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-09-29
+
+Expanded the **Metro Ethernet Business Services (MEBS)** library from **488 to
+510 snippets**, adding native Junos and Junos Evolved representations and
+required configuration prerequisites. Source-instance counts make the archived
+evidence visible in snippet headers, the catalog, and the portal.
+
+### New content
+
+- **Source-instance Counts** — [MEBS snippets](service_provider/metro_ethernet_business_services/configuration/snips)
+  include per-device `Count` rows and a total, displayed as **Source instances**
+  in the portal. Counts describe distinct matched source instances, not requested
+  deployment quantities or a sum of unique services across overlapping templates.
+- **Native OS mirrors** — twenty additional representations make validated
+  forms available in their own OS directories. The scheduler family includes
+  [PTX transmit-rate](service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf)
+  and [legacy-ACX shaping-rate](service_provider/metro_ethernet_business_services/configuration/snips/junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf)
+  forms. Other additions cover interface, routing, policy, group and filter
+  configuration without changing the existing snippet bodies.
+- **Automatic-RD prerequisite** — transport-class forms explicitly require the
+  [automatic route-distinguisher seed](service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-options/route-distinguisher-id.conf),
+  also available in [Junos Evolved form](service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/route-distinguisher-id.conf).
+  `$RD_SEED_AUTO` preserves the independently configured value rather than
+  assuming that it equals the primary loopback address.
+- **Stronger dependency and evidence checks** — literal `Pair with` targets
+  stay within the declaring OS directory. Missing native mirrors and foreign-OS
+  variant selections block changed snippets and applicability-complete libraries;
+  unchanged partial libraries retain warnings. The
+  [catalog](portal/public/snips.json) and
+  [MEBS assistant content](service_provider/metro_ethernet_business_services/configuration/snips/byoai/README.md)
+  reflect the updated library. Peer-evidence support is partial; MEBS peer
+  headers are not published in this update.
+- **Portal maintenance** — dependency updates and affected-content validation
+  improve maintenance while retaining the existing source-reconstruction checks.
+
+### What this means for you
+
+- Select the native OS representation and retain its required dependencies.
+  Cross-OS source observations do not replace a native mirror.
+- Use recovered source bindings or explicit deployment inputs; do not treat
+  illustrative addresses as defaults for another device.
+- Treat reconstruction and provenance separately from assembly disjointness.
+  Known overlapping forms and five fail-closed MEBS underlay batches remain;
+  arbitrary batches are not certified as disjoint or deployable. Validate the
+  assembled candidate for the target platform and software before deployment.
+
+---
+
+### By the numbers
+
+Changes since the September 27 entry, including PRs
+[#232](https://github.com/Juniper/jvd/pull/232) and
+[#233](https://github.com/Juniper/jvd/pull/233) and this update's MEBS changes.
+File and line totals exclude this changelog entry and include generated catalog,
+evidence and assistant content. All 20 archived MEBS configurations and all
+602 snippet records from other JVDs are unchanged by the MEBS changes.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / MEBS | 23 | 0 | 0 | 499 | 0 |
+| Portal | 7 | 0 | 0 | 29 | 1 |
+| Repository support | 0 | 0 | 0 | 3 | 0 |
+| **Total** | **30** | **0** | **0** | **531** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / MEBS | 19,643 | 893 | +18,750 |
+| Portal | 25,972 | 2,419 | +23,553 |
+| Repository support | 169 | 75 | +94 |
+| **Total** | **45,784** | **3,387** | **+42,397** |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS — Junos | 222 | 235 | +13 |
+| MEBS — Junos Evolved | 266 | 275 | +9 |
+| **MEBS — total** | **488** | **510** | **+22** |
+| **All JVDs — total** | **1,090** | **1,112** | **+22** |
+
+</details>
+
+---
+
 ## 2026-09-27
 
 Published a machine-readable snippet catalog with source traceability, restored
