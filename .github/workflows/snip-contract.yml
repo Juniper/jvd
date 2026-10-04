@@ -1,12 +1,14 @@
 name: Snip contract
 
+# Public acceptance only. Deep generation, reconstruction and qualification run in the
+# private builder; this workflow verifies public-product properties with no credentials:
+# header contract shape of changed snippets, catalog/manifest presence and parse, and the
+# detached qualification record for the candidate tree when one is supplied.
+
 on:
   pull_request:
     paths:
       - '**/configuration/**'
-      - 'portal/scripts/**'
-      - 'portal/package.json'
-      - 'portal/bun.lock'
       - 'portal/public/snips.json'
       - 'portal/src/data/**'
       - '.github/**'
@@ -15,47 +17,54 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  accept:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # full history so the changed-snip diff against the PR base resolves
+          fetch-depth: 0
           persist-credentials: false
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
         with:
-          bun-version: 1.3.13
-      - run: bun install --frozen-lockfile
-        working-directory: portal
-      - name: Select affected JVD checks
-        id: scope
+          node-version: 22
+      - name: Public artifacts parse
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            for (const file of ["portal/src/data/snips.json", "portal/public/snips.json"]) JSON.parse(fs.readFileSync(file, "utf8"));
+            for (const file of fs.globSync("**/configuration/snips/byoai/MANIFEST.json")) JSON.parse(fs.readFileSync(file, "utf8"));
+            for (const file of fs.globSync("**/configuration/snips/_snip-library.json")) {
+              const meta = JSON.parse(fs.readFileSync(file, "utf8"));
+              if (meta.schemaVersion !== 1) throw new Error(`${file}: unsupported schemaVersion`);
+            }
+            console.log("public artifacts parse");
+          '
+      - name: Changed snippets keep the header contract shape
         env:
-          VALIDATION_BASE: ${{ github.event.pull_request.base.sha }}
-        run: node portal/scripts/validation-scope.mjs --base "$VALIDATION_BASE" --jvd service_provider/metro_ethernet_business_services >> "$GITHUB_OUTPUT"
-      - name: Contract tests and affected corpus cases
-        env:
-          SNIP_VALIDATION_BASE: ${{ github.event.pull_request.base.sha }}
-        run: npm --prefix portal run snips:test
-      - name: snips.json is up to date
-        run: node portal/scripts/generate-snips.mjs --check
-      - name: Validate changed snips against the contract
-        run: node portal/scripts/snip-validate.mjs --base ${{ github.event.pull_request.base.sha }}
-      - name: Verify enrolled Count and peer evidence
-        env:
-          VALIDATION_BASE: ${{ github.event.pull_request.base.sha }}
-        run: npm --prefix portal run snips:evidence -- --base "$VALIDATION_BASE"
-      - name: Named objects have exactly one applicable owner
-        if: steps.scope.outputs.required == 'true'
-        run: node portal/scripts/object-ownership.mjs --jvd service_provider/metro_ethernet_business_services
-      - name: Composition matrix closes or exposes validated required inputs
-        if: steps.scope.outputs.required == 'true'
-        run: node portal/scripts/composition-validate.mjs --jvd service_provider/metro_ethernet_business_services --audit --expect-required-inputs
-      - name: TIERS.md is generated from the matrix
-        if: steps.scope.outputs.required == 'true'
-        run: node portal/scripts/generate-tiers.mjs --jvd service_provider/metro_ethernet_business_services --check
-      # Reported, not enforced: two known group constructs are still unreachable
-      # for devices that reference them. Promote to a gate once they are closed.
-      - name: Referenced constructs are reachable where they are used
-        if: steps.scope.outputs.required == 'true'
-        continue-on-error: true
-        run: node portal/scripts/library-completeness.mjs --jvd service_provider/metro_ethernet_business_services --by-construct
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          changed=$(git diff --name-only "$BASE"...HEAD -- '**/configuration/snips/junos/**/*.conf' '**/configuration/snips/evo/**/*.conf' || true)
+          [ -z "$changed" ] && { echo "no snippet changes"; exit 0; }
+          status=0
+          for f in $changed; do
+            [ -f "$f" ] || continue
+            head -1 "$f" | grep -q '^/\*' || { echo "::error file=$f::header must open with /*"; status=1; }
+            grep -q '^ \* Topic:' "$f" || { echo "::error file=$f::missing Topic"; status=1; }
+            grep -q '^ \* Seen on:' "$f" || { echo "::error file=$f::missing Seen on"; status=1; }
+            grep -q '^ \* Pair with' "$f" || { echo "::error file=$f::missing Pair with"; status=1; }
+            grep -Eq '^ \*  - required:' "$f" && { echo "::error file=$f::unapproved Pair with sub-grammar"; status=1; }
+          done
+          exit $status
+      - name: Detached qualification record accepted
+        # The record is produced by the trusted builder for the exact candidate tree and attached
+        # out of band (release asset / workflow artifact). The trust policy under .github/qualification/
+        # approves no signer yet, so this step runs in DIAGNOSTIC mode: it verifies integrity, exact
+        # tree/commit binding, artifact/input hashes, check inventory and evidence references and reports
+        # authenticated=false. It is not release acceptance; drop --allow-unauthenticated once a signer
+        # is approved in the policy.
+        if: hashFiles('.github/qualification/*.qualification.json') != ''
+        run: |
+          set -e
+          for record in .github/qualification/*.qualification.json; do
+            node .github/scripts/accept-qualification.mjs --record "$record" --policy .github/qualification/trust-policy.json --allow-unauthenticated
+          done

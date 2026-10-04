@@ -14,11 +14,10 @@ consumption. This index does not define header rules or configuration semantics.
 | JVD variable dictionary | Each JVD's `configuration/snips/_variables.md` |
 | Recovered source bindings and Counts | Each JVD's `configuration/snips/_bindings.json`; Markdown companion for reading |
 | JVD service selections and tiers | JVD-local `_composition.json`, where implemented |
-| Vocabulary inventory and review evidence | [vocabulary-inventory.mjs](../portal/scripts/vocabulary-inventory.mjs) |
-| Header parsing and validation | [snip-parse.mjs](../portal/scripts/snip-parse.mjs), [snip-validate.mjs](../portal/scripts/snip-validate.mjs) |
-| Catalog and assistant bundle generation | [generate-snips.mjs](../portal/scripts/generate-snips.mjs), each JVD's BYOAI scripts |
+| Header parsing and validation | Build tooling (private); public acceptance checks in [snip-contract.yml](workflows/snip-contract.yml) |
+| Catalog and assistant bundle generation | Build tooling (private); each JVD's BYOAI scripts regenerate with `JVD_BUILDER` set |
 | Portal application | [Portal README](../portal/README.md) |
-| Repository checks | [Workflows](workflows/) and [portal scripts](../portal/package.json) |
+| Repository checks | [Workflows](workflows/) and [public acceptance](scripts/accept-qualification.mjs) |
 | Local extraction/audit procedures | Companion `git-skills` repository: organize, documentation-ingest, extract and audit skills |
 | Vocabulary admission and scheduled rename review | Companion `git-skills`: `jvd-extract-snips/SKILL.md`, "Vocabulary review before templating" |
 | Local dependency and compatibility graphs | Companion `git-jvd-builder` repository: `graphs/README.md` |
