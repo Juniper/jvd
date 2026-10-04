@@ -15,7 +15,8 @@ The variables fall into a few groups.
 
 | Variable               | What it is                                                                           | Example value                |
 |------------------------|--------------------------------------------------------------------------------------|------------------------------|
-| `$AS_CUST`             | Customer-facing eBGP AS used by PE-CE BGP and as-override.                           | `64514`                      |
+| `$ASN`                 | Local device autonomous-system number.                                              | `63535`                      |
+| `$ASN_CUSTOMER`        | Customer-facing eBGP peer AS used by PE-CE BGP and as-override.                       | `64514`                      |
 | `$LOOPBACK_V4`         | This PE's lo0 IPv4 (used as RD-prefix and BGP next-hop).                             | `1.1.0.17`                   |
 | `$LOOPBACK_ANYCAST_V4` | Shared anycast lo0 IPv4 owned by more than one node.                                 | `1.1.10.10`                  |
 | `$LOOPBACK_SR_V4`      | SR non-zero lo0 IPv4 carrying an SR prefix-SID.                                      | `1.1.10.6`                   |
@@ -135,6 +136,9 @@ service interface (`ps0.300`); supply that complete attachment there.
 | `$UNIT_1` / `$UNIT_2`    | Logical-unit numbers for a two-AC service. | `3000` |
 | `$UNIT_A` / `$UNIT_B` / `$UNIT_C` / `$UNIT_D` | Logical-unit numbers for a multi-AC service. | `800` |
 | `$LABEL_IN` / `$LABEL_OUT` | Static MPLS in / out labels (floating pseudowire). | `1000001` |
+| `$GROUP_A` / `$GROUP_B` / `$GROUP_C` | Ordered applied-group names; preserve source list order. | `RI_CLASSIFIER` / `l3vpn_ospf_serv_map` / `GR-FATPW-LABEL` |
+| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `0` |
+| `$UNIT_E` / `$UNIT_F` / `$UNIT_G` / `$UNIT_H` / `$UNIT_I` / `$UNIT_J` / `$UNIT_K` / `$UNIT_L` | Additional logical units in a twelve-UNI FXC group. | `802` / `803` / `804` / `805` / `806` / `807` / `808` / `809` |
 | `$RD` / `$RT`            | Full route-distinguisher / route-target value (`AS:id`). | `63535:6500` |
 | `$EXPORT_POL` / `$IMPORT_POL` | Per-VRF export / import policy names. | `PS-METRO_L3VPN_2001-EXPORT` |
 | `$CE_PEER_V4` / `$PE_LOCAL_V4` | PE-CE eBGP peer / local IPv4 addresses. | `115.2.0.2` / `115.2.0.1` |

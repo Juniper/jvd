@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configured source relationships, version 2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "authority", "generatedFrom", "forms", "facts", "protocolSessionIds"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "authority": { "const": "configured-source-relationships-not-operational-state" },
+    "generatedFrom": { "type": "object", "required": ["sourceHashes", "design", "toolsSha256"], "properties": { "sourceHashes": { "type": "object", "additionalProperties": { "$ref": "#/definitions/hash" } }, "toolsSha256": { "$ref": "#/definitions/hash" }, "design": { "type": "object", "required": ["path", "sha256", "sections"] } } },
+    "forms": { "type": "object", "additionalProperties": { "$ref": "#/definitions/form" } },
+    "facts": { "type": "array", "items": { "$ref": "#/definitions/fact" } },
+    "protocolSessionIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/definitions/hash" } }
+  },
+  "definitions": {
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["occurrences", "facts", "held", "peerProjection", "disposition", "population", "bodySha256"],
+      "properties": {
+        "occurrences": { "type": "array", "items": { "type": "object", "required": ["id", "device", "sourceIds", "participation"], "properties": { "id": { "$ref": "#/definitions/hash" }, "device": { "type": "string" }, "sourceIds": { "type": "array", "items": { "type": "integer", "minimum": 0 } }, "participation": { "type": "array", "items": { "$ref": "#/definitions/hash" } } } } },
+        "facts": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/definitions/hash" } },
+        "held": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "peerProjection": { "type": ["object", "null"] },
+        "disposition": { "enum": ["held-stronger-semantics", "supported-configured-semantics"] },
+        "population": { "type": "integer", "minimum": 0 },
+        "bodySha256": { "$ref": "#/definitions/hash" }
+      }
+    },
+    "fact": {
+      "type": "object",
+      "required": ["id", "type", "status"],
+      "properties": {
+        "id": { "$ref": "#/definitions/hash" },
+        "type": { "enum": ["service-participation", "route-distribution-eligibility", "ethernet-segment-membership", "multipoint-service", "rooted-multipoint-service", "redundancy-group", "service-endpoint", "protocol-session"] },
+        "status": { "const": "verified" }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "service-participation" } } }, "then": { "required": ["scope", "device", "instance", "instanceType", "evidence"] } },
+        { "if": { "properties": { "type": { "const": "route-distribution-eligibility" } } }, "then": { "required": ["from", "to", "targets", "condition", "evidence"] } },
+        { "if": { "properties": { "type": { "const": "ethernet-segment-membership" } } }, "then": { "required": ["scope", "device", "interface", "esi", "mode", "vlan", "evidence"] } },
+        { "if": { "properties": { "type": { "const": "redundancy-group" } } }, "then": { "required": ["scope", "mode", "members", "evidence", "designEvidence"] } },
+        { "if": { "properties": { "type": { "const": "service-endpoint" } } }, "then": { "required": ["scope", "from", "toRedundancyGroups", "evidence", "designEvidence"] } },
+        { "if": { "properties": { "type": { "const": "multipoint-service" } } }, "then": { "required": ["scope", "participants", "evidence", "designEvidence", "claim"] } },
+        { "if": { "properties": { "type": { "const": "rooted-multipoint-service" } } }, "then": { "required": ["scope", "attachments", "permittedRolePairs", "forbiddenRolePairs", "evidence", "designEvidence"] } },
+        { "if": { "properties": { "type": { "const": "protocol-session" } } }, "then": { "required": ["protocol", "endpoints", "claim"], "properties": { "endpoints": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "object", "required": ["device", "sourceId", "sourceSha256", "localAddress", "peerAddress", "localAS", "peerAS", "families", "routingScope"] } } } } }
+      ]
+    }
+  }
+}

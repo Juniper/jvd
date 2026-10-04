@@ -1,16 +1,27 @@
 {
   "schemaVersion": 1,
   "generatedFrom": {
-    "inputsSha256": "6fb425078e82f02cda72364853b456bbf3eb753d6de1510b56fdc2d5cff46322",
+    "inputsSha256": "90a039ecf1a27d533147e58df6889305aad10115a86562aaf32f14fa0eb7fba2",
     "registryVersion": 3,
     "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
-    "toolsSha256": "e8b3b67a4ec2264c29462a892e9d72a2d223497c591f5bda88f0aeb238a066a8",
+    "toolsSha256": "b04c4653c2df785fdeeecbfd279361c0a0e1c5fabf638ae91f943170257b52af",
     "devices": 20,
-    "snips": 510,
-    "peerToolsSha256": "a7242e2ccb41ff4a02306fd4b472bbdaddd7332cbe08f478b5f0fdfbef61de64"
+    "snips": 585,
+    "relationshipsSha256": "09dffcffe5a7600c3128a29e5ae2870f19abb369754c5391ede2ce123f1528cc",
+    "relationshipEvidence": {
+      "location": "snips/_relationships.json",
+      "bytesSha256": "c8523d9d2f346445dbd76e2c18951c8bcfa5c146b841d979e76ad505399d2809"
+    },
+    "peerToolsSha256": "bd1e51683dbb4b02f45e3b7dd2ca686bd5d8cab24320c2cd5298a6f4c0ff4371"
   },
   "snips": {
     "evo/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/network-services-enhanced-ip.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -118,6 +129,12 @@
         "state": "not-applicable"
       }
     },
+    "evo/forwarding-options/apply-gr-fatpw-lb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf": {
       "status": "verified",
       "peersWith": {
@@ -125,6 +142,12 @@
       }
     },
     "evo/forwarding-options/hash-key-mpls-all-labels.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/apply-global-one.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -214,6 +237,18 @@
         "state": "not-applicable"
       }
     },
+    "evo/groups/gr-interface-mtu-meg2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-interface-mtu-subport.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/groups/gr-isis-bcp.conf": {
       "status": "verified",
       "peersWith": {
@@ -238,6 +273,18 @@
         "state": "not-applicable"
       }
     },
+    "evo/groups/gr-l3vpn-ospf-color-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-l3vpn-ospf-service-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/groups/gr-l3vpn.conf": {
       "status": "verified",
       "peersWith": {
@@ -245,6 +292,12 @@
       }
     },
     "evo/groups/gr-lag-member.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/apply-groups-two.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -346,6 +399,18 @@
         }
       ]
     },
+    "evo/interfaces/ifd-breakout-4x100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-breakout-4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf": {
       "status": "unresolved",
       "features": [
@@ -438,6 +503,31 @@
         }
       ]
     },
+    "evo/interfaces/ifd-core-aggregate-unit-group.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "ma1-1_acx7024"
+          ],
+          "witness": {
+            "device": "ma1-1_acx7024",
+            "sourceId": 5573
+          }
+        }
+      ]
+    },
+    "evo/interfaces/ifd-core-edge-lag-member-mh.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf": {
       "status": "verified",
       "peersWith": {
@@ -469,6 +559,78 @@
       }
     },
     "evo/interfaces/ifd-core-lag-member.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-edge-flexible-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-edge-lag-member-mh-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-edge-lag-member-mh.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-bridge-unit0-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-bridge-unit0.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-ccc-unit0-description-family.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-ccc-unit0-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-ccc-unit0-family.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ethernet-vpls-unit0-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-ethernet-group-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-ethernet-group.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-ethernet.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -819,6 +981,12 @@
         "state": "not-applicable"
       }
     },
+    "evo/policy-options/apply-group.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/policy-options/community/cm-access-fabric.conf": {
       "status": "verified",
       "peersWith": {
@@ -976,6 +1144,12 @@
       }
     },
     "evo/policy-options/policy-statement/ps-bgp-export-ring-cr2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-bgp-export-rr-client-access-meg.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -1155,6 +1329,18 @@
         "state": "not-applicable"
       }
     },
+    "evo/policy-options/policy-statement/ps-next-hop-self.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-only-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "evo/policy-options/policy-statement/ps-prefix-sid.conf": {
       "status": "verified",
       "peersWith": {
@@ -1186,6 +1372,12 @@
       }
     },
     "evo/policy-options/prefix-list/pl-an-nodes.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/prefix-list/pl-an-region-access-meg.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -1264,42 +1456,84 @@
       }
     },
     "evo/protocols/bgp-overlay-cr1.conf": {
-      "status": "unresolved",
-      "features": [
-        "protocol:bgp"
-      ],
-      "reasons": [
-        {
-          "reason": "incomplete-bgp-identity",
-          "instances": 1,
-          "devices": [
-            "cr1_ptx10001-36mr"
-          ],
-          "witness": {
-            "device": "cr1_ptx10001-36mr",
-            "sourceId": 705
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "cr2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "meg1_acx7100-32c"
+            ]
+          },
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "meg2_acx7509"
+            ]
+          },
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
           }
-        }
-      ]
+        ]
+      }
     },
     "evo/protocols/bgp-overlay-cr2.conf": {
-      "status": "unresolved",
-      "features": [
-        "protocol:bgp"
-      ],
-      "reasons": [
-        {
-          "reason": "incomplete-bgp-identity",
-          "instances": 1,
-          "devices": [
-            "cr2_ptx10001-36mr"
-          ],
-          "witness": {
-            "device": "cr2_ptx10001-36mr",
-            "sourceId": 702
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "cr2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "cr2_ptx10001-36mr"
+            ],
+            "right": [
+              "meg1_acx7100-32c"
+            ]
+          },
+          {
+            "left": [
+              "cr2_ptx10001-36mr"
+            ],
+            "right": [
+              "meg2_acx7509"
+            ]
+          },
+          {
+            "left": [
+              "cr2_ptx10001-36mr"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
           }
-        }
-      ]
+        ]
+      }
     },
     "evo/protocols/bgp-overlay-ma3.conf": {
       "status": "verified",
@@ -2437,11 +2671,87 @@
         "state": "not-applicable"
       }
     },
+    "evo/protocols/l2circuit-static-color.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2circuit"
+      ],
+      "reasons": [
+        {
+          "reason": "unresolved-inherited-wildcard",
+          "instances": 10,
+          "devices": [
+            "ma1-2_acx7024"
+          ],
+          "witness": {
+            "device": "ma1-2_acx7024",
+            "sourceId": 25709
+          }
+        }
+      ]
+    },
+    "evo/protocols/l2circuit-static.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2circuit"
+      ],
+      "reasons": [
+        {
+          "reason": "unresolved-inherited-wildcard",
+          "instances": 10,
+          "devices": [
+            "ma1-2_acx7024"
+          ],
+          "witness": {
+            "device": "ma1-2_acx7024",
+            "sourceId": 25779
+          }
+        }
+      ]
+    },
     "evo/protocols/ldp-loopback.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
       }
+    },
+    "evo/protocols/lldp-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 20,
+          "devices": [
+            "ag1-1_acx7100-32c",
+            "ag1-2_acx7100-32c",
+            "an1_mx204",
+            "an2_acx5448",
+            "an3_acx7100-48l",
+            "an4_acx710",
+            "cr1_ptx10001-36mr",
+            "cr2_ptx10001-36mr",
+            "ma1-1_acx7024",
+            "ma1-2_acx7024",
+            "ma2_mx204",
+            "ma3_acx7100-48l",
+            "ma4_mx204",
+            "ma5_mx204",
+            "mdr1_acx7509",
+            "mdr2_mx10003",
+            "meg1_acx7100-32c",
+            "meg2_acx7509",
+            "mse1_mx304",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "ag1-1_acx7100-32c",
+            "sourceId": 860
+          }
+        }
+      ]
     },
     "evo/protocols/mpls-controller-pccd.conf": {
       "status": "verified",
@@ -2553,252 +2863,96 @@
         "state": "not-applicable"
       }
     },
+    "evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 2,
+          "devices": [
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf"
+      }
+    },
+    "evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 48,
+          "devices": [
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community.conf"
+      }
+    },
     "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg2_acx7509"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg2_acx7509"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 150,
+          "devices": [
+            "an3_acx7100-48l",
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
       }
     },
     "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "an3_acx7100-48l"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "an3_acx7100-48l"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "ma1-1_acx7024"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "ma1-1_acx7024"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-1_acx7024"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "ma1-2_acx7024"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-2_acx7024"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 250,
+          "devices": [
+            "an3_acx7100-48l",
+            "ma1-1_acx7024",
+            "ma1-2_acx7024",
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf"
+      }
+    },
+    "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 250,
+          "devices": [
+            "an3_acx7100-48l",
+            "ma1-1_acx7024",
+            "ma1-2_acx7024",
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf"
       }
     },
     "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf": {
@@ -2811,26 +2965,15 @@
               "an3_acx7100-48l"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           }
         ]
+      },
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf"
       }
     },
     "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni.conf": {
@@ -2843,74 +2986,50 @@
               "an3_acx7100-48l"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           }
         ]
+      },
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni.conf"
       }
     },
     "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 93,
+          "devices": [
+            "an3_acx7100-48l",
+            "meg1_acx7100-32c",
+            "meg2_acx7509"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf"
       }
     },
     "evo/routing-instances/evpn-elan/ri-evpn-port-based.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 2,
+          "devices": [
+            "an3_acx7100-48l",
+            "ma1-2_acx7024"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/evpn-elan/ri-evpn-port-based.conf"
       }
     },
     "evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf": {
@@ -2987,14 +3106,7 @@
               "ma1-1_acx7024"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-1_acx7024"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           },
@@ -3003,14 +3115,7 @@
               "ma1-2_acx7024"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-2_acx7024"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           }
@@ -3027,14 +3132,7 @@
               "ma1-1_acx7024"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-1_acx7024"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           },
@@ -3043,14 +3141,7 @@
               "ma1-2_acx7024"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "ma1-2_acx7024"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           }
@@ -3087,14 +3178,7 @@
               "an3_acx7100-48l"
             ],
             "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
             ]
           }
@@ -3108,38 +3192,6 @@
         "groups": [
           {
             "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
               "an3_acx7100-48l"
             ],
             "right": [
@@ -3151,31 +3203,28 @@
               "an3_acx7100-48l"
             ],
             "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
+            ]
+          },
+          {
+            "left": [
+              "ma1-1_acx7024"
+            ],
+            "right": [
+              "an1_mx204",
+              "an2_acx5448",
+              "an3_acx7100-48l"
+            ]
+          },
+          {
+            "left": [
+              "ma1-2_acx7024"
+            ],
+            "right": [
+              "an1_mx204",
+              "an2_acx5448",
+              "an3_acx7100-48l"
             ]
           }
         ]
@@ -3263,300 +3312,197 @@
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 3300,
           "devices": [
             "an3_acx7100-48l",
             "ma4_mx204",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 96093
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 3300,
-          "devices": [
-            "an3_acx7100-48l",
-            "ma4_mx204",
-            "mse1_mx304",
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 96083
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "ma3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "ma3_acx7100-48l",
-            "sourceId": 12782
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 100,
-          "devices": [
-            "ma3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "ma3_acx7100-48l",
-            "sourceId": 12773
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 200,
           "devices": [
             "an3_acx7100-48l",
             "ma3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 94292
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 200,
-          "devices": [
-            "an3_acx7100-48l",
-            "ma3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 94283
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:evpn",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "meg1_acx7100-32c",
             "meg2_acx7509"
-          ],
-          "witness": {
-            "device": "meg1_acx7100-32c",
-            "sourceId": 47680
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:evpn",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "an3_acx7100-48l",
             "mse1_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 99483
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-irb.conf": {
       "status": "unresolved",
-      "features": [
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "meg1_acx7100-32c",
             "meg2_acx7509",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "meg1_acx7100-32c",
-            "sourceId": 48430
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-irb.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:ospf",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
-          "instances": 100,
-          "devices": [
-            "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 97983
-          }
-        },
-        {
-          "reason": "import-policy-semantics",
-          "instances": 2300,
-          "devices": [
-            "ma3_acx7100-48l",
-            "mse1_mx304",
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "ma3_acx7100-48l",
-            "sourceId": 14573
-          }
-        },
-        {
-          "reason": "physical-topology-not-in-configuration",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 2400,
           "devices": [
             "an3_acx7100-48l",
             "ma3_acx7100-48l",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 97991
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"
+      }
     },
     "evo/routing-instances/l3vpn/ri-l3vpn-unequal-cost.conf": {
       "status": "unresolved",
-      "features": [
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 25,
           "devices": [
             "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 100183
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/l3vpn/ri-l3vpn-unequal-cost.conf"
+      }
     },
     "evo/routing-instances/vpls/ri-bgp-vpls-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:virtual-switch"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-peer-counterpart",
-          "instances": 150,
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 399,
           "devices": [
-            "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 133663
-          }
-        },
-        {
-          "reason": "unresolved-potential-peer",
-          "instances": 247,
-          "devices": [
+            "an3_acx7100-48l",
             "ma1-2_acx7024",
             "meg1_acx7100-32c",
             "meg2_acx7509"
-          ],
-          "witness": {
-            "device": "ma1-2_acx7024",
-            "sourceId": 19733
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/vpls/ri-bgp-vpls-export.conf"
+      }
+    },
+    "evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-vlans.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 1,
+          "devices": [
+            "meg1_acx7100-32c"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-vlans.conf"
+      }
     },
     "evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:virtual-switch"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-peer-counterpart",
-          "instances": 150,
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 400,
           "devices": [
-            "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 135263
-          }
-        },
-        {
-          "reason": "unresolved-potential-peer",
-          "instances": 250,
-          "devices": [
+            "an3_acx7100-48l",
             "ma1-2_acx7024",
             "meg1_acx7100-32c",
             "meg2_acx7509"
-          ],
-          "witness": {
-            "device": "ma1-2_acx7024",
-            "sourceId": 20517
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf"
+      }
     },
     "evo/routing-instances/vpls/ri-ldp-vpls.conf": {
       "status": "unresolved",
@@ -3579,6 +3525,12 @@
       ]
     },
     "evo/routing-options/aggregate-discard-routes.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/autonomous-system.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -3710,6 +3662,42 @@
         "state": "not-applicable"
       }
     },
+    "junos/chassis/fpc-mx204-1x100g-8x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx204-2x100g-8x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx204-3x100g-8x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx304-tunnel-100g-10g-profile.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx304-tunnel-breakout-profile.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/network-services-enhanced-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/chassis/pseudowire-service.conf": {
       "status": "verified",
       "peersWith": {
@@ -3776,6 +3764,12 @@
         "state": "not-applicable"
       }
     },
+    "junos/class-of-service/routing-instance-dscp-classifier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/class-of-service/scheduler-maps/sm-6class-mapping.conf": {
       "status": "verified",
       "peersWith": {
@@ -3818,7 +3812,37 @@
         "state": "not-applicable"
       }
     },
+    "junos/forwarding-options/apply-gr-fatpw-lb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/forwarding-options/hash-key-mpls-label-stack.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/load-balance-label-capability.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-one.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-three.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-two.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -3878,6 +3902,47 @@
         "state": "not-applicable"
       }
     },
+    "junos/groups/gr-evpn-etree-load-balance-label.conf": {
+      "status": "unresolved",
+      "features": [
+        "group-definition",
+        "protocol:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:group-definition",
+          "instances": 3,
+          "devices": [
+            "ma4_mx204",
+            "ma5_mx204",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "ma4_mx204",
+            "sourceId": 7
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:evpn",
+          "instances": 3,
+          "devices": [
+            "ma4_mx204",
+            "ma5_mx204",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "ma4_mx204",
+            "sourceId": 7
+          }
+        }
+      ]
+    },
+    "junos/groups/gr-fatpw-label-l2circuit.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/groups/gr-fatpw-label.conf": {
       "status": "verified",
       "peersWith": {
@@ -3902,6 +3967,18 @@
         "state": "not-applicable"
       }
     },
+    "junos/groups/gr-l3vpn-ospf-service-map-mse.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-l3vpn-ospf-service-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/groups/gr-l3vpn.conf": {
       "status": "verified",
       "peersWith": {
@@ -3909,6 +3986,24 @@
       }
     },
     "junos/groups/gr-lag-member.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-mpls-maximum-labels.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-routing-instance-dscp-classifier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/apply-groups-two.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -4125,6 +4220,42 @@
         "state": "not-applicable"
       }
     },
+    "junos/interfaces/ifd-edge-lag-member-mh-gigether.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-edge-lag-member-mh.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ethernet-ccc-unit0.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-ethernet-group-mtu.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-ethernet-group.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-logical-tunnel-mac-profile.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/interfaces/ifd-loopback-description.conf": {
       "status": "verified",
       "peersWith": {
@@ -4317,6 +4448,12 @@
         "state": "not-applicable"
       }
     },
+    "junos/interfaces/ifl-vlan-bridge-outer-tag-tpid.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf": {
       "status": "verified",
       "peersWith": {
@@ -4324,6 +4461,12 @@
       }
     },
     "junos/interfaces/ifl-vlan-bridge.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-ccc-dual-tag.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -4405,6 +4548,12 @@
       }
     },
     "junos/interfaces/ifl-vlan-ccc.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet-inet6.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -4788,6 +4937,18 @@
         "state": "not-applicable"
       }
     },
+    "junos/policy-options/policy-statement/ps-next-hop-self.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-only-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
     "junos/policy-options/policy-statement/ps-prefix-sid.conf": {
       "status": "verified",
       "peersWith": {
@@ -5007,42 +5168,196 @@
       }
     },
     "junos/protocols/bgp-overlay-mse1.conf": {
-      "status": "unresolved",
-      "features": [
-        "protocol:bgp"
-      ],
-      "reasons": [
-        {
-          "reason": "incomplete-bgp-identity",
-          "instances": 1,
-          "devices": [
-            "mse1_mx304"
-          ],
-          "witness": {
-            "device": "mse1_mx304",
-            "sourceId": 210037
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "cr1_ptx10001-36mr"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma1-1_acx7024"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma1-2_acx7024"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma3_acx7100-48l"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma4_mx204"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma5_mx204"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mdr1_acx7509"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mdr2_mx10003"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "meg1_acx7100-32c"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "meg2_acx7509"
+            ],
+            "right": [
+              "mse1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mse1_mx304"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
           }
-        }
-      ]
+        ]
+      }
     },
     "junos/protocols/bgp-overlay-mse2.conf": {
-      "status": "unresolved",
-      "features": [
-        "protocol:bgp"
-      ],
-      "reasons": [
-        {
-          "reason": "incomplete-bgp-identity",
-          "instances": 1,
-          "devices": [
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse2_mx304",
-            "sourceId": 182248
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "cr2_ptx10001-36mr"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma1-1_acx7024"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma1-2_acx7024"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma3_acx7100-48l"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma4_mx204"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ma5_mx204"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mdr1_acx7509"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mdr2_mx10003"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "meg1_acx7100-32c"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "meg2_acx7509"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
+          },
+          {
+            "left": [
+              "mse1_mx304"
+            ],
+            "right": [
+              "mse2_mx304"
+            ]
           }
-        }
-      ]
+        ]
+      }
     },
     "junos/protocols/bgp-overlay.conf": {
       "status": "verified",
@@ -5089,6 +5404,28 @@
       "peersWith": {
         "state": "not-applicable"
       }
+    },
+    "junos/protocols/evpn-no-core-isolation.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:evpn",
+          "instances": 4,
+          "devices": [
+            "an1_mx204",
+            "an2_acx5448",
+            "mse1_mx304",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "an1_mx204",
+            "sourceId": 12884
+          }
+        }
+      ]
     },
     "junos/protocols/isis-instance-intf-l2-bfd-mdr1.conf": {
       "status": "unresolved",
@@ -5407,11 +5744,89 @@
         }
       ]
     },
+    "junos/protocols/l2circuit-static-color.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2circuit"
+      ],
+      "reasons": [
+        {
+          "reason": "unresolved-inherited-wildcard",
+          "instances": 11,
+          "devices": [
+            "mse1_mx304",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "mse1_mx304",
+            "sourceId": 210269
+          }
+        }
+      ]
+    },
+    "junos/protocols/l2circuit-static.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2circuit"
+      ],
+      "reasons": [
+        {
+          "reason": "unresolved-inherited-wildcard",
+          "instances": 29,
+          "devices": [
+            "mse1_mx304",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "mse1_mx304",
+            "sourceId": 210276
+          }
+        }
+      ]
+    },
     "junos/protocols/ldp-loopback.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
       }
+    },
+    "junos/protocols/lldp-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 20,
+          "devices": [
+            "ag1-1_acx7100-32c",
+            "ag1-2_acx7100-32c",
+            "an1_mx204",
+            "an2_acx5448",
+            "an3_acx7100-48l",
+            "an4_acx710",
+            "cr1_ptx10001-36mr",
+            "cr2_ptx10001-36mr",
+            "ma1-1_acx7024",
+            "ma1-2_acx7024",
+            "ma2_mx204",
+            "ma3_acx7100-48l",
+            "ma4_mx204",
+            "ma5_mx204",
+            "mdr1_acx7509",
+            "mdr2_mx10003",
+            "meg1_acx7100-32c",
+            "meg2_acx7509",
+            "mse1_mx304",
+            "mse2_mx304"
+          ],
+          "witness": {
+            "device": "ag1-1_acx7100-32c",
+            "sourceId": 860
+          }
+        }
+      ]
     },
     "junos/protocols/mpls-segment-routing-loopback.conf": {
       "status": "verified",
@@ -5476,344 +5891,137 @@
       }
     },
     "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg1_acx7100-32c"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg2_acx7509"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "meg2_acx7509"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "mse1_mx304"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 100,
+          "devices": [
+            "mse1_mx304",
+            "mse2_mx304"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
       }
     },
     "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "an2_acx5448"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "an3_acx7100-48l"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 49,
+          "devices": [
+            "an1_mx204"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf"
       }
     },
     "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "an2_acx5448"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "an3_acx7100-48l"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "an3_acx7100-48l"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "meg2_acx7509"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 150,
+          "devices": [
+            "an1_mx204",
+            "an2_acx5448"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf"
       }
     },
     "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "mse1_mx304"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 220,
+          "devices": [
+            "mse1_mx304",
+            "mse2_mx304"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf"
+      }
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 1,
+          "devices": [
+            "an1_mx204"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf"
       }
     },
     "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf": {
-      "status": "verified",
-      "peersWith": {
-        "state": "groups",
-        "groups": [
-          {
-            "left": [
-              "ma4_mx204"
-            ],
-            "right": [
-              "ma5_mx204"
-            ]
-          },
-          {
-            "left": [
-              "ma4_mx204"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma4_mx204"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma5_mx204"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma5_mx204"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "mse1_mx304"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          }
-        ]
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 2000,
+          "devices": [
+            "ma4_mx204",
+            "ma5_mx204",
+            "mse1_mx304",
+            "mse2_mx304"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf"
       }
     },
     "junos/routing-instances/evpn-etree/ri-evpn-etree.conf": {
+      "status": "unresolved",
+      "reasons": [
+        {
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
+          "instances": 2000,
+          "devices": [
+            "ma4_mx204",
+            "ma5_mx204",
+            "mse1_mx304",
+            "mse2_mx304"
+          ]
+        }
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/evpn-etree/ri-evpn-etree.conf"
+      }
+    },
+    "junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf": {
       "status": "verified",
       "peersWith": {
         "state": "groups",
         "groups": [
           {
             "left": [
-              "ma4_mx204"
-            ],
-            "right": [
-              "ma5_mx204"
-            ]
-          },
-          {
-            "left": [
-              "ma4_mx204"
+              "an3_acx7100-48l"
             ],
             "right": [
               "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma4_mx204"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma5_mx204"
-            ],
-            "right": [
-              "mse1_mx304"
-            ]
-          },
-          {
-            "left": [
-              "ma5_mx204"
-            ],
-            "right": [
-              "mse2_mx304"
-            ]
-          },
-          {
-            "left": [
-              "mse1_mx304"
-            ],
-            "right": [
-              "mse2_mx304"
             ]
           }
         ]
@@ -5874,38 +6082,6 @@
         "groups": [
           {
             "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an1_mx204"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an2_acx5448"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
               "an3_acx7100-48l"
             ],
             "right": [
@@ -5917,31 +6093,28 @@
               "an3_acx7100-48l"
             ],
             "right": [
-              "ma1-1_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "ma1-2_acx7024"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
-              "meg1_acx7100-32c"
-            ]
-          },
-          {
-            "left": [
-              "an3_acx7100-48l"
-            ],
-            "right": [
+              "meg1_acx7100-32c",
               "meg2_acx7509"
+            ]
+          },
+          {
+            "left": [
+              "ma1-1_acx7024"
+            ],
+            "right": [
+              "an1_mx204",
+              "an2_acx5448",
+              "an3_acx7100-48l"
+            ]
+          },
+          {
+            "left": [
+              "ma1-2_acx7024"
+            ],
+            "right": [
+              "an1_mx204",
+              "an2_acx5448",
+              "an3_acx7100-48l"
             ]
           }
         ]
@@ -6045,358 +6218,230 @@
     },
     "junos/routing-instances/l3vpn/ri-internet-vrf-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 1,
           "devices": [
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse2_mx304",
-            "sourceId": 111636
-          }
-        },
-        {
-          "reason": "target-semantics",
-          "instances": 1,
-          "devices": [
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse2_mx304",
-            "sourceId": 111621
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-internet-vrf-export.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 3300,
           "devices": [
             "an3_acx7100-48l",
             "ma4_mx204",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 96093
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 3300,
-          "devices": [
-            "an3_acx7100-48l",
-            "ma4_mx204",
-            "mse1_mx304",
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 96083
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 2198,
           "devices": [
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse1_mx304",
-            "sourceId": 131802
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 2198,
-          "devices": [
-            "mse1_mx304",
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse1_mx304",
-            "sourceId": 131792
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:bgp",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "counterpart-not-found",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 999,
           "devices": [
             "ma4_mx204"
-          ],
-          "witness": {
-            "device": "ma4_mx204",
-            "sourceId": 104518
-          }
-        },
-        {
-          "reason": "export-policy-semantics",
-          "instances": 999,
-          "devices": [
-            "ma4_mx204"
-          ],
-          "witness": {
-            "device": "ma4_mx204",
-            "sourceId": 104509
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:evpn",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 50,
           "devices": [
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "mse2_mx304",
-            "sourceId": 159988
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:evpn",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "an3_acx7100-48l",
             "mse1_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 99483
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf": {
       "status": "unresolved",
-      "features": [
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "meg1_acx7100-32c",
             "meg2_acx7509",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "meg1_acx7100-32c",
-            "sourceId": 48430
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:ospf",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "export-policy-semantics",
-          "instances": 100,
-          "devices": [
-            "an3_acx7100-48l"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 97983
-          }
-        },
-        {
-          "reason": "import-policy-semantics",
-          "instances": 2300,
-          "devices": [
-            "ma3_acx7100-48l",
-            "mse1_mx304",
-            "mse2_mx304"
-          ],
-          "witness": {
-            "device": "ma3_acx7100-48l",
-            "sourceId": 14573
-          }
-        },
-        {
-          "reason": "physical-topology-not-in-configuration",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 2400,
           "devices": [
             "an3_acx7100-48l",
             "ma3_acx7100-48l",
             "mse1_mx304",
             "mse2_mx304"
-          ],
-          "witness": {
-            "device": "an3_acx7100-48l",
-            "sourceId": 97991
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf"
+      }
     },
     "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:ospf",
-        "vpn:vrf"
-      ],
       "reasons": [
         {
-          "reason": "import-policy-semantics",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 1000,
           "devices": [
             "ma4_mx204"
-          ],
-          "witness": {
-            "device": "ma4_mx204",
-            "sourceId": 141491
-          }
-        },
-        {
-          "reason": "physical-topology-not-in-configuration",
-          "instances": 1000,
-          "devices": [
-            "ma4_mx204"
-          ],
-          "witness": {
-            "device": "ma4_mx204",
-            "sourceId": 141498
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf"
+      }
     },
     "junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:virtual-switch"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 50,
           "devices": [
             "ma5_mx204"
-          ],
-          "witness": {
-            "device": "ma5_mx204",
-            "sourceId": 46161
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf"
+      }
     },
     "junos/routing-instances/vpls/ri-bgp-vpls-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:virtual-switch"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 50,
           "devices": [
             "ma5_mx204"
-          ],
-          "witness": {
-            "device": "ma5_mx204",
-            "sourceId": 45261
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/vpls/ri-bgp-vpls-export.conf"
+      }
     },
     "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:vpls"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "ma5_mx204"
-          ],
-          "witness": {
-            "device": "ma5_mx204",
-            "sourceId": 42761
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf"
+      }
     },
     "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf": {
       "status": "unresolved",
-      "features": [
-        "protocol:vpls",
-        "vpn:vpls"
-      ],
       "reasons": [
         {
-          "reason": "unresolved-potential-peer",
+          "reason": "typed-service-semantics-not-a-verified-pair-projection",
           "instances": 100,
           "devices": [
             "ma5_mx204"
-          ],
-          "witness": {
-            "device": "ma5_mx204",
-            "sourceId": 44061
-          }
+          ]
         }
-      ]
+      ],
+      "relationship": {
+        "schemaVersion": 2,
+        "form": "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
+      }
     },
     "junos/routing-options/aggregate-discard-routes.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/autonomous-system.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -6551,6 +6596,25 @@
       "peersWith": {
         "state": "not-applicable"
       }
+    },
+    "junos/system/evpn-mh-firewall-profile.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "an2_acx5448"
+          ],
+          "witness": {
+            "device": "an2_acx5448",
+            "sourceId": 110
+          }
+        }
+      ]
     }
   }
 }

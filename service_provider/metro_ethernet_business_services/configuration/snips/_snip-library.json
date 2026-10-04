@@ -83,6 +83,24 @@
     {
       "junos": "junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf",
       "evo": "evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf"
+    },
+    {
+      "junos": "junos/protocols/l2circuit-static.conf",
+      "evo": "evo/protocols/l2circuit-static.conf"
+    },
+    {
+      "junos": "junos/protocols/l2circuit-static-color.conf",
+      "evo": "evo/protocols/l2circuit-static-color.conf"
+    },
+    {
+      "junos": "junos/groups/apply-global-one.conf",
+      "evo": "evo/groups/apply-global-one.conf"
+    },
+    {
+      "junos": "junos/interfaces/apply-groups-two.conf",
+      "evo": "evo/interfaces/apply-groups-two.conf"
     }
-  ]
+  ],
+  "dependencyContractVersion": 3,
+  "relationshipContractVersion": 2
 }
