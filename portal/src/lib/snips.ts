@@ -1,15 +1,30 @@
 /**
  * Type definitions and small helpers for the Snip Library section.
- * Mirrors the shape produced by portal/scripts/generate-snips.mjs.
+ * Mirrors the catalog shape produced by the build tooling (generate-snips).
  */
 
 import bundle from "@/data/snips.json";
+
+/** Dependency contract version the catalog projection is generated from; records on any other version carry no usable dependency projection. */
+export const DEPENDENCY_CONTRACT_VERSION = 3;
 
 export type SnipOs = "Junos" | "Junos EVO";
 export type SnipOsKey = "junos" | "evo";
 
 export type SnipPairRef = { raw: string; id: string | null; note?: string | null };
 export type SnipVariable = { name: string; example: string };
+export type SnipOccurrenceRequirement = {
+  id: string;
+  kind: string;
+  scope: 'object' | 'whole' | 'required-object-union';
+  selection: 'each-reference' | 'all-related' | 'source-witness';
+  presence: 'required' | 'conditional';
+  slots: string[];
+  providers: string[];
+  when?: 'source-reference-or-related-context-present';
+  fulfills?: string;
+  preferObject?: true;
+};
 
 export type SnipRecord = {
   id: string;
@@ -31,7 +46,13 @@ export type SnipRecord = {
     | { state: "none" | "not-applicable" };
   highlights: string[];
   pairWith: SnipPairRef[];
+  /** Governing dependency contract version of the JVD's approved declaration; occurrenceRequires is its public projection. */
+  dependencyContractVersion?: typeof DEPENDENCY_CONTRACT_VERSION;
+  occurrenceRequires?: SnipOccurrenceRequirement[];
+  sourceText?: string;
+  relationships?: { schemaVersion: 2; disposition: 'held-stronger-semantics' | 'supported-configured-semantics'; population: number; types: Record<string, number>; held: string[] };
   variantRequires?: { group: string; families: string[] }[];
+  variantGroup?: { name: string; provides: string[] };
   variables: SnipVariable[];
   jvdServiceMapping: string[];
   body: string;
@@ -79,6 +100,59 @@ export type SnipBundle = {
 export const snipBundle = bundle as unknown as SnipBundle;
 
 export const REPO_BLOB_BASE = "https://github.com/Juniper/jvd/blob/main/";
+
+export function serviceAttachmentAlternatives(consumer: SnipRecord, records: Map<string, SnipRecord>) {
+  const forms = ['ri-evpn-vpws', 'ri-evpn-vpws-export', 'ri-evpn-port-based', 'ri-evpn-elan-vlan-bundle-2-uni', 'ri-evpn-elan-vlan-bundle-2-uni-export', 'ri-bgp-vpls-vlan'];
+  if (consumer.jvd !== 'metro_ethernet_business_services' || consumer.category !== 'routing-instances' || !forms.includes(consumer.name)) return null;
+  return occurrenceAlternatives(consumer, records, 'logical-interface');
+}
+
+export function interfaceParentAlternatives(consumer: SnipRecord, records: Map<string, SnipRecord>) {
+  if (consumer.jvd !== 'metro_ethernet_business_services' || consumer.category !== 'interfaces') return null;
+  return occurrenceAlternatives(consumer, records, 'interface-parent');
+}
+
+export function interfaceMemberAlternatives(consumer: SnipRecord, records: Map<string, SnipRecord>) {
+  if (consumer.jvd !== 'metro_ethernet_business_services' || consumer.category !== 'interfaces') return null;
+  return occurrenceAlternatives(consumer, records, 'lag-member');
+}
+
+function occurrenceAlternatives(consumer: SnipRecord, records: Map<string, SnipRecord>, kind: 'logical-interface' | 'interface-parent' | 'lag-member') {
+  if (consumer.dependencyContractVersion !== DEPENDENCY_CONTRACT_VERSION) return null;
+  const binding = consumer.occurrenceRequires?.find(row => row.kind === kind);
+  if (!binding) return null;
+  return dependencyAlternatives(consumer, binding, records);
+}
+
+export function dependencyAlternatives(consumer: SnipRecord, binding: SnipOccurrenceRequirement, records: Map<string, SnipRecord>) {
+  if (consumer.dependencyContractVersion !== DEPENDENCY_CONTRACT_VERSION) return [];
+  return binding.providers.flatMap(relativePath => {
+    const candidate = records.get(`${consumer.jvd}/${relativePath.replace(/\.conf$/, '')}`);
+    if (!candidate || candidate.osKey !== consumer.osKey || candidate.jvd !== consumer.jvd) return [];
+    const devices = candidate.seenOn[consumer.osKey].filter(device => consumer.seenOn[consumer.osKey].includes(device));
+    return devices.length ? [{ snip: candidate, devices }] : [];
+  });
+}
+
+export function variantAlternatives(
+  consumer: SnipRecord,
+  requirement: { group: string; families: string[] },
+  records: Iterable<SnipRecord>,
+): { snip: SnipRecord; devices: string[] }[] {
+  return Array.from(records)
+    .filter((candidate) =>
+      candidate.jvd === consumer.jvd &&
+      candidate.osKey === consumer.osKey &&
+      candidate.variantGroup?.name === requirement.group &&
+      requirement.families.every((family) => candidate.variantGroup?.provides.includes(family)),
+    )
+    .map((candidate) => ({
+      snip: candidate,
+      devices: candidate.seenOn[consumer.osKey].filter((device) => consumer.seenOn[consumer.osKey].includes(device)),
+    }))
+    .filter((candidate) => candidate.devices.length > 0)
+    .sort((first, second) => first.snip.id.localeCompare(second.snip.id));
+}
 
 /** Title-case a slug-like string ("apply-groups" → "Apply Groups"). */
 export function titleize(s: string): string {

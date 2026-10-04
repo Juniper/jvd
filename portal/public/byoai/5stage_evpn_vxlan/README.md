@@ -60,7 +60,7 @@ After editing any `.conf` in `../junos/` or `../evo/`, or any file in this folde
 This rebuilds `jvd-5stage-snips.md`, extracts `jvd-5stage-byoai-prompt.txt`, and regenerates `MANIFEST.json`. Then regenerate the portal mirror from the repo root:
 
 ```bash
-node portal/scripts/generate-snips.mjs
+JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
 ```
 
 and commit the refreshed `portal/public/byoai/5stage_evpn_vxlan/`.
