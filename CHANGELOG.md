@@ -2577,14 +2577,14 @@ ChatGPT.
   directory changes on `main`.
 - **Catalog generator with Juniper API integration** — The portal's
   catalog is now produced by
-  [`portal/scripts/generate-catalog.sh`](portal/scripts/generate-catalog.sh),
+  `portal/scripts/generate-catalog.sh`,
   which pulls each JVD's authoritative validated-platforms list
   directly from Juniper's documentation API
   (`getAllPlatformNReleaseDetails4JvdId`) where a JVD ID is mapped in
-  [`portal/scripts/jvd-id-map.json`](portal/scripts/jvd-id-map.json),
+  `portal/scripts/jvd-id-map.json`,
   and falls back to scanning the JVD's README and per-device configs
   otherwise. Responses are cached locally in
-  [`portal/scripts/jvd-platforms-cache.json`](portal/scripts/jvd-platforms-cache.json)
+  `portal/scripts/jvd-platforms-cache.json`
   so portal builds stay fully offline. Run with `--refresh` to pull
   the latest API data and `--check` to verify the catalog is up to
   date. Currently 19 of 20 JVDs are sourced from the API.

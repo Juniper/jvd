@@ -49,7 +49,7 @@ jobs:
           for f in $changed; do
             [ -f "$f" ] || continue
             head -1 "$f" | grep -q '^/\*' || { echo "::error file=$f::header must open with /*"; status=1; }
-            grep -q '^ \* Topic:' "$f" || { echo "::error file=$f::missing Topic"; status=1; }
+            grep -Eq '^ \* (Topic|Apply-groups?):' "$f" || { echo "::error file=$f::missing Topic"; status=1; }
             grep -q '^ \* Seen on:' "$f" || { echo "::error file=$f::missing Seen on"; status=1; }
             grep -q '^ \* Pair with' "$f" || { echo "::error file=$f::missing Pair with"; status=1; }
             grep -Eq '^ \*  - required:' "$f" && { echo "::error file=$f::unapproved Pair with sub-grammar"; status=1; }
