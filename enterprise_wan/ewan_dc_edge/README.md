@@ -19,11 +19,31 @@ EVPN-MPLS with all-active ESI multihoming toward the fabric, and LFA /
 remote LFA for resiliency. The data center side is an EVPN-VXLAN overlay on
 an eBGP underlay. The data center edge routers (MX480 and MX10003) perform
 the EVPN-VXLAN to EVPN-MPLS handoff for VLAN-based, VLAN-bundle and
-VLAN-aware services at scale (about 1,500 MAC-VRF instances per edge), with
+VLAN-aware services, with
 the WAN edge routers (MX204 and ACX5448) terminating the remote campus and
 branch attachments.
 
 ![Enterprise Data Center Edge JVD topology](images/ewan-dc-edge-topology.png)
+
+## Validated scale
+
+Scale validated in the [test report](documentation/test-report-brief.md), per
+device role. The configurations in this repository carry this scale.
+
+| Feature | DC edge (MX10003 / MX480) | Leaf (QFX5120) | WAN edge (MX204) | WAN edge (ACX5448) |
+|---|---:|---:|---:|---:|
+| VLANs | 3,503 | 3,503 | 2,152 | 3,453 |
+| MAC addresses | 41,000 | 34,000 | 34,000 | 41,900 |
+| ARP entries | 40,900 | 900 | — | — |
+| Switching instances | 1,500 | 1,500 | — | — |
+| Bridge domains | 2,217 | 2,217 | 1,460 | 757 |
+| VNIs | 2,217 | 2,217 | — | — |
+| VTEPs | 4,503 | 1,506 | — | — |
+| ESIs | 48 | 48 | — | — |
+| IRB (CRB model) | 2,153 | — | — | — |
+| IRB (ERB model) | 50 | 50 | — | — |
+| IGP (OSPF) routes | 50K | 50K | 50K | 50K |
+| BFD sessions | 3 @ 100 ms | 4 @ 100 ms | 5 @ 100 ms | 5 @ 100 ms |
 
 ## Hardware
 
