@@ -159,10 +159,14 @@ Best for one-off generation in a web chat UI (claude.ai, chatgpt.com, your enter
 > **Keeping the bundle current.** [`jvd-mebs-snips.md`](jvd-mebs-snips.md) is generated from the source files under [`../junos/`](../junos/), [`../evo/`](../evo/), and [`../_variables.md`](../_variables.md). After any change to those files, regenerate it with:
 >
 > ```bash
-> ./regenerate-bundle.sh
+> JVD_BUILDER=<git-jvd-builder checkout> ./regenerate-bundle.sh
 > ```
 >
-> (run from this `byoai/` folder).
+> (run from this `byoai/` folder). `TIERS.md` and `MANIFEST.json` are produced
+> by the private build tooling, so regeneration needs `JVD_BUILDER` and exits 3
+> without it. `./regenerate-bundle.sh --public-only` performs bundle assembly
+> consistency using committed public artifacts (`TIERS.md`/`MANIFEST.json` as
+> committed); it is not regeneration, freshness verification or qualification.
 
 ### Pattern 2 — Let the AI fetch the corpus from GitHub
 
@@ -243,7 +247,7 @@ Paste back the `# Inputs used:` block from a prior output as your prompt. The AI
 | `README.md` | This file. |
 | `SYSTEM_PROMPT.md` | Drop-in system prompt that defines the AI's role, ground rules, auto-fill rules, and output format. Works with any LLM. |
 | `jvd-mebs-snips.md` | Pre-bundled snip corpus — attach this to your AI chat after pasting the system prompt. |
-| `regenerate-bundle.sh` | Re-creates `jvd-mebs-snips.md` from the current `../junos/`, `../evo/`, and `../_variables.md`. Run after any snip edit. |
+| `regenerate-bundle.sh` | Re-creates `jvd-mebs-snips.md` from the current `../junos/`, `../evo/`, and `../_variables.md`, and regenerates `TIERS.md`/`MANIFEST.json` through the private builder (`JVD_BUILDER`; exits 3 without it). `--public-only` is bundle assembly consistency using committed public artifacts, not regeneration, freshness verification or qualification. Run after any snip edit. |
 
 ---
 
