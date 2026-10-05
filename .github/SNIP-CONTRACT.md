@@ -2,26 +2,20 @@
 
 This is the normative specification for the header of a configuration **snip**
 (`configuration/snips/{junos,evo}/<category>/<name>.conf`) in this repository.
-It defines what published snip metadata **means** and what a valid snip **must**
-contain.
+It defines what published snip header metadata **means** and what a valid snip
+**must** contain.
 
-Two different mechanisms establish the two different kinds of claim this
-contract makes:
-
-- **Structural and header rules** — section presence, order, syntax, token shape,
-  path resolution, variable declaration — are enforced deterministically by
-  `portal/scripts/snip-validate.mjs` and its committed tests. This document is
-  the human-readable source of truth for that check.
-- **Source-backed claims** require exact body matching or relation-specific
-  corroboration against authoritative configurations. `snip-evidence.mjs`
-  remeasures enrolled libraries in CI when evidence inputs or claims change.
-  Initial publication also requires the authorized independent verification
-  described under *Fragment boundary*. Freshness or agreement with the same
-  producer is not an independent audit; unenrolled libraries do not receive
-  enrolled source-verification coverage.
+Published header claims **MUST** accurately describe the snip body and the
+validated JVD semantics it carries. Source-backed claims — applicability,
+occurrence counts and cross-device relationships — **MUST** be validated against
+the authoritative JVD device configurations before publication; freshness or
+self-agreement of the tooling that produced a claim is not validation of it.
+This document defines validity; the build tooling that generates and checks
+snips decides when and how a violation blocks publication.
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are used as in
-RFC 2119.
+RFC 2119. Identifiers in parentheses such as `(TOPIC_MULTILINE)` name the stable
+finding reported for a violation of the adjacent rule.
 
 The canonical vocabulary this contract refers to — snip construct names and
 template variable names — is recorded in `.github/glossary/snip-glossary.json`
@@ -65,9 +59,8 @@ immediate `(…)` annotation — `Field:` or `Field (annotation):` (e.g. `Pair w
 (same-device dependencies):`, `Variables (example values from mse1_mx304):`). A
 colonless line is body prose, not metadata. A colonless **annotated** field
 (e.g. `Variables (none — literal)`) is tolerated for backward compatibility but
-is **deprecated**: it parses, yet is reported as `LEGACY_HEADER_SYNTAX` (a
-warning on legacy snips, an error once the snip is changed). New fields **MUST**
-use the colon form.
+is **deprecated**: it parses, yet is reported as `LEGACY_HEADER_SYNTAX`. New
+fields **MUST** use the colon form.
 
 Every non-blank header line **MUST** belong to a formal section. A header may
 contain only: a recognized section header, a recognized subordinate row (a
@@ -152,41 +145,46 @@ configuration and **MAY** be described.
   `evo/` directory does **not** limit which devices may appear: if the same body
   roundtrips on a device of the other OS family, that evidence may appear in its
   bucket, but it never substitutes for a full-body mirror in that OS directory.
-  A cross-row without an exact native representation is
-  `SEEN_ON_MISSING_OS_MIRROR`: an error on changed files and in libraries with
-  complete applicability, a warning on unchanged files in partial libraries.
-  Explicit `osScopedMirrors` pairs in the library metadata partition claims and
-  Counts between byte-identical Junos/EVO representations. Each pair must name
-  one existing file per directory; all source devices are still measured and
-  their OS identities must be unambiguous. Opposite-OS matches belong to the
-  registered counterpart, not to the scoped file's Count. Unregistered files
-  retain full-population evidence; no source match may be silently discarded.
+  A cross-row without an exact native representation is invalid
+  (`SEEN_ON_MISSING_OS_MIRROR`).
+- A JVD **MAY** register **OS-scoped mirror pairs** in its library metadata
+  (`configuration/snips/_snip-library.json`, `osScopedMirrors`) for
+  byte-identical Junos/EVO representations of one body. A pair names exactly one
+  existing file per directory and partitions the shared source population:
+  matches on opposite-OS devices belong to the registered counterpart, not to
+  the scoped file's `Seen on` or `Count`. Every source device is still measured
+  and its OS identity must be unambiguous. Unregistered files retain the full
+  population; no source match may be silently discarded.
 - `(none)` is the only valid empty value. (`SEEN_ON_APPROXIMATION`)
 - It **MUST NOT** contain: `see`, snip or navigation paths, `.conf` filenames,
   `all`/`all PEs`/`other devices`, inferred applicability, prose notes, or
   cross-file navigation. Scenario-qualified **device** identities (see *Device
   identity*) are permitted. (`SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_APPROXIMATION`)
+- `Seen on` is a claim about validated source evidence. It **MUST** be backed by
+  exact matching against the authoritative device configurations, under the
+  *Fragment boundary* and *Adjudicated exclusions* rules, and it **MUST** be
+  re-established whenever the body, the source configurations or the matching
+  rules change.
 
 ### Count (optional, generated)
 
 `Count:` records distinct consumed source-node instances of this exact template
-on each device, followed by their `total`. Alternative matcher assignments of
-the same node set do not increase Count; `equivalentBindings` is separate.
+on each device, followed by their `total`. Alternative variable assignments that
+consume the same source nodes do not increase `Count`.
 
 - Rows are `<exact device token> <positive integer>`; omit zero device rows.
   The final row is `total <nonnegative integer>`. Integers and their sum MUST be
   safe integers. Duplicate sections, devices or totals are invalid.
 - The total MUST equal the sum of device rows. Nonzero device membership MUST
   equal `Seen on` in both directions. Tokens use the same device inventory.
-- Values MUST be generated from full-population exact matching with consistent
-  variable bindings, literal constraints, activity, order and fragment boundaries.
-  Source exclusions apply. Truncated enumeration is not a successful measurement.
+- `Count` MUST be derived from the same complete validated source population
+  that underlies the `Seen on` claim: exact matching with consistent variable
+  bindings, literal constraints, activity, order and fragment boundaries, with
+  adjudicated exclusions applied. A truncated or partial enumeration is not a
+  measurement.
 - A missing field is unknown, not zero. A measured zero requires a complete
   source population. Totals belong to one template, not to a unique-service
   census; Junos/EVO mirror totals MUST NOT be added as unique deployments.
-- Header/ledger agreement establishes consistency, not independent source proof.
-  Source remeasurement and authorized independent verification remain required
-  before publishing generated claims.
 
 ### Peers with (optional, generated)
 
@@ -207,20 +205,35 @@ The field contains exactly one of:
 
 Duplicates, self edges, mixed states and unknown devices are invalid. At least
 one endpoint of each pair MUST be in this snippet's `Seen on`. Generated rows
-and device lists SHOULD be sorted deterministically. Local names, co-occurrence
-and shared route-targets alone do not universally establish a peer relationship.
-Concrete source values and relation-specific semantics MUST corroborate it.
+and device lists SHOULD be sorted deterministically.
 
-Missing, ambiguous, unsupported or partially examined evidence is neither
-`(none)` nor `n/a`: leave the field absent until every applicable instance is
-classified. A group summarizes the existence of proven relationships, not that
-every instance on those devices belongs to one common service. Directional
-relationships MUST NOT be silently converted into symmetric `<->` claims.
+What corroborates a relationship:
 
-Generated-field syntax and inventory findings are always errors, independently
-of legacy applicability status. These structural checks do not certify semantic
-peer correctness. Retain `JVD service mapping` until all useful information has
-a verified replacement in structured fields or an appropriate existing home.
+- Concrete source values and relation-specific semantics MUST corroborate each
+  pair. Local names, co-occurrence, shared `Count` and shared route-targets
+  alone never establish a peer relationship.
+- Service participation, directed conditional route-distribution eligibility,
+  Ethernet-segment membership, service-scoped redundancy groups, role-constrained
+  multipoint services, service endpoints and configured protocol sessions are
+  distinct kinds of relationship. One kind MUST NOT be promoted into another:
+  shared membership does not create a service edge, a redundancy group or a
+  protocol session; an E-Tree role model forbids leaf-to-leaf service edges; a
+  grouped service endpoint does not erase an independently configured BGP
+  session between its members.
+- A row summarizes the existence of proven relationships, not that every
+  instance on those devices belongs to one common service. Group identity is
+  preserved in the underlying evidence; consumers MUST NOT flatten a group into
+  a clique. Directional relationships MUST NOT be silently converted into
+  symmetric `<->` claims.
+- Missing, ambiguous, unsupported or partially examined evidence is neither
+  `(none)` nor `n/a`: leave the field absent until every applicable instance is
+  classified. A peer claim whose evidence no longer supports it is withdrawn,
+  leaving the field absent rather than asserting `(none)` or `n/a`.
+
+Generated-field syntax and inventory findings are always errors. These
+structural checks do not certify semantic peer correctness. Retain
+`JVD service mapping` until all useful information has a verified replacement in
+structured fields or an appropriate existing home.
 
 ### Adjudicated exclusions
 
@@ -229,16 +242,26 @@ unless it is **explicitly excluded by human adjudication**. Tooling **MAY**
 nominate configuration as stale, unused, or otherwise irrelevant, but **MUST
 NOT** exclude it automatically.
 
-Once a construct is adjudicated as excluded from the model, it is no longer
-eligible for snip creation, for reuse matching, or for `Seen on` membership on
+Once a source fragment is adjudicated as excluded, it is no longer eligible for
+snip creation, for reuse matching, or as evidence for `Seen on` and `Count` on
 the devices that adjudication covers. The source configuration itself is never
 modified by such a decision.
+
+An adjudication is scoped precisely: **only the explicitly adjudicated source
+fragment(s) are ineligible as evidence for the claims that adjudication
+covers.** Other configuration on the same device — including neighbouring
+statements and the enclosing hierarchy — remains eligible under the normal
+matching rules. Matching omits the excluded subtrees from its in-scope view
+while retaining the original source-node identities, so an excluded diagnostic
+child neither creates a new service form nor prevents an otherwise exact
+in-scope match. Each exclusion records the exact source fragment, its reason and
+its approval.
 
 For constructs that remain in scope the `Seen on` rule above applies unchanged:
 every validated source device on which the snip renders the selected
 configuration exactly **MUST** be accounted for, either in the file's evidence
-or its explicitly registered OS-scoped mirror. Cross-OS evidence alone never
-replaces the native mirror.
+or its registered OS-scoped mirror. Cross-OS evidence alone never replaces the
+native mirror.
 
 ### Fragment boundary
 
@@ -269,22 +292,36 @@ constituent of the statement, not an independently selectable instance.
 
 Which child kinds are independently selectable is **not** derivable from
 hierarchy shape alone: a named rib-group and a policy `term` are structurally
-identical. That distinction is grammar knowledge, held in the
-**instance-recognition registry** at `portal/scripts/snip-instance-registry.json`.
-The registry is the normative source for that vocabulary; it is parser and
-validation knowledge only, **not** a service taxonomy, and carries no naming,
-category, or relationship meaning.
+identical. The distinction is grammar knowledge, and this contract fixes its
+normative vocabulary (**instance-recognition vocabulary, version 3**). The
+vocabulary is parser and validation knowledge only — not a service taxonomy —
+and carries no naming, category or relationship meaning:
 
-`generate-bindings.mjs` applies the registry during exact source matching and
-ordered reconstruction. `snip-evidence.mjs` compares those measurements with
-the enrolled library's ledger and header claims. The separate authorized
-roundtrip verification independently checks source-instance identities and
-reconstruction before initial publication. Header parsing and catalog generation
-alone do not establish these semantic claims.
+- **Instance keywords.** A child block is an independently selectable instance
+  of its container when its header begins with one of these grammar keywords
+  followed by a name or index (e.g. `unit 0`, `neighbor 10.0.0.1`): `area`,
+  `bridge-domain`, `community`, `filter`, `forwarding-class`, `group`,
+  `instance`, `interface`, `maintenance-association`, `maintenance-domain`,
+  `neighbor`, `policy-statement`, `prefix-list`, `unit`, `vlan`.
+- **Bare-name containers.** Inside these containers a child block named solely
+  by an identifier, with no leading grammar keyword (e.g.
+  `rib-groups { RG-REMOTE-LOOPBACKS { … } }`), is an instance: `bridge-domains`,
+  `classifiers`, `drop-profiles`, `forwarding-classes`, `groups`,
+  `interface-switch`, `interfaces`, `policy-options`, `rewrite-rules`,
+  `rib-groups`, `routing-instances`, `scheduler-maps`, `vlans`.
+- **Context leaf paths.** The ancestors of the exact keyword path
+  `chassis fpc pic tunnel-services` provide context when a template selects only
+  that leaf below them. No other partial port, tunnel-services block or similarly
+  named container is admitted by this rule.
+- **Not selectable.** A policy-statement `term` is an ordered constituent of the
+  enclosing statement: its neighbours change the meaning of the selection, so an
+  unselected sibling term invalidates the claim.
 
-The registry is versioned. Because a registry change can change which devices a
-body reproduces on, any modification to it **MUST** trigger a full `Seen on`
-re-audit and regeneration of `Count` and `_bindings` for every affected JVD.
+Every implementation that measures `Seen on` or `Count` **MUST** apply exactly
+this vocabulary. Because a change to it can change which devices a body
+reproduces on, any change **MUST** be published as a new vocabulary version here
+and **MUST** be followed by re-establishing `Seen on` and `Count` for every
+affected JVD.
 
 The applicability claim is therefore that the **selected** stanzas reproduce
 exactly on a device — not that the entire enclosing interface, maintenance
@@ -329,9 +366,9 @@ explains behaviour belongs here.
 ### Pair with
 
 Every literal target MUST be in the same OS directory as the declaring snip.
-Cross-OS Seen-on evidence and equivalent bodies do not waive this rule.
-`PAIR_WITH_CROSS_OS` is always an error, including unchanged legacy files.
-Create the required native mirror rather than deleting the dependency.
+Cross-OS Seen-on evidence and equivalent bodies do not waive this rule
+(`PAIR_WITH_CROSS_OS`). Create the required native mirror rather than deleting
+the dependency.
 
 `Pair with:` answers exactly one question:
 
@@ -354,6 +391,19 @@ Create the required native mirror rather than deleting the dependency.
   alternatives, role variants, other-OS forms, or configuration on a different
   device.
 - Use `Pair with: none` when there are no required same-device dependencies.
+
+`Pair with` publishes exactly two kinds of entry: **fixed** same-device targets
+(paths, optionally with the compound-object qualifier above) and **variant
+selectors** (`variant:` bullets, see *Variant group*). Occurrence-specific typed
+dependency requirements — which named object, interface parent, member or
+context a particular occurrence of the body needs — are **not** header
+metadata and **MUST NOT** be serialized into `Pair with` or any other header
+field. Where a JVD maintains an approved machine-readable dependency
+declaration, `Pair with` **MUST** agree with that declaration's fixed and
+variant entries, and consumers that need the occurrence-specific requirements
+receive them through generated product projections (the catalog and the BYOAI
+manifest), never by parsing headers. A missing dependency is never rescued by
+searching undeclared candidates.
 
 ### Variables
 
@@ -452,9 +502,9 @@ after `Seen on:` and optional `Count:`:
 - Comments, quoted prose, inactive subtrees and unapplied group definitions do
   not establish these capabilities. Concrete consumer references must be covered
   by the declaration. Declarations are requirements, not source evidence:
-  providers must still reconstruct on the exact target device, and source-bound
-  closure checks the rendered consumer and provider against the declaration.
-  The selected member supplies its complete body and declared prerequisites.
+  providers must still reconstruct on the exact target device, and the rendered
+  consumer and provider MUST satisfy the declaration on that device. The
+  selected member supplies its complete body and declared prerequisites.
 - Within one JVD and group, a target device **MUST** map to at most one distinct
   emitted body, evaluated across **both** storage directories
   (`VARIANT_DEVICE_OVERLAP`). Two members naming the same device are duplicate
@@ -494,19 +544,14 @@ bullet inside `Pair with:`:
   `VARIANT_AMBIGUOUS`, **regardless of directory** — directory preference can
   never hide a differing body. If exactly one distinct body remains, its
   representation in the target device's OS directory is preferred. If only a
-  foreign-directory representation remains, the resolver reports
-  `VARIANT_CROSS_DIRECTORY`; this is an error on changed files and in complete
-  libraries, and a warning only on unchanged files in partial libraries. The
-  warning preserves legacy visibility, not permission to omit a native mirror.
-  Selection is independent of candidate order.
-  Zero applicable candidates is `VARIANT_UNRESOLVED`; a referenced group with no
-  members is `VARIANT_GROUP_EMPTY`. The first arbitrary member is never chosen,
-  and selection never crosses device or JVD.
+  foreign-directory representation remains, the requirement resolves but the
+  library lacks the native mirror it owes (`VARIANT_CROSS_DIRECTORY`); this is
+  never permission to omit that mirror. Selection is independent of candidate
+  order. Zero applicable candidates is `VARIANT_UNRESOLVED`; a referenced group
+  with no members is `VARIANT_GROUP_EMPTY`. The first arbitrary member is never
+  chosen, and selection never crosses device or JVD.
 - A bullet beginning `variant:` that is malformed is `VARIANT_MALFORMED` and
   **never** falls through to an ordinary path prerequisite.
-
-For a JVD whose `_snip-library.json` `seenOnValidation` value is `complete`,
-every variant finding is an error regardless of whether the file itself changed.
 
 ### Reserved / unsupported fields
 
@@ -514,8 +559,8 @@ Until their parser, schema, and portal behaviour exist, headers **MUST NOT**
 author `Augments with:`.
 
 The free-form `Variant:` and `Role:` fields are **deprecated** legacy metadata:
-they are recognised but not retained, and are reported as `LEGACY_HEADER_SECTION`
-(a warning on legacy snips, an error once a snip is changed).
+they are recognised but not retained, and are reported as `LEGACY_HEADER_SECTION`.
+Headers **MUST NOT** carry them.
 
 ## Cross-OS navigation
 
@@ -524,73 +569,10 @@ directory, the build derives `otherOsFormId` on each record for navigation. It
 is **not** an assertion that the two bodies are byte-identical, and it is **not**
 expressed through `Pair with:`.
 
-## Library validation state
+## Validity and enforcement
 
-Each JVD **MAY** carry `configuration/snips/_snip-library.json`:
-
-```json
-{ "schemaVersion": 1, "seenOnValidation": "partial" }
-```
-
-- `seenOnValidation: "partial"` — the JVD is still being audited; legacy
-  approximations warn.
-- `seenOnValidation: "complete"` — every published snip in the JVD has verified
-  applicability; any approximate or unresolved `Seen on:` becomes an error.
-- Absence of the file defaults to `"partial"`.
-
-Optional `countValidation` and `peersValidation` fields independently enroll a
-library in generated-evidence validation. Each accepts `"partial"` or
-`"complete"`; absence means not enrolled, never verified zero or no peers.
-Partial enrollment permits missing headers but does not relax any published
-claim. Complete enrollment requires that field on every snippet and supporting
-verified evidence for the full population. An existing enrollment MUST NOT be
-removed or downgraded silently when comparing the base and tested revisions.
-Publishing either field without its corresponding enrollment is an error.
-
-`npm --prefix portal run snips:evidence -- --base <ref>` discovers enrolled
-libraries in both revisions. It always checks freshness and projection
-consistency. Changed template bodies or generated claims are remeasured across
-the full source-device population; source, evidence, rule or uncertain changes
-fall back to the whole affected JVD. New remote candidates participate in peer
-analysis even if previously unpaired. Missing evidence or an invalid base fails.
-Without a base, the command remeasures all enrolled libraries.
-
-The measurement fingerprint excludes derived header text, preventing a
-self-hashing cycle, and includes source bytes, canonical bodies, exclusions,
-registry and implementation hashes. Publication digests still cover generated
-header claims. `generate-bindings.mjs --freshness-check` checks provenance only;
-the existing `--check` continues to perform full measurement.
-
-`seenOnValidation` describes **applicability** integrity only. It is independent of
-whether every source configuration form has been extracted (extraction coverage)
-and independent of role support (`_roles.json`).
-
-## Enforcement
-
-`snip-validate.mjs` reports stable error codes: `MISSING_HEADER`,
-`MISSING_TOPIC`, `TOPIC_MULTILINE`, `MISSING_SEEN_ON_SECTION`,
-`MISSING_SEEN_ON_BUCKET`, `SEEN_ON_NON_DEVICE_TOKEN`, `SEEN_ON_UNKNOWN_DEVICE`,
-`SEEN_ON_APPROXIMATION`, `PAIR_WITH_UNRESOLVED`, `VARIABLE_UNDECLARED`,
-`VARIABLE_UNUSED`, `UNKNOWN_HEADER_SECTION`, `LEGACY_HEADER_SECTION`,
-`LEGACY_HEADER_SYNTAX`, `INVALID_SECTION_ORDER`, `ORPHAN_HEADER_CONTENT`,
-`VARIANT_MALFORMED`,
-`VARIANT_PROVIDES_UNKNOWN_FAMILY`, `VARIANT_PROVIDES_MISMATCH`,
-`VARIANT_UNRESOLVED`, `VARIANT_AMBIGUOUS`, `VARIANT_DEVICE_OVERLAP`,
-`VARIANT_GROUP_EMPTY`.
-
-Severity is applied on change:
-
-- A **new or modified** snip **MUST** satisfy this contract in full; any finding
-  is an error.
-- A **legacy (unchanged)** snip is grandfathered while its JVD is `partial`
-  (findings warn); once its JVD is `complete`, its Seen-on applicability findings
-  (`MISSING_HEADER`, `SEEN_ON_*`, `MISSING_SEEN_ON_*`) and all variant-integrity
-  findings (`VARIANT_*`) are held strict.
-
-Run locally:
-
-```
-npm --prefix portal run snips:validate    # enforce the contract
-npm --prefix portal run snips:test        # contract unit tests
-npm --prefix portal run snips:check       # snips.json is up to date
-```
+This contract defines what a valid header is. A snip that violates any rule in
+this document is invalid. Whether and when a violation blocks a change or a
+publication, how libraries are enrolled for source-evidence verification, and
+how claims are measured, qualified and accepted are decided by the build tooling
+and documented with it; those policies never widen what this contract permits.

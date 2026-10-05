@@ -72,5 +72,5 @@ The snip bundle is not required for Design mode.
 Then refresh the portal mirror from the repo root:
 
 ```bash
-node portal/scripts/generate-snips.mjs
+JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
 ```

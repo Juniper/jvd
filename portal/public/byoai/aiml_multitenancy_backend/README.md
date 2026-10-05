@@ -77,7 +77,7 @@ and regenerates `MANIFEST.json`. Then regenerate the portal mirror from
 the repo root:
 
 ```bash
-node portal/scripts/generate-snips.mjs
+JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
 ```
 
 and commit the refreshed `portal/public/byoai/aiml_multitenancy_backend/`.

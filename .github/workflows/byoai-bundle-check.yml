@@ -1,11 +1,17 @@
-name: BYOAI bundle freshness
+name: BYOAI bundle assembly consistency
 
 # Ensures jvd-mebs-snips.md and jvd-mebs-byoai-prompt.txt are
-# regenerated whenever any source file under the MEBS snips/
+# reassembled whenever any source file under the MEBS snips/
 # tree (or the byoai/ companion files) changes.
 #
+# Public CI has no builder, so it runs regenerate-bundle.sh --public-only:
+# bundle assembly consistency using committed public artifacts
+# (TIERS.md/MANIFEST.json as committed). This is not regeneration,
+# freshness verification or qualification; trusted-builder qualification
+# remains responsible for semantic freshness before publication.
+#
 # Fails the PR if the committed bundle does not match what
-# regenerate-bundle.sh would produce right now.
+# regenerate-bundle.sh --public-only would assemble right now.
 
 on:
   pull_request:
@@ -27,9 +33,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Regenerate bundle
+      - name: Bundle assembly consistency using committed public artifacts
         working-directory: service_provider/metro_ethernet_business_services/configuration/snips/byoai
-        run: ./regenerate-bundle.sh
+        run: ./regenerate-bundle.sh --public-only
 
       - name: Verify bundle is up to date
         run: |
@@ -37,7 +43,7 @@ jobs:
               'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md' \
               'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt'; then
             echo ""
-            echo "::error::BYOAI bundle is stale. Run regenerate-bundle.sh from the byoai/ folder and commit the result."
+            echo "::error::BYOAI bundle is stale. Run regenerate-bundle.sh (with JVD_BUILDER set) from the byoai/ folder and commit the result."
             exit 1
           fi
           echo "Bundle is up to date."

@@ -2,11 +2,92 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "scope-an3-edge-defaults-port-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": ["interfaces", "et-0/0/1"],
+      "sourceIds": [19986, 19987],
+      "terminalSourceIds": [19987],
+      "evidence": { "constructClassId": "5d580477aa205842", "sourceStatement": "apply-groups GR-EDGE-INTF", "noUnits": true, "noLagMembership": true, "noProtocolReferences": true, "noBreakoutChildren": true, "noApplicableGroupCreatedUnits": true },
+      "reason": "Additional proven instance of the approved pre-provisioned/unconsumed physical-port class: only edge-group defaults, with no units, LAG membership, protocol references, breakout children or applicable group-created units. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma1-1-edge-defaults-port-8",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "ma1-1_acx7024",
+      "sourceSha256": "e9f4be38f99c13a2652efc8097e08d38ab2d597757dbecba4caafe52a2bd9915",
+      "hierarchy": ["interfaces", "et-0/0/8"],
+      "sourceIds": [140, 141],
+      "terminalSourceIds": [141],
+      "evidence": { "constructClassId": "5d580477aa205842", "sourceStatement": "apply-groups GR-EDGE-INTF", "noUnits": true, "noLagMembership": true, "noProtocolReferences": true, "noBreakoutChildren": true, "noApplicableGroupCreatedUnits": true },
+      "reason": "Additional proven instance of the approved pre-provisioned/unconsumed physical-port class: only edge-group defaults, with no units, LAG membership, protocol references, breakout children or applicable group-created units. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma1-1-edge-defaults-port-14",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "ma1-1_acx7024",
+      "sourceSha256": "e9f4be38f99c13a2652efc8097e08d38ab2d597757dbecba4caafe52a2bd9915",
+      "hierarchy": ["interfaces", "et-0/0/14"],
+      "sourceIds": [142, 143],
+      "terminalSourceIds": [143],
+      "evidence": { "constructClassId": "5d580477aa205842", "sourceStatement": "apply-groups GR-EDGE-INTF", "noUnits": true, "noLagMembership": true, "noProtocolReferences": true, "noBreakoutChildren": true, "noApplicableGroupCreatedUnits": true },
+      "reason": "Additional proven instance of the approved pre-provisioned/unconsumed physical-port class: only edge-group defaults, with no units, LAG membership, protocol references, breakout children or applicable group-created units. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma1-2-edge-defaults-port-6",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": ["interfaces", "et-0/0/6"],
+      "sourceIds": [164, 165],
+      "terminalSourceIds": [165],
+      "evidence": { "constructClassId": "5d580477aa205842", "sourceStatement": "apply-groups GR-EDGE-INTF", "noUnits": true, "noLagMembership": true, "noProtocolReferences": true, "noBreakoutChildren": true, "noApplicableGroupCreatedUnits": true },
+      "reason": "Additional proven instance of the approved pre-provisioned/unconsumed physical-port class: only edge-group defaults, with no units, LAG membership, protocol references, breakout children or applicable group-created units. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ag1-2-management-vrf-default",
+      "classification": "excluded-model-scope",
+      "semanticClass": "management-only-static-route",
+      "device": "ag1-2_acx7100-32c",
+      "sourceSha256": "61d4c674309b46bbf3e79d9b307cac8e8312ee71450655aff827b3b96db94297",
+      "hierarchy": ["routing-instances", "mgmt_junos", "routing-options", "static", "route 0.0.0.0/0"],
+      "sourceIds": [574, 575, 576, 577],
+      "terminalSourceIds": [575, 576, 577],
+      "evidence": {
+        "rationaleReuse": "r2-an1_mx204-3bf85c6756e0",
+        "routingContext": "Reserved Junos management routing instance mgmt_junos",
+        "routeStatements": ["next-hop 10.83.152.254", "retain", "no-readvertise"],
+        "managementContextSourceId": 571,
+        "otherManagementTableReferences": 0,
+        "authorization": "2026-10-02 approval to apply additional instances of proven already-approved exclusion semantics"
+      },
+      "reason": "Same approved management-only static-route semantics: reserved management VRF default route with a management next hop and no service-table references. Outside reusable service/transport scope; preserve archived source. This is not an SNMP exclusion.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
       "id": "ma5-dangling-isis-interface",
       "classification": "excluded-source-defect",
       "device": "ma5_mx204",
       "sourceSha256": "a305992b0d020e853850e430c75b4c2be3eaa602e56d764c2d5b2957e767d991",
-      "hierarchy": ["protocols", "isis", "interface et-0/0/2.0"],
+      "hierarchy": [
+        "protocols",
+        "isis",
+        "interface et-0/0/2.0"
+      ],
       "reason": "Dangling logical-interface reference; unit 0 is absent. Preserve source; do not substitute unit 1.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-09-23"
@@ -16,7 +97,10 @@
       "classification": "excluded-source-defect",
       "device": "ag1-1_acx7100-32c",
       "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
-      "hierarchy": ["interfaces", "et-0/0/16"],
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/16"
+      ],
       "reason": "Author-adjudicated fake interface, including parent description, MTU and all logical units; not design content.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-09-23"
@@ -26,10 +110,1672 @@
       "classification": "excluded-source-defect",
       "device": "ag1-1_acx7100-32c",
       "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
-      "hierarchy": ["firewall", "family inet6", "filter foo"],
+      "hierarchy": [
+        "firewall",
+        "family inet6",
+        "filter foo"
+      ],
       "reason": "Filter applied in both directions to the adjudicated fake interface; excluded with that source defect, not treated as unapplied.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-09-23"
+    },
+    {
+      "id": "r2-ma1-2_acx7024-56cb79589faa",
+      "classification": "excluded-model-scope",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_700",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ma1-2_acx7024-0b83cd8688dc",
+      "classification": "excluded-model-scope",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_799",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ma1-2_acx7024-5c882b50497b",
+      "classification": "excluded-model-scope",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": [
+        "routing-instances",
+        "vpls_group_103_600",
+        "protocols",
+        "vpls",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-56cb79589faa",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_700",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-0b83cd8688dc",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_799",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg2_acx7509-56cb79589faa",
+      "classification": "excluded-model-scope",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_700",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg2_acx7509-0b83cd8688dc",
+      "classification": "excluded-model-scope",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "routing-instances",
+        "evpn_group_90_799",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg2_acx7509-5c882b50497b",
+      "classification": "excluded-model-scope",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "routing-instances",
+        "vpls_group_103_600",
+        "protocols",
+        "vpls",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse1_mx304-836ef4a3129b",
+      "classification": "excluded-model-scope",
+      "device": "mse1_mx304",
+      "sourceSha256": "cbd49765b48d89da2c61fd834587368ccb5996c6507d219f8fad414266453284",
+      "hierarchy": [
+        "routing-options",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse1_mx304-5a59cd326102",
+      "classification": "excluded-model-scope",
+      "device": "mse1_mx304",
+      "sourceSha256": "cbd49765b48d89da2c61fd834587368ccb5996c6507d219f8fad414266453284",
+      "hierarchy": [
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse1_mx304-f44ec7fb0909",
+      "classification": "excluded-model-scope",
+      "device": "mse1_mx304",
+      "sourceSha256": "cbd49765b48d89da2c61fd834587368ccb5996c6507d219f8fad414266453284",
+      "hierarchy": [
+        "protocols",
+        "l2-learning",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse2_mx304-836ef4a3129b",
+      "classification": "excluded-model-scope",
+      "device": "mse2_mx304",
+      "sourceSha256": "423d9a50981c3f8a9779bb0c707553efab439c10b7b4c02e8cc7ae05bbf43be3",
+      "hierarchy": [
+        "routing-options",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse2_mx304-5a59cd326102",
+      "classification": "excluded-model-scope",
+      "device": "mse2_mx304",
+      "sourceSha256": "423d9a50981c3f8a9779bb0c707553efab439c10b7b4c02e8cc7ae05bbf43be3",
+      "hierarchy": [
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse2_mx304-f44ec7fb0909",
+      "classification": "excluded-model-scope",
+      "device": "mse2_mx304",
+      "sourceSha256": "423d9a50981c3f8a9779bb0c707553efab439c10b7b4c02e8cc7ae05bbf43be3",
+      "hierarchy": [
+        "protocols",
+        "l2-learning",
+        "traceoptions"
+      ],
+      "reason": "Approved diagnostic/debug traceoptions exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-1_acx7100-32c-6e0bc82a2cfc",
+      "classification": "excluded-model-scope",
+      "device": "ag1-1_acx7100-32c",
+      "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/1"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-1_acx7100-32c-67c0719b1b78",
+      "classification": "excluded-model-scope",
+      "device": "ag1-1_acx7100-32c",
+      "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/3"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-1_acx7100-32c-8f8b19d7f184",
+      "classification": "excluded-model-scope",
+      "device": "ag1-1_acx7100-32c",
+      "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/5"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-1_acx7100-32c-8cff27881ef7",
+      "classification": "excluded-model-scope",
+      "device": "ag1-1_acx7100-32c",
+      "sourceSha256": "638fc031403bbb3e9fd417b0eace1e55279268db6ccc60c939fbba552ae761ac",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/7"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-2_acx7100-32c-6e0bc82a2cfc",
+      "classification": "excluded-model-scope",
+      "device": "ag1-2_acx7100-32c",
+      "sourceSha256": "61d4c674309b46bbf3e79d9b307cac8e8312ee71450655aff827b3b96db94297",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/1"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-2_acx7100-32c-67c0719b1b78",
+      "classification": "excluded-model-scope",
+      "device": "ag1-2_acx7100-32c",
+      "sourceSha256": "61d4c674309b46bbf3e79d9b307cac8e8312ee71450655aff827b3b96db94297",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/3"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-2_acx7100-32c-8f8b19d7f184",
+      "classification": "excluded-model-scope",
+      "device": "ag1-2_acx7100-32c",
+      "sourceSha256": "61d4c674309b46bbf3e79d9b307cac8e8312ee71450655aff827b3b96db94297",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/5"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-7cf3b2f5b0a3",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/27"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-caf879cbd64c",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/29"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-34d6297683c6",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/31"
+      ],
+      "reason": "Approved unused physical-port configuration exclusion from the reusable JVD model; preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ag1-2_acx7100-32c-0782bc9be489",
+      "classification": "excluded-model-scope",
+      "device": "ag1-2_acx7100-32c",
+      "sourceSha256": "61d4c674309b46bbf3e79d9b307cac8e8312ee71450655aff827b3b96db94297",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 0.0.0.0/0"
+      ],
+      "reason": "Author-adjudicated leftover/test default route with no confirmed architectural purpose.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-an1_mx204-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "an1_mx204",
+      "sourceSha256": "16b820673fe8fbc6e9e087f8728c716a772265d1ee5165d7c86326a258a4d6bb",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-an2_acx5448-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "an2_acx5448",
+      "sourceSha256": "11f436d1ea5cf4151cf1c1ca1a466affffbf5a27d9f825d0d52eda77ec2dbb79",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-an3_acx7100-48l-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-cr2_ptx10001-36mr-80f375b4d0de",
+      "classification": "excluded-model-scope",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.151.45/32 next-hop 10.83.152.254"
+      ],
+      "reason": "Author-adjudicated stale/test PCEP-controller route; no controller/server exists in the validated JVD.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-ma1-1_acx7024-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "ma1-1_acx7024",
+      "sourceSha256": "e9f4be38f99c13a2652efc8097e08d38ab2d597757dbecba4caafe52a2bd9915",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mdr1_acx7509-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mdr2_mx10003-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "mdr2_mx10003",
+      "sourceSha256": "4098af7a0d435632477ecb34d3f92616da3d31b59ae8b93e820bd7c4395937c4",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg2_acx7509-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse1_mx304-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "mse1_mx304",
+      "sourceSha256": "cbd49765b48d89da2c61fd834587368ccb5996c6507d219f8fad414266453284",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-mse2_mx304-3bf85c6756e0",
+      "classification": "excluded-model-scope",
+      "device": "mse2_mx304",
+      "sourceSha256": "423d9a50981c3f8a9779bb0c707553efab439c10b7b4c02e8cc7ae05bbf43be3",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 10.83.152.2/32"
+      ],
+      "reason": "Approved management-only static route; outside reusable JVD configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "r2-meg1_acx7100-32c-a6fd1507b876",
+      "classification": "excluded-model-scope",
+      "device": "meg1_acx7100-32c",
+      "sourceSha256": "421bc3d460af03a2a3b96218a799d4d200793d33edc05518f015981af0a5c3bd",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/30"
+      ],
+      "reason": "Approved pre-provisioned/unconsumed breakout configuration: no breakout children configured or referenced in the source-wide search. Not an unused; interface.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-01"
+    },
+    {
+      "id": "scope-mdr1_acx7509-afd375a5bb42",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/0"
+      ],
+      "sourceIds": [
+        121,
+        122
+      ],
+      "terminalSourceIds": [
+        122
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-6e0bc82a2cfc",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/1"
+      ],
+      "sourceIds": [
+        123,
+        124
+      ],
+      "terminalSourceIds": [
+        124
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-a1b18a9f6121",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/2"
+      ],
+      "sourceIds": [
+        125,
+        126
+      ],
+      "terminalSourceIds": [
+        126
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-67c0719b1b78",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/3"
+      ],
+      "sourceIds": [
+        127,
+        128
+      ],
+      "terminalSourceIds": [
+        128
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-742a34f7e0fd",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/4"
+      ],
+      "sourceIds": [
+        129,
+        130
+      ],
+      "terminalSourceIds": [
+        130
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-8f8b19d7f184",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/5"
+      ],
+      "sourceIds": [
+        131,
+        132
+      ],
+      "terminalSourceIds": [
+        132
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-e310c4a917fd",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/6"
+      ],
+      "sourceIds": [
+        133,
+        134
+      ],
+      "terminalSourceIds": [
+        134
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-8cff27881ef7",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/7"
+      ],
+      "sourceIds": [
+        135,
+        136
+      ],
+      "terminalSourceIds": [
+        136
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-7da4c94a766b",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/8"
+      ],
+      "sourceIds": [
+        137,
+        138
+      ],
+      "terminalSourceIds": [
+        138
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-c3e9722d3d00",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/15"
+      ],
+      "sourceIds": [
+        163,
+        164
+      ],
+      "terminalSourceIds": [
+        164
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-3e3e50b6cc3a",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/1"
+      ],
+      "sourceIds": [
+        2310,
+        2311
+      ],
+      "terminalSourceIds": [
+        2311
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-74e9842331d7",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/6"
+      ],
+      "sourceIds": [
+        12322,
+        12323
+      ],
+      "terminalSourceIds": [
+        12323
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-a856010c8276",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/7"
+      ],
+      "sourceIds": [
+        12324,
+        12325
+      ],
+      "terminalSourceIds": [
+        12325
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-04d62bbf4b00",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/8"
+      ],
+      "sourceIds": [
+        12326,
+        12327
+      ],
+      "terminalSourceIds": [
+        12327
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-310e30f9fd4a",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/9"
+      ],
+      "sourceIds": [
+        12328,
+        12329
+      ],
+      "terminalSourceIds": [
+        12329
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-94424190c1e1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/10"
+      ],
+      "sourceIds": [
+        12330,
+        12331
+      ],
+      "terminalSourceIds": [
+        12331
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-e5bc5f6556fc",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/14"
+      ],
+      "sourceIds": [
+        12332,
+        12333
+      ],
+      "terminalSourceIds": [
+        12333
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "9342b1b7ee3ae420",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-an3_acx7100-48l-5664a8efe570",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/48"
+      ],
+      "sourceIds": [
+        21209,
+        21210
+      ],
+      "terminalSourceIds": [
+        21210
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-an3_acx7100-48l-6df8ac09eec2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/49"
+      ],
+      "sourceIds": [
+        21211,
+        21212
+      ],
+      "terminalSourceIds": [
+        21212
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-an3_acx7100-48l-93714ee0a5a3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/51"
+      ],
+      "sourceIds": [
+        31525,
+        31526
+      ],
+      "terminalSourceIds": [
+        31526
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr1_ptx10001-36mr-6f4fd2cab959",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr1_ptx10001-36mr",
+      "sourceSha256": "2ce5fbc785877d48c4825023f373cf0f007ec787821680b1be662322de92818a",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/9"
+      ],
+      "sourceIds": [
+        126,
+        127
+      ],
+      "terminalSourceIds": [
+        127
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr1_ptx10001-36mr-4b0c768bb211",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr1_ptx10001-36mr",
+      "sourceSha256": "2ce5fbc785877d48c4825023f373cf0f007ec787821680b1be662322de92818a",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/10"
+      ],
+      "sourceIds": [
+        128,
+        129
+      ],
+      "terminalSourceIds": [
+        129
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr1_ptx10001-36mr-b8d73df995c5",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr1_ptx10001-36mr",
+      "sourceSha256": "2ce5fbc785877d48c4825023f373cf0f007ec787821680b1be662322de92818a",
+      "hierarchy": [
+        "interfaces",
+        "et-0/1/5"
+      ],
+      "sourceIds": [
+        152,
+        153
+      ],
+      "terminalSourceIds": [
+        153
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr2_ptx10001-36mr-afd375a5bb42",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/0"
+      ],
+      "sourceIds": [
+        93,
+        94
+      ],
+      "terminalSourceIds": [
+        94
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr2_ptx10001-36mr-6e0bc82a2cfc",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/1"
+      ],
+      "sourceIds": [
+        95,
+        96
+      ],
+      "terminalSourceIds": [
+        96
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr2_ptx10001-36mr-a1b18a9f6121",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/2"
+      ],
+      "sourceIds": [
+        97,
+        98
+      ],
+      "terminalSourceIds": [
+        98
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr2_ptx10001-36mr-8cff27881ef7",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/7"
+      ],
+      "sourceIds": [
+        107,
+        108
+      ],
+      "terminalSourceIds": [
+        108
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-cr2_ptx10001-36mr-7da4c94a766b",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "cr2_ptx10001-36mr",
+      "sourceSha256": "ba190852f2f5f560a1b32a12774dc238dbbd0ba2d19cb56f96f55f7f02d54553",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/8"
+      ],
+      "sourceIds": [
+        109,
+        110
+      ],
+      "terminalSourceIds": [
+        110
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma3_acx7100-48l-5664a8efe570",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "ma3_acx7100-48l",
+      "sourceSha256": "469888d288bc148b984669f16bcfcebb24f5512e49065bcc716dbe9253bbd876",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/48"
+      ],
+      "sourceIds": [
+        2116,
+        2117
+      ],
+      "terminalSourceIds": [
+        2117
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma3_acx7100-48l-6df8ac09eec2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "ma3_acx7100-48l",
+      "sourceSha256": "469888d288bc148b984669f16bcfcebb24f5512e49065bcc716dbe9253bbd876",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/49"
+      ],
+      "sourceIds": [
+        2118,
+        2119
+      ],
+      "terminalSourceIds": [
+        2119
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-meg2_acx7509-f56bf6adf01a",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "meg2_acx7509",
+      "sourceSha256": "6afc57da71118019f2e68b0bf7f02fd4d12f76a99bd382cbd4027afff66dd9e1",
+      "hierarchy": [
+        "interfaces",
+        "et-1/0/9"
+      ],
+      "sourceIds": [
+        162,
+        163
+      ],
+      "terminalSourceIds": [
+        163
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "03adc5462b5c9314",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-26de0f12a575",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/13"
+      ],
+      "sourceIds": [
+        159,
+        160
+      ],
+      "terminalSourceIds": [
+        160
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "74c0569e3f22064b",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-mdr1_acx7509-c2335faa3a03",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unused-physical-port-stub",
+      "device": "mdr1_acx7509",
+      "sourceSha256": "18e69045c77e239735f43b122c19016eb0c07127cf7009f1a2f0727d9f4c7316",
+      "hierarchy": [
+        "interfaces",
+        "et-0/0/14"
+      ],
+      "sourceIds": [
+        161,
+        162
+      ],
+      "terminalSourceIds": [
+        162
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "74c0569e3f22064b",
+        "noInboundReferences": true,
+        "noUnits": true,
+        "noLagMembership": true,
+        "noProtocolReferences": true,
+        "noApplicableGroupCreatedUnits": true
+      },
+      "reason": "Approved pre-provisioned/unconsumed physical-port stub: no units, LAG membership, protocol references or applicable group-created units. Same semantic class as the approved MEG1 unused-port case. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma1-2_acx7024-1a671a5da7f8",
+      "classification": "excluded-model-scope",
+      "semanticClass": "site-local-management-metadata",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": [
+        "snmp",
+        "location bangalore"
+      ],
+      "sourceIds": [
+        6699
+      ],
+      "terminalSourceIds": [
+        6699
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "7d31308e78d5e895",
+        "noInboundReferences": true
+      },
+      "reason": "Approved site-local management metadata: SNMP location/contact operational metadata outside the service/transport design scope. Does not exclude SNMP configuration generally. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-ma1-2_acx7024-ea16579fbeba",
+      "classification": "excluded-model-scope",
+      "semanticClass": "site-local-management-metadata",
+      "device": "ma1-2_acx7024",
+      "sourceSha256": "2beee313ccd4bbe0d0c91c0df15476f0b77ba182ee0521991569a6bf396ca022",
+      "hierarchy": [
+        "snmp",
+        "contact bangalore-admin"
+      ],
+      "sourceIds": [
+        6700
+      ],
+      "terminalSourceIds": [
+        6700
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "cc96208584a300fd",
+        "noInboundReferences": true
+      },
+      "reason": "Approved site-local management metadata: SNMP location/contact operational metadata outside the service/transport design scope. Does not exclude SNMP configuration generally. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
+    },
+    {
+      "id": "scope-an3_acx7100-48l-531927652b05",
+      "classification": "excluded-model-scope",
+      "semanticClass": "empty-unreferenced-group",
+      "device": "an3_acx7100-48l",
+      "sourceSha256": "bd69880f532b91cf80907206e0f367b095c72cd061dbc4840e87e9304e7b87cf",
+      "hierarchy": [
+        "groups",
+        "EVPN_LOG"
+      ],
+      "sourceIds": [
+        184
+      ],
+      "terminalSourceIds": [
+        184
+      ],
+      "evidence": {
+        "evidenceSha256": "898491b131708d2b352618e8d58b76c1411edf8e647aa79231010902ca0dbc40",
+        "approval": "2026-10-02 three-class source-gap adjudication",
+        "derivation": "Exact source hierarchy, source hash and structural consumption checks",
+        "constructClassId": "f77f2e2039c7eefe",
+        "noInboundReferences": true
+      },
+      "reason": "Approved empty declaration with no children and no application/reference; structurally inert, irrespective of object name. Preserve archived source.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-02"
     }
   ]
 }

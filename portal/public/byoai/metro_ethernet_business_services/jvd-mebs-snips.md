@@ -35,6 +35,8 @@
  *    `ae<count-1>` can be configured on the node.
  *  - The count is a chassis-wide ceiling, not a count of bundles in use.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $AE_DEVICE_COUNT   e.g. 25
@@ -45,6 +47,31 @@ chassis {
             device-count $AE_DEVICE_COUNT;
         }
     }
+}
+```
+
+## evo/chassis/network-services-enhanced-ip.conf
+
+```
+/*
+ * Topic:   Enhanced IP chassis network-services mode
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
+ * Pair with: none
+ *
+ */
+chassis {
+  network-services enhanced-ip;
 }
 ```
 
@@ -804,6 +831,8 @@ class-of-service {
  *  - Two scheduling priority levels: REALTIME is strict-high, the other five
  *    classes are low.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
@@ -878,6 +907,8 @@ class-of-service {
  *    BUSINESS and MEDIUM take 20% each, BEST-EFFORT gets the remainder.
  *  - REALTIME-SC is rated with shaping-rate percent 40; the other five use
  *    transmit-rate.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
@@ -1028,6 +1059,8 @@ firewall {
  * Count:
  *   ag1-1_acx7100-32c 1
  *   total 1
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1103,6 +1136,35 @@ firewall {
 }
 ```
 
+## evo/forwarding-options/apply-gr-fatpw-lb.conf
+
+```
+/*
+ * Topic:   Forwarding-options FAT pseudowire load-balancing group application
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
+ * Pair with:
+ *  - evo/groups/gr-fatpw-lb.conf
+ *
+ */
+forwarding-options {
+  apply-groups GR-FATPW-LB;
+}
+```
+
 ## evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf
 
 ```
@@ -1115,6 +1177,7 @@ firewall {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1171,6 +1234,8 @@ forwarding-options {
  *  - `family multiservice` adds the source and destination MAC, which is what
  *    spreads bridged traffic that carries no IP header.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1198,6 +1263,25 @@ forwarding-options {
 }
 ```
 
+## evo/groups/apply-global-one.conf
+
+```
+/*
+ * Topic: Global single-group application
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-2_acx7024 ma3_acx7100-48l
+ * Count:
+ *   ma1-2_acx7024 1
+ *   ma3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. GR-FATPW-LABEL
+ */
+apply-groups [ $GROUP_A ];```
+
 ## evo/groups/gr-ae-interface-mtu.conf
 
 ```
@@ -1214,6 +1298,7 @@ forwarding-options {
  *   meg2_acx7509 1
  *   total 5
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1360,6 +1445,7 @@ groups {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1552,7 +1638,7 @@ groups {
  * Variant group: mebs-edge-intf-mh
  *   Provides: gr:edge-intf-mh
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -1736,6 +1822,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1787,6 +1874,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1835,6 +1923,7 @@ groups {
  * Variant group: mebs-fatpw-label-form
  *   Provides: gr:fatpw-label
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -1880,7 +1969,7 @@ groups {
  *    L2VPN_PORT_BASED     port-based L2VPN   flow-label-{transmit,receive}
  *    <EVPN_ELAN_PORT_*>   port-based EVPN-ELAN  flow-label + flow-label-static
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -1980,7 +2069,7 @@ groups {
  *  - Apply globally:
  *    set apply-groups GR-FATPW-LB
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -1994,6 +2083,66 @@ groups {
             load-balance-label-capability;
         }
     }
+}
+```
+
+## evo/groups/gr-interface-mtu-meg2.conf
+
+```
+/*
+ * Topic:   Interface MTU group for xe and et-2/0/2 patterns
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
+ * Highlights:
+ *  - INTERFACE-MTU sets MTU 9192 on the literal interface patterns
+ *    <xe-*> and <et-2/0/2*>.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    INTERFACE-MTU {
+        interfaces {
+            <xe-*> {
+                mtu 9192;
+            }
+            <et-2/0/2*> {
+                mtu 9192;
+            }
+        }
+    }
+}```
+
+## evo/groups/gr-interface-mtu-subport.conf
+
+```
+/*
+ * Topic:   Interface MTU group for XE and channelized ET selectors
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
+ * Pair with: none
+ *
+ */
+groups {
+  INTERFACE-MTU {
+    interfaces {
+      <xe-*> {
+        mtu 9192;
+      }
+      <et-0/0/26:3*> {
+        mtu 9192;
+      }
+    }
+  }
 }
 ```
 
@@ -2081,7 +2230,7 @@ groups {
  *  - 50 ms x 3 multiplier with no-adaptation gives ≈150 ms link-failure
  *    detection that drives TI-LFA fast reroute.
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -2130,6 +2279,7 @@ groups {
  *   ag1-2_acx7100-32c 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -2176,7 +2326,7 @@ groups {
  *  - pseudowire-status-tlv: hot-standby-vc-on  → keep VC down on standby
  *    switchover-delay 0                          → switch immediately
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -2202,6 +2352,75 @@ groups {
 }
 ```
 
+## evo/groups/gr-l3vpn-ospf-color-map.conf
+
+```
+/*
+ * Topic:   Gold community addition to matching L3VPN policy terms
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - GR-L3VPN-OSPF-COLOR-MAP defines community addition under the
+ *    tag-default term of policy statements matching <METRO_L3VPN_*>.
+ * Pair with:
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    GR-L3VPN-OSPF-COLOR-MAP {
+        policy-options {
+            policy-statement <METRO_L3VPN_*> {
+                term tag-default {
+                    then {
+                        community add CM-TC-MAP2GOLD;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## evo/groups/gr-l3vpn-ospf-service-map.conf
+
+```
+/*
+ * Topic:   L3VPN policy group adding the gold transport community
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO: ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   total 2
+ * Highlights:
+ *  - l3vpn_ospf_serv_map defines CM-TC-MAP2GOLD addition under the
+ *    tag-default term of policy statements matching <METRO_L3VPN_*>.
+ * Pair with:
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    l3vpn_ospf_serv_map {
+        policy-options {
+            policy-statement <METRO_L3VPN_*> {
+                term tag-default {
+                    then {
+                        community add CM-TC-MAP2GOLD;
+                    }
+                }
+            }
+        }
+    }
+}```
+
 ## evo/groups/gr-l3vpn.conf
 
 ```
@@ -2226,7 +2445,7 @@ groups {
  *  - protect core (TI-LFA-friendly nexthop protection)
  *  - vrf-table-label (single label per VRF for label-switched data plane)
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -2290,7 +2509,7 @@ groups {
  *  - Apply with:
  *    set interfaces et-0/0/N apply-groups GR-EDGE-INTF-LAG-MEMBER
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -2350,6 +2569,27 @@ groups {
     }
 }
 ```
+
+## evo/interfaces/apply-groups-two.conf
+
+```
+/*
+ * Topic: Ordered interface-container two-group application
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. AE-INTERFACE-MTU
+ *   $GROUP_B   e.g. INTERFACE-MTU
+ */
+interfaces {
+    apply-groups [ $GROUP_A $GROUP_B ];
+}```
 
 ## evo/interfaces/core-isis-mpls-interface.conf
 
@@ -2623,6 +2863,55 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifd-breakout-4x100g.conf
+
+```
+/*
+ * Topic: Four-way 100G interface breakout
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $IFD   e.g. et-0/0/52
+ */
+interfaces {
+    $IFD {
+        number-of-sub-ports 4;
+        speed 100g;
+    }
+}```
+
+## evo/interfaces/ifd-breakout-4x10g.conf
+
+```
+/*
+ * Topic:   Four-subport 10G physical interface breakout
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c meg1_acx7100-32c
+ * Count:
+ *   ag1-1_acx7100-32c 4
+ *   ag1-2_acx7100-32c 3
+ *   meg1_acx7100-32c 2
+ *   total 9
+ * Pair with: none
+ *
+ * Variables:
+ *   $IFD   e.g. et-0/0/0
+ */
+interfaces {
+  $IFD {
+    number-of-sub-ports 4;
+    speed 10g;
+  }
+}
+```
+
 ## evo/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf
 
 ```
@@ -2637,6 +2926,7 @@ interfaces {
  *   total 3
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AG2.2 rtme-mx-51 ae22"
  *   $IFD   e.g. ae22
@@ -2673,6 +2963,7 @@ interfaces {
  *   total 3
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to MDR2 rtme-mx-51 ae55"
  *   $IFD   e.g. ae55
@@ -2718,6 +3009,7 @@ interfaces {
  *   total 31
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23"
  *   $IFD   e.g. ae23
@@ -2754,6 +3046,7 @@ interfaces {
  *   total 5
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AN1 rtme-mx-45 ae73"
  *   $IFD   e.g. ae73
@@ -2773,6 +3066,80 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifd-core-aggregate-unit-group.conf
+
+```
+/*
+ * Topic: Core aggregate with unit-level core group
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 2
+ *   total 2
+ * Pair with:
+ *  - evo/groups/gr-core-intf.conf
+ *
+ * Variables:
+ *   $IFD            e.g. ae88
+ *   $CORE_DESC      e.g. "to MA1.1 rtme-acx7024-04 ae88"
+ *   $CORE_V4_ADDR   e.g. 10.10.1.118/30
+ *   $CORE_V6_ADDR   e.g. 2001::10:10:1:76/126
+ */
+interfaces {
+    $IFD {
+        description $CORE_DESC;
+        mtu 9192;
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+        unit 0 {
+            apply-groups GR-CORE-INTF;
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls;
+        }
+    }
+}```
+
+## evo/interfaces/ifd-core-edge-lag-member-mh.conf
+
+```
+/*
+ * Topic:   Aggregate member with core and multihomed edge group applications
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
+ * Pair with:
+ *  - evo/groups/gr-core-intf-lag-member.conf
+ *  - evo/groups/gr-lag-member.conf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD        e.g. et-1/0/12
+ *   $AE_BUNDLE  e.g. ae66
+ */
+interfaces {
+    $IFD {
+        apply-groups [ GR-CORE-INTF-LAG-MEMBER GR-EDGE-INTF-LAG-MEMBER-MH ];
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}```
+
 ## evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
 
 ```
@@ -2785,6 +3152,7 @@ interfaces {
  *   ma3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/2"
@@ -2822,6 +3190,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MSE1 rtme-mx304-02 rtme-mx304-02"
@@ -2860,6 +3229,7 @@ interfaces {
  *   total 43
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
@@ -2888,6 +3258,7 @@ interfaces {
  *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae11
@@ -2917,6 +3288,7 @@ interfaces {
  *   total 4
  * Pair with:
  *  - evo/groups/gr-core-intf-lag-member.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae22
@@ -2980,6 +3352,335 @@ interfaces {
 }
 ```
 
+## evo/interfaces/ifd-edge-flexible-10g.conf
+
+```
+/*
+ * Topic: Flexible Ethernet edge port at 10G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg2_acx7509
+ * Count:
+ *   meg2_acx7509 2
+ *   total 2
+ * Pair with:
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-2/0/0
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        speed 10g;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
+## evo/interfaces/ifd-edge-lag-member-mh-10g.conf
+
+```
+/*
+ * Topic:   Multihomed edge aggregate member at 10G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg2_acx7509
+ * Count:
+ *   meg2_acx7509 1
+ *   total 1
+ * Pair with:
+ *  - evo/groups/gr-lag-member.conf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD        e.g. et-2/0/3
+ *   $AE_BUNDLE  e.g. ae67
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF-LAG-MEMBER-MH;
+        speed 10g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}```
+
+## evo/interfaces/ifd-edge-lag-member-mh.conf
+
+```
+/*
+ * Topic:   Multihomed edge aggregate member with ether-options
+ * Seen on:
+ *   Junos: an2_acx5448
+ *   EVO: an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c
+ * Count:
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   meg1_acx7100-32c 2
+ *   total 8
+ * Pair with:
+ *  - evo/groups/gr-lag-member.conf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD        e.g. et-0/0/6
+ *   $AE_BUNDLE  e.g. ae11
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF-LAG-MEMBER-MH;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-bridge-unit0-description.conf
+
+```
+/*
+ * Topic:   Ethernet bridge physical interface with described unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/11
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-bridge;
+        unit 0 {
+            description "to UNI-A1 xe-0/0/8";
+        }
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-bridge-unit0.conf
+
+```
+/*
+ * Topic:   Ethernet bridge physical interface with empty unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/8
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-bridge;
+        unit 0;
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-ccc-unit0-description-family.conf
+
+```
+/*
+ * Topic:   Ethernet CCC physical interface with described family CCC unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/7
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-ccc;
+        unit 0 {
+            description "to UNI-A1 xe-0/0/6";
+            family ccc;
+        }
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-ccc-unit0-description.conf
+
+```
+/*
+ * Topic:   Ethernet CCC physical interface with described unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - Parent encapsulation ethernet-ccc and unit 0 form one port-based attachment.
+ *  - The unit description retains the validated UNI connection text.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/8
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-ccc;
+        unit 0 {
+            description "to UNI-A1 xe-0/0/7";
+        }
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-ccc-unit0-family.conf
+
+```
+/*
+ * Topic:   Ethernet CCC physical interface with family CCC on unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-1_acx7024
+ * Count:
+ *   ma1-1_acx7024 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/6
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-ccc;
+        unit 0 {
+            family ccc;
+        }
+    }
+}```
+
+## evo/interfaces/ifd-ethernet-vpls-unit0-100g.conf
+
+```
+/*
+ * Topic:   Described 100G Ethernet VPLS physical interface with unit zero
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/53
+ */
+interfaces {
+    $IFD {
+        description "KB VPLS EPL test";
+        speed 100g;
+        encapsulation ethernet-vpls;
+        unit 0;
+    }
+}```
+
+## evo/interfaces/ifd-flexible-ethernet-group-100g.conf
+
+```
+/*
+ * Topic:   Flexible Ethernet interface with group application and 100G speed
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with:
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/50
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        speed 100g;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
+## evo/interfaces/ifd-flexible-ethernet-group.conf
+
+```
+/*
+ * Topic:   Flexible Ethernet interface with group application
+ * Seen on:
+ *   Junos: an4_acx710 ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c
+ * Count:
+ *   an3_acx7100-48l 2
+ *   an4_acx710 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 2
+ *   mse1_mx304 3
+ *   mse2_mx304 2
+ *   total 12
+ * Pair with:
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/4
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
+## evo/interfaces/ifd-flexible-ethernet.conf
+
+```
+/*
+ * Topic:   Flexible VLAN tagging with flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 1
+ *   total 1
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. et-0/0/14
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
 ## evo/interfaces/ifd-lag-member-ether.conf
 
 ```
@@ -2992,6 +3693,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae4
@@ -3035,6 +3737,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
@@ -3058,6 +3761,7 @@ interfaces {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23;"
@@ -3097,6 +3801,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
@@ -3136,6 +3841,7 @@ interfaces {
  *   an4_acx710 2
  *   total 3
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
@@ -3190,6 +3896,7 @@ interfaces {
  *   mse2_mx304 5
  *   total 78
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
@@ -3226,6 +3933,7 @@ interfaces {
  *   mdr1_acx7509 5
  *   total 9
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.1.137/30
@@ -3274,6 +3982,8 @@ interfaces {
  *  - The address is node-local, with no `virtual-gateway-address`, so the
  *    gateway is not shared with the other PEs in the EVPN.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $UNIT        e.g. 4000
@@ -3315,6 +4025,8 @@ interfaces {
  *  - `virtual-gateway-accept-data` lets the node accept traffic addressed to
  *    the virtual gateway itself, not only forward through it.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $UNIT        e.g. 4000
@@ -3348,6 +4060,8 @@ interfaces {
  * Count:
  *   ag1-1_acx7100-32c 1
  *   total 1
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0004.00
@@ -3391,6 +4105,7 @@ interfaces {
  *   meg1_acx7100-32c 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0006.00
@@ -3445,6 +4160,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 14
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
@@ -3485,6 +4201,7 @@ interfaces {
  *   an3_acx7100-48l 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0002.00
@@ -3527,6 +4244,7 @@ interfaces {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifd-ae-lacp-fast.conf
+ *
  * Peers with:
  *   [an1_mx204] <-> [an3_acx7100-48l]
  *   [an2_acx5448] <-> [an3_acx7100-48l]
@@ -3576,6 +4294,8 @@ interfaces {
  *    the peer PE of the same Ethernet Segment, and designated-forwarder
  *    election is left at its default.
  *
+ * Pair with: none
+ *
  * Peers with:
  *   [an1_mx204] <-> [an2_acx5448]
  *   [an1_mx204] <-> [an3_acx7100-48l]
@@ -3622,6 +4342,8 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Pair with: none
+ *
  * Peers with:
  *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * Variables (example values from meg1_acx7100-32c):
@@ -3662,6 +4384,8 @@ interfaces {
  *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
  *    unit, so several VLANs share a single attachment circuit.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD         e.g. et-0/0/50
@@ -3697,6 +4421,8 @@ interfaces {
  *  - vlan-bridge attachment circuit with input push / output pop VLAN mapping.
  *  - Used for EVPN-ELAN attachment circuits in this JVD.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 400):
@@ -3735,6 +4461,8 @@ interfaces {
  *   mse1_mx304 125
  *   mse2_mx304 75
  *   total 857
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $IFD    e.g. et-0/0/14
@@ -3770,6 +4498,8 @@ interfaces {
  *    so the customer's Q-in-Q pair is carried end to end unchanged.
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
+ *
+ * Pair with: none
  *
  * Peers with:
  *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
@@ -3815,6 +4545,8 @@ interfaces {
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
  *
+ * Pair with: none
+ *
  * Variables (example values from an1_mx204):
  *   $IFD    e.g. ae11
  *   $UNIT   e.g. 101
@@ -3848,6 +4580,7 @@ interfaces {
  *   total 10
  * Pair with:
  *  - evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $IFD          e.g. et-0/0/51
@@ -3881,6 +4614,8 @@ interfaces {
  *    circuit that a point-to-point service can reference.
  *  - `vlan-id-list` admits a contiguous range of customer VLANs on the one
  *    unit, so several VLANs share a single attachment circuit.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
@@ -3921,6 +4656,8 @@ interfaces {
  *    decouples the customer VLAN id from the service-internal one.
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
+ *
+ * Pair with: none
  *
  * Peers with:
  *   [an1_mx204] <-> [an2_acx5448]
@@ -4073,6 +4810,8 @@ interfaces {
  *  - The TPID is set on the vlan-map itself, not via an ether-options
  *    ethernet-switch-profile on the parent interface.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from ma3_acx7100-48l et-0/0/5 unit 1000):
  *   $IFD         e.g. et-0/0/5
@@ -4113,6 +4852,8 @@ interfaces {
  *    vlan-id-list.
  *  - input push / output pop maps the whole range to one service-internal VLAN.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/0 unit 800):
  *   $IFD         e.g. et-0/0/0
@@ -4151,6 +4892,8 @@ interfaces {
  *  - vlan-ccc attachment circuit with input push / output pop VLAN mapping.
  *  - Single-homed and unfiltered: the base CCC attachment-circuit form.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l et-0/0/50 unit 3000):
@@ -4198,6 +4941,8 @@ interfaces {
  *    unchanged, and no `esi`, so the circuit is single-homed.
  *  - The unit index and the VLAN tag are independent values.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD     e.g. et-0/0/0
@@ -4238,6 +4983,8 @@ interfaces {
  *    other host in the same subnet.
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
@@ -4282,6 +5029,8 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an3_acx7100-48l):
  *   $IFD           e.g. et-0/0/4
@@ -4300,6 +5049,26 @@ interfaces {
     }
 }
 ```
+
+## evo/policy-options/apply-group.conf
+
+```
+/*
+ * Topic: Policy-options group application
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. GR-L3VPN-OSPF-COLOR-MAP
+ */
+policy-options {
+    apply-groups $GROUP_A;
+}```
 
 ## evo/policy-options/community/cm-access-fabric.conf
 
@@ -5174,8 +5943,8 @@ policy-options {
  *  - Both policies end with an explicit `term REJECT`.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-no-advertise.conf
  *  - evo/policy-options/community/cm-loopback.conf
+ *  - evo/policy-options/community/cm-no-advertise.conf
  *
  * Peers with: n/a
  * Variables:
@@ -5469,10 +6238,10 @@ policy-options {
  *  - As-deployed PS-BGP-EXPORT-RING routing policy.
  *
  * Pair with:
- *  - evo/policy-options/prefix-list/border-nodes.conf
  *  - evo/policy-options/community/cm-access-fabric.conf
  *  - evo/policy-options/community/cm-regional-border.conf
  *  - evo/policy-options/community/cm-service-edge.conf
+ *  - evo/policy-options/prefix-list/border-nodes.conf
  *  - evo/policy-options/prefix-list/pl-metro-ring.conf
  *
  * Peers with: n/a
@@ -5507,6 +6276,60 @@ policy-options {
             then reject;
         }
     }
+}
+```
+
+## evo/policy-options/policy-statement/ps-bgp-export-rr-client-access-meg.conf
+
+```
+/*
+ * Topic:   BGP route-reflector client export with loop prevention and access-fabric tagging
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/community/cm-access-fabric.conf
+ *  - evo/policy-options/community/cm-metro-ring.conf
+ *  - evo/policy-options/community/cm-regional-border.conf
+ *  - evo/policy-options/community/cm-service-edge.conf
+ *  - evo/policy-options/prefix-list/pl-an-region-access-meg.conf
+ *
+ */
+policy-options {
+  policy-statement PS-BGP-EXPORT-RR-CLIENT {
+    term LOOP-PREVENT {
+      from community [ CM-SERVICE-EDGE CM-REGIONAL-BORDER CM-METRO-RING ];
+      then reject;
+    }
+    term METRO-FABRIC {
+      from {
+        protocol bgp;
+        community CM-ACCESS-FABRIC;
+      }
+      then accept;
+    }
+    term LOOPBACK {
+      from {
+        protocol [ bgp direct ];
+        prefix-list PL-AN-REGION;
+      }
+      then {
+        community add CM-ACCESS-FABRIC;
+        accept;
+      }
+    }
+    term LU {
+      from rib inet.3;
+      then reject;
+    }
+    term CT {
+      from rib bgp.transport.3;
+      then reject;
+    }
+  }
 }
 ```
 
@@ -5597,10 +6420,10 @@ policy-options {
  *    CM-METRO-RING and accepts them.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/community/cm-access-fabric.conf
  *  - evo/policy-options/community/cm-metro-fabric.conf
  *  - evo/policy-options/community/cm-metro-ring.conf
+ *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/prefix-list/pl-an-region.conf
  *
  * Peers with: n/a
@@ -5652,12 +6475,12 @@ policy-options {
  *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-4000-gold.conf
- *  - evo/policy-options/community/cm-tc-6000-bronze.conf
  *  - evo/policy-options/community/cm-access-fabric.conf
  *  - evo/policy-options/community/cm-metro-fabric.conf
  *  - evo/policy-options/community/cm-metro-ring.conf
  *  - evo/policy-options/community/cm-service-edge.conf
+ *  - evo/policy-options/community/cm-tc-4000-gold.conf
+ *  - evo/policy-options/community/cm-tc-6000-bronze.conf
  *  - evo/policy-options/prefix-list/pl-an-region.conf
  *
  * Peers with: n/a
@@ -5958,6 +6781,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -6044,6 +6868,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -6575,8 +7400,8 @@ policy-options {
  *
  * Pair with:
  *  - evo/policy-options/community/cm-access-fabric.conf
- *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/community/cm-loopback.conf
+ *  - evo/policy-options/community/cm-service-edge.conf
  *  - evo/policy-options/prefix-list/pl-metro-ring.conf
  *
  * Peers with: n/a
@@ -6630,11 +7455,11 @@ policy-options {
  *  - As-deployed PS-IBGP-CR-EXPORT routing policy.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-4000-gold.conf
- *  - evo/policy-options/community/cm-tc-6000-bronze.conf
  *  - evo/policy-options/community/cm-access-fabric.conf
  *  - evo/policy-options/community/cm-regional-border.conf
  *  - evo/policy-options/community/cm-service-edge.conf
+ *  - evo/policy-options/community/cm-tc-4000-gold.conf
+ *  - evo/policy-options/community/cm-tc-6000-bronze.conf
  *  - evo/policy-options/prefix-list/pl-an-nodes.conf
  *
  * Peers with: n/a
@@ -6727,9 +7552,9 @@ policy-options {
  *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
  *
  * Pair with:
+ *  - evo/policy-options/community/cm-loopback.conf
  *  - evo/policy-options/community/cm-metro-fabric.conf
  *  - evo/policy-options/community/cm-metro-ring.conf
- *  - evo/policy-options/community/cm-loopback.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -6992,6 +7817,8 @@ policy-options {
  *    1001 with `tag2 0`, keeping the summary out of the flooded database.
  *  - `term REJECT` terminates the policy.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_V4          e.g. 1.1.0.0
@@ -7081,6 +7908,8 @@ policy-options {
  *  - The policy ends after the loopback terms, so everything it does not match
  *    falls through to the IS-IS default action.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from mdr2_mx10003):
  *   $LOOPBACK_V4        e.g. 1.1.0.13
@@ -7159,6 +7988,8 @@ policy-options {
  *    same tag.
  *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
  *    loopbacks.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an2_acx5448):
@@ -7243,6 +8074,8 @@ policy-options {
  *  - The configured policy name is a value: a node may carry this same body
  *    under more than one name.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $POLICY_NAME   e.g. ALLOW_LOOPBACK
@@ -7316,6 +8149,7 @@ policy-options {
  *   mse2_mx304 1
  *   total 10
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -7326,6 +8160,72 @@ policy-options {
         }
     }
 }```
+
+## evo/policy-options/policy-statement/ps-next-hop-self.conf
+
+```
+/*
+ * Topic:   Next-hop-self acceptance policy
+ * Seen on:
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 8
+ * Pair with: none
+ *
+ */
+policy-options {
+  policy-statement next-hop-self {
+    then {
+      next-hop self;
+      accept;
+    }
+  }
+}
+```
+
+## evo/policy-options/policy-statement/ps-only-loopback.conf
+
+```
+/*
+ * Topic:   ONLY_LOOPBACK exact-prefix acceptance policy
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
+ * Pair with: none
+ *
+ * Variables:
+ *   $PREFIX   e.g. 1.1.0.2/32
+ */
+policy-options {
+  policy-statement ONLY_LOOPBACK {
+    from {
+      route-filter $PREFIX exact;
+    }
+    then accept;
+  }
+}
+```
 
 ## evo/policy-options/policy-statement/ps-prefix-sid.conf
 
@@ -7363,6 +8263,8 @@ policy-options {
  *  - `prefix-segment` assigns the node segment index and one prefix segment per
  *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
  *    and 129.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -7471,6 +8373,8 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
@@ -7529,6 +8433,8 @@ policy-options {
  *    Segment Routing IPv6 loopback, distinct from the primary loopback.
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -7613,6 +8519,32 @@ policy-options {
         1.1.0.6/32;
         1.1.0.7/32;
     }
+}
+```
+
+## evo/policy-options/prefix-list/pl-an-region-access-meg.conf
+
+```
+/*
+ * Topic:   PL-AN-REGION prefix list for access and metro-edge loopbacks
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
+ * Pair with: none
+ *
+ */
+policy-options {
+  prefix-list PL-AN-REGION {
+    1.1.0.0/32;
+    1.1.0.1/32;
+    1.1.0.2/32;
+    1.1.0.3/32;
+    1.1.0.6/32;
+    1.1.0.7/32;
+  }
 }
 ```
 
@@ -8010,6 +8942,11 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-metro-fabric-import.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [cr1_ptx10001-36mr] <-> [cr2_ptx10001-36mr]
+ *   [cr1_ptx10001-36mr] <-> [meg1_acx7100-32c]
+ *   [cr1_ptx10001-36mr] <-> [meg2_acx7509]
+ *   [cr1_ptx10001-36mr] <-> [mse1_mx304]
  * Variables: none
  */
 protocols {
@@ -8204,6 +9141,11 @@ protocols {
  *  - evo/policy-options/policy-statement/ps-metro-fabric-import.conf
  *  - evo/routing-options/rib-groups.conf
  *
+ * Peers with:
+ *   [cr1_ptx10001-36mr] <-> [cr2_ptx10001-36mr]
+ *   [cr2_ptx10001-36mr] <-> [meg1_acx7100-32c]
+ *   [cr2_ptx10001-36mr] <-> [meg2_acx7509]
+ *   [cr2_ptx10001-36mr] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -8692,9 +9634,9 @@ protocols {
  *
  * Pair with:
  *  - evo/groups/gr-bgp-bcp.conf
- *  - evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf
  *  - evo/policy-options/policy-statement/ps-bgp-rr-export.conf
  *  - evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf
+ *  - evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf
  *  - evo/routing-options/rib-groups.conf
  *
  * Peers with:
@@ -8903,9 +9845,9 @@ protocols {
  *
  * Pair with:
  *  - evo/groups/gr-bgp-bcp.conf
- *  - evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf
  *  - evo/policy-options/policy-statement/ps-bgp-rr-export.conf
  *  - evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf
+ *  - evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf
  *  - evo/routing-options/rib-groups.conf
  *
  * Peers with:
@@ -9241,6 +10183,7 @@ protocols {
  *   meg1_acx7100-32c 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -9264,6 +10207,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Pair with: none
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae82.1
  *   $DELAY_METRIC   e.g. 5
@@ -9316,6 +10261,8 @@ protocols {
  *   mdr1_acx7509 3
  *   mdr2_mx10003 3
  *   total 9
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -9366,6 +10313,8 @@ protocols {
  * Count:
  *   ma3_acx7100-48l 1
  *   total 1
+ * Pair with: none
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae55.2
  *   $ISIS_INSTANCE   e.g. metro-b
@@ -9416,6 +10365,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
@@ -9476,6 +10427,8 @@ protocols {
  * Count:
  *   ma3_acx7100-48l 2
  *   total 2
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
@@ -9537,6 +10490,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
@@ -9563,6 +10518,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/14.0
  */
@@ -9611,6 +10567,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/34.0
  */
@@ -9659,6 +10616,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-description-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae23.0
  */
@@ -9701,6 +10659,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae26.0
  */
@@ -9743,6 +10702,7 @@ protocols {
  *   total 3
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae71.0
  */
@@ -9791,6 +10751,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae25.0
  */
@@ -9839,6 +10800,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/13.0
  */
@@ -9887,6 +10849,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/32.0
  */
@@ -9936,6 +10899,7 @@ protocols {
  *   total 2
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/32.0
  */
@@ -9985,6 +10949,7 @@ protocols {
  *   total 2
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-1/0/4.0
  */
@@ -10034,6 +10999,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/1/2.0
  */
@@ -10082,6 +11048,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae84.0
  */
@@ -10130,6 +11097,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae88.0
  */
@@ -10179,6 +11147,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/core-isis-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae88.0
  */
@@ -10228,6 +11197,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-1/0/14.0
  */
@@ -10279,6 +11249,8 @@ protocols {
  *   an2_acx5448 2
  *   an4_acx710 2
  *   total 13
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -10331,6 +11303,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/35.0
  */
@@ -10381,6 +11354,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae24.0
  */
@@ -10424,6 +11398,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae24.0
  */
@@ -10475,6 +11450,7 @@ protocols {
  *   total 4
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $ADMIN_GROUP   e.g. green
  *   $CORE_INTF   e.g. et-0/0/33.0
@@ -10531,6 +11507,7 @@ protocols {
  *   total 4
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae23.0
  *   $DELAY_METRIC   e.g. 105
@@ -10583,6 +11560,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae25.0
  */
@@ -10627,6 +11605,7 @@ protocols {
  *   total 13
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $ADMIN_GROUP   e.g. blue
  *   $CORE_INTF   e.g. et-1/0/3.0
@@ -10682,6 +11661,7 @@ protocols {
  *   total 13
  * Pair with:
  *  - evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $ADMIN_GROUP   e.g. blue
  *   $CORE_INTF   e.g. et-0/0/6.0
@@ -10733,6 +11713,8 @@ protocols {
  *   mdr2_mx10003 2
  *   meg2_acx7509 1
  *   total 5
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. blue
  *   $ADMIN_GROUP_2   e.g. green
@@ -10802,6 +11784,8 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 20
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -10827,6 +11811,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -10853,6 +11838,7 @@ protocols {
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/groups/gr-isis-bfd.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 2
@@ -10917,6 +11903,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 6
@@ -10977,6 +11964,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-interface-spf.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-core.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 4
@@ -11041,6 +12029,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
@@ -11106,6 +12095,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
@@ -11167,6 +12157,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 9
@@ -11234,6 +12225,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-isis-bcp.conf
  *  - evo/policy-options/policy-statement/ps-isis-export.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 8
@@ -11308,10 +12300,10 @@ protocols {
  *    failure detection that triggers TI-LFA.
  *
  * Pair with:
- *  - evo/protocols/mpls-segment-routing.conf
- *  - evo/groups/gr-isis-bcp.conf
  *  - evo/groups/gr-core-intf.conf
+ *  - evo/groups/gr-isis-bcp.conf
  *  - evo/interfaces/core-isis-mpls.conf
+ *  - evo/protocols/mpls-segment-routing.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $CORE_INTF     e.g. ae83.0   (repeat the per-interface block
@@ -11417,10 +12409,10 @@ protocols {
  *    neighbour, so either PW follows the same coloured BGP-CT underlay.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-map2gold.conf
- *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/groups/gr-fatpw-lb.conf
+ *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
@@ -11481,10 +12473,10 @@ protocols {
  *    neighbour, so either PW follows the same coloured BGP-CT underlay.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-map2gold.conf
- *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/groups/gr-fatpw-lb.conf
+ *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
@@ -11545,8 +12537,8 @@ protocols {
  *    the pseudowire.
  *
  * Pair with:
- *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/groups/gr-fatpw-lb.conf
+ *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
  * Peers with:
@@ -11608,9 +12600,10 @@ protocols {
  *    specific BGP-CT colour underlay.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-map2gold.conf
- *  - evo/groups/gr-l2ckt-hs.conf (hot-standby-vc-on knob)
  *  - evo/groups/gr-fatpw-lb.conf (forwarding-options)
+ *  - evo/groups/gr-l2ckt-hs.conf (hot-standby-vc-on knob)
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg2_acx7509]
@@ -11672,8 +12665,9 @@ protocols {
  *    specific BGP-CT colour underlay.
  *
  * Pair with:
- *  - evo/policy-options/community/cm-tc-map2gold.conf
  *  - evo/groups/gr-fatpw-lb.conf (forwarding-options)
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
+ *  - evo/policy-options/community/cm-tc-map2gold.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
@@ -11733,6 +12727,7 @@ protocols {
  *
  * Pair with:
  *  - evo/groups/gr-fatpw-lb.conf
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
@@ -11784,8 +12779,9 @@ protocols {
  *    the pseudowire.
  *
  * Pair with:
- *  - evo/groups/gr-l2ckt-hs.conf
  *  - evo/groups/gr-fatpw-lb.conf
+ *  - evo/groups/gr-l2ckt-hs.conf
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [meg2_acx7509]
@@ -11847,12 +12843,6 @@ protocols {
  *  - evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf
  *
  * Peers with: n/a
- * JVD service mapping:
- *   10 instances total (high 10 / med 0 / low 0)
- *   On devices: ma3_acx7100-48l (10)
- *   Example: l2ckt-lsw-ma3_acx7100-48l-et-0/0/5.3000 (RD —, RT —)
- *     ma3_acx7100-48l  et-0/0/5.3000
- *
  * Variables (example values from ma3_acx7100-48l):
  *   $AC_INTF_1    e.g. et-0/0/5
  *   $UNIT_1       e.g. 3000
@@ -11873,6 +12863,78 @@ protocols {
 }
 ```
 
+## evo/protocols/l2circuit-static-color.conf
+
+```
+/*
+ * Topic: Static-label Ethernet VLAN pseudowire with transport community
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 10
+ *   total 10
+ * Pair with: none
+ *
+ * Variables:
+ *   $REMOTE_PE_V4     e.g. 1.1.10.10
+ *   $AC_INTF          e.g. et-0/0/14.301
+ *   $LABEL_IN         e.g. 1000001
+ *   $LABEL_OUT        e.g. 1000001
+ *   $VC_ID            e.g. 1001
+ *   $COLOR_COMMUNITY  e.g. CM-TC-MAP2GOLD
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_INTF {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                community $COLOR_COMMUNITY;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}```
+
+## evo/protocols/l2circuit-static.conf
+
+```
+/*
+ * Topic: Static-label Ethernet VLAN pseudowire
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ma1-2_acx7024
+ * Count:
+ *   ma1-2_acx7024 10
+ *   total 10
+ * Pair with: none
+ *
+ * Variables:
+ *   $REMOTE_PE_V4   e.g. 1.1.10.10
+ *   $AC_INTF        e.g. et-0/0/14.400
+ *   $LABEL_IN       e.g. 1000011
+ *   $LABEL_OUT      e.g. 1000011
+ *   $VC_ID          e.g. 10100
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_INTF {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}```
+
 ## evo/protocols/ldp-loopback.conf
 
 ```
@@ -11889,12 +12951,54 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 6
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
 protocols {
   ldp {
     interface lo0.0;
+  }
+}
+```
+
+## evo/protocols/lldp-interface-all.conf
+
+```
+/*
+ * Topic:   LLDP enabled on all interfaces
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
+ * Pair with: none
+ *
+ */
+protocols {
+  lldp {
+    interface all;
   }
 }
 ```
@@ -11912,6 +13016,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -12015,6 +13120,8 @@ protocols {
  *  - `interval 1s` sends a continuity-check message every second, so loss of
  *    the association is detected within a few seconds.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from meg1_acx7100-32c):
  *   $MD_NAME   e.g. MD_63535
@@ -12068,7 +13175,7 @@ protocols {
  *    MEP has remote-mep entries pointing at the far-end MEPs on
  *    the peer PEs (1002 and 1006 here).
  *
- * Pair with:
+ * Pair with: none
  *
  * Variables (example values from an4_acx710):
  *   $MD_NAME         e.g. MD_63535
@@ -12160,7 +13267,7 @@ protocols {
  * Apply on a per-unit basis: each MEP binds to a vlan-ccc subinterface
  * (e.g., et-0/0/0.2800) that is also the L2Circuit attachment-circuit.
  *
- * Pair with:
+ * Pair with: none
  *
  * Variables (example values from an3_acx7100-48l):
  *   $MD_NAME         e.g. MD_63535
@@ -12227,6 +13334,8 @@ protocols {
  * Count:
  *   cr2_ptx10001-36mr 1
  *   total 1
+ * Pair with: none
+ *
  * Variables: none
  */
 protocols {
@@ -12261,6 +13370,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - evo/protocols/pcep-pccd.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -12401,6 +13511,109 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf
+
+```
+/*
+ * Topic:   EVPN MAC-VRF with gateway-community suppression and direct attachment
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 2
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-bridge-esi.conf
+ *  - variant:mebs-bgp-overlay families=evpn
+ *  - variant:mebs-irb-form capabilities=ifl:irb
+ *
+ * Variables:
+ *   $AC_INTF   e.g. ae66.4050
+ *   $BD_NAME   e.g. BD_evpn_group_70_4050
+ *   $INSTANCE_NAME   e.g. evpn_group_70_4050
+ *   $IRB_UNIT   e.g. irb.4050
+ *   $LOOPBACK_V4   e.g. 1.1.0.6
+ *   $RD_SUB_ASSIGNED   e.g. 16000
+ *   $RT_AS   e.g. 51535
+ *   $RT_ID   e.g. 16000
+ *   $VLAN_BD   e.g. 4050
+ */
+routing-instances {
+  $INSTANCE_NAME {
+    instance-type mac-vrf;
+    protocols {
+      evpn {
+        default-gateway no-gateway-community;
+        no-control-word;
+      }
+    }
+    service-type vlan-based;
+    interface $AC_INTF;
+    route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+    vrf-target target:$RT_AS:$RT_ID;
+    vlans {
+      $BD_NAME {
+        vlan-id $VLAN_BD;
+        interface $AC_INTF;
+        l3-interface $IRB_UNIT;
+      }
+    }
+  }
+}
+```
+
+## evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community.conf
+
+```
+/*
+ * Topic:   EVPN MAC-VRF with gateway-community suppression and VLAN attachment
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   meg1_acx7100-32c 24
+ *   meg2_acx7509 24
+ *   total 48
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-bridge-esi.conf
+ *  - variant:mebs-bgp-overlay families=evpn
+ *  - variant:mebs-irb-form capabilities=ifl:irb
+ *
+ * Variables:
+ *   $AC_INTF   e.g. ae66.4051
+ *   $BD_NAME   e.g. V4051
+ *   $INSTANCE_NAME   e.g. evpn_group_70_4051
+ *   $IRB_UNIT   e.g. irb.4051
+ *   $LOOPBACK_V4   e.g. 1.1.0.6
+ *   $RD_SUB_ASSIGNED   e.g. 16001
+ *   $RT_AS   e.g. 51535
+ *   $RT_ID   e.g. 16001
+ *   $VLAN_BD   e.g. 4051
+ */
+routing-instances {
+  $INSTANCE_NAME {
+    instance-type mac-vrf;
+    protocols {
+      evpn {
+        default-gateway no-gateway-community;
+        no-control-word;
+      }
+    }
+    service-type vlan-based;
+    route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+    vrf-target target:$RT_AS:$RT_ID;
+    vlans {
+      $BD_NAME {
+        vlan-id $VLAN_BD;
+        interface $AC_INTF;
+        l3-interface $IRB_UNIT;
+      }
+    }
+  }
+}
+```
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
 
 ```
@@ -12427,17 +13640,8 @@ routing-instances {
  *
  * Pair with:
  *  - variant:mebs-irb-form capabilities=ifl:irb
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
- *   [an3_acx7100-48l] <-> [mse1_mx304]
- *   [an3_acx7100-48l] <-> [mse2_mx304]
- *   [meg1_acx7100-32c] <-> [meg2_acx7509]
- *   [meg1_acx7100-32c] <-> [mse1_mx304]
- *   [meg1_acx7100-32c] <-> [mse2_mx304]
- *   [meg2_acx7509] <-> [mse1_mx304]
- *   [meg2_acx7509] <-> [mse2_mx304]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
@@ -12495,10 +13699,10 @@ routing-instances {
  * Count:
  *   an3_acx7100-48l 50
  *   ma1-1_acx7024 50
- *   ma1-2_acx7024 49
- *   meg1_acx7100-32c 49
- *   meg2_acx7509 49
- *   total 247
+ *   ma1-2_acx7024 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   total 250
  *
  * Highlights:
  *  - `instance-type mac-vrf` holds one or more vlan-based bridge-domains, each
@@ -12510,31 +13714,10 @@ routing-instances {
  *    legacy receivers; full ELAN service still works).
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/interfaces/ifl-vlan-bridge-esi.conf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an1_mx204] <-> [an3_acx7100-48l]
- *   [an1_mx204] <-> [ma1-1_acx7024]
- *   [an1_mx204] <-> [ma1-2_acx7024]
- *   [an1_mx204] <-> [meg1_acx7100-32c]
- *   [an1_mx204] <-> [meg2_acx7509]
- *   [an2_acx5448] <-> [an3_acx7100-48l]
- *   [an2_acx5448] <-> [ma1-1_acx7024]
- *   [an2_acx5448] <-> [ma1-2_acx7024]
- *   [an2_acx5448] <-> [meg1_acx7100-32c]
- *   [an2_acx5448] <-> [meg2_acx7509]
- *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
- *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
- *   [ma1-1_acx7024] <-> [ma1-2_acx7024]
- *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-1_acx7024] <-> [meg2_acx7509]
- *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-2_acx7024] <-> [meg2_acx7509]
- *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * JVD service mapping:
  *   175 instances total (high 175 / med 0 / low 0)
  *   On devices: meg1_acx7100-32c (175), meg2_acx7509 (175), an3_acx7100-48l (150), an1_mx204 (100), an2_acx5448 (100), ma1-1_acx7024 (100), +3 more
@@ -12580,6 +13763,58 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf
+
+```
+/*
+ * Topic:   EVPN MAC-VRF VLAN-based service with an explicit route target
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an3_acx7100-48l 50
+ *   ma1-1_acx7024 50
+ *   ma1-2_acx7024 50
+ *   meg1_acx7100-32c 50
+ *   meg2_acx7509 50
+ *   total 250
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-bridge-esi.conf
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables:
+ *   $AC_INTF   e.g. ae11.750
+ *   $BD_NAME   e.g. BD_evpn_group_90_750
+ *   $INSTANCE_NAME   e.g. evpn_group_90_750
+ *   $LOOPBACK_V4   e.g. 1.1.0.2
+ *   $RD_SUB_ASSIGNED   e.g. 7050
+ *   $RT_AS   e.g. 63535
+ *   $RT_ID   e.g. 7050
+ *   $VLAN_BD   e.g. none
+ */
+routing-instances {
+  $INSTANCE_NAME {
+    instance-type mac-vrf;
+    protocols {
+      evpn {
+        encapsulation mpls;
+        no-control-word;
+      }
+    }
+    service-type vlan-based;
+    interface $AC_INTF;
+    route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+    vrf-target target:$RT_AS:$RT_ID;
+    vlans {
+      $BD_NAME {
+        vlan-id $VLAN_BD;
+        interface $AC_INTF;
+      }
+    }
+  }
+}
+```
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf
 
 ```
@@ -12607,12 +13842,11 @@ routing-instances {
  *  - The route-distinguisher is built from this node's loopback, so each PE
  *    advertises the shared service under its own RD.
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
- *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c, meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. evpn_group_80_1062
  *                       (also the configured vrf-export policy name)
@@ -12670,12 +13904,11 @@ routing-instances {
  *  - The route-distinguisher is built from this node's loopback, so each PE
  *    advertises the shared service under its own RD.
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
- *   [meg1_acx7100-32c] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c, meg2_acx7509]
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. evpn_group_80_1200
  *   $LOOPBACK_V4        e.g. 1.1.0.2
@@ -12735,13 +13968,9 @@ routing-instances {
  *    `evpn;` leaf and route-target membership only.
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
- *   [meg1_acx7100-32c] <-> [meg2_acx7509]
  * JVD service mapping:
  *   VLAN-scoped bundle EVIs (vlan-bridge, vlan-id / vlan-id-list) across the EVO metro edge.
  *   On devices: an3_acx7100-48l, meg1_acx7100-32c, meg2_acx7509
@@ -12803,8 +14032,6 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
  * JVD service mapping:
  *   Whole-UNI (ethernet-bridge, unit 0) form — the EVPN_ELAN_PORT_BASED service.
  *   On devices: an3_acx7100-48l, ma1-2_acx7024
@@ -12928,9 +14155,9 @@ routing-instances {
  *    Junos PE (the pair forms one bidirectional EVPN-VPWS PW).
  *
  * Pair with:
+ *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
- *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [mse1_mx304]
@@ -13004,9 +14231,9 @@ routing-instances {
  *    (the pair forms one bidirectional EVPN-VPWS PW).
  *
  * Pair with:
+ *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
- *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [mse1_mx304]
@@ -13155,13 +14382,12 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-esi.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-1_acx7024] <-> [meg2_acx7509]
- *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-2_acx7024] <-> [meg2_acx7509]
+ *   [ma1-1_acx7024] <-> [meg1_acx7100-32c, meg2_acx7509]
+ *   [ma1-2_acx7024] <-> [meg1_acx7100-32c, meg2_acx7509]
  * Variables (example values from ma1-1_acx7024 / evpn_group_50_1):
  *   $INSTANCE_NAME      e.g. evpn_group_50_1
  *   $AC_INTF_A          e.g. ae12.200
@@ -13229,13 +14455,12 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-dual-tag-esi.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [ma1-1_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-1_acx7024] <-> [meg2_acx7509]
- *   [ma1-2_acx7024] <-> [meg1_acx7100-32c]
- *   [ma1-2_acx7024] <-> [meg2_acx7509]
+ *   [ma1-1_acx7024] <-> [meg1_acx7100-32c, meg2_acx7509]
+ *   [ma1-2_acx7024] <-> [meg1_acx7100-32c, meg2_acx7509]
  * Variables (example values from ma1-1_acx7024 / evpn_group_50_26):
  *   $INSTANCE_NAME      e.g. evpn_group_50_26
  *   $AC_INTF_A          e.g. ae12.225
@@ -13302,7 +14527,9 @@ routing-instances {
  *  - The route-distinguisher is built from this node's loopback, so each PE
  *    advertises the shared service under its own RD.
  *
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf
+ *  - evo/interfaces/ifl-vlan-ccc.conf
  *
  * Variables (example values from ma3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. lsw_evpn_vpws_group_90_1000
@@ -13371,12 +14598,11 @@ routing-instances {
  *    policy.
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c, meg2_acx7509]
  * Variables (example values from an3_acx7100-48l / evpn_group_10_3000):
  *   $INSTANCE_NAME        e.g. evpn_group_10_3000
  *   $AC_INTF              e.g. et-0/0/50.3000
@@ -13442,15 +14668,10 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [an1_mx204] <-> [ma1-1_acx7024]
- *   [an1_mx204] <-> [ma1-2_acx7024]
- *   [an2_acx5448] <-> [ma1-1_acx7024]
- *   [an2_acx5448] <-> [ma1-2_acx7024]
  *   [an3_acx7100-48l] <-> [an4_acx710]
- *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
- *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c, meg2_acx7509]
+ *   [ma1-1_acx7024] <-> [an1_mx204, an2_acx5448, an3_acx7100-48l]
+ *   [ma1-2_acx7024] <-> [an1_mx204, an2_acx5448, an3_acx7100-48l]
  * JVD service mapping:
  *   1661 instances total (high 1661 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (1601), meg1_acx7100-32c (1050), meg2_acx7509 (1050), ma1-1_acx7024 (451), ma1-2_acx7024 (450), an1_mx204 (400), +3 more
@@ -13514,6 +14735,7 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -13576,6 +14798,7 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -13637,6 +14860,7 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -13699,6 +14923,7 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -13755,7 +14980,9 @@ routing-instances {
  *  - vrf-target establishes the BGP route-target community for the L2VPN
  *
  * Pair with:
+ *  - evo/interfaces/ifd-ethernet-ccc-unit0-description.conf
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [ma5_mx204]
@@ -13826,6 +15053,7 @@ routing-instances {
  *    an L3 lookup on the inner header.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet6.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *
  * Variables (example values from an3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
@@ -13836,7 +15064,7 @@ routing-instances {
  *   $AC_INTF          e.g. et-0/0/4.2201
  *   $CE_PEER_V6       e.g. 2001:0:0:0:13:3:0:2
  *   $PE_LOCAL_V6      e.g. 2001:0:0:0:13:3:0:1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63535:2201
  */
 routing-instances {
@@ -13854,7 +15082,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V6 {
                         local-address $PE_LOCAL_V6;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -13895,6 +15123,7 @@ routing-instances {
  *    an L3 lookup on the inner header.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet6.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *
  * Variables (example values from ma3_acx7100-48l / METRO_BGPv6_L3VPN_2201):
@@ -13905,7 +15134,7 @@ routing-instances {
  *   $AC_INTF          e.g. et-0/0/5.2201
  *   $CE_PEER_V6       e.g. 2001:0:0:0:115:3:0:2
  *   $PE_LOCAL_V6      e.g. 2001:0:0:0:115:3:0:1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63536:2201
  */
 routing-instances {
@@ -13922,7 +15151,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V6 {
                         local-address $PE_LOCAL_V6;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -13961,6 +15190,7 @@ routing-instances {
  *    $EXPORT_POL.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
@@ -13979,7 +15209,7 @@ routing-instances {
  *   $AC_INTF          e.g. et-0/0/5.2101
  *   $CE_PEER_V4       e.g. 115.2.0.2
  *   $PE_LOCAL_V4      e.g. 115.2.0.1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63536:2101
  *   $IMPORT_POL       e.g. METRO_BGPv4_L3VPN_2101-IMPORT
  *                     (PS-METRO_BGPv4_L3VPN_2101-IMPORT on an3_acx7100-48l)
@@ -14000,7 +15230,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V4 {
                         local-address $PE_LOCAL_V4;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -14050,10 +15280,10 @@ routing-instances {
  *    are also injected into every `<METRO_*>` VRF by apply-group GR-L3VPN.
  *
  * Pair with:
- *  - evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - evo/groups/gr-l3vpn.conf
- *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
+ *  - evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -14140,8 +15370,8 @@ routing-instances {
  *
  * Pair with:
  *  - evo/groups/gr-l3vpn.conf
- *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -14272,6 +15502,7 @@ routing-instances {
  *    devices this form covers do not.
  *
  * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
@@ -14348,6 +15579,7 @@ routing-instances {
  *
  * Pair with:
  *  - evo/groups/gr-l3vpn.conf
+ *  - evo/interfaces/ifl-vlan-inet.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Variables (example values from an3_acx7100-48l / METRO_L3VPN_4050):
@@ -14385,10 +15617,10 @@ routing-instances {
  *   EVO:   an3_acx7100-48l ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
  * Count:
  *   an3_acx7100-48l 150
- *   ma1-2_acx7024 99
+ *   ma1-2_acx7024 100
  *   meg1_acx7100-32c 99
- *   meg2_acx7509 49
- *   total 397
+ *   meg2_acx7509 50
+ *   total 399
  *
  * Highlights:
  *  - `instance-type virtual-switch` + `protocols vpls site <r-name>
@@ -14411,9 +15643,9 @@ routing-instances {
  *    the per-EVI export community.
  *
  * Pair with:
+ *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
- *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
@@ -14459,6 +15691,58 @@ routing-instances {
 }
 ```
 
+## evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-vlans.conf
+
+```
+/*
+ * Topic:   BGP VPLS virtual-switch with single service and VLAN attachment
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: meg1_acx7100-32c
+ * Count:
+ *   meg1_acx7100-32c 1
+ *   total 1
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-bridge-vlan-map.conf
+ *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=l2vpn
+ *
+ * Variables:
+ *   $AC_INTF   e.g. et-0/0/26:0.400
+ *   $BD_NAME   e.g. vlan400
+ *   $INSTANCE_NAME   e.g. vpls_group_102_400
+ *   $L2VPN_SITE   e.g. r6
+ *   $RD   e.g. 63535:1193000
+ *   $RT   e.g. 63535:1093000
+ *   $SITE_ID   e.g. 2
+ */
+routing-instances {
+  $INSTANCE_NAME {
+    instance-type virtual-switch;
+    protocols {
+      vpls {
+        site $L2VPN_SITE {
+          site-identifier $SITE_ID;
+        }
+        service-type single;
+        no-control-word;
+        site-range 10;
+        label-block-size 8;
+        no-tunnel-services;
+      }
+    }
+    route-distinguisher $RD;
+    vrf-export $INSTANCE_NAME;
+    vrf-target target:$RT;
+    vlans {
+      $BD_NAME {
+        interface $AC_INTF;
+      }
+    }
+  }
+}
+```
+
 ## evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf
 
 ```
@@ -14484,7 +15768,8 @@ routing-instances {
  *  - `no-tunnel-services` builds the pseudowire without a tunnel-services PIC.
  *  - The `vlans` block names the bridge and attaches one attachment circuit.
  *
- * Pair with: none
+ * Pair with:
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Variables (example values from an3_acx7100-48l):
  *   $INSTANCE_NAME      e.g. vpls_group_102_500
@@ -14547,6 +15832,7 @@ routing-instances {
  *
  *
  * Pair with:
+ *  - evo/interfaces/ifd-ethernet-vpls-unit0-100g.conf
  *
  * JVD service mapping:
  *   2 instances total (high 1 / med 1 / low 0)
@@ -14607,6 +15893,8 @@ routing-instances {
  *  - `preference 14` keeps the aggregate below the contributing routes, so a
  *    more specific route always wins.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
@@ -14627,6 +15915,46 @@ routing-options {
             discard;
         }
     }
+}
+```
+
+## evo/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic:   Device autonomous-system number
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
+ * Pair with: none
+ *
+ * Variables:
+ *   $ASN   e.g. 63535
+ */
+routing-options {
+  autonomous-system $ASN;
 }
 ```
 
@@ -14652,6 +15980,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -14685,6 +16014,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -14870,6 +16200,8 @@ routing-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 15
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -14908,6 +16240,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -14931,6 +16264,7 @@ routing-options {
  * Pair with:
  *  - evo/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -15177,6 +16511,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -15215,6 +16550,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -15254,6 +16590,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $RD_SEED_AUTO   e.g. 1.1.1.2
@@ -15293,6 +16630,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.12
@@ -15439,6 +16777,8 @@ bridge-domains {
  *  - The two `interface` statements are interchangeable, so one deployed
  *    domain has two equivalent bindings of this body.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from ma5_mx204):
  *   $BD_NAME      e.g. bd_group_lsw_1000
@@ -15488,6 +16828,8 @@ bridge-domains {
  *    `ae<count-1>` can be configured on the node.
  *  - The count is a chassis-wide ceiling, not a count of bundles in use.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $AE_DEVICE_COUNT   e.g. 25
@@ -15498,6 +16840,201 @@ chassis {
             device-count $AE_DEVICE_COUNT;
         }
     }
+}
+```
+
+## junos/chassis/fpc-mx204-1x100g-8x10g.conf
+
+```
+/*
+ * Topic: FPC profile with one 100G and eight 10G ports
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma4_mx204 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 0 { speed 100g; }
+        }
+        pic 1 {
+            port 0 { speed 10g; }
+            port 1 { speed 10g; }
+            port 2 { speed 10g; }
+            port 3 { speed 10g; }
+            port 4 { speed 10g; }
+            port 5 { speed 10g; }
+            port 6 { speed 10g; }
+            port 7 { speed 10g; }
+        }
+    }
+}```
+
+## junos/chassis/fpc-mx204-2x100g-8x10g.conf
+
+```
+/*
+ * Topic: FPC profile with two 100G and eight 10G ports
+ * Seen on:
+ *   Junos: ma2_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma2_mx204 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 0 { speed 100g; }
+            port 1 { speed 100g; }
+        }
+        pic 1 {
+            port 0 { speed 10g; }
+            port 1 { speed 10g; }
+            port 2 { speed 10g; }
+            port 3 { speed 10g; }
+            port 4 { speed 10g; }
+            port 5 { speed 10g; }
+            port 6 { speed 10g; }
+            port 7 { speed 10g; }
+        }
+    }
+}```
+
+## junos/chassis/fpc-mx204-3x100g-8x10g.conf
+
+```
+/*
+ * Topic: FPC profile with three 100G and eight 10G ports
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 0 { speed 100g; }
+            port 1 { speed 100g; }
+            port 2 { speed 100g; }
+        }
+        pic 1 {
+            port 0 { speed 10g; }
+            port 1 { speed 10g; }
+            port 2 { speed 10g; }
+            port 3 { speed 10g; }
+            port 4 { speed 10g; }
+            port 5 { speed 10g; }
+            port 6 { speed 10g; }
+            port 7 { speed 10g; }
+        }
+    }
+}```
+
+## junos/chassis/fpc-mx304-tunnel-100g-10g-profile.conf
+
+```
+/*
+ * Topic: Tunnel-services and 100G/10G port profile
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            tunnel-services;
+            port 0 { speed 100g; }
+            port 1 { speed 100g; }
+            port 2 { speed 100g; }
+            port 3 { speed 100g; }
+            port 4 { speed 100g; }
+            port 15 { speed 10g; }
+        }
+    }
+}```
+
+## junos/chassis/fpc-mx304-tunnel-breakout-profile.conf
+
+```
+/*
+ * Topic: Tunnel-services and mixed breakout port profile
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            tunnel-services;
+            port 1 { number-of-sub-ports 4; speed 10g; }
+            port 3 { number-of-sub-ports 4; speed 10g; }
+            port 4 { speed 100g; }
+            port 5 { speed 100g; }
+            port 6 { speed 100g; }
+            port 7 { speed 100g; }
+            port 9 { speed 100g; }
+            port 10 { speed 100g; }
+            port 11 { speed 100g; }
+            port 13 { number-of-sub-ports 4; speed 10g; }
+            port 15 { speed 100g; }
+        }
+    }
+}```
+
+## junos/chassis/network-services-enhanced-ip.conf
+
+```
+/*
+ * Topic:   Enhanced IP chassis network-services mode
+ * Seen on:
+ *   Junos: an2_acx5448 an4_acx710
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   total 7
+ * Pair with: none
+ *
+ */
+chassis {
+  network-services enhanced-ip;
 }
 ```
 
@@ -15516,6 +17053,7 @@ chassis {
  * Highlights:
  *  - device-count allocates pseudowire-subscriber devices, not service units.
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $PS_DEVICE_COUNT   e.g. 100
@@ -15539,6 +17077,7 @@ chassis {
  *   mse2_mx304 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $TS_FPC   e.g. 0
@@ -15707,7 +17246,7 @@ class-of-service {
  *    junos/class-of-service/scheduler-maps/sm-6class-mapping.conf and
  *    junos/class-of-service/schedulers/sc-2-priority-model.conf.
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Class names and queue numbers are JVD-wide constants,
@@ -16129,6 +17668,33 @@ class-of-service {
 }
 ```
 
+## junos/class-of-service/routing-instance-dscp-classifier.conf
+
+```
+/*
+ * Topic: Routing-instance DSCP classifier application
+ * Seen on:
+ *   Junos: mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse2_mx304 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $INSTANCE_NAME   e.g. METRO_BGPv4_L3VPN_2101
+ *   $CLASSIFIER      e.g. DSCP
+ */
+class-of-service {
+    routing-instances {
+        $INSTANCE_NAME {
+            classifiers {
+                dscp $CLASSIFIER;
+            }
+        }
+    }
+}```
+
 ## junos/class-of-service/scheduler-maps/sm-6class-mapping.conf
 
 ```
@@ -16212,6 +17778,8 @@ class-of-service {
  *  - REALTIME-SC is rated with shaping-rate percent 40; the other five use
  *    transmit-rate.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
  *            JVD-wide constants, identical on every device in the design.
@@ -16291,6 +17859,8 @@ class-of-service {
  *
  *  - Two scheduling priority levels: REALTIME is strict-high, the other five
  *    classes are low.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Scheduler names, priorities, rates and buffer sizes are
@@ -16542,6 +18112,35 @@ firewall {
 }
 ```
 
+## junos/forwarding-options/apply-gr-fatpw-lb.conf
+
+```
+/*
+ * Topic:   Forwarding-options FAT pseudowire load-balancing group application
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 ma5_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma5_mx204 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
+ * Pair with:
+ *  - junos/groups/gr-fatpw-lb.conf
+ *
+ */
+forwarding-options {
+  apply-groups GR-FATPW-LB;
+}
+```
+
 ## junos/forwarding-options/hash-key-mpls-label-stack.conf
 
 ```
@@ -16568,6 +18167,8 @@ firewall {
  *    destination Layer 4 ports of an IP payload.
  *  - `family multiservice` adds the source and destination MAC, which is what
  *    spreads bridged traffic that carries no IP header.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none
@@ -16605,6 +18206,87 @@ forwarding-options {
     }
 }
 ```
+
+## junos/forwarding-options/load-balance-label-capability.conf
+
+```
+/*
+ * Topic: Label load-balancing capability
+ * Seen on:
+ *   Junos: an1_mx204 mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   an1_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 3
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+forwarding-options {
+    load-balance-label-capability;
+}```
+
+## junos/groups/apply-global-one.conf
+
+```
+/*
+ * Topic: Global single-group application
+ * Seen on:
+ *   Junos: an1_mx204 ma5_mx204
+ *   EVO: (none)
+ * Count:
+ *   an1_mx204 1
+ *   ma5_mx204 1
+ *   total 2
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. AE-INTERFACE-MTU
+ */
+apply-groups [ $GROUP_A ];```
+
+## junos/groups/apply-global-three.conf
+
+```
+/*
+ * Topic: Ordered global three-group application
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. RI_CLASSIFIER
+ *   $GROUP_B   e.g. l3vpn_ospf_serv_map
+ *   $GROUP_C   e.g. GR-FATPW-LABEL
+ */
+apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];```
+
+## junos/groups/apply-global-two.conf
+
+```
+/*
+ * Topic: Ordered global two-group application
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma4_mx204 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. etree_evpn_group_80
+ *   $GROUP_B   e.g. l3vpn_ospf_serv_map
+ */
+apply-groups [ $GROUP_A $GROUP_B ];```
 
 ## junos/groups/bgp-bcp-ma5.conf
 
@@ -16656,6 +18338,7 @@ groups {
  *   meg2_acx7509 1
  *   total 5
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -16706,7 +18389,7 @@ groups {
  *  - bgp-error-tolerance to keep sessions up on minor update errors
  *  - tcp-mss aligned with jumbo MTU
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -16760,6 +18443,7 @@ groups {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -16821,7 +18505,7 @@ groups {
  *  - mpls family with maximum-labels 14 (SR-MPLS / TI-LFA stacks)
  *  - LACP active for aggregated members
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -17022,7 +18706,7 @@ groups {
  * Variant group: mebs-edge-intf-mh
  *   Provides: gr:edge-intf-mh
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -17115,6 +18799,76 @@ groups {
     }
 }
 ```
+
+## junos/groups/gr-evpn-etree-load-balance-label.conf
+
+```
+/*
+ * Topic:   EVPN service group with load-balance label capability
+ * Seen on:
+ *   Junos: ma4_mx204 ma5_mx204 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mse2_mx304 1
+ *   total 3
+ * Highlights:
+ *  - etree_evpn_group_80 includes forwarding-options load-balance-label-capability
+ *    and protocols evpn under routing instances matching <evpn_group_80_*>.
+ * Pair with: none
+ *
+ * Variables: none
+ */
+groups {
+    etree_evpn_group_80 {
+        forwarding-options {
+            load-balance-label-capability;
+        }
+        routing-instances {
+            <evpn_group_80_*> {
+                protocols {
+                    evpn;
+                }
+            }
+        }
+    }
+}```
+
+## junos/groups/gr-fatpw-label-l2circuit.conf
+
+```
+/*
+ * Topic:   L2Circuit transmit and receive flow-label group
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Highlights:
+ *  - GR-FATPW-LABEL sets flow-label-transmit and flow-label-receive
+ *    under the neighbor <*> and interface <*> hierarchy of l2circuit.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    GR-FATPW-LABEL {
+        protocols {
+            l2circuit {
+                neighbor <*> {
+                    interface <*> {
+                        flow-label-transmit;
+                        flow-label-receive;
+                    }
+                }
+            }
+        }
+    }
+}```
 
 ## junos/groups/gr-fatpw-label.conf
 
@@ -17313,7 +19067,7 @@ groups {
  *    stanza. Tunes hello sizes for jumbo links, SPF timers, and
  *    overload-on-startup behaviour for graceful insertion.
  *
- * Pair with:
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables: none. Apply-groups in this JVD are entirely
@@ -17346,6 +19100,76 @@ groups {
     }
 }
 ```
+
+## junos/groups/gr-l3vpn-ospf-service-map-mse.conf
+
+```
+/*
+ * Topic:   L3VPN policy group adding the map2gold community
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Highlights:
+ *  - l3vpn_ospf_serv_map defines map2gold addition under the
+ *    tag-default term of policy statements matching <METRO_L3VPN_*>.
+ * Pair with:
+ *  - junos/policy-options/community/cm-tc-map2gold.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    l3vpn_ospf_serv_map {
+        policy-options {
+            policy-statement <METRO_L3VPN_*> {
+                term tag-default {
+                    then {
+                        community add map2gold;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## junos/groups/gr-l3vpn-ospf-service-map.conf
+
+```
+/*
+ * Topic:   L3VPN policy group adding the gold transport community
+ * Seen on:
+ *   Junos: ma4_mx204
+ *   EVO: ma3_acx7100-48l
+ * Count:
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   total 2
+ * Highlights:
+ *  - l3vpn_ospf_serv_map defines CM-TC-MAP2GOLD addition under the
+ *    tag-default term of policy statements matching <METRO_L3VPN_*>.
+ * Pair with:
+ *  - junos/policy-options/community/cm-tc-map2gold.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    l3vpn_ospf_serv_map {
+        policy-options {
+            policy-statement <METRO_L3VPN_*> {
+                term tag-default {
+                    then {
+                        community add CM-TC-MAP2GOLD;
+                    }
+                }
+            }
+        }
+    }
+}```
 
 ## junos/groups/gr-l3vpn.conf
 
@@ -17506,6 +19330,100 @@ groups {
     }
 }
 ```
+
+## junos/groups/gr-mpls-maximum-labels.conf
+
+```
+/*
+ * Topic:   MPLS maximum-labels group for aggregate unit zero
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO: (none)
+ * Count:
+ *   an4_acx710 1
+ *   total 1
+ * Highlights:
+ *  - MAX_LABELS sets maximum-labels 5 under family mpls on unit 0
+ *    of interfaces matching <ae*>.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    MAX_LABELS {
+        interfaces {
+            <ae*> {
+                unit 0 {
+                    family mpls {
+                        maximum-labels 5;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## junos/groups/gr-routing-instance-dscp-classifier.conf
+
+```
+/*
+ * Topic:   Routing-instance DSCP classifier group
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Highlights:
+ *  - RI_CLASSIFIER references dscp DSCP under the literal routing-instance
+ *    entries METRO_L3VPN* and METRO_BGPv4*.
+ * Pair with:
+ *  - junos/class-of-service/classifiers/cl-6class.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    RI_CLASSIFIER {
+        class-of-service {
+            routing-instances {
+                METRO_L3VPN* {
+                    classifiers {
+                        dscp DSCP;
+                    }
+                }
+                METRO_BGPv4* {
+                    classifiers {
+                        dscp DSCP;
+                    }
+                }
+            }
+        }
+    }
+}```
+
+## junos/interfaces/apply-groups-two.conf
+
+```
+/*
+ * Topic: Ordered interface-container two-group application
+ * Seen on:
+ *   Junos: an4_acx710
+ *   EVO: (none)
+ * Count:
+ *   an4_acx710 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables:
+ *   $GROUP_A   e.g. AE-INTERFACE-MTU
+ *   $GROUP_B   e.g. MAX_LABELS
+ */
+interfaces {
+    apply-groups [ $GROUP_A $GROUP_B ];
+}```
 
 ## junos/interfaces/core-isis-mpls.conf
 
@@ -17754,6 +19672,7 @@ interfaces {
  *   total 3
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AG2.2 rtme-mx-51 ae22"
  *   $IFD   e.g. ae22
@@ -17790,6 +19709,7 @@ interfaces {
  *   total 3
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to MDR2 rtme-mx-51 ae55"
  *   $IFD   e.g. ae55
@@ -17835,6 +19755,7 @@ interfaces {
  *   total 31
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AG1.1 rtme-acx7100-32c-a ae23"
  *   $IFD   e.g. ae23
@@ -17871,6 +19792,7 @@ interfaces {
  *   total 5
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Variables:
  *   $CORE_DESC   e.g. "to AN1 rtme-mx-45 ae73"
  *   $IFD   e.g. ae73
@@ -17902,6 +19824,7 @@ interfaces {
  *   ma5_mx204 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA3 rtme-acx-48l-07 et-0/0/51"
@@ -17937,6 +19860,7 @@ interfaces {
  *   total 1
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MA5 rtme-mx-59 et-0/0/0"
@@ -17973,6 +19897,7 @@ interfaces {
  *   total 43
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to MEG1 rtme-acx7100-32c-d"
@@ -18004,6 +19929,7 @@ interfaces {
  *   total 19
  * Pair with:
  *  - junos/groups/gr-core-intf-lag-member.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $AE_BUNDLE   e.g. ae71
@@ -18066,6 +19992,179 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ifd-edge-lag-member-mh-gigether.conf
+
+```
+/*
+ * Topic:   Multihomed edge aggregate member with gigether-options
+ * Seen on:
+ *   Junos: an1_mx204 mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   an1_mx204 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 3
+ * Pair with:
+ *  - junos/groups/gr-lag-member.conf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD        e.g. xe-0/1/0
+ *   $AE_BUNDLE  e.g. ae11
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF-LAG-MEMBER-MH;
+        gigether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}```
+
+## junos/interfaces/ifd-edge-lag-member-mh.conf
+
+```
+/*
+ * Topic:   Multihomed edge aggregate member with ether-options
+ * Seen on:
+ *   Junos: an2_acx5448
+ *   EVO: an3_acx7100-48l ma1-1_acx7024 ma1-2_acx7024 meg1_acx7100-32c
+ * Count:
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   ma1-1_acx7024 2
+ *   ma1-2_acx7024 2
+ *   meg1_acx7100-32c 2
+ *   total 8
+ * Pair with:
+ *  - junos/groups/gr-lag-member.conf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD        e.g. xe-0/0/5
+ *   $AE_BUNDLE  e.g. ae11
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF-LAG-MEMBER-MH;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}```
+
+## junos/interfaces/ifd-ethernet-ccc-unit0.conf
+
+```
+/*
+ * Topic:   Ethernet CCC physical interface with empty unit zero
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
+ * Highlights:
+ *  - Parent encapsulation ethernet-ccc and the unit 0 declaration form
+ *    one port-based attachment.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. xe-0/1/2
+ */
+interfaces {
+    $IFD {
+        encapsulation ethernet-ccc;
+        unit 0;
+    }
+}```
+
+## junos/interfaces/ifd-flexible-ethernet-group-mtu.conf
+
+```
+/*
+ * Topic:   Flexible Ethernet interface with group application and MTU
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO: (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
+ * Pair with:
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. xe-0/1/4
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        mtu 9192;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
+## junos/interfaces/ifd-flexible-ethernet-group.conf
+
+```
+/*
+ * Topic:   Flexible Ethernet interface with group application
+ * Seen on:
+ *   Junos: an4_acx710 ma4_mx204 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l ma3_acx7100-48l meg1_acx7100-32c
+ * Count:
+ *   an3_acx7100-48l 2
+ *   an4_acx710 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   meg1_acx7100-32c 2
+ *   mse1_mx304 3
+ *   mse2_mx304 2
+ *   total 12
+ * Pair with:
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD   e.g. xe-0/0/3:1
+ */
+interfaces {
+    $IFD {
+        apply-groups GR-EDGE-INTF;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}```
+
+## junos/interfaces/ifd-logical-tunnel-mac-profile.conf
+
+```
+/*
+ * Topic: Logical-tunnel per-unit MAC profile
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Pair with: none
+ *
+ * Variables:
+ *   $ANCHOR_PIC   e.g. lt-0/0/0
+ */
+interfaces {
+    $ANCHOR_PIC {
+        logical-tunnel-options {
+            per-unit-mac-disable;
+        }
+    }
+}```
+
 ## junos/interfaces/ifd-loopback-description.conf
 
 ```
@@ -18095,6 +20194,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $LO0_DESC   e.g. "AG1.1 Aggregation Node Metro Fabric Spine"
@@ -18164,6 +20264,7 @@ interfaces {
  *   mdr2_mx10003 5
  *   total 5
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_DESC   e.g. "to AG2.1 global"
@@ -18205,6 +20306,7 @@ interfaces {
  *   total 2
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.2.153/30
@@ -18244,6 +20346,7 @@ interfaces {
  *   an4_acx710 2
  *   total 3
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.81/30
@@ -18298,6 +20401,7 @@ interfaces {
  *   mse2_mx304 5
  *   total 78
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CORE_V4_ADDR   e.g. 10.10.0.113/30
@@ -18344,6 +20448,8 @@ interfaces {
  *  - The address is node-local, with no `virtual-gateway-address`, so the
  *    gateway is not shared with the other PEs in the EVPN.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from mse1_mx304):
  *   $UNIT        e.g. 4000
@@ -18372,6 +20478,7 @@ interfaces {
  *   an1_mx204 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0000.00
@@ -18414,6 +20521,7 @@ interfaces {
  *   mse2_mx304 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0011.00
@@ -18458,6 +20566,7 @@ interfaces {
  *   mse1_mx304 1
  *   total 1
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
@@ -18513,6 +20622,7 @@ interfaces {
  *   meg2_acx7509 1
  *   total 14
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0000.0010.0100.0005.00
@@ -18557,9 +20667,10 @@ interfaces {
  *  - Each nonzero service unit has an independent VLAN identifier and ESI.
  *  - The anchor identifies the FPC and PIC hosting the subscriber device.
  * Pair with:
- *  - junos/interfaces/ifd-ps-transport.conf
  *  - junos/chassis/pseudowire-service.conf
  *  - junos/chassis/tunnel-services.conf
+ *  - junos/interfaces/ifd-ps-transport.conf
+ *
  * Peers with:
  *   [mse1_mx304] <-> [mse2_mx304]
  * Variables:
@@ -18605,6 +20716,8 @@ interfaces {
  *  - df-election-type preference replaces the default election, so the
  *    designated forwarder for this segment follows a configured preference
  *    rather than the service-carving default.
+ *
+ * Pair with: none
  *
  * Peers with:
  *   [an1_mx204] <-> [an2_acx5448]
@@ -18652,6 +20765,8 @@ interfaces {
  *    the peer PE of the same Ethernet Segment.
  *  - etree-ac-role root marks this attachment circuit as an E-Tree root, so
  *    it may reach both root and leaf attachment circuits.
+ *
+ * Pair with: none
  *
  * Peers with:
  *   [mse1_mx304] <-> [mse2_mx304]
@@ -18702,6 +20817,8 @@ interfaces {
  *    the peer PE of the same Ethernet Segment, and designated-forwarder
  *    election is left at its default.
  *
+ * Pair with: none
+ *
  * Peers with:
  *   [an1_mx204] <-> [an2_acx5448]
  *   [an1_mx204] <-> [an3_acx7100-48l]
@@ -18750,6 +20867,8 @@ interfaces {
  *  - One VLAN with no rewriting, so the customer tag is bridged unchanged, and
  *    no `esi`, so the circuit is single-homed.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $IFD     e.g. xe-0/1/4
@@ -18767,6 +20886,39 @@ interfaces {
 }
 ```
 
+## junos/interfaces/ifl-vlan-bridge-outer-tag-tpid.conf
+
+```
+/*
+ * Topic:   Bridge attachment unit with an explicit 802.1ad outer tag
+ * Seen on:
+ *   Junos: ma5_mx204
+ *   EVO:   (none)
+ * Count:
+ *   ma5_mx204 1
+ *   total 1
+ *
+ * Highlights:
+ *  - vlan-bridge encapsulation retains the source's explicit 0x88a8 outer TPID.
+ *  - The unit attaches to the local bridge domain without VLAN translation.
+ *
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables (example values from ma5_mx204):
+ *   $IFD    e.g. et-0/0/2
+ *   $UNIT   e.g. 4010
+ *   $VLAN   e.g. 4010
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-tags outer 0x88a8.$VLAN;
+        }
+    }
+}```
+
 ## junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf
 
 ```
@@ -18783,6 +20935,8 @@ interfaces {
  *  - vlan-bridge attachment circuit matching a contiguous customer VLAN range
  *    with vlan-id-list.
  *  - input push / output pop maps the whole range to one service-internal VLAN.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from ma5_mx204 xe-0/1/4 unit 1000):
@@ -18821,6 +20975,8 @@ interfaces {
  *   mse1_mx304 125
  *   mse2_mx304 75
  *   total 857
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $IFD    e.g. xe-0/1/4
@@ -18832,6 +20988,34 @@ interfaces {
         unit $UNIT {
             encapsulation vlan-bridge;
             vlan-id $VLAN;
+        }
+    }
+}```
+
+## junos/interfaces/ifl-vlan-ccc-dual-tag.conf
+
+```
+/*
+ * Topic: Dual-tagged VLAN CCC logical interface
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 20
+ *   total 20
+ * Pair with: none
+ *
+ * Variables:
+ *   $IFD          e.g. et-0/0/4
+ *   $UNIT         e.g. 800
+ *   $VLAN_OUTER   e.g. 4090
+ *   $VLAN_INNER   e.g. 800
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-tags outer $VLAN_OUTER inner $VLAN_INNER;
         }
     }
 }```
@@ -18855,6 +21039,8 @@ interfaces {
  *    the customer tag is presented to the cross-connect unchanged.
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
+ *
+ * Pair with: none
  *
  * Variables (example values from an1_mx204):
  *   $IFD    e.g. ae11
@@ -18899,6 +21085,8 @@ interfaces {
  *    decouples the customer VLAN id from the service-internal one.
  *  - Per-interface ESI with all-active redundancy; the value is shared with
  *    the peer PE of the same Ethernet Segment.
+ *
+ * Pair with: none
  *
  * Peers with:
  *   [an1_mx204] <-> [an2_acx5448]
@@ -19004,6 +21192,8 @@ interfaces {
  *    unchanged, and no `esi`, so the circuit is single-homed.
  *  - The unit index and the VLAN tag are independent values.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from ma5_mx204):
  *   $IFD     e.g. et-0/0/2
@@ -19019,6 +21209,42 @@ interfaces {
     }
 }
 ```
+
+## junos/interfaces/ifl-vlan-inet-inet6.conf
+
+```
+/*
+ * Topic:   VLAN logical interface with IPv4 and IPv6 addresses
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 2
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables:
+ *   $IFD          e.g. xe-0/0/15:2
+ *   $UNIT         e.g. 2001
+ *   $VLAN         e.g. 2001
+ *   $AC_ADDR_V4   e.g. 22.2.0.1/24
+ *   $AC_ADDR_V6   e.g. 2001::22:2:0:1/126
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+            family inet6 {
+                address $AC_ADDR_V6;
+            }
+        }
+    }
+}```
 
 ## junos/interfaces/ifl-vlan-inet.conf
 
@@ -19044,6 +21270,8 @@ interfaces {
  *    other host in the same subnet.
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from ma4_mx204):
@@ -19088,6 +21316,8 @@ interfaces {
  *  - The unit carries no `esi`, no VLAN rewriting and no filter, so the tag is
  *    presented unchanged and the circuit is single-homed.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from ma4_mx204):
  *   $IFD           e.g. xe-0/1/4
@@ -19122,6 +21352,8 @@ interfaces {
  * Highlights:
  *  - vlan-vpls attachment circuit with input push / output pop VLAN mapping.
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from ma5_mx204 xe-0/1/4 unit 400):
@@ -19995,6 +22227,8 @@ policy-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
@@ -20049,8 +22283,8 @@ policy-options {
  *  - Both policies end with an explicit `term REJECT`.
  *
  * Pair with:
- *  - junos/policy-options/community/cm-no-advertise.conf
  *  - junos/policy-options/community/cm-loopback.conf
+ *  - junos/policy-options/community/cm-no-advertise.conf
  *
  * Peers with: n/a
  * Variables:
@@ -20305,10 +22539,10 @@ policy-options {
  *    CM-METRO-RING and accepts them.
  *
  * Pair with:
- *  - junos/policy-options/community/cm-service-edge.conf
  *  - junos/policy-options/community/cm-access-fabric.conf
  *  - junos/policy-options/community/cm-metro-fabric.conf
  *  - junos/policy-options/community/cm-metro-ring.conf
+ *  - junos/policy-options/community/cm-service-edge.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
  * Peers with: n/a
@@ -20360,12 +22594,12 @@ policy-options {
  *  - As-deployed PS-BGP-MSE-EXPORT routing policy.
  *
  * Pair with:
- *  - junos/policy-options/community/cm-tc-4000-gold.conf
- *  - junos/policy-options/community/cm-tc-6000-bronze.conf
  *  - junos/policy-options/community/cm-access-fabric.conf
  *  - junos/policy-options/community/cm-metro-fabric.conf
  *  - junos/policy-options/community/cm-metro-ring.conf
  *  - junos/policy-options/community/cm-service-edge.conf
+ *  - junos/policy-options/community/cm-tc-4000-gold.conf
+ *  - junos/policy-options/community/cm-tc-6000-bronze.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
  * Peers with: n/a
@@ -20576,6 +22810,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -20662,6 +22897,7 @@ policy-options {
  *   mdr2_mx10003 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -21448,6 +23684,8 @@ policy-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $CONDITION_NAME   e.g. Floating-PW-Condition
@@ -21494,9 +23732,9 @@ policy-options {
  *  - As-deployed PS-IBGP-MDR-EXPORT routing policy.
  *
  * Pair with:
+ *  - junos/policy-options/community/cm-loopback.conf
  *  - junos/policy-options/community/cm-metro-fabric.conf
  *  - junos/policy-options/community/cm-metro-ring.conf
- *  - junos/policy-options/community/cm-loopback.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -21609,8 +23847,8 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy-options/community/cm-access-fabric.conf
- *  - junos/policy-options/community/cm-service-edge.conf
  *  - junos/policy-options/community/cm-loopback.conf
+ *  - junos/policy-options/community/cm-service-edge.conf
  *  - junos/policy-options/prefix-list/pl-an-region.conf
  *
  * Peers with: n/a
@@ -21927,6 +24165,7 @@ policy-options {
  *
  * Pair with:
  *  - junos/policy-options/community/cm-inet-default.conf
+ *
  * Peers with: n/a
  */
 policy-options {
@@ -21987,6 +24226,8 @@ policy-options {
  *  - `term CORE-SUMMARY` rejects the locally generated aggregate tagged 1000 or
  *    1001 with `tag2 0`, keeping the summary out of the flooded database.
  *  - `term REJECT` terminates the policy.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -22077,6 +24318,8 @@ policy-options {
  *  - The policy ends after the loopback terms, so everything it does not match
  *    falls through to the IS-IS default action.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from mdr2_mx10003):
  *   $LOOPBACK_V4        e.g. 1.1.0.13
@@ -22156,6 +24399,8 @@ policy-options {
  *  - `term REJECT` terminates the policy, so IS-IS advertises only the two
  *    loopbacks.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an2_acx5448):
  *   $LOOPBACK_V4        e.g. 1.1.0.1
@@ -22219,6 +24464,7 @@ policy-options {
  *   total 2
  * Pair with:
  *  - junos/policy-options/community/cm-loopback.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -22276,6 +24522,8 @@ policy-options {
  *    prefix and every more-specific inside it pass.
  *  - The configured policy name is a value: a node may carry this same body
  *    under more than one name.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -22348,6 +24596,7 @@ policy-options {
  *   mse2_mx304 1
  *   total 10
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -22358,6 +24607,72 @@ policy-options {
         }
     }
 }```
+
+## junos/policy-options/policy-statement/ps-next-hop-self.conf
+
+```
+/*
+ * Topic:   Next-hop-self acceptance policy
+ * Seen on:
+ *   Junos: mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 8
+ * Pair with: none
+ *
+ */
+policy-options {
+  policy-statement next-hop-self {
+    then {
+      next-hop self;
+      accept;
+    }
+  }
+}
+```
+
+## junos/policy-options/policy-statement/ps-only-loopback.conf
+
+```
+/*
+ * Topic:   ONLY_LOOPBACK exact-prefix acceptance policy
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: an3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 10
+ * Pair with: none
+ *
+ * Variables:
+ *   $PREFIX   e.g. 1.1.0.0/32
+ */
+policy-options {
+  policy-statement ONLY_LOOPBACK {
+    from {
+      route-filter $PREFIX exact;
+    }
+    then accept;
+  }
+}
+```
 
 ## junos/policy-options/policy-statement/ps-prefix-sid.conf
 
@@ -22395,6 +24710,8 @@ policy-options {
  *  - `prefix-segment` assigns the node segment index and one prefix segment per
  *    flex-algorithm, so the loopback carries a prefix SID on algorithm 0, 128
  *    and 129.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -22503,6 +24820,8 @@ policy-options {
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SR_V4   e.g. 1.1.10.0
@@ -22561,6 +24880,8 @@ policy-options {
  *    Segment Routing IPv6 loopback, distinct from the primary loopback.
  *  - `prefix-segment index` assigns that address its own SR index and accepts
  *    it, so the SR loopback is advertised with a prefix SID of its own.
+ *
+ * Pair with: none
  *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
@@ -23233,14 +25554,26 @@ protocols {
  *
  * Pair with:
  *  - junos/groups/gr-bgp-bcp.conf
- *  - junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf
  *  - junos/policy-options/policy-statement/ps-as63535-import.conf
  *  - junos/policy-options/policy-statement/ps-ebgp-cr-export.conf
  *  - junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf
  *  - junos/policy-options/policy-statement/ps-ibgp-mse-export.conf
+ *  - junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf
  *  - junos/policy-options/policy-statement/ps-mse-import.conf
  *  - junos/routing-options/rib-group-remote-loopbacks-mse.conf
  *
+ * Peers with:
+ *   [cr1_ptx10001-36mr] <-> [mse1_mx304]
+ *   [ma1-1_acx7024] <-> [mse1_mx304]
+ *   [ma1-2_acx7024] <-> [mse1_mx304]
+ *   [ma3_acx7100-48l] <-> [mse1_mx304]
+ *   [ma4_mx204] <-> [mse1_mx304]
+ *   [ma5_mx204] <-> [mse1_mx304]
+ *   [mdr1_acx7509] <-> [mse1_mx304]
+ *   [mdr2_mx10003] <-> [mse1_mx304]
+ *   [meg1_acx7100-32c] <-> [mse1_mx304]
+ *   [meg2_acx7509] <-> [mse1_mx304]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -23497,14 +25830,26 @@ protocols {
  *
  * Pair with:
  *  - junos/groups/gr-bgp-bcp.conf
- *  - junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf
  *  - junos/policy-options/policy-statement/ps-as63535-import.conf
  *  - junos/policy-options/policy-statement/ps-ebgp-cr-export.conf
  *  - junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf
  *  - junos/policy-options/policy-statement/ps-ibgp-mse-export.conf
+ *  - junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf
  *  - junos/policy-options/policy-statement/ps-mse-import.conf
  *  - junos/routing-options/rib-group-remote-loopbacks-mse.conf
  *
+ * Peers with:
+ *   [cr2_ptx10001-36mr] <-> [mse2_mx304]
+ *   [ma1-1_acx7024] <-> [mse2_mx304]
+ *   [ma1-2_acx7024] <-> [mse2_mx304]
+ *   [ma3_acx7100-48l] <-> [mse2_mx304]
+ *   [ma4_mx204] <-> [mse2_mx304]
+ *   [ma5_mx204] <-> [mse2_mx304]
+ *   [mdr1_acx7509] <-> [mse2_mx304]
+ *   [mdr2_mx10003] <-> [mse2_mx304]
+ *   [meg1_acx7100-32c] <-> [mse2_mx304]
+ *   [meg2_acx7509] <-> [mse2_mx304]
+ *   [mse1_mx304] <-> [mse2_mx304]
  * Variables: none
  */
 protocols {
@@ -23876,6 +26221,7 @@ protocols {
  *   meg1_acx7100-32c 1
  *   total 2
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -23885,6 +26231,30 @@ protocols {
     }
 }
 ```
+
+## junos/protocols/evpn-no-core-isolation.conf
+
+```
+/*
+ * Topic: EVPN no-core-isolation setting
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 4
+ * Pair with: none
+ *
+ * Variables: none
+ */
+protocols {
+    evpn {
+        no-core-isolation;
+    }
+}```
 
 ## junos/protocols/isis-instance-intf-l2-bfd-mdr1.conf
 
@@ -23899,6 +26269,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Pair with: none
+ *
  * Variables:
  *   $CORE_INTF   e.g. ae82.1
  *   $DELAY_METRIC   e.g. 5
@@ -23951,6 +26323,8 @@ protocols {
  *   mdr1_acx7509 3
  *   mdr2_mx10003 3
  *   total 9
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -24002,6 +26376,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $EXPORT_POLICY   e.g. export_isis_metro_a_ribs
@@ -24064,6 +26440,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_INSTANCE   e.g. metro-a
@@ -24090,6 +26468,7 @@ protocols {
  *   total 1
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/1/1.0
  */
@@ -24140,6 +26519,7 @@ protocols {
  *   total 2
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/11.0
  */
@@ -24189,6 +26569,7 @@ protocols {
  *   total 2
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $CORE_INTF   e.g. et-0/0/9.0
  */
@@ -24239,6 +26620,8 @@ protocols {
  *   an2_acx5448 2
  *   an4_acx710 2
  *   total 13
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. green
  *   $ADMIN_GROUP_2   e.g. blue
@@ -24294,6 +26677,7 @@ protocols {
  *   total 13
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $ADMIN_GROUP   e.g. blue
  *   $CORE_INTF   e.g. et-1/0/3.0
@@ -24349,6 +26733,7 @@ protocols {
  *   total 13
  * Pair with:
  *  - junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
+ *
  * Variables:
  *   $ADMIN_GROUP   e.g. blue
  *   $CORE_INTF   e.g. et-0/0/6.0
@@ -24400,6 +26785,8 @@ protocols {
  *   mdr2_mx10003 2
  *   meg2_acx7509 1
  *   total 5
+ * Pair with: none
+ *
  * Variables:
  *   $ADMIN_GROUP_1   e.g. blue
  *   $ADMIN_GROUP_2   e.g. green
@@ -24469,6 +26856,8 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 20
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -24494,6 +26883,8 @@ protocols {
  *   an2_acx5448 1
  *   an4_acx710 1
  *   total 3
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 0
@@ -24554,6 +26945,8 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0010.00
@@ -24616,6 +27009,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0005.0010.0100.0012.00
@@ -24681,6 +27075,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $ISIS_NET   e.g. 49.0001.0010.0100.0018.00
@@ -24759,10 +27154,10 @@ protocols {
  *    failure detection that triggers TI-LFA.
  *
  * Pair with:
- *  - junos/protocols/mpls-segment-routing.conf
- *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/groups/gr-core-intf.conf
+ *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/interfaces/core-isis-mpls.conf
+ *  - junos/protocols/mpls-segment-routing.conf
  *
  * Variables (example values from ma1-1_acx7024):
  *   $CORE_INTF     e.g. ae83.0   (repeat the per-interface block
@@ -24860,6 +27255,7 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
  *  - junos/policy-options/policy-statement/ps-isis-export.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $NODE_SID_V4   e.g. 8
@@ -25138,6 +27534,80 @@ protocols {
 }
 ```
 
+## junos/protocols/l2circuit-static-color.conf
+
+```
+/*
+ * Topic: Static-label Ethernet VLAN pseudowire with transport community
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 1
+ *   mse2_mx304 10
+ *   total 11
+ * Pair with: none
+ *
+ * Variables:
+ *   $REMOTE_PE_V4     e.g. 1.1.0.18
+ *   $AC_INTF          e.g. ps0.0
+ *   $LABEL_IN         e.g. 1000001
+ *   $LABEL_OUT        e.g. 1000001
+ *   $VC_ID            e.g. 1001
+ *   $COLOR_COMMUNITY  e.g. map2gold
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_INTF {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                community $COLOR_COMMUNITY;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}```
+
+## junos/protocols/l2circuit-static.conf
+
+```
+/*
+ * Topic: Static-label Ethernet VLAN pseudowire
+ * Seen on:
+ *   Junos: mse1_mx304 mse2_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 19
+ *   mse2_mx304 10
+ *   total 29
+ * Pair with: none
+ *
+ * Variables:
+ *   $REMOTE_PE_V4   e.g. 1.1.0.18
+ *   $AC_INTF        e.g. ps1.0
+ *   $LABEL_IN       e.g. 1000002
+ *   $LABEL_OUT      e.g. 1000002
+ *   $VC_ID          e.g. 1010
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_INTF {
+                static {
+                    incoming-label $LABEL_IN;
+                    outgoing-label $LABEL_OUT;
+                }
+                virtual-circuit-id $VC_ID;
+                encapsulation-type ethernet-vlan;
+            }
+        }
+    }
+}```
+
 ## junos/protocols/ldp-loopback.conf
 
 ```
@@ -25154,12 +27624,54 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 6
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
 protocols {
   ldp {
     interface lo0.0;
+  }
+}
+```
+
+## junos/protocols/lldp-interface-all.conf
+
+```
+/*
+ * Topic:   LLDP enabled on all interfaces
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
+ * Pair with: none
+ *
+ */
+protocols {
+  lldp {
+    interface all;
   }
 }
 ```
@@ -25179,6 +27691,7 @@ protocols {
  *   Provides: transport:mpls-admin-groups
  * Pair with:
  *  - junos/interfaces/ifl-loopback-primary-iso-sr-v6.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -25291,7 +27804,7 @@ protocols {
  * Apply on a per-unit basis: each MEP binds to a vlan-ccc subinterface
  * (e.g., et-0/0/0.2800) that is also the L2Circuit attachment-circuit.
  *
- * Pair with:
+ * Pair with: none
  *
  * Variables (example values from an3_acx7100-48l):
  *   $MD_NAME         e.g. MD_63535
@@ -25375,7 +27888,7 @@ protocols {
  *    MEP has remote-mep entries pointing at the far-end MEPs on
  *    the peer PEs (1002 and 1006 here).
  *
- * Pair with:
+ * Pair with: none
  *
  * Variables (example values from an4_acx710):
  *   $MD_NAME         e.g. MD_63535
@@ -25558,14 +28071,6 @@ routing-instances {
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an3_acx7100-48l] <-> [mse1_mx304]
- *   [an3_acx7100-48l] <-> [mse2_mx304]
- *   [meg1_acx7100-32c] <-> [mse1_mx304]
- *   [meg1_acx7100-32c] <-> [mse2_mx304]
- *   [meg2_acx7509] <-> [mse1_mx304]
- *   [meg2_acx7509] <-> [mse2_mx304]
- *   [mse1_mx304] <-> [mse2_mx304]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an3_acx7100-48l (50), meg1_acx7100-32c (50), meg2_acx7509 (50), mse1_mx304 (50), mse2_mx304 (50)
@@ -25652,17 +28157,10 @@ routing-instances {
  *    virtual-switch + IRB shape).
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/ifl-vlan-bridge-esi.conf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an1_mx204] <-> [an2_acx5448]
- *   [an1_mx204] <-> [an3_acx7100-48l]
- *   [an1_mx204] <-> [ma1-1_acx7024]
- *   [an1_mx204] <-> [ma1-2_acx7024]
- *   [an1_mx204] <-> [meg1_acx7100-32c]
- *   [an1_mx204] <-> [meg2_acx7509]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
@@ -25728,21 +28226,9 @@ routing-instances {
  *    over the same ESI-bearing AE (ae11).
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/interfaces/ifl-vlan-bridge-esi.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [an1_mx204] <-> [an2_acx5448]
- *   [an1_mx204] <-> [an3_acx7100-48l]
- *   [an1_mx204] <-> [ma1-1_acx7024]
- *   [an1_mx204] <-> [ma1-2_acx7024]
- *   [an1_mx204] <-> [meg1_acx7100-32c]
- *   [an1_mx204] <-> [meg2_acx7509]
- *   [an2_acx5448] <-> [an3_acx7100-48l]
- *   [an2_acx5448] <-> [ma1-1_acx7024]
- *   [an2_acx5448] <-> [ma1-2_acx7024]
- *   [an2_acx5448] <-> [meg1_acx7100-32c]
- *   [an2_acx5448] <-> [meg2_acx7509]
  * JVD service mapping:
  *   50 instances total (high 50 / med 0 / low 0)
  *   On devices: an1_mx204 (50), an2_acx5448 (50), an3_acx7100-48l (50), ma1-1_acx7024 (50), ma1-2_acx7024 (50), meg1_acx7100-32c (50), +1 more
@@ -25803,10 +28289,9 @@ routing-instances {
  *    advertises the same service with a distinct RD.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-bridge-esi.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from mse1_mx304 / 300-evpn-floating-pw):
  *   $INSTANCE_NAME     e.g. 300-evpn-floating-pw
  *   $VLAN              e.g. 300
@@ -25831,6 +28316,47 @@ routing-instances {
     }
 }
 ```
+
+## junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf
+
+```
+/*
+ * Topic: EVPN MPLS service with no normalization and export policy
+ * Seen on:
+ *   Junos: an1_mx204
+ *   EVO: (none)
+ * Count:
+ *   an1_mx204 1
+ *   total 1
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
+ *
+ * Variables:
+ *   $INSTANCE_NAME    e.g. evpn_group_90_700
+ *   $AC_INTF          e.g. ae11.700
+ *   $LOOPBACK_V4      e.g. 1.1.0.0
+ *   $RD_SUB_ASSIGNED  e.g. 7000
+ *   $RT_AS            e.g. 63535
+ *   $RT_ID            e.g. 7000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn;
+        protocols {
+            evpn {
+                encapsulation mpls;
+                no-control-word;
+            }
+        }
+        vlan-id none;
+        no-normalization;
+        interface $AC_INTF;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}```
 
 ## junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf
 
@@ -25862,16 +28388,9 @@ routing-instances {
  *    vlan-bundle shape.
  *
  * Pair with:
- *  - variant:mebs-bgp-overlay families=evpn
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [ma4_mx204] <-> [ma5_mx204]
- *   [ma4_mx204] <-> [mse1_mx304]
- *   [ma4_mx204] <-> [mse2_mx304]
- *   [ma5_mx204] <-> [mse1_mx304]
- *   [ma5_mx204] <-> [mse2_mx304]
- *   [mse1_mx304] <-> [mse2_mx304]
  * JVD service mapping:
  *   1050 instances total (high 1050 / med 0 / low 0)
  *   On devices: ma4_mx204 (1000), ma5_mx204 (1000), mse1_mx304 (1000), mse2_mx304 (1000), an3_acx7100-48l (51), meg1_acx7100-32c (51), +5 more
@@ -25937,13 +28456,6 @@ routing-instances {
  * Pair with:
  *  - variant:mebs-bgp-overlay families=evpn
  *
- * Peers with:
- *   [ma4_mx204] <-> [ma5_mx204]
- *   [ma4_mx204] <-> [mse1_mx304]
- *   [ma4_mx204] <-> [mse2_mx304]
- *   [ma5_mx204] <-> [mse1_mx304]
- *   [ma5_mx204] <-> [mse2_mx304]
- *   [mse1_mx304] <-> [mse2_mx304]
  * Variables (example values from mse1_mx304 / evpn_group_80_1000):
  *   $INSTANCE_NAME    e.g. evpn_group_80_1000
  *   $AC_INTF          e.g. ae10
@@ -25970,6 +28482,76 @@ routing-instances {
     }
 }
 ```
+
+## junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf
+
+```
+/*
+ * Topic: VLAN-unaware EVPN FXC with twelve UNIs and export policy
+ * Seen on:
+ *   Junos: mse1_mx304
+ *   EVO: (none)
+ * Count:
+ *   mse1_mx304 2
+ *   total 2
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
+ *  - variant:mebs-bgp-overlay families=evpn
+ *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
+ *
+ * Variables:
+ *   $INSTANCE_NAME    e.g. evpn_group_40_1
+ *   $AC_INTF          e.g. et-0/0/4
+ *   $UNIT_A           e.g. 1800
+ *   $UNIT_B           e.g. 2300
+ *   $UNIT_C           e.g. 800
+ *   $UNIT_D           e.g. 801
+ *   $UNIT_E           e.g. 802
+ *   $UNIT_F           e.g. 803
+ *   $UNIT_G           e.g. 804
+ *   $UNIT_H           e.g. 805
+ *   $UNIT_I           e.g. 806
+ *   $UNIT_J           e.g. 807
+ *   $UNIT_K           e.g. 808
+ *   $UNIT_L           e.g. 809
+ *   $SVC_ID_LOCAL     e.g. 2
+ *   $SVC_ID_REMOTE    e.g. 1
+ *   $LOOPBACK_V4      e.g. 1.1.0.10
+ *   $RD_SUB_ASSIGNED  e.g. 401
+ *   $RT_AS            e.g. 63535
+ *   $RT_ID            e.g. 401
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                flexible-cross-connect-vlan-unaware;
+                group fxc {
+                    interface $AC_INTF.$UNIT_A;
+                    interface $AC_INTF.$UNIT_B;
+                    interface $AC_INTF.$UNIT_C;
+                    interface $AC_INTF.$UNIT_D;
+                    interface $AC_INTF.$UNIT_E;
+                    interface $AC_INTF.$UNIT_F;
+                    interface $AC_INTF.$UNIT_G;
+                    interface $AC_INTF.$UNIT_H;
+                    interface $AC_INTF.$UNIT_I;
+                    interface $AC_INTF.$UNIT_J;
+                    interface $AC_INTF.$UNIT_K;
+                    interface $AC_INTF.$UNIT_L;
+                    service-id {
+                        local $SVC_ID_LOCAL;
+                        remote $SVC_ID_REMOTE;
+                    }
+                }
+            }
+        }
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-export $INSTANCE_NAME;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}```
 
 ## junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf
 
@@ -26066,9 +28648,9 @@ routing-instances {
  *    (UNIs live entirely inside the FXC group).
  *
  * Pair with:
+ *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *  - variant:mebs-edge-intf-form capabilities=gr:edge-intf
- *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [mse1_mx304]
@@ -26228,15 +28810,10 @@ routing-instances {
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * Peers with:
- *   [an1_mx204] <-> [ma1-1_acx7024]
- *   [an1_mx204] <-> [ma1-2_acx7024]
- *   [an2_acx5448] <-> [ma1-1_acx7024]
- *   [an2_acx5448] <-> [ma1-2_acx7024]
  *   [an3_acx7100-48l] <-> [an4_acx710]
- *   [an3_acx7100-48l] <-> [ma1-1_acx7024]
- *   [an3_acx7100-48l] <-> [ma1-2_acx7024]
- *   [an3_acx7100-48l] <-> [meg1_acx7100-32c]
- *   [an3_acx7100-48l] <-> [meg2_acx7509]
+ *   [an3_acx7100-48l] <-> [meg1_acx7100-32c, meg2_acx7509]
+ *   [ma1-1_acx7024] <-> [an1_mx204, an2_acx5448, an3_acx7100-48l]
+ *   [ma1-2_acx7024] <-> [an1_mx204, an2_acx5448, an3_acx7100-48l]
  * JVD service mapping:
  *   400 instances total (high 400 / med 0 / low 0)
  *   On devices: an1_mx204 (400), an2_acx5448 (400), an3_acx7100-48l (400), ma1-1_acx7024 (400), ma1-2_acx7024 (400)
@@ -26298,7 +28875,9 @@ routing-instances {
  *  - vrf-target establishes the BGP route-target community for the L2VPN
  *
  * Pair with:
+ *  - junos/interfaces/ifd-ethernet-ccc-unit0.conf
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
  *   [an3_acx7100-48l] <-> [ma5_mx204]
@@ -26366,6 +28945,7 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -26428,6 +29008,7 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -26489,6 +29070,7 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -26551,6 +29133,7 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Peers with:
@@ -26612,6 +29195,7 @@ routing-instances {
  *    not vlan-tagged).
  *
  * Pair with:
+ *  - junos/interfaces/ifd-ethernet-ccc-unit0.conf
  *  - variant:mebs-fatpw-label-form capabilities=gr:fatpw-label
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
@@ -26686,6 +29270,7 @@ routing-instances {
  *  - `vrf-table-label` gives one MPLS label for the whole instance.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet-inet6.conf
  *  - junos/policy-options/policy-statement/ps-inet-vrf-default.conf
  *
  * Variables (example values from mse2_mx304):
@@ -26696,7 +29281,7 @@ routing-instances {
  *   $PE_LOCAL_V4      e.g. 22.2.0.1
  *   $CE_PEER_V6       e.g. 2001::22:2:0:2
  *   $PE_LOCAL_V6      e.g. 2001::22:2:0:1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 1.1.0.11:63536
  *   $EXPORT_POL       e.g. INET-VRF-DEFAULT_1
  *   $RT_AS            e.g. 63536
@@ -26725,7 +29310,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V4 {
                         local-address $PE_LOCAL_V4;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -26735,7 +29320,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V6 {
                         local-address $PE_LOCAL_V6;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -26779,6 +29364,7 @@ routing-instances {
  *    an L3 lookup on the inner header.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet6.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *
  * Variables (example values from ma4_mx204 / METRO_BGPv6_L3VPN_3001):
@@ -26789,7 +29375,7 @@ routing-instances {
  *   $AC_INTF          e.g. xe-0/1/4.3001
  *   $CE_PEER_V6       e.g. 2001:0:0:0:17:3:0:2
  *   $PE_LOCAL_V6      e.g. 2001:0:0:0:17:3:0:1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63536:43001
  */
 routing-instances {
@@ -26807,7 +29393,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V6 {
                         local-address $PE_LOCAL_V6;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -26856,9 +29442,10 @@ routing-instances {
  *    deployment vs per-prefix labels).
  *
  * Pair with:
- *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
- *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
  *  - junos/groups/gr-l3vpn.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
  * JVD service mapping:
@@ -26875,7 +29462,7 @@ routing-instances {
  *   $AC_INTF          e.g. et-0/0/5.1001
  *   $CE_PEER_V4       e.g. 19.2.0.2
  *   $PE_LOCAL_V4      e.g. 19.2.0.1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63536:11001
  */
 routing-instances {
@@ -26893,7 +29480,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V4 {
                         local-address $PE_LOCAL_V4;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -26931,6 +29518,7 @@ routing-instances {
  *    $EXPORT_POL.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
@@ -26949,7 +29537,7 @@ routing-instances {
  *   $AC_INTF          e.g. et-0/0/5.2101
  *   $CE_PEER_V4       e.g. 115.2.0.2
  *   $PE_LOCAL_V4      e.g. 115.2.0.1
- *   $AS_CUST          e.g. 64514
+ *   $ASN_CUSTOMER          e.g. 64514
  *   $RD               e.g. 63536:2101
  *   $IMPORT_POL       e.g. METRO_BGPv4_L3VPN_2101-IMPORT
  *                     (PS-METRO_BGPv4_L3VPN_2101-IMPORT on an3_acx7100-48l)
@@ -26970,7 +29558,7 @@ routing-instances {
                     }
                     neighbor $CE_PEER_V4 {
                         local-address $PE_LOCAL_V4;
-                        peer-as $AS_CUST;
+                        peer-as $ASN_CUSTOMER;
                         as-override;
                     }
                 }
@@ -27017,10 +29605,10 @@ routing-instances {
  *    are also injected into every `<METRO_*>` VRF by apply-group GR-L3VPN.
  *
  * Pair with:
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - junos/groups/gr-l3vpn.conf
- *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
+ *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -27110,8 +29698,8 @@ routing-instances {
  *
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
- *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -27249,8 +29837,9 @@ routing-instances {
  *    `${INSTANCE_NAME}-IMPORT` and `${INSTANCE_NAME}-EXPORT`.
  *
  * Pair with:
- *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - junos/groups/gr-l3vpn.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
  * JVD service mapping:
@@ -27326,8 +29915,9 @@ routing-instances {
  *
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
- *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
+ *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -27391,7 +29981,9 @@ routing-instances {
  *    circuit; `no-normalization` keeps the customer tag as it arrives instead
  *    of rewriting it to the domain VLAN.
  *
- * Pair with: none
+ * Pair with:
+ *  - junos/interfaces/ifl-vlan-bridge.conf
+ *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Variables (example values from ma5_mx204):
  *   $INSTANCE_NAME      e.g. vpls_group_108_850
@@ -27462,6 +30054,7 @@ routing-instances {
  *    (vlan-aware passthrough mode).
  *
  * Pair with:
+ *  - junos/interfaces/ethernet-bridge.conf
  *  - junos/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
@@ -27538,6 +30131,7 @@ routing-instances {
  *    routes it advertises rather than relying on the route target alone.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-vpls-vlan-map.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Variables (example values from ma5_mx204 / vpls_group_102_400):
@@ -27596,6 +30190,7 @@ routing-instances {
  *    per-instance export policy.
  *
  * Pair with:
+ *  - junos/interfaces/ifl-vlan-vpls-vlan-map.conf
  *  - variant:mebs-bgp-overlay families=l2vpn
  *
  * Variables (example values from ma5_mx204 / vpls_group_102_500):
@@ -27655,6 +30250,8 @@ routing-instances {
  *  - `preference 14` keeps the aggregate below the contributing routes, so a
  *    more specific route always wins.
  *
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables (example values from an1_mx204):
  *   $LOOPBACK_SUPERNET     e.g. 1.1.0.0/24
@@ -27675,6 +30272,46 @@ routing-options {
             discard;
         }
     }
+}
+```
+
+## junos/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic:   Device autonomous-system number
+ * Seen on:
+ *   Junos: an1_mx204 an2_acx5448 an4_acx710 ma2_mx204 ma4_mx204 ma5_mx204 mdr2_mx10003 mse1_mx304 mse2_mx304
+ *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-1_acx7024 ma1-2_acx7024 ma3_acx7100-48l mdr1_acx7509 meg1_acx7100-32c meg2_acx7509
+ * Count:
+ *   ag1-1_acx7100-32c 1
+ *   ag1-2_acx7100-32c 1
+ *   an1_mx204 1
+ *   an2_acx5448 1
+ *   an3_acx7100-48l 1
+ *   an4_acx710 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   ma1-1_acx7024 1
+ *   ma1-2_acx7024 1
+ *   ma2_mx204 1
+ *   ma3_acx7100-48l 1
+ *   ma4_mx204 1
+ *   ma5_mx204 1
+ *   mdr1_acx7509 1
+ *   mdr2_mx10003 1
+ *   meg1_acx7100-32c 1
+ *   meg2_acx7509 1
+ *   mse1_mx304 1
+ *   mse2_mx304 1
+ *   total 20
+ * Pair with: none
+ *
+ * Variables:
+ *   $ASN   e.g. 63535
+ */
+routing-options {
+  autonomous-system $ASN;
 }
 ```
 
@@ -27700,6 +30337,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -27733,6 +30371,7 @@ routing-options {
  *   ma5_mx204 1
  *   total 11
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -27902,6 +30541,7 @@ routing-options {
  *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
@@ -27935,6 +30575,7 @@ routing-options {
  *   total 1
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
@@ -27968,6 +30609,7 @@ routing-options {
  *   total 2
  * Pair with:
  *  - junos/policy-options/policy-statement/per-packet-load-balance.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $PPLB_NAME   e.g. pplb
@@ -28062,6 +30704,8 @@ routing-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 15
+ * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28100,6 +30744,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28123,6 +30768,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-multipath.conf
  *  - variant:mebs-colour-transport capabilities=transport:colour-classes
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28304,6 +30950,7 @@ routing-options {
  * Pair with:
  *  - junos/policy-options/policy-statement/ps-local-loopback-anycast.conf
  *  - junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28406,6 +31053,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28444,6 +31092,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 17
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables: none
  */
@@ -28483,6 +31132,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 18
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $RD_SEED_AUTO   e.g. 1.1.1.2
@@ -28522,6 +31172,7 @@ routing-options {
  *   mse2_mx304 1
  *   total 20
  * Pair with: none
+ *
  * Peers with: n/a
  * Variables:
  *   $ROUTER_ID   e.g. 1.1.0.14
@@ -28545,6 +31196,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $TC_EGRESS   e.g. 1.1.0.3
@@ -28586,6 +31238,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
@@ -28627,6 +31280,7 @@ routing-options {
  *   Provides: transport:colour-classes
  * Pair with:
  *  - junos/routing-options/route-distinguisher-id.conf
+ *
  * Peers with: n/a
  * Variables:
  *   $LOOPBACK_ANYCAST_V4   e.g. 1.1.10.10
@@ -28711,6 +31365,29 @@ routing-options {
 }
 ```
 
+## junos/system/evpn-mh-firewall-profile.conf
+
+```
+/*
+ * Topic: EVPN multihoming firewall profile
+ * Seen on:
+ *   Junos: an2_acx5448
+ *   EVO: (none)
+ * Count:
+ *   an2_acx5448 1
+ *   total 1
+ * Pair with: none
+ *
+ * Variables: none
+ */
+system {
+    packet-forwarding-options {
+        firewall-profile {
+            evpn-mh-profile;
+        }
+    }
+}```
+
 ## _variables.md
 
 # Snippet variable glossary
@@ -28730,7 +31407,8 @@ The variables fall into a few groups.
 
 | Variable               | What it is                                                                           | Example value                |
 |------------------------|--------------------------------------------------------------------------------------|------------------------------|
-| `$AS_CUST`             | Customer-facing eBGP AS used by PE-CE BGP and as-override.                           | `64514`                      |
+| `$ASN`                 | Local device autonomous-system number.                                              | `63535`                      |
+| `$ASN_CUSTOMER`        | Customer-facing eBGP peer AS used by PE-CE BGP and as-override.                       | `64514`                      |
 | `$LOOPBACK_V4`         | This PE's lo0 IPv4 (used as RD-prefix and BGP next-hop).                             | `1.1.0.17`                   |
 | `$LOOPBACK_ANYCAST_V4` | Shared anycast lo0 IPv4 owned by more than one node.                                 | `1.1.10.10`                  |
 | `$LOOPBACK_SR_V4`      | SR non-zero lo0 IPv4 carrying an SR prefix-SID.                                      | `1.1.10.6`                   |
@@ -28850,6 +31528,9 @@ service interface (`ps0.300`); supply that complete attachment there.
 | `$UNIT_1` / `$UNIT_2`    | Logical-unit numbers for a two-AC service. | `3000` |
 | `$UNIT_A` / `$UNIT_B` / `$UNIT_C` / `$UNIT_D` | Logical-unit numbers for a multi-AC service. | `800` |
 | `$LABEL_IN` / `$LABEL_OUT` | Static MPLS in / out labels (floating pseudowire). | `1000001` |
+| `$GROUP_A` / `$GROUP_B` / `$GROUP_C` | Ordered applied-group names; preserve source list order. | `RI_CLASSIFIER` / `l3vpn_ospf_serv_map` / `GR-FATPW-LABEL` |
+| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `0` |
+| `$UNIT_E` / `$UNIT_F` / `$UNIT_G` / `$UNIT_H` / `$UNIT_I` / `$UNIT_J` / `$UNIT_K` / `$UNIT_L` | Additional logical units in a twelve-UNI FXC group. | `802` / `803` / `804` / `805` / `806` / `807` / `808` / `809` |
 | `$RD` / `$RT`            | Full route-distinguisher / route-target value (`AS:id`). | `63535:6500` |
 | `$EXPORT_POL` / `$IMPORT_POL` | Per-VRF export / import policy names. | `PS-METRO_L3VPN_2001-EXPORT` |
 | `$CE_PEER_V4` / `$PE_LOCAL_V4` | PE-CE eBGP peer / local IPv4 addresses. | `115.2.0.2` / `115.2.0.1` |
@@ -28953,7 +31634,7 @@ deployment).
 
 # Configuration form tiers
 
-<!-- GENERATED FROM configuration/snips/_composition.json by portal/scripts/generate-tiers.mjs. Do not edit by hand: run `npm --prefix portal run tiers`. -->
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers`. -->
 
 This file tells the assistant which snippet files to include for each service
 form at each tier. It is generated from the composition matrix, so every path
@@ -28996,50 +31677,157 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-1_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg1.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg2.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### an1_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### an2_acx5448 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### an4_acx710 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
-- `self-contained`: the above plus `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/ps-bgp-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-an4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class-fallback-none.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ---
 
@@ -29056,14 +31844,61 @@ Family e-line, form flexible-cross-connect. OS mode MIXED. Attachment: N vlan-cc
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/groups/gr-edge-intf.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_A
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_B
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_C
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_D
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_A
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_B
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_C
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT_D
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 
@@ -29074,14 +31909,33 @@ Family e-line, form rfc4761. OS mode MIXED. Attachment: vlan-ccc logical unit.
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf`
-- `self-contained`: the above plus `evo/groups/gr-fatpw-label.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma5_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf`
-- `self-contained`: the above plus `junos/groups/gr-fatpw-label.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ---
 
@@ -29092,8 +31946,10 @@ Family e-line, form hot-standby. OS mode EVO. Attachment: vlan-ccc logical unit.
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/protocols/l2circuit-hsb-pe.conf`
-- `self-contained`: the above plus `evo/groups/gr-fatpw-lb.conf`, `evo/groups/gr-l2ckt-hs.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: filter:50MB_filter
 
 ---
 
@@ -29104,14 +31960,20 @@ Family e-line, form floating-pseudowire. OS mode MIXED. Attachment: static-label
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
-- `self-contained`: the above plus `junos/chassis/pseudowire-service.conf`, `junos/chassis/tunnel-services.conf`, `junos/interfaces/ifd-ps-transport.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$PS_INTF.0
+  - occurrence-selection-required: interface-device:source-occurrence
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-floating-pw.conf`
-- `self-contained`: the above plus `junos/chassis/pseudowire-service.conf`, `junos/chassis/tunnel-services.conf`, `junos/interfaces/ifd-ps-transport.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$PS_INTF.0
+  - occurrence-selection-required: interface-device:source-occurrence
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
 
 ---
 
@@ -29136,48 +31998,167 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$INSTANCE_NAME
+  - occurrence-selection-required: community:${INSTANCE_NAME}_RT
+  - occurrence-selection-required: community:$COLOR_COMMUNITY
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-1_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$INSTANCE_NAME
+  - occurrence-selection-required: community:${INSTANCE_NAME}_RT
+  - occurrence-selection-required: community:$COLOR_COMMUNITY
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$INSTANCE_NAME
+  - occurrence-selection-required: community:${INSTANCE_NAME}_RT
+  - occurrence-selection-required: community:$COLOR_COMMUNITY
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$INSTANCE_NAME
+  - occurrence-selection-required: community:${INSTANCE_NAME}_RT
+  - occurrence-selection-required: community:$COLOR_COMMUNITY
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$INSTANCE_NAME
+  - occurrence-selection-required: community:${INSTANCE_NAME}_RT
+  - occurrence-selection-required: community:$COLOR_COMMUNITY
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### an1_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### an2_acx5448 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$VLAN_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ---
 
@@ -29188,14 +32169,32 @@ Family e-lan, form port-based. OS mode EVO. Attachment: single full-port UNI.
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-port-based.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma1-1.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ---
 
@@ -29206,32 +32205,117 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-2_acx7024 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### ma5_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf`
-- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma5.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ---
 
@@ -29242,8 +32326,8 @@ Family e-lan, form rfc4762-vpls. OS mode EVO. Attachment: vlan-bridge logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-ldp-vpls.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ---
 
@@ -29256,24 +32340,109 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma5_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-etree/ri-evpn-etree.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 
@@ -29287,6 +32456,15 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### meg1_acx7100-32c (evo)
 
@@ -29294,6 +32472,34 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### meg2_acx7509 (evo)
 
@@ -29301,18 +32507,116 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
   - occurrence-selection-required: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-EDGE-INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-edge-intf.conf`, `junos/interfaces/ethernet-bridge.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-EDGE-INTF
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 
@@ -29323,14 +32627,69 @@ Family irb, form type2-plus-type5. OS mode MIXED. Attachment: irb unit shared wi
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/groups/gr-l3vpn.conf`, `evo/interfaces/ifl-irb-inet.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-l3vpn-pub.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-L3VPN-PUB
+  - occurrence-selection-required: community:$INSTANCE_NAME
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-L3VPN-PUB
+  - occurrence-selection-required: community:$INSTANCE_NAME
 
 ---
 
@@ -29341,26 +32700,148 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
 ### meg1_acx7100-32c (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/interfaces/ifl-irb-virtual-gateway.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg1.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### meg2_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/interfaces/ifl-irb-virtual-gateway.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/community/cm-regional-border.conf`, `evo/policy-options/community/cm-service-edge.conf`, `evo/policy-options/community/cm-tc-4000-gold.conf`, `evo/policy-options/community/cm-tc-6000-bronze.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-rr-export.conf`, `evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf`, `evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/policy-options/prefix-list/pl-an-nodes.conf`, `evo/policy-options/prefix-list/pl-core.conf`, `evo/policy-options/prefix-list/pl-fabric.conf`, `evo/protocols/bgp-overlay-meg2.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-BGP-RR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-CR-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-TC-4000-GOLD
+  - occurrence-selection-required: community:CM-TC-6000-BRONZE
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: prefix-list:PL-AN-NODES
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGIONAL-BORDER
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-CORE
+  - occurrence-selection-required: prefix-list:PL-FABRIC
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/interfaces/ifl-irb-inet.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 
@@ -29371,35 +32852,157 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma3.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-ma3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma4_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf`
-- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ### mse2_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 
@@ -29410,37 +33013,160 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
 ### an3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp-an3.conf`, `evo/policy-options/community/cm-access-fabric.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/ps-bgp-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-an3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-EXPORT
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma3_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `evo/groups/gr-bgp-bcp.conf`, `evo/policy-options/community/cm-inet-default.conf`, `evo/policy-options/community/cm-l3vpn.conf`, `evo/policy-options/community/cm-loopback.conf`, `evo/policy-options/community/cm-metro-ring.conf`, `evo/policy-options/community/cm-no-advertise.conf`, `evo/policy-options/policy-statement/loopback-rib-leak.conf`, `evo/policy-options/policy-statement/nhs1-ma3.conf`, `evo/policy-options/policy-statement/ps-bgp-transport-export.conf`, `evo/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `evo/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `evo/protocols/bgp-overlay-ma3.conf`, `evo/routing-options/rib-groups.conf`, `evo/routing-options/route-distinguisher-id.conf`, `evo/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma4_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf`
-- `self-contained`: the above plus `junos/groups/bgp-bcp-ma5.conf`, `junos/groups/gr-bgp-bcp.conf`, `junos/groups/gr-l3vpn.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn-pub.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/policy-statement/loopback-rib-leak.conf`, `junos/policy-options/policy-statement/nhs1.conf`, `junos/policy-options/policy-statement/ps-bgp-transport-export.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/protocols/bgp-overlay-ma4.conf`, `junos/routing-options/rib-groups.conf`, `junos/routing-options/route-distinguisher-id.conf`, `junos/routing-options/transport-class.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: community:CM-L3VPN-PUB
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:BGP-BCP
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-BGP-TRANSPORT-EXPORT
+  - occurrence-selection-required: policy-statement:nhs1
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-LOCAL-LOOPBACK
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
 
-- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse1.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ### mse2_mx304 (junos)
 
-- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
-- `self-contained`: the above plus `junos/groups/gr-bgp-bcp.conf`, `junos/policy-options/community/cm-access-fabric.conf`, `junos/policy-options/community/cm-inet-default.conf`, `junos/policy-options/community/cm-l3vpn.conf`, `junos/policy-options/community/cm-loopback.conf`, `junos/policy-options/community/cm-metro-fabric.conf`, `junos/policy-options/community/cm-metro-ring.conf`, `junos/policy-options/community/cm-no-advertise.conf`, `junos/policy-options/community/cm-region-edge.conf`, `junos/policy-options/community/cm-service-edge.conf`, `junos/policy-options/policy-statement/ps-as63535-import.conf`, `junos/policy-options/policy-statement/ps-ebgp-cr-export.conf`, `junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf`, `junos/policy-options/policy-statement/ps-ibgp-mse-export.conf`, `junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf`, `junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf`, `junos/policy-options/policy-statement/ps-mse-import.conf`, `junos/policy-options/policy-statement/ps-remote-loopbacks-mse.conf`, `junos/policy-options/prefix-list/pl-an-region.conf`, `junos/policy-options/prefix-list/pl-mse-primary.conf`, `junos/policy-options/prefix-list/pl-mse.conf`, `junos/protocols/bgp-overlay-mse2.conf`, `junos/routing-options/rib-group-remote-loopbacks-mse.conf`
-  - ask for **policy-statement:$EXPORT_POL**, one of `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf`, `junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf`
-- `as-deployed`: the self-contained set plus this device's validated underlay, apply-group, CoS and OAM baselines.
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_INTF
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: community:$INSTANCE_NAME
+  - occurrence-selection-required: community:CM-INET-DEFAULT
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: group:GR-BGP-BCP
+  - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
+  - occurrence-selection-required: policy-statement:PS-EBGP-CR-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: policy-statement:PS-IBGP-MDR-EXPORT
+  - occurrence-selection-required: policy-statement:PS-MSE-IMPORT
+  - occurrence-selection-required: policy-statement:PS-IBGP-MSE-EXPORT
+  - occurrence-selection-required: policy-statement:IMPORT-BGP
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: rib-group:RG-REMOTE-LOOPBACKS
+  - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
+  - occurrence-selection-required: community:CM-NO-ADVERTISE
+  - occurrence-selection-required: community:CM-LOOPBACK
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: community:CM-REGION-EDGE
+  - occurrence-selection-required: condition:Floating-PW-Condition
+  - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
+  - occurrence-selection-required: community:CM-METRO-FABRIC
+  - occurrence-selection-required: community:CM-METRO-RING
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: community:CM-SERVICE-EDGE
+  - occurrence-selection-required: prefix-list:PL-AN-REGION
+  - occurrence-selection-required: prefix-list:PL-MSE
+  - occurrence-selection-required: community:CM-METRO-FABRIC
 
 ---
 

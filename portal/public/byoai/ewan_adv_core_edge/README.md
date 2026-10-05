@@ -70,7 +70,7 @@ This rebuilds `jvd-ewan-ace-snips.md`, extracts
 regenerate the portal mirror from the repo root:
 
 ```bash
-node portal/scripts/generate-snips.mjs
+JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
 ```
 
 and commit the refreshed `portal/public/byoai/ewan_adv_core_edge/`.

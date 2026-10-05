@@ -27,91 +27,14 @@ broken builds before merge.
 
 ## Snippet validation
 
-Generated Count and Peers evidence is checked for libraries enrolled through
-`countValidation` and `peersValidation` in `_snip-library.json`. These independent
-fields accept `partial` or `complete`; complete requires the corresponding header
-on every snippet. MEBS is Count-complete; peer publication remains subject to
-source corroboration and adjudication. Unenrolled libraries remain unverified.
-
-```sh
-npm --prefix portal run snips:evidence -- --base origin/main
-node portal/scripts/snip-evidence.mjs --configuration <jvd>/configuration --remeasure
-node portal/scripts/snip-evidence.mjs --configuration <jvd>/configuration --peers --remeasure
-```
-
-The CI evidence step discovers registrations rather than hardcoding JVD names.
-It rejects removed registrations, missing evidence and stale fingerprints.
-Display-only edits use freshness and consistency checks; changed generated claims
-and bodies require source remeasurement. Source, rule, evidence or uncertain
-changes check the whole affected JVD. Peer checks include the remote population.
-Running without `--base` remeasures every enrolled library. This is ongoing
-regression assurance, not a substitute for an independent initial audit.
-
-`generate-bindings.mjs --freshness-check --configuration <jvd>/configuration`
-only checks input provenance; `--check` retains its full-remeasurement meaning.
-`snip-evidence.mjs --materialize-count --configuration <jvd>/configuration`
-projects verified Count evidence into headers without changing bodies. Run it
-only after independent verification. Peer evidence generation uses
-`--generate-peers`; unresolved cases remain explicit, never `(none)` or `n/a`.
-
-After independent source verification and approval, publish a selected set with:
-
-```sh
-node portal/scripts/snip-evidence.mjs --configuration <jvd>/configuration --materialize-peers --approval <reviewed-approval.json>
-```
-
-The approval file contains `evidenceSha256` (the SHA-256 of the exact `_peers.json`
-bytes reviewed) and `snips` (an explicit list of approved library-relative paths).
-The writer rejects stale evidence and unresolved claims, validates all selected
-headers before writing, and preserves bodies, Counts, dependencies and service
-mappings. The approval file records the publication decision; it is not a
-substitute for independent verification. Keep review artifacts outside the public
-repository.
-
-Writes are atomic per file, not transactional across the batch. An I/O failure
-can leave earlier files updated; there is no batch rollback or journal. The
-`expectedText` check detects concurrent file changes, not recovery completeness.
-Inspect the working-tree diff after a failure. If the approved evidence and
-inputs are unchanged, rerunning the same approval is idempotent and completes
-the remaining writes. Do not discard unrelated working-tree changes during
-recovery.
-
-`_peers.json` supplies the current configured-relationship graph and held-case
-reasons. New source evidence or maintainer clarification nominates a reconciliation;
-it does not itself certify a peer edge. Update the applicable relation rule and
-its tests, remeasure and independently verify the affected claims, then approve
-their publication. Keep unresolved fields absent and the library partial until
-every applicable case is verified. Peer relationships are distinct from required
-same-device `Pair with` dependencies and do not establish live connectivity.
-
-From the repository root, run all tests with:
-
-```sh
-npm --prefix portal run snips:test
-```
-
-To select affected source-reconstruction cases against a Git base:
-
-```sh
-SNIP_VALIDATION_BASE=origin/main npm --prefix portal run snips:test
-```
-
-Without `SNIP_VALIDATION_BASE`, every case runs. Selection currently applies to
-the MEBS reconstruction cases and, in CI, its JVD-specific audit commands.
-General tests, header validation and catalog freshness checks remain enabled.
-
-The selector includes possible consumers, alternative providers and dependencies
-from both the base and current snippet metadata. A selected case retains all its
-source occurrences, devices and assertions. Source configuration, JVD metadata,
-shared-code changes or incomplete dependency information select the full relevant
-corpus. A missing Git base fails validation. Catalog updates accompanying source
-changes do not by themselves broaden reconstruction to unrelated JVDs.
-
-Inspect the selection without running reconstruction:
-
-```sh
-npm --prefix portal run snips:scope -- --base origin/main --jvd service_provider/metro_ethernet_business_services
-```
+Snippet libraries are generated, measured and qualified by the private build
+tooling (`git-jvd-builder`), which runs against a checkout of this repository
+(`JVD_REPO=<checkout>`). Public checks here are limited to what can be verified
+without that tooling: header contract shape of changed snippets, catalog and
+manifest parsing, and acceptance of a detached qualification record that binds
+the exact candidate tree to its published artifacts
+(`.github/scripts/accept-qualification.mjs`). See `.github/SNIP-CONTRACT.md`
+for the header contract.
 
 ## Data
 

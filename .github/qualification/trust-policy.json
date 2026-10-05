@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "subject": {
+    "repository": "Juniper/jvd"
+  },
+  "builder": {
+    "repository": "git-jvd-builder"
+  },
+  "signers": [],
+  "attestation": {
+    "verifier": "gh-attestation-verify",
+    "trustedRoot": null
+  },
+  "requiredChecks": [
+    "snips:validate",
+    "catalog:fresh",
+    "manifest:fresh",
+    "tiers:fresh",
+    "bindings:remeasure",
+    "relationships:remeasure+peers",
+    "dependencies:declaration-qualified",
+    "object-ownership",
+    "composition:audit"
+  ],
+  "requiredIndependent": [
+    "dependencies",
+    "relationships",
+    "relationshipsRetrieved",
+    "evidenceRetrieval",
+    "reviewEvidence"
+  ],
+  "requiredRules": [
+    ".github/SNIP-CONTRACT.md",
+    ".github/relationship-contract.schema.json",
+    "builder:engine/js/snip-instance-registry.json"
+  ],
+  "requiredLocks": [
+    "portal/bun.lock"
+  ],
+  "requiredEvidence": [
+    "_relationships.json",
+    "_bindings.json",
+    "dependency-measurement.json",
+    "review/relationships-reviewed.json"
+  ],
+  "requiredEvidencePatterns": [
+    "/review/independent-.*-v2\\.json$"
+  ],
+  "maxRecordAgeDays": 30
+}

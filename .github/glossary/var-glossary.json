@@ -3,6 +3,16 @@
   "description": "Canonical template-variable vocabulary for configuration snips. A variable is named for the semantic object it parameterizes, not for the textual position it occupies in a CLI statement.",
   "aliasRule": "A legacy variable name may be recorded as a global alias only when its semantic intent is unambiguous across known evidence. Ambiguous legacy names are recorded as scoped migration provenance instead.",
   "variables": {
+    "ASN": {
+      "intent": "Local device autonomous-system number.",
+      "use": "The routing-options autonomous-system value. Bind independently from peer/customer ASNs and route-target or community administrator fields.",
+      "example": "63535"
+    },
+    "ASN_CUSTOMER": {
+      "intent": "Customer-facing BGP peer autonomous-system number.",
+      "use": "The peer-as value for a PE-CE/customer adjacency; distinct from the local device ASN and route-target administrator.",
+      "example": "64514"
+    },
     "UNIT": {
       "intent": "Logical-interface unit number, without the parent interface name.",
       "use": "The unit identifier in an interface definition or reference. It is not inherently a VLAN ID, even when the deployed numbers are equal.",

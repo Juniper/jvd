@@ -4,6 +4,190 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-01
+
+Expanded **Metro Ethernet Business Services (MEBS)** from **523 to 557 snippets**
+with exact physical-port, interface-parent, aggregate-member and dual-stack forms.
+Required attachment choices cover additional E-LAN, VPLS and VPWS services,
+preserving the distinct configurations in the validated source archives.
+
+### New content
+
+- **Recovered device and service configuration**: additional native forms cover
+  EVPN gateway-community behavior, explicit-target E-LAN, the validated VPLS
+  virtual-switch/VLAN form, routing policies, prefix lists, chassis enhanced-IP,
+  consumed 4x10G breakout, and FAT-PW group application. LLDP `interface all` and
+  device-global `$ASN` are represented on all 20 validated source devices.
+  `$ASN_CUSTOMER` names the separate PE-CE peer ASN without changing its values.
+- **Explicit model scope**: reviewed diagnostic traceoptions, unused ports,
+  management/test routes and one unconsumed pre-provisioned breakout parent remain
+  in the source archives but are excluded from reusable reconstruction. Excluded
+  diagnostic children no longer hide otherwise valid service occurrences.
+- **Native attachment forms**: [MEBS snippets](service_provider/metro_ethernet_business_services/configuration/snips)
+  include physical Ethernet-bridge and Ethernet-VPLS ports, flexible-Ethernet
+  parents, and a combined IPv4/IPv6 logical interface. Source-specific descriptions,
+  speed, MTU and group applications remain part of their respective forms.
+- **Required parent and member context**: plain and ESI bridge attachments retain
+  their physical parents, aggregate members and required groups. PS service units
+  retain their matching transport unit and chassis prerequisites. Internet-VRF
+  attachments retain both address families. Local-switching VPWS requires
+  both measured endpoint forms without adding an unrelated remote-BGP dependency.
+- **Required service choices**: the [portal](https://juniper.github.io/jvd/portal/)
+  exposes attachment alternatives for port-based and two-UNI E-LAN, BGP-VPLS VLAN,
+  and exported VPWS, alongside the existing base-VPWS choices. Alternatives remain
+  within the selected native OS and show their validated device applicability.
+  Interface details also expose declared physical-parent and member-form choices,
+  including single-provider requirements.
+- **Two-UNI validation**: explicit selections retain both logical interfaces when
+  they use the same template. Conflicting settings for the same interface or
+  shared physical parent are rejected even when supplied by different templates.
+- **Configured peer metadata**: four BGP overlay forms include complete corroborated
+  peer sets, including the directly connected CR1/MSE1 and CR2/MSE2 eBGP pairs.
+  Another 26 local configuration fragments explicitly carry `Peers with: n/a`.
+  The library has 67 grouped peer fields and 379 `n/a` fields; 91 unresolved fields
+  remain absent. This metadata is not a physical port-to-port connection map.
+
+### What this means for you
+
+- Select the attachment form that matches the intended service and retain its
+  required parent settings. Alternatives are choices, not instructions to combine
+  every listed form.
+- Supply the required attachment inputs before treating a selection as complete.
+  A matching service template alone does not establish a deployable configuration.
+- Continue to use the retained service mappings and source examples. The remaining
+  33 mapping sections and unresolved peer claims are not removed or inferred by
+  this update. Validate the assembled candidate before deployment.
+
+---
+
+### By the numbers
+
+Changes since the September 30 entry. File and line totals exclude this changelog
+and include generated evidence, catalog and assistant bundles. All 20 archived
+MEBS configurations and all 602 other-JVD catalog records remain unchanged.
+The customer-AS placeholder rename preserves rendered values and occurrences;
+two existing service Counts increase only for recovered trace-bearing source forms.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / MEBS | 34 | 0 | 0 | 38 | 1 |
+| Portal | 0 | 0 | 0 | 15 | 0 |
+| Repository support | 0 | 0 | 0 | 2 | 0 |
+| **Total** | **34** | **0** | **0** | **55** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / MEBS | 4,552 | 293 | +4,259 |
+| Portal | 7,980 | 277 | +7,703 |
+| Repository support | 16 | 0 | +16 |
+| **Total** | **12,548** | **570** | **+11,978** |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS - Junos | 242 | 253 | +11 |
+| MEBS - Junos Evolved | 281 | 304 | +23 |
+| **MEBS - total** | **523** | **557** | **+34** |
+| **All JVDs - total** | **1,125** | **1,159** | **+34** |
+
+</details>
+
+---
+
+## 2026-09-30
+
+Expanded **Metro Ethernet Business Services (MEBS)** from **510 to 523 snippets**
+with source-backed configuration groups and physical attachment forms. Required
+interface dependencies and portal navigation make service assembly requirements
+more explicit while preserving the archived configuration variants.
+
+### New content
+
+- **Native configuration forms**: [MEBS snippets](service_provider/metro_ethernet_business_services/configuration/snips)
+  include nine group definitions and four physical Ethernet-CCC attachment forms.
+  Group names, wildcard scope, application boundaries and distinct unit settings
+  are preserved; uncolored services are not promoted to color-mapped forms.
+- **Required attachments**: missing interface prerequisites are declared across
+  Kompella, L2Circuit, FXC, L3VPN and VPLS forms. Base EVPN-VPWS requires a choice
+  of a source-supported attachment, including its physical-port variants.
+- **Dependency navigation and grouped peers**: the portal displays fixed and
+  variant dependencies with links, and exposes required VPWS attachment choices.
+  Five VPWS peer headers retain corroborated multihomed counterpart groups without
+  adding or removing configured device relationships.
+- **Verified source examples**: the [MEBS snippet guide](service_provider/metro_ethernet_business_services/configuration/snips/README.md#archived-service-examples)
+  includes per-device service, interface, RD/RT, policy and explicit ESI details.
+  The redundant local-switching service-mapping section is removed; the other
+  33 legacy sections remain pending complete information conservation.
+
+### What this means for you
+
+- Include the selected interface's parent configuration and required dependencies;
+  a routing-instance template alone is not a complete service configuration.
+- Treat attachment alternatives as choices, not a list to include together.
+  Base VPWS now exposes previously missing required inputs rather than reporting
+  an incomplete selection as closed.
+- Use the exact source form for the intended device and service. Remaining
+  attachment and peer-evidence gaps are not deployment approvals or inferred
+  platform support. Validate assembled configuration before deployment.
+
+---
+
+### By the numbers
+
+Changes since the September 29 entry, including
+[#236](https://github.com/Juniper/jvd/pull/236) and this MEBS cleanup.
+File and line totals exclude this changelog and include generated evidence,
+catalog and assistant bundles. All 20 archived MEBS configurations and all
+602 other-JVD snippet records remain unchanged.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / MEBS | 13 | 0 | 0 | 48 | 1 |
+| Portal | 1 | 0 | 0 | 14 | 0 |
+| **Total** | **14** | **0** | **0** | **62** | **1** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / MEBS | 1,625 | 444 | +1,181 |
+| Portal | 3,834 | 947 | +2,887 |
+| **Total** | **5,459** | **1,391** | **+4,068** |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| MEBS — Junos | 235 | 242 | +7 |
+| MEBS — Junos Evolved | 275 | 281 | +6 |
+| **MEBS — total** | **510** | **523** | **+13** |
+| **All JVDs — total** | **1,112** | **1,125** | **+13** |
+
+</details>
+
+---
+
 ## 2026-09-29
 
 Expanded the **Metro Ethernet Business Services (MEBS)** library from **488 to
@@ -2393,14 +2577,14 @@ ChatGPT.
   directory changes on `main`.
 - **Catalog generator with Juniper API integration** — The portal's
   catalog is now produced by
-  [`portal/scripts/generate-catalog.sh`](portal/scripts/generate-catalog.sh),
+  `portal/scripts/generate-catalog.sh`,
   which pulls each JVD's authoritative validated-platforms list
   directly from Juniper's documentation API
   (`getAllPlatformNReleaseDetails4JvdId`) where a JVD ID is mapped in
-  [`portal/scripts/jvd-id-map.json`](portal/scripts/jvd-id-map.json),
+  `portal/scripts/jvd-id-map.json`,
   and falls back to scanning the JVD's README and per-device configs
   otherwise. Responses are cached locally in
-  [`portal/scripts/jvd-platforms-cache.json`](portal/scripts/jvd-platforms-cache.json)
+  `portal/scripts/jvd-platforms-cache.json`
   so portal builds stay fully offline. Run with `--refresh` to pull
   the latest API data and `--check` to verify the catalog is up to
   date. Currently 19 of 20 JVDs are sourced from the API.

@@ -41,4 +41,4 @@ cd enterprise_wan/ewan_core_edge/configuration/snips
 ./byoai/regenerate-bundle.sh
 ```
 
-Then also run `node portal/scripts/generate-snips.mjs` to update the portal mirror.
+Then also run `JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs` to update the portal mirror.

@@ -17,13 +17,18 @@ import {
   buildTree,
   REPO_BLOB_BASE,
   titleize,
+  variantAlternatives,
+  serviceAttachmentAlternatives,
+  interfaceParentAlternatives,
+  interfaceMemberAlternatives,
+  dependencyAlternatives,
   ROLE_VIEW_JVD,
   type SnipRecord,
   type BrowseMode,
   type TreeMode,
   type GroupNode,
 } from "@/lib/snips";
-import { BROWSE_MODES } from "@/lib/snips";
+import { BROWSE_MODES, DEPENDENCY_CONTRACT_VERSION } from "@/lib/snips";
 
 // ---------------------------------------------------------------------------
 // URL state — single source of truth for shareable links.
@@ -401,7 +406,18 @@ function SnipDetail({
   snipById: Map<string, SnipRecord>;
 }) {
   const githubUrl = REPO_BLOB_BASE + snip.path;
+  const requiredChoices = snip.dependencyContractVersion === DEPENDENCY_CONTRACT_VERSION ? (snip.occurrenceRequires ?? []).map(requirement => ({
+    kind: requirement.id,
+    label: `${titleize(requirement.kind)} (${requirement.presence === 'conditional' ? 'source-dependent' : 'required'})`,
+    slots: requirement.slots,
+    alternatives: dependencyAlternatives(snip, requirement, snipById),
+  })) : [
+    { kind: 'attachment', label: 'Attachment forms', slots: [], alternatives: serviceAttachmentAlternatives(snip, snipById) },
+    { kind: 'parent', label: 'Physical parent', slots: [], alternatives: interfaceParentAlternatives(snip, snipById) },
+    { kind: 'member', label: 'Member forms', slots: [], alternatives: interfaceMemberAlternatives(snip, snipById) },
+  ];
   const copyText =
+    snip.sourceText ??
     `/* Source: ${snip.path} @ Juniper/jvd */\n` +
     `/* JVD: ${snip.jvdLabel}  |  OS: ${snip.os}  |  Category: ${titleize(snip.category)} */\n\n` +
     snip.body;
@@ -539,9 +555,30 @@ function SnipDetail({
           </Section>
         )}
 
-        {(snip.pairWith.length > 0 || (snip.variantRequires?.length ?? 0) > 0) && (
+        {(snip.pairWith.length > 0 || (snip.variantRequires?.length ?? 0) > 0 || requiredChoices.some(choice => choice.alternatives !== null)) && (
           <Section title="Pair with">
             <ul className="space-y-1.5 text-sm">
+              {requiredChoices.map(({ kind, label, slots, alternatives }) => alternatives !== null && (
+                <li key={`${kind}-${snip.id}`}>
+                  <details className="group/attachment">
+                    <summary className="flex cursor-pointer list-none items-start gap-1.5 rounded-sm text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden">
+                      <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 group-open/attachment:rotate-90" aria-hidden="true" />
+                      <span className="min-w-0 break-words">{label}</span>
+                      <span className="text-[11px] text-muted-foreground">Selection required</span>
+                    </summary>
+                    {slots.length > 0 && <div className="mt-1 break-all pl-3 font-mono text-xs text-muted-foreground">{slots.join(', ')}</div>}
+                    <ul className="mt-2 space-y-2 pl-3">
+                      {alternatives.map(alternative => (
+                        <li key={alternative.snip.id}>
+                          <button onClick={() => onSelectSnip(alternative.snip.id)} className="max-w-full break-all text-left text-primary hover:underline">{alternative.snip.name}</button>
+                          <div className="mt-0.5 break-words text-[11px] text-muted-foreground">{alternative.devices.join(', ')}</div>
+                        </li>
+                      ))}
+                    </ul>
+                    {alternatives.length === 0 && <p className="mt-2 pl-3 text-xs text-muted-foreground">No matching native form.</p>}
+                  </details>
+                </li>
+              ))}
               {snip.pairWith.map((p, i) => {
                 const target = p.id ? snipById.get(p.id) : null;
                 const note = p.note ? p.note.replace(/\s+/g, " ").trim() : null;
@@ -571,17 +608,41 @@ function SnipDetail({
                   </li>
                 );
               })}
-              {snip.variantRequires?.map((requirement) => (
-                <li key={`variant-${requirement.group}`} className="break-words">
-                  <span className="font-mono text-[12px]">{requirement.group}</span>
-                  <span className="ml-2 text-[11px] text-muted-foreground">Device-selected form</span>
-                  {requirement.families.length > 0 && (
-                    <div className="mt-0.5 pl-3 text-[12px] leading-snug text-muted-foreground">
-                      Required families: {requirement.families.join(", ")}
-                    </div>
-                  )}
-                </li>
-              ))}
+              {snip.variantRequires?.map((requirement) => {
+                const alternatives = variantAlternatives(snip, requirement, snipById.values());
+                return (
+                  <li key={`variant-${requirement.group}`} className="break-words">
+                    <details className="group/variant" key={`${snip.id}-${requirement.group}`}>
+                      <summary className="flex cursor-pointer list-none items-start gap-1.5 rounded-sm text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden">
+                        <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 group-open/variant:rotate-90" aria-hidden="true" />
+                        <span className="min-w-0 break-all font-mono text-[12px]">{requirement.group}</span>
+                        <span className="ml-1 text-[11px] text-muted-foreground">Alternatives ({alternatives.length})</span>
+                      </summary>
+                      {requirement.families.length > 0 && (
+                        <div className="mt-1 pl-3 text-[12px] leading-snug text-muted-foreground">
+                          Required families: {requirement.families.join(", ")}
+                        </div>
+                      )}
+                      {alternatives.length === 0 ? (
+                        <p className="mt-2 pl-3 text-xs text-muted-foreground">No matching native form for the listed devices.</p>
+                      ) : (
+                        <ul className="mt-2 space-y-2 pl-3">
+                          {alternatives.map((alternative) => (
+                            <li key={alternative.snip.id}>
+                              <button onClick={() => onSelectSnip(alternative.snip.id)} className="max-w-full break-all text-left text-primary hover:underline">
+                                {alternative.snip.name}
+                              </button>
+                              <div className="mt-0.5 break-words text-[11px] text-muted-foreground">
+                                {alternative.devices.join(", ")}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </details>
+                  </li>
+                );
+              })}
             </ul>
           </Section>
         )}
@@ -663,7 +724,7 @@ export default function SnipLibrary() {
   const snipById = useMemo(() => new Map(allSnips.map((s) => [s.id, s])), [allSnips]);
 
   const [hashState, setHashState] = useState<UrlState>(() =>
-    typeof window !== "undefined" ? parseHash() : { mode: "jvd", q: "", osKey: "", jvd: "", id: "" },
+    typeof window !== "undefined" ? parseHash() : { mode: "jvd", view: "snips", q: "", osKey: "", jvd: "", id: "" },
   );
 
   const [mode, setMode] = useState<BrowseMode>(hashState.mode);

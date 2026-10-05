@@ -60,7 +60,7 @@ After editing any `.conf` in `../junos/`, or any file in this folder, re-run:
 This rebuilds `jvd-collapsed-snips.md`, extracts `jvd-collapsed-byoai-prompt.txt`, and regenerates `MANIFEST.json`. Then regenerate the portal mirror from the repo root:
 
 ```bash
-node portal/scripts/generate-snips.mjs
+JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
 ```
 
 and commit the refreshed `portal/public/byoai/collapsed_dc_fabric/`.
