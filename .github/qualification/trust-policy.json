@@ -7,6 +7,10 @@
     "repository": "git-jvd-builder"
   },
   "signers": [],
+  "attestation": {
+    "verifier": "gh-attestation-verify",
+    "trustedRoot": null
+  },
   "requiredChecks": [
     "snips:validate",
     "catalog:fresh",
@@ -17,6 +21,13 @@
     "dependencies:declaration-qualified",
     "object-ownership",
     "composition:audit"
+  ],
+  "requiredIndependent": [
+    "dependencies",
+    "relationships",
+    "relationshipsRetrieved",
+    "evidenceRetrieval",
+    "reviewEvidence"
   ],
   "requiredRules": [
     ".github/SNIP-CONTRACT.md",

@@ -55,16 +55,15 @@ jobs:
             grep -Eq '^ \*  - required:' "$f" && { echo "::error file=$f::unapproved Pair with sub-grammar"; status=1; }
           done
           exit $status
-      - name: Detached qualification record accepted
-        # The record is produced by the trusted builder for the exact candidate tree and attached
-        # out of band (release asset / workflow artifact). The trust policy under .github/qualification/
-        # approves no signer yet, so this step runs in DIAGNOSTIC mode: it verifies integrity, exact
-        # tree/commit binding, artifact/input hashes, check inventory and evidence references and reports
-        # authenticated=false. It is not release acceptance; drop --allow-unauthenticated once a signer
-        # is approved in the policy.
+      - name: Detached qualification record (diagnostic structural check)
+        # Public CI cannot be the release gate: a candidate must not supply the verifier or policy that decides
+        # whether it is trusted. This step only checks that a record attached under .github/qualification/ is
+        # structurally complete and bound to this exact commit/tree (checks, independent results, evidence
+        # references, hashes, freshness) and fails if not. Release acceptance — detached attestation verified
+        # against the builder's trust policy — happens in the trusted builder workflow.
         if: hashFiles('.github/qualification/*.qualification.json') != ''
         run: |
           set -e
           for record in .github/qualification/*.qualification.json; do
-            node .github/scripts/accept-qualification.mjs --record "$record" --policy .github/qualification/trust-policy.json --allow-unauthenticated
+            node .github/scripts/accept-qualification.mjs --record "$record" --policy .github/qualification/trust-policy.json
           done
