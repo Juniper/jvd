@@ -23340,14 +23340,6 @@
       "raw_url": "https://juniper.github.io/jvd/portal/byoai/metro_ethernet_business_services/OUTPUT_FORMAT.md",
       "size_bytes": 2175,
       "sha256": "e4c1da7a329c1dc2464d8ac19b9dabb96153063027147e481b20dc3b1fca983a"
-    },
-    {
-      "path": "_relationships.json",
-      "kind": "relationship-contract",
-      "topic": "Version 2 configured relationships and held semantics",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/_relationships.json",
-      "size_bytes": 58471047,
-      "sha256": "c8523d9d2f346445dbd76e2c18951c8bcfa5c146b841d979e76ad505399d2809"
     }
   ]
 }

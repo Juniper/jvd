@@ -7,12 +7,8 @@
     "toolsSha256": "b04c4653c2df785fdeeecbfd279361c0a0e1c5fabf638ae91f943170257b52af",
     "devices": 20,
     "snips": 585,
-    "relationshipsSha256": "09dffcffe5a7600c3128a29e5ae2870f19abb369754c5391ede2ce123f1528cc",
-    "relationshipEvidence": {
-      "location": "snips/_relationships.json",
-      "bytesSha256": "c8523d9d2f346445dbd76e2c18951c8bcfa5c146b841d979e76ad505399d2809"
-    },
-    "peerToolsSha256": "bd1e51683dbb4b02f45e3b7dd2ca686bd5d8cab24320c2cd5298a6f4c0ff4371"
+    "relationshipsSha256": "4ce838f9de05c94dcc96f828c0fce0d2b15ae2b89150967dd1c73c28c06e6d15",
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
   },
   "snips": {
     "evo/chassis/aggregated-devices-ethernet.conf": {

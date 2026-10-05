@@ -172,7 +172,8 @@ PART 1 — GROUND RULES
   preserve exact policer rate/burst and include only the required object union
   plus justified parent or internally referenced context.
 
-  _relationships.json version 2 keeps participation, conditional directed
+  The published relationship projection (per-snippet Peers with headers and
+  the catalog relationships record) keeps participation, conditional directed
   RT eligibility, Ethernet segments, redundancy groups, service endpoints,
   rooted-multipoint roles and protocol sessions separate. Shared RTs, names,
   Counts and membership never establish peer edges or HA. Preserve both

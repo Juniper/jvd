@@ -38,7 +38,7 @@
     "portal/bun.lock"
   ],
   "requiredEvidence": [
-    "_relationships.json",
+    "relationships.json",
     "_bindings.json",
     "dependency-measurement.json",
     "review/relationships-reviewed.json"

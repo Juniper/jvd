@@ -101,6 +101,5 @@
       "evo": "evo/interfaces/apply-groups-two.conf"
     }
   ],
-  "dependencyContractVersion": 3,
-  "relationshipContractVersion": 2
+  "dependencyContractVersion": 3
 }
