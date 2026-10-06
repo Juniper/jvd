@@ -78,9 +78,9 @@ unchanged.
 | JVD / Area | Added | Renamed | Removed | Modified | READMEs |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
-| Service Provider / MEBS | 0 | 0 | 0 | 8 | 1 |
-| Portal | 10 | 0 | 0 | 12 | 2 |
-| **Total** | **142** | **0** | **0** | **21** | **6** |
+| Service Provider / MEBS | 0 | 0 | 0 | 9 | 1 |
+| Portal | 10 | 0 | 0 | 13 | 2 |
+| **Total** | **142** | **0** | **0** | **23** | **6** |
 
 </details>
 
@@ -89,10 +89,10 @@ unchanged.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 17,019 | 8 | +17,011 |
-| Service Provider / MEBS | 68 | 117 | -49 |
-| Portal | 23,905 | 846 | +23,059 |
-| **Total** | **40,992** | **971** | **+40,021** |
+| Enterprise WAN / Data Center Edge | 17,017 | 8 | +17,009 |
+| Service Provider / MEBS | 72 | 130 | -58 |
+| Portal | 23,907 | 859 | +23,048 |
+| **Total** | **40,996** | **997** | **+39,999** |
 
 </details>
 
