@@ -4,6 +4,157 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-06
+
+Added a **configuration snippet library for the Enterprise Data Center Edge JVD**:
+**111 snippets** (89 Junos, 22 Junos Evolved) measured from the twelve validated
+device configurations, covering the EVPN-VXLAN to EVPN-MPLS interconnect, the data
+center fabric and the WAN edge.
+
+### New content
+
+- **Interconnect and fabric services**: [Data Center Edge snippets](enterprise_wan/ewan_dc_edge/configuration/snips)
+  include the gateway VLAN-based and VLAN-bundle interconnect instances with
+  all-active interconnect ESI, leaf MAC-VRF instances, WAN-edge EVPN-MPLS instances,
+  ESI-LAG attachments and anycast-gateway IRB units.
+- **Underlay and control plane**: complete per-device BGP and OSPF area 0 forms,
+  LFA / remote LFA options, MPLS and LDP forms, routing and forwarding-table
+  policies, chassis port profiles and shared VXLAN tunnel settings.
+- **Configuration groups**: each device's `global` group (loopback addresses,
+  router-id, `dump-on-panic`), the routing-engine and member groups, and the
+  `apply-groups` statements that apply them in source order.
+- **Applicability and examples**: every snippet lists the exact devices it was
+  measured on and its per-device count. Source bindings record which device
+  values each template reproduces; a variable glossary documents the placeholders,
+  including the separate fabric-side and WAN-side route targets used inside an
+  interconnect block.
+- **Explicit model scope**: reviewed lab management settings, test scaffolding, a
+  debug `traceoptions` block and a disabled routing trial remain in the source
+  configurations but are excluded from reusable forms, each with its reason.
+  Large fixed-size instances (20-member bridge-domain and VRF lists) are measured
+  and listed in the library README but not yet templated.
+- **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
+  the new library alongside the existing JVDs.
+
+### What this means for you
+
+- Start from the snippet that matches the device role and service, and read its
+  `Seen on` and `Pair with` fields before combining it with other snippets.
+- Substitute every `$VAR` from your own deployment. Example values in the headers
+  come from the validated lab and are not a deployment plan.
+- Large-scale instances listed under the library's *Scope* section are available
+  only in the full device configurations for now.
+
+---
+
+### By the numbers
+
+Changes since the October 5 entry. File and line totals exclude this changelog
+and include generated bindings, evidence and catalog files. The twelve archived
+device configurations are unchanged.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Enterprise WAN / Data Center Edge | 119 | 0 | 0 | 1 | 2 |
+| Portal | 0 | 0 | 0 | 3 | 0 |
+| **Total** | **119** | **0** | **0** | **4** | **2** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN / Data Center Edge | 8,115 | 8 | +8,107 |
+| Portal | 15,558 | 680 | +14,878 |
+| **Total** | **23,673** | **688** | **+22,985** |
+
+</details>
+
+<details>
+<summary>Snippet library size</summary>
+
+| Library | Before | After | Change |
+| --- | ---: | ---: | ---: |
+| Data Center Edge - Junos | 0 | 89 | +89 |
+| Data Center Edge - Junos Evolved | 0 | 22 | +22 |
+| **Data Center Edge - total** | **0** | **111** | **+111** |
+| **All JVDs - total** | **1,187** | **1,298** | **+111** |
+
+</details>
+
+---
+
+## 2026-10-05
+
+Added the **Enterprise Data Center Edge JVD**: twelve validated device
+configurations with the design guide, solution overview and test report brief.
+
+### New content
+
+- **Validated configurations**: [Enterprise Data Center Edge](enterprise_wan/ewan_dc_edge)
+  includes MX480 and MX10003 data center edge routers, MX204 and ACX5448-M WAN edge
+  routers, ACX7100-48L and PTX10001-36MR provider routers, QFX5200 spines,
+  QFX5120-48T leaves and EX4200-48T top-of-rack switches, captured on Junos and
+  Junos Evolved 21.4R2.
+- **Documentation**: the design guide, solution overview and test report brief are
+  available as Markdown with figures, alongside a hardware and configuration table
+  in the JVD README.
+- **Sanitized for reuse**: credentials, AAA, logging, NTP/DNS, SNMP, lab accounts,
+  management interfaces and lab routes are removed; hostnames and descriptions use
+  role names.
+- **MEBS cleanup**: the standalone relationship ledger file was removed from the
+  MEBS snippet folder. Per-snippet `Peers with` fields and the portal relationship
+  records are unchanged.
+
+### What this means for you
+
+- Use the Data Center Edge configurations as the validated reference for the
+  EVPN-VXLAN to EVPN-MPLS gateway design; reusable snippets follow in the next
+  entry.
+- MEBS users do not need to change anything; relationship information remains in
+  the snippet headers and the portal.
+
+---
+
+### By the numbers
+
+Changes since the October 1 entry. File and line totals exclude this changelog and
+include a portal dependency update. The MEBS line removal is the relationship
+ledger file.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Enterprise WAN / Data Center Edge | 28 | 0 | 0 | 0 | 2 |
+| Service Provider / MEBS | 0 | 0 | 1 | 5 | 0 |
+| Portal | 0 | 0 | 0 | 6 | 0 |
+| Repository support | 0 | 0 | 0 | 1 | 0 |
+| **Total** | **28** | **0** | **1** | **12** | **2** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN / Data Center Edge | 294,735 | 0 | +294,735 |
+| Service Provider / MEBS | 7 | 1,858,834 | -1,858,827 |
+| Portal | 29 | 34 | -5 |
+| Repository support | 1 | 1 | 0 |
+| **Total** | **294,772** | **1,858,869** | **-1,564,097** |
+
+</details>
+
+---
+
 ## 2026-10-01
 
 Expanded **Metro Ethernet Business Services (MEBS)** from **523 to 557 snippets**
