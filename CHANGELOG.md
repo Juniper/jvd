@@ -37,10 +37,16 @@ center fabric and the WAN edge.
   block and two IRB addresses that duplicate another device's address are also
   excluded, so those IRB units now match the common anycast-gateway form.
 - **AI assistant and datasheet**: a [bring-your-own-AI assistant](enterprise_wan/ewan_dc_edge/configuration/snips/byoai)
-  generates configuration from the snippet library (interconnect, leaf MAC-VRF and
-  WAN-edge EVPN services, per-device baselines) and answers design questions from
-  the JVD documentation, starting with a new
-  [datasheet](enterprise_wan/ewan_dc_edge/documentation/datasheet.md).
+  generates the interconnect, leaf MAC-VRF and WAN-edge EVPN service instances
+  from the snippet library and answers design questions from the JVD
+  documentation, starting with a new
+  [datasheet](enterprise_wan/ewan_dc_edge/documentation/datasheet.md). Its
+  [service tiers](enterprise_wan/ewan_dc_edge/configuration/snips/byoai/TIERS.md)
+  are generated from the library's declared dependencies.
+- **Metro Ethernet Business Services assistant**: now offers only the `minimum`
+  form (the service instance itself). The larger tiers remain listed per device
+  in its [service tiers](service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md)
+  and stay unavailable until their dependencies can be fully resolved.
 - **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
   the new library alongside the existing JVDs.
 
@@ -53,8 +59,9 @@ center fabric and the WAN edge.
 - Large-scale instances listed under the library's *Scope* section are available
   only in the full device configurations for now.
 - To use the assistant, paste the prompt from its `SYSTEM_PROMPT.md` into your AI
-  of choice and pick Configuration or Design mode. It generates only what the
-  snippet library covers and declines the rest.
+  of choice and pick Configuration or Design mode. It generates the service
+  instance for a device that already runs its interfaces and BGP overlay, names
+  those prerequisites, and declines anything the snippet library does not cover.
 
 ---
 
@@ -71,8 +78,9 @@ unchanged.
 | JVD / Area | Added | Renamed | Removed | Modified | READMEs |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
-| Portal | 10 | 0 | 0 | 3 | 1 |
-| **Total** | **142** | **0** | **0** | **4** | **4** |
+| Service Provider / MEBS | 0 | 0 | 0 | 8 | 1 |
+| Portal | 10 | 0 | 0 | 12 | 2 |
+| **Total** | **142** | **0** | **0** | **21** | **6** |
 
 </details>
 
@@ -81,9 +89,10 @@ unchanged.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 17,359 | 8 | +17,351 |
-| Portal | 24,481 | 680 | +23,801 |
-| **Total** | **41,840** | **688** | **+41,152** |
+| Enterprise WAN / Data Center Edge | 17,019 | 8 | +17,011 |
+| Service Provider / MEBS | 68 | 117 | -49 |
+| Portal | 23,905 | 846 | +23,059 |
+| **Total** | **40,992** | **971** | **+40,021** |
 
 </details>
 
