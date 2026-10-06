@@ -9,7 +9,7 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
 #   pe1: { name: <hostname>, os: <junos|evo>,
 #          loopback4: <addr>, loopback6: <addr> }

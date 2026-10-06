@@ -24,8 +24,8 @@ reordering policy terms or substituting one semantic object for another.
 | Snippets | 111 |
 | Devices | 12 |
 | Snippet/device pairs with at least one instance | 219 |
-| Instances counted | 18,993 |
-| Structural assignments represented | 20,539 |
+| Instances counted | 18,995 |
+| Structural assignments represented | 20,541 |
 
 ## Instances per snippet
 
@@ -95,7 +95,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/interfaces/ifl-irb-virtual-gateway-no-accept-data.conf` | 2 | 21 | `$IRB_ADDR`, `$UNIT`, `$VGA`, `$VG_MAC` |
 | `junos/interfaces/ifl-irb-virtual-gateway-preferred.conf` | 5 | 205 | `$IRB_ADDR`, `$UNIT`, `$VGA`, `$VG_MAC` |
 | `junos/interfaces/ifl-irb-virtual-gateway-second-address.conf` | 1 | 20 | `$IRB_ADDR`, `$IRB_ADDR_2`, `$UNIT`, `$VGA`, `$VG_MAC` |
-| `junos/interfaces/ifl-irb-virtual-gateway.conf` | 4 | 6,399 | `$IRB_ADDR`, `$UNIT`, `$VGA`, `$VG_MAC` |
+| `junos/interfaces/ifl-irb-virtual-gateway.conf` | 4 | 6,401 | `$IRB_ADDR`, `$UNIT`, `$VGA`, `$VG_MAC` |
 | `junos/interfaces/ifl-loopback-inet.conf` | 3 | 3 | `$LOOPBACK_V4_PFX` |
 | `junos/interfaces/ifl-vlan-bridge-ethernet-switching.conf` | 2 | 173 | `$IFD`, `$UNIT`, `$VLAN` |
 | `junos/interfaces/ifl-vlan-bridge-vlan-list-family-bridge.conf` | 1 | 9 | `$IFD`, `$UNIT`, `$VLAN_LIST` |

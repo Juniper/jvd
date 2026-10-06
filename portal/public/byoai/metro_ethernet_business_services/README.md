@@ -28,12 +28,7 @@ The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs
 
 - **Devices** — `EVO`, `JUNOS`, `MIXED`, or your own hostnames (drawn from any snip's `Seen on:` header).
 
-- **Configuration form** — controls how much config you get on top of the service itself
-  - `minimum` — JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** Best for brownfield adds to a working PE.
-  - `with-overlay` — `minimum` + the BGP overlay snip (so the `family evpn` / `family inet-vpn` / `family l2vpn` activation is re-asserted). Best when you're not sure the overlay activation is already there.
-  - `as-deployed` — full JVD baseline: service + overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. **Mirrors what the JVD actually ships.** Best for greenfield turn-up, lab build, or "give me a working example end-to-end."
-
-> Greenfield / bootstrap requests (e.g. "build a new ACX7024 turn-up") are always treated as `as-deployed` regardless of what you pick.
+- **Configuration form** — `minimum`: JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** The larger tiers in [`TIERS.md`](TIERS.md) are listed per device but are Blocked until a complete bound dependency plan validates, so the assistant does not offer them; requests for the overlay, the underlay baseline or a greenfield turn-up are declined.
 
 In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
 
@@ -97,9 +92,8 @@ Because the heavy lifting — *which features go together, how they're spelled o
 Practical examples:
 
 - "Generate a complete EVPN-VPWS service config for `mse1_mx304` and `meg1_acx7100-32c` with VPWS service-id 4001, attachment-circuit `xe-0/1/4.4001` on the MX side and `et-0/0/0.4001` on the ACX side, both inside EVPN-VPWS instance `EVPN_VPWS_4001`."
-- "I need 12 new L3VPN VRFs numbered METRO_BGPv4_L3VPN_3001…3012, each with RD `63536:3NNN` and route-target `target:63536:3NNN`. Produce the per-VRF policy, the VRF stanza, and the BGP overlay activation."
+- "I need 12 new L3VPN VRFs numbered METRO_BGPv4_L3VPN_3001…3012, each with RD `63536:3NNN` and route-target `target:63536:3NNN`. Produce the per-VRF policy and the VRF stanza."
 - "Take an1_mx204's existing edge LAG `ae0` and add three new ESI-multihomed customer units 510, 520, 530 in EVPN-ELAN MAC-VRFs 510/520/530."
-- "Build an apply-group-driven baseline for a brand-new ACX7024 access node joining the metro: ISIS BCP, BGP BCP, edge interface template, FAT-PW, CoS classifiers, OAM CFM."
 - "Diff the EVO and Junos versions of the schedulers snip and explain any meaningful behavioural difference."
 
 The AI is doing **template assembly + parameter substitution against a curated corpus**, not freeform Junos-from-memory.

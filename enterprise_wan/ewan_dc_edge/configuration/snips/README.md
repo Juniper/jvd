@@ -126,6 +126,8 @@ are tracked, not excluded:
   (edge-routed bridging) instances. Their bodies are too long for a faithful
   fixed-size template with the current tooling; their populations are measured
   and listed in the [JVD README](../../README.md#validated-scale).
+- **Trunk units with long VLAN member lists.** Leaf and top-of-rack trunk units
+  whose `vlan members` lists carry 8–40 VLAN names vary per unit in the same way.
 
 The configuration groups are templated after review: each device's `global`
 group carries its loopback addresses, router-id and `chassis dump-on-panic`, the
@@ -138,8 +140,9 @@ measurement and listed, with the reason for each entry, in
 [`_source-exclusions.json`](_source-exclusions.json): management system settings,
 the management interface and routing instance, an unreferenced test firewall
 filter, a debug `traceoptions` block, an EVPN-VPWS test instance and its
-test-generator port, and a disabled IS-IS/SRv6 trial on dc-edge1. The source
-configurations are unchanged.
+test-generator port, a disabled IS-IS/SRv6 trial on dc-edge1, a deactivated LLDP
+block on dc-edge2, the software `version` stamps, and two IRB addresses that
+duplicate another device's address. The source configurations are unchanged.
 
 ## Pairing with documentation
 

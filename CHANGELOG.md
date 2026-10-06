@@ -33,6 +33,20 @@ center fabric and the WAN edge.
   configurations but are excluded from reusable forms, each with its reason.
   Large fixed-size instances (20-member bridge-domain and VRF lists) are measured
   and listed in the library README but not yet templated.
+- **Independent audit follow-up**: software `version` stamps, a deactivated LLDP
+  block and two IRB addresses that duplicate another device's address are also
+  excluded, so those IRB units now match the common anycast-gateway form.
+- **AI assistant and datasheet**: a [bring-your-own-AI assistant](enterprise_wan/ewan_dc_edge/configuration/snips/byoai)
+  generates the interconnect, leaf MAC-VRF and WAN-edge EVPN service instances
+  from the snippet library and answers design questions from the JVD
+  documentation, starting with a new
+  [datasheet](enterprise_wan/ewan_dc_edge/documentation/datasheet.md). Its
+  [service tiers](enterprise_wan/ewan_dc_edge/configuration/snips/byoai/TIERS.md)
+  are generated from the library's declared dependencies.
+- **Metro Ethernet Business Services assistant**: now offers only the `minimum`
+  form (the service instance itself). The larger tiers remain listed per device
+  in its [service tiers](service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md)
+  and stay unavailable until their dependencies can be fully resolved.
 - **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
   the new library alongside the existing JVDs.
 
@@ -44,23 +58,29 @@ center fabric and the WAN edge.
   come from the validated lab and are not a deployment plan.
 - Large-scale instances listed under the library's *Scope* section are available
   only in the full device configurations for now.
+- To use the assistant, paste the prompt from its `SYSTEM_PROMPT.md` into your AI
+  of choice and pick Configuration or Design mode. It generates the service
+  instance for a device that already runs its interfaces and BGP overlay, names
+  those prerequisites, and declines anything the snippet library does not cover.
 
 ---
 
 ### By the numbers
 
 Changes since the October 5 entry. File and line totals exclude this changelog
-and include generated bindings, evidence and catalog files. The twelve archived
-device configurations are unchanged.
+and include generated bindings, evidence and catalog files, and the assistant
+bundle with its portal mirror. The twelve archived device configurations are
+unchanged.
 
 <details>
 <summary>Per-JVD / per-area changes</summary>
 
 | JVD / Area | Added | Renamed | Removed | Modified | READMEs |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 119 | 0 | 0 | 1 | 2 |
-| Portal | 0 | 0 | 0 | 3 | 0 |
-| **Total** | **119** | **0** | **0** | **4** | **2** |
+| Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
+| Service Provider / MEBS | 0 | 0 | 0 | 9 | 1 |
+| Portal | 10 | 0 | 0 | 13 | 2 |
+| **Total** | **142** | **0** | **0** | **23** | **6** |
 
 </details>
 
@@ -69,9 +89,10 @@ device configurations are unchanged.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 8,115 | 8 | +8,107 |
-| Portal | 15,558 | 680 | +14,878 |
-| **Total** | **23,673** | **688** | **+22,985** |
+| Enterprise WAN / Data Center Edge | 17,017 | 8 | +17,009 |
+| Service Provider / MEBS | 72 | 130 | -58 |
+| Portal | 23,907 | 859 | +23,048 |
+| **Total** | **40,996** | **997** | **+39,999** |
 
 </details>
 

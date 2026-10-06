@@ -1400,7 +1400,7 @@
         "sourceStatement": "lo0",
         "statements": 3
       },
-      "reason": "Top-level lo0 on dc-edge1 carries 192.168.0.1/32, an ISO NET and 2021:192:168::1/128 — the SRv6 trial addressing, not the design loopback 1.1.1.5 (which the global group provides).",
+      "reason": "Top-level lo0 on dc-edge1 carries 192.168.0.1/32, an ISO NET and 2021:192:168::1/128 \u2014 the SRv6 trial addressing, not the design loopback 1.1.1.5 (which the global group provides).",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1427,7 +1427,7 @@
         "sourceStatement": "system",
         "statements": 2
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1456,7 +1456,7 @@
         "sourceStatement": "system",
         "statements": 3
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1487,7 +1487,7 @@
         "sourceStatement": "system",
         "statements": 3
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1518,7 +1518,7 @@
         "sourceStatement": "system",
         "statements": 3
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1543,7 +1543,7 @@
         "sourceStatement": "system",
         "statements": 1
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1570,7 +1570,7 @@
         "sourceStatement": "system",
         "statements": 2
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1598,7 +1598,7 @@
         "sourceStatement": "system",
         "statements": 2
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1632,7 +1632,7 @@
         "sourceStatement": "system",
         "statements": 4
       },
-      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "reason": "Top-level system stanza (console/port settings) \u2014 lab management.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     },
@@ -1941,6 +1941,369 @@
         "statements": 1
       },
       "reason": "Routing-engine/member host name inside group member0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf1-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "leaf1_qfx5120-48t",
+      "sourceSha256": "5cdace2d0edfc9b26365b4bceb162cd7d908b007f92ab3b96b488e46dffd8ce9",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf2-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "leaf2_qfx5120-48t",
+      "sourceSha256": "f5dd1d25d9664c0cf646be508901201d863ff272e0c35640b392b68285e1db1e",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p1-version-21-4r2-1-evo",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "p1_acx7100-48l",
+      "sourceSha256": "7977aed1b158e790475f0d11813f6820fa48c651a402d5d960e2aa3307423ecd",
+      "hierarchy": [
+        "version 21.4R2.1-EVO"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1-EVO",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p2-version-21-4r2-1-evo",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "e88343cb6cb85efa44da0aeeaa7ac45fed0b33828277b97326229c08652ed37a",
+      "hierarchy": [
+        "version 21.4R2.1-EVO"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1-EVO",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine1-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "spine1_qfx5200",
+      "sourceSha256": "d4579fa01269fc2b0a37293152977988fc2dcceeaf62e562a671fda40f88abe3",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine2-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "spine2_qfx5200",
+      "sourceSha256": "cfb13e51be29e445ce5dcc8215e46971e2b9506e82af230826be40ddae6d1729",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-tor1-version-15-1r7-s9",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "tor1_ex4200-48t",
+      "sourceSha256": "56827621c2f5f53792b2e46f912ed3dee3a5f5d7ce4a255bfa3a6ea8d5b65c88",
+      "hierarchy": [
+        "version 15.1R7-S9"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 15.1R7-S9",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-tor2-version-15-1r7-s9",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "tor2_ex4200-48t",
+      "sourceSha256": "79b56ac6a8797a7d00f41887e8ba641979be893165e49920433ee415996312b0",
+      "hierarchy": [
+        "version 15.1R7-S9"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 15.1R7-S9",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-version-21-4r2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "software-version-stamp",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "version 21.4R2.1"
+      ],
+      "sourceIds": [
+        0
+      ],
+      "terminalSourceIds": [
+        0
+      ],
+      "evidence": {
+        "sourceStatement": "version 21.4R2.1",
+        "statements": 1
+      },
+      "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-protocols-inactive-lldp",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-protocol-block",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "protocols",
+        "inactive: lldp"
+      ],
+      "sourceIds": [
+        50804,
+        50805,
+        50806,
+        50807,
+        50808,
+        50809
+      ],
+      "terminalSourceIds": [
+        50805,
+        50806,
+        50807,
+        50809
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: lldp",
+        "statements": 4
+      },
+      "reason": "Deactivated LLDP block on dc-edge2; not active configuration.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "defect-dc-edge2-interfaces-irb-unit-322-family-inet-address-10-1-221-1-24",
+      "classification": "excluded-source-defect",
+      "semanticClass": "duplicated-peer-address",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "interfaces",
+        "irb",
+        "unit 322",
+        "family inet",
+        "address 10.1.221.1/24"
+      ],
+      "sourceIds": [
+        2066,
+        2067
+      ],
+      "terminalSourceIds": [
+        2067
+      ],
+      "evidence": {
+        "sourceStatement": "address 10.1.221.1/24",
+        "statements": 1
+      },
+      "reason": "dc-edge1 irb.322 address duplicated on dc-edge2 irb.322 beside its own 10.1.221.2/24; excluding only this address leaves the common anycast-gateway form.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "defect-wan-edge1-interfaces-irb-unit-181-family-inet-address-10-1-60-1-24",
+      "classification": "excluded-source-defect",
+      "semanticClass": "duplicated-peer-address",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "interfaces",
+        "irb",
+        "unit 181",
+        "family inet",
+        "address 10.1.60.1/24"
+      ],
+      "sourceIds": [
+        3460
+      ],
+      "terminalSourceIds": [
+        3460
+      ],
+      "evidence": {
+        "sourceStatement": "address 10.1.60.1/24",
+        "statements": 1
+      },
+      "reason": "dc-edge1 irb.60 address 10.1.60.1/24 duplicated on wan-edge1 irb.181 beside its own 10.1.60.10/24; excluding only this address leaves the common anycast-gateway form.",
       "approvedBy": "Kevin Brown",
       "approvedOn": "2026-10-06"
     }
