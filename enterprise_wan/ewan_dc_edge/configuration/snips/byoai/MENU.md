@@ -1,6 +1,6 @@
 # EWAN DC Edge BYOAI — Full Query Menu
 
-The always-current catalog of generation asks for the Enterprise Data Center Edge JVD. Replace `N` with any count (e.g. `Generate 3 …`). Every service renders on the devices it is validated on, at the chosen form tier (`minimum` / `self-contained` / `as-deployed`; `with-overlay` is an alias for `self-contained`).
+The always-current catalog of generation asks for the Enterprise Data Center Edge JVD. Replace `N` with any count (e.g. `Generate 3 …`). Every service renders on the devices it is validated on, in the `minimum` form: the service construct only, on a device that already runs its attachment interfaces and BGP overlay.
 
 ## Services — EVPN-VXLAN to EVPN-MPLS interconnect (DC edge)
 
@@ -18,17 +18,6 @@ The always-current catalog of generation asks for the Enterprise Data Center Edg
 - `Generate N VLAN-based EVPN instances with IRB on wan-edge2` — `l3-interface` IRB (ACX5448-M)
 - `Generate N VLAN-bundle EVPN instances on wan-edge1 or wan-edge2`
 - `Generate a VLAN-bundle EVPN instance with no-gateway-community on wan-edge2`
-
-## Add a feature to a device
-
-- `Add per-packet load balancing to <device>` — forwarding-table export policy (DC edge, spine, leaf, WAN edge, P)
-- `Add OSPF loop-free alternates to <device>` — DC edge, WAN edge and p1
-- `Add EVPN-VXLAN shared tunnels to a leaf`
-- `Add the EVPN multihoming firewall profile to wan-edge2`
-
-## Greenfield / turn-up
-
-- `Build the as-deployed baseline for <device>` — every snippet validated on that device except its service instances (any of the 12 devices)
 
 ## Audit / explain
 

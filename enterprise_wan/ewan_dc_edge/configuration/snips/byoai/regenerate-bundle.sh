@@ -4,15 +4,13 @@
 # snips/junos/, snips/evo/, and snips/_variables.md.
 #
 # Run after any change to the snip library so the BYOAI bundle
-# stays in sync with the source files. MANIFEST.json is produced by the
-# private builder (git-jvd-builder): set JVD_BUILDER to its checkout to
-# regenerate it. TIERS.md is maintained in this folder from the snippet
-# headers and declared dependency requirements; refresh it when they change.
+# stays in sync with the source files. TIERS.md and MANIFEST.json are produced by the
+# private builder (git-jvd-builder): set JVD_BUILDER to its checkout to regenerate them.
 #
 # Modes:
 #   (default)       full regeneration; requires JVD_BUILDER, exits 3 without it
 #   --public-only   bundle assembly consistency using committed public artifacts
-#                   (MANIFEST.json as committed); not regeneration,
+#                   (TIERS.md/MANIFEST.json as committed); not regeneration,
 #                   freshness verification or qualification
 #
 set -euo pipefail
@@ -28,10 +26,12 @@ for arg in "$@"; do
 done
 
 if [ "$PUBLIC_ONLY" -eq 1 ]; then
-  echo "public-only: bundle assembly consistency using committed public artifacts (MANIFEST.json as committed); not regeneration, freshness verification or qualification" >&2
+  echo "public-only: bundle assembly consistency using committed public artifacts (TIERS.md/MANIFEST.json as committed); not regeneration, freshness verification or qualification" >&2
 elif [ -z "${JVD_BUILDER:-}" ]; then
-  echo "ERROR: regeneration requires the private builder (set JVD_BUILDER=<git-jvd-builder checkout>); MANIFEST.json was NOT regenerated. Use --public-only to assemble from committed artifacts." >&2
+  echo "ERROR: regeneration requires the private builder (set JVD_BUILDER=<git-jvd-builder checkout>); TIERS.md and MANIFEST.json were NOT regenerated. Use --public-only to assemble from committed artifacts." >&2
   exit 3
+else
+  JVD_REPO="$(cd ../../../.. && pwd -P)" node "$JVD_BUILDER/engine/js/generate-tiers.mjs" --jvd enterprise_wan/ewan_dc_edge
 fi
 
 OUT="byoai/jvd-ewan-dc-edge-snips.md"

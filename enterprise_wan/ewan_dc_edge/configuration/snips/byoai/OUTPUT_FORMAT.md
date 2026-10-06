@@ -9,7 +9,7 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: self-contained         # or "minimum" or "as-deployed" ("with-overlay" = self-contained)
+# form: minimum
 # devices:
 #   dc-edge1: { name: <hostname>, os: junos, loopback4: <addr> }
 #   dc-edge2: { ... }
@@ -50,7 +50,7 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why), including requirements left out at the `minimum` tier.
+- The prerequisites the device must already run: the snip's `Pair with:` entries (for `variant:ewan-bgp-overlay`, the device's `bgp-<device>.conf`) and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
 - Cross-device consistency the user must verify: the interconnect instances on dc-edge1 and dc-edge2 use the same instance name, `$ESI`, route targets and interconnect RD subfield; only the loopback differs. In the validated configurations every WAN edge instance's route target equals an interconnect route target (`$RT_AS_INTERCONNECT:$RT_ID_INTERCONNECT`) on the DC edges; keep them equal for the same service.
 - For an interconnect instance: the `_INTERCONNECT` variables are the WAN-side (EVPN-MPLS) identity and the plain `$RT_AS` / `$RT_ID` / `$RD_SUB_ASSIGNED` are the data center (EVPN-VXLAN) identity of the same instance (see `_variables.md`).

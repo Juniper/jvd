@@ -2649,8 +2649,8 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_dc_edge/configuration/snips/byoai/TIERS.md",
-      "size_bytes": 24771,
-      "sha256": "217c81535f49055282608ae9a604bbbc04f08c7532762fbdb8331b417bca83ce"
+      "size_bytes": 6927,
+      "sha256": "51b93d41946d61b0659ec47f5e7f9eff95da3154f226e303d602cb00fb75f82a"
     },
     {
       "path": "byoai/DEFAULTS.md",
@@ -2665,8 +2665,8 @@
       "kind": "reference",
       "topic": "Required output format",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_dc_edge/configuration/snips/byoai/OUTPUT_FORMAT.md",
-      "size_bytes": 3254,
-      "sha256": "de31a97e4534a42e5e308918120685695c7d271604f37adceb04f7e7c0c389bf"
+      "size_bytes": 3333,
+      "sha256": "e6045404c9e9662016878c50597d4f6cf9e470ef72852f617515a0c585ac3ebb"
     }
   ]
 }

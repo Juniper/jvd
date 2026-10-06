@@ -15,7 +15,7 @@ Or use the one-click launch links: `./make-launch-links.sh`
 | File | Purpose |
 |------|---------|
 | `SYSTEM_PROMPT.md` | The prompt (fenced block = paste this into your AI) |
-| `TIERS.md` | Service → snip-set per form tier, plus each device's validated baseline |
+| `TIERS.md` | Generated service → snip-set per form tier and device |
 | `DEFAULTS.md` | Lab auto-fill values (device inventory, example service values, numbering conventions) |
 | `OUTPUT_FORMAT.md` | Required output shape |
 | `MENU.md` | Browser-facing catalog of generation asks |
@@ -28,7 +28,7 @@ Or use the one-click launch links: `./make-launch-links.sh`
 
 ## Configuration mode vs Design mode
 
-**Configuration mode** generates validated configuration from the [snip library](../). The AI fetches `jvd-ewan-dc-edge-snips.md` once, then renders per your request. Services: the EVPN-VXLAN to EVPN-MPLS interconnect on the data center edge (VLAN-based with IRB, VLAN bundle), EVPN-VXLAN MAC-VRFs on the leaves, and EVPN-MPLS ELAN instances on the WAN edge. Constructs the library does not yet cover are listed in the library README [Scope](../README.md#scope).
+**Configuration mode** generates validated configuration from the [snip library](../). The AI fetches `jvd-ewan-dc-edge-snips.md` once, then renders per your request. Services: the EVPN-VXLAN to EVPN-MPLS interconnect on the data center edge (VLAN-based with IRB, VLAN bundle), EVPN-VXLAN MAC-VRFs on the leaves, and EVPN-MPLS ELAN instances on the WAN edge, in the `minimum` form: the service construct only, on a device that already runs its attachment interfaces and BGP overlay. The larger tiers in [`TIERS.md`](TIERS.md) are listed per device but are Blocked until a complete bound dependency plan validates, so the assistant does not offer them. Constructs the library does not yet cover are listed in the library README [Scope](../README.md#scope).
 
 **Design mode** answers architecture questions from the [documentation corpus](../../../documentation/). It fetches the [datasheet](../../../documentation/datasheet.md) first, then the [design guide](../../../documentation/design-guide.md), [solution overview](../../../documentation/solution-overview.md) and [test report brief](../../../documentation/test-report-brief.md) on demand.
 
@@ -41,4 +41,4 @@ cd enterprise_wan/ewan_dc_edge/configuration/snips
 JVD_BUILDER=<git-jvd-builder checkout> ./byoai/regenerate-bundle.sh
 ```
 
-`TIERS.md` is maintained from the snippet headers and the dependency declarations in [`_composition.json`](../_composition.json); refresh it when they change. Then run `JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs` to update the portal mirror.
+The script regenerates `TIERS.md` from the service forms and dependency projection in [`_composition.json`](../_composition.json) and writes `MANIFEST.json`, both with the private builder. Then run `JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs` to update the portal mirror.

@@ -1,7 +1,338 @@
 {
   "schemaVersion": 1,
   "jvd": "ewan_dc_edge",
-  "description": "Canonical machine-readable composition matrix. This JVD declares no service forms, roles or capability selectors; the file carries the dependency-contract projection written by the build tooling.",
+  "description": "Canonical machine-readable composition matrix. Authored service forms and non-service asks; this JVD declares no roles, role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "evpn-interconnect-vlan-based-irb",
+      "family": "evpn-interconnect",
+      "form": "vlan-based-irb",
+      "aliases": [
+        "EVPN-VXLAN to EVPN-MPLS interconnect, VLAN-based with IRB"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "IRB unit named by routing-interface; the instance has no attachment interface",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$RT_AS_INTERCONNECT",
+        "$RT_ID_INTERCONNECT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_INTERCONNECT",
+        "$ESI",
+        "$IRB_UNIT",
+        "$VNI",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vxlan-to-evpn-mpls-interconnect-vlan-based-with-irb",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-interconnect-vlan-bundle",
+      "family": "evpn-interconnect",
+      "form": "vlan-bundle",
+      "aliases": [
+        "EVPN-VXLAN to EVPN-MPLS interconnect, VLAN bundle"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-bundle.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "none in the instance; the bundle shares one VNI toward the fabric",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$RT_AS_INTERCONNECT",
+        "$RT_ID_INTERCONNECT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_INTERCONNECT",
+        "$ESI",
+        "$VNI",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vxlan-to-evpn-mpls-interconnect-vlan-bundle",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-mac-vrf-vlan-based",
+      "family": "evpn-elan",
+      "form": "mac-vrf-vlan-based",
+      "aliases": [
+        "Leaf MAC-VRF, VLAN-based"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "VLAN logical unit, on an ESI-LAG where the source uses one",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VNI",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$BD_NAME",
+        "$AC_INTF"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#leaf-mac-vrf-vlan-based",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-mac-vrf-vlan-bundle",
+      "family": "evpn-elan",
+      "form": "mac-vrf-vlan-bundle",
+      "aliases": [
+        "Leaf MAC-VRF, VLAN bundle"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "ESI-LAG interface",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VNI",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$BD_NAME",
+        "$AC_INTF"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#leaf-mac-vrf-vlan-bundle",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-vlan-based-irb",
+      "family": "evpn-elan",
+      "form": "vlan-based-irb",
+      "aliases": [
+        "WAN edge EVPN-MPLS, VLAN-based with IRB routing-interface"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "VLAN logical unit plus IRB unit named by routing-interface",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_INTF",
+        "$IRB_UNIT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#wan-edge-evpn-mpls-vlan-based-with-irb-routing-interface",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-vlan-based-l3-interface",
+      "family": "evpn-elan",
+      "form": "vlan-based-l3-interface",
+      "aliases": [
+        "WAN edge EVPN-MPLS, VLAN-based with IRB l3-interface"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "VLAN logical unit plus IRB unit named by l3-interface",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_INTF",
+        "$IRB_UNIT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#wan-edge-evpn-mpls-vlan-based-with-irb-l3-interface",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-vlan-bundle",
+      "family": "evpn-elan",
+      "form": "vlan-bundle",
+      "aliases": [
+        "WAN edge EVPN-MPLS, VLAN bundle"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "VLAN-list logical unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_INTF",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#wan-edge-evpn-mpls-vlan-bundle",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-vlan-bundle-no-gateway-community",
+      "family": "evpn-elan",
+      "form": "vlan-bundle-no-gateway-community",
+      "aliases": [
+        "WAN edge EVPN-MPLS, VLAN bundle with no-gateway-community"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-bgp-overlay families=evpn"
+      ],
+      "attachment": "VLAN-list logical unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_INTF",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#wan-edge-evpn-mpls-vlan-bundle-with-no-gateway-community",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-load-balancing",
+      "aliases": [
+        "Add per-packet load balancing to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-ospf-lfa",
+      "aliases": [
+        "Add OSPF loop-free alternates to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-shared-tunnels",
+      "aliases": [
+        "Add EVPN-VXLAN shared tunnels to a leaf"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-evpn-mh-firewall-profile",
+      "aliases": [
+        "Add the EVPN multihoming firewall profile to wan-edge2"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
