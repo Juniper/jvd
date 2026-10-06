@@ -1,0 +1,1948 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "scope-dc-edge1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "terminalSourceIds": [
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "terminalSourceIds": [
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "leaf1_qfx5120-48t",
+      "sourceSha256": "5cdace2d0edfc9b26365b4bceb162cd7d908b007f92ab3b96b488e46dffd8ce9",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        10
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 5
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "leaf2_qfx5120-48t",
+      "sourceSha256": "f5dd1d25d9664c0cf646be508901201d863ff272e0c35640b392b68285e1db1e",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        10
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 5
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "p1_acx7100-48l",
+      "sourceSha256": "7977aed1b158e790475f0d11813f6820fa48c651a402d5d960e2aa3307423ecd",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p1-groups-global-interfaces-re0-mgmt-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-interface",
+      "device": "p1_acx7100-48l",
+      "sourceSha256": "7977aed1b158e790475f0d11813f6820fa48c651a402d5d960e2aa3307423ecd",
+      "hierarchy": [
+        "groups",
+        "global",
+        "interfaces",
+        "re0:mgmt-0"
+      ],
+      "sourceIds": [
+        44,
+        45,
+        46,
+        47
+      ],
+      "terminalSourceIds": [
+        47
+      ],
+      "evidence": {
+        "sourceStatement": "re0:mgmt-0",
+        "statements": 1
+      },
+      "reason": "Out-of-band management interface inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p1-groups-global-routing-instances",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-routing-instance",
+      "device": "p1_acx7100-48l",
+      "sourceSha256": "7977aed1b158e790475f0d11813f6820fa48c651a402d5d960e2aa3307423ecd",
+      "hierarchy": [
+        "groups",
+        "global",
+        "routing-instances"
+      ],
+      "sourceIds": [
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "terminalSourceIds": [
+        53,
+        54,
+        55,
+        57,
+        58,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        67,
+        69,
+        70,
+        71,
+        73,
+        74,
+        75,
+        77,
+        78,
+        79,
+        81,
+        82,
+        83,
+        85,
+        86,
+        87,
+        89,
+        90,
+        91,
+        93,
+        94,
+        95,
+        97,
+        98,
+        99,
+        101,
+        102,
+        103,
+        105,
+        106,
+        107
+      ],
+      "evidence": {
+        "sourceStatement": "routing-instances",
+        "statements": 42
+      },
+      "reason": "Management VRF (mgmt_junos) with lab static routes inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "e88343cb6cb85efa44da0aeeaa7ac45fed0b33828277b97326229c08652ed37a",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p2-groups-global-interfaces-re0-mgmt-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-interface",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "e88343cb6cb85efa44da0aeeaa7ac45fed0b33828277b97326229c08652ed37a",
+      "hierarchy": [
+        "groups",
+        "global",
+        "interfaces",
+        "re0:mgmt-0"
+      ],
+      "sourceIds": [
+        29,
+        30,
+        31,
+        32
+      ],
+      "terminalSourceIds": [
+        32
+      ],
+      "evidence": {
+        "sourceStatement": "re0:mgmt-0",
+        "statements": 1
+      },
+      "reason": "Out-of-band management interface inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p2-groups-global-routing-instances",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-routing-instance",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "e88343cb6cb85efa44da0aeeaa7ac45fed0b33828277b97326229c08652ed37a",
+      "hierarchy": [
+        "groups",
+        "global",
+        "routing-instances"
+      ],
+      "sourceIds": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "terminalSourceIds": [
+        46,
+        47,
+        48,
+        50,
+        51,
+        52,
+        54,
+        55,
+        56,
+        58,
+        59,
+        60,
+        62,
+        63,
+        64,
+        66,
+        67,
+        68,
+        70,
+        71,
+        72,
+        74,
+        75,
+        76,
+        78,
+        79,
+        80,
+        82,
+        83,
+        84,
+        86,
+        87,
+        88,
+        90,
+        91,
+        92,
+        94,
+        95,
+        96,
+        98,
+        99,
+        100
+      ],
+      "evidence": {
+        "sourceStatement": "routing-instances",
+        "statements": 42
+      },
+      "reason": "Management VRF (mgmt_junos) with lab static routes inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "spine1_qfx5200",
+      "sourceSha256": "d4579fa01269fc2b0a37293152977988fc2dcceeaf62e562a671fda40f88abe3",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "terminalSourceIds": [
+        5,
+        7,
+        8,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "spine2_qfx5200",
+      "sourceSha256": "cfb13e51be29e445ce5dcc8215e46971e2b9506e82af230826be40ddae6d1729",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        10
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 5
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-tor1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "tor1_ex4200-48t",
+      "sourceSha256": "56827621c2f5f53792b2e46f912ed3dee3a5f5d7ce4a255bfa3a6ea8d5b65c88",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "terminalSourceIds": [
+        7,
+        8,
+        9,
+        11,
+        13,
+        14,
+        16,
+        17,
+        18,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-tor2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "tor2_ex4200-48t",
+      "sourceSha256": "79b56ac6a8797a7d00f41887e8ba641979be893165e49920433ee415996312b0",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        10
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 5
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "terminalSourceIds": [
+        8,
+        10,
+        11,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 17
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-groups-global-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "groups",
+        "global",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "terminalSourceIds": [
+        4,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 18
+      },
+      "reason": "Lab management: host-name, root authentication, management services and process enables inside the global group.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-firewall-filter-f1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "unreferenced-test-filter",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "firewall",
+        "filter f1"
+      ],
+      "sourceIds": [
+        11145,
+        11146,
+        11147
+      ],
+      "terminalSourceIds": [
+        11147
+      ],
+      "evidence": {
+        "sourceStatement": "filter f1",
+        "statements": 1
+      },
+      "reason": "Firewall filter f1 is applied to no interface and its own comment says it exists only to test a conversion.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-routing-instances-evpn-sh-vbased-1402-protocols-evpn-traceoptions",
+      "classification": "excluded-source-defect",
+      "semanticClass": "instance-debug-traceoptions",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "routing-instances",
+        "EVPN_SH_VBased_1402",
+        "protocols",
+        "evpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        15836,
+        15837,
+        15838
+      ],
+      "terminalSourceIds": [
+        15837,
+        15838
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Debug traceoptions left in one of 701 otherwise identical VLAN-based EVPN instances; excluding only the traceoptions block lets the instance reproduce the common form.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-routing-instances-mheline",
+      "classification": "excluded-model-scope",
+      "semanticClass": "dangling-test-instance",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "routing-instances",
+        "mheline"
+      ],
+      "sourceIds": [
+        15975,
+        15976,
+        15977,
+        15978,
+        15979,
+        15980,
+        15981,
+        15982,
+        15983,
+        15984,
+        15985
+      ],
+      "terminalSourceIds": [
+        15976,
+        15981,
+        15982,
+        15983,
+        15984,
+        15985
+      ],
+      "evidence": {
+        "sourceStatement": "mheline",
+        "statements": 6
+      },
+      "reason": "EVPN-VPWS instance whose attachment unit xe-0/0/1.1002 is not configured anywhere; the port xe-0/0/1 is described as the IXIA test-generator port. Not a deployable service.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-interfaces-xe-0-0-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "test-generator-port",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "interfaces",
+        "xe-0/0/1"
+      ],
+      "sourceIds": [
+        74,
+        75,
+        76,
+        77
+      ],
+      "terminalSourceIds": [
+        75,
+        76,
+        77
+      ],
+      "evidence": {
+        "sourceStatement": "xe-0/0/1",
+        "statements": 3
+      },
+      "reason": "Physical port described \"To IXIA 12/2\" with no units; test-generator attachment.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-protocols-isis",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-protocol",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "protocols",
+        "isis"
+      ],
+      "sourceIds": [
+        51042,
+        51043,
+        51044,
+        51045,
+        51046,
+        51047,
+        51048,
+        51049,
+        51050,
+        51051,
+        51052,
+        51053,
+        51054,
+        51055,
+        51056,
+        51057,
+        51058,
+        51059,
+        51060,
+        51061,
+        51062,
+        51063,
+        51064,
+        51065,
+        51066,
+        51067,
+        51068,
+        51069,
+        51070,
+        51071,
+        51072,
+        51073,
+        51074,
+        51075,
+        51076,
+        51077,
+        51078,
+        51079,
+        51080,
+        51081,
+        51082,
+        51083,
+        51084,
+        51085,
+        51086,
+        51087,
+        51088,
+        51089,
+        51090,
+        51091,
+        51092,
+        51093,
+        51094,
+        51095
+      ],
+      "terminalSourceIds": [
+        51046,
+        51047,
+        51051,
+        51052,
+        51056,
+        51057,
+        51061,
+        51062,
+        51066,
+        51067,
+        51069,
+        51071,
+        51072,
+        51077,
+        51079,
+        51081,
+        51082,
+        51083,
+        51085,
+        51086,
+        51087,
+        51089,
+        51090,
+        51092,
+        51094,
+        51095
+      ],
+      "evidence": {
+        "sourceStatement": "isis",
+        "statements": 26
+      },
+      "reason": "IS-IS with SRv6 on dc-edge1 only; every IS-IS interface is on a disabled link (et-1/0/0-3), the design IGP is OSPF, and SRv6 is not part of the JVD.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-routing-options-source-packet-routing",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-protocol",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "routing-options",
+        "source-packet-routing"
+      ],
+      "sourceIds": [
+        50994,
+        50995,
+        50996
+      ],
+      "terminalSourceIds": [
+        50996
+      ],
+      "evidence": {
+        "sourceStatement": "source-packet-routing",
+        "statements": 1
+      },
+      "reason": "SRv6 locator belonging to the disabled IS-IS/SRv6 trial on dc-edge1.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-interfaces-et-1-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-link",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "interfaces",
+        "et-1/0/0"
+      ],
+      "sourceIds": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "terminalSourceIds": [
+        54,
+        55,
+        56,
+        59,
+        60,
+        62,
+        63
+      ],
+      "evidence": {
+        "sourceStatement": "et-1/0/0",
+        "statements": 7
+      },
+      "reason": "Administratively disabled core link (description core-MX22) toward a device outside the JVD, carrying the SRv6 trial addressing.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-interfaces-et-1-0-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-link",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "interfaces",
+        "et-1/0/1"
+      ],
+      "sourceIds": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74
+      ],
+      "terminalSourceIds": [
+        65,
+        66,
+        67,
+        70,
+        71,
+        73,
+        74
+      ],
+      "evidence": {
+        "sourceStatement": "et-1/0/1",
+        "statements": 7
+      },
+      "reason": "Administratively disabled core link (description core-MX22) toward a device outside the JVD, carrying the SRv6 trial addressing.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-interfaces-et-1-0-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-link",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "interfaces",
+        "et-1/0/2"
+      ],
+      "sourceIds": [
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85
+      ],
+      "terminalSourceIds": [
+        76,
+        77,
+        78,
+        81,
+        82,
+        84,
+        85
+      ],
+      "evidence": {
+        "sourceStatement": "et-1/0/2",
+        "statements": 7
+      },
+      "reason": "Administratively disabled core link (description core-MX22) toward a device outside the JVD, carrying the SRv6 trial addressing.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-interfaces-et-1-0-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-link",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "interfaces",
+        "et-1/0/3"
+      ],
+      "sourceIds": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ],
+      "terminalSourceIds": [
+        87,
+        88,
+        89,
+        92,
+        93,
+        95,
+        96
+      ],
+      "evidence": {
+        "sourceStatement": "et-1/0/3",
+        "statements": 7
+      },
+      "reason": "Administratively disabled core link (description core-MX22) toward a device outside the JVD, carrying the SRv6 trial addressing.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-interfaces-lo0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "disabled-trial-loopback",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "interfaces",
+        "lo0"
+      ],
+      "sourceIds": [
+        13343,
+        13344,
+        13345,
+        13346,
+        13347,
+        13348,
+        13349,
+        13350
+      ],
+      "terminalSourceIds": [
+        13346,
+        13348,
+        13350
+      ],
+      "evidence": {
+        "sourceStatement": "lo0",
+        "statements": 3
+      },
+      "reason": "Top-level lo0 on dc-edge1 carries 192.168.0.1/32, an ISO NET and 2021:192:168::1/128 — the SRv6 trial addressing, not the design loopback 1.1.1.5 (which the global group provides).",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        48,
+        49,
+        50,
+        51
+      ],
+      "terminalSourceIds": [
+        49,
+        51
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 2
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "terminalSourceIds": [
+        48,
+        49,
+        51
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 3
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "leaf1_qfx5120-48t",
+      "sourceSha256": "5cdace2d0edfc9b26365b4bceb162cd7d908b007f92ab3b96b488e46dffd8ce9",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "terminalSourceIds": [
+        28,
+        30,
+        33
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 3
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-leaf2-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "leaf2_qfx5120-48t",
+      "sourceSha256": "f5dd1d25d9664c0cf646be508901201d863ff272e0c35640b392b68285e1db1e",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "terminalSourceIds": [
+        29,
+        31,
+        34
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 3
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-p1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "p1_acx7100-48l",
+      "sourceSha256": "7977aed1b158e790475f0d11813f6820fa48c651a402d5d960e2aa3307423ecd",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        111,
+        112,
+        113
+      ],
+      "terminalSourceIds": [
+        113
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "spine1_qfx5200",
+      "sourceSha256": "d4579fa01269fc2b0a37293152977988fc2dcceeaf62e562a671fda40f88abe3",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        46,
+        47,
+        48,
+        49
+      ],
+      "terminalSourceIds": [
+        47,
+        49
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 2
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine2-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "spine2_qfx5200",
+      "sourceSha256": "cfb13e51be29e445ce5dcc8215e46971e2b9506e82af230826be40ddae6d1729",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "terminalSourceIds": [
+        27,
+        30
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 2
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "system"
+      ],
+      "sourceIds": [
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "terminalSourceIds": [
+        51,
+        54,
+        56,
+        58
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 4
+      },
+      "reason": "Top-level system stanza (console/port settings) — lab management.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-system-host-name-wan-edge2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "system",
+        "host-name wan-edge2"
+      ],
+      "sourceIds": [
+        57
+      ],
+      "terminalSourceIds": [
+        57
+      ],
+      "evidence": {
+        "sourceStatement": "host-name wan-edge2",
+        "statements": 1
+      },
+      "reason": "Top-level system lab/management line on wan-edge2; packet-forwarding-options firewall-profile evpn-mh-profile in the same stanza is design content and stays in scope.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-system-root-authentication",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "system",
+        "root-authentication"
+      ],
+      "sourceIds": [
+        58,
+        59
+      ],
+      "terminalSourceIds": [
+        59
+      ],
+      "evidence": {
+        "sourceStatement": "root-authentication",
+        "statements": 1
+      },
+      "reason": "Top-level system lab/management line on wan-edge2; packet-forwarding-options firewall-profile evpn-mh-profile in the same stanza is design content and stays in scope.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-system-services",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "system",
+        "services"
+      ],
+      "sourceIds": [
+        60,
+        61,
+        62
+      ],
+      "terminalSourceIds": [
+        62
+      ],
+      "evidence": {
+        "sourceStatement": "services",
+        "statements": 1
+      },
+      "reason": "Top-level system lab/management line on wan-edge2; packet-forwarding-options firewall-profile evpn-mh-profile in the same stanza is design content and stays in scope.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-system-ports",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "system",
+        "ports"
+      ],
+      "sourceIds": [
+        63,
+        64
+      ],
+      "terminalSourceIds": [
+        64
+      ],
+      "evidence": {
+        "sourceStatement": "ports",
+        "statements": 1
+      },
+      "reason": "Top-level system lab/management line on wan-edge2; packet-forwarding-options firewall-profile evpn-mh-profile in the same stanza is design content and stays in scope.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-groups-re0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "groups",
+        "re0",
+        "system"
+      ],
+      "sourceIds": [
+        42,
+        43
+      ],
+      "terminalSourceIds": [
+        43
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge1-groups-re1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge1_mx480",
+      "sourceSha256": "2f3c63f74b914c39bb0e9f0745603b4935842baf921059dedd788d740cfe721a",
+      "hierarchy": [
+        "groups",
+        "re1",
+        "system"
+      ],
+      "sourceIds": [
+        45,
+        46
+      ],
+      "terminalSourceIds": [
+        46
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re1; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-groups-re0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "groups",
+        "re0",
+        "system"
+      ],
+      "sourceIds": [
+        41,
+        42
+      ],
+      "terminalSourceIds": [
+        42
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-dc-edge2-groups-re1-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "dc-edge2_mx10003",
+      "sourceSha256": "0d8dc32f9ddcd87c86b2b8ce5b1cf299936263fb2202f27099700825a0a1fd2d",
+      "hierarchy": [
+        "groups",
+        "re1",
+        "system"
+      ],
+      "sourceIds": [
+        44,
+        45
+      ],
+      "terminalSourceIds": [
+        45
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re1; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge1-groups-re0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge1_mx204",
+      "sourceSha256": "b3d4b7fc52b37f947f52552bbe4ab742b722b0581e0d78424c82eab04ff02b05",
+      "hierarchy": [
+        "groups",
+        "re0",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4
+      ],
+      "terminalSourceIds": [
+        4
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-wan-edge2-groups-re0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "wan-edge2_acx5448-m",
+      "sourceSha256": "7c9d45ff404899596f0bde0a412c42f51200cf9fb9972385a01bf5c85d878920",
+      "hierarchy": [
+        "groups",
+        "re0",
+        "system"
+      ],
+      "sourceIds": [
+        47,
+        48
+      ],
+      "terminalSourceIds": [
+        48
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group re0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-spine1-groups-member0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "spine1_qfx5200",
+      "sourceSha256": "d4579fa01269fc2b0a37293152977988fc2dcceeaf62e562a671fda40f88abe3",
+      "hierarchy": [
+        "groups",
+        "member0",
+        "system"
+      ],
+      "sourceIds": [
+        43,
+        44
+      ],
+      "terminalSourceIds": [
+        44
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group member0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    },
+    {
+      "id": "scope-tor1-groups-member0-system",
+      "classification": "excluded-model-scope",
+      "semanticClass": "lab-management-system",
+      "device": "tor1_ex4200-48t",
+      "sourceSha256": "56827621c2f5f53792b2e46f912ed3dee3a5f5d7ce4a255bfa3a6ea8d5b65c88",
+      "hierarchy": [
+        "groups",
+        "member0",
+        "system"
+      ],
+      "sourceIds": [
+        3,
+        4
+      ],
+      "terminalSourceIds": [
+        4
+      ],
+      "evidence": {
+        "sourceStatement": "system",
+        "statements": 1
+      },
+      "reason": "Routing-engine/member host name inside group member0; lab management. The group itself stays in scope because apply-groups names it.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-06"
+    }
+  ]
+}

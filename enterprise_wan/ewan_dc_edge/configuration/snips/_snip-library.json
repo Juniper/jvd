@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "osScopedMirrors": [
+    {
+      "junos": "junos/interfaces/ifl-core-inet-mpls.conf",
+      "evo": "evo/interfaces/ifl-core-inet-mpls.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/per-packet-load-balance.conf",
+      "evo": "evo/policy-options/policy-statement/per-packet-load-balance.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    },
+    {
+      "junos": "junos/protocols/ospf-backup-spf-options.conf",
+      "evo": "evo/protocols/ospf-backup-spf-options.conf"
+    },
+    {
+      "junos": "junos/protocols/mpls-interface-all.conf",
+      "evo": "evo/protocols/mpls-interface-all.conf"
+    },
+    {
+      "junos": "junos/groups/apply-global-two.conf",
+      "evo": "evo/groups/apply-global-two.conf"
+    },
+    {
+      "junos": "junos/protocols/ldp-interface-all-loopback.conf",
+      "evo": "evo/protocols/ldp-interface-all-loopback.conf"
+    }
+  ],
+  "dependencyContractVersion": 3
+}

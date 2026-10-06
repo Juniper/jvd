@@ -1,0 +1,1370 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "15ff6e5b8e4717e8f5c28fea9d0aa81c89596a8b6a15f9d4400f049d3823cff1",
+    "registryVersion": 3,
+    "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
+    "toolsSha256": "b04c4653c2df785fdeeecbfd279361c0a0e1c5fabf638ae91f943170257b52af",
+    "devices": 12,
+    "snips": 111,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "evo/forwarding-options/l2circuit-control-passthrough.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/apply-global-one.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/apply-global-two.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-global-p1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-global-p2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-intspeeds-4x100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-speed-100g-enable.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-speed-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-core-inet-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/per-packet-load-balance.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/ldp-interface-4-core-loopback.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 1,
+          "devices": [
+            "p1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "p1_acx7100-48l",
+            "sourceId": 155
+          }
+        }
+      ]
+    },
+    "evo/protocols/ldp-interface-all-loopback.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 151
+          }
+        }
+      ]
+    },
+    "evo/protocols/ldp-interface-management-disable.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 150
+          }
+        }
+      ]
+    },
+    "evo/protocols/lldp-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 167
+          }
+        }
+      ]
+    },
+    "evo/protocols/mpls-interface-4-core-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/mpls-interface-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/mpls-interface-management-disable.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 155
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-area0-p1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "p1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "p1_acx7100-48l",
+            "sourceId": 168
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-area0-p2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 158
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-backup-spf-options.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 1,
+          "devices": [
+            "p1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "p1_acx7100-48l",
+            "sourceId": 166
+          }
+        }
+      ]
+    },
+    "evo/routing-options/forwarding-table-pplb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx10003-6x100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx10003-8x100g-1x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx204-3x100g-8x10g-sub-ports.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-port-channel-speed-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/network-services-enhanced-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/evpn-vxlan-shared-tunnels.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/vxlan-routing.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-three.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-two.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-dc-edge1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-dc-edge2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-leaf1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-leaf2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-spine1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-spine2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-tor1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-tor2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-wan-edge1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-wan-edge2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-member0-empty.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-member0-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re0-empty.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re0-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re1-empty-block.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re1-empty.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "ethernet-segment-counterpart-not-found",
+          "instances": 1,
+          "devices": [
+            "leaf1_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 547
+          }
+        },
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 32,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 541
+          }
+        },
+        {
+          "reason": "unresolved-ethernet-segment-service",
+          "instances": 1,
+          "devices": [
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf2_qfx5120-48t",
+            "sourceId": 545
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-flexible-lacp-esi-df-preference.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 202
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-flexible-lacp-esi.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 60,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 227
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-flexible-lacp-fast-esi-min-links.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 703
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 15,
+          "devices": [
+            "tor2_ex4200-48t"
+          ],
+          "witness": {
+            "device": "tor2_ex4200-48t",
+            "sourceId": 259
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-lacp-trunk-vlan.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 31,
+          "devices": [
+            "tor1_ex4200-48t",
+            "tor2_ex4200-48t"
+          ],
+          "witness": {
+            "device": "tor1_ex4200-48t",
+            "sourceId": 217
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-ethernet-services-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-ethernet-services.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-ether.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-bridge-trunk-vlan-list.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-irb-virtual-gateway-no-accept-data.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-irb-virtual-gateway-preferred.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-irb-virtual-gateway-second-address.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-irb-virtual-gateway.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-bridge-ethernet-switching.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-bridge-vlan-list-family-bridge.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-bridge-vlan-list.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-bridge.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-packet-load-balance.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-export-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-export-ospf-area0.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-dc-edge1.conf": {
+      "status": "unresolved",
+      "features": [
+        "dynamic-bgp",
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-ownership",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51011
+          }
+        },
+        {
+          "reason": "dynamic-bgp-neighbors",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51036
+          }
+        },
+        {
+          "reason": "rule-coverage:dynamic-bgp",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51041
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-dc-edge2.conf": {
+      "status": "unresolved",
+      "features": [
+        "dynamic-bgp",
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 1,
+          "devices": [
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge2_mx10003",
+            "sourceId": 50759
+          }
+        },
+        {
+          "reason": "dynamic-bgp-neighbors",
+          "instances": 1,
+          "devices": [
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge2_mx10003",
+            "sourceId": 50743
+          }
+        },
+        {
+          "reason": "rule-coverage:dynamic-bgp",
+          "instances": 1,
+          "devices": [
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge2_mx10003",
+            "sourceId": 50771
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-leaf1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-ownership",
+          "instances": 1,
+          "devices": [
+            "leaf1_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 35735
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "leaf1_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 35720
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-leaf2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-ownership",
+          "instances": 1,
+          "devices": [
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf2_qfx5120-48t",
+            "sourceId": 35720
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf2_qfx5120-48t",
+            "sourceId": 35705
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-spine1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "spine1_qfx5200"
+          ],
+          "witness": {
+            "device": "spine1_qfx5200",
+            "sourceId": 100
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-spine2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "spine2_qfx5200"
+          ],
+          "witness": {
+            "device": "spine2_qfx5200",
+            "sourceId": 81
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-wan-edge1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-ownership",
+          "instances": 1,
+          "devices": [
+            "wan-edge1_mx204"
+          ],
+          "witness": {
+            "device": "wan-edge1_mx204",
+            "sourceId": 25150
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-wan-edge2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-ownership",
+          "instances": 1,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 16004
+          }
+        }
+      ]
+    },
+    "junos/protocols/ldp-interface-2-core-all-loopback.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 2,
+          "devices": [
+            "wan-edge1_mx204",
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge1_mx204",
+            "sourceId": 25160
+          }
+        }
+      ]
+    },
+    "junos/protocols/ldp-interface-3-core-all-loopback.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 1,
+          "devices": [
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge2_mx10003",
+            "sourceId": 50777
+          }
+        }
+      ]
+    },
+    "junos/protocols/ldp-interface-all-loopback.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:ldp",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51098
+          }
+        }
+      ]
+    },
+    "junos/protocols/lldp-interface-all-management.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51127
+          }
+        }
+      ]
+    },
+    "junos/protocols/mpls-interface-2-core.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/mpls-interface-3-core.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/mpls-interface-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/ospf-area0-dc-edge1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "dc-edge1_mx480"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51109
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-dc-edge2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge2_mx10003",
+            "sourceId": 50788
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-wan-edge1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "wan-edge1_mx204"
+          ],
+          "witness": {
+            "device": "wan-edge1_mx204",
+            "sourceId": 25170
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-wan-edge2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 16026
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-backup-spf-options.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 4,
+          "devices": [
+            "dc-edge1_mx480",
+            "dc-edge2_mx10003",
+            "wan-edge1_mx204",
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 51105
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2902,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 6901
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 31,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 35448
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 700,
+          "devices": [
+            "wan-edge1_mx204"
+          ],
+          "witness": {
+            "device": "wan-edge1_mx204",
+            "sourceId": 15830
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 750,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 6876
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 1,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 15126
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 15,
+          "devices": [
+            "wan-edge1_mx204",
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge1_mx204",
+            "sourceId": 23543
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 2902,
+          "devices": [
+            "dc-edge1_mx480",
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 42414
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2902,
+          "devices": [
+            "dc-edge1_mx480",
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 42395
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-bundle.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 32,
+          "devices": [
+            "dc-edge1_mx480",
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 48397
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 32,
+          "devices": [
+            "dc-edge1_mx480",
+            "dc-edge2_mx10003"
+          ],
+          "witness": {
+            "device": "dc-edge1_mx480",
+            "sourceId": 48379
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/resolution-preserve-nexthop-hierarchy.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/system/evpn-mh-firewall-profile.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 67
+          }
+        }
+      ]
+    },
+    "junos/vlans/vlan-id-list.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 25,
+          "devices": [
+            "leaf1_qfx5120-48t",
+            "leaf2_qfx5120-48t"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48t",
+            "sourceId": 35739
+          }
+        }
+      ]
+    },
+    "junos/vlans/vlan-range.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 49,
+          "devices": [
+            "tor1_ex4200-48t",
+            "tor2_ex4200-48t"
+          ],
+          "witness": {
+            "device": "tor1_ex4200-48t",
+            "sourceId": 458
+          }
+        }
+      ]
+    }
+  }
+}
