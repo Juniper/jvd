@@ -92,6 +92,7 @@ anycast gateways, BGP/OSPF/MPLS forms — live under
 
 ## Documentation
 
+* [Datasheet](documentation/datasheet.md)
 * [Solution overview](documentation/solution-overview.md)
 * [Design guide](documentation/design-guide.md)
 * [Test report brief](documentation/test-report-brief.md)
