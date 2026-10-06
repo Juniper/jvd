@@ -33,6 +33,9 @@ center fabric and the WAN edge.
   configurations but are excluded from reusable forms, each with its reason.
   Large fixed-size instances (20-member bridge-domain and VRF lists) are measured
   and listed in the library README but not yet templated.
+- **Independent audit follow-up**: software `version` stamps, a deactivated LLDP
+  block and two IRB addresses that duplicate another device's address are also
+  excluded, so those IRB units now match the common anycast-gateway form.
 - **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
   the new library alongside the existing JVDs.
 
