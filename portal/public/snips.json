@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T17:50:52.491Z",
+  "generatedAt": "2026-10-06T18:48:32.883Z",
   "snippetSourceDigest": "f5c9e218785118b6ea1613dff62aac551bf83581b59d51f05a11dfe5c6dbba5b",
   "counts": {
     "total": 1298,
@@ -110058,6 +110058,14 @@
       "vscodePromptName": "jvd-ewan-core-edge"
     },
     {
+      "jvd": "ewan_dc_edge",
+      "promptPath": "enterprise_wan/ewan_dc_edge/configuration/snips/byoai/jvd-ewan-dc-edge-byoai-prompt.txt",
+      "promptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_dc_edge/jvd-ewan-dc-edge-byoai-prompt.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_dc_edge/configuration/snips/byoai/jvd-ewan-dc-edge-byoai-prompt.txt",
+      "vscodePromptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_dc_edge/ewan-dc-edge.prompt.md",
+      "vscodePromptName": "jvd-ewan-dc-edge"
+    },
+    {
       "jvd": "ewan_finance",
       "promptPath": "enterprise_wan/ewan_finance/configuration/snips/byoai/jvd-ewan-fin-byoai-prompt.txt",
       "promptUrl": "https://juniper.github.io/jvd/portal/byoai/ewan_finance/jvd-ewan-fin-byoai-prompt.txt",
@@ -110114,5 +110122,5 @@
       "vscodePromptName": "jvd-srv6"
     }
   ],
-  "exportDigest": "9c2b8311a39303dd846df550f33732b4f5295787579beba5383717fd844a11ab"
+  "exportDigest": "fbba1494e8ca102b096b8943b3da9ee8fd57854bf3177d8c5519bcd0915fda83"
 }
