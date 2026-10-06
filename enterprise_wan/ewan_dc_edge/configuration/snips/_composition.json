@@ -5,9 +5,37 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "2b6cc11ab443d9b7a5be666e2b198aca01ed333cd91b07a50a844f430d264a9d"
+    "sha256": "a88f5489c9edd8fded09cfaf2db7ce5bd0127435d439bd1c1448e047703cc1a8"
   },
   "occurrenceBindings": [
+    {
+      "consumer": "evo/groups/apply-global-one.conf",
+      "kind": "group",
+      "scope": "whole",
+      "providers": [
+        "evo/groups/gr-global-p1.conf"
+      ],
+      "slots": [
+        "$GROUP_A"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/groups/apply-global-two.conf",
+      "kind": "group",
+      "scope": "whole",
+      "providers": [
+        "evo/groups/gr-global-p2.conf",
+        "evo/groups/gr-intspeeds-4x100g.conf"
+      ],
+      "slots": [
+        "$GROUP_A",
+        "$GROUP_B"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
     {
       "consumer": "evo/interfaces/ifl-core-inet-mpls.conf",
       "kind": "interface-parent",
@@ -23,6 +51,39 @@
       "unbound": "required"
     },
     {
+      "consumer": "evo/protocols/ldp-interface-4-core-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/groups/gr-global-p1.conf",
+        "evo/interfaces/ifl-core-inet-mpls.conf"
+      ],
+      "slots": [
+        "$CORE_PHYS_1.0",
+        "$CORE_PHYS_2.0",
+        "$CORE_PHYS_3.0",
+        "$CORE_PHYS_4.0",
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/protocols/ldp-interface-all-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/groups/gr-global-p2.conf"
+      ],
+      "slots": [
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
       "consumer": "evo/routing-options/forwarding-table-pplb.conf",
       "kind": "policy-statement",
       "scope": "whole",
@@ -31,6 +92,50 @@
       ],
       "slots": [
         "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/groups/apply-global-three.conf",
+      "kind": "group",
+      "scope": "whole",
+      "providers": [
+        "junos/groups/gr-global-dc-edge1.conf",
+        "junos/groups/gr-global-dc-edge2.conf",
+        "junos/groups/gr-global-leaf1.conf",
+        "junos/groups/gr-global-leaf2.conf",
+        "junos/groups/gr-global-spine2.conf",
+        "junos/groups/gr-global-tor1.conf",
+        "junos/groups/gr-global-tor2.conf",
+        "junos/groups/gr-global-wan-edge1.conf",
+        "junos/groups/gr-global-wan-edge2.conf",
+        "junos/groups/gr-member0-empty.conf",
+        "junos/groups/gr-member0-loopback.conf",
+        "junos/groups/gr-re0-empty.conf",
+        "junos/groups/gr-re0-loopback.conf",
+        "junos/groups/gr-re1-empty-block.conf",
+        "junos/groups/gr-re1-empty.conf"
+      ],
+      "slots": [
+        "$GROUP_A",
+        "$GROUP_B",
+        "$GROUP_C"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/groups/apply-global-two.conf",
+      "kind": "group",
+      "scope": "whole",
+      "providers": [
+        "junos/groups/gr-global-spine1.conf",
+        "junos/groups/gr-member0-empty.conf"
+      ],
+      "slots": [
+        "$GROUP_A",
+        "$GROUP_B"
       ],
       "presence": "required",
       "unbound": "required"
@@ -316,6 +421,25 @@
       "unbound": "required"
     },
     {
+      "consumer": "junos/protocols/ldp-interface-2-core-all-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/groups/gr-global-wan-edge1.conf",
+        "junos/groups/gr-global-wan-edge2.conf",
+        "junos/groups/gr-re0-loopback.conf",
+        "junos/interfaces/ifl-core-inet-mpls.conf"
+      ],
+      "slots": [
+        "$CORE_PHYS_1.0",
+        "$CORE_PHYS_2.0",
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
       "consumer": "junos/protocols/ldp-interface-3-core-all-loopback.conf",
       "kind": "logical-interface",
       "scope": "whole",
@@ -328,6 +452,20 @@
         "$CORE_PHYS_1.0",
         "$CORE_PHYS_2.0",
         "$CORE_PHYS_3.0",
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/protocols/ldp-interface-all-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/groups/gr-global-dc-edge1.conf"
+      ],
+      "slots": [
         "lo0.0"
       ],
       "presence": "required",

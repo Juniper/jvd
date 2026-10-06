@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-06T14:24:00.682Z",
-  "snippetSourceDigest": "20e0e651abc892a50a509a5a5415231fc7206f447da2dcd906deea58b7128697",
+  "generatedAt": "2026-10-06T15:40:15.325Z",
+  "snippetSourceDigest": "93a3ce690e13da8e4d5802948a9010a50a50aa847132db2e98d87c3465d9f6e9",
   "counts": {
-    "total": 1289,
-    "junos": 666,
-    "evo": 623,
+    "total": 1298,
+    "junos": 670,
+    "evo": 628,
     "jvds": 19
   },
   "categories": [
@@ -194,9 +194,9 @@
       "area": "Enterprise WAN",
       "repoPath": "enterprise_wan/ewan_dc_edge",
       "counts": {
-        "junos": 85,
-        "evo": 17,
-        "total": 102
+        "junos": 89,
+        "evo": 22,
+        "total": 111
       }
     },
     {
@@ -15824,6 +15824,146 @@
       "recordSha256": "108b0598f282c4f2e7fd74f753f1d0c69b53030c57e251b4fdb6f61e33c64232"
     },
     {
+      "id": "ewan_dc_edge/evo/groups/apply-global-one",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "apply-global-one",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/groups/apply-global-one.conf",
+      "otherOsFormId": null,
+      "topic": "Single-group application",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_acx7100-48l"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p1_acx7100-48l": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "Applies the `global` group only."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-group",
+          "kind": "group",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$GROUP_A"
+          ],
+          "providers": [
+            "evo/groups/gr-global-p1.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Single-group application\n * Seen on:\n *   Junos: (none)\n *   EVO: p1_acx7100-48l\n * Count:\n *   p1_acx7100-48l 1\n *   total 1\n * Highlights:\n *   - Applies the `global` group only.\n * Pair with: none\n * Variables (example values from p1_acx7100-48l):\n *   $GROUP_A  e.g. global\n */\napply-groups $GROUP_A;\n",
+      "variables": [
+        {
+          "name": "$GROUP_A",
+          "example": "global"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "apply-groups $GROUP_A;",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">apply-groups $GROUP_A;</span></span></code></pre>",
+      "bytes": 22,
+      "lineCount": 1,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "3558c7be3daac1214578001646ce4fe97d35bf480e2d84c8e509a35b0c4996c6"
+    },
+    {
+      "id": "ewan_dc_edge/evo/groups/apply-global-two",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "apply-global-two",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/groups/apply-global-two.conf",
+      "otherOsFormId": "ewan_dc_edge/junos/groups/apply-global-two",
+      "topic": "Ordered two-group application",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p2_ptx10001-36mr": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "Applies two configuration groups; list order is preserved from source."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-group",
+          "kind": "group",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$GROUP_A",
+            "$GROUP_B"
+          ],
+          "providers": [
+            "evo/groups/gr-global-p2.conf",
+            "evo/groups/gr-intspeeds-4x100g.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Ordered two-group application\n * Seen on:\n *   Junos: (none)\n *   EVO: p2_ptx10001-36mr\n * Count:\n *   p2_ptx10001-36mr 1\n *   total 1\n * Highlights:\n *   - Applies two configuration groups; list order is preserved from source.\n * Pair with: none\n * Variables (example values from p2_ptx10001-36mr):\n *   $GROUP_A  e.g. global\n *   $GROUP_B  e.g. intSpeeds\n */\napply-groups [ $GROUP_A $GROUP_B ];\n",
+      "variables": [
+        {
+          "name": "$GROUP_A",
+          "example": "global"
+        },
+        {
+          "name": "$GROUP_B",
+          "example": "intSpeeds"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "apply-groups [ $GROUP_A $GROUP_B ];",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">apply-groups [ $GROUP_A $GROUP_B ];</span></span></code></pre>",
+      "bytes": 35,
+      "lineCount": 1,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "c92f1001e91a1b7a1d17c26f2405a4d7d42ee04c3db08ad45da489759b2ae7a6"
+    },
+    {
       "id": "ewan_dc_edge/evo/groups/gr-global-p1",
       "jvd": "ewan_dc_edge",
       "jvdLabel": "Enterprise WAN: Data Center Edge",
@@ -16235,6 +16375,207 @@
       ],
       "parseWarnings": [],
       "recordSha256": "ca8d86011e7ed52a9474c3ab6023ec3c9ed19da0d072fc4bc187a429188869a2"
+    },
+    {
+      "id": "ewan_dc_edge/evo/protocols/ldp-interface-4-core-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "ldp-interface-4-core-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/protocols/ldp-interface-4-core-loopback.conf",
+      "otherOsFormId": null,
+      "topic": "LDP on four named core links and the loopback (EVO)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_acx7100-48l"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p1_acx7100-48l": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "P-router form that enables LDP only on the four named core links and the loopback, without `interface all`."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_PHYS_1.0",
+            "$CORE_PHYS_2.0",
+            "$CORE_PHYS_3.0",
+            "$CORE_PHYS_4.0",
+            "lo0.0"
+          ],
+          "providers": [
+            "evo/groups/gr-global-p1.conf",
+            "evo/interfaces/ifl-core-inet-mpls.conf"
+          ],
+          "preferObject": true
+        }
+      ],
+      "sourceText": "/*\n * Topic: LDP on four named core links and the loopback (EVO)\n * Seen on:\n *   Junos: (none)\n *   EVO: p1_acx7100-48l\n * Count:\n *   p1_acx7100-48l 1\n *   total 1\n * Highlights:\n *   - P-router form that enables LDP only on the four named core links and the loopback, without `interface all`.\n * Pair with: none\n * Variables (example values from p1_acx7100-48l):\n *   $CORE_PHYS_1  e.g. et-0/0/48\n *   $CORE_PHYS_2  e.g. et-0/0/49\n *   $CORE_PHYS_3  e.g. et-0/0/50\n *   $CORE_PHYS_4  e.g. et-0/0/51\n */\nprotocols {\n    ldp {\n        interface $CORE_PHYS_1.0;\n        interface $CORE_PHYS_2.0;\n        interface $CORE_PHYS_3.0;\n        interface $CORE_PHYS_4.0;\n        interface lo0.0;\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$CORE_PHYS_1",
+          "example": "et-0/0/48"
+        },
+        {
+          "name": "$CORE_PHYS_2",
+          "example": "et-0/0/49"
+        },
+        {
+          "name": "$CORE_PHYS_3",
+          "example": "et-0/0/50"
+        },
+        {
+          "name": "$CORE_PHYS_4",
+          "example": "et-0/0/51"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        interface $CORE_PHYS_1.0;\n        interface $CORE_PHYS_2.0;\n        interface $CORE_PHYS_3.0;\n        interface $CORE_PHYS_4.0;\n        interface lo0.0;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_1.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_2.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_3.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_4.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 190,
+      "lineCount": 9,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "a9f4a675ee92cb4ea8de41f569c576d1228d035fa7855a23cef4f59e2fe0b734"
+    },
+    {
+      "id": "ewan_dc_edge/evo/protocols/ldp-interface-all-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "ldp-interface-all-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/protocols/ldp-interface-all-loopback.conf",
+      "otherOsFormId": "ewan_dc_edge/junos/protocols/ldp-interface-all-loopback",
+      "topic": "LDP on all interfaces plus the loopback (EVO)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p2_ptx10001-36mr": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "`interface all` enables LDP on every MPLS-capable interface; `lo0.0` is listed so the loopback is an LDP transport address and FEC."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.0"
+          ],
+          "providers": [
+            "evo/groups/gr-global-p2.conf"
+          ],
+          "preferObject": true
+        }
+      ],
+      "sourceText": "/*\n * Topic: LDP on all interfaces plus the loopback (EVO)\n * Seen on:\n *   Junos: (none)\n *   EVO: p2_ptx10001-36mr\n * Count:\n *   p2_ptx10001-36mr 1\n *   total 1\n * Highlights:\n *   - `interface all` enables LDP on every MPLS-capable interface; `lo0.0` is listed so the loopback is an LDP transport address and FEC.\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    ldp {\n        interface all;\n        interface lo0.0;\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        interface all;\n        interface lo0.0;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 77,
+      "lineCount": 6,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "50ca467395df28525d992159a146e9ab4f7003c16babc77daced338e8aee92a0"
+    },
+    {
+      "id": "ewan_dc_edge/evo/protocols/ldp-interface-management-disable",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "ldp-interface-management-disable",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/protocols/ldp-interface-management-disable.conf",
+      "otherOsFormId": null,
+      "topic": "LDP disabled on the management interface (EVO)",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p2_ptx10001-36mr": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "Excludes the management port from `interface all`; the per-interface block is its own fragment, so it sits alongside the all-interfaces form."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: LDP disabled on the management interface (EVO)\n * Seen on:\n *   Junos: (none)\n *   EVO: p2_ptx10001-36mr\n * Count:\n *   p2_ptx10001-36mr 1\n *   total 1\n * Highlights:\n *   - Excludes the management port from `interface all`; the per-interface block is its own fragment, so it sits alongside the all-interfaces form.\n * Pair with: none\n * Variables (example values from p2_ptx10001-36mr):\n *   $IFD  e.g. fxp0\n */\nprotocols {\n    ldp {\n        interface $IFD.0 {\n            disable;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$IFD",
+          "example": "fxp0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        interface $IFD.0 {\n            disable;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $IFD.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            disable;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 87,
+      "lineCount": 7,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "aeec2efc5cfefdba4a18db091feb15bba772db675d461cf6fdee52a088da8ab5"
     },
     {
       "id": "ewan_dc_edge/evo/protocols/lldp-interface-all",
@@ -17200,6 +17541,186 @@
       ],
       "parseWarnings": [],
       "recordSha256": "3de14f6e94b526c74dc7840acbb6185f31c5a906d083257cb03191ba69b4ae87"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/apply-global-three",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "apply-global-three",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/apply-global-three.conf",
+      "otherOsFormId": null,
+      "topic": "Ordered three-group application",
+      "seenOn": {
+        "junos": [
+          "dc-edge1_mx480",
+          "dc-edge2_mx10003",
+          "leaf1_qfx5120-48t",
+          "leaf2_qfx5120-48t",
+          "spine2_qfx5200",
+          "tor1_ex4200-48t",
+          "tor2_ex4200-48t",
+          "wan-edge1_mx204",
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge1_mx480": 1,
+          "dc-edge2_mx10003": 1,
+          "leaf1_qfx5120-48t": 1,
+          "leaf2_qfx5120-48t": 1,
+          "spine2_qfx5200": 1,
+          "tor1_ex4200-48t": 1,
+          "tor2_ex4200-48t": 1,
+          "wan-edge1_mx204": 1,
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 9
+      },
+      "highlights": [
+        "Applies `global` and the routing-engine/member groups; list order is preserved from source."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-group",
+          "kind": "group",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$GROUP_A",
+            "$GROUP_B",
+            "$GROUP_C"
+          ],
+          "providers": [
+            "junos/groups/gr-global-dc-edge1.conf",
+            "junos/groups/gr-global-dc-edge2.conf",
+            "junos/groups/gr-global-leaf1.conf",
+            "junos/groups/gr-global-leaf2.conf",
+            "junos/groups/gr-global-spine2.conf",
+            "junos/groups/gr-global-tor1.conf",
+            "junos/groups/gr-global-tor2.conf",
+            "junos/groups/gr-global-wan-edge1.conf",
+            "junos/groups/gr-global-wan-edge2.conf",
+            "junos/groups/gr-member0-empty.conf",
+            "junos/groups/gr-member0-loopback.conf",
+            "junos/groups/gr-re0-empty.conf",
+            "junos/groups/gr-re0-loopback.conf",
+            "junos/groups/gr-re1-empty-block.conf",
+            "junos/groups/gr-re1-empty.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Ordered three-group application\n * Seen on:\n *   Junos: dc-edge1_mx480 dc-edge2_mx10003 leaf1_qfx5120-48t leaf2_qfx5120-48t spine2_qfx5200 tor1_ex4200-48t tor2_ex4200-48t wan-edge1_mx204 wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 1\n *   dc-edge2_mx10003 1\n *   leaf1_qfx5120-48t 1\n *   leaf2_qfx5120-48t 1\n *   spine2_qfx5200 1\n *   tor1_ex4200-48t 1\n *   tor2_ex4200-48t 1\n *   wan-edge1_mx204 1\n *   wan-edge2_acx5448-m 1\n *   total 9\n * Highlights:\n *   - Applies `global` and the routing-engine/member groups; list order is preserved from source.\n * Pair with: none\n * Variables (example values from dc-edge1_mx480):\n *   $GROUP_A  e.g. global\n *   $GROUP_B  e.g. re0\n *   $GROUP_C  e.g. re1\n */\napply-groups [ $GROUP_A $GROUP_B $GROUP_C ];\n",
+      "variables": [
+        {
+          "name": "$GROUP_A",
+          "example": "global"
+        },
+        {
+          "name": "$GROUP_B",
+          "example": "re0"
+        },
+        {
+          "name": "$GROUP_C",
+          "example": "re1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];</span></span></code></pre>",
+      "bytes": 44,
+      "lineCount": 1,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "3c2428e449ae62947ab5477da406169d4c474cf8758168cc2bc522cd0f5c5266"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/apply-global-two",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "apply-global-two",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/apply-global-two.conf",
+      "otherOsFormId": "ewan_dc_edge/evo/groups/apply-global-two",
+      "topic": "Ordered two-group application",
+      "seenOn": {
+        "junos": [
+          "spine1_qfx5200"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5200": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "Applies two configuration groups; list order is preserved from source."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-group",
+          "kind": "group",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$GROUP_A",
+            "$GROUP_B"
+          ],
+          "providers": [
+            "junos/groups/gr-global-spine1.conf",
+            "junos/groups/gr-member0-empty.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Ordered two-group application\n * Seen on:\n *   Junos: spine1_qfx5200\n *   EVO: (none)\n * Count:\n *   spine1_qfx5200 1\n *   total 1\n * Highlights:\n *   - Applies two configuration groups; list order is preserved from source.\n * Pair with: none\n * Variables (example values from spine1_qfx5200):\n *   $GROUP_A  e.g. global\n *   $GROUP_B  e.g. member0\n */\napply-groups [ $GROUP_A $GROUP_B ];\n",
+      "variables": [
+        {
+          "name": "$GROUP_A",
+          "example": "global"
+        },
+        {
+          "name": "$GROUP_B",
+          "example": "member0"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "apply-groups [ $GROUP_A $GROUP_B ];",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">apply-groups [ $GROUP_A $GROUP_B ];</span></span></code></pre>",
+      "bytes": 35,
+      "lineCount": 1,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "401c156c294f7e16e8dfd50bbb41738f73fbcffeb5a7bce6d16cc7752efb7b76"
     },
     {
       "id": "ewan_dc_edge/junos/groups/gr-global-dc-edge1",
@@ -20579,6 +21100,85 @@
       "recordSha256": "99e048a8b7349a2c5643ae6c474ef164bca496bd4695e264806ceff7e9b716b0"
     },
     {
+      "id": "ewan_dc_edge/junos/protocols/ldp-interface-2-core-all-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "ldp-interface-2-core-all-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/protocols/ldp-interface-2-core-all-loopback.conf",
+      "otherOsFormId": null,
+      "topic": "LDP on two named core links, all interfaces and the loopback",
+      "seenOn": {
+        "junos": [
+          "wan-edge1_mx204",
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "wan-edge1_mx204": 1,
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "WAN-edge form: the two core uplinks are named explicitly in addition to `interface all` (redundant but harmless) and the loopback."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_PHYS_1.0",
+            "$CORE_PHYS_2.0",
+            "lo0.0"
+          ],
+          "providers": [
+            "junos/groups/gr-global-wan-edge1.conf",
+            "junos/groups/gr-global-wan-edge2.conf",
+            "junos/groups/gr-re0-loopback.conf",
+            "junos/interfaces/ifl-core-inet-mpls.conf"
+          ],
+          "preferObject": true
+        }
+      ],
+      "sourceText": "/*\n * Topic: LDP on two named core links, all interfaces and the loopback\n * Seen on:\n *   Junos: wan-edge1_mx204 wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge1_mx204 1\n *   wan-edge2_acx5448-m 1\n *   total 2\n * Highlights:\n *   - WAN-edge form: the two core uplinks are named explicitly in addition to `interface all` (redundant but harmless) and the loopback.\n * Pair with: none\n * Variables (example values from wan-edge1_mx204):\n *   $CORE_PHYS_1  e.g. et-0/0/0\n *   $CORE_PHYS_2  e.g. et-0/0/1\n */\nprotocols {\n    ldp {\n        interface $CORE_PHYS_1.0;\n        interface $CORE_PHYS_2.0;\n        interface all;\n        interface lo0.0;\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$CORE_PHYS_1",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$CORE_PHYS_2",
+          "example": "et-0/0/1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        interface $CORE_PHYS_1.0;\n        interface $CORE_PHYS_2.0;\n        interface all;\n        interface lo0.0;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_1.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface $CORE_PHYS_2.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 145,
+      "lineCount": 8,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "d598cb04d2596600b1b30e20d23c70138a1915f260eb4f92abe49cd35dfada52"
+    },
+    {
       "id": "ewan_dc_edge/junos/protocols/ldp-interface-3-core-all-loopback",
       "jvd": "ewan_dc_edge",
       "jvdLabel": "Enterprise WAN: Data Center Edge",
@@ -20658,6 +21258,69 @@
       ],
       "parseWarnings": [],
       "recordSha256": "866ea787b5758f3dbf730ed3e8d391ab0aefa5044a0dfbad3b97607a7e431ae1"
+    },
+    {
+      "id": "ewan_dc_edge/junos/protocols/ldp-interface-all-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "ldp-interface-all-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/protocols/ldp-interface-all-loopback.conf",
+      "otherOsFormId": "ewan_dc_edge/evo/protocols/ldp-interface-all-loopback",
+      "topic": "LDP on all interfaces plus the loopback",
+      "seenOn": {
+        "junos": [
+          "dc-edge1_mx480"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge1_mx480": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "`interface all` enables LDP on every MPLS-capable interface; `lo0.0` is listed so the loopback is an LDP transport address and FEC."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.0"
+          ],
+          "providers": [
+            "junos/groups/gr-global-dc-edge1.conf"
+          ],
+          "preferObject": true
+        }
+      ],
+      "sourceText": "/*\n * Topic: LDP on all interfaces plus the loopback\n * Seen on:\n *   Junos: dc-edge1_mx480\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 1\n *   total 1\n * Highlights:\n *   - `interface all` enables LDP on every MPLS-capable interface; `lo0.0` is listed so the loopback is an LDP transport address and FEC.\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    ldp {\n        interface all;\n        interface lo0.0;\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    ldp {\n        interface all;\n        interface lo0.0;\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">protocols {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    ldp {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface all;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interface lo0.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 77,
+      "lineCount": 6,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "a2d8a2e4156eec50187e1fe08973af4c5514aef6130a09915a5dc84f76b5bf79"
     },
     {
       "id": "ewan_dc_edge/junos/protocols/lldp-interface-all-management",

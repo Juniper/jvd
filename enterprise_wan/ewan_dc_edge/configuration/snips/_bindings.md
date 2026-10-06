@@ -21,17 +21,19 @@ reordering policy terms or substituting one semantic object for another.
 
 | | |
 |---|---|
-| Snippets | 102 |
+| Snippets | 111 |
 | Devices | 12 |
-| Snippet/device pairs with at least one instance | 201 |
-| Instances counted | 18,975 |
-| Structural assignments represented | 20,496 |
+| Snippet/device pairs with at least one instance | 219 |
+| Instances counted | 18,993 |
+| Structural assignments represented | 20,539 |
 
 ## Instances per snippet
 
 | Snippet | Devices | Instances | Variables |
 |---|---:|---:|---|
 | `evo/forwarding-options/l2circuit-control-passthrough.conf` | 1 | 1 | _none_ |
+| `evo/groups/apply-global-one.conf` | 1 | 1 | `$GROUP_A` |
+| `evo/groups/apply-global-two.conf` | 1 | 1 | `$GROUP_A`, `$GROUP_B` |
 | `evo/groups/gr-global-p1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_ALT_V4_PFX`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
 | `evo/groups/gr-global-p2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX` |
 | `evo/groups/gr-intspeeds-4x100g.conf` | 1 | 1 | _none_ |
@@ -39,6 +41,9 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/interfaces/ifd-speed-100g.conf` | 1 | 3 | `$IFD` |
 | `evo/interfaces/ifl-core-inet-mpls.conf` | 2 | 8 | `$CORE_PHYS`, `$CORE_V4_ADDR` |
 | `evo/policy-options/policy-statement/per-packet-load-balance.conf` | 2 | 2 | `$PPLB_NAME` |
+| `evo/protocols/ldp-interface-4-core-loopback.conf` | 1 | 1 | `$CORE_PHYS_1`, `$CORE_PHYS_2`, `$CORE_PHYS_3`, `$CORE_PHYS_4` |
+| `evo/protocols/ldp-interface-all-loopback.conf` | 1 | 1 | _none_ |
+| `evo/protocols/ldp-interface-management-disable.conf` | 1 | 1 | `$IFD` |
 | `evo/protocols/lldp-interface-all.conf` | 1 | 1 | _none_ |
 | `evo/protocols/mpls-interface-4-core-all.conf` | 1 | 1 | `$CORE_PHYS_1`, `$CORE_PHYS_2`, `$CORE_PHYS_3`, `$CORE_PHYS_4` |
 | `evo/protocols/mpls-interface-all.conf` | 1 | 1 | _none_ |
@@ -56,6 +61,8 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/chassis/network-services-enhanced-ip.conf` | 2 | 2 | _none_ |
 | `junos/forwarding-options/evpn-vxlan-shared-tunnels.conf` | 2 | 2 | _none_ |
 | `junos/forwarding-options/vxlan-routing.conf` | 2 | 2 | _none_ |
+| `junos/groups/apply-global-three.conf` | 9 | 9 | `$GROUP_A`, `$GROUP_B`, `$GROUP_C` |
+| `junos/groups/apply-global-two.conf` | 1 | 1 | `$GROUP_A`, `$GROUP_B` |
 | `junos/groups/gr-global-dc-edge1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
 | `junos/groups/gr-global-dc-edge2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
 | `junos/groups/gr-global-leaf1.conf` | 1 | 1 | `$LOOPBACK_V4_PFX`, `$ROUTER_ID` |
@@ -106,7 +113,9 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/bgp-spine2.conf` | 1 | 1 | _none_ |
 | `junos/protocols/bgp-wan-edge1.conf` | 1 | 1 | _none_ |
 | `junos/protocols/bgp-wan-edge2.conf` | 1 | 1 | _none_ |
+| `junos/protocols/ldp-interface-2-core-all-loopback.conf` | 2 | 2 | `$CORE_PHYS_1`, `$CORE_PHYS_2` |
 | `junos/protocols/ldp-interface-3-core-all-loopback.conf` | 1 | 1 | `$CORE_PHYS_1`, `$CORE_PHYS_2`, `$CORE_PHYS_3` |
+| `junos/protocols/ldp-interface-all-loopback.conf` | 1 | 1 | _none_ |
 | `junos/protocols/lldp-interface-all-management.conf` | 1 | 1 | `$IFD` |
 | `junos/protocols/mpls-interface-2-core.conf` | 2 | 2 | `$CORE_PHYS_1`, `$CORE_PHYS_2` |
 | `junos/protocols/mpls-interface-3-core.conf` | 1 | 1 | `$CORE_PHYS_1`, `$CORE_PHYS_2`, `$CORE_PHYS_3` |
@@ -138,9 +147,12 @@ reordering policy terms or substituting one semantic object for another.
 
 | Snippet | Device | Instances | Maximum assignments per instance |
 |---|---|---:|---:|
+| `evo/protocols/ldp-interface-4-core-loopback.conf` | p1_acx7100-48l | 1 | 24 |
 | `evo/protocols/mpls-interface-4-core-all.conf` | p1_acx7100-48l | 1 | 24 |
 | `evo/protocols/ospf-area0-p1.conf` | p1_acx7100-48l | 1 | 24 |
 | `evo/protocols/ospf-area0-p2.conf` | p2_ptx10001-36mr | 1 | 24 |
+| `junos/protocols/ldp-interface-2-core-all-loopback.conf` | wan-edge1_mx204 | 1 | 2 |
+| `junos/protocols/ldp-interface-2-core-all-loopback.conf` | wan-edge2_acx5448-m | 1 | 2 |
 | `junos/protocols/ldp-interface-3-core-all-loopback.conf` | dc-edge2_mx10003 | 1 | 6 |
 | `junos/protocols/mpls-interface-2-core.conf` | wan-edge1_mx204 | 1 | 2 |
 | `junos/protocols/mpls-interface-2-core.conf` | wan-edge2_acx5448-m | 1 | 2 |
@@ -155,6 +167,8 @@ reordering policy terms or substituting one semantic object for another.
 | Snippet | Device | Binding |
 |---|---|---|
 | `evo/forwarding-options/l2circuit-control-passthrough.conf` | p2_ptx10001-36mr | `{}` |
+| `evo/groups/apply-global-one.conf` | p1_acx7100-48l | `{"GROUP_A":"global"}` |
+| `evo/groups/apply-global-two.conf` | p2_ptx10001-36mr | `{"GROUP_A":"global","GROUP_B":"intSpeeds"}` |
 | `evo/groups/gr-global-p1.conf` | p1_acx7100-48l | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5500.4118.00","LOOPBACK_ALT_V4_PFX":"111.1.1.1/32","LOOPBACK_MGMT_V4_PFX":"10.255.4.118/32","LOOPBACK_V4_PFX":"1.1.1.7/32","LOOPBACK_V6_PFX":"abcd::10:255:4:118/128","ROUTER_ID":"1.1.1.7"}` |
 | `evo/groups/gr-global-p2.conf` | p2_ptx10001-36mr | `{"LOOPBACK_V4_PFX":"1.1.1.8/32"}` |
 | `evo/groups/gr-intspeeds-4x100g.conf` | p2_ptx10001-36mr | `{}` |
@@ -162,6 +176,9 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/interfaces/ifd-speed-100g.conf` | p1_acx7100-48l | `{"IFD":"et-0/0/48"}` |
 | `evo/interfaces/ifl-core-inet-mpls.conf` | p1_acx7100-48l | `{"CORE_PHYS":"et-0/0/48","CORE_V4_ADDR":"10.0.15.2/30"}` |
 | `evo/policy-options/policy-statement/per-packet-load-balance.conf` | p1_acx7100-48l | `{"PPLB_NAME":"load-balance"}` |
+| `evo/protocols/ldp-interface-4-core-loopback.conf` | p1_acx7100-48l | `{"CORE_PHYS_1":"et-0/0/48","CORE_PHYS_2":"et-0/0/49","CORE_PHYS_3":"et-0/0/50","CORE_PHYS_4":"et-0/0/51"}` |
+| `evo/protocols/ldp-interface-all-loopback.conf` | p2_ptx10001-36mr | `{}` |
+| `evo/protocols/ldp-interface-management-disable.conf` | p2_ptx10001-36mr | `{"IFD":"fxp0"}` |
 | `evo/protocols/lldp-interface-all.conf` | p2_ptx10001-36mr | `{}` |
 | `evo/protocols/mpls-interface-4-core-all.conf` | p1_acx7100-48l | `{"CORE_PHYS_1":"et-0/0/49","CORE_PHYS_2":"et-0/0/48","CORE_PHYS_3":"et-0/0/50","CORE_PHYS_4":"et-0/0/51"}` |
 | `evo/protocols/mpls-interface-all.conf` | p2_ptx10001-36mr | `{}` |
@@ -179,6 +196,8 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/chassis/network-services-enhanced-ip.conf` | wan-edge1_mx204 | `{}` |
 | `junos/forwarding-options/evpn-vxlan-shared-tunnels.conf` | leaf1_qfx5120-48t | `{}` |
 | `junos/forwarding-options/vxlan-routing.conf` | leaf1_qfx5120-48t | `{}` |
+| `junos/groups/apply-global-three.conf` | dc-edge1_mx480 | `{"GROUP_A":"global","GROUP_B":"re0","GROUP_C":"re1"}` |
+| `junos/groups/apply-global-two.conf` | spine1_qfx5200 | `{"GROUP_A":"global","GROUP_B":"member0"}` |
 | `junos/groups/gr-global-dc-edge1.conf` | dc-edge1_mx480 | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00","LOOPBACK_V4_PFX":"1.1.1.5/32","LOOPBACK_V6_PFX":"abcd::10:255:23:228/128","ROUTER_ID":"1.1.1.5"}` |
 | `junos/groups/gr-global-dc-edge2.conf` | dc-edge2_mx10003 | `{"LOOPBACK_V4_PFX":"1.1.1.6/32","LOOPBACK_V6_PFX":"abcd::10:255:27:225/128","ROUTER_ID":"1.1.1.6"}` |
 | `junos/groups/gr-global-leaf1.conf` | leaf1_qfx5120-48t | `{"LOOPBACK_V4_PFX":"1.1.1.1/32","ROUTER_ID":"1.1.1.1"}` |
@@ -229,7 +248,9 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/bgp-spine2.conf` | spine2_qfx5200 | `{}` |
 | `junos/protocols/bgp-wan-edge1.conf` | wan-edge1_mx204 | `{}` |
 | `junos/protocols/bgp-wan-edge2.conf` | wan-edge2_acx5448-m | `{}` |
+| `junos/protocols/ldp-interface-2-core-all-loopback.conf` | wan-edge1_mx204 | `{"CORE_PHYS_1":"et-0/0/0","CORE_PHYS_2":"et-0/0/1"}` |
 | `junos/protocols/ldp-interface-3-core-all-loopback.conf` | dc-edge2_mx10003 | `{"CORE_PHYS_1":"et-1/1/0","CORE_PHYS_2":"et-1/1/1","CORE_PHYS_3":"et-1/1/4"}` |
+| `junos/protocols/ldp-interface-all-loopback.conf` | dc-edge1_mx480 | `{}` |
 | `junos/protocols/lldp-interface-all-management.conf` | dc-edge1_mx480 | `{"IFD":"fxp0"}` |
 | `junos/protocols/mpls-interface-2-core.conf` | wan-edge1_mx204 | `{"CORE_PHYS_1":"et-0/0/0","CORE_PHYS_2":"et-0/0/1"}` |
 | `junos/protocols/mpls-interface-3-core.conf` | dc-edge2_mx10003 | `{"CORE_PHYS_1":"et-1/1/4","CORE_PHYS_2":"et-1/1/1","CORE_PHYS_3":"et-1/1/0"}` |

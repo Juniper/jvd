@@ -23,6 +23,14 @@
     {
       "junos": "junos/protocols/mpls-interface-all.conf",
       "evo": "evo/protocols/mpls-interface-all.conf"
+    },
+    {
+      "junos": "junos/groups/apply-global-two.conf",
+      "evo": "evo/groups/apply-global-two.conf"
+    },
+    {
+      "junos": "junos/protocols/ldp-interface-all-loopback.conf",
+      "evo": "evo/protocols/ldp-interface-all-loopback.conf"
     }
   ],
   "dependencyContractVersion": 3

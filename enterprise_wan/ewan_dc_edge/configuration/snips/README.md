@@ -126,18 +126,12 @@ are tracked, not excluded:
   (edge-routed bridging) instances. Their bodies are too long for a faithful
   fixed-size template with the current tooling; their populations are measured
   and listed in the [JVD README](../../README.md#validated-scale).
-- **LDP on most devices.** LDP forms that name `lo0.0` cannot be verified where
-  the loopback is delivered by a configuration group rather than by a top-level
-  `interfaces lo0` (dc-edge1, wan-edge1/2, p1/p2); only the dc-edge2 form is
-  published.
-- **`apply-groups`.** The groups themselves are templated (see below); the
-  top-level statements that apply them cannot yet be verified against groups
-  whose management content is excluded, so they are not published.
 
 The configuration groups are templated after review: each device's `global`
-group carries its loopback addresses, router-id and `chassis dump-on-panic`, and
-the `re0` / `re1` / `member0` groups are kept with their loopback content or as
-empty groups. Lab management settings inside them are excluded.
+group carries its loopback addresses, router-id and `chassis dump-on-panic`, the
+`re0` / `re1` / `member0` groups are kept with their loopback content or as
+empty groups, and `apply-groups` applies them in source order. Lab management
+settings inside them are excluded.
 
 Lab and test scaffolding that is not part of the design is excluded from
 measurement and listed, with the reason for each entry, in
