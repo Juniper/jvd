@@ -28,12 +28,7 @@ The buttons send a short bootstrap message that tells the AI to fetch [`jvd-mebs
 
 - **Devices** — `EVO`, `JUNOS`, `MIXED`, or your own hostnames (drawn from any snip's `Seen on:` header).
 
-- **Configuration form** — controls how much config you get on top of the service itself
-  - `minimum` — JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** Best for brownfield adds to a working PE.
-  - `with-overlay` — `minimum` + the BGP overlay snip (so the `family evpn` / `family inet-vpn` / `family l2vpn` activation is re-asserted). Best when you're not sure the overlay activation is already there.
-  - `as-deployed` — full JVD baseline: service + overlay + IGP/SR underlay + apply-group baselines + CoS + OAM + FAT-PW + BGP-CT. **Mirrors what the JVD actually ships.** Best for greenfield turn-up, lab build, or "give me a working example end-to-end."
-
-> Greenfield / bootstrap requests (e.g. "build a new ACX7024 turn-up") are always treated as `as-deployed` regardless of what you pick.
+- **Configuration form** — `minimum`: JUST the new service: routing-instance + AC interface unit + per-VRF policy (L3VPN). **Assumes the PE already has working IGP/SR underlay AND a BGP overlay with the right address-family activated.** The larger tiers in [`TIERS.md`](TIERS.md) are listed per device but are Blocked until a complete bound dependency plan validates, so the assistant does not offer them; requests for the overlay, the underlay baseline or a greenfield turn-up are declined.
 
 In either mode the AI emits a YAML `# Inputs used:` block at the top of the output listing **every** value it chose, so the result is **reproducible** — paste that block back into a new chat and the AI regenerates the same config, or hand-edit one value and regenerate.
 
