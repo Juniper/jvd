@@ -21,17 +21,19 @@ reordering policy terms or substituting one semantic object for another.
 
 | | |
 |---|---|
-| Snippets | 83 |
+| Snippets | 102 |
 | Devices | 12 |
-| Snippet/device pairs with at least one instance | 169 |
-| Instances counted | 18,943 |
-| Structural assignments represented | 20,464 |
+| Snippet/device pairs with at least one instance | 201 |
+| Instances counted | 18,975 |
+| Structural assignments represented | 20,496 |
 
 ## Instances per snippet
 
 | Snippet | Devices | Instances | Variables |
 |---|---:|---:|---|
 | `evo/forwarding-options/l2circuit-control-passthrough.conf` | 1 | 1 | _none_ |
+| `evo/groups/gr-global-p1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_ALT_V4_PFX`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `evo/groups/gr-global-p2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX` |
 | `evo/groups/gr-intspeeds-4x100g.conf` | 1 | 1 | _none_ |
 | `evo/interfaces/ifd-speed-100g-enable.conf` | 1 | 1 | `$IFD` |
 | `evo/interfaces/ifd-speed-100g.conf` | 1 | 3 | `$IFD` |
@@ -54,6 +56,22 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/chassis/network-services-enhanced-ip.conf` | 2 | 2 | _none_ |
 | `junos/forwarding-options/evpn-vxlan-shared-tunnels.conf` | 2 | 2 | _none_ |
 | `junos/forwarding-options/vxlan-routing.conf` | 2 | 2 | _none_ |
+| `junos/groups/gr-global-dc-edge1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-dc-edge2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-leaf1.conf` | 1 | 1 | `$LOOPBACK_V4_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-leaf2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-spine1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-spine2.conf` | 1 | 1 | `$LOOPBACK_V4_PFX` |
+| `junos/groups/gr-global-tor1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V6_PFX` |
+| `junos/groups/gr-global-tor2.conf` | 1 | 1 | _none_ |
+| `junos/groups/gr-global-wan-edge1.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-global-wan-edge2.conf` | 1 | 1 | `$ISO_NET`, `$LOOPBACK_MGMT_V4_PFX`, `$LOOPBACK_V4_PFX`, `$LOOPBACK_V6_PFX`, `$ROUTER_ID` |
+| `junos/groups/gr-member0-empty.conf` | 2 | 2 | _none_ |
+| `junos/groups/gr-member0-loopback.conf` | 4 | 4 | `$LOOPBACK_MGMT_V4_PFX` |
+| `junos/groups/gr-re0-empty.conf` | 3 | 3 | _none_ |
+| `junos/groups/gr-re0-loopback.conf` | 1 | 1 | `$LOOPBACK_MGMT_V4_PFX` |
+| `junos/groups/gr-re1-empty-block.conf` | 2 | 2 | _none_ |
+| `junos/groups/gr-re1-empty.conf` | 7 | 7 | _none_ |
 | `junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi.conf` | 2 | 32 | `$ESI`, `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ae-flexible-lacp-esi-df-preference.conf` | 2 | 2 | `$DF_PREFERENCE`, `$ESI`, `$IFD`, `$LACP_SYS_ID` |
 | `junos/interfaces/ifd-ae-flexible-lacp-esi.conf` | 2 | 60 | `$ESI`, `$IFD`, `$LACP_SYS_ID` |
@@ -61,7 +79,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf` | 1 | 15 | `$IFD`, `$VLAN_NAME` |
 | `junos/interfaces/ifd-ae-lacp-trunk-vlan.conf` | 2 | 31 | `$IFD`, `$VLAN_NAME` |
 | `junos/interfaces/ifd-description.conf` | 2 | 5 | `$CORE_DESC`, `$IFD` |
-| `junos/interfaces/ifd-flexible-ethernet-services-description.conf` | 1 | 2 | `$CORE_DESC`, `$IFD` |
+| `junos/interfaces/ifd-flexible-ethernet-services-description.conf` | 1 | 1 | `$CORE_DESC`, `$IFD` |
 | `junos/interfaces/ifd-flexible-ethernet-services.conf` | 3 | 4 | `$IFD` |
 | `junos/interfaces/ifd-lag-member-ether.conf` | 4 | 189 | `$AE_BUNDLE`, `$IFD` |
 | `junos/interfaces/ifl-bridge-trunk-vlan-list.conf` | 1 | 36 | `$IFD`, `$UNIT`, `$VLAN_LIST` |
@@ -100,7 +118,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/ospf-backup-spf-options.conf` | 4 | 4 | _none_ |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf` | 2 | 2,902 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VNI` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf` | 2 | 31 | `$AC_INTF`, `$BD_NAME`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID`, `$VNI` |
-| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf` | 1 | 699 | `$AC_INTF`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
+| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf` | 1 | 700 | `$AC_INTF`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf` | 1 | 750 | `$AC_INTF`, `$INSTANCE_NAME`, `$IRB_UNIT`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf` | 1 | 1 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf` | 2 | 15 | `$AC_INTF`, `$INSTANCE_NAME`, `$LOOPBACK_V4`, `$RD_SUB_ASSIGNED`, `$RT_AS`, `$RT_ID` |
@@ -112,6 +130,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf` | 4 | 4 | `$PPLB_NAME` |
 | `junos/routing-options/resolution-preserve-nexthop-hierarchy.conf` | 1 | 1 | _none_ |
 | `junos/routing-options/router-id.conf` | 3 | 3 | `$ROUTER_ID` |
+| `junos/system/evpn-mh-firewall-profile.conf` | 1 | 1 | _none_ |
 | `junos/vlans/vlan-id-list.conf` | 2 | 25 | `$VLAN_LIST`, `$VLAN_NAME` |
 | `junos/vlans/vlan-range.conf` | 2 | 49 | `$VLAN_LIST`, `$VLAN_NAME` |
 
@@ -136,6 +155,8 @@ reordering policy terms or substituting one semantic object for another.
 | Snippet | Device | Binding |
 |---|---|---|
 | `evo/forwarding-options/l2circuit-control-passthrough.conf` | p2_ptx10001-36mr | `{}` |
+| `evo/groups/gr-global-p1.conf` | p1_acx7100-48l | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5500.4118.00","LOOPBACK_ALT_V4_PFX":"111.1.1.1/32","LOOPBACK_MGMT_V4_PFX":"10.255.4.118/32","LOOPBACK_V4_PFX":"1.1.1.7/32","LOOPBACK_V6_PFX":"abcd::10:255:4:118/128","ROUTER_ID":"1.1.1.7"}` |
+| `evo/groups/gr-global-p2.conf` | p2_ptx10001-36mr | `{"LOOPBACK_V4_PFX":"1.1.1.8/32"}` |
 | `evo/groups/gr-intspeeds-4x100g.conf` | p2_ptx10001-36mr | `{}` |
 | `evo/interfaces/ifd-speed-100g-enable.conf` | p1_acx7100-48l | `{"IFD":"et-0/0/50"}` |
 | `evo/interfaces/ifd-speed-100g.conf` | p1_acx7100-48l | `{"IFD":"et-0/0/48"}` |
@@ -158,6 +179,22 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/chassis/network-services-enhanced-ip.conf` | wan-edge1_mx204 | `{}` |
 | `junos/forwarding-options/evpn-vxlan-shared-tunnels.conf` | leaf1_qfx5120-48t | `{}` |
 | `junos/forwarding-options/vxlan-routing.conf` | leaf1_qfx5120-48t | `{}` |
+| `junos/groups/gr-global-dc-edge1.conf` | dc-edge1_mx480 | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00","LOOPBACK_V4_PFX":"1.1.1.5/32","LOOPBACK_V6_PFX":"abcd::10:255:23:228/128","ROUTER_ID":"1.1.1.5"}` |
+| `junos/groups/gr-global-dc-edge2.conf` | dc-edge2_mx10003 | `{"LOOPBACK_V4_PFX":"1.1.1.6/32","LOOPBACK_V6_PFX":"abcd::10:255:27:225/128","ROUTER_ID":"1.1.1.6"}` |
+| `junos/groups/gr-global-leaf1.conf` | leaf1_qfx5120-48t | `{"LOOPBACK_V4_PFX":"1.1.1.1/32","ROUTER_ID":"1.1.1.1"}` |
+| `junos/groups/gr-global-leaf2.conf` | leaf2_qfx5120-48t | `{"LOOPBACK_V4_PFX":"1.1.1.2/32","ROUTER_ID":"1.1.1.2"}` |
+| `junos/groups/gr-global-spine1.conf` | spine1_qfx5200 | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5500.7232.00","LOOPBACK_MGMT_V4_PFX":"10.255.7.232/32","LOOPBACK_V4_PFX":"1.1.1.3/32","LOOPBACK_V6_PFX":"abcd::10:255:7:232/128","ROUTER_ID":"1.1.1.3"}` |
+| `junos/groups/gr-global-spine2.conf` | spine2_qfx5200 | `{"LOOPBACK_V4_PFX":"1.1.1.4/32"}` |
+| `junos/groups/gr-global-tor1.conf` | tor1_ex4200-48t | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5515.2018.00","LOOPBACK_MGMT_V4_PFX":"10.255.152.18/32","LOOPBACK_V6_PFX":"abcd::10:255:152:18/128"}` |
+| `junos/groups/gr-global-tor2.conf` | tor2_ex4200-48t | `{}` |
+| `junos/groups/gr-global-wan-edge1.conf` | wan-edge1_mx204 | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5501.9248.00","LOOPBACK_MGMT_V4_PFX":"10.255.19.248/32","LOOPBACK_V4_PFX":"1.1.1.10/32","LOOPBACK_V6_PFX":"abcd::10:255:19:248/128","ROUTER_ID":"1.1.1.10"}` |
+| `junos/groups/gr-global-wan-edge2.conf` | wan-edge2_acx5448-m | `{"ISO_NET":"47.0005.80ff.f800.0000.0108.0001.0102.5515.2033.00","LOOPBACK_MGMT_V4_PFX":"10.255.152.33/32","LOOPBACK_V4_PFX":"1.1.1.9/32","LOOPBACK_V6_PFX":"abcd::10:255:152:33/128","ROUTER_ID":"1.1.1.9"}` |
+| `junos/groups/gr-member0-empty.conf` | spine1_qfx5200 | `{}` |
+| `junos/groups/gr-member0-loopback.conf` | leaf1_qfx5120-48t | `{"LOOPBACK_MGMT_V4_PFX":"10.255.152.8/32"}` |
+| `junos/groups/gr-re0-empty.conf` | dc-edge1_mx480 | `{}` |
+| `junos/groups/gr-re0-loopback.conf` | wan-edge2_acx5448-m | `{"LOOPBACK_MGMT_V4_PFX":"10.255.152.34/32"}` |
+| `junos/groups/gr-re1-empty-block.conf` | dc-edge1_mx480 | `{}` |
+| `junos/groups/gr-re1-empty.conf` | leaf1_qfx5120-48t | `{}` |
 | `junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi.conf` | leaf1_qfx5120-48t | `{"ESI":"00:17:17:17:17:17:17:17:17:17","IFD":"ae16","LACP_SYS_ID":"00:00:00:17:17:17"}` |
 | `junos/interfaces/ifd-ae-flexible-lacp-esi-df-preference.conf` | leaf1_qfx5120-48t | `{"DF_PREFERENCE":"100","ESI":"00:01:01:01:01:01:01:01:01:01","IFD":"ae0","LACP_SYS_ID":"00:00:00:01:01:01"}` |
 | `junos/interfaces/ifd-ae-flexible-lacp-esi.conf` | leaf1_qfx5120-48t | `{"ESI":"00:02:02:02:02:02:02:02:02:02","IFD":"ae1","LACP_SYS_ID":"00:00:00:02:02:02"}` |
@@ -165,7 +202,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf` | tor2_ex4200-48t | `{"IFD":"ae33","VLAN_NAME":"EP-TYPE-2-VLAN-1402-1488"}` |
 | `junos/interfaces/ifd-ae-lacp-trunk-vlan.conf` | tor1_ex4200-48t | `{"IFD":"ae1","VLAN_NAME":"EP-TYPE-2-VLAN-42-81"}` |
 | `junos/interfaces/ifd-description.conf` | dc-edge1_mx480 | `{"CORE_DESC":"\"to acx-48l-02\"","IFD":"et-1/1/3"}` |
-| `junos/interfaces/ifd-flexible-ethernet-services-description.conf` | wan-edge2_acx5448-m | `{"CORE_DESC":"\"To IXIA 12/2\"","IFD":"xe-0/0/1"}` |
+| `junos/interfaces/ifd-flexible-ethernet-services-description.conf` | wan-edge2_acx5448-m | `{"CORE_DESC":"\"To l2l3-edge xe-2/1/0\"","IFD":"xe-0/0/2"}` |
 | `junos/interfaces/ifd-flexible-ethernet-services.conf` | dc-edge1_mx480 | `{"IFD":"xe-5/3/7"}` |
 | `junos/interfaces/ifd-lag-member-ether.conf` | leaf1_qfx5120-48t | `{"AE_BUNDLE":"ae0","IFD":"xe-0/0/0"}` |
 | `junos/interfaces/ifl-bridge-trunk-vlan-list.conf` | wan-edge1_mx204 | `{"IFD":"xe-0/1/4","UNIT":"102","VLAN_LIST":"102-121"}` |
@@ -204,7 +241,7 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/protocols/ospf-backup-spf-options.conf` | dc-edge1_mx480 | `{}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf` | leaf1_qfx5120-48t | `{"AC_INTF":"ae33.1402","BD_NAME":"EP-TYPE-2-VLAN-1402","INSTANCE_NAME":"MACVRF-Instance1402","LOOPBACK_V4":"1.1.1.1","RD_SUB_ASSIGNED":"7000","RT_AS":"100","RT_ID":"1402","VNI":"1402"}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf` | leaf1_qfx5120-48t | `{"AC_INTF":"ae16.0","BD_NAME":"VLANS-701-780","INSTANCE_NAME":"MACVRF-VBundle-Instance1","LOOPBACK_V4":"1.1.1.2","RD_SUB_ASSIGNED":"6000","RT_AS":"100","RT_ID":"701","VNI":"701"}` |
-| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf` | wan-edge1_mx204 | `{"AC_INTF":"xe-0/1/4.1403","INSTANCE_NAME":"EVPN_SH_VBased_1403","IRB_UNIT":"1403","LOOPBACK_V4":"1.1.1.10","RD_SUB_ASSIGNED":"1403","RT_AS":"1403","RT_ID":"1403"}` |
+| `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf` | wan-edge1_mx204 | `{"AC_INTF":"xe-0/1/4.1402","INSTANCE_NAME":"EVPN_SH_VBased_1402","IRB_UNIT":"1402","LOOPBACK_V4":"1.1.1.10","RD_SUB_ASSIGNED":"1402","RT_AS":"1402","RT_ID":"1402"}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf` | wan-edge2_acx5448-m | `{"AC_INTF":"xe-0/0/2.2704","INSTANCE_NAME":"ACX_EVPN_SH_VBased_2704","IRB_UNIT":"2704","LOOPBACK_V4":"1.1.1.9","RD_SUB_ASSIGNED":"2704","RT_AS":"2704","RT_ID":"2704"}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf` | wan-edge2_acx5448-m | `{"AC_INTF":"xe-0/0/2.2103","INSTANCE_NAME":"ACX_EVPN_SH_VBundle_VLAN2103-2187","LOOPBACK_V4":"1.1.1.9","RD_SUB_ASSIGNED":"2103","RT_AS":"2103","RT_ID":"2103"}` |
 | `junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf` | wan-edge1_mx204 | `{"AC_INTF":"xe-0/1/4.1021","INSTANCE_NAME":"EVPN_SH_VBundle_VLAN1021-1100","LOOPBACK_V4":"1.1.1.10","RD_SUB_ASSIGNED":"1021","RT_AS":"1021","RT_ID":"1021"}` |
@@ -216,5 +253,6 @@ reordering policy terms or substituting one semantic object for another.
 | `junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf` | dc-edge1_mx480 | `{"PPLB_NAME":"load-balance"}` |
 | `junos/routing-options/resolution-preserve-nexthop-hierarchy.conf` | dc-edge1_mx480 | `{}` |
 | `junos/routing-options/router-id.conf` | spine2_qfx5200 | `{"ROUTER_ID":"1.1.1.4"}` |
+| `junos/system/evpn-mh-firewall-profile.conf` | wan-edge2_acx5448-m | `{}` |
 | `junos/vlans/vlan-id-list.conf` | leaf1_qfx5120-48t | `{"VLAN_LIST":"1021-1100","VLAN_NAME":"VLANS-1021-1100"}` |
 | `junos/vlans/vlan-range.conf` | tor1_ex4200-48t | `{"VLAN_LIST":"1021-1100","VLAN_NAME":"VLANS-1021-1100"}` |

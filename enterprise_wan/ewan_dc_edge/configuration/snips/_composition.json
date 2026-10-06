@@ -5,7 +5,7 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "ffe27b35477f8834d2ecb3564fc60f0dceca588b3948408e73be2d8eeb86b10f"
+    "sha256": "2b6cc11ab443d9b7a5be666e2b198aca01ed333cd91b07a50a844f430d264a9d"
   },
   "occurrenceBindings": [
     {

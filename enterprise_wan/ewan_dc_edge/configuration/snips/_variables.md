@@ -15,6 +15,10 @@ Business Services glossary); entries marked **new** were introduced by this JVD.
 | `$LOOPBACK_V4` | This node's lo0 IPv4 (used as RD prefix, BGP local-address and VTEP source). | `1.1.1.5` |
 | `$LOOPBACK_V4_PFX` | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `1.1.1.6/32` |
 | `$ROUTER_ID` | router-id (equal to `$LOOPBACK_V4`). | `1.1.1.10` |
+| `$LOOPBACK_V6_PFX` | This node's lo0 IPv6 written with its `/128` prefix length. | `abcd::10:255:23:228/128` |
+| `$LOOPBACK_MGMT_V4_PFX` | **new** Management-network lo0 IPv4 `/32` configured alongside the design loopback. | `10.255.152.8/32` |
+| `$LOOPBACK_ALT_V4_PFX` | **new** Additional lo0 IPv4 `/32` configured on one node besides its design and management loopbacks. | `111.1.1.1/32` |
+| `$ISO_NET` | **new** ISO network entity title on lo0 `family iso`. | `47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00` |
 
 ## Interfaces
 

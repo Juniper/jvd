@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-06T04:56:57.834Z",
-  "snippetSourceDigest": "a017af6d99b482addc310bf13718918e118219290129460bd231687b0a68131c",
+  "generatedAt": "2026-10-06T14:24:00.682Z",
+  "snippetSourceDigest": "20e0e651abc892a50a509a5a5415231fc7206f447da2dcd906deea58b7128697",
   "counts": {
-    "total": 1270,
-    "junos": 649,
-    "evo": 621,
+    "total": 1289,
+    "junos": 666,
+    "evo": 623,
     "jvds": 19
   },
   "categories": [
@@ -194,9 +194,9 @@
       "area": "Enterprise WAN",
       "repoPath": "enterprise_wan/ewan_dc_edge",
       "counts": {
-        "junos": 68,
-        "evo": 15,
-        "total": 83
+        "junos": 85,
+        "evo": 17,
+        "total": 102
       }
     },
     {
@@ -15824,6 +15824,134 @@
       "recordSha256": "108b0598f282c4f2e7fd74f753f1d0c69b53030c57e251b4fdb6f61e33c64232"
     },
     {
+      "id": "ewan_dc_edge/evo/groups/gr-global-p1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-p1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/groups/gr-global-p1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for p1",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p1_acx7100-48l"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p1_acx7100-48l": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for p1\n * Seen on:\n *   Junos: (none)\n *   EVO: p1_acx7100-48l\n * Count:\n *   p1_acx7100-48l 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from p1_acx7100-48l):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.4.118/32\n *   $LOOPBACK_ALT_V4_PFX   e.g. 111.1.1.1/32\n *   $LOOPBACK_V4_PFX       e.g. 1.1.1.7/32\n *   $ISO_NET               e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5500.4118.00\n *   $LOOPBACK_V6_PFX       e.g. abcd::10:255:4:118/128\n *   $ROUTER_ID             e.g. 1.1.1.7\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address 127.0.0.64/32;\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address $LOOPBACK_ALT_V4_PFX;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX;\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.4.118/32"
+        },
+        {
+          "name": "$LOOPBACK_ALT_V4_PFX",
+          "example": "111.1.1.1/32"
+        },
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.7/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5500.4118.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:4:118/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.7"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address 127.0.0.64/32;\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address $LOOPBACK_ALT_V4_PFX;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX;\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_ALT_V4_PFX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            preferred;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 939,
+      "lineCount": 34,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "9ed7d89dc8c3923f4d1de7790f236e330376a2294b00fe4fa7dcfd78dd60f3d6"
+    },
+    {
+      "id": "ewan_dc_edge/evo/groups/gr-global-p2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-p2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/evo/groups/gr-global-p2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for p2",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "p2_ptx10001-36mr"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "p2_ptx10001-36mr": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary and preferred) and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for p2\n * Seen on:\n *   Junos: (none)\n *   EVO: p2_ptx10001-36mr\n * Count:\n *   p2_ptx10001-36mr 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary and preferred) and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from p2_ptx10001-36mr):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.8/32\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address 127.0.0.64/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.8/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address 127.0.0.64/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">64</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            preferred;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 492,
+      "lineCount": 21,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "d32ac0a6732a225ef5660672d7312e36ab50fedf5ec253c042cfbc9cd8e11d07"
+    },
+    {
       "id": "ewan_dc_edge/evo/groups/gr-intspeeds-4x100g",
       "jvd": "ewan_dc_edge",
       "jvdLabel": "Enterprise WAN: Data Center Edge",
@@ -17074,6 +17202,948 @@
       "recordSha256": "3de14f6e94b526c74dc7840acbb6185f31c5a906d083257cb03191ba69b4ae87"
     },
     {
+      "id": "ewan_dc_edge/junos/groups/gr-global-dc-edge1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-dc-edge1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-dc-edge1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for dc-edge1",
+      "seenOn": {
+        "junos": [
+          "dc-edge1_mx480"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge1_mx480": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for dc-edge1\n * Seen on:\n *   Junos: dc-edge1_mx480\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from dc-edge1_mx480):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.5/32\n *   $ISO_NET          e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00\n *   $LOOPBACK_V6_PFX  e.g. abcd::10:255:23:228/128\n *   $ROUTER_ID        e.g. 1.1.1.5\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.5/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:23:228/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.5"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 698,
+      "lineCount": 29,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "a2d06484a6fa8411da651cfbb28dc4bf6e9d0f02d131eb0d14c22c87c08e8429"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-dc-edge2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-dc-edge2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-dc-edge2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for dc-edge2",
+      "seenOn": {
+        "junos": [
+          "dc-edge2_mx10003"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge2_mx10003": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for dc-edge2\n * Seen on:\n *   Junos: dc-edge2_mx10003\n *   EVO: (none)\n * Count:\n *   dc-edge2_mx10003 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from dc-edge2_mx10003):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.6/32\n *   $LOOPBACK_V6_PFX  e.g. abcd::10:255:27:225/128\n *   $ROUTER_ID        e.g. 1.1.1.6\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso;\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.6/32"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:27:225/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.6"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso;\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 633,
+      "lineCount": 27,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "8b552dfa05f467e3e5ef04ac27ee4b61849811c836cadb86012913a4252d62be"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-leaf1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-leaf1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-leaf1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for leaf1",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5120-48t": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary), the router-id. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for leaf1\n * Seen on:\n *   Junos: leaf1_qfx5120-48t\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48t 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary), the router-id. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n * Pair with: none\n * Variables (example values from leaf1_qfx5120-48t):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.1/32\n *   $ROUTER_ID        e.g. 1.1.1.1\n */\ngroups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.1/32"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 375,
+      "lineCount": 18,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "a4362ccc5155ce1c2e04fb366f4f1b90b20ab686097908b80d6fc8d32ac4058b"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-leaf2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-leaf2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-leaf2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for leaf2",
+      "seenOn": {
+        "junos": [
+          "leaf2_qfx5120-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "leaf2_qfx5120-48t": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary), the router-id. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for leaf2\n * Seen on:\n *   Junos: leaf2_qfx5120-48t\n *   EVO: (none)\n * Count:\n *   leaf2_qfx5120-48t 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary), the router-id. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from leaf2_qfx5120-48t):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.2/32\n *   $ROUTER_ID        e.g. 1.1.1.2\n */\ngroups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.2/32"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.2"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 421,
+      "lineCount": 19,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "d11658f511b8127001c65b542480807fa331def0696781253894283f8e27d923"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-spine1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-spine1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-spine1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for spine1",
+      "seenOn": {
+        "junos": [
+          "spine1_qfx5200"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5200": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for spine1\n * Seen on:\n *   Junos: spine1_qfx5200\n *   EVO: (none)\n * Count:\n *   spine1_qfx5200 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from spine1_qfx5200):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.7.232/32\n *   $LOOPBACK_V4_PFX       e.g. 1.1.1.3/32\n *   $ISO_NET               e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5500.7232.00\n *   $LOOPBACK_V6_PFX       e.g. abcd::10:255:7:232/128\n *   $ROUTER_ID             e.g. 1.1.1.3\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.7.232/32"
+        },
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.3/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5500.7232.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:7:232/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 753,
+      "lineCount": 30,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "e9ed6f937a3e9e621b02e1eb67139856517ffe28f901b258327bb4c0992a2fb5"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-spine2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-spine2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-spine2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for spine2",
+      "seenOn": {
+        "junos": [
+          "spine2_qfx5200"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "spine2_qfx5200": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary). Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for spine2\n * Seen on:\n *   Junos: spine2_qfx5200\n *   EVO: (none)\n * Count:\n *   spine2_qfx5200 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary). Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from spine2_qfx5200):\n *   $LOOPBACK_V4_PFX  e.g. 1.1.1.4/32\n */\ngroups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.4/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 351,
+      "lineCount": 16,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "d5c4892b1a137857d0cce455f4e918e4dbf4edb8f667652888d66d779f1f0570"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-tor1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-tor1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-tor1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for tor1",
+      "seenOn": {
+        "junos": [
+          "tor1_ex4200-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "tor1_ex4200-48t": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback; it has no design `/32`, only local addresses and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for tor1\n * Seen on:\n *   Junos: tor1_ex4200-48t\n *   EVO: (none)\n * Count:\n *   tor1_ex4200-48t 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback; it has no design `/32`, only local addresses and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from tor1_ex4200-48t):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.152.18/32\n *   $ISO_NET               e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5515.2018.00\n *   $LOOPBACK_V6_PFX       e.g. abcd::10:255:152:18/128\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address 127.0.0.1/32;\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.152.18/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5515.2018.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:152:18/128"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address 127.0.0.1/32;\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 679,
+      "lineCount": 27,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "af439fdad8d4aa274652bca626bb35cf5bf9007617fa0933b45c69d98932e8a0"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-tor2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-tor2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-tor2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for tor2",
+      "seenOn": {
+        "junos": [
+          "tor2_ex4200-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "tor2_ex4200-48t": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback; it has no design `/32`, only local addresses. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for tor2\n * Seen on:\n *   Junos: tor2_ex4200-48t\n *   EVO: (none)\n * Count:\n *   tor2_ex4200-48t 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback; it has no design `/32`, only local addresses. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables: none\n */\ngroups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 237,
+      "lineCount": 13,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "4746c6a11311ad3f481ee0a606b19584309495af59e7ab99984d1c077038a50d"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-wan-edge1",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-wan-edge1",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-wan-edge1.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for wan-edge1",
+      "seenOn": {
+        "junos": [
+          "wan-edge1_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "wan-edge1_mx204": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for wan-edge1\n * Seen on:\n *   Junos: wan-edge1_mx204\n *   EVO: (none)\n * Count:\n *   wan-edge1_mx204 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from wan-edge1_mx204):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.19.248/32\n *   $LOOPBACK_V4_PFX       e.g. 1.1.1.10/32\n *   $ISO_NET               e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5501.9248.00\n *   $LOOPBACK_V6_PFX       e.g. abcd::10:255:19:248/128\n *   $ROUTER_ID             e.g. 1.1.1.10\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.19.248/32"
+        },
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.10/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5501.9248.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:19:248/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.10"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            preferred;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 902,
+      "lineCount": 34,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "ef983107be928cedd62e6090e8facde63f67d9c56a882cb11dd1274e3e612863"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-global-wan-edge2",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-global-wan-edge2",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-global-wan-edge2.conf",
+      "otherOsFormId": null,
+      "topic": "Global configuration group: loopback and identity for wan-edge2",
+      "seenOn": {
+        "junos": [
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.",
+        "Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Global configuration group: loopback and identity for wan-edge2\n * Seen on:\n *   Junos: wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge2_acx5448-m 1\n *   total 1\n * Highlights:\n *   - The `global` group carries this node's loopback (design `/32` marked primary and preferred), the router-id and `chassis dump-on-panic`. Configuration groups are one fragment, so the group is reproduced whole after the approved lab-management exclusions.\n *   - Additional lo0 addresses (`127.x`, management `10.255.x`, ISO, IPv6) are kept as configured in the validated lab.\n * Pair with: none\n * Variables (example values from wan-edge2_acx5448-m):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.152.33/32\n *   $LOOPBACK_V4_PFX       e.g. 1.1.1.9/32\n *   $ISO_NET               e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5515.2033.00\n *   $LOOPBACK_V6_PFX       e.g. abcd::10:255:152:33/128\n *   $ROUTER_ID             e.g. 1.1.1.9\n */\ngroups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.152.33/32"
+        },
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "1.1.1.9/32"
+        },
+        {
+          "name": "$ISO_NET",
+          "example": "47.0005.80ff.f800.0000.0108.0001.0102.5515.2033.00"
+        },
+        {
+          "name": "$LOOPBACK_V6_PFX",
+          "example": "abcd::10:255:152:33/128"
+        },
+        {
+          "name": "$ROUTER_ID",
+          "example": "1.1.1.9"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    global {\n        chassis {\n            dump-on-panic;\n        }\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address 127.0.0.1/32;\n                        address $LOOPBACK_MGMT_V4_PFX {\n                            primary;\n                        }\n                        address $LOOPBACK_V4_PFX {\n                            primary;\n                            preferred;\n                        }\n                    }\n                    family iso {\n                        address $ISO_NET;\n                    }\n                    family inet6 {\n                        address $LOOPBACK_V6_PFX {\n                            primary;\n                        }\n                    }\n                }\n            }\n        }\n        routing-options {\n            router-id $ROUTER_ID;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    global {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        chassis {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            dump-</span><span style=\"color:#79C0FF\">on</span><span style=\"color:#E6EDF3\">-panic;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address </span><span style=\"color:#79C0FF\">127</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\">.</span><span style=\"color:#79C0FF\">1</span><span style=\"color:#E6EDF3\">/</span><span style=\"color:#79C0FF\">32</span><span style=\"color:#E6EDF3\">;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V4_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            preferred;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family iso {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $ISO_NET;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet6 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_V6_PFX {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                            primary;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        routing-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            router-id $ROUTER_ID;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 902,
+      "lineCount": 34,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "e845fc1fe9d7015c8e07f38f6cb055b3b4e267f836039d2ccb89cec8de3f18fb"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-member0-empty",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-member0-empty",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-member0-empty.conf",
+      "otherOsFormId": null,
+      "topic": "Empty member0 configuration group named by apply-groups",
+      "seenOn": {
+        "junos": [
+          "spine1_qfx5200",
+          "tor1_ex4200-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5200": 1,
+          "tor1_ex4200-48t": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Keeps the `member0` group that `apply-groups` names. Its only content (a host name) is excluded as lab management."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Empty member0 configuration group named by apply-groups\n * Seen on:\n *   Junos: spine1_qfx5200 tor1_ex4200-48t\n *   EVO: (none)\n * Count:\n *   spine1_qfx5200 1\n *   tor1_ex4200-48t 1\n *   total 2\n * Highlights:\n *   - Keeps the `member0` group that `apply-groups` names. Its only content (a host name) is excluded as lab management.\n * Pair with: none\n * Variables: none\n */\ngroups {\n    member0 {\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    member0 {\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    member0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 30,
+      "lineCount": 4,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "0043659c7be53310d447c3be81efb5840671912445383cdb9c6dc38313ea08be"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-member0-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-member0-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-member0-loopback.conf",
+      "otherOsFormId": null,
+      "topic": "Virtual-chassis member0 group with a management loopback address",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48t",
+          "leaf2_qfx5120-48t",
+          "spine2_qfx5200",
+          "tor2_ex4200-48t"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5120-48t": 1,
+          "leaf2_qfx5120-48t": 1,
+          "spine2_qfx5200": 1,
+          "tor2_ex4200-48t": 1
+        },
+        "total": 4
+      },
+      "highlights": [
+        "`member0` applies only on virtual-chassis member 0; here it adds a management `10.255.x` address to lo0 unit 0."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Virtual-chassis member0 group with a management loopback address\n * Seen on:\n *   Junos: leaf1_qfx5120-48t leaf2_qfx5120-48t spine2_qfx5200 tor2_ex4200-48t\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48t 1\n *   leaf2_qfx5120-48t 1\n *   spine2_qfx5200 1\n *   tor2_ex4200-48t 1\n *   total 4\n * Highlights:\n *   - `member0` applies only on virtual-chassis member 0; here it adds a management `10.255.x` address to lo0 unit 0.\n * Pair with: none\n * Variables (example values from leaf1_qfx5120-48t):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.152.8/32\n */\ngroups {\n    member0 {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.152.8/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    member0 {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    member0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 247,
+      "lineCount": 13,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "c0b0ea22ab7d4540e85a0d63e3e564db8a283a8fbddbdddb23905d98a5ce97c5"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-re0-empty",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-re0-empty",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-re0-empty.conf",
+      "otherOsFormId": null,
+      "topic": "Empty re0 configuration group named by apply-groups",
+      "seenOn": {
+        "junos": [
+          "dc-edge1_mx480",
+          "dc-edge2_mx10003",
+          "wan-edge1_mx204"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge1_mx480": 1,
+          "dc-edge2_mx10003": 1,
+          "wan-edge1_mx204": 1
+        },
+        "total": 3
+      },
+      "highlights": [
+        "Keeps the `re0` group that `apply-groups` names. Its only content (a host name) is excluded as lab management."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Empty re0 configuration group named by apply-groups\n * Seen on:\n *   Junos: dc-edge1_mx480 dc-edge2_mx10003 wan-edge1_mx204\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 1\n *   dc-edge2_mx10003 1\n *   wan-edge1_mx204 1\n *   total 3\n * Highlights:\n *   - Keeps the `re0` group that `apply-groups` names. Its only content (a host name) is excluded as lab management.\n * Pair with: none\n * Variables: none\n */\ngroups {\n    re0 {\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    re0 {\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    re0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 26,
+      "lineCount": 4,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "0ddd53941543a6d9565ce7eebd0ee784ea0f918dbb7f85b871cd7f7ec7eb74c2"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-re0-loopback",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-re0-loopback",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-re0-loopback.conf",
+      "otherOsFormId": null,
+      "topic": "Routing-engine re0 group with a management loopback address",
+      "seenOn": {
+        "junos": [
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "`re0` applies only on routing engine 0; here it adds a management `10.255.x` address to lo0 unit 0. Its host name is excluded as lab management."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Routing-engine re0 group with a management loopback address\n * Seen on:\n *   Junos: wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge2_acx5448-m 1\n *   total 1\n * Highlights:\n *   - `re0` applies only on routing engine 0; here it adds a management `10.255.x` address to lo0 unit 0. Its host name is excluded as lab management.\n * Pair with: none\n * Variables (example values from wan-edge2_acx5448-m):\n *   $LOOPBACK_MGMT_V4_PFX  e.g. 10.255.152.34/32\n */\ngroups {\n    re0 {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOOPBACK_MGMT_V4_PFX",
+          "example": "10.255.152.34/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    re0 {\n        interfaces {\n            lo0 {\n                unit 0 {\n                    family inet {\n                        address $LOOPBACK_MGMT_V4_PFX;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    re0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        interfaces {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            lo0 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                unit </span><span style=\"color:#79C0FF\">0</span><span style=\"color:#E6EDF3\"> {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    family inet {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                        address $LOOPBACK_MGMT_V4_PFX;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">                }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 243,
+      "lineCount": 13,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "ed9126b6bd9da58df1d6b8ab73d60e92021cb2c30490330d9f5e378e8f6d2fe6"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-re1-empty-block",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-re1-empty-block",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-re1-empty-block.conf",
+      "otherOsFormId": null,
+      "topic": "Emptied re1 configuration group named by apply-groups",
+      "seenOn": {
+        "junos": [
+          "dc-edge1_mx480",
+          "dc-edge2_mx10003"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "dc-edge1_mx480": 1,
+          "dc-edge2_mx10003": 1
+        },
+        "total": 2
+      },
+      "highlights": [
+        "Keeps the `re1` group that `apply-groups` names; its only content (a host name) is excluded as lab management."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Emptied re1 configuration group named by apply-groups\n * Seen on:\n *   Junos: dc-edge1_mx480 dc-edge2_mx10003\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 1\n *   dc-edge2_mx10003 1\n *   total 2\n * Highlights:\n *   - Keeps the `re1` group that `apply-groups` names; its only content (a host name) is excluded as lab management.\n * Pair with: none\n * Variables: none\n */\ngroups {\n    re1 {\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    re1 {\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    re1 {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 26,
+      "lineCount": 4,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "27fbda455dbe3c9fb8dae89ed236de739052f61d00d2da7d888a9c44503d0215"
+    },
+    {
+      "id": "ewan_dc_edge/junos/groups/gr-re1-empty",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "groups",
+      "categoryPath": "groups",
+      "name": "gr-re1-empty",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/groups/gr-re1-empty.conf",
+      "otherOsFormId": null,
+      "topic": "Empty re1 configuration group named by apply-groups",
+      "seenOn": {
+        "junos": [
+          "leaf1_qfx5120-48t",
+          "leaf2_qfx5120-48t",
+          "spine2_qfx5200",
+          "tor1_ex4200-48t",
+          "tor2_ex4200-48t",
+          "wan-edge1_mx204",
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5120-48t": 1,
+          "leaf2_qfx5120-48t": 1,
+          "spine2_qfx5200": 1,
+          "tor1_ex4200-48t": 1,
+          "tor2_ex4200-48t": 1,
+          "wan-edge1_mx204": 1,
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 7
+      },
+      "highlights": [
+        "Keeps the `re1` group that `apply-groups` names. Declared empty in source."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Empty re1 configuration group named by apply-groups\n * Seen on:\n *   Junos: leaf1_qfx5120-48t leaf2_qfx5120-48t spine2_qfx5200 tor1_ex4200-48t tor2_ex4200-48t wan-edge1_mx204 wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48t 1\n *   leaf2_qfx5120-48t 1\n *   spine2_qfx5200 1\n *   tor1_ex4200-48t 1\n *   tor2_ex4200-48t 1\n *   wan-edge1_mx204 1\n *   wan-edge2_acx5448-m 1\n *   total 7\n * Highlights:\n *   - Keeps the `re1` group that `apply-groups` names. Declared empty in source.\n * Pair with: none\n * Variables: none\n */\ngroups {\n    re1;\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "groups {\n    re1;\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">groups {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    re1;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 19,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "3a042951bf872cb31d8cbd17830acf0eda063150893011e6e99d28e7e2b974df"
+    },
+    {
       "id": "ewan_dc_edge/junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi",
       "jvd": "ewan_dc_edge",
       "jvdLabel": "Enterprise WAN: Data Center Edge",
@@ -17619,9 +18689,9 @@
       },
       "count": {
         "byDevice": {
-          "wan-edge2_acx5448-m": 2
+          "wan-edge2_acx5448-m": 1
         },
-        "total": 2
+        "total": 1
       },
       "highlights": [
         "Same flexible-ethernet-services port form as the MX WAN edge, carrying a `description` of the far end."
@@ -17629,7 +18699,7 @@
       "pairWith": [],
       "dependencyContractVersion": 3,
       "occurrenceRequires": [],
-      "sourceText": "/*\n * Topic: Physical port with a description prepared for per-unit Layer 2 attachments (flexible VLAN tagging, flexible Ethernet services)\n * Seen on:\n *   Junos: wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge2_acx5448-m 2\n *   total 2\n * Highlights:\n *   - Same flexible-ethernet-services port form as the MX WAN edge, carrying a `description` of the far end.\n * Pair with: none\n * Variables (example values from wan-edge2_acx5448-m / xe-0/0/2):\n *   $IFD        e.g. xe-0/0/2\n *   $CORE_DESC  e.g. \"To l2l3-edge xe-2/1/0\"\n */\ninterfaces {\n    $IFD {\n        description $CORE_DESC;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n    }\n}\n",
+      "sourceText": "/*\n * Topic: Physical port with a description prepared for per-unit Layer 2 attachments (flexible VLAN tagging, flexible Ethernet services)\n * Seen on:\n *   Junos: wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge2_acx5448-m 1\n *   total 1\n * Highlights:\n *   - Same flexible-ethernet-services port form as the MX WAN edge, carrying a `description` of the far end.\n * Pair with: none\n * Variables (example values from wan-edge2_acx5448-m / xe-0/0/2):\n *   $IFD        e.g. xe-0/0/2\n *   $CORE_DESC  e.g. \"To l2l3-edge xe-2/1/0\"\n */\ninterfaces {\n    $IFD {\n        description $CORE_DESC;\n        flexible-vlan-tagging;\n        encapsulation flexible-ethernet-services;\n    }\n}\n",
       "variables": [
         {
           "name": "$IFD",
@@ -17653,7 +18723,7 @@
         "EVPN-VXLAN"
       ],
       "parseWarnings": [],
-      "recordSha256": "7b13f22ddaf33be2f0db277996be2dac10725745f3e2a5c675e0ac3a72acedda"
+      "recordSha256": "22bea789eb6996fcd28762d3f28e82d1c310f1daf295172e04699e5a32330ce9"
     },
     {
       "id": "ewan_dc_edge/junos/interfaces/ifd-flexible-ethernet-services",
@@ -20392,9 +21462,9 @@
       },
       "count": {
         "byDevice": {
-          "wan-edge1_mx204": 699
+          "wan-edge1_mx204": 700
         },
-        "total": 699
+        "total": 700
       },
       "highlights": [
         "`vlan-id none` with the attachment unit listed under both `protocols evpn` and the instance; the IRB is attached with `routing-interface` (MX form).",
@@ -20420,7 +21490,7 @@
           "preferObject": true
         }
       ],
-      "sourceText": "/*\n * Topic: EVPN-MPLS ELAN, VLAN-based instance with IRB routing-interface (WAN edge PE, single-homed)\n * Seen on:\n *   Junos: wan-edge1_mx204\n *   EVO: (none)\n * Count:\n *   wan-edge1_mx204 699\n *   total 699\n * Highlights:\n *   - `vlan-id none` with the attachment unit listed under both `protocols evpn` and the instance; the IRB is attached with `routing-interface` (MX form).\n *   - `default-gateway no-gateway-community` suppresses the default-gateway extended community because the gateway MAC/IP is identical on every PE.\n * Pair with:\n *  - variant:ewan-bgp-overlay families=evpn\n * Variables (example values from wan-edge1_mx204 / EVPN_SH_VBased_1403):\n *   $INSTANCE_NAME    e.g. EVPN_SH_VBased_1403\n *   $AC_INTF          e.g. xe-0/1/4.1403\n *   $IRB_UNIT         e.g. 1403\n *   $LOOPBACK_V4      e.g. 1.1.1.10\n *   $RD_SUB_ASSIGNED  e.g. 1403\n *   $RT_AS            e.g. 1403\n *   $RT_ID            e.g. 1403\n */\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                interface $AC_INTF;\n                default-gateway no-gateway-community;\n            }\n        }\n        vlan-id none;\n        routing-interface irb.$IRB_UNIT;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}\n",
+      "sourceText": "/*\n * Topic: EVPN-MPLS ELAN, VLAN-based instance with IRB routing-interface (WAN edge PE, single-homed)\n * Seen on:\n *   Junos: wan-edge1_mx204\n *   EVO: (none)\n * Count:\n *   wan-edge1_mx204 700\n *   total 700\n * Highlights:\n *   - `vlan-id none` with the attachment unit listed under both `protocols evpn` and the instance; the IRB is attached with `routing-interface` (MX form).\n *   - `default-gateway no-gateway-community` suppresses the default-gateway extended community because the gateway MAC/IP is identical on every PE.\n * Pair with:\n *  - variant:ewan-bgp-overlay families=evpn\n * Variables (example values from wan-edge1_mx204 / EVPN_SH_VBased_1403):\n *   $INSTANCE_NAME    e.g. EVPN_SH_VBased_1403\n *   $AC_INTF          e.g. xe-0/1/4.1403\n *   $IRB_UNIT         e.g. 1403\n *   $LOOPBACK_V4      e.g. 1.1.1.10\n *   $RD_SUB_ASSIGNED  e.g. 1403\n *   $RT_AS            e.g. 1403\n *   $RT_ID            e.g. 1403\n */\nrouting-instances {\n    $INSTANCE_NAME {\n        instance-type evpn;\n        protocols {\n            evpn {\n                interface $AC_INTF;\n                default-gateway no-gateway-community;\n            }\n        }\n        vlan-id none;\n        routing-interface irb.$IRB_UNIT;\n        interface $AC_INTF;\n        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;\n        vrf-target target:$RT_AS:$RT_ID;\n    }\n}\n",
       "variables": [
         {
           "name": "$INSTANCE_NAME",
@@ -20472,7 +21542,7 @@
         "EVPN-VXLAN"
       ],
       "parseWarnings": [],
-      "recordSha256": "0d26ba6bb5e522041b9b2dde60fb24736ebde79500db801cee13a5d87b86a918"
+      "recordSha256": "fb5563e6d7f55d106c801e0324a7331fb8d9b18c85dc7564f5159e18adaf74ff"
     },
     {
       "id": "ewan_dc_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface",
@@ -21397,6 +22467,54 @@
       ],
       "parseWarnings": [],
       "recordSha256": "342c87d7ff0d1deaf412e8ce47a4698e225117987bd4c7bc6f97539b1edbcf8b"
+    },
+    {
+      "id": "ewan_dc_edge/junos/system/evpn-mh-firewall-profile",
+      "jvd": "ewan_dc_edge",
+      "jvdLabel": "Enterprise WAN: Data Center Edge",
+      "area": "Enterprise WAN",
+      "os": "Junos",
+      "osKey": "junos",
+      "category": "system",
+      "categoryPath": "system",
+      "name": "evpn-mh-firewall-profile",
+      "path": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/system/evpn-mh-firewall-profile.conf",
+      "otherOsFormId": null,
+      "topic": "EVPN multihoming firewall profile",
+      "seenOn": {
+        "junos": [
+          "wan-edge2_acx5448-m"
+        ],
+        "evo": []
+      },
+      "count": {
+        "byDevice": {
+          "wan-edge2_acx5448-m": 1
+        },
+        "total": 1
+      },
+      "highlights": [
+        "ACX5448 needs `evpn-mh-profile` for EVPN multihoming filters; the rest of this `system` stanza is excluded as lab management."
+      ],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: EVPN multihoming firewall profile\n * Seen on:\n *   Junos: wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   wan-edge2_acx5448-m 1\n *   total 1\n * Highlights:\n *   - ACX5448 needs `evpn-mh-profile` for EVPN multihoming filters; the rest of this `system` stanza is excluded as lab management.\n * Pair with: none\n * Variables: none\n */\nsystem {\n    packet-forwarding-options {\n        firewall-profile {\n            evpn-mh-profile;\n        }\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "system {\n    packet-forwarding-options {\n        firewall-profile {\n            evpn-mh-profile;\n        }\n    }\n}",
+      "bodyHtml": "<pre class=\"shiki github-dark-default\" style=\"background-color:#0d1117;color:#e6edf3\" tabindex=\"0\"><code><span class=\"line\"><span style=\"color:#E6EDF3\">system {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    packet-forwarding-options {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        firewall-profile {</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">            evpn-mh-profile;</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">        }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">    }</span></span>\n<span class=\"line\"><span style=\"color:#E6EDF3\">}</span></span></code></pre>",
+      "bytes": 114,
+      "lineCount": 7,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "Enterprise WAN",
+        "Data Center Interconnect",
+        "EVPN-VXLAN"
+      ],
+      "parseWarnings": [],
+      "recordSha256": "fb50c704c76029f7f5263efcb187866ed7cb880eaaba62e660ff804aee084af5"
     },
     {
       "id": "ewan_dc_edge/junos/vlans/vlan-id-list",
@@ -110752,7 +111870,7 @@
     },
     {
       "jvd": "ewan_dc_edge",
-      "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers that vary\nbetween deployments are written as `$VAR`. Render a snippet by substituting each\nplaceholder with your deployment's value. The placeholders each snippet uses are\nlisted in its `Variables:` header and in the glossary below. Variable names and\nmeanings follow the shared JVD snippet vocabulary (see the Metro Ethernet\nBusiness Services glossary); entries marked **new** were introduced by this JVD.\n\n## Identity / topology\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$ASN` | Local device autonomous-system number. | `65000` |\n| `$LOOPBACK_V4` | This node's lo0 IPv4 (used as RD prefix, BGP local-address and VTEP source). | `1.1.1.5` |\n| `$LOOPBACK_V4_PFX` | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `1.1.1.6/32` |\n| `$ROUTER_ID` | router-id (equal to `$LOOPBACK_V4`). | `1.1.1.10` |\n\n## Interfaces\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$IFD` | Interface device a construct configures or attaches to, independent of its type or topology role — physical or aggregated. | `xe-0/1/4` |\n| `$UNIT` | Logical-unit identifier — the `unit <n>` a construct configures. | `1402` |\n| `$UNIT_A` … `$UNIT_E` | Ordered logical units of the five tagged routed test sub-interfaces listed in an OSPF area. | `3901` … `3905` |\n| `$VLAN` | VLAN id on a tagged unit. | `1402` |\n| `$VLAN_LIST` | VLAN range admitted by a `vlan-id-list` unit or defined by a named VLAN set. | `701-780` |\n| `$VLAN_NAME` | **new** Name of a `vlans` definition (a VLAN set or range) referenced by trunk members and bundle instances. | `VLANS-701-780` |\n| `$AC_INTF` | Customer-facing attachment-circuit unit (with VLAN id when tagged). | `xe-0/1/4.1403` |\n| `$AC_ADDR_V4` | IPv4 address on a routed attachment-circuit unit. | `101.1.1.1/24` |\n| `$CORE_PHYS` | Core-facing physical interface carrying `unit 0`. | `et-0/0/0` |\n| `$CORE_PHYS_1` … `$CORE_PHYS_4` | Ordered core-facing physical interfaces named in one protocol stanza (`<phys>.0`). | `et-0/0/48` |\n| `$CORE_INTF_1` … `$CORE_INTF_4` | Ordered core-facing logical interfaces named in one OSPF area. | `et-1/1/1.0` |\n| `$CORE_V4_ADDR` | Core interface IPv4 address. | `10.0.16.1/30` |\n| `$CORE_DESC` | Interface description naming the far end. | `\"To dc-edge2\"` |\n| `$AE_BUNDLE` | Aggregated-Ethernet bundle a member link joins (`802.3ad`). | `ae0` |\n| `$LACP_SYS_ID` | LACP system-id on a multihomed LAG; identical on both leaves of the same ESI-LAG. | `00:00:00:33:33:33` |\n| `$ESI` | 10-byte Ethernet segment identifier (EVPN multihoming). | `00:33:33:33:33:33:33:33:33:33` |\n| `$DF_PREFERENCE` | **new** Designated-forwarder election preference value on an all-active ESI (`df-election-type preference value`); higher wins. | `100` |\n| `$IRB_UNIT` | irb.X unit number for IRB integration. | `1402` |\n| `$IRB_ADDR` | IPv4 address configured on an `irb` unit that carries the virtual gateway. | `10.0.101.1/24` |\n| `$IRB_ADDR_2` | **new** Second, plain IPv4 address on the same `irb` unit (no virtual gateway). | `10.2.81.1/24` |\n| `$VGA` | EVPN virtual-gateway address shared by the IRB's redundancy group. | `10.0.101.254` |\n| `$VG_MAC` | MAC address bound to the IPv4 virtual gateway. | `00:00:5e:00:00:04` |\n\n## Chassis\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$AE_DEVICE_COUNT` | Number of aggregated-Ethernet devices the chassis allocates. | `100` |\n| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `0` |\n| `$PIC` / `$PORT` | **new** PIC and port index of a single channelised port. | `0` / `50` |\n\n## Services\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$INSTANCE_NAME` | The service-instance name. | `Interconnect_Instance1402` |\n| `$RD_SUB_ASSIGNED` | Route-distinguisher Assigned Number subfield of the instance's own RD (`$LOOPBACK_V4:$RD_SUB_ASSIGNED`). | `7000` |\n| `$RT_AS` | Route-target Administrator subfield of the instance's own `vrf-target`; service-scoped, not the node's AS. | `100` |\n| `$RT_ID` | Route-target Assigned Number (the tail) of the instance's own `vrf-target`. | `1402` |\n| `$RD_SUB_INTERCONNECT` | **new** Assigned Number subfield of the RD inside `protocols evpn interconnect` (`$LOOPBACK_V4:$RD_SUB_INTERCONNECT`); must differ from `$RD_SUB_ASSIGNED`. | `1402` |\n| `$RT_AS_INTERCONNECT` | **new** Administrator subfield of the `vrf-target` inside `protocols evpn interconnect` — the EVPN-MPLS (WAN-side) route target. | `1402` |\n| `$RT_ID_INTERCONNECT` | **new** Assigned Number of the interconnect `vrf-target`. | `1402` |\n| `$VNI` | **new** VXLAN network identifier bound to the instance (`extended-vni-list` / `vxlan vni`). | `1402` |\n| `$BD_NAME` | MAC-VRF bridge (VLAN) name. | `EP-TYPE-2-VLAN-1402` |\n\nThe `_INTERCONNECT` variables are the same kinds of value as `$RT_AS` /\n`$RT_ID` / `$RD_SUB_ASSIGNED`. A body may carry both sets only when it contains a\n`protocols evpn interconnect { … }` block: the plain set is the fabric-side\n(EVPN-VXLAN) identity and the `_INTERCONNECT` set is the WAN-side (EVPN-MPLS)\nidentity of the same instance. Outside an interconnect block the `_INTERCONNECT`\nnames are not used.\n\n## Policy\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$POLICY_NAME` | Policy-statement name where the name is the object the body defines. | `lo0` |\n| `$PPLB_NAME` | Per-packet load-balance policy name. | `load-balance` |\n\n## Literal values\n\nValues that are JVD-wide constants are left literal because they are what the\nJVD documents: BGP group names, the AS numbers and BFD timers inside the\nper-device BGP forms (which are complete as-deployed bodies, as in the Metro\nEthernet Business Services library), the `lo0.0` loopback unit, the `fxp0`\nmanagement port, `vtep-source-interface lo0.0`, and the VXLAN resource profile\nnumbers under `forwarding-options vxlan-routing`.\n"
+      "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `junos/` and `evo/` are templates: identifiers that vary\nbetween deployments are written as `$VAR`. Render a snippet by substituting each\nplaceholder with your deployment's value. The placeholders each snippet uses are\nlisted in its `Variables:` header and in the glossary below. Variable names and\nmeanings follow the shared JVD snippet vocabulary (see the Metro Ethernet\nBusiness Services glossary); entries marked **new** were introduced by this JVD.\n\n## Identity / topology\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$ASN` | Local device autonomous-system number. | `65000` |\n| `$LOOPBACK_V4` | This node's lo0 IPv4 (used as RD prefix, BGP local-address and VTEP source). | `1.1.1.5` |\n| `$LOOPBACK_V4_PFX` | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `1.1.1.6/32` |\n| `$ROUTER_ID` | router-id (equal to `$LOOPBACK_V4`). | `1.1.1.10` |\n| `$LOOPBACK_V6_PFX` | This node's lo0 IPv6 written with its `/128` prefix length. | `abcd::10:255:23:228/128` |\n| `$LOOPBACK_MGMT_V4_PFX` | **new** Management-network lo0 IPv4 `/32` configured alongside the design loopback. | `10.255.152.8/32` |\n| `$LOOPBACK_ALT_V4_PFX` | **new** Additional lo0 IPv4 `/32` configured on one node besides its design and management loopbacks. | `111.1.1.1/32` |\n| `$ISO_NET` | **new** ISO network entity title on lo0 `family iso`. | `47.0005.80ff.f800.0000.0108.0001.0102.5502.3228.00` |\n\n## Interfaces\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$IFD` | Interface device a construct configures or attaches to, independent of its type or topology role — physical or aggregated. | `xe-0/1/4` |\n| `$UNIT` | Logical-unit identifier — the `unit <n>` a construct configures. | `1402` |\n| `$UNIT_A` … `$UNIT_E` | Ordered logical units of the five tagged routed test sub-interfaces listed in an OSPF area. | `3901` … `3905` |\n| `$VLAN` | VLAN id on a tagged unit. | `1402` |\n| `$VLAN_LIST` | VLAN range admitted by a `vlan-id-list` unit or defined by a named VLAN set. | `701-780` |\n| `$VLAN_NAME` | **new** Name of a `vlans` definition (a VLAN set or range) referenced by trunk members and bundle instances. | `VLANS-701-780` |\n| `$AC_INTF` | Customer-facing attachment-circuit unit (with VLAN id when tagged). | `xe-0/1/4.1403` |\n| `$AC_ADDR_V4` | IPv4 address on a routed attachment-circuit unit. | `101.1.1.1/24` |\n| `$CORE_PHYS` | Core-facing physical interface carrying `unit 0`. | `et-0/0/0` |\n| `$CORE_PHYS_1` … `$CORE_PHYS_4` | Ordered core-facing physical interfaces named in one protocol stanza (`<phys>.0`). | `et-0/0/48` |\n| `$CORE_INTF_1` … `$CORE_INTF_4` | Ordered core-facing logical interfaces named in one OSPF area. | `et-1/1/1.0` |\n| `$CORE_V4_ADDR` | Core interface IPv4 address. | `10.0.16.1/30` |\n| `$CORE_DESC` | Interface description naming the far end. | `\"To dc-edge2\"` |\n| `$AE_BUNDLE` | Aggregated-Ethernet bundle a member link joins (`802.3ad`). | `ae0` |\n| `$LACP_SYS_ID` | LACP system-id on a multihomed LAG; identical on both leaves of the same ESI-LAG. | `00:00:00:33:33:33` |\n| `$ESI` | 10-byte Ethernet segment identifier (EVPN multihoming). | `00:33:33:33:33:33:33:33:33:33` |\n| `$DF_PREFERENCE` | **new** Designated-forwarder election preference value on an all-active ESI (`df-election-type preference value`); higher wins. | `100` |\n| `$IRB_UNIT` | irb.X unit number for IRB integration. | `1402` |\n| `$IRB_ADDR` | IPv4 address configured on an `irb` unit that carries the virtual gateway. | `10.0.101.1/24` |\n| `$IRB_ADDR_2` | **new** Second, plain IPv4 address on the same `irb` unit (no virtual gateway). | `10.2.81.1/24` |\n| `$VGA` | EVPN virtual-gateway address shared by the IRB's redundancy group. | `10.0.101.254` |\n| `$VG_MAC` | MAC address bound to the IPv4 virtual gateway. | `00:00:5e:00:00:04` |\n\n## Chassis\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$AE_DEVICE_COUNT` | Number of aggregated-Ethernet devices the chassis allocates. | `100` |\n| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `0` |\n| `$PIC` / `$PORT` | **new** PIC and port index of a single channelised port. | `0` / `50` |\n\n## Services\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$INSTANCE_NAME` | The service-instance name. | `Interconnect_Instance1402` |\n| `$RD_SUB_ASSIGNED` | Route-distinguisher Assigned Number subfield of the instance's own RD (`$LOOPBACK_V4:$RD_SUB_ASSIGNED`). | `7000` |\n| `$RT_AS` | Route-target Administrator subfield of the instance's own `vrf-target`; service-scoped, not the node's AS. | `100` |\n| `$RT_ID` | Route-target Assigned Number (the tail) of the instance's own `vrf-target`. | `1402` |\n| `$RD_SUB_INTERCONNECT` | **new** Assigned Number subfield of the RD inside `protocols evpn interconnect` (`$LOOPBACK_V4:$RD_SUB_INTERCONNECT`); must differ from `$RD_SUB_ASSIGNED`. | `1402` |\n| `$RT_AS_INTERCONNECT` | **new** Administrator subfield of the `vrf-target` inside `protocols evpn interconnect` — the EVPN-MPLS (WAN-side) route target. | `1402` |\n| `$RT_ID_INTERCONNECT` | **new** Assigned Number of the interconnect `vrf-target`. | `1402` |\n| `$VNI` | **new** VXLAN network identifier bound to the instance (`extended-vni-list` / `vxlan vni`). | `1402` |\n| `$BD_NAME` | MAC-VRF bridge (VLAN) name. | `EP-TYPE-2-VLAN-1402` |\n\nThe `_INTERCONNECT` variables are the same kinds of value as `$RT_AS` /\n`$RT_ID` / `$RD_SUB_ASSIGNED`. A body may carry both sets only when it contains a\n`protocols evpn interconnect { … }` block: the plain set is the fabric-side\n(EVPN-VXLAN) identity and the `_INTERCONNECT` set is the WAN-side (EVPN-MPLS)\nidentity of the same instance. Outside an interconnect block the `_INTERCONNECT`\nnames are not used.\n\n## Policy\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$POLICY_NAME` | Policy-statement name where the name is the object the body defines. | `lo0` |\n| `$PPLB_NAME` | Per-packet load-balance policy name. | `load-balance` |\n\n## Literal values\n\nValues that are JVD-wide constants are left literal because they are what the\nJVD documents: BGP group names, the AS numbers and BFD timers inside the\nper-device BGP forms (which are complete as-deployed bodies, as in the Metro\nEthernet Business Services library), the `lo0.0` loopback unit, the `fxp0`\nmanagement port, `vtep-source-interface lo0.0`, and the VXLAN resource profile\nnumbers under `forwarding-options vxlan-routing`.\n"
     },
     {
       "jvd": "ewan_finance",

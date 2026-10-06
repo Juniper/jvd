@@ -1,16 +1,28 @@
 {
   "schemaVersion": 1,
   "generatedFrom": {
-    "inputsSha256": "9690aa4e4f40d5182f5add9985c290c5a3ece3dc617fa4b716febc5af7914884",
+    "inputsSha256": "4ce8351f64876f17a077717c2a887505489bcf66dd2160791800a776ad30770c",
     "registryVersion": 3,
     "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
     "toolsSha256": "b04c4653c2df785fdeeecbfd279361c0a0e1c5fabf638ae91f943170257b52af",
     "devices": 12,
-    "snips": 83,
+    "snips": 102,
     "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
   },
   "snips": {
     "evo/forwarding-options/l2circuit-control-passthrough.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-global-p1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/groups/gr-global-p2.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -208,6 +220,102 @@
       }
     },
     "junos/forwarding-options/vxlan-routing.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-dc-edge1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-dc-edge2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-leaf1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-leaf2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-spine1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-spine2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-tor1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-tor2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-wan-edge1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-global-wan-edge2.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-member0-empty.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-member0-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re0-empty.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re0-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re1-empty-block.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/gr-re1-empty.conf": {
       "status": "verified",
       "peersWith": {
         "state": "not-applicable"
@@ -903,13 +1011,13 @@
       "reasons": [
         {
           "reason": "counterpart-not-found",
-          "instances": 699,
+          "instances": 700,
           "devices": [
             "wan-edge1_mx204"
           ],
           "witness": {
             "device": "wan-edge1_mx204",
-            "sourceId": 15844
+            "sourceId": 15830
           }
         }
       ]
@@ -1078,6 +1186,25 @@
       "peersWith": {
         "state": "not-applicable"
       }
+    },
+    "junos/system/evpn-mh-firewall-profile.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "wan-edge2_acx5448-m"
+          ],
+          "witness": {
+            "device": "wan-edge2_acx5448-m",
+            "sourceId": 67
+          }
+        }
+      ]
     },
     "junos/vlans/vlan-id-list.conf": {
       "status": "unresolved",

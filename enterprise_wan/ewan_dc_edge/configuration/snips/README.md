@@ -110,6 +110,9 @@ Paths without an OS prefix are relative to the selected OS directory.
 | `forwarding-options/evpn-vxlan-shared-tunnels.conf` | Shared VXLAN tunnels — what lets 1,500 MAC-VRFs fit the leaf |
 | `routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf` | Leaf forwarding-table form |
 | `chassis/fpc-mx10003-8x100g-1x4x10g.conf` | Gateway FPC port-speed profile |
+| `groups/gr-global-dc-edge1.conf` … `gr-global-wan-edge2.conf` | Per-device `global` group: loopback, router-id, `dump-on-panic` |
+| `groups/gr-member0-loopback.conf`, `gr-re0-loopback.conf` | Member / routing-engine group adding a management loopback address |
+| `system/evpn-mh-firewall-profile.conf` | ACX5448 firewall profile for EVPN multihoming |
 
 ## Scope
 
@@ -124,18 +127,25 @@ are tracked, not excluded:
   fixed-size template with the current tooling; their populations are measured
   and listed in the [JVD README](../../README.md#validated-scale).
 - **LDP on most devices.** LDP forms that name `lo0.0` cannot be verified where
-  the loopback is delivered by the `global` configuration group rather than by a
-  top-level `interfaces lo0` (dc-edge1, wan-edge1/2, p1/p2); only the dc-edge2
-  form is published.
-- **The `global` configuration group and its `apply-groups`.** On nine of the
-  twelve devices the design loopback and router-id are configured inside
-  `groups global` alongside lab management settings. Until that group's
-  design content is separated from the management scaffolding by review, neither
-  the group nor its application is templated.
-- **Lab and test scaffolding** (an unreferenced firewall filter, a disabled
-  IS-IS/SRv6 trial on dc-edge1, a `traceoptions` instance, an EVPN-VPWS
-  instance whose attachment unit is not configured) is pending adjudication and
-  is not templated.
+  the loopback is delivered by a configuration group rather than by a top-level
+  `interfaces lo0` (dc-edge1, wan-edge1/2, p1/p2); only the dc-edge2 form is
+  published.
+- **`apply-groups`.** The groups themselves are templated (see below); the
+  top-level statements that apply them cannot yet be verified against groups
+  whose management content is excluded, so they are not published.
+
+The configuration groups are templated after review: each device's `global`
+group carries its loopback addresses, router-id and `chassis dump-on-panic`, and
+the `re0` / `re1` / `member0` groups are kept with their loopback content or as
+empty groups. Lab management settings inside them are excluded.
+
+Lab and test scaffolding that is not part of the design is excluded from
+measurement and listed, with the reason for each entry, in
+[`_source-exclusions.json`](_source-exclusions.json): management system settings,
+the management interface and routing instance, an unreferenced test firewall
+filter, a debug `traceoptions` block, an EVPN-VPWS test instance and its
+test-generator port, and a disabled IS-IS/SRv6 trial on dc-edge1. The source
+configurations are unchanged.
 
 ## Pairing with documentation
 
