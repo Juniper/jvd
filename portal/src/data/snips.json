@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-06T15:40:15.325Z",
-  "snippetSourceDigest": "93a3ce690e13da8e4d5802948a9010a50a50aa847132db2e98d87c3465d9f6e9",
+  "generatedAt": "2026-10-06T17:50:52.491Z",
+  "snippetSourceDigest": "f5c9e218785118b6ea1613dff62aac551bf83581b59d51f05a11dfe5c6dbba5b",
   "counts": {
     "total": 1298,
     "junos": 670,
@@ -19823,11 +19823,11 @@
       "count": {
         "byDevice": {
           "dc-edge1_mx480": 2140,
-          "dc-edge2_mx10003": 2129,
-          "wan-edge1_mx204": 1379,
+          "dc-edge2_mx10003": 2130,
+          "wan-edge1_mx204": 1380,
           "wan-edge2_acx5448-m": 751
         },
-        "total": 6399
+        "total": 6401
       },
       "highlights": [
         "Each PE owns a unique IRB address while `virtual-gateway-address` and `virtual-gateway-v4-mac` are the same on every PE, so hosts see one anycast gateway wherever they attach.",
@@ -19836,7 +19836,7 @@
       "pairWith": [],
       "dependencyContractVersion": 3,
       "occurrenceRequires": [],
-      "sourceText": "/*\n * Topic: IRB unit with EVPN anycast virtual gateway and accept-data\n * Seen on:\n *   Junos: dc-edge1_mx480 dc-edge2_mx10003 wan-edge1_mx204 wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 2140\n *   dc-edge2_mx10003 2129\n *   wan-edge1_mx204 1379\n *   wan-edge2_acx5448-m 751\n *   total 6399\n * Highlights:\n *   - Each PE owns a unique IRB address while `virtual-gateway-address` and `virtual-gateway-v4-mac` are the same on every PE, so hosts see one anycast gateway wherever they attach.\n *   - `virtual-gateway-accept-data` lets the PE answer traffic (ping, ARP) sent to the shared gateway address rather than only forwarding it.\n * Pair with: none\n * Variables (example values from dc-edge1_mx480 / irb.2):\n *   $UNIT      e.g. 2\n *   $IRB_ADDR  e.g. 10.0.101.1/24\n *   $VGA       e.g. 10.0.101.254\n *   $VG_MAC    e.g. 00:00:5e:00:00:04\n */\ninterfaces {\n    irb {\n        unit $UNIT {\n            virtual-gateway-accept-data;\n            family inet {\n                address $IRB_ADDR {\n                    virtual-gateway-address $VGA;\n                }\n            }\n            virtual-gateway-v4-mac $VG_MAC;\n        }\n    }\n}\n",
+      "sourceText": "/*\n * Topic: IRB unit with EVPN anycast virtual gateway and accept-data\n * Seen on:\n *   Junos: dc-edge1_mx480 dc-edge2_mx10003 wan-edge1_mx204 wan-edge2_acx5448-m\n *   EVO: (none)\n * Count:\n *   dc-edge1_mx480 2140\n *   dc-edge2_mx10003 2130\n *   wan-edge1_mx204 1380\n *   wan-edge2_acx5448-m 751\n *   total 6401\n * Highlights:\n *   - Each PE owns a unique IRB address while `virtual-gateway-address` and `virtual-gateway-v4-mac` are the same on every PE, so hosts see one anycast gateway wherever they attach.\n *   - `virtual-gateway-accept-data` lets the PE answer traffic (ping, ARP) sent to the shared gateway address rather than only forwarding it.\n * Pair with: none\n * Variables (example values from dc-edge1_mx480 / irb.2):\n *   $UNIT      e.g. 2\n *   $IRB_ADDR  e.g. 10.0.101.1/24\n *   $VGA       e.g. 10.0.101.254\n *   $VG_MAC    e.g. 00:00:5e:00:00:04\n */\ninterfaces {\n    irb {\n        unit $UNIT {\n            virtual-gateway-accept-data;\n            family inet {\n                address $IRB_ADDR {\n                    virtual-gateway-address $VGA;\n                }\n            }\n            virtual-gateway-v4-mac $VG_MAC;\n        }\n    }\n}\n",
       "variables": [
         {
           "name": "$UNIT",
@@ -19868,7 +19868,7 @@
         "EVPN-VXLAN"
       ],
       "parseWarnings": [],
-      "recordSha256": "cc89a0569138aee9d262a16a66af07ad0a701b2c55b59e56bb14f4bc80522d93"
+      "recordSha256": "ec8c6b42244a28551d298d002a1e9bbce8396664b55b2da00e9c1593839a18b7"
     },
     {
       "id": "ewan_dc_edge/junos/interfaces/ifl-loopback-inet",
