@@ -4378,7 +4378,6 @@ Every generation begins with a YAML comment block listing **every** value picked
 #       rd_sub: <int> }
 # snips_used:
 #   - junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf
-#   - junos/interfaces/ifl-irb-virtual-gateway.conf
 #   - ...
 ```
 

@@ -2665,8 +2665,8 @@
       "kind": "reference",
       "topic": "Required output format",
       "raw_url": "https://juniper.github.io/jvd/portal/byoai/ewan_dc_edge/OUTPUT_FORMAT.md",
-      "size_bytes": 3333,
-      "sha256": "e6045404c9e9662016878c50597d4f6cf9e470ef72852f617515a0c585ac3ebb"
+      "size_bytes": 3281,
+      "sha256": "6e80e8073f60aaa72885c82f11fee75cf19d955808cb49a73ef45b5966160d0f"
     }
   ]
 }

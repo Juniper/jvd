@@ -37,17 +37,6 @@ Replace `N` with any count (e.g. `Generate 3 EVPN-VPWS services`).
 - `Generate N L3VPN VRFs with PE-CE eBGP` — `as-override`; both OS
 - `Generate N L3VPN VRFs with PE-CE OSPF` — area 0 `interface-type p2p`; both OS
 
-## Add a feature to a device
-
-- `Add CoS to <device>`
-- `Add OAM/CFM perf-mon to a service`
-- `Add firewall policers to UNI on <device>`
-
-## Greenfield / turn-up
-
-- `Build a new access-node turn-up for an ACX7024`
-- `Bootstrap a new MX304 PE end-to-end`
-
 ## Audit / explain
 
 - `Which snips use vlan-ccc vs vlan-bridge?`
@@ -63,3 +52,6 @@ them yet, so the assistant will say so rather than assemble one.
 - **Port-based EVPN-VPWS** (full-port UNI on unit 0) — the deployed form differs
   from the vlan-aware service only in its attachment, and no snippet captures
   that attachment. Ask for `Generate N EVPN-VPWS services` instead.
+- **Device feature adds and turn-ups** (CoS, OAM/CFM performance monitoring,
+  UNI policers, an ACX7024 access-node turn-up, an MX304 PE bootstrap) — these
+  need device-level baselines that this bundle cannot generate yet.
