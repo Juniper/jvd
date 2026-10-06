@@ -36,6 +36,11 @@ center fabric and the WAN edge.
 - **Independent audit follow-up**: software `version` stamps, a deactivated LLDP
   block and two IRB addresses that duplicate another device's address are also
   excluded, so those IRB units now match the common anycast-gateway form.
+- **AI assistant and datasheet**: a [bring-your-own-AI assistant](enterprise_wan/ewan_dc_edge/configuration/snips/byoai)
+  generates configuration from the snippet library (interconnect, leaf MAC-VRF and
+  WAN-edge EVPN services, per-device baselines) and answers design questions from
+  the JVD documentation, starting with a new
+  [datasheet](enterprise_wan/ewan_dc_edge/documentation/datasheet.md).
 - **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
   the new library alongside the existing JVDs.
 
@@ -47,23 +52,27 @@ center fabric and the WAN edge.
   come from the validated lab and are not a deployment plan.
 - Large-scale instances listed under the library's *Scope* section are available
   only in the full device configurations for now.
+- To use the assistant, paste the prompt from its `SYSTEM_PROMPT.md` into your AI
+  of choice and pick Configuration or Design mode. It generates only what the
+  snippet library covers and declines the rest.
 
 ---
 
 ### By the numbers
 
 Changes since the October 5 entry. File and line totals exclude this changelog
-and include generated bindings, evidence and catalog files. The twelve archived
-device configurations are unchanged.
+and include generated bindings, evidence and catalog files, and the assistant
+bundle with its portal mirror. The twelve archived device configurations are
+unchanged.
 
 <details>
 <summary>Per-JVD / per-area changes</summary>
 
 | JVD / Area | Added | Renamed | Removed | Modified | READMEs |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 119 | 0 | 0 | 1 | 2 |
-| Portal | 0 | 0 | 0 | 3 | 0 |
-| **Total** | **119** | **0** | **0** | **4** | **2** |
+| Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
+| Portal | 10 | 0 | 0 | 3 | 1 |
+| **Total** | **142** | **0** | **0** | **4** | **4** |
 
 </details>
 
@@ -72,9 +81,9 @@ device configurations are unchanged.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 8,115 | 8 | +8,107 |
-| Portal | 15,558 | 680 | +14,878 |
-| **Total** | **23,673** | **688** | **+22,985** |
+| Enterprise WAN / Data Center Edge | 17,359 | 8 | +17,351 |
+| Portal | 24,481 | 680 | +23,801 |
+| **Total** | **41,840** | **688** | **+41,152** |
 
 </details>
 
