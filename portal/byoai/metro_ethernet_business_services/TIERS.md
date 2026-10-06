@@ -11,7 +11,7 @@ validated on.
 
 | Tier | What it includes |
 |---|---|
-| `minimum` | Only the service construct. Assumes the PE already runs the underlay and the overlay the service needs. |
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
 | `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
 | `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 | `with-overlay` | Compatibility alias. For a BGP-signalled form it means `self-contained`, which already pulls in that device's overlay form. |

@@ -23322,24 +23322,24 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://juniper.github.io/jvd/portal/byoai/metro_ethernet_business_services/TIERS.md",
-      "size_bytes": 86262,
-      "sha256": "ead331cf8884cd857942be0c6b7a38c276211ee66c7a89483b99c3522c84bee8"
+      "size_bytes": 86266,
+      "sha256": "62223d55b8ed3fd725ad20f3ceec84f1f94c67aae240d0716eff0a38ad405eb7"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
       "topic": "Validated lab defaults",
       "raw_url": "https://juniper.github.io/jvd/portal/byoai/metro_ethernet_business_services/DEFAULTS.md",
-      "size_bytes": 6479,
-      "sha256": "3fde73f37ed33df99b02fddbbfaba109c6c58df504138f92fad0161043a3bb34"
+      "size_bytes": 6483,
+      "sha256": "8d7e2eb650c9a92cb961ba67c6a157b32532dd6959f152cbaf88454f243b164c"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
       "topic": "Required output format",
       "raw_url": "https://juniper.github.io/jvd/portal/byoai/metro_ethernet_business_services/OUTPUT_FORMAT.md",
-      "size_bytes": 2175,
-      "sha256": "e4c1da7a329c1dc2464d8ac19b9dabb96153063027147e481b20dc3b1fca983a"
+      "size_bytes": 2127,
+      "sha256": "95a5803959242a6458884c95cde778a279dc0953edbaaaca405a141271f0c2d6"
     }
   ]
 }
