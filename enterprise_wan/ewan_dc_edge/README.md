@@ -13,11 +13,12 @@ re-encapsulating traffic through logical tunnel interfaces.
 * Solution overview: <https://www.juniper.net/documentation/us/en/software/jvd/sol-overview-ewan-evpn-gw-01-01.pdf>
 * Test report: <https://www.juniper.net/documentation/us/en/software/jvd/testreportbrief-ewan-evpn-gw-01-01.pdf>
 
-The WAN side runs OSPF with LDP label distribution, iBGP for EVPN
-signalling with the data center edge routers acting as route reflectors,
+The WAN side runs OSPF with LDP label distribution, direct iBGP peering
+for EVPN signalling between the data center edge and WAN edge routers,
 EVPN-MPLS with all-active ESI multihoming toward the fabric, and LFA /
 remote LFA for resiliency. The data center side is an EVPN-VXLAN overlay on
-an eBGP underlay. The data center edge routers (MX480 and MX10003) perform
+an eBGP underlay, with the data center edge routers acting as route
+reflectors for the fabric overlay. The data center edge routers (MX480 and MX10003) perform
 the EVPN-VXLAN to EVPN-MPLS handoff for VLAN-based, VLAN-bundle and
 VLAN-aware services, with
 the WAN edge routers (MX204 and ACX5448) terminating the remote campus and
@@ -49,8 +50,8 @@ device role. The configurations in this repository carry this scale.
 
 | Juniper Product | Role | Hostnames | Software |
 |---|---|---|---|
-| **MX480** | Data center edge (EVPN-VXLAN to EVPN-MPLS gateway, EVPN route reflector) | `dc-edge1` | Junos OS 21.4R2 |
-| **MX10003** | Data center edge (EVPN-VXLAN to EVPN-MPLS gateway, EVPN route reflector) | `dc-edge2` | Junos OS 21.4R2 |
+| **MX480** | Data center edge (EVPN-VXLAN to EVPN-MPLS gateway, fabric overlay route reflector) | `dc-edge1` | Junos OS 21.4R2 |
+| **MX10003** | Data center edge (EVPN-VXLAN to EVPN-MPLS gateway, fabric overlay route reflector) | `dc-edge2` | Junos OS 21.4R2 |
 | **MX204** | WAN edge (campus / branch PE) | `wan-edge1` | Junos OS 21.4R2 |
 | **ACX5448-M** | WAN edge (campus / branch PE) | `wan-edge2` | Junos OS 21.4R2 |
 | **ACX7100-48L** | Provider (P) router | `p1` | Junos OS Evolved 21.4R2 |
@@ -68,11 +69,11 @@ role on PTX10003-80C and the top-of-rack role on QFX5120.
 
 | File | Role |
 |---|---|
-| [`dc-edge1_mx480.conf`](configuration/conf/dc-edge1_mx480.conf) | Data center edge 1 — EVPN-VXLAN / EVPN-MPLS gateway and route reflector |
-| [`dc-edge2_mx10003.conf`](configuration/conf/dc-edge2_mx10003.conf) | Data center edge 2 — EVPN-VXLAN / EVPN-MPLS gateway and route reflector |
+| [`dc-edge1_mx480.conf`](configuration/conf/dc-edge1_mx480.conf) | Data center edge 1 — EVPN-VXLAN / EVPN-MPLS gateway and fabric overlay route reflector |
+| [`dc-edge2_mx10003.conf`](configuration/conf/dc-edge2_mx10003.conf) | Data center edge 2 — EVPN-VXLAN / EVPN-MPLS gateway and fabric overlay route reflector |
 | [`wan-edge1_mx204.conf`](configuration/conf/wan-edge1_mx204.conf) | WAN edge 1 — campus / branch PE |
 | [`wan-edge2_acx5448-m.conf`](configuration/conf/wan-edge2_acx5448-m.conf) | WAN edge 2 — campus / branch PE |
-| [`p1_acx7100-48l.conf`](configuration/conf/p1_acx7100-48l.conf) | Provider router 1 and EVPN route reflector |
+| [`p1_acx7100-48l.conf`](configuration/conf/p1_acx7100-48l.conf) | Provider router 1 |
 | [`p2_ptx10001-36mr.conf`](configuration/conf/p2_ptx10001-36mr.conf) | Provider router 2 |
 | [`spine1_qfx5200.conf`](configuration/conf/spine1_qfx5200.conf) | Data center spine 1 |
 | [`spine2_qfx5200.conf`](configuration/conf/spine2_qfx5200.conf) | Data center spine 2 |
@@ -80,6 +81,14 @@ role on PTX10003-80C and the top-of-rack role on QFX5120.
 | [`leaf2_qfx5120-48t.conf`](configuration/conf/leaf2_qfx5120-48t.conf) | Data center leaf 2 — EVPN-VXLAN VTEP |
 | [`tor1_ex4200-48t.conf`](configuration/conf/tor1_ex4200-48t.conf) | Top-of-rack access switch 1 |
 | [`tor2_ex4200-48t.conf`](configuration/conf/tor2_ex4200-48t.conf) | Top-of-rack access switch 2 |
+
+## Configuration snippets
+
+Templated, source-measured configuration excerpts for each construct in the
+validated configurations — interconnect and MAC-VRF instances, ESI-LAGs, IRB
+anycast gateways, BGP/OSPF/MPLS forms — live under
+[`configuration/snips/`](configuration/snips/README.md), with a
+[variable glossary](configuration/snips/_variables.md).
 
 ## Documentation
 

@@ -221,6 +221,28 @@
     "repoPath": "enterprise_wan/ewan_core_edge"
   },
   {
+    "id": "ewan_dc_edge",
+    "name": "Enterprise WAN: Data Center Edge",
+    "area": "Enterprise WAN",
+    "description": "Seamless interconnect of EVPN-MPLS WAN services with EVPN-VXLAN data center fabrics at the data center edge.",
+    "platforms": [
+      "ACX5448-M",
+      "ACX7100-48L",
+      "EX4200-48T",
+      "MX10003",
+      "MX204",
+      "MX480",
+      "PTX10001-36MR",
+      "QFX5120-48T",
+      "QFX5200"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "enterprise_wan/ewan_dc_edge"
+  },
+  {
     "id": "ewan_finance",
     "name": "Enterprise WAN: Finance",
     "area": "Enterprise WAN",

@@ -1,0 +1,483 @@
+{
+  "schemaVersion": 1,
+  "jvd": "ewan_dc_edge",
+  "description": "Canonical machine-readable composition matrix. This JVD declares no service forms, roles or capability selectors; the file carries the dependency-contract projection written by the build tooling.",
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "ffe27b35477f8834d2ecb3564fc60f0dceca588b3948408e73be2d8eeb86b10f"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-speed-100g-enable.conf",
+        "evo/interfaces/ifd-speed-100g.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-flexible-lacp-esi-df-preference.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-flexible-lacp-esi.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-flexible-lacp-fast-esi-min-links.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-lacp-trunk-vlan.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-bridge-trunk-vlan-list.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-ethernet-switching.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-flexible-lacp-esi.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-ethernet-switching.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-vlan-list-family-bridge.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-vlan-list.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-flexible-lacp-esi.conf",
+        "junos/interfaces/ifd-ae-flexible-lacp-fast-esi-min-links.conf",
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+        "junos/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-dc-edge1.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf",
+        "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
+      ],
+      "slots": [
+        "lo0",
+        "policy_ospf_bgp"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-dc-edge2.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf",
+        "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
+      ],
+      "slots": [
+        "lo0",
+        "policy_ospf_bgp"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-leaf1.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf"
+      ],
+      "slots": [
+        "lo0"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-leaf2.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf"
+      ],
+      "slots": [
+        "lo0"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-spine1.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf"
+      ],
+      "slots": [
+        "lo0"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-spine2.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-export-loopback.conf"
+      ],
+      "slots": [
+        "lo0"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/ldp-interface-3-core-all-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-core-inet-mpls.conf",
+        "junos/interfaces/ifl-core-inet.conf",
+        "junos/interfaces/ifl-loopback-inet.conf"
+      ],
+      "slots": [
+        "$CORE_PHYS_1.0",
+        "$CORE_PHYS_2.0",
+        "$CORE_PHYS_3.0",
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge-ethernet-switching.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifd-ae-ethernet-bridge-lacp-esi.conf"
+      ],
+      "slots": [
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-virtual-gateway.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "irb.$IRB_UNIT",
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-virtual-gateway.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "irb.$IRB_UNIT",
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge-vlan-list.conf"
+      ],
+      "slots": [
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge-vlan-list-family-bridge.conf",
+        "junos/interfaces/ifl-vlan-bridge-vlan-list.conf"
+      ],
+      "slots": [
+        "$AC_INTF"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-virtual-gateway.conf"
+      ],
+      "slots": [
+        "irb.$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": [],
+  "occurrenceEntrySets": {}
+}
