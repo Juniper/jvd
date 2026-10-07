@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   Search,
   Github,
@@ -120,10 +121,15 @@ function Pill({
 
 function ModeToggle({ value, onChange }: { value: BrowseMode; onChange: (v: BrowseMode) => void }) {
   return (
-    <div className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs">
+    <div
+      role="group"
+      aria-label="Browse by"
+      className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs"
+    >
       {BROWSE_MODES.map((m) => (
         <button
           key={m.id}
+          aria-pressed={value === m.id}
           onClick={() => onChange(m.id)}
           className={
             "rounded-md px-3 py-1.5 font-medium transition-colors " +
@@ -147,38 +153,39 @@ function JvdViewToggle({
   onChange: (v: "snips" | "roles") => void;
 }) {
   return (
-    <div className="inline-flex items-center gap-2">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        View
-      </span>
-      <div className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs">
-        <button
-          onClick={() => onChange("snips")}
-          className={
-            "rounded-md px-3 py-1.5 font-medium transition-colors " +
-            (value === "snips"
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:text-foreground")
-          }
-        >
-          Snips
-        </button>
-        <button
-          onClick={() => onChange("roles")}
-          title="Role grouping is currently available for Metro Ethernet Business Services."
-          className={
-            "inline-flex items-center rounded-md px-3 py-1.5 font-medium transition-colors " +
-            (value === "roles"
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:text-foreground")
-          }
-        >
-          Roles
-          <span className="ml-1.5 rounded-sm bg-orange-500/15 px-1 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-orange-500">
-            Beta
-          </span>
-        </button>
-      </div>
+    <div
+      role="group"
+      aria-label="View"
+      className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs"
+    >
+      <button
+        aria-pressed={value === "snips"}
+        onClick={() => onChange("snips")}
+        className={
+          "rounded-md px-3 py-1.5 font-medium transition-colors " +
+          (value === "snips"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground")
+        }
+      >
+        Snips
+      </button>
+      <button
+        aria-pressed={value === "roles"}
+        onClick={() => onChange("roles")}
+        title="Role grouping is currently available for Metro Ethernet Business Services."
+        className={
+          "inline-flex items-center rounded-md px-3 py-1.5 font-medium transition-colors " +
+          (value === "roles"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-foreground")
+        }
+      >
+        Roles
+        <span className="ml-1.5 rounded-sm bg-orange-500/15 px-1 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-orange-500">
+          Beta
+        </span>
+      </button>
     </div>
   );
 }
@@ -196,10 +203,15 @@ function OsFilter({
     { id: "evo", label: "Junos EVO" },
   ];
   return (
-    <div className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs">
+    <div
+      role="group"
+      aria-label="Operating system"
+      className="inline-flex rounded-lg border border-border bg-surface p-1 text-xs"
+    >
       {items.map((i) => (
         <button
           key={i.id || "all"}
+          aria-pressed={value === i.id}
           onClick={() => onChange(i.id)}
           className={
             "rounded-md px-2.5 py-1.5 font-medium transition-colors " +
@@ -405,6 +417,16 @@ function SnipDetail({
   onClose: () => void;
   snipById: Map<string, SnipRecord>;
 }) {
+  const [open, setOpen] = useState(SECTION_DEFAULT_OPEN);
+  const [active, setActive] = useState<SectionId>("configuration");
+  const rootRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const toggle = (id: CollapsibleId) => setOpen((o) => ({ ...o, [id]: !o[id] }));
+  const seenOnTotal = snip.seenOn.junos.length + snip.seenOn.evo.length;
+  const peerGroups = snip.peersWith?.state === "groups" ? snip.peersWith.groups : [];
+  const countRows = snip.count
+    ? Object.entries(snip.count.byDevice).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    : [];
   const githubUrl = REPO_BLOB_BASE + snip.path;
   const requiredChoices = snip.dependencyContractVersion === DEPENDENCY_CONTRACT_VERSION ? (snip.occurrenceRequires ?? []).map(requirement => ({
     kind: requirement.id,
@@ -421,11 +443,60 @@ function SnipDetail({
     `/* Source: ${snip.path} @ Juniper/jvd */\n` +
     `/* JVD: ${snip.jvdLabel}  |  OS: ${snip.os}  |  Category: ${titleize(snip.category)} */\n\n` +
     snip.body;
+  const pairWithCount =
+    requiredChoices.filter((choice) => choice.alternatives !== null).length +
+    snip.pairWith.length +
+    (snip.variantRequires?.length ?? 0);
+
+  const nav: { id: SectionId; label: string; badge?: number }[] = [
+    { id: "configuration", label: "Configuration" },
+  ];
+  if (snip.variables.length > 0)
+    nav.push({ id: "variables", label: "Variables", badge: snip.variables.length });
+  if (pairWithCount > 0) nav.push({ id: "pair-with", label: "Pair with", badge: pairWithCount });
+  nav.push({ id: "seen-on", label: "Seen On", badge: seenOnTotal });
+  if (peerGroups.length > 0)
+    nav.push({ id: "peers-with", label: "Peers with", badge: peerGroups.length });
+  if (snip.count) nav.push({ id: "count", label: "Count", badge: snip.count.total });
+
+  // Active pill = last section whose top has passed the pill row (or the portal header once it scrolls away).
+  useEffect(() => {
+    const onScroll = () => {
+      const root = rootRef.current;
+      const navEl = navRef.current;
+      if (!root || !navEl) return;
+      const line = Math.max(navEl.getBoundingClientRect().bottom, PORTAL_HEADER_PX) + 16;
+      let current: string | undefined;
+      for (const s of root.querySelectorAll<HTMLElement>("[data-nav-section]"))
+        if (s.getBoundingClientRect().top <= line) current = s.dataset.navSection;
+      setActive((current ?? "configuration") as SectionId);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const goTo = (id: SectionId) => {
+    flushSync(() => {
+      if (id !== "configuration") setOpen((o) => ({ ...o, [id]: true }));
+      setActive(id);
+    });
+    const el = document.getElementById(`snip-section-${id}`);
+    const navEl = navRef.current;
+    if (!el || !navEl) return;
+    const navStyle = getComputedStyle(navEl);
+    const offset =
+      navStyle.position === "sticky"
+        ? (parseFloat(navStyle.top) || 0) + navEl.offsetHeight
+        : PORTAL_HEADER_PX;
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offset - 8,
+      behavior: "instant",
+    });
+  };
 
   return (
-    <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="relative border-b border-border px-6 py-5">
+    <div ref={rootRef} className="flex h-full flex-col">
+      <div className="relative px-6 pb-4 pt-5">
         <button
           onClick={onClose}
           aria-label="Close snip"
@@ -471,92 +542,100 @@ function SnipDetail({
           )}
         </div>
       </div>
+      {/* Pill row sticks beneath the global portal header (h-16) in the two-column layout. */}
+      <nav
+        ref={navRef}
+        aria-label="Snippet sections"
+        className="border-y border-border px-6 py-3 lg:sticky lg:top-16 lg:z-30 lg:bg-background/95 lg:backdrop-blur"
+      >
+        <ul className="flex flex-wrap gap-2">
+          {nav.map(({ id, label, badge }) => {
+            const on = active === id;
+            return (
+              <li key={id}>
+                <button
+                  type="button"
+                  aria-current={on ? "true" : undefined}
+                  onClick={() => goTo(id)}
+                  className={
+                    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-xs ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+                    (on
+                      ? "border-primary bg-primary font-semibold text-primary-foreground shadow-sm"
+                      : "border-border font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground")
+                  }
+                >
+                  {label}
+                  {badge !== undefined && (
+                    <span
+                      className={
+                        "rounded-full px-1.5 text-[10px] font-medium tabular-nums " +
+                        (on
+                          ? "bg-primary-foreground/20 text-primary-foreground"
+                          : "bg-surface-2 text-muted-foreground")
+                      }
+                    >
+                      {badge.toLocaleString()}
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-6 py-5">
-        {(snip.seenOn.junos.length > 0 || snip.seenOn.evo.length > 0) && (
-          <Section title="Seen on">
-            {snip.seenOn.junos.length > 0 && (
-              <div className="mb-2">
-                <span className="mr-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Junos
-                </span>
-                {snip.seenOn.junos.map((d) => (
-                  <code
-                    key={d}
-                    className="mr-1 inline-block rounded bg-surface-2 px-1.5 py-0.5 text-[11px] font-mono text-foreground/85"
-                  >
-                    {d}
-                  </code>
-                ))}
-              </div>
-            )}
-            {snip.seenOn.evo.length > 0 && (
-              <div>
-                <span className="mr-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  EVO
-                </span>
-                {snip.seenOn.evo.map((d) => (
-                  <code
-                    key={d}
-                    className="mr-1 inline-block rounded bg-surface-2 px-1.5 py-0.5 text-[11px] font-mono text-foreground/85"
-                  >
-                    {d}
-                  </code>
-                ))}
-              </div>
-            )}
-          </Section>
-        )}
-
-        {snip.count && (
-          <Section
-            key={`instances-${snip.id}`}
-            title="Source instances"
-            collapsible
-            summary={`Total ${snip.count.total.toLocaleString()}`}
-          >
-            <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
-              {Object.entries(snip.count.byDevice).map(([device, count]) => (
-                <Fragment key={device}>
-                  <dt className="min-w-0 break-all font-mono text-muted-foreground">{device}</dt>
-                  <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
-                </Fragment>
-              ))}
-            </dl>
-          </Section>
-        )}
-
-        <Section key={`peers-${snip.id}`} title="Configured peers" collapsible>
-          {!snip.peersWith ? (
-            <p className="text-xs text-muted-foreground">Not verified</p>
-          ) : snip.peersWith.state === "groups" ? (
-            <ul className="space-y-1.5 text-xs">
-              {snip.peersWith.groups.map((group, index) => (
-                <li key={index} className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2">
-                  <span className="min-w-0 break-all font-mono">{group.left.join(", ")}</span>
-                  <span aria-label="configured peer relationship">&harr;</span>
-                  <span className="min-w-0 break-all font-mono">{group.right.join(", ")}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-xs text-muted-foreground">{snip.peersWith.state === "none" ? "No validated counterpart" : "Not applicable"}</p>
+      <div className="px-6 py-5">
+        <section id="snip-section-configuration" data-nav-section="configuration" className="pb-4">
+          <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Configuration
+          </h3>
+          <div className="snip-body overflow-x-auto rounded-md border border-border">
+            <div dangerouslySetInnerHTML={{ __html: snip.bodyHtml }} />
+          </div>
+          {snip.jvdServiceMapping && snip.jvdServiceMapping.length > 0 && (
+            <div className="mt-3">
+              <div className="mb-1 text-[10px] text-muted-foreground/80">JVD service mapping</div>
+              <pre className="overflow-x-auto whitespace-pre rounded-md border border-border/60 px-3 py-2 font-mono text-[11px] leading-relaxed text-muted-foreground">
+{snip.jvdServiceMapping.join("\n")}
+              </pre>
+            </div>
           )}
-        </Section>
+        </section>
 
-        {snip.highlights.length > 0 && (
-          <Section title="Highlights">
-            <ul className="list-disc space-y-1.5 pl-5 text-sm text-foreground/85">
-              {snip.highlights.map((h, i) => (
-                <li key={i}>{h}</li>
-              ))}
-            </ul>
-          </Section>
+        {snip.variables.length > 0 && (
+          <DetailSection
+            id="variables"
+            title="Variables"
+            summary={String(snip.variables.length)}
+            open={open.variables}
+            onToggle={() => toggle("variables")}
+          >
+            <div className="overflow-hidden rounded-md border border-border">
+              <table className="w-full text-xs">
+                <tbody>
+                  {snip.variables.map((v, i) => (
+                    <tr
+                      key={i}
+                      className="border-b border-border last:border-b-0 odd:bg-surface even:bg-background"
+                    >
+                      <td className="w-1/3 px-3 py-1.5 font-mono text-foreground">{v.name}</td>
+                      <td className="px-3 py-1.5 font-mono text-muted-foreground">{v.example}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </DetailSection>
         )}
 
-        {(snip.pairWith.length > 0 || (snip.variantRequires?.length ?? 0) > 0 || requiredChoices.some(choice => choice.alternatives !== null)) && (
-          <Section title="Pair with">
+        {pairWithCount > 0 && (
+          <DetailSection
+            id="pair-with"
+            title="Pair with"
+            summary={String(pairWithCount)}
+            open={open["pair-with"]}
+            onToggle={() => toggle("pair-with")}
+          >
             <ul className="space-y-1.5 text-sm">
               {requiredChoices.map(({ kind, label, slots, alternatives }) => alternatives !== null && (
                 <li key={`${kind}-${snip.id}`}>
@@ -644,74 +723,182 @@ function SnipDetail({
                 );
               })}
             </ul>
-          </Section>
+          </DetailSection>
         )}
 
-        {snip.jvdServiceMapping && snip.jvdServiceMapping.length > 0 && (
-          <Section title="JVD service mapping">
-            <pre className="overflow-x-auto whitespace-pre rounded-md border border-border bg-surface px-3 py-2 font-mono text-xs leading-relaxed text-foreground/85">
-{snip.jvdServiceMapping.join("\n")}
-            </pre>
-          </Section>
+        {snip.highlights.length > 0 && (
+          <DetailSection
+            id="highlights"
+            title="Highlights"
+            summary={String(snip.highlights.length)}
+            open={open.highlights}
+            onToggle={() => toggle("highlights")}
+            inNav={false}
+          >
+            <ul className="list-disc space-y-1.5 pl-5 text-sm text-foreground/85">
+              {snip.highlights.map((h, i) => (
+                <li key={i}>{h}</li>
+              ))}
+            </ul>
+          </DetailSection>
         )}
 
-        {snip.variables.length > 0 && (
-          <Section title="Variables">
-            <div className="overflow-hidden rounded-md border border-border">
-              <table className="w-full text-xs">
-                <tbody>
-                  {snip.variables.map((v, i) => (
-                    <tr
-                      key={i}
-                      className="border-b border-border last:border-b-0 odd:bg-surface even:bg-background"
-                    >
-                      <td className="w-1/3 px-3 py-1.5 font-mono text-foreground">{v.name}</td>
-                      <td className="px-3 py-1.5 font-mono text-muted-foreground">{v.example}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        <DetailSection
+          id="seen-on"
+          title="Seen On"
+          summary={`${seenOnTotal} device${seenOnTotal === 1 ? "" : "s"}`}
+          open={open["seen-on"]}
+          onToggle={() => toggle("seen-on")}
+        >
+          {seenOnTotal === 0 ? (
+            <p className="text-xs text-muted-foreground">(none)</p>
+          ) : (
+            <div className="space-y-3">
+              {(
+                [
+                  ["Junos", snip.seenOn.junos],
+                  ["EVO", snip.seenOn.evo],
+                ] as const
+              ).map(
+                ([label, devices]) =>
+                  devices.length > 0 && (
+                    <div key={label}>
+                      <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {label} · {devices.length}
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {devices.map((d) => (
+                          <code
+                            key={d}
+                            className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] text-foreground/85"
+                          >
+                            {d}
+                          </code>
+                        ))}
+                      </div>
+                    </div>
+                  ),
+              )}
             </div>
-          </Section>
+          )}
+        </DetailSection>
+
+        {peerGroups.length > 0 && (
+          <DetailSection
+            id="peers-with"
+            title="Peers with"
+            summary={`${peerGroups.length} relationship${peerGroups.length === 1 ? "" : "s"}`}
+            open={open["peers-with"]}
+            onToggle={() => toggle("peers-with")}
+          >
+            <ul className="space-y-1.5 text-xs">
+              {peerGroups.map((group, index) => (
+                <li
+                  key={index}
+                  className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2"
+                >
+                  <span className="min-w-0 break-all font-mono">{group.left.join(", ")}</span>
+                  <span aria-label="configured peer relationship">&harr;</span>
+                  <span className="min-w-0 break-all font-mono">{group.right.join(", ")}</span>
+                </li>
+              ))}
+            </ul>
+          </DetailSection>
         )}
 
-        <Section title="Configuration">
-          <div className="snip-body overflow-x-auto rounded-md border border-border">
-            <div dangerouslySetInnerHTML={{ __html: snip.bodyHtml }} />
-          </div>
-        </Section>
+        {snip.count && (
+          <DetailSection
+            id="count"
+            title="Count"
+            summary={`${snip.count.total.toLocaleString()} total`}
+            open={open.count}
+            onToggle={() => toggle("count")}
+          >
+            <p className="mb-2 text-xs text-muted-foreground">
+              Source instances across {countRows.length} device{countRows.length === 1 ? "" : "s"}
+            </p>
+            <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
+              {countRows.map(([device, count]) => (
+                <Fragment key={device}>
+                  <dt className="min-w-0 break-all font-mono text-muted-foreground">{device}</dt>
+                  <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
+                </Fragment>
+              ))}
+            </dl>
+          </DetailSection>
+        )}
       </div>
     </div>
   );
 }
 
-function Section({ title, children, collapsible = false, summary }: {
+type SectionId =
+  "configuration" | "variables" | "pair-with" | "highlights" | "seen-on" | "peers-with" | "count";
+type CollapsibleId = Exclude<SectionId, "configuration">;
+
+// Height of the sticky global portal header (h-16).
+const PORTAL_HEADER_PX = 64;
+
+const SECTION_DEFAULT_OPEN: Record<CollapsibleId, boolean> = {
+  variables: true,
+  "pair-with": true,
+  highlights: true,
+  "seen-on": true,
+  "peers-with": false,
+  count: false,
+};
+
+function DetailSection({
+  id,
+  title,
+  summary,
+  open,
+  onToggle,
+  inNav = true,
+  children,
+}: {
+  id: CollapsibleId;
   title: string;
-  children: React.ReactNode;
-  collapsible?: boolean;
   summary?: string;
+  open: boolean;
+  onToggle: () => void;
+  inNav?: boolean;
+  children: React.ReactNode;
 }) {
-  if (collapsible) {
-    return (
-      <details className="group mb-6">
-        <summary className="flex min-h-9 cursor-pointer list-none items-center gap-2 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden">
-          <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-muted-foreground group-open:rotate-90" />
-          <h3 className="min-w-0 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            {title}
-          </h3>
-          {summary && <span className="ml-auto shrink-0 text-xs font-semibold tabular-nums">{summary}</span>}
-        </summary>
-        <div className="pt-2">{children}</div>
-      </details>
-    );
-  }
+  const bodyId = `snip-section-${id}-body`;
   return (
-    <div className="mb-6">
-      <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {title}
+    <section
+      id={`snip-section-${id}`}
+      data-nav-section={inNav ? id : undefined}
+      className="border-t border-border py-3"
+    >
+      <h3>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={bodyId}
+          onClick={onToggle}
+          className="flex min-h-9 w-full items-center gap-2 rounded-sm text-left ring-offset-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          <ChevronRight
+            aria-hidden="true"
+            className={
+              "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform " +
+              (open ? "rotate-90" : "")
+            }
+          />
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            {title}
+          </span>
+          {summary && (
+            <span className="text-xs tabular-nums text-muted-foreground">— {summary}</span>
+          )}
+        </button>
       </h3>
-      {children}
-    </div>
+      <div id={bodyId} hidden={!open} className="pt-2">
+        {children}
+      </div>
+    </section>
   );
 }
 
@@ -823,9 +1010,6 @@ export default function SnipLibrary() {
               reusable variables, glossary context, and links back to its originating JVD.
             </p>
           </div>
-          <div className="text-sm text-muted-foreground">
-            Showing {visibleSnips.length} of {snipBundle.counts.total}
-          </div>
         </div>
 
         {/* Controls */}
@@ -849,6 +1033,12 @@ export default function SnipLibrary() {
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
+          </div>
+          <div
+            aria-live="polite"
+            className="whitespace-nowrap text-xs tabular-nums text-muted-foreground"
+          >
+            Showing {visibleSnips.length} of {snipBundle.counts.total}
           </div>
           <div className="flex gap-2 text-xs">
             <button
@@ -927,6 +1117,7 @@ export default function SnipLibrary() {
             <div className="min-w-0 rounded-lg border border-border bg-surface/40">
             {selectedSnip ? (
               <SnipDetail
+                key={selectedSnip.id}
                 snip={selectedSnip}
                 onSelectSnip={setSelectedId}
                 onSelectCrossOs={(id) => {
