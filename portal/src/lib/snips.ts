@@ -73,6 +73,11 @@ export type SnipJvdSummary = {
   counts: { junos: number; evo: number; total: number };
 };
 
+/** Generated per-JVD role projection: labels and summaries from the datasheet, members from the config inventory. */
+export type JvdRoleDevice = { device: string; host: string; platform: string; os: SnipOsKey };
+export type JvdRole = { key: string; label: string; summary: string; devices: JvdRoleDevice[] };
+export type JvdRoles = { jvd: string; source: string; roles: JvdRole[] };
+
 export type SnipBundle = {
   generatedAt: string;
   counts: { total: number; junos: number; evo: number; jvds: number };
@@ -94,6 +99,7 @@ export type SnipBundle = {
     /** Slash-command name for the VS Code prompt (e.g. "jvd-dci-ipodwdm"). */
     vscodePromptName?: string | null;
   }[];
+  jvdRoles: JvdRoles[];
   parseWarnings: { file: string; warning: string }[];
 };
 
@@ -190,27 +196,23 @@ export const BROWSE_MODES: { id: BrowseMode; label: string }[] = [
 // a sub-view of JVD mode, not a top-level browse mode.
 export type TreeMode = BrowseMode | "role";
 
-// Beta "Roles" view: group snips by the network device role of the devices in
-// their `Seen on:` list. Scoped to MEBS for now (the first JVD with a curated
-// device-role vocabulary); other JVDs join as their role maps are verified.
-export const ROLE_VIEW_JVD = "metro_ethernet_business_services";
+// Roles view: available for every JVD with generated role metadata. A snip
+// belongs to each role whose devices appear in its `Seen on:` list.
+export const ROLE_JVDS: ReadonlyMap<string, JvdRoles> = new Map(
+  snipBundle.jvdRoles.map((entry) => [entry.jvd, entry]),
+);
 
-const ROLE_BY_DEVICE_PREFIX: Record<string, string> = {
-  an: "Access Node",
-  ma: "Metro Access",
-  ag: "Aggregation",
-  mdr: "Metro Distribution Router",
-  mse: "Metro Service Edge",
-  meg: "Metro Edge Gateway",
-  cr: "Core Router",
-};
+const ROLE_BY_DEVICE = new Map<string, JvdRole>(
+  snipBundle.jvdRoles.flatMap((entry) =>
+    entry.roles.flatMap((role) => role.devices.map((d) => [`${entry.jvd}/${d.device}`, role] as const)),
+  ),
+);
 
-/** Device roles a snip applies to, derived from its `Seen on:` hostnames. */
-export function rolesForSnip(s: SnipRecord): string[] {
-  const roles = new Set<string>();
+/** Device roles a snip applies to, derived from its `Seen on:` devices. */
+export function rolesForSnip(s: SnipRecord): JvdRole[] {
+  const roles = new Set<JvdRole>();
   for (const dev of [...s.seenOn.junos, ...s.seenOn.evo]) {
-    const prefix = dev.split("_")[0].match(/^[a-z]+/i)?.[0]?.toLowerCase();
-    const role = prefix && ROLE_BY_DEVICE_PREFIX[prefix];
+    const role = ROLE_BY_DEVICE.get(`${s.jvd}/${dev}`);
     if (role) roles.add(role);
   }
   return [...roles];
@@ -222,6 +224,8 @@ export type GroupNode = {
   count: number;
   children?: GroupNode[];
   snipIds?: string[];
+  /** Set on role nodes in the Roles view; the label opens the role detail. */
+  roleRef?: { jvd: string; key: string };
 };
 
 /** Build the tree shown in the left accordion for a given browse mode. */
@@ -295,11 +299,12 @@ export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
   }
 
   if (mode === "role") {
-    // Beta: Area → JVD → device Role → Category → snip, scoped to the role-view
-    // JVD. A snip appears under every role it is seen on, so role counts may sum
-    // to more than the JVD's snip total.
-    const scoped = snips.filter((s) => s.jvd === ROLE_VIEW_JVD);
+    // Beta: Area → JVD → device Role → Category → snip, for JVDs with role
+    // metadata. A snip appears under every role it is seen on, so role counts may
+    // sum to more than the JVD's snip total.
+    const scoped = snips.filter((s) => ROLE_JVDS.has(s.jvd));
     const byArea = new Map<string, Map<string, Map<string, Map<string, SnipRecord[]>>>>();
+    const roleByKey = new Map<string, JvdRole>();
     for (const s of scoped) {
       const roles = rolesForSnip(s);
       if (!roles.length) continue;
@@ -309,8 +314,9 @@ export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
       if (!byJvd.has(s.jvd)) byJvd.set(s.jvd, new Map());
       const byRole = byJvd.get(s.jvd)!;
       for (const role of roles) {
-        if (!byRole.has(role)) byRole.set(role, new Map());
-        const byCat = byRole.get(role)!;
+        roleByKey.set(`${s.jvd}:${role.key}`, role);
+        if (!byRole.has(role.key)) byRole.set(role.key, new Map());
+        const byCat = byRole.get(role.key)!;
         if (!byCat.has(s.category)) byCat.set(s.category, []);
         byCat.get(s.category)!.push(s);
       }
@@ -331,15 +337,17 @@ export function buildTree(snips: SnipRecord[], mode: TreeMode): GroupNode[] {
             roleMap.values().next().value?.values().next().value?.[0]?.jvdLabel ?? jvdId,
           count: countRoles(roleMap),
           children: [...roleMap.entries()]
-            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([key, catMap]) => [roleByKey.get(`${jvdId}:${key}`)!, catMap] as const)
+            .sort(([a], [b]) => a.label.localeCompare(b.label))
             .map(([role, catMap]) => ({
-              id: `role:${jvdId}:${role}`,
-              label: role,
+              id: `role:${jvdId}:${role.key}`,
+              label: role.label,
               count: countCats(catMap),
+              roleRef: { jvd: jvdId, key: role.key },
               children: [...catMap.entries()]
                 .sort(([a], [b]) => a.localeCompare(b))
                 .map(([cat, arr]) => ({
-                  id: `roleCat:${jvdId}:${role}:${cat}`,
+                  id: `roleCat:${jvdId}:${role.key}:${cat}`,
                   label: titleize(cat),
                   count: arr.length,
                   snipIds: arr.map((s) => s.id),

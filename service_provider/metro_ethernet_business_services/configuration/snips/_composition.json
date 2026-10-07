@@ -48,13 +48,13 @@
     "deprecated": "Withdrawn; reason required."
   },
   "roles": {
-    "an": "access node",
-    "ma": "metro access",
-    "meg": "metro edge gateway",
-    "mse": "metro services edge",
-    "mdr": "metro distribution router",
-    "cr": "core router",
-    "ag": "aggregation"
+    "an": "Access Node (AN)",
+    "ma": "Metro Access (MA)",
+    "meg": "Metro Edge Gateway (MEG)",
+    "mse": "Multiservice Edge (MSE)",
+    "mdr": "Metro Distribution Router (MDR)",
+    "cr": "Core Router (CR)",
+    "ag": "Aggregation / Lean Spine (AG)"
   },
   "identityVariables": {
     "description": "Correlated names: the reference and the definition bind the same value within one service, so they resolve by symbolic equality.",
