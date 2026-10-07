@@ -1,7 +1,15 @@
 {
   "schemaVersion": 1,
   "jvd": "ewan_dc_edge",
-  "description": "Canonical machine-readable composition matrix. Authored service forms and non-service asks; this JVD declares no roles, role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "roles": {
+    "dc-edge": "Data center edge / gateway",
+    "wan-edge": "WAN edge",
+    "p": "P router",
+    "spine": "Data center spine",
+    "leaf": "Data center leaf",
+    "tor": "Data center top of rack"
+  },
   "forms": [
     {
       "id": "evpn-interconnect-vlan-based-irb",

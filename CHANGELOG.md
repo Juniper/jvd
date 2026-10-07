@@ -55,6 +55,12 @@ center fabric and the WAN edge.
   Configuration can be collapsed. On wide screens the section buttons stay below
   the site header while you scroll. Browse mode, Snips/Roles view, OS filter,
   search and the result count now share one filter row.
+- **Roles view**: now covers Metro Ethernet Business Services and Data Center
+  Edge. Role names and descriptions come from each JVD's datasheet. Selecting a
+  role shows what it does in the design, its devices with platform and OS, and
+  the snippets seen on those devices, grouped by category. Metro Ethernet
+  Business Services role names now match its datasheet, for example
+  Multiservice Edge (MSE).
 
 ### What this means for you
 
@@ -71,6 +77,8 @@ center fabric and the WAN edge.
 - In the Config Explorer, use the section buttons under a snippet's title to jump
   to its variables, dependencies, devices and counts. Existing Explorer links
   keep working.
+- To start from a device role, switch the Config Explorer to the Roles view and
+  select a role to see its devices and the snippets validated on them.
 
 ---
 
@@ -87,9 +95,9 @@ unchanged.
 | JVD / Area | Added | Renamed | Removed | Modified | READMEs |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
-| Service Provider / MEBS | 0 | 0 | 0 | 9 | 1 |
-| Portal | 10 | 0 | 0 | 14 | 2 |
-| **Total** | **142** | **0** | **0** | **24** | **6** |
+| Service Provider / MEBS | 0 | 0 | 0 | 10 | 1 |
+| Portal | 10 | 0 | 0 | 15 | 2 |
+| **Total** | **142** | **0** | **0** | **26** | **6** |
 
 </details>
 
@@ -98,10 +106,10 @@ unchanged.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Data Center Edge | 17,017 | 8 | +17,009 |
-| Service Provider / MEBS | 72 | 130 | -58 |
-| Portal | 24,271 | 1,032 | +23,239 |
-| **Total** | **41,360** | **1,170** | **+40,190** |
+| Enterprise WAN / Data Center Edge | 17,025 | 8 | +17,017 |
+| Service Provider / MEBS | 79 | 137 | -58 |
+| Portal | 25,202 | 1,112 | +24,090 |
+| **Total** | **42,306** | **1,257** | **+41,049** |
 
 </details>
 

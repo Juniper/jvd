@@ -23,7 +23,8 @@ import {
   interfaceParentAlternatives,
   interfaceMemberAlternatives,
   dependencyAlternatives,
-  ROLE_VIEW_JVD,
+  ROLE_JVDS,
+  rolesForSnip,
   type SnipRecord,
   type BrowseMode,
   type TreeMode,
@@ -34,6 +35,7 @@ import { BROWSE_MODES, DEPENDENCY_CONTRACT_VERSION } from "@/lib/snips";
 // ---------------------------------------------------------------------------
 // URL state — single source of truth for shareable links.
 // Hash format:  #snips?mode=tech&q=bgp&os=evo&jvd=bbe&id=...
+// Roles view:   #snips?view=roles&role=<jvd>:<role-key>
 // ---------------------------------------------------------------------------
 
 type UrlState = {
@@ -43,6 +45,7 @@ type UrlState = {
   osKey: "" | "junos" | "evo";
   jvd: string;
   id: string;
+  role: string;
 };
 
 function parseHash(): UrlState {
@@ -61,6 +64,7 @@ function parseHash(): UrlState {
     osKey: (params.get("os") as UrlState["osKey"]) || "",
     jvd: params.get("jvd") || "",
     id: params.get("id") || "",
+    role: params.get("role") || "",
   };
 }
 
@@ -74,6 +78,7 @@ function writeHash(state: UrlState) {
   if (state.osKey) params.set("os", state.osKey);
   if (state.jvd) params.set("jvd", state.jvd);
   if (state.id) params.set("id", state.id);
+  if (state.role) params.set("role", state.role);
   const qs = params.toString();
 
   const currentHash = window.location.hash || "";
@@ -173,7 +178,7 @@ function JvdViewToggle({
       <button
         aria-pressed={value === "roles"}
         onClick={() => onChange("roles")}
-        title="Role grouping is currently available for Metro Ethernet Business Services."
+        title="Group snippets by the device roles published in each JVD's datasheet."
         className={
           "inline-flex items-center rounded-md px-3 py-1.5 font-medium transition-colors " +
           (value === "roles"
@@ -239,6 +244,8 @@ function TreeNode({
   toggle,
   selectedId,
   onSelectSnip,
+  selectedRole,
+  onSelectRole,
   visibleIds,
   snipById,
 }: {
@@ -249,6 +256,8 @@ function TreeNode({
   toggle: (id: string) => void;
   selectedId: string;
   onSelectSnip: (id: string) => void;
+  selectedRole: string;
+  onSelectRole: (ref: string) => void;
   visibleIds: Set<string>;
   snipById: Map<string, SnipRecord>;
 }) {
@@ -267,27 +276,62 @@ function TreeNode({
   const isLeafGroup = !!node.snipIds;
 
   const padding = { paddingLeft: `${0.5 + depth * 0.75}rem` };
+  const roleRef = node.roleRef ? `${node.roleRef.jvd}:${node.roleRef.key}` : null;
+  const chevron = isOpen ? (
+    <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+  ) : (
+    <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+  );
+  const countBadge = (
+    <span className="rounded bg-surface px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
+      {visibleCount}
+    </span>
+  );
 
   return (
     <div>
-      <button
-        onClick={() => toggle(node.id)}
-        className={
-          "group flex w-full items-center gap-2 rounded-md py-1.5 pr-3 text-left text-sm transition-colors hover:bg-surface-2 " +
-          (depth === 0 ? "font-semibold text-foreground" : "font-medium text-foreground/90")
-        }
-        style={padding}
-      >
-        {isOpen ? (
-          <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-        ) : (
-          <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-        )}
-        <span className="flex-1 truncate">{node.label}</span>
-        <span className="rounded bg-surface px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-          {visibleCount}
-        </span>
-      </button>
+      {roleRef ? (
+        // Role rows: the chevron expands categories; the label opens the role detail.
+        <div
+          className={
+            "flex w-full items-center gap-2 rounded-md py-1.5 pr-3 text-sm font-medium transition-colors hover:bg-surface-2 " +
+            (selectedRole === roleRef ? "bg-primary/10 text-foreground" : "text-foreground/90")
+          }
+          style={padding}
+        >
+          <button
+            type="button"
+            onClick={() => toggle(node.id)}
+            aria-expanded={isOpen}
+            aria-label={`${isOpen ? "Collapse" : "Expand"} ${node.label}`}
+            className="rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {chevron}
+          </button>
+          <button
+            type="button"
+            onClick={() => onSelectRole(roleRef)}
+            aria-current={selectedRole === roleRef ? "true" : undefined}
+            className="flex-1 truncate rounded-sm text-left hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {node.label}
+          </button>
+          {countBadge}
+        </div>
+      ) : (
+        <button
+          onClick={() => toggle(node.id)}
+          className={
+            "group flex w-full items-center gap-2 rounded-md py-1.5 pr-3 text-left text-sm transition-colors hover:bg-surface-2 " +
+            (depth === 0 ? "font-semibold text-foreground" : "font-medium text-foreground/90")
+          }
+          style={padding}
+        >
+          {chevron}
+          <span className="flex-1 truncate">{node.label}</span>
+          {countBadge}
+        </button>
+      )}
 
       {isOpen && (
         <div>
@@ -303,6 +347,8 @@ function TreeNode({
                   toggle={toggle}
                   selectedId={selectedId}
                   onSelectSnip={onSelectSnip}
+                  selectedRole={selectedRole}
+                  onSelectRole={onSelectRole}
                   visibleIds={visibleIds}
                   snipById={snipById}
                 />
@@ -903,6 +949,150 @@ function DetailSection({
 }
 
 // ---------------------------------------------------------------------------
+// Role detail (Roles view)
+// ---------------------------------------------------------------------------
+
+function RoleDetail({
+  roleRef,
+  snips,
+  onSelectSnip,
+  onClose,
+}: {
+  roleRef: string;
+  snips: SnipRecord[];
+  onSelectSnip: (id: string) => void;
+  onClose: () => void;
+}) {
+  const [jvd, key] = roleRef.split(":");
+  const entry = ROLE_JVDS.get(jvd);
+  const role = entry?.roles.find((r) => r.key === key);
+  if (!entry || !role) return null;
+  const jvdLabel = snipBundle.jvds.find((j) => j.id === jvd)?.label ?? jvd;
+  const roleSnips = snips.filter(
+    (s) => s.jvd === jvd && rolesForSnip(s).some((r) => r.key === key),
+  );
+  const byCategory = new Map<string, SnipRecord[]>();
+  for (const s of roleSnips) {
+    if (!byCategory.has(s.category)) byCategory.set(s.category, []);
+    byCategory.get(s.category)!.push(s);
+  }
+  const categories = [...byCategory.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+  return (
+    <div>
+      <div className="relative border-b border-border px-6 pb-4 pt-5">
+        <button
+          onClick={onClose}
+          aria-label="Close role"
+          title="Close"
+          className="absolute right-4 top-4 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+        >
+          <X className="h-4 w-4" />
+        </button>
+        <div className="flex flex-wrap items-center gap-2 pr-10">
+          <Pill tone="primary">{jvdLabel}</Pill>
+          <Pill tone="outline">Device role</Pill>
+        </div>
+        <h2 className="mt-3 text-xl font-semibold leading-snug tracking-tight">{role.label}</h2>
+      </div>
+
+      <div className="space-y-6 px-6 py-5">
+        <section>
+          <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            In this design
+          </h3>
+          <p className="text-sm text-foreground/85">{role.summary}</p>
+          <a
+            href={REPO_BLOB_BASE + entry.source}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            Source: datasheet — Device roles <ExternalLink className="h-3 w-3" />
+          </a>
+        </section>
+
+        <section>
+          <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Devices · {role.devices.length}
+          </h3>
+          <div className="overflow-x-auto rounded-md border border-border">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-border bg-surface text-left text-muted-foreground">
+                  <th className="px-3 py-1.5 font-medium">Device</th>
+                  <th className="px-3 py-1.5 font-medium">Platform</th>
+                  <th className="px-3 py-1.5 font-medium">OS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {role.devices.map((d) => (
+                  <tr key={d.device} className="border-b border-border last:border-b-0">
+                    <td className="px-3 py-1.5 font-mono text-foreground">{d.host}</td>
+                    <td className="px-3 py-1.5 font-mono text-muted-foreground">{d.platform}</td>
+                    <td className="px-3 py-1.5">{d.os === "evo" ? "Junos EVO" : "Junos"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Snippets for this role · {roleSnips.length}
+          </h3>
+          {categories.length === 0 ? (
+            <p className="text-xs text-muted-foreground">No snippets match your filters.</p>
+          ) : (
+            <div className="space-y-4">
+              {categories.map(([category, list]) => (
+                <div key={category}>
+                  <div className="mb-1 text-xs font-semibold text-foreground/90">
+                    {titleize(category)}{" "}
+                    <span className="font-normal text-muted-foreground">· {list.length}</span>
+                  </div>
+                  <ul className="space-y-0.5">
+                    {list.map((s) => (
+                      <li key={s.id}>
+                        <button
+                          type="button"
+                          onClick={() => onSelectSnip(s.id)}
+                          className="flex w-full items-start gap-2 rounded-md px-2 py-1 text-left text-xs hover:bg-surface-2"
+                        >
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate font-mono text-[11px] text-primary">
+                              {s.name}
+                            </span>
+                            <span className="block truncate text-[10px] text-muted-foreground">
+                              {s.topic || "—"}
+                            </span>
+                          </span>
+                          <span
+                            className={
+                              "mt-0.5 rounded px-1 py-0.5 text-[9px] font-semibold " +
+                              (s.osKey === "evo"
+                                ? "bg-primary/15 text-primary"
+                                : "bg-surface-2 text-muted-foreground")
+                            }
+                          >
+                            {s.osKey === "evo" ? "EVO" : "Junos"}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -911,7 +1101,9 @@ export default function SnipLibrary() {
   const snipById = useMemo(() => new Map(allSnips.map((s) => [s.id, s])), [allSnips]);
 
   const [hashState, setHashState] = useState<UrlState>(() =>
-    typeof window !== "undefined" ? parseHash() : { mode: "jvd", view: "snips", q: "", osKey: "", jvd: "", id: "" },
+    typeof window !== "undefined"
+      ? parseHash()
+      : { mode: "jvd", view: "snips", q: "", osKey: "", jvd: "", id: "", role: "" },
   );
 
   const [mode, setMode] = useState<BrowseMode>(hashState.mode);
@@ -920,6 +1112,7 @@ export default function SnipLibrary() {
   const [osKey, setOsKey] = useState<UrlState["osKey"]>(hashState.osKey);
   const [jvdF, setJvdF] = useState<string>(hashState.jvd);
   const [selectedId, setSelectedId] = useState<string>(hashState.id);
+  const [selectedRole, setSelectedRole] = useState<string>(hashState.id ? "" : hashState.role);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   // Listen to hashchange (back button etc.)
@@ -933,24 +1126,51 @@ export default function SnipLibrary() {
       setOsKey(next.osKey);
       setJvdF(next.jvd);
       setSelectedId(next.id);
+      setSelectedRole(next.id ? "" : next.role);
     };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
   }, []);
 
-  // Persist state to URL when relevant bits change
-  useEffect(() => {
-    writeHash({ mode, view: jvdView, q: query, osKey, jvd: jvdF, id: selectedId });
-  }, [mode, jvdView, query, osKey, jvdF, selectedId]);
-
   const roleMode = mode === "jvd" && jvdView === "roles";
   const treeMode: TreeMode = roleMode ? "role" : mode;
+  // A role detail is shown only in the Roles view, and only for a known role.
+  const activeRole =
+    roleMode &&
+    selectedRole &&
+    ROLE_JVDS.get(selectedRole.split(":")[0])?.roles.some(
+      (r) => r.key === selectedRole.split(":")[1],
+    )
+      ? selectedRole
+      : "";
+
+  // Persist state to URL when relevant bits change
+  useEffect(() => {
+    writeHash({
+      mode,
+      view: jvdView,
+      q: query,
+      osKey,
+      jvd: jvdF,
+      id: selectedId,
+      role: activeRole,
+    });
+  }, [mode, jvdView, query, osKey, jvdF, selectedId, activeRole]);
+
+  const selectSnip = (id: string) => {
+    setSelectedId(id);
+    setSelectedRole("");
+  };
+  const selectRole = (ref: string) => {
+    setSelectedRole(ref);
+    setSelectedId("");
+  };
 
   // Filter snips → visibleIds
   const visibleSnips = useMemo(
     () =>
       allSnips.filter((s) => {
-        if (roleMode && s.jvd !== ROLE_VIEW_JVD) return false;
+        if (roleMode && !ROLE_JVDS.has(s.jvd)) return false;
         if (osKey && s.osKey !== osKey) return false;
         if (jvdF && s.jvd !== jvdF) return false;
         if (!matchesQuery(s, query)) return false;
@@ -977,6 +1197,14 @@ export default function SnipLibrary() {
       return next;
     });
   }, [selectedId, tree]);
+
+  // Deep links to a role: expand the tree down to that role row.
+  useEffect(() => {
+    if (!activeRole) return;
+    const path = findPathToGroup(tree, `role:${activeRole}`);
+    if (!path.length) return;
+    setExpanded((prev) => new Set([...prev, ...path.slice(0, -1)]));
+  }, [activeRole, tree]);
 
   const toggle = (id: string) =>
     setExpanded((prev) => {
@@ -1075,7 +1303,7 @@ export default function SnipLibrary() {
           className={
             "mt-8 grid grid-cols-1 items-start gap-6 " +
             (roleMode
-              ? selectedSnip
+              ? selectedSnip || activeRole
                 ? "lg:grid-cols-[minmax(0,42fr)_minmax(0,58fr)]"
                 : ""
               : "lg:grid-cols-[minmax(20rem,24rem)_1fr]")
@@ -1098,7 +1326,9 @@ export default function SnipLibrary() {
                     forceOpen={!!query.trim() || !!jvdF}
                     toggle={toggle}
                     selectedId={selectedId}
-                    onSelectSnip={setSelectedId}
+                    onSelectSnip={selectSnip}
+                    selectedRole={activeRole}
+                    onSelectRole={selectRole}
                     visibleIds={visibleIds}
                     snipById={snipById}
                   />
@@ -1112,43 +1342,62 @@ export default function SnipLibrary() {
             </div>
           </div>
 
-          {/* Right: detail — always present in Snips mode; in Roles mode only once a snip is selected */}
-          {(selectedSnip || !roleMode) && (
+          {/* Right: detail — always present in Snips mode; in Roles mode once a snip or role is selected */}
+          {(selectedSnip || activeRole || !roleMode) && (
             <div className="min-w-0 rounded-lg border border-border bg-surface/40">
-            {selectedSnip ? (
-              <SnipDetail
-                key={selectedSnip.id}
-                snip={selectedSnip}
-                onSelectSnip={setSelectedId}
-                onSelectCrossOs={(id) => {
-                  const target = snipById.get(id);
-                  if (target && osKey && osKey !== target.osKey) setOsKey(target.osKey);
-                  setSelectedId(id);
-                }}
-                onClose={() => setSelectedId("")}
-                snipById={snipById}
-              />
-            ) : (
-              <div className="flex h-full min-h-[16rem] flex-col items-center justify-center gap-3 px-6 py-12 text-center">
-                <FileCode className="h-10 w-10 text-muted-foreground/50" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">Pick a snip to view</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Browse by{" "}
-                    <span className="font-medium text-foreground/80">
-                      {BROWSE_MODES.find((m) => m.id === mode)?.label}
-                    </span>{" "}
-                    on the left, or switch browse mode above.
-                  </p>
+              {selectedSnip ? (
+                <SnipDetail
+                  key={selectedSnip.id}
+                  snip={selectedSnip}
+                  onSelectSnip={selectSnip}
+                  onSelectCrossOs={(id) => {
+                    const target = snipById.get(id);
+                    if (target && osKey && osKey !== target.osKey) setOsKey(target.osKey);
+                    selectSnip(id);
+                  }}
+                  onClose={() => setSelectedId("")}
+                  snipById={snipById}
+                />
+              ) : activeRole ? (
+                <RoleDetail
+                  roleRef={activeRole}
+                  snips={visibleSnips}
+                  onSelectSnip={selectSnip}
+                  onClose={() => setSelectedRole("")}
+                />
+              ) : (
+                <div className="flex h-full min-h-[16rem] flex-col items-center justify-center gap-3 px-6 py-12 text-center">
+                  <FileCode className="h-10 w-10 text-muted-foreground/50" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Pick a snip to view</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Browse by{" "}
+                      <span className="font-medium text-foreground/80">
+                        {BROWSE_MODES.find((m) => m.id === mode)?.label}
+                      </span>{" "}
+                      on the left, or switch browse mode above.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
           )}
         </div>
       </div>
     </section>
   );
+}
+
+function findPathToGroup(tree: GroupNode[], groupId: string, trail: string[] = []): string[] {
+  for (const n of tree) {
+    const here = [...trail, n.id];
+    if (n.id === groupId) return here;
+    if (n.children) {
+      const sub = findPathToGroup(n.children, groupId, here);
+      if (sub.length) return sub;
+    }
+  }
+  return [];
 }
 
 function findPathToSnip(tree: GroupNode[], snipId: string, trail: string[] = []): string[] {

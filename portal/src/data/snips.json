@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T21:37:10.238Z",
+  "generatedAt": "2026-10-07T02:02:12.790Z",
   "snippetSourceDigest": "f5c9e218785118b6ea1613dff62aac551bf83581b59d51f05a11dfe5c6dbba5b",
   "counts": {
     "total": 1298,
@@ -112716,6 +112716,303 @@
       "rawUrl": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/srv6_core_edge/configuration/snips/byoai/jvd-srv6-byoai-prompt.txt",
       "vscodePromptUrl": "https://juniper.github.io/jvd/portal/byoai/srv6_core_edge/srv6.prompt.md",
       "vscodePromptName": "jvd-srv6"
+    }
+  ],
+  "jvdRoles": [
+    {
+      "jvd": "ewan_dc_edge",
+      "source": "enterprise_wan/ewan_dc_edge/documentation/datasheet.md#device-roles",
+      "roles": [
+        {
+          "key": "dc-edge",
+          "label": "Data center edge / gateway",
+          "summary": "Terminates the data center VXLAN tunnels and stitches EVPN-VXLAN to EVPN-MPLS using a single MAC forwarding table, without logical tunnel interfaces",
+          "devices": [
+            {
+              "device": "dc-edge1_mx480",
+              "host": "dc-edge1",
+              "platform": "mx480",
+              "os": "junos"
+            },
+            {
+              "device": "dc-edge2_mx10003",
+              "host": "dc-edge2",
+              "platform": "mx10003",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "wan-edge",
+          "label": "WAN edge",
+          "summary": "Single-homed campus / branch PE; terminates EVPN-MPLS services toward the remote L2 domain",
+          "devices": [
+            {
+              "device": "wan-edge1_mx204",
+              "host": "wan-edge1",
+              "platform": "mx204",
+              "os": "junos"
+            },
+            {
+              "device": "wan-edge2_acx5448-m",
+              "host": "wan-edge2",
+              "platform": "acx5448-m",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "p",
+          "label": "P router",
+          "summary": "MPLS transport in the enterprise WAN backbone",
+          "devices": [
+            {
+              "device": "p1_acx7100-48l",
+              "host": "p1",
+              "platform": "acx7100-48l",
+              "os": "evo"
+            },
+            {
+              "device": "p2_ptx10001-36mr",
+              "host": "p2",
+              "platform": "ptx10001-36mr",
+              "os": "evo"
+            }
+          ]
+        },
+        {
+          "key": "spine",
+          "label": "Data center spine",
+          "summary": "Fabric spine for the EVPN-VXLAN overlay",
+          "devices": [
+            {
+              "device": "spine1_qfx5200",
+              "host": "spine1",
+              "platform": "qfx5200",
+              "os": "junos"
+            },
+            {
+              "device": "spine2_qfx5200",
+              "host": "spine2",
+              "platform": "qfx5200",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "leaf",
+          "label": "Data center leaf",
+          "summary": "Connects servers; encapsulates traffic in EVPN-VXLAN; all-active ESI multihoming toward top-of-rack",
+          "devices": [
+            {
+              "device": "leaf1_qfx5120-48t",
+              "host": "leaf1",
+              "platform": "qfx5120-48t",
+              "os": "junos"
+            },
+            {
+              "device": "leaf2_qfx5120-48t",
+              "host": "leaf2",
+              "platform": "qfx5120-48t",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "tor",
+          "label": "Data center top of rack",
+          "summary": "Access switching for hosts behind the leaves",
+          "devices": [
+            {
+              "device": "tor1_ex4200-48t",
+              "host": "tor1",
+              "platform": "ex4200-48t",
+              "os": "junos"
+            },
+            {
+              "device": "tor2_ex4200-48t",
+              "host": "tor2",
+              "platform": "ex4200-48t",
+              "os": "junos"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jvd": "metro_ethernet_business_services",
+      "source": "service_provider/metro_ethernet_business_services/documentation/datasheet.md#device-roles",
+      "roles": [
+        {
+          "key": "an",
+          "label": "Access Node (AN)",
+          "summary": "Terminates customer UNIs at the metro edge — fabric access leaf. Supports EVPN-VPWS, EVPN-FXC, EVPN-ELAN, L2Circuit, L3VPN.",
+          "devices": [
+            {
+              "device": "an1_mx204",
+              "host": "an1",
+              "platform": "mx204",
+              "os": "junos"
+            },
+            {
+              "device": "an2_acx5448",
+              "host": "an2",
+              "platform": "acx5448",
+              "os": "junos"
+            },
+            {
+              "device": "an3_acx7100-48l",
+              "host": "an3",
+              "platform": "acx7100-48l",
+              "os": "evo"
+            },
+            {
+              "device": "an4_acx710",
+              "host": "an4",
+              "platform": "acx710",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "ag",
+          "label": "Aggregation / Lean Spine (AG)",
+          "summary": "Spine of the two-stage metro fabric; aggregates access leaves; pure transport.",
+          "devices": [
+            {
+              "device": "ag1-1_acx7100-32c",
+              "host": "ag1-1",
+              "platform": "acx7100-32c",
+              "os": "evo"
+            },
+            {
+              "device": "ag1-2_acx7100-32c",
+              "host": "ag1-2",
+              "platform": "acx7100-32c",
+              "os": "evo"
+            }
+          ]
+        },
+        {
+          "key": "meg",
+          "label": "Metro Edge Gateway (MEG)",
+          "summary": "Border-leaf; extends advanced L2/L3 services, Multi-access Edge Compute (MEC) interconnect, route reflector for fabric.",
+          "devices": [
+            {
+              "device": "meg1_acx7100-32c",
+              "host": "meg1",
+              "platform": "acx7100-32c",
+              "os": "evo"
+            },
+            {
+              "device": "meg2_acx7509",
+              "host": "meg2",
+              "platform": "acx7509",
+              "os": "evo"
+            }
+          ]
+        },
+        {
+          "key": "mse",
+          "label": "Multiservice Edge (MSE)",
+          "summary": "High-scale L2/L3 service termination — PWHT, Floating PW, EVPN-ETREE, Dedicated Internet Access (Internet-VRF), route reflector.",
+          "devices": [
+            {
+              "device": "mse1_mx304",
+              "host": "mse1",
+              "platform": "mx304",
+              "os": "junos"
+            },
+            {
+              "device": "mse2_mx304",
+              "host": "mse2",
+              "platform": "mx304",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "mdr",
+          "label": "Metro Distribution Router (MDR)",
+          "summary": "Inter-ring distribution across the multi-ring access domain; transport route reflector (BGP-LU, BGP-CT).",
+          "devices": [
+            {
+              "device": "mdr1_acx7509",
+              "host": "mdr1",
+              "platform": "acx7509",
+              "os": "evo"
+            },
+            {
+              "device": "mdr2_mx10003",
+              "host": "mdr2",
+              "platform": "mx10003",
+              "os": "junos"
+            }
+          ]
+        },
+        {
+          "key": "cr",
+          "label": "Core Router (CR)",
+          "summary": "SR-MPLS core and peering between metro domains and the wider network.",
+          "devices": [
+            {
+              "device": "cr1_ptx10001-36mr",
+              "host": "cr1",
+              "platform": "ptx10001-36mr",
+              "os": "evo"
+            },
+            {
+              "device": "cr2_ptx10001-36mr",
+              "host": "cr2",
+              "platform": "ptx10001-36mr",
+              "os": "evo"
+            }
+          ]
+        },
+        {
+          "key": "ma",
+          "label": "Metro Access (MA)",
+          "summary": "Multi-ring access node; services include EVPN-VPWS, EVPN-FXC, EVPN-ELAN, Floating PW, BGP-VPLS, local switching.",
+          "devices": [
+            {
+              "device": "ma1-1_acx7024",
+              "host": "ma1-1",
+              "platform": "acx7024",
+              "os": "evo"
+            },
+            {
+              "device": "ma1-2_acx7024",
+              "host": "ma1-2",
+              "platform": "acx7024",
+              "os": "evo"
+            },
+            {
+              "device": "ma2_mx204",
+              "host": "ma2",
+              "platform": "mx204",
+              "os": "junos"
+            },
+            {
+              "device": "ma3_acx7100-48l",
+              "host": "ma3",
+              "platform": "acx7100-48l",
+              "os": "evo"
+            },
+            {
+              "device": "ma4_mx204",
+              "host": "ma4",
+              "platform": "mx204",
+              "os": "junos"
+            },
+            {
+              "device": "ma5_mx204",
+              "host": "ma5",
+              "platform": "mx204",
+              "os": "junos"
+            }
+          ]
+        }
+      ]
     }
   ],
   "parseWarnings": []
