@@ -226,6 +226,7 @@
     "area": "Enterprise WAN",
     "description": "Seamless interconnect of EVPN-MPLS WAN services with EVPN-VXLAN data center fabrics at the data center edge.",
     "platforms": [
+      "ACX5448-D",
       "ACX5448-M",
       "ACX7100-48L",
       "EX4200-48T",
@@ -233,12 +234,13 @@
       "MX204",
       "MX480",
       "PTX10001-36MR",
+      "PTX10003-80C",
       "QFX5120-48T",
       "QFX5200"
     ],
     "os": [
-      "Junos",
-      "Junos EVO"
+      "Junos EVO",
+      "Junos"
     ],
     "repoPath": "enterprise_wan/ewan_dc_edge"
   },
