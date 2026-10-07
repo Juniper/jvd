@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   Search,
   Github,
@@ -29,14 +30,11 @@ import {
   type GroupNode,
 } from "@/lib/snips";
 import { BROWSE_MODES, DEPENDENCY_CONTRACT_VERSION } from "@/lib/snips";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // ---------------------------------------------------------------------------
 // URL state — single source of truth for shareable links.
-// Hash format:  #snips?mode=tech&q=bgp&os=evo&jvd=bbe&id=...&tab=variables
+// Hash format:  #snips?mode=tech&q=bgp&os=evo&jvd=bbe&id=...
 // ---------------------------------------------------------------------------
-
-type DetailTab = "configuration" | "variables" | "seen-on" | "count" | "peers";
 
 type UrlState = {
   mode: BrowseMode;
@@ -45,18 +43,7 @@ type UrlState = {
   osKey: "" | "junos" | "evo";
   jvd: string;
   id: string;
-  // Raw requested detail tab; resolved against the selected snip at render.
-  tab: string;
 };
-
-function availableTabs(snip: SnipRecord): DetailTab[] {
-  const tabs: DetailTab[] = ["configuration"];
-  if (snip.variables.length > 0) tabs.push("variables");
-  if (snip.seenOn.junos.length + snip.seenOn.evo.length > 0) tabs.push("seen-on");
-  if (snip.count) tabs.push("count");
-  if (snip.peersWith?.state === "groups") tabs.push("peers");
-  return tabs;
-}
 
 function parseHash(): UrlState {
   const h = typeof window !== "undefined" ? window.location.hash : "";
@@ -74,7 +61,6 @@ function parseHash(): UrlState {
     osKey: (params.get("os") as UrlState["osKey"]) || "",
     jvd: params.get("jvd") || "",
     id: params.get("id") || "",
-    tab: params.get("tab") || "",
   };
 }
 
@@ -88,7 +74,6 @@ function writeHash(state: UrlState) {
   if (state.osKey) params.set("os", state.osKey);
   if (state.jvd) params.set("jvd", state.jvd);
   if (state.id) params.set("id", state.id);
-  if (state.id && state.tab && state.tab !== "configuration") params.set("tab", state.tab);
   const qs = params.toString();
 
   const currentHash = window.location.hash || "";
@@ -425,29 +410,23 @@ function SnipDetail({
   onSelectCrossOs,
   onClose,
   snipById,
-  tab,
-  onTabChange,
 }: {
   snip: SnipRecord;
   onSelectSnip: (id: string) => void;
   onSelectCrossOs: (id: string) => void;
   onClose: () => void;
   snipById: Map<string, SnipRecord>;
-  tab: DetailTab;
-  onTabChange: (tab: DetailTab) => void;
 }) {
-  const tabs = availableTabs(snip);
+  const [open, setOpen] = useState(SECTION_DEFAULT_OPEN);
+  const [active, setActive] = useState<SectionId>("configuration");
+  const rootRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const toggle = (id: CollapsibleId) => setOpen((o) => ({ ...o, [id]: !o[id] }));
   const seenOnTotal = snip.seenOn.junos.length + snip.seenOn.evo.length;
+  const peerGroups = snip.peersWith?.state === "groups" ? snip.peersWith.groups : [];
   const countRows = snip.count
     ? Object.entries(snip.count.byDevice).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     : [];
-  const tabMeta: Record<DetailTab, { label: string; badge?: number }> = {
-    configuration: { label: "Configuration" },
-    variables: { label: "Variables", badge: snip.variables.length },
-    "seen-on": { label: "Seen On", badge: seenOnTotal },
-    count: { label: "Count", badge: snip.count?.total },
-    peers: { label: "Configured Peers" },
-  };
   const githubUrl = REPO_BLOB_BASE + snip.path;
   const requiredChoices = snip.dependencyContractVersion === DEPENDENCY_CONTRACT_VERSION ? (snip.occurrenceRequires ?? []).map(requirement => ({
     kind: requirement.id,
@@ -464,11 +443,60 @@ function SnipDetail({
     `/* Source: ${snip.path} @ Juniper/jvd */\n` +
     `/* JVD: ${snip.jvdLabel}  |  OS: ${snip.os}  |  Category: ${titleize(snip.category)} */\n\n` +
     snip.body;
+  const pairWithCount =
+    requiredChoices.filter((choice) => choice.alternatives !== null).length +
+    snip.pairWith.length +
+    (snip.variantRequires?.length ?? 0);
+
+  const nav: { id: SectionId; label: string; badge?: number }[] = [
+    { id: "configuration", label: "Configuration" },
+  ];
+  if (snip.variables.length > 0)
+    nav.push({ id: "variables", label: "Variables", badge: snip.variables.length });
+  if (pairWithCount > 0) nav.push({ id: "pair-with", label: "Pair with", badge: pairWithCount });
+  nav.push({ id: "seen-on", label: "Seen On", badge: seenOnTotal });
+  if (peerGroups.length > 0)
+    nav.push({ id: "peers-with", label: "Peers with", badge: peerGroups.length });
+  if (snip.count) nav.push({ id: "count", label: "Count", badge: snip.count.total });
+
+  // Active pill = last section whose top has passed the pill row (or the portal header once it scrolls away).
+  useEffect(() => {
+    const onScroll = () => {
+      const root = rootRef.current;
+      const navEl = navRef.current;
+      if (!root || !navEl) return;
+      const line = Math.max(navEl.getBoundingClientRect().bottom, PORTAL_HEADER_PX) + 16;
+      let current: string | undefined;
+      for (const s of root.querySelectorAll<HTMLElement>("[data-nav-section]"))
+        if (s.getBoundingClientRect().top <= line) current = s.dataset.navSection;
+      setActive((current ?? "configuration") as SectionId);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const goTo = (id: SectionId) => {
+    flushSync(() => {
+      if (id !== "configuration") setOpen((o) => ({ ...o, [id]: true }));
+      setActive(id);
+    });
+    const el = document.getElementById(`snip-section-${id}`);
+    const navEl = navRef.current;
+    if (!el || !navEl) return;
+    const navStyle = getComputedStyle(navEl);
+    const offset =
+      navStyle.position === "sticky"
+        ? (parseFloat(navStyle.top) || 0) + navEl.offsetHeight
+        : PORTAL_HEADER_PX;
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offset - 8,
+      behavior: "instant",
+    });
+  };
 
   return (
-    <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="relative border-b border-border px-6 py-5">
+    <div ref={rootRef} className="flex h-full flex-col">
+      <div className="relative px-6 pb-4 pt-5">
         <button
           onClick={onClose}
           aria-label="Close snip"
@@ -514,11 +542,100 @@ function SnipDetail({
           )}
         </div>
       </div>
+      {/* Pill row sticks beneath the global portal header (h-16) in the two-column layout. */}
+      <nav
+        ref={navRef}
+        aria-label="Snippet sections"
+        className="border-y border-border px-6 py-3 lg:sticky lg:top-16 lg:z-30 lg:bg-background/95 lg:backdrop-blur"
+      >
+        <ul className="flex flex-wrap gap-2">
+          {nav.map(({ id, label, badge }) => {
+            const on = active === id;
+            return (
+              <li key={id}>
+                <button
+                  type="button"
+                  aria-current={on ? "true" : undefined}
+                  onClick={() => goTo(id)}
+                  className={
+                    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1 text-xs ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 " +
+                    (on
+                      ? "border-primary bg-primary font-semibold text-primary-foreground shadow-sm"
+                      : "border-border font-medium text-muted-foreground hover:border-primary/50 hover:text-foreground")
+                  }
+                >
+                  {label}
+                  {badge !== undefined && (
+                    <span
+                      className={
+                        "rounded-full px-1.5 text-[10px] font-medium tabular-nums " +
+                        (on
+                          ? "bg-primary-foreground/20 text-primary-foreground"
+                          : "bg-surface-2 text-muted-foreground")
+                      }
+                    >
+                      {badge.toLocaleString()}
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto px-6 py-5">
-        {(snip.pairWith.length > 0 || (snip.variantRequires?.length ?? 0) > 0 || requiredChoices.some(choice => choice.alternatives !== null)) && (
-          <Section title="Pair with">
+      <div className="px-6 py-5">
+        <section id="snip-section-configuration" data-nav-section="configuration" className="pb-4">
+          <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Configuration
+          </h3>
+          <div className="snip-body overflow-x-auto rounded-md border border-border">
+            <div dangerouslySetInnerHTML={{ __html: snip.bodyHtml }} />
+          </div>
+          {snip.jvdServiceMapping && snip.jvdServiceMapping.length > 0 && (
+            <div className="mt-3">
+              <div className="mb-1 text-[10px] text-muted-foreground/80">JVD service mapping</div>
+              <pre className="overflow-x-auto whitespace-pre rounded-md border border-border/60 px-3 py-2 font-mono text-[11px] leading-relaxed text-muted-foreground">
+{snip.jvdServiceMapping.join("\n")}
+              </pre>
+            </div>
+          )}
+        </section>
+
+        {snip.variables.length > 0 && (
+          <DetailSection
+            id="variables"
+            title="Variables"
+            summary={String(snip.variables.length)}
+            open={open.variables}
+            onToggle={() => toggle("variables")}
+          >
+            <div className="overflow-hidden rounded-md border border-border">
+              <table className="w-full text-xs">
+                <tbody>
+                  {snip.variables.map((v, i) => (
+                    <tr
+                      key={i}
+                      className="border-b border-border last:border-b-0 odd:bg-surface even:bg-background"
+                    >
+                      <td className="w-1/3 px-3 py-1.5 font-mono text-foreground">{v.name}</td>
+                      <td className="px-3 py-1.5 font-mono text-muted-foreground">{v.example}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </DetailSection>
+        )}
+
+        {pairWithCount > 0 && (
+          <DetailSection
+            id="pair-with"
+            title="Pair with"
+            summary={String(pairWithCount)}
+            open={open["pair-with"]}
+            onToggle={() => toggle("pair-with")}
+          >
             <ul className="space-y-1.5 text-sm">
               {requiredChoices.map(({ kind, label, slots, alternatives }) => alternatives !== null && (
                 <li key={`${kind}-${snip.id}`}>
@@ -606,156 +723,182 @@ function SnipDetail({
                 );
               })}
             </ul>
-          </Section>
+          </DetailSection>
         )}
 
         {snip.highlights.length > 0 && (
-          <Section title="Highlights">
+          <DetailSection
+            id="highlights"
+            title="Highlights"
+            summary={String(snip.highlights.length)}
+            open={open.highlights}
+            onToggle={() => toggle("highlights")}
+            inNav={false}
+          >
             <ul className="list-disc space-y-1.5 pl-5 text-sm text-foreground/85">
               {snip.highlights.map((h, i) => (
                 <li key={i}>{h}</li>
               ))}
             </ul>
-          </Section>
+          </DetailSection>
         )}
 
-        <Tabs value={tab} onValueChange={(v) => onTabChange(v as DetailTab)}>
-          <TabsList
-            aria-label="Snippet details"
-            className="h-auto flex-wrap justify-start gap-2 bg-transparent p-0"
+        <DetailSection
+          id="seen-on"
+          title="Seen On"
+          summary={`${seenOnTotal} device${seenOnTotal === 1 ? "" : "s"}`}
+          open={open["seen-on"]}
+          onToggle={() => toggle("seen-on")}
+        >
+          {seenOnTotal === 0 ? (
+            <p className="text-xs text-muted-foreground">(none)</p>
+          ) : (
+            <div className="space-y-3">
+              {(
+                [
+                  ["Junos", snip.seenOn.junos],
+                  ["EVO", snip.seenOn.evo],
+                ] as const
+              ).map(
+                ([label, devices]) =>
+                  devices.length > 0 && (
+                    <div key={label}>
+                      <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        {label} · {devices.length}
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {devices.map((d) => (
+                          <code
+                            key={d}
+                            className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] text-foreground/85"
+                          >
+                            {d}
+                          </code>
+                        ))}
+                      </div>
+                    </div>
+                  ),
+              )}
+            </div>
+          )}
+        </DetailSection>
+
+        {peerGroups.length > 0 && (
+          <DetailSection
+            id="peers-with"
+            title="Peers with"
+            summary={`${peerGroups.length} relationship${peerGroups.length === 1 ? "" : "s"}`}
+            open={open["peers-with"]}
+            onToggle={() => toggle("peers-with")}
           >
-            {tabs.map((t) => {
-              const { label, badge } = tabMeta[t];
-              return (
-                <TabsTrigger
-                  key={t}
-                  value={t}
-                  className="group gap-1.5 rounded-full border px-3 py-1 text-xs data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:border-primary/50 data-[state=inactive]:hover:text-foreground data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:font-semibold data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm"
+            <ul className="space-y-1.5 text-xs">
+              {peerGroups.map((group, index) => (
+                <li
+                  key={index}
+                  className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2"
                 >
-                  {label}
-                  {badge !== undefined && (
-                    <span className="rounded-full bg-surface-2 px-1.5 text-[10px] font-medium tabular-nums text-muted-foreground group-data-[state=active]:bg-primary-foreground/20 group-data-[state=active]:text-primary-foreground">
-                      {badge.toLocaleString()}
-                    </span>
-                  )}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
+                  <span className="min-w-0 break-all font-mono">{group.left.join(", ")}</span>
+                  <span aria-label="configured peer relationship">&harr;</span>
+                  <span className="min-w-0 break-all font-mono">{group.right.join(", ")}</span>
+                </li>
+              ))}
+            </ul>
+          </DetailSection>
+        )}
 
-          <TabsContent value="configuration" className="mt-4">
-            <div className="snip-body overflow-x-auto rounded-md border border-border">
-              <div dangerouslySetInnerHTML={{ __html: snip.bodyHtml }} />
-            </div>
-            {snip.jvdServiceMapping && snip.jvdServiceMapping.length > 0 && (
-              <div className="mt-6">
-                <Section title="JVD service mapping">
-                  <pre className="overflow-x-auto whitespace-pre rounded-md border border-border bg-surface px-3 py-2 font-mono text-xs leading-relaxed text-foreground/85">
-{snip.jvdServiceMapping.join("\n")}
-                  </pre>
-                </Section>
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="variables" className="mt-4">
-            <div className="overflow-hidden rounded-md border border-border">
-              <table className="w-full text-xs">
-                <tbody>
-                  {snip.variables.map((v, i) => (
-                    <tr
-                      key={i}
-                      className="border-b border-border last:border-b-0 odd:bg-surface even:bg-background"
-                    >
-                      <td className="w-1/3 px-3 py-1.5 font-mono text-foreground">{v.name}</td>
-                      <td className="px-3 py-1.5 font-mono text-muted-foreground">{v.example}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="seen-on" className="mt-4 space-y-3">
-            {(
-              [
-                ["Junos", snip.seenOn.junos],
-                ["EVO", snip.seenOn.evo],
-              ] as const
-            ).map(
-              ([label, devices]) =>
-                devices.length > 0 && (
-                  <div key={label}>
-                    <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      {label} · {devices.length}
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {devices.map((d) => (
-                        <code
-                          key={d}
-                          className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] text-foreground/85"
-                        >
-                          {d}
-                        </code>
-                      ))}
-                    </div>
-                  </div>
-                ),
-            )}
-          </TabsContent>
-
-          <TabsContent value="count" className="mt-4">
-            {snip.count && (
-              <>
-                <p className="mb-2 text-xs text-muted-foreground">
-                  Source instances:{" "}
-                  <span className="font-semibold tabular-nums text-foreground">
-                    {snip.count.total.toLocaleString()}
-                  </span>{" "}
-                  across {countRows.length} device{countRows.length === 1 ? "" : "s"}
-                </p>
-                <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
-                  {countRows.map(([device, count]) => (
-                    <Fragment key={device}>
-                      <dt className="min-w-0 break-all font-mono text-muted-foreground">{device}</dt>
-                      <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
-                    </Fragment>
-                  ))}
-                </dl>
-              </>
-            )}
-          </TabsContent>
-
-          <TabsContent value="peers" className="mt-4">
-            {snip.peersWith?.state === "groups" && (
-              <ul className="space-y-1.5 text-xs">
-                {snip.peersWith.groups.map((group, index) => (
-                  <li
-                    key={index}
-                    className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2"
-                  >
-                    <span className="min-w-0 break-all font-mono">{group.left.join(", ")}</span>
-                    <span aria-label="configured peer relationship">&harr;</span>
-                    <span className="min-w-0 break-all font-mono">{group.right.join(", ")}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </TabsContent>
-        </Tabs>
+        {snip.count && (
+          <DetailSection
+            id="count"
+            title="Count"
+            summary={`${snip.count.total.toLocaleString()} total`}
+            open={open.count}
+            onToggle={() => toggle("count")}
+          >
+            <p className="mb-2 text-xs text-muted-foreground">
+              Source instances across {countRows.length} device{countRows.length === 1 ? "" : "s"}
+            </p>
+            <dl className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-1 text-xs">
+              {countRows.map(([device, count]) => (
+                <Fragment key={device}>
+                  <dt className="min-w-0 break-all font-mono text-muted-foreground">{device}</dt>
+                  <dd className="text-right tabular-nums">{count.toLocaleString()}</dd>
+                </Fragment>
+              ))}
+            </dl>
+          </DetailSection>
+        )}
       </div>
     </div>
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+type SectionId =
+  "configuration" | "variables" | "pair-with" | "highlights" | "seen-on" | "peers-with" | "count";
+type CollapsibleId = Exclude<SectionId, "configuration">;
+
+// Height of the sticky global portal header (h-16).
+const PORTAL_HEADER_PX = 64;
+
+const SECTION_DEFAULT_OPEN: Record<CollapsibleId, boolean> = {
+  variables: true,
+  "pair-with": true,
+  highlights: true,
+  "seen-on": true,
+  "peers-with": false,
+  count: false,
+};
+
+function DetailSection({
+  id,
+  title,
+  summary,
+  open,
+  onToggle,
+  inNav = true,
+  children,
+}: {
+  id: CollapsibleId;
+  title: string;
+  summary?: string;
+  open: boolean;
+  onToggle: () => void;
+  inNav?: boolean;
+  children: React.ReactNode;
+}) {
+  const bodyId = `snip-section-${id}-body`;
   return (
-    <div className="mb-6">
-      <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {title}
+    <section
+      id={`snip-section-${id}`}
+      data-nav-section={inNav ? id : undefined}
+      className="border-t border-border py-3"
+    >
+      <h3>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={bodyId}
+          onClick={onToggle}
+          className="flex min-h-9 w-full items-center gap-2 rounded-sm text-left ring-offset-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          <ChevronRight
+            aria-hidden="true"
+            className={
+              "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform " +
+              (open ? "rotate-90" : "")
+            }
+          />
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            {title}
+          </span>
+          {summary && (
+            <span className="text-xs tabular-nums text-muted-foreground">— {summary}</span>
+          )}
+        </button>
       </h3>
-      {children}
-    </div>
+      <div id={bodyId} hidden={!open} className="pt-2">
+        {children}
+      </div>
+    </section>
   );
 }
 
@@ -768,9 +911,7 @@ export default function SnipLibrary() {
   const snipById = useMemo(() => new Map(allSnips.map((s) => [s.id, s])), [allSnips]);
 
   const [hashState, setHashState] = useState<UrlState>(() =>
-    typeof window !== "undefined"
-      ? parseHash()
-      : { mode: "jvd", view: "snips", q: "", osKey: "", jvd: "", id: "", tab: "" },
+    typeof window !== "undefined" ? parseHash() : { mode: "jvd", view: "snips", q: "", osKey: "", jvd: "", id: "" },
   );
 
   const [mode, setMode] = useState<BrowseMode>(hashState.mode);
@@ -779,7 +920,6 @@ export default function SnipLibrary() {
   const [osKey, setOsKey] = useState<UrlState["osKey"]>(hashState.osKey);
   const [jvdF, setJvdF] = useState<string>(hashState.jvd);
   const [selectedId, setSelectedId] = useState<string>(hashState.id);
-  const [tabPref, setTabPref] = useState<string>(hashState.tab);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   // Listen to hashchange (back button etc.)
@@ -793,23 +933,15 @@ export default function SnipLibrary() {
       setOsKey(next.osKey);
       setJvdF(next.jvd);
       setSelectedId(next.id);
-      setTabPref(next.tab);
     };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
   }, []);
 
-  const selectedSnip = selectedId ? snipById.get(selectedId) : null;
-  // The requested tab persists across snips; fall back when this snip lacks it.
-  const detailTab: DetailTab =
-    selectedSnip && (availableTabs(selectedSnip) as string[]).includes(tabPref)
-      ? (tabPref as DetailTab)
-      : "configuration";
-
   // Persist state to URL when relevant bits change
   useEffect(() => {
-    writeHash({ mode, view: jvdView, q: query, osKey, jvd: jvdF, id: selectedId, tab: detailTab });
-  }, [mode, jvdView, query, osKey, jvdF, selectedId, detailTab]);
+    writeHash({ mode, view: jvdView, q: query, osKey, jvd: jvdF, id: selectedId });
+  }, [mode, jvdView, query, osKey, jvdF, selectedId]);
 
   const roleMode = mode === "jvd" && jvdView === "roles";
   const treeMode: TreeMode = roleMode ? "role" : mode;
@@ -857,6 +989,8 @@ export default function SnipLibrary() {
   const expandAll = () => setExpanded(new Set(collectGroupIds(tree)));
   const collapseAll = () => setExpanded(new Set());
 
+  const selectedSnip = selectedId ? snipById.get(selectedId) : null;
+
   return (
     <section id="snips" className="border-b border-border">
       <div className="mx-auto max-w-7xl px-6 py-24">
@@ -900,7 +1034,10 @@ export default function SnipLibrary() {
               </button>
             )}
           </div>
-          <div aria-live="polite" className="whitespace-nowrap text-xs tabular-nums text-muted-foreground">
+          <div
+            aria-live="polite"
+            className="whitespace-nowrap text-xs tabular-nums text-muted-foreground"
+          >
             Showing {visibleSnips.length} of {snipBundle.counts.total}
           </div>
           <div className="flex gap-2 text-xs">
@@ -980,6 +1117,7 @@ export default function SnipLibrary() {
             <div className="min-w-0 rounded-lg border border-border bg-surface/40">
             {selectedSnip ? (
               <SnipDetail
+                key={selectedSnip.id}
                 snip={selectedSnip}
                 onSelectSnip={setSelectedId}
                 onSelectCrossOs={(id) => {
@@ -989,8 +1127,6 @@ export default function SnipLibrary() {
                 }}
                 onClose={() => setSelectedId("")}
                 snipById={snipById}
-                tab={detailTab}
-                onTabChange={setTabPref}
               />
             ) : (
               <div className="flex h-full min-h-[16rem] flex-col items-center justify-center gap-3 px-6 py-12 text-center">
