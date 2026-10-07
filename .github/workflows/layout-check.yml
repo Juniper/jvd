@@ -1,0 +1,27 @@
+name: Layout check
+
+# Checks only what a pull request adds or renames: new JVD folders must follow the folder layout, and newly added
+# JVD images must live under images/ or documentation/images/. Existing content is not re-checked.
+# No paths filter, so the job reports on every pull request and can be made a required check.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: New JVD folders and added images follow the layout
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: node .github/scripts/layout-check.mjs --base "$BASE"
