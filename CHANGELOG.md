@@ -48,7 +48,13 @@ center fabric and the WAN edge.
   in its [service tiers](service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md)
   and stay unavailable until their dependencies can be fully resolved.
 - **Portal**: the [Config Explorer](https://juniper.github.io/jvd/portal/) lists
-  the new library alongside the existing JVDs.
+  the new library alongside the existing JVDs. Each snippet now opens as one page,
+  in order: Configuration, Variables, Pair with, Highlights, Seen On, Peers with
+  and Count. Section buttons under the snippet title jump to each part and show
+  its size. Peers with and Count start collapsed, and every section except
+  Configuration can be collapsed. On wide screens the section buttons stay below
+  the site header while you scroll. Browse mode, Snips/Roles view, OS filter,
+  search and the result count now share one filter row.
 
 ### What this means for you
 
@@ -62,6 +68,9 @@ center fabric and the WAN edge.
   of choice and pick Configuration or Design mode. It generates the service
   instance for a device that already runs its interfaces and BGP overlay, names
   those prerequisites, and declines anything the snippet library does not cover.
+- In the Config Explorer, use the section buttons under a snippet's title to jump
+  to its variables, dependencies, devices and counts. Existing Explorer links
+  keep working.
 
 ---
 
@@ -79,8 +88,8 @@ unchanged.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Data Center Edge | 132 | 0 | 0 | 1 | 3 |
 | Service Provider / MEBS | 0 | 0 | 0 | 9 | 1 |
-| Portal | 10 | 0 | 0 | 13 | 2 |
-| **Total** | **142** | **0** | **0** | **23** | **6** |
+| Portal | 10 | 0 | 0 | 14 | 2 |
+| **Total** | **142** | **0** | **0** | **24** | **6** |
 
 </details>
 
@@ -91,8 +100,8 @@ unchanged.
 | --- | ---: | ---: | ---: |
 | Enterprise WAN / Data Center Edge | 17,017 | 8 | +17,009 |
 | Service Provider / MEBS | 72 | 130 | -58 |
-| Portal | 23,907 | 859 | +23,048 |
-| **Total** | **40,996** | **997** | **+39,999** |
+| Portal | 24,271 | 1,032 | +23,239 |
+| **Total** | **41,360** | **1,170** | **+40,190** |
 
 </details>
 
