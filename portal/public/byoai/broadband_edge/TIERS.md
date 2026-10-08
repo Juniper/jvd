@@ -1,171 +1,471 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-bbe-snips.md`](jvd-bbe-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd service_provider/broadband_edge`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file: **AN/AGN/CR = `evo/`**, **BNG/switch = `junos/`**.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. Device already has working IS-IS/SR underlay AND its iBGP overlay. You just want the new service. | Service routing-instance + attachment-circuit interface + the service's mandatory `Pair with:` snips. **No transport/bootstrap.** |
-| **`with-overlay`** | Brownfield-ish. Underlay is up but you want to (re)assert the device's iBGP overlay activation. | `minimum` + the role's overlay snip (`bgp-overlay-pe-an` / `bgp-overlay-pe-bng` / `bgp-overlay-rr-core`). |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working end-to-end example." Mirrors what the JVD validates. | Everything: service + AC + overlay + the role baseline (IS-IS/SR underlay, MPLS SRGB, policies, and — for BNGs — chassis + subscriber-management + RADIUS bootstrap). |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new ACX7024 AN turn-up", "bootstrap a new MX304 BNG end-to-end") are always treated as **`as-deployed`**.
-
-If the user picks `minimum` and the AI cannot tell whether the iBGP overlay is already on the device, it should call that out in the `Notes:` section.
-
----
-
-## Shared role baselines (the `as-deployed` foundation)
-
-Every `as-deployed` service adds the baseline for the device's role. OS-select each file.
-
-### AN / AGN / CR transport baseline (`evo/`)
-- `transport/isis-srmpls-tilfa.conf` — IS-IS L1/L2 with SR-MPLS + TI-LFA node protection
-- `transport/mpls-segment-routing.conf` — MPLS SRGB + IPv6 tunneling
-- `transport/routing-options-pe.conf` — router-id, AS, chained-composite-next-hop
-- `interfaces/core-isis-mpls.conf` — core-facing IS-IS/MPLS interface
-- `policy/isis-export-prefix-segment.conf` — per-loopback SR prefix-segment
-- `policy/pplb.conf` — per-packet load-balance
-- overlay: `transport/bgp-overlay-pe-an.conf` (AN); `transport/bgp-overlay-rr-fabric.conf` + `policy/bgp-rr-export.conf` (AGN); `transport/bgp-overlay-rr-core.conf` + `policy/bgp-rr-export.conf` (CR)
-
-### BNG bootstrap + transport baseline (`junos/`)
-- `transport/isis-srmpls-tilfa.conf` + `transport/mpls-segment-routing.conf` + `transport/routing-options-pe.conf` + `interfaces/core-isis-mpls.conf` + `policy/isis-export-prefix-segment.conf` + `policy/pplb.conf`
-- overlay: `transport/bgp-overlay-pe-bng.conf`
-- `bootstrap/chassis-bng.conf` — ECMP, GRES, `pseudowire-service`, `tunnel-services` (**PWHT prerequisite**)
-- `subscriber-management/system-services-subscriber-mgmt.conf` — subscriber-management redundancy + ddos-protection
-- `subscriber-management/radius-server.conf` + `subscriber-management/access-profile-radius.conf` — RADIUS AAA
-- `subscriber-management/address-assignment-pools.conf` — global subscriber pools
-- `policy/communities.conf` + `policy/subscriber-vrf-policies.conf` — community palette + subscriber VRF policies
-
-> **BNG prerequisite (flag in Notes for greenfield):** `chassis pseudowire-service device-count` + `tunnel-services` (from `bootstrap/chassis-bng.conf`) and `system services subscriber-management` MUST be present before any `ps` pseudowire-headend / dynamic-profile activates.
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## EVPN-VPWS PPPoE — BNG side (subscriber PPPoE via PWHT)
+## EVPN-VPWS pseudowire between an access node and a BNG
 
-**minimum** (just the service)
-- `junos/services/evpn-vpws-pppoe-bng.conf`
-- `junos/interfaces/ps-pseudowire-pppoe.conf` (the `ps` attachment circuit)
-- `junos/subscriber-management/dp-auto-stacked-pwht-pppoe.conf` (session-activation dynamic-profile)
-- `junos/subscriber-management/dp-prod-pppoe-dt-base.conf` (per-session pp0 dynamic-profile)
-- `junos/services/l3vpn-pppoe-subs.conf` (subscriber VRF + pool)
-- `junos/subscriber-management/address-assignment-pools.conf`
-- `junos/policy/subscriber-vrf-policies.conf`
+Family e-line, form evpn-vpws. OS mode MIXED. Attachment: Access node: vlan-ccc unit on the access aggregate. BNG: unit 0 of a pseudowire-subscriber (ps) device..
 
-**with-overlay** (= minimum +)
-- `junos/transport/bgp-overlay-pe-bng.conf`
+### an1_acx7024 (evo)
 
-**as-deployed** (= with-overlay + BNG bootstrap + transport baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+### an2_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+### an4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+### an5_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+### bng1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
+  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
+  - occurrence-selection-required: routing-instance:dhcp-subs
+
+### bng2_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
+  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
+  - occurrence-selection-required: routing-instance:dhcp-subs
+
+### bng3_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
+  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
+  - occurrence-selection-required: routing-instance:dhcp-subs
+
+### bng4_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
+  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
+  - occurrence-selection-required: routing-instance:dhcp-subs
 
 ---
 
-## EVPN-VPWS IPoE/DHCP — BNG side (subscriber DHCP/IPoE via PWHT)
+## EVPN-VPWS flexible cross-connect on an access node
 
-**minimum** (just the service)
-- `junos/services/evpn-vpws-ipoe-bng.conf`
-- `junos/interfaces/ps-pseudowire-dhcp-ipoe.conf`
-- `junos/subscriber-management/dp-auto-stacked-pwht-dhcp.conf`
-- `junos/subscriber-management/dp-prod-dhcp-base.conf`
-- `junos/subscriber-management/dp-autosense-ipdemux.conf`
-- `junos/services/l3vpn-dhcp-subs.conf` (VRF + embedded `dhcp-local-server`)
-- `junos/policy/subscriber-vrf-policies.conf`
-- `junos/firewall/rpf-pass-dhcp.conf`
+Family e-line, form evpn-fxc. OS mode EVO. Attachment: Two vlan-ccc units bundled under one FXC group; the BNG end is an EVPN-VPWS instance..
 
-**with-overlay** (= minimum +)
-- `junos/transport/bgp-overlay-pe-bng.conf`
+### an1_acx7024 (evo)
 
-**as-deployed** (= with-overlay + BNG bootstrap + transport baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
----
+### an2_acx7100-48l (evo)
 
-## EVPN-VPWS FXC — BNG side (Flexible Cross-Connect PWHT)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
-**minimum** (just the service)
-- `junos/services/evpn-vpws-fxc-bng.conf`
-- `junos/interfaces/ps-pseudowire-dhcp-ipoe.conf`
-- `junos/services/l3vpn-dhcp-subs.conf`
+### an3_acx7100-48l (evo)
 
-**with-overlay** (= minimum +)
-- `junos/transport/bgp-overlay-pe-bng.conf`
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
-**as-deployed** (= with-overlay + BNG bootstrap + transport baseline)
+### an4_acx7100-48l (evo)
 
----
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
-## EVPN-VPWS — AN side (per-subscriber-group pseudowires)
+### an5_acx7100-48l (evo)
 
-**minimum** (just the service)
-- `evo/services/evpn-vpws-an.conf`
-- `evo/interfaces/ae-vlan-bridge-an.conf` (access LAG with vlan-ccc + ESI)
-
-**with-overlay** (= minimum +)
-- `evo/transport/bgp-overlay-pe-an.conf`
-
-**as-deployed** (= with-overlay + AN transport baseline)
-
----
-
-## EVPN-VPWS FXC — AN side (Flexible Cross-Connect)
-
-**minimum** (just the service)
-- `evo/services/evpn-vpws-fxc-an.conf`
-- `evo/interfaces/ae-vlan-bridge-an.conf`
-
-**with-overlay** (= minimum +)
-- `evo/transport/bgp-overlay-pe-an.conf`
-
-**as-deployed** (= with-overlay + AN transport baseline)
-
----
-
-## L3VPN Internet — CR side
-
-**minimum** (just the service)
-- `evo/services/l3vpn-internet.conf` (Internet VRF, eBGP to upstream CE)
-- `evo/policy/vrf-internet-policies.conf`
-- `evo/policy/communities.conf`
-
-**with-overlay** (= minimum +)
-- `evo/transport/bgp-overlay-rr-core.conf`
-
-**as-deployed** (= with-overlay + AN/AGN/CR transport baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_A
+  - occurrence-selection-required: logical-interface:$IFD.$UNIT_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ---
 
-## L3VPN RADIUS — RADIUS reachability VRF
+## PPPoE subscriber termination on a pseudowire headend
 
-**minimum** (just the service)
-- OS-select `junos/services/l3vpn-radius.conf` (BNG) or `evo/services/l3vpn-radius.conf` (CR)
-- OS-select `junos/policy/vrf-radius-policies.conf` or `evo/policy/vrf-radius-policies.conf`
-- `junos/subscriber-management/radius-server.conf` (BNG side)
+Family bng-subscriber, form pwht-pppoe. OS mode Junos. Attachment: Pseudowire-subscriber device anchored on a tunnel PIC; unit 0 terminates the EVPN-VPWS pseudowire and stacked-VLAN auto-configuration creates the PPPoE sessions..
 
-**with-overlay** (= minimum +)
-- `junos/transport/bgp-overlay-pe-bng.conf` (BNG) or `evo/transport/bgp-overlay-rr-core.conf` (CR)
+### bng1_mx304 (junos)
 
-**as-deployed** (= with-overlay + role baseline)
+- `minimum`: `junos/interfaces/ifd-ps-pwht-pppoe.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: filter:clear-df-bit
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng2_mx204 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-pppoe.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: filter:clear-df-bit
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng3_mx10004 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-pppoe.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: filter:clear-df-bit
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng4_mx480 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-pppoe.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: filter:clear-df-bit
+  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ---
 
-## Access switch LAG (QFX helper, toward AN)
+## DHCP/IPoE subscriber termination on a pseudowire headend
 
-**minimum**
-- `junos/interfaces/ae-vlan-bridge-fxc-sw.conf`
+Family bng-subscriber, form pwht-ipoe. OS mode Junos. Attachment: Pseudowire-subscriber device anchored on a tunnel PIC; unit 0 terminates the EVPN-VPWS pseudowire and stacked-VLAN auto-configuration creates the DHCP/IPoE sessions..
 
-*(The access switches are helper devices — no overlay/underlay baseline applies.)*
+### bng1_mx304 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-dhcp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng2_mx204 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-dhcp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng3_mx10004 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-dhcp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng4_mx480 (junos)
+
+- `minimum`: `junos/interfaces/ifd-ps-pwht-dhcp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: ps-device-capacity:source-occurrence
+  - occurrence-selection-required: tunnel-pic:source-occurrence
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: routing-instance:dhcp-subs
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ---
 
-## Add-a-feature requests (no full service)
+## Internet VRF with eBGP to the upstream CE
 
-When the user asks to add a supporting feature to an existing device, emit ONLY that snip set (OS-select):
-- **Underlay / IS-IS SR-MPLS** → `transport/isis-srmpls-tilfa.conf` + `transport/mpls-segment-routing.conf` + `interfaces/core-isis-mpls.conf` + `policy/isis-export-prefix-segment.conf`
-- **iBGP overlay** → the role snip: `transport/bgp-overlay-pe-an.conf` (AN) / `transport/bgp-overlay-pe-bng.conf` (BNG) / `transport/bgp-overlay-rr-fabric.conf` (AGN) / `transport/bgp-overlay-rr-core.conf` (CR) + `policy/bgp-rr-export.conf` (RRs)
-- **BNG bootstrap** → `junos/bootstrap/chassis-bng.conf` + `junos/subscriber-management/system-services-subscriber-mgmt.conf`
-- **RADIUS AAA** → `junos/subscriber-management/radius-server.conf` + `junos/subscriber-management/access-profile-radius.conf`
-- **Load-balancing** → `policy/pplb.conf` (+ `transport/routing-options-pe.conf` for the chained-composite-next-hop knob)
-- **uRPF fail-filter (DHCP)** → `junos/firewall/rpf-pass-dhcp.conf`
+Family l3vpn, form l3vpn-internet. OS mode EVO. Attachment: Dual-stack logical unit toward the upstream CE..
+
+### cr1_ptx10004 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-vrf-internet.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:VRF_Internet_import
+  - occurrence-selection-required: policy-statement:VRF_Internet_export
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: community:PS-Internet-COMM
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
+
+## RADIUS VRF
+
+Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback unit. Core router: dual-stack unit toward the RADIUS server, with OSPF..
+
+### cr1_ptx10004 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-radius-server-ospf.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-REDIS-OSPF
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
+  - occurrence-selection-required: community:PS-DHCPSUBS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-radius.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng2_mx204 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-radius.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng3_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-radius.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+### bng4_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-radius.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
+  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+  - occurrence-selection-required: community:PS-RADIUS-COMM
+
+---

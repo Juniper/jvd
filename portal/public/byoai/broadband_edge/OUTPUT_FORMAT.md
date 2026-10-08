@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-bbe-snips.md`](jvd-bbe-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-bbe-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,22 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   an: { name: <hostname>, os: evo, loopback4: <addr> }
-#   bng: { name: <hostname>, os: junos, loopback4: <addr>, rd_loopback4: <addr> }
+#   an1: { name: <hostname>, os: evo, loopback4: <addr> }
+#   bng1: { name: <hostname>, os: junos, loopback4: <addr> }
 # services:
-#   - { kind: <evpn-vpws-pppoe|evpn-vpws-ipoe|evpn-vpws-fxc|evpn-vpws-an|evpn-vpws-fxc-an|l3vpn-internet|l3vpn-radius|access-switch>,
+#   - { kind: <evpn-vpws|evpn-fxc|pwht-pppoe|pwht-ipoe|l3vpn-internet|l3vpn-radius>,
 #       count: <int>,
-#       group_id: <int>,          # subscriber-group id (RD/RT tail)
-#       vpws_local: <int>,        # service-id pair (AN local == BNG remote)
-#       vpws_remote: <int>,
-#       rt: <target:60000:...>,
-#       esi_base: <hex>,          # per-group ESI; df-preference for BNG ps
-#       vrf: <PPPOE_SUBS_1|dhcp-subs> }
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       service_ids: <local/remote> }
 # snips_used:
-#   - junos/services/evpn-vpws-pppoe-bng.conf
-#   - evo/services/evpn-vpws-an.conf
+#   - evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf
 #   - ...
 ```
 
@@ -43,17 +40,17 @@ Each device block starts with a `# device:` label and groups its snips with `/* 
 <rendered config block>
 ```
 
-For an end-to-end EVPN-VPWS service, emit the **AN half** (`evo/`) and the **BNG half** (`junos/`) as separate device blocks. Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment. Leave `$junos-*` dynamic-profile placeholders literal (runtime-resolved by `smg-service`).
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries (for `variant:bbe-bgp-overlay`, the BGP overlay form whose `Seen on:` lists the device) and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-endpoint consistency the user must verify (route-target, ESI value, and the VPWS service-id pair — AN `local` == BNG `remote` and vice-versa).
-- Anything that is by-pattern rather than validated on that exact device (e.g. a user-supplied hostname not in any snip's `Seen on:` list).
-- For **BNG** devices: remind that `chassis pseudowire-service` + `tunnel-services` (from `bootstrap/chassis-bng.conf`) and `system services subscriber-management` are prerequisites for PWHT / dynamic-profile activation.
+- Cross-device consistency the user must verify: the access-node and BNG ends of a pseudowire use the same instance name and route target, with the local and remote service IDs swapped; all four BNGs carry the same instance name and `ps<N>.0` attachment for a pseudowire group.
+- For a pseudowire-headend interface: the `$junos-*` placeholders in the dynamic profiles it names are resolved at runtime and stay literal.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

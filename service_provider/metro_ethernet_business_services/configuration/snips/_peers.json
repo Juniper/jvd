@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "generatedFrom": {
     "inputsSha256": "90a039ecf1a27d533147e58df6889305aad10115a86562aaf32f14fa0eb7fba2",
-    "registryVersion": 3,
-    "registrySha256": "b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b",
-    "toolsSha256": "72d13bd82df8a09c5a7f8430fee0e063d6632eb26d389607dcaeeaf647b50a2f",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "c67a17e63024fdfcc6f490ae98723316d4fac6b1547abef966a09c78d5eb35d5",
     "devices": 20,
     "snips": 585,
-    "relationshipsSha256": "90b89b295ec77d0da0ef4cb78ff634b14f0848f127936e0d451a8afd9cd7d16d",
+    "relationshipsSha256": "f833d0ec8cafe251fe7f6089521200017df1dd6908218578661056c08490c199",
     "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
   },
   "snips": {
