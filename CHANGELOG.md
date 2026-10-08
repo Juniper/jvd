@@ -73,8 +73,8 @@ Changes since the October 7 entry, excluding this changelog.
 | Service Provider / MEBS | 5 | 5 | 0 |
 | Enterprise WAN / Data Center Edge | 4 | 4 | 0 |
 | Portal | 30597 | 9698 | +20899 |
-| Repository (contracts and glossary) | 194 | 5 | +189 |
-| **Total** | **52512** | **18225** | **+34287** |
+| Repository (contracts and glossary) | 197 | 6 | +191 |
+| **Total** | **52515** | **18226** | **+34289** |
 
 </details>
 
