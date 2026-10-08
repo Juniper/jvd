@@ -4,6 +4,72 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-07
+
+Catalog, contribution and snippet-contract updates: the Enterprise Data Center
+Edge catalog entry lists every validated platform, new JVD folders are checked
+for the standard layout, and the snippet contract covers JVDs that keep helper
+devices in their configurations.
+
+### New content
+
+- **Catalog**: the [Enterprise Data Center Edge](enterprise_wan/ewan_dc_edge)
+  entry in the [portal](https://juniper.github.io/jvd/portal/) now lists the
+  ACX5448-D WAN edge and PTX10003-80C provider router named in its validated
+  hardware tables.
+- **Layout check**: every pull request is checked for what it adds or renames. A
+  new JVD folder must use a lowercase `snake_case` name, include `README.md` and
+  `configuration/conf` or `configuration/set`, and appear in the portal catalog;
+  images added to a JVD belong under `images/` or `documentation/images/`.
+  Existing JVD folders are not re-checked.
+- **Snippet contract**: a device whose entire configuration is excluded from a
+  snippet library, such as a test helper, needs no OS identity for paired Junos /
+  Junos Evolved snippet files. It stays listed with its exclusions, and every
+  other device still needs an unambiguous OS. The Metro Ethernet Business
+  Services and Data Center Edge measurement records were refreshed; their
+  snippet counts and values are unchanged.
+
+### What this means for you
+
+- Platform filters in the portal now find Enterprise Data Center Edge for the
+  ACX5448-D and PTX10003-80C.
+- If you contribute a new JVD, follow the folder layout above; the pull request
+  reports anything that does not match.
+
+---
+
+### By the numbers
+
+Changes since the October 6 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Repository (CI and contracts) | 2 | 0 | 0 | 1 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 1 | 0 |
+| Service Provider / MEBS | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 1 | 0 |
+| **Total** | **2** | **0** | **0** | **4** | **0** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Repository (CI and contracts) | 87 | 1 | +86 |
+| Enterprise WAN / Data Center Edge | 1 | 1 | 0 |
+| Service Provider / MEBS | 1 | 1 | 0 |
+| Portal | 4 | 2 | +2 |
+| **Total** | **93** | **5** | **+88** |
+
+</details>
+
+---
+
 ## 2026-10-06
 
 Added a **configuration snippet library for the Enterprise Data Center Edge JVD**:
