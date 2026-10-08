@@ -1,15 +1,59 @@
 {
-  "schema_version": 1,
-  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "schema_version": 2,
+  "contract_versions": {
+    "dependencies": 3,
+    "relationships": 2
+  },
+  "dependency_declaration_sha256": "80db18766c81964488b3da12b7f800da64e4e714d73c0ab6ab096f81e5836a8b",
+  "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips",
-  "snip_count": 48,
+  "snip_count": 140,
   "snips": [
     {
-      "path": "evo/interfaces/ae-vlan-bridge-an.conf",
+      "path": "evo/chassis/aggregated-devices-ethernet.conf",
+      "os": "evo",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device-count for the chassis",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 810,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/forwarding-options/tunnels-udp.conf",
+      "os": "evo",
+      "category": "forwarding-options",
+      "name": "tunnels-udp",
+      "topic": "UDP tunnel decapsulation",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 334,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/forwarding-options/tunnels-udp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-flexible-lacp-fast-mtu-esi-single-active.conf",
       "os": "evo",
       "category": "interfaces",
-      "name": "ae-vlan-bridge-an",
-      "topic": "AN access LAG with vlan-ccc subscriber units and EVPN ESI multihoming",
+      "name": "ifd-ae-flexible-lacp-fast-mtu-esi-single-active",
+      "topic": "Access-facing aggregated Ethernet bundle with a single-active ESI and fast LACP",
       "seen_on": [
         "an1_acx7024",
         "an2_acx7100-48l",
@@ -17,134 +61,34 @@
         "an4_acx7100-48l",
         "an5_acx7100-48l"
       ],
-      "size_bytes": 2940,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ae-vlan-bridge-an.conf"
+      "size_bytes": 1499,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-ae-flexible-lacp-fast-mtu-esi-single-active.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/interfaces/core-isis-mpls.conf",
+      "path": "evo/interfaces/ifd-ae-flexible-lacp-fast-mtu.conf",
       "os": "evo",
       "category": "interfaces",
-      "name": "core-isis-mpls",
-      "topic": "Core-facing interface for ISIS underlay (inet/iso/inet6/mpls, max-labels 16)",
-      "seen_on": [
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 1415,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/core-isis-mpls.conf"
-    },
-    {
-      "path": "evo/policy/bgp-rr-export.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "bgp-rr-export",
-      "topic": "Route-reflector export policies (next-hop-self for core, transparent for clients)",
-      "seen_on": [
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 1856,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/bgp-rr-export.conf"
-    },
-    {
-      "path": "evo/policy/communities.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "communities",
-      "topic": "BBE community palette (subscriber, RADIUS, Internet)",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 963,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/communities.conf"
-    },
-    {
-      "path": "evo/policy/isis-export-prefix-segment.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "isis-export-prefix-segment",
-      "topic": "ISIS export policy mapping each loopback to a unique SR prefix-segment",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 2058,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/isis-export-prefix-segment.conf"
-    },
-    {
-      "path": "evo/policy/pplb.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "pplb",
-      "topic": "Per-packet load-balance forwarding-table policy",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 699,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/pplb.conf"
-    },
-    {
-      "path": "evo/policy/vrf-internet-policies.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "vrf-internet-policies",
-      "topic": "VRF_Internet import/export with default-route advertisement and v6 leak",
-      "seen_on": [
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 2776,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/vrf-internet-policies.conf"
-    },
-    {
-      "path": "evo/policy/vrf-radius-policies.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "vrf-radius-policies",
-      "topic": "RADIUS VRF import/export policies (CR side, with subscriber-community accept)",
-      "seen_on": [
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 1629,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy/vrf-radius-policies.conf"
-    },
-    {
-      "path": "evo/services/evpn-vpws-an.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-vpws-an",
-      "topic": "EVPN-VPWS routing-instance for per-subscriber-group pseudowires (AN side)",
+      "name": "ifd-ae-flexible-lacp-fast-mtu",
+      "topic": "Access-facing aggregated Ethernet bundle with flexible tagging and fast LACP",
       "seen_on": [
         "an1_acx7024",
         "an2_acx7100-48l",
@@ -152,101 +96,244 @@
         "an4_acx7100-48l",
         "an5_acx7100-48l"
       ],
-      "size_bytes": 2580,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/services/evpn-vpws-an.conf"
+      "size_bytes": 1113,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-ae-flexible-lacp-fast-mtu.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/services/evpn-vpws-fxc-an.conf",
+      "path": "evo/interfaces/ifd-breakout-10g.conf",
       "os": "evo",
-      "category": "services",
-      "name": "evpn-vpws-fxc-an",
-      "topic": "EVPN-VPWS Flexible Cross-Connect (FXC) routing-instance, AN side",
-      "seen_on": [
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l"
-      ],
-      "size_bytes": 2968,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/services/evpn-vpws-fxc-an.conf"
-    },
-    {
-      "path": "evo/services/l3vpn-internet.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "l3vpn-internet",
-      "topic": "Internet L3VPN VRF on cr1 (eBGP to upstream CE, default-route discard)",
-      "seen_on": [
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 3181,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/services/l3vpn-internet.conf"
-    },
-    {
-      "path": "evo/services/l3vpn-radius.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "l3vpn-radius",
-      "topic": "RADIUS L3VPN VRF (CR-side, runs OSPF to RADIUS server)",
+      "category": "interfaces",
+      "name": "ifd-breakout-10g",
+      "topic": "Port channelized into 10G sub-ports",
       "seen_on": [
         "cr1_ptx10004"
       ],
-      "size_bytes": 2176,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/services/l3vpn-radius.conf"
+      "size_bytes": 482,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-breakout-10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/transport/bgp-overlay-pe-an.conf",
+      "path": "evo/interfaces/ifd-core-aggregate-lacp.conf",
       "os": "evo",
-      "category": "transport",
-      "name": "bgp-overlay-pe-an",
-      "topic": "iBGP overlay from access-PE (AN) to fabric route reflectors",
-      "seen_on": [
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l"
-      ],
-      "size_bytes": 1814,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-pe-an.conf"
-    },
-    {
-      "path": "evo/transport/bgp-overlay-rr-core.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "bgp-overlay-rr-core",
-      "topic": "Core (CR) route-reflector with VPN AFs and accept-remote-nexthop",
+      "category": "interfaces",
+      "name": "ifd-core-aggregate-lacp",
+      "topic": "Core aggregated Ethernet bundle with active LACP",
       "seen_on": [
         "cr1_ptx10004"
       ],
-      "size_bytes": 3634,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-rr-core.conf"
+      "size_bytes": 576,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-core-aggregate-lacp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-core-lag-member-ether-description.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/transport/bgp-overlay-rr-fabric.conf",
+      "path": "evo/interfaces/ifd-core-aggregate-vlan-tagging-min-links-lacp.conf",
       "os": "evo",
-      "category": "transport",
-      "name": "bgp-overlay-rr-fabric",
-      "topic": "Fabric (AGN) route-reflector with downstream AN clients and upstream CR peer",
+      "category": "interfaces",
+      "name": "ifd-core-aggregate-vlan-tagging-min-links-lacp",
+      "topic": "Core aggregated Ethernet bundle with VLAN tagging, minimum links and active LACP",
       "seen_on": [
         "agn1_acx7100-32c",
         "agn2_acx7100-32c"
       ],
-      "size_bytes": 3550,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/bgp-overlay-rr-fabric.conf"
+      "size_bytes": 757,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-core-aggregate-vlan-tagging-min-links-lacp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/transport/isis-srmpls-tilfa.conf",
+      "path": "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
       "os": "evo",
-      "category": "transport",
-      "name": "isis-srmpls-tilfa",
-      "topic": "ISIS L1 with SR-MPLS, TI-LFA node-protection, and microloop avoidance",
+      "category": "interfaces",
+      "name": "ifd-core-lag-member-ether-description-100g",
+      "topic": "Described 100G physical member of a core aggregated Ethernet bundle",
       "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 650,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-core-lag-member-ether-description.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-core-lag-member-ether-description",
+      "topic": "Described physical member of a core aggregated Ethernet bundle",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 604,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-core-lag-member-ether-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description-100g",
+      "topic": "Described 100G interface device",
+      "seen_on": [
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 673,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-description-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description",
+      "topic": "Interface device description",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 587,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-lag-member-ether.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-lag-member-ether",
+      "topic": "Physical member of an aggregated Ethernet bundle",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 727,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-lag-member-ether.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-speed-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-speed-100g",
+      "topic": "Port speed 100G",
+      "seen_on": [
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 497,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-speed-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-unused.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-unused",
+      "topic": "Unused physical port",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 345,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-unused.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-inet-iso-inet6-mpls-max-labels-16",
+      "topic": "Core logical interface",
+      "seen_on": [
         "agn1_acx7100-32c",
         "agn2_acx7100-32c",
         "an1_acx7024",
@@ -256,20 +343,160 @@
         "an5_acx7100-48l",
         "cr1_ptx10004"
       ],
-      "size_bytes": 2752,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/isis-srmpls-tilfa.conf"
+      "size_bytes": 1095,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-aggregate-lacp.conf",
+            "evo/interfaces/ifd-description-100g.conf",
+            "evo/interfaces/ifd-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-core-lag-member-ether-description.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/transport/mpls-segment-routing.conf",
+      "path": "evo/interfaces/ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16.conf",
       "os": "evo",
-      "category": "transport",
-      "name": "mpls-segment-routing",
-      "topic": "MPLS SRGB and IPv6 tunneling for SR-MPLS",
+      "category": "interfaces",
+      "name": "ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16",
+      "topic": "Core logical interface without an IPv6 address",
       "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
+        "an4_acx7100-48l"
+      ],
+      "size_bytes": 735,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description-100g.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-vlan-inet-iso-inet6-mpls",
+      "topic": "VLAN-tagged core logical interface",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c"
+      ],
+      "size_bytes": 857,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-aggregate-vlan-tagging-min-links-lacp.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-inet-inet6.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-inet-inet6",
+      "topic": "Dual-stack logical interface",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 679,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-loopback-primary-iso.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-loopback-primary-iso",
+      "topic": "Loopback logical interface",
+      "seen_on": [
         "agn1_acx7100-32c",
         "agn2_acx7100-32c",
         "an1_acx7024",
@@ -279,15 +506,35 @@
         "an5_acx7100-48l",
         "cr1_ptx10004"
       ],
-      "size_bytes": 1241,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/mpls-segment-routing.conf"
+      "size_bytes": 1164,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-loopback-primary-iso.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/transport/routing-options-pe.conf",
+      "path": "evo/interfaces/ifl-loopback-primary.conf",
       "os": "evo",
-      "category": "transport",
-      "name": "routing-options-pe",
-      "topic": "PE routing-options (router-id, AS, chained-composite-next-hop)",
+      "category": "interfaces",
+      "name": "ifl-loopback-primary",
+      "topic": "Loopback logical interface for a routing instance",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 794,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-loopback-primary.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-esi-all-active-family-ccc",
+      "topic": "Single-tagged cross-connect logical interface with an all-active ESI",
       "seen_on": [
         "an1_acx7024",
         "an2_acx7100-48l",
@@ -295,516 +542,3547 @@
         "an4_acx7100-48l",
         "an5_acx7100-48l"
       ],
-      "size_bytes": 1210,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/transport/routing-options-pe.conf"
+      "size_bytes": 1140,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-flexible-lacp-fast-mtu.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/bootstrap/chassis-bng.conf",
+      "path": "evo/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-family-ccc",
+      "topic": "Single-tagged cross-connect logical interface",
+      "seen_on": [
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 733,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-flexible-lacp-fast-mtu-esi-single-active.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-pppoe-subs-comm-1",
+      "topic": "Route-target community PPPOE_SUBS_COMM_1 for PPPoE subscriber direct routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 408,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-pppoe-subs-comm-2",
+      "topic": "Route-target community PPPOE_SUBS_COMM_2 for PPPoE subscriber aggregates",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 405,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-ps-dhcpsubs-comm-2",
+      "topic": "Route-target community PS-DHCPSUBS-COMM_2 for DHCP subscriber access routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 409,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-ps-dhcpsubs-comm",
+      "topic": "Route-target community PS-DHCPSUBS-COMM for DHCP subscriber direct routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 405,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/community/cm-ps-internet-comm.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-ps-internet-comm",
+      "topic": "Route-target community PS-Internet-COMM for Internet VRF routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 390,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-ps-internet-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/community/cm-ps-radius-comm.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "community/cm-ps-radius-comm",
+      "topic": "Route-target community PS-RADIUS-COMM for RADIUS VRF routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 389,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/community/cm-ps-radius-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-bgp-rr-export.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-rr-export",
+      "topic": "Route-reflector export policy PS-BGP-RR-EXPORT with next-hop self for core loopbacks",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 668,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-bgp-rr-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-prefix-list",
+          "kind": "prefix-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PL-CORE"
+          ],
+          "providers": [
+            "evo/policy-options/prefix-list/pl-core-agn.conf",
+            "evo/policy-options/prefix-list/pl-core-cr.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-client-rr-export.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-client-rr-export",
+      "topic": "Route-reflector client export policy PS-CLIENT-RR-EXPORT for access-region loopbacks",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 605,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-client-rr-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-prefix-list",
+          "kind": "prefix-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PL-AN-REGION"
+          ],
+          "providers": [
+            "evo/policy-options/prefix-list/pl-an-region-agn.conf",
+            "evo/policy-options/prefix-list/pl-an-region-cr.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-isis-export.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-isis-export",
+      "topic": "IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks with their prefix segments",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1850,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-isis-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-pplb.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pplb",
+      "topic": "Per-packet load-balance policy PS-PPLB",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 704,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-pplb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-radius-vrf-export.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-radius-vrf-export",
+      "topic": "VRF export policy PS-RADIUS-VRF-EXPORT",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 611,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-radius-vrf-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-COMM"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-radius-vrf-import-subscribers",
+      "topic": "VRF import policy PS-RADIUS-VRF-IMPORT that also imports the subscriber routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 851,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+        "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+        "evo/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_COMM_1",
+            "PS-DHCPSUBS-COMM",
+            "PS-RADIUS-COMM"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "evo/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-redis-ospf.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-redis-ospf",
+      "topic": "OSPF export policy PS-REDIS-OSPF redistributing BGP routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 440,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-redis-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-v6-default.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-v6-default",
+      "topic": "Export policy PS-V6-default for the Internet VRF IPv6 default route",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 980,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/ps-v6-default.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/community/cm-ps-internet-comm.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-internet.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-Internet-COMM"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-ps-internet-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "VRF_Internet"
+          ],
+          "providers": [
+            "evo/routing-instances/l3vpn/ri-vrf-internet.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/stop-leak.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/stop-leak",
+      "topic": "IS-IS policy stop_leak blocking level 1 to level 2 leaking",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 471,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/stop-leak.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/vrf-internet-export.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/vrf-internet-export",
+      "topic": "VRF export policy VRF_Internet_export for the IPv4 and IPv6 default routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1090,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/vrf-internet-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/community/cm-ps-internet-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-Internet-COMM"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-ps-internet-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/vrf-internet-import.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/vrf-internet-import",
+      "topic": "VRF import policy VRF_Internet_import for the subscriber routes",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 887,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/vrf-internet-import.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+        "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+        "evo/policy-options/community/cm-ps-internet-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-Internet-COMM",
+            "PPPOE_SUBS_COMM_2",
+            "PS-DHCPSUBS-COMM_2"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-internet-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/prefix-list/pl-an-region-agn.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "prefix-list/pl-an-region-agn",
+      "topic": "Prefix-list PL-AN-REGION with the access-node loopbacks",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c"
+      ],
+      "size_bytes": 528,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/prefix-list/pl-an-region-agn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/prefix-list/pl-an-region-cr.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "prefix-list/pl-an-region-cr",
+      "topic": "Prefix-list PL-AN-REGION with the access-node and BNG1/BNG2 loopbacks",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 560,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/prefix-list/pl-an-region-cr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/prefix-list/pl-bng.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "prefix-list/pl-bng",
+      "topic": "Prefix-list PL-BNG with the BNG loopbacks",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 428,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/prefix-list/pl-bng.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/prefix-list/pl-core-agn.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "prefix-list/pl-core-agn",
+      "topic": "Prefix-list PL-CORE with the BNG1/BNG2 and core-router loopbacks",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c"
+      ],
+      "size_bytes": 483,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/prefix-list/pl-core-agn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/prefix-list/pl-core-cr.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "prefix-list/pl-core-cr",
+      "topic": "Prefix-list PL-CORE with the BNG3/BNG4 loopbacks",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 389,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/policy-options/prefix-list/pl-core-cr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-agn.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-agn",
+      "topic": "iBGP route reflector for the access fabric and the core",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c"
+      ],
+      "size_bytes": 3329,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/bgp-overlay-agn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-an.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-an",
+      "topic": "iBGP overlay sessions from an access node to its route reflectors",
+      "seen_on": [
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 2034,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/bgp-overlay-an.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-cr.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-cr",
+      "topic": "iBGP core route reflector for the aggregation nodes and BNGs",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 3322,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/bgp-overlay-cr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-bgp-rr-export.conf",
+        "evo/policy-options/policy-statement/ps-client-rr-export.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-BGP-RR-EXPORT",
+            "PS-CLIENT-RR-EXPORT"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-bgp-rr-export.conf",
+            "evo/policy-options/policy-statement/ps-client-rr-export.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/isis-intf-l1-tilfa-bfd.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "isis-intf-l1-tilfa-bfd",
+      "topic": "IS-IS level 1 point-to-point core interface with TI-LFA node protection and BFD",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1238,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/isis-intf-l1-tilfa-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_INTF"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
+            "evo/interfaces/ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16.conf",
+            "evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/isis-intf-l2-tilfa-bfd.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "isis-intf-l2-tilfa-bfd",
+      "topic": "IS-IS level 2 point-to-point core interface with TI-LFA node protection and BFD",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1021,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/isis-intf-l2-tilfa-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_INTF"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/isis-loopback-passive.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "isis-loopback-passive",
+      "topic": "IS-IS passive loopback interface",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 701,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/isis-loopback-passive.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-loopback-primary-iso.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.0"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-loopback-primary-iso.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/isis-srmpls-tilfa-l1-l2.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "isis-srmpls-tilfa-l1-l2",
+      "topic": "IS-IS level 1 and level 2 instance with SR-MPLS TI-LFA and two export policies",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1437,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/isis-srmpls-tilfa-l1-l2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-isis-export.conf",
+        "evo/policy-options/policy-statement/stop-leak.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-ISIS-EXPORT",
+            "stop_leak"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-isis-export.conf",
+            "evo/policy-options/policy-statement/stop-leak.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/isis-srmpls-tilfa-l1.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "isis-srmpls-tilfa-l1",
+      "topic": "IS-IS level 1 instance with SR-MPLS TI-LFA",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 1457,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/isis-srmpls-tilfa-l1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-isis-export.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-ISIS-EXPORT"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-isis-export.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/lldp-interface-all.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "lldp-interface-all",
+      "topic": "LLDP enabled on all interfaces",
+      "seen_on": [
+        "agn2_acx7100-32c",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 281,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/lldp-interface-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/mpls-srgb-ipv6-tunneling.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "mpls-srgb-ipv6-tunneling",
+      "topic": "MPLS segment-routing global block with IPv6 tunneling",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 820,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/protocols/mpls-srgb-ipv6-tunneling.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-2-uni-esi",
+      "topic": "EVPN flexible cross-connect (VLAN-unaware) with two attachment units and a group ESI",
+      "seen_on": [
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 2043,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-esi.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-vlan-ccc-family-ccc.conf"
+      ],
+      "variant_requires": [
+        {
+          "group": "bbe-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFD.$UNIT_A",
+            "$IFD.$UNIT_B"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-ccc-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-vpws",
+      "topic": "EVPN-VPWS routing instance with one attachment circuit",
+      "seen_on": [
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 1848,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+      ],
+      "variant_requires": [
+        {
+          "group": "bbe-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/l3vpn/ri-radius-server-ospf.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-radius-server-ospf",
+      "topic": "RADIUS VRF attaching the RADIUS server with OSPF",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 1488,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-instances/l3vpn/ri-radius-server-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-loopback-primary.conf",
+        "evo/policy-options/policy-statement/ps-radius-vrf-export.conf",
+        "evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
+        "evo/policy-options/policy-statement/ps-redis-ospf.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "evo/policy-options/community/cm-ps-internet-comm.conf",
+            "evo/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL",
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-inet-inet6.conf",
+            "evo/interfaces/ifl-loopback-primary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-REDIS-OSPF",
+            "PS-RADIUS-VRF-IMPORT",
+            "PS-RADIUS-VRF-EXPORT"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-radius-vrf-export.conf",
+            "evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
+            "evo/policy-options/policy-statement/ps-redis-ospf.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/l3vpn/ri-vrf-internet.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-vrf-internet",
+      "topic": "Internet VRF with default discard routes and eBGP to the upstream CE",
+      "seen_on": [
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 2130,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-internet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-inet-inet6.conf",
+        "evo/policy-options/policy-statement/vrf-internet-export.conf",
+        "evo/policy-options/policy-statement/vrf-internet-import.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "evo/policy-options/community/cm-ps-internet-comm.conf",
+            "evo/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "VRF_Internet_import",
+            "VRF_Internet_export"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/vrf-internet-export.conf",
+            "evo/policy-options/policy-statement/vrf-internet-import.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/autonomous-system.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Device autonomous-system number",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 579,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb-chained-evpn.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-evpn",
+      "topic": "Forwarding table with per-packet load balancing and EVPN ingress chained composite next hops",
+      "seen_on": [
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l"
+      ],
+      "size_bytes": 902,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-options/forwarding-table-pplb-chained-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-pplb.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPLB"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-pplb.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb",
+      "topic": "Forwarding table with per-packet load balancing",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 554,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-options/forwarding-table-pplb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-pplb.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPLB"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-pplb.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/router-id.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 567,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/ports-console-log-out.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "agn1_acx7100-32c",
+        "agn2_acx7100-32c",
+        "an1_acx7024",
+        "an2_acx7100-48l",
+        "an3_acx7100-48l",
+        "an4_acx7100-48l",
+        "an5_acx7100-48l",
+        "cr1_ptx10004"
+      ],
+      "size_bytes": 604,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/evo/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access-profile/access-profile-vlan-auth-access1.conf",
       "os": "junos",
-      "category": "bootstrap",
-      "name": "chassis-bng",
-      "topic": "BNG chassis knobs (ECMP, GRES, pseudowire-service, tunnel-services)",
+      "category": "access-profile",
+      "name": "access-profile-vlan-auth-access1",
+      "topic": "Default access profile vlan-auth-access1",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1649,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/bootstrap/chassis-bng.conf"
+      "size_bytes": 480,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access-profile/access-profile-vlan-auth-access1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/firewall/rpf-pass-dhcp.conf",
+      "path": "junos/access/address-assignment-pppoe-pools.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "address-assignment-pppoe-pools",
+      "topic": "Global PPPoE IPv4 address pool and IPv6 router-advertisement pool",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 976,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/address-assignment-pppoe-pools.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access/profile-no-auth.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "profile-no-auth",
+      "topic": "Access profile no-auth with authentication disabled",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 464,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/profile-no-auth.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access/profile-vlan-auth-access.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "profile-vlan-auth-access",
+      "topic": "Access profile vlan-auth-access with no authentication and the PPPoE IPv4 pool",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 646,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/profile-vlan-auth-access.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/address-assignment-pppoe-pools.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access/profile-vlan-auth-access1.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "profile-vlan-auth-access1",
+      "topic": "Access profile vlan-auth-access1 with RADIUS authentication and subscriber line identification",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 2228,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/profile-vlan-auth-access1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/l3vpn/ri-radius.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access/profile-vlan-auth-access2.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "profile-vlan-auth-access2",
+      "topic": "Access profile vlan-auth-access2 with basic RADIUS authentication",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 909,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/profile-vlan-auth-access2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/access/radius-server.conf",
+      "os": "junos",
+      "category": "access",
+      "name": "radius-server",
+      "topic": "Global RADIUS server reached through VRF RADIUS",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1014,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/access/radius-server.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/l3vpn/ri-radius.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/aggregated-devices-ethernet.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device-count for the chassis",
+      "seen_on": [
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 566,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-mx10004-tunnel-100g-ports.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-mx10004-tunnel-100g-ports",
+      "topic": "MX10004 FPC with 100G tunnel services and 100G ports on PICs 2 to 5",
+      "seen_on": [
+        "bng3_mx10004"
+      ],
+      "size_bytes": 1104,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/fpc-mx10004-tunnel-100g-ports.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-mx204-tunnel-100g-4x100g.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-mx204-tunnel-100g-4x100g",
+      "topic": "MX204 FPC with 100G tunnel services, four 100G ports and PIC 1 disabled",
+      "seen_on": [
+        "bng2_mx204"
+      ],
+      "size_bytes": 891,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/fpc-mx204-tunnel-100g-4x100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-mx480-tunnel-100g-2x100g-single-sub-port.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-mx480-tunnel-100g-2x100g-single-sub-port",
+      "topic": "MX480 FPC with 100G tunnel services and two 100G single-sub-port ports",
+      "seen_on": [
+        "bng4_mx480"
+      ],
+      "size_bytes": 763,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/fpc-mx480-tunnel-100g-2x100g-single-sub-port.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-tunnel-services-100g.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-tunnel-services-100g",
+      "topic": "100G tunnel services on a PIC",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 642,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/fpc-tunnel-services-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/maximum-ecmp.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "maximum-ecmp",
+      "topic": "Chassis maximum ECMP paths",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 385,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/maximum-ecmp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/network-services-enhanced-ip.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "network-services-enhanced-ip",
+      "topic": "Enhanced IP chassis network-services mode",
+      "seen_on": [
+        "bng4_mx480"
+      ],
+      "size_bytes": 317,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/network-services-enhanced-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/pseudowire-service.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "pseudowire-service",
+      "topic": "Pseudowire-subscriber device allocation",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 546,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/pseudowire-service.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/redundancy-graceful-switchover.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "redundancy-graceful-switchover",
+      "topic": "Graceful Routing Engine switchover",
+      "seen_on": [
+        "bng1_mx304",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 450,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/chassis/redundancy-graceful-switchover.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/dynamic-profiles/auto-stacked-pwht.conf",
+      "os": "junos",
+      "category": "dynamic-profiles",
+      "name": "auto-stacked-pwht",
+      "topic": "Dynamic profile auto-stacked-pwht for PPPoE sessions over pseudowire-headend stacked VLANs",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 2301,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/auto-stacked-pwht.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/dynamic-profiles/prod-pppoe-dt-base.conf",
+        "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_1"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf",
+      "os": "junos",
+      "category": "dynamic-profiles",
+      "name": "auto-stacked-pwht_dhcp",
+      "topic": "Dynamic profile auto-stacked-pwht_dhcp for DHCP/IPoE subscribers over pseudowire-headend stacked VLANs",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 4653,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/dynamic-profiles/prof_autosense_ipdemux.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/dynamic-profiles/prod-dhcp-base.conf",
+      "os": "junos",
+      "category": "dynamic-profiles",
+      "name": "prod-dhcp-base",
+      "topic": "Dynamic profile prod-dhcp-base for DHCPv4/DHCPv6 subscriber demux sessions",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 2261,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/prod-dhcp-base.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/firewall/filter-rpf-pass-dhcp.conf",
+        "junos/firewall/filter-rpf-pass-dhcpv6.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/dynamic-profiles/prod-pppoe-dt-base.conf",
+      "os": "junos",
+      "category": "dynamic-profiles",
+      "name": "prod-pppoe-dt-base",
+      "topic": "Dynamic profile prod-pppoe-dt-base for per-session PPPoE pp0 units",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 2066,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/prod-pppoe-dt-base.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/firewall/filter-clear-df-bit.conf",
+        "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-filter",
+          "kind": "filter",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "clear-df-bit"
+          ],
+          "providers": [
+            "junos/firewall/filter-clear-df-bit.conf"
+          ]
+        },
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_1"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/dynamic-profiles/prof_autosense_ipdemux.conf",
+      "os": "junos",
+      "category": "dynamic-profiles",
+      "name": "prof_autosense_ipdemux",
+      "topic": "Dynamic profile prof_autosense_ipdemux for per-subscriber IP demux units",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1922,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/prof_autosense_ipdemux.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/firewall/filter-clear-df-bit.conf",
       "os": "junos",
       "category": "firewall",
-      "name": "rpf-pass-dhcp",
-      "topic": "uRPF fail-filters for DHCP/DHCPv6 (and DF-bit clear)",
+      "name": "filter-clear-df-bit",
+      "topic": "Interface-specific IPv4 filter clear-df-bit that clears the Don't Fragment bit",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2226,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/firewall/rpf-pass-dhcp.conf"
+      "size_bytes": 699,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/firewall/filter-clear-df-bit.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/ae-vlan-bridge-fxc-sw.conf",
+      "path": "junos/firewall/filter-rpf-pass-dhcp.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-rpf-pass-dhcp",
+      "topic": "IPv4 RPF-fail filter rpf-pass-dhcp that passes DHCP broadcasts",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 890,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/firewall/filter-rpf-pass-dhcp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-rpf-pass-dhcpv6.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-rpf-pass-dhcpv6",
+      "topic": "IPv6 RPF-fail filter rpf-pass-dhcpv6 that passes DHCPv6",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 828,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/firewall/filter-rpf-pass-dhcpv6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-core-aggregate-lacp.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "ae-vlan-bridge-fxc-sw",
-      "topic": "QFX access switch LAG with vlan-bridge units (towards AN)",
+      "name": "ifd-core-aggregate-lacp",
+      "topic": "Core aggregated Ethernet bundle with active LACP",
       "seen_on": [
-        "sw1_qfx5120-32c",
-        "sw2_qfx5210-64c"
+        "bng3_mx10004",
+        "bng4_mx480"
       ],
-      "size_bytes": 2020,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ae-vlan-bridge-fxc-sw.conf"
+      "size_bytes": 605,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-core-aggregate-lacp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-core-lag-member-gigether-description.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/interfaces/core-isis-mpls.conf",
+      "path": "junos/interfaces/ifd-core-lag-member-gigether-description.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "core-isis-mpls",
-      "topic": "Core-facing interface for ISIS underlay (inet/iso/inet6/mpls, max-labels 16)",
+      "name": "ifd-core-lag-member-gigether-description",
+      "topic": "Described physical member of a core aggregated Ethernet bundle",
       "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1624,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/core-isis-mpls.conf"
+      "size_bytes": 639,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-core-lag-member-gigether-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/ps-pseudowire-dhcp-ipoe.conf",
+      "path": "junos/interfaces/ifd-description.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "ps-pseudowire-dhcp-ipoe",
-      "topic": "Pseudowire-headend (ps) interface for DHCP/IPoE subscriber sessions",
+      "name": "ifd-description",
+      "topic": "Interface device description",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480"
+        "bng3_mx10004"
       ],
-      "size_bytes": 2851,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ps-pseudowire-dhcp-ipoe.conf"
+      "size_bytes": 526,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/ps-pseudowire-pppoe.conf",
+      "path": "junos/interfaces/ifd-ps-pwht-dhcp.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "ps-pseudowire-pppoe",
-      "topic": "Pseudowire-headend (ps) interface for PPPoE subscriber sessions",
+      "name": "ifd-ps-pwht-dhcp",
+      "topic": "Pseudowire-headend subscriber interface with stacked-VLAN auto-configuration for DHCP/IPoE",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 3490,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ps-pseudowire-pppoe.conf"
-    },
-    {
-      "path": "junos/policy/communities.conf",
-      "os": "junos",
-      "category": "policy",
-      "name": "communities",
-      "topic": "BBE community palette (subscriber, RADIUS, Internet)",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "cr1_ptx10004"
+      "size_bytes": 2601,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-dhcp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf",
+        "junos/chassis/fpc-tunnel-services-100g.conf",
+        "junos/chassis/pseudowire-service.conf",
+        "junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf"
       ],
-      "size_bytes": 1515,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy/communities.conf"
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-ps-device-capacity",
+          "kind": "ps-device-capacity",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "@source:ps-device-capacity"
+          ],
+          "providers": [
+            "junos/chassis/pseudowire-service.conf"
+          ]
+        },
+        {
+          "id": "ref-tunnel-pic",
+          "kind": "tunnel-pic",
+          "scope": "object",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "@source:tunnel-pic"
+          ],
+          "providers": [
+            "junos/chassis/fpc-tunnel-services-100g.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/policy/isis-export-prefix-segment.conf",
+      "path": "junos/interfaces/ifd-ps-pwht-pppoe.conf",
       "os": "junos",
-      "category": "policy",
-      "name": "isis-export-prefix-segment",
-      "topic": "ISIS export policy mapping each loopback to a unique SR prefix-segment",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 2334,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy/isis-export-prefix-segment.conf"
-    },
-    {
-      "path": "junos/policy/pplb.conf",
-      "os": "junos",
-      "category": "policy",
-      "name": "pplb",
-      "topic": "Per-packet load-balance forwarding-table policy",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 926,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy/pplb.conf"
-    },
-    {
-      "path": "junos/policy/subscriber-vrf-policies.conf",
-      "os": "junos",
-      "category": "policy",
-      "name": "subscriber-vrf-policies",
-      "topic": "PPPoE / DHCP subscriber VRF import/export and IPv6 leak policies",
+      "category": "interfaces",
+      "name": "ifd-ps-pwht-pppoe",
+      "topic": "Pseudowire-headend subscriber interface with stacked-VLAN auto-configuration for PPPoE",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 4004,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy/subscriber-vrf-policies.conf"
+      "size_bytes": 2689,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-pppoe.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf",
+        "junos/chassis/fpc-tunnel-services-100g.conf",
+        "junos/chassis/pseudowire-service.conf",
+        "junos/dynamic-profiles/auto-stacked-pwht.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-ps-device-capacity",
+          "kind": "ps-device-capacity",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "@source:ps-device-capacity"
+          ],
+          "providers": [
+            "junos/chassis/pseudowire-service.conf"
+          ]
+        },
+        {
+          "id": "ref-tunnel-pic",
+          "kind": "tunnel-pic",
+          "scope": "object",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "@source:tunnel-pic"
+          ],
+          "providers": [
+            "junos/chassis/fpc-tunnel-services-100g.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/policy/vrf-radius-policies.conf",
+      "path": "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
       "os": "junos",
-      "category": "policy",
-      "name": "vrf-radius-policies",
-      "topic": "RADIUS VRF import/export policies (BNG side)",
+      "category": "interfaces",
+      "name": "ifl-core-inet-iso-inet6-mpls-max-labels-16",
+      "topic": "Core logical interface",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1337,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy/vrf-radius-policies.conf"
+      "size_bytes": 907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-core-aggregate-lacp.conf",
+            "junos/interfaces/ifd-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-core-lag-member-gigether-description.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/services/evpn-vpws-fxc-bng.conf",
+      "path": "junos/interfaces/ifl-loopback-description-primary-secondary.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-vpws-fxc-bng",
-      "topic": "EVPN-VPWS Flexible Cross-Connect (FXC) routing-instance, BNG side",
+      "category": "interfaces",
+      "name": "ifl-loopback-description-primary-secondary",
+      "topic": "Described loopback logical interface with a secondary IPv4 address",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2441,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/evpn-vpws-fxc-bng.conf"
+      "size_bytes": 1124,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifl-loopback-description-primary-secondary.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/evpn-vpws-ipoe-bng.conf",
+      "path": "junos/interfaces/ifl-loopback-primary-iso.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-vpws-ipoe-bng",
-      "topic": "EVPN-VPWS routing-instance for DHCP/IPoE pseudowire-headend (BNG side)",
+      "category": "interfaces",
+      "name": "ifl-loopback-primary-iso",
+      "topic": "Loopback logical interface",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2313,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/evpn-vpws-ipoe-bng.conf"
+      "size_bytes": 976,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifl-loopback-primary-iso.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/evpn-vpws-pppoe-bng.conf",
+      "path": "junos/interfaces/ifl-loopback-primary.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-vpws-pppoe-bng",
-      "topic": "EVPN-VPWS routing-instance for PPPoE pseudowire-headend (BNG side)",
+      "category": "interfaces",
+      "name": "ifl-loopback-primary",
+      "topic": "Loopback logical interface for a routing instance",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2636,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/evpn-vpws-pppoe-bng.conf"
+      "size_bytes": 874,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/interfaces/ifl-loopback-primary.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/l3vpn-dhcp-subs.conf",
+      "path": "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
       "os": "junos",
-      "category": "services",
-      "name": "l3vpn-dhcp-subs",
-      "topic": "L3VPN VRF for DHCP/IPoE subscribers with embedded dhcp-local-server",
+      "category": "policy-options",
+      "name": "community/cm-pppoe-subs-comm-1",
+      "topic": "Route-target community PPPOE_SUBS_COMM_1 for PPPoE subscriber direct routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 8388,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/l3vpn-dhcp-subs.conf"
+      "size_bytes": 493,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/l3vpn-pppoe-subs.conf",
+      "path": "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
       "os": "junos",
-      "category": "services",
-      "name": "l3vpn-pppoe-subs",
-      "topic": "L3VPN VRF for PPPoE subscriber pool (PPPOE_SUBS_1)",
+      "category": "policy-options",
+      "name": "community/cm-pppoe-subs-comm-2",
+      "topic": "Route-target community PPPOE_SUBS_COMM_2 for PPPoE subscriber aggregates",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 3544,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/l3vpn-pppoe-subs.conf"
+      "size_bytes": 490,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/l3vpn-radius.conf",
+      "path": "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
       "os": "junos",
-      "category": "services",
-      "name": "l3vpn-radius",
-      "topic": "RADIUS L3VPN VRF (BNG and CR view)",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 2060,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/services/l3vpn-radius.conf"
-    },
-    {
-      "path": "junos/subscriber-management/access-profile-radius.conf",
-      "os": "junos",
-      "category": "subscriber-management",
-      "name": "access-profile-radius",
-      "topic": "Access profile vlan-auth-access1 (RADIUS NAS attributes for VLAN-stacked PPPoE/IPoE)",
+      "category": "policy-options",
+      "name": "community/cm-ps-dhcpsubs-comm-2",
+      "topic": "Route-target community PS-DHCPSUBS-COMM_2 for DHCP subscriber access routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 4249,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/access-profile-radius.conf"
+      "size_bytes": 494,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/subscriber-management/address-assignment-pools.conf",
+      "path": "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "address-assignment-pools",
-      "topic": "Global address-assignment pools (PPPoE v4 + v6 with NDRA)",
+      "category": "policy-options",
+      "name": "community/cm-ps-dhcpsubs-comm",
+      "topic": "Route-target community PS-DHCPSUBS-COMM for DHCP subscriber direct routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1560,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/address-assignment-pools.conf"
+      "size_bytes": 490,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/subscriber-management/dp-auto-stacked-pwht-dhcp.conf",
+      "path": "junos/policy-options/community/cm-ps-internet-comm.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "dp-auto-stacked-pwht-dhcp",
-      "topic": "Dynamic-profile auto-stacked-pwht_dhcp (DHCP/IPoE pseudowire-headend session activation)",
+      "category": "policy-options",
+      "name": "community/cm-ps-internet-comm",
+      "topic": "Route-target community PS-Internet-COMM for Internet VRF routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 5083,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/dp-auto-stacked-pwht-dhcp.conf"
+      "size_bytes": 475,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-ps-internet-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/subscriber-management/dp-auto-stacked-pwht-pppoe.conf",
+      "path": "junos/policy-options/community/cm-ps-radius-comm.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "dp-auto-stacked-pwht-pppoe",
-      "topic": "Dynamic-profile auto-stacked-pwht (PPPoE pseudowire-headend session activation)",
+      "category": "policy-options",
+      "name": "community/cm-ps-radius-comm",
+      "topic": "Route-target community PS-RADIUS-COMM for RADIUS VRF routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 3037,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/dp-auto-stacked-pwht-pppoe.conf"
+      "size_bytes": 474,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/community/cm-ps-radius-comm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/subscriber-management/dp-autosense-ipdemux.conf",
+      "path": "junos/policy-options/condition/condition-if-master.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "dp-autosense-ipdemux",
-      "topic": "Dynamic-profile prof_autosense_ipdemux (per-IP demux unit on demux0)",
+      "category": "policy-options",
+      "name": "condition/condition-if-master",
+      "topic": "Route condition if-master tracking the active pseudowire-subscriber interface",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2449,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/dp-autosense-ipdemux.conf"
+      "size_bytes": 823,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/condition/condition-if-master.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-l2circuit-interface",
+          "kind": "l2circuit-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/subscriber-management/dp-prod-dhcp-base.conf",
+      "path": "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "dp-prod-dhcp-base",
-      "topic": "Dynamic-profile prod-dhcp-base (DHCPv4 + DHCPv6 demux session base)",
+      "category": "policy-options",
+      "name": "policy-statement/dhcp-subs-vrf-export-pol",
+      "topic": "VRF export policy dhcp-subs-vrf-export-pol",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2836,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/dp-prod-dhcp-base.conf"
+      "size_bytes": 1056,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+        "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-DHCPSUBS-COMM",
+            "PS-DHCPSUBS-COMM_2"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/subscriber-management/dp-prod-pppoe-dt-base.conf",
+      "path": "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "dp-prod-pppoe-dt-base",
-      "topic": "Dynamic-profile prod-pppoe-dt-base (per-session PPPoE pp0 unit)",
+      "category": "policy-options",
+      "name": "policy-statement/dhcp-subs-vrf-import-pol",
+      "topic": "VRF import policy dhcp-subs-vrf-import-pol",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2830,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/dp-prod-pppoe-dt-base.conf"
+      "size_bytes": 776,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-internet-comm.conf",
+        "junos/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-COMM",
+            "PS-Internet-COMM"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/subscriber-management/radius-server.conf",
+      "path": "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "radius-server",
-      "topic": "RADIUS server reachable through the RADIUS L3VPN",
+      "category": "policy-options",
+      "name": "policy-statement/ps-dhcp-subsv6",
+      "topic": "BGP export policy PS-DHCP-SUBSv6 for DHCPv6 subscriber routes",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1518,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/radius-server.conf"
+      "size_bytes": 941,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-DHCPSUBS-COMM_2"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf"
+          ]
+        },
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+            "junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/subscriber-management/system-services-subscriber-mgmt.conf",
+      "path": "junos/policy-options/policy-statement/ps-isis-export.conf",
       "os": "junos",
-      "category": "subscriber-management",
-      "name": "system-services-subscriber-mgmt",
-      "topic": "System services subscriber-management redundancy + ddos-protection autoconf/pppoe",
+      "category": "policy-options",
+      "name": "policy-statement/ps-isis-export",
+      "topic": "IS-IS export policy PS-ISIS-EXPORT carrying the node loopbacks with their prefix segments",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 3221,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/subscriber-management/system-services-subscriber-mgmt.conf"
+      "size_bytes": 1662,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-isis-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/bgp-overlay-pe-bng.conf",
+      "path": "junos/policy-options/policy-statement/ps-pplb.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "bgp-overlay-pe-bng",
-      "topic": "iBGP overlay from BNG PE to core route reflectors (multi-AF)",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pplb",
+      "topic": "Per-packet load-balance policy PS-PPLB",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 2825,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/transport/bgp-overlay-pe-bng.conf"
+      "size_bytes": 522,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-pplb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/isis-srmpls-tilfa.conf",
+      "path": "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-export.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "isis-srmpls-tilfa",
-      "topic": "ISIS L1 with SR-MPLS, TI-LFA node-protection, and microloop avoidance",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 3152,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/transport/isis-srmpls-tilfa.conf"
-    },
-    {
-      "path": "junos/transport/mpls-segment-routing.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "mpls-segment-routing",
-      "topic": "MPLS SRGB and IPv6 tunneling for SR-MPLS",
-      "seen_on": [
-        "bng1_mx304",
-        "bng2_mx204",
-        "bng3_mx10004",
-        "bng4_mx480",
-        "agn1_acx7100-32c",
-        "agn2_acx7100-32c",
-        "an1_acx7024",
-        "an2_acx7100-48l",
-        "an3_acx7100-48l",
-        "an4_acx7100-48l",
-        "an5_acx7100-48l",
-        "cr1_ptx10004"
-      ],
-      "size_bytes": 1343,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/transport/mpls-segment-routing.conf"
-    },
-    {
-      "path": "junos/transport/routing-options-pe.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "routing-options-pe",
-      "topic": "PE routing-options (router-id, AS, chained-composite-next-hop, rib-groups)",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pppoe-subs-1-vrf-export",
+      "topic": "VRF export policy PS-PPPOE-SUBS-1-VRF-EXPORT",
       "seen_on": [
         "bng1_mx304",
         "bng2_mx204",
         "bng3_mx10004",
         "bng4_mx480"
       ],
-      "size_bytes": 1536,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/transport/routing-options-pe.conf"
+      "size_bytes": 1547,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+        "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_COMM_1",
+            "PPPOE_SUBS_COMM_2"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pppoe-subs-1-vrf-import",
+      "topic": "VRF import policy PS-PPPOE-SUBS-1-VRF-IMPORT",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 781,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-internet-comm.conf",
+        "junos/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-COMM",
+            "PS-Internet-COMM"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pppoe-subsv6",
+      "topic": "BGP export policy PS-PPPOE-SUBSv6 for the PPPoE subscriber IPv6 prefix",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1091,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-pppoe-subsv6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+        "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_COMM_2"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
+          ]
+        },
+        {
+          "id": "ref-routing-instance",
+          "kind": "routing-instance",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PPPOE_SUBS_1"
+          ],
+          "providers": [
+            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-radius-vrf-export",
+      "topic": "VRF export policy PS-RADIUS-VRF-EXPORT",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 700,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-COMM"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-radius-vrf-import.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-radius-vrf-import",
+      "topic": "VRF import policy PS-RADIUS-VRF-IMPORT on a BNG",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 594,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-radius-vrf-import.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/cm-ps-radius-comm.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-COMM"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/bgp-overlay-bng-core-rr.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-overlay-bng-core-rr",
+      "topic": "iBGP overlay session from a BNG to the core route reflector",
+      "seen_on": [
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1806,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/bgp-overlay-bng-core-rr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
+        "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPPOE-SUBSv6",
+            "PS-DHCP-SUBSv6"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
+            "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/bgp-overlay-bng-three-rr.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-overlay-bng-three-rr",
+      "topic": "iBGP overlay sessions from a BNG to three route reflectors",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204"
+      ],
+      "size_bytes": 2093,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/bgp-overlay-bng-three-rr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
+        "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPPOE-SUBSv6",
+            "PS-DHCP-SUBSv6"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
+            "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/isis-intf-l1-tilfa-bfd.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "isis-intf-l1-tilfa-bfd",
+      "topic": "IS-IS level 1 point-to-point core interface with TI-LFA node protection and BFD",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204"
+      ],
+      "size_bytes": 1051,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/isis-intf-l1-tilfa-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_INTF"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/isis-intf-l2-tilfa-bfd.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "isis-intf-l2-tilfa-bfd",
+      "topic": "IS-IS level 2 point-to-point core interface with TI-LFA node protection and BFD",
+      "seen_on": [
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1052,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/isis-intf-l2-tilfa-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_INTF"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/isis-loopback-passive.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "isis-loopback-passive",
+      "topic": "IS-IS passive loopback interface",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 521,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/isis-loopback-passive.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-primary-iso.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.0"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-primary-iso.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/isis-srmpls-tilfa-l1.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "isis-srmpls-tilfa-l1",
+      "topic": "IS-IS level 1 instance with SR-MPLS TI-LFA",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204"
+      ],
+      "size_bytes": 1248,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/isis-srmpls-tilfa-l1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-isis-export.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-ISIS-EXPORT"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-isis-export.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/isis-srmpls-tilfa-l2.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "isis-srmpls-tilfa-l2",
+      "topic": "IS-IS level 2 instance with SR-MPLS TI-LFA",
+      "seen_on": [
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1252,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/isis-srmpls-tilfa-l2.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-isis-export.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-ISIS-EXPORT"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-isis-export.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/mpls-srgb-ipv6-tunneling.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "mpls-srgb-ipv6-tunneling",
+      "topic": "MPLS segment-routing global block with IPv6 tunneling",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 638,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/protocols/mpls-srgb-ipv6-tunneling.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-vpws",
+      "topic": "EVPN-VPWS routing instance with one attachment circuit",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1347,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [
+        {
+          "group": "bbe-bgp-overlay",
+          "families": [
+            "evpn"
+          ]
+        }
+      ],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ps-pwht-dhcp.conf",
+            "junos/interfaces/ifd-ps-pwht-pppoe.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates",
+      "topic": "DHCP subscriber VRF dhcp-subs with four BNG subscriber pools and three IPv6 aggregates",
+      "seen_on": [
+        "bng3_mx10004"
+      ],
+      "size_bytes": 8173,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf",
+        "junos/dynamic-profiles/prod-dhcp-base.conf",
+        "junos/interfaces/ifl-loopback-description-primary-secondary.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs-vrf-import-pol",
+            "dhcp-subs-vrf-export-pol"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-dhcp-subs-four-pools",
+      "topic": "DHCP subscriber VRF dhcp-subs with four BNG subscriber pools",
+      "seen_on": [
+        "bng4_mx480"
+      ],
+      "size_bytes": 8244,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf",
+        "junos/dynamic-profiles/prod-dhcp-base.conf",
+        "junos/interfaces/ifl-loopback-description-primary-secondary.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs-vrf-import-pol",
+            "dhcp-subs-vrf-export-pol"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-dhcp-subs-two-pools",
+      "topic": "DHCP subscriber VRF dhcp-subs with two BNG subscriber pools",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204"
+      ],
+      "size_bytes": 7434,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/access/profile-vlan-auth-access1.conf",
+        "junos/dynamic-profiles/prod-dhcp-base.conf",
+        "junos/interfaces/ifl-loopback-description-primary-secondary.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+        "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "dhcp-subs-vrf-import-pol",
+            "dhcp-subs-vrf-export-pol"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
+            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-pppoe-subs.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-pppoe-subs",
+      "topic": "PPPoE subscriber VRF PPPOE_SUBS_1 with local address pools",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 2167,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-pppoe-subs.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-primary.conf",
+        "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-export.conf",
+        "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-primary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPPOE-SUBS-1-VRF-IMPORT",
+            "PS-PPPOE-SUBS-1-VRF-EXPORT"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-export.conf",
+            "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-radius.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-radius",
+      "topic": "RADIUS VRF on a BNG reaching the RADIUS server through the core",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 1134,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-radius.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-primary.conf",
+        "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
+        "junos/policy-options/policy-statement/ps-radius-vrf-import.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-policy-community",
+          "kind": "policy-community",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:policy-community"
+          ],
+          "providers": [
+            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+            "junos/policy-options/community/cm-ps-internet-comm.conf",
+            "junos/policy-options/community/cm-ps-radius-comm.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "lo0.$UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-primary.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-RADIUS-VRF-IMPORT",
+            "PS-RADIUS-VRF-EXPORT"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
+            "junos/policy-options/policy-statement/ps-radius-vrf-import.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/autonomous-system.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Device autonomous-system number",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 391,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb-chained-evpn.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-evpn",
+      "topic": "Forwarding table with per-packet load balancing and EVPN ingress chained composite next hops",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 837,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-options/forwarding-table-pplb-chained-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-pplb.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "PS-PPLB"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-pplb.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/nonstop-routing.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "nonstop-routing",
+      "topic": "Nonstop active routing",
+      "seen_on": [
+        "bng1_mx304",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 382,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-options/nonstop-routing.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/rib-groups-interface-routes-pppoe-v6.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "rib-groups-interface-routes-pppoe-v6",
+      "topic": "RIB group interface_routes sharing IPv6 interface routes with VRF PPPOE_SUBS_1",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 576,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-options/rib-groups-interface-routes-pppoe-v6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/router-id.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 379,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/commit-synchronize.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "commit-synchronize",
+      "topic": "Commit synchronization between Routing Engines",
+      "seen_on": [
+        "bng1_mx304",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 365,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/commit-synchronize.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/configuration-database-max-size.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "configuration-database-max-size",
+      "topic": "Configuration database size limit",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 463,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/configuration-database-max-size.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/ddos-protection-subscriber.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "ddos-protection-subscriber",
+      "topic": "DDoS protection policers for subscriber control traffic",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 777,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/ddos-protection-subscriber.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/dynamic-profile-options-versioning.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "dynamic-profile-options-versioning",
+      "topic": "Dynamic profile versioning",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 433,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/dynamic-profile-options-versioning.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/ports-console-log-out.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng4_mx480"
+      ],
+      "size_bytes": 389,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/processes-smg-service.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "processes-smg-service",
+      "topic": "Session and service management process",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 426,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/processes-smg-service.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/subscriber-management-redundancy-interface.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "subscriber-management-redundancy-interface",
+      "topic": "Subscriber redundancy interface with shared key",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 903,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/subscriber-management-redundancy-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/subscriber-management-redundancy.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "subscriber-management-redundancy",
+      "topic": "Subscriber management with M:N subscriber redundancy",
+      "seen_on": [
+        "bng1_mx304",
+        "bng2_mx204",
+        "bng3_mx10004",
+        "bng4_mx480"
+      ],
+      "size_bytes": 735,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/junos/system/subscriber-management-redundancy.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     }
   ],
   "reference_files": [
     {
       "path": "_variables.md",
       "kind": "glossary",
-      "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/_variables.md"
+      "topic": "Template variable glossary",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/_variables.md",
+      "size_bytes": 9013,
+      "sha256": "947c44120d60009f31694fd62f46142e916d98dc086f37d2450c59830b9e5c75"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
-      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/TIERS.md"
+      "topic": "Generated service tier and selection requirements",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/TIERS.md",
+      "size_bytes": 25774,
+      "sha256": "f44298804839833665020da1bc2a1f6ed6c9637f464840ff8f698dc3ebc48cf3"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
-      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/DEFAULTS.md"
+      "topic": "Validated lab defaults",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/DEFAULTS.md",
+      "size_bytes": 5057,
+      "sha256": "a1bdff876318d8ec86509b2f8eae9667980423be8a158c0569066ab4c7c65f9f"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
-      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/OUTPUT_FORMAT.md"
+      "topic": "Required output format",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/OUTPUT_FORMAT.md",
+      "size_bytes": 2506,
+      "sha256": "3f184291948325beeb5e16a36355a61dc5aa7277ce8a00347687d34e03dd2d5a"
     }
   ]
 }

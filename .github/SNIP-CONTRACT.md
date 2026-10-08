@@ -296,8 +296,10 @@ constituent of the statement, not an independently selectable instance.
 
 Which child kinds are independently selectable is **not** derivable from
 hierarchy shape alone: a named rib-group and a policy `term` are structurally
-identical. The distinction is grammar knowledge, and this contract fixes its
-normative vocabulary (**instance-recognition vocabulary, version 3**). The
+identical. The distinction is grammar knowledge: this contract defines the
+normative fragment-selection semantics, and parser and validation
+implementations apply the grammar knowledge needed to enforce them
+(**instance-recognition vocabulary, version 4**). The
 vocabulary is parser and validation knowledge only — not a service taxonomy —
 and carries no naming, category or relationship meaning:
 
@@ -313,10 +315,11 @@ and carries no naming, category or relationship meaning:
   `classifiers`, `drop-profiles`, `forwarding-classes`, `groups`,
   `interface-switch`, `interfaces`, `policy-options`, `rewrite-rules`,
   `rib-groups`, `routing-instances`, `scheduler-maps`, `vlans`.
-- **Context leaf paths.** The ancestors of the exact keyword path
-  `chassis fpc pic tunnel-services` provide context when a template selects only
-  that leaf below them. No other partial port, tunnel-services block or similarly
-  named container is admitted by this rule.
+- **Context-only ancestors.** Where the grammar permits that fragment boundary,
+  a statement or block may be selected beneath ancestors that serve only as
+  context for it. The selected statement or block **MUST** match exactly;
+  unselected siblings beneath those context-only ancestors are outside the
+  selected fragment.
 - **Not selectable.** A policy-statement `term` is an ordered constituent of the
   enclosing statement: its neighbours change the meaning of the selection, so an
   unselected sibling term invalidates the claim.

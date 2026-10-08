@@ -1,18 +1,17 @@
-show configuration | display set | no-more
 
 set system commit synchronize
 set system configuration-database max-db-size 314572800
 set system services subscriber-management enable
-set system services subscriber-management redundancy interface ps11.0 shared-key ps11-key
-set system services subscriber-management redundancy interface ps12.0 shared-key ps12-key
-set system services subscriber-management redundancy interface ps13.0 shared-key ps13-key
-set system services subscriber-management redundancy interface ps14.0 shared-key ps14-key
-set system services subscriber-management redundancy interface ps15.0 shared-key ps15-key
-set system services subscriber-management redundancy interface ps16.0 shared-key ps16-key
-set system services subscriber-management redundancy interface ps17.0 shared-key ps17-key
-set system services subscriber-management redundancy interface ps18.0 shared-key ps18-key
-set system services subscriber-management redundancy interface ps19.0 shared-key ps19-key
-set system services subscriber-management redundancy interface ps20.0 shared-key ps20-key
+set system services subscriber-management redundancy interface ps11.0 shared-key "<REDUNDANCY_SHARED_KEY_PS11>"
+set system services subscriber-management redundancy interface ps12.0 shared-key "<REDUNDANCY_SHARED_KEY_PS12>"
+set system services subscriber-management redundancy interface ps13.0 shared-key "<REDUNDANCY_SHARED_KEY_PS13>"
+set system services subscriber-management redundancy interface ps14.0 shared-key "<REDUNDANCY_SHARED_KEY_PS14>"
+set system services subscriber-management redundancy interface ps15.0 shared-key "<REDUNDANCY_SHARED_KEY_PS15>"
+set system services subscriber-management redundancy interface ps16.0 shared-key "<REDUNDANCY_SHARED_KEY_PS16>"
+set system services subscriber-management redundancy interface ps17.0 shared-key "<REDUNDANCY_SHARED_KEY_PS17>"
+set system services subscriber-management redundancy interface ps18.0 shared-key "<REDUNDANCY_SHARED_KEY_PS18>"
+set system services subscriber-management redundancy interface ps19.0 shared-key "<REDUNDANCY_SHARED_KEY_PS19>"
+set system services subscriber-management redundancy interface ps20.0 shared-key "<REDUNDANCY_SHARED_KEY_PS20>"
 set system services subscriber-management redundancy no-advertise-routes-on-backup
 set system services subscriber-management redundancy route-operation-interval 1
 set system ports console log-out-on-disconnect
@@ -61,8 +60,8 @@ set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps0 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps0 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps0 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps0 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps0 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps0 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps0 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps0 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps0 auto-configure remove-when-no-subscribers
@@ -80,8 +79,8 @@ set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps1 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps1 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps1 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps1 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps1 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps1 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps1 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps1 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps1 auto-configure remove-when-no-subscribers
@@ -99,8 +98,8 @@ set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps2 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps2 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps2 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps2 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps2 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps2 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps2 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps2 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps2 auto-configure remove-when-no-subscribers
@@ -118,8 +117,8 @@ set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps3 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps3 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps3 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps3 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps3 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps3 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps3 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps3 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps3 auto-configure remove-when-no-subscribers
@@ -137,8 +136,8 @@ set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps4 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps4 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps4 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps4 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps4 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps4 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps4 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps4 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps4 auto-configure remove-when-no-subscribers
@@ -156,8 +155,8 @@ set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps5 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps5 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps5 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps5 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps5 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps5 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps5 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps5 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps5 auto-configure remove-when-no-subscribers
@@ -175,8 +174,8 @@ set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps6 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps6 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps6 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps6 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps6 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps6 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps6 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps6 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps6 auto-configure remove-when-no-subscribers
@@ -194,8 +193,8 @@ set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps7 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps7 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps7 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps7 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps7 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps7 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps7 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps7 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps7 auto-configure remove-when-no-subscribers
@@ -213,8 +212,8 @@ set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps8 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps8 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps8 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps8 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps8 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps8 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps8 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps8 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps8 auto-configure remove-when-no-subscribers
@@ -232,8 +231,8 @@ set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stack
 set interfaces ps9 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps9 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps9 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps9 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps9 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps9 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps9 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps9 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps9 auto-configure remove-when-no-subscribers
@@ -248,8 +247,8 @@ set interfaces ps11 flexible-vlan-tagging
 set interfaces ps11 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps11 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps11 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps11 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps11 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps11 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps11 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps11 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps11 auto-configure remove-when-no-subscribers
@@ -265,8 +264,8 @@ set interfaces ps12 flexible-vlan-tagging
 set interfaces ps12 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps12 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps12 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps12 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps12 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps12 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps12 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps12 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps12 auto-configure remove-when-no-subscribers
@@ -282,8 +281,8 @@ set interfaces ps13 flexible-vlan-tagging
 set interfaces ps13 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps13 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps13 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps13 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps13 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps13 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps13 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps13 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps13 auto-configure remove-when-no-subscribers
@@ -299,8 +298,8 @@ set interfaces ps14 flexible-vlan-tagging
 set interfaces ps14 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps14 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps14 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps14 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps14 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps14 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps14 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps14 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps14 auto-configure remove-when-no-subscribers
@@ -316,8 +315,8 @@ set interfaces ps15 flexible-vlan-tagging
 set interfaces ps15 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps15 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps15 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps15 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps15 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps15 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps15 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps15 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps15 auto-configure remove-when-no-subscribers
@@ -333,8 +332,8 @@ set interfaces ps16 flexible-vlan-tagging
 set interfaces ps16 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps16 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps16 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps16 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps16 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps16 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps16 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps16 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps16 auto-configure remove-when-no-subscribers
@@ -350,8 +349,8 @@ set interfaces ps17 flexible-vlan-tagging
 set interfaces ps17 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps17 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps17 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps17 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps17 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps17 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps17 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps17 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps17 auto-configure remove-when-no-subscribers
@@ -367,8 +366,8 @@ set interfaces ps18 flexible-vlan-tagging
 set interfaces ps18 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps18 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps18 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps18 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps18 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps18 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps18 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps18 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps18 auto-configure remove-when-no-subscribers
@@ -384,8 +383,8 @@ set interfaces ps19 flexible-vlan-tagging
 set interfaces ps19 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps19 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps19 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps19 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps19 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps19 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps19 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps19 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps19 auto-configure remove-when-no-subscribers
@@ -401,8 +400,8 @@ set interfaces ps20 flexible-vlan-tagging
 set interfaces ps20 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps20 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps20 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps20 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps20 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps20 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps20 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps20 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps20 auto-configure remove-when-no-subscribers
@@ -421,8 +420,8 @@ set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stac
 set interfaces ps31 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps31 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps31 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps31 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps31 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps31 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps31 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps31 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps31 auto-configure remove-when-no-subscribers
@@ -437,8 +436,8 @@ set interfaces ps32 flexible-vlan-tagging
 set interfaces ps32 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps32 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps32 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps32 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps32 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps32 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps32 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps32 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps32 auto-configure remove-when-no-subscribers
@@ -457,8 +456,8 @@ set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stac
 set interfaces ps35 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht ranges any,any
 set interfaces ps35 auto-configure stacked-vlan-ranges authentication packet-types pppoe
 set interfaces ps35 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps35 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps35 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps35 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps35 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_pppoe
 set interfaces ps35 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps35 auto-configure remove-when-no-subscribers
@@ -473,8 +472,8 @@ set interfaces ps36 flexible-vlan-tagging
 set interfaces ps36 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp accept any
 set interfaces ps36 auto-configure stacked-vlan-ranges dynamic-profile auto-stacked-pwht_dhcp ranges any,any
 set interfaces ps36 auto-configure stacked-vlan-ranges authentication packet-types any
-set interfaces ps36 auto-configure stacked-vlan-ranges authentication password joshua
-set interfaces ps36 auto-configure stacked-vlan-ranges authentication username-include domain-name jnpr.net
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication password "<USER_PASS>"
+set interfaces ps36 auto-configure stacked-vlan-ranges authentication username-include domain-name example.net
 set interfaces ps36 auto-configure stacked-vlan-ranges authentication username-include user-prefix pwht_dhcp
 set interfaces ps36 auto-configure stacked-vlan-ranges access-profile vlan-auth-access1
 set interfaces ps36 auto-configure remove-when-no-subscribers
@@ -568,18 +567,18 @@ set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 from destinat
 set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 from destination-port dhcp
 set firewall family inet6 filter rpf-pass-dhcpv6 term allow-dhcpv6 then accept
 set firewall family inet6 filter rpf-pass-dhcpv6 term default then discard
-set access radius-server 10.189.189.2 port 1812
-set access radius-server 10.189.189.2 secret "$9$GqjkPu0Icrvn/vLx7sY"
-set access radius-server 10.189.189.2 timeout 10
-set access radius-server 10.189.189.2 retry 3
-set access radius-server 10.189.189.2 max-outstanding-requests 2000
-set access radius-server 10.189.189.2 source-address 192.168.17.17
-set access radius-server 10.189.189.2 routing-instance RADIUS
+set access radius-server 192.0.2.2 port 1812
+set access radius-server 192.0.2.2 secret "<RADIUS_SECRET>"
+set access radius-server 192.0.2.2 timeout 10
+set access radius-server 192.0.2.2 retry 3
+set access radius-server 192.0.2.2 max-outstanding-requests 2000
+set access radius-server 192.0.2.2 source-address 192.168.17.17
+set access radius-server 192.0.2.2 routing-instance RADIUS
 set access profile vlan-auth-access authentication-order none
 set access profile vlan-auth-access address-assignment pool pppv4-pool
 set access profile no-auth authentication-order none
 set access profile vlan-auth-access1 authentication-order radius
-set access profile vlan-auth-access1 radius authentication-server 10.189.189.2
+set access profile vlan-auth-access1 radius authentication-server 192.0.2.2
 set access profile vlan-auth-access1 radius options nas-identifier R7-BNG1
 set access profile vlan-auth-access1 radius options nas-port-id-format agent-circuit-id
 set access profile vlan-auth-access1 radius options nas-port-type ethernet virtual
@@ -591,18 +590,18 @@ set access profile vlan-auth-access1 radius options vlan-nas-port-stacked-format
 set access profile vlan-auth-access1 radius options client-authentication-algorithm round-robin
 set access profile vlan-auth-access1 radius options client-accounting-algorithm round-robin
 set access profile vlan-auth-access1 radius attributes exclude framed-ip-address access-request
-set access profile vlan-auth-access1 radius-server 10.189.189.2 secret "$9$/dgbAu1LX-w2areaUjif5"
-set access profile vlan-auth-access1 radius-server 10.189.189.2 timeout 10
-set access profile vlan-auth-access1 radius-server 10.189.189.2 retry 3
-set access profile vlan-auth-access1 radius-server 10.189.189.2 max-outstanding-requests 2000
-set access profile vlan-auth-access1 radius-server 10.189.189.2 source-address 192.168.17.17
-set access profile vlan-auth-access1 radius-server 10.189.189.2 routing-instance RADIUS
+set access profile vlan-auth-access1 radius-server 192.0.2.2 secret "<RADIUS_SECRET_VLAN_AUTH_ACCESS1>"
+set access profile vlan-auth-access1 radius-server 192.0.2.2 timeout 10
+set access profile vlan-auth-access1 radius-server 192.0.2.2 retry 3
+set access profile vlan-auth-access1 radius-server 192.0.2.2 max-outstanding-requests 2000
+set access profile vlan-auth-access1 radius-server 192.0.2.2 source-address 192.168.17.17
+set access profile vlan-auth-access1 radius-server 192.0.2.2 routing-instance RADIUS
 set access profile vlan-auth-access2 authentication-order radius
-set access profile vlan-auth-access2 radius authentication-server 10.189.189.2
-set access profile vlan-auth-access2 radius-server 10.189.189.2 secret "$9$zR4.n9pKvLNVYEcYoJZkq"
-set access profile vlan-auth-access2 radius-server 10.189.189.2 timeout 10
-set access profile vlan-auth-access2 radius-server 10.189.189.2 retry 3
-set access profile vlan-auth-access2 radius-server 10.189.189.2 max-outstanding-requests 2000
+set access profile vlan-auth-access2 radius authentication-server 192.0.2.2
+set access profile vlan-auth-access2 radius-server 192.0.2.2 secret "<RADIUS_SECRET_VLAN_AUTH_ACCESS2>"
+set access profile vlan-auth-access2 radius-server 192.0.2.2 timeout 10
+set access profile vlan-auth-access2 radius-server 192.0.2.2 retry 3
+set access profile vlan-auth-access2 radius-server 192.0.2.2 max-outstanding-requests 2000
 set access address-assignment neighbor-discovery-router-advertisement pppv6-pool
 set access address-assignment pool pppv4-pool family inet network 10.25.0.0/16
 set access address-assignment pool pppv6-pool family inet6 prefix fc00:25:140::/48
@@ -779,8 +778,8 @@ set routing-instances dhcp-subs routing-options static route 10.43.0.1/32 discar
 set routing-instances dhcp-subs routing-options aggregate route 10.42.0.0/16
 set routing-instances dhcp-subs routing-options aggregate route 10.43.0.0/16
 set routing-instances dhcp-subs routing-options auto-export
-set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication password joshua
-set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication username-include domain-name jnpr.net
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication password "<USER_PASS>"
+set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication username-include domain-name example.net
 set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls authentication username-include user-prefix pwht_dhcp
 set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls dynamic-profile prod-dhcp-base
 set routing-instances dhcp-subs system services dhcp-local-server dhcpv6 group dhcp6-ls overrides delegated-pool dhcp_v6_pool
@@ -817,8 +816,8 @@ set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls 
 set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps20.0
 set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps32.0
 set routing-instances dhcp-subs system services dhcp-local-server group dhcp-ls interface ps36.0
-set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication password joshua
-set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication username-include domain-name jnpr.net
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication password "<USER_PASS>"
+set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication username-include domain-name example.net
 set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds authentication username-include user-prefix pwht_dhcp
 set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds dynamic-profile prod-dhcp-base
 set routing-instances dhcp-subs system services dhcp-local-server dual-stack-group dhcp-ds on-demand-address-allocation
@@ -856,8 +855,8 @@ set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-nam
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.43.0.0/16
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.44.0.0/16
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges dynamic-profile prof_autosense_ipdemux network 10.45.0.0/16
-set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication password joshua
-set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication username-include domain-name jnpr.net
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication password "<USER_PASS>"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication username-include domain-name example.net
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges authentication username-include user-prefix pwht_dhcp
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet auto-configure address-ranges session-timeout 600
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 unnumbered-address "$junos-loopback-interface"
@@ -865,8 +864,8 @@ set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-nam
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:126:140::/48
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:127:140::/48
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges dynamic-profile prof_autosense_ipdemux prefix fc00:128:140::/48
-set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication password joshua
-set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication username-include domain-name jnpr.net
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication password "<USER_PASS>"
+set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication username-include domain-name example.net
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges authentication username-include user-prefix pwht_dhcp
 set dynamic-profiles auto-stacked-pwht_dhcp interfaces "$junos-interface-ifd-name" unit "$junos-interface-unit" family inet6 auto-configure prefix-ranges session-timeout 600
 set dynamic-profiles auto-stacked-pwht_dhcp protocols router-advertisement interface "$junos-interface-name" max-advertisement-interval 60

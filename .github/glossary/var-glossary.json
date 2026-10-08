@@ -122,6 +122,181 @@
       "intent": "Route Target Assigned Number subfield.",
       "use": "The assigned-number component of a route target, independent of the variable supplying the Administrator.",
       "example": "2400"
+    },
+    "USER_PASS": {
+      "intent": "Subscriber authentication password.",
+      "use": "The password a broadband subscriber or auto-configured VLAN presents for authentication, such as `password` under `authentication`. It is a credential: never publish a real value.",
+      "example": "\"<USER_PASS>\"",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-pppoe.conf"
+    },
+    "DOMAIN_NAME": {
+      "intent": "Domain appended to a generated subscriber username.",
+      "use": "The `domain-name` included in a subscriber username by `username-include`. It is not a DNS server or a system domain-name setting.",
+      "example": "example.net",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-pppoe.conf"
+    },
+    "USER_PREFIX": {
+      "intent": "Prefix of a generated subscriber username.",
+      "use": "The `user-prefix` included in a subscriber username by `username-include`.",
+      "example": "pwht_dhcp",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-dhcp.conf"
+    },
+    "STATIC_MAC": {
+      "intent": "Static MAC address configured on an interface device.",
+      "use": "The `mac` statement of an interface device, overriding its hardware address.",
+      "example": "aa:aa:aa:bb:bb:bb",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/interfaces/ifd-ps-pwht-dhcp.conf"
+    },
+    "SUBSCRIBER_V4_PFX_1": {
+      "intent": "Subscriber IPv4 address prefix, one of an ordered set.",
+      "use": "An IPv4 network from which subscriber addresses are assigned or autosensed. Numbered _1.._n when a form carries several; the numbers order the set and carry no other meaning.",
+      "example": "10.42.0.0/16",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Covers SUBSCRIBER_V4_PFX_1 through SUBSCRIBER_V4_PFX_4.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf"
+    },
+    "SUBSCRIBER_V6_PFX_1": {
+      "intent": "Subscriber IPv6 prefix, one of an ordered set.",
+      "use": "An IPv6 prefix from which subscriber prefixes are assigned or autosensed. Numbered _1.._n when a form carries several; the numbers order the set and carry no other meaning.",
+      "example": "fc00:125:140::/48",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Covers SUBSCRIBER_V6_PFX_1 through SUBSCRIBER_V6_PFX_4.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf"
+    },
+    "RR3_V4": {
+      "intent": "IPv4 loopback of the third BGP route reflector a client peers with.",
+      "use": "Numbered with RR1_V4 and RR2_V4 for route-reflector neighbors on a client form; the number orders the reflectors and carries no other meaning.",
+      "example": "192.168.0.11",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. RR1_V4 and RR2_V4 are established in metro_ethernet_business_services.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/protocols/bgp-overlay-bng-three-rr.conf"
+    },
+    "RADIUS_SERVER_V4": {
+      "intent": "IPv4 address of a RADIUS server.",
+      "use": "The RADIUS server under `access radius-server`, a profile `radius-server`, or `authentication-server`.",
+      "example": "192.0.2.2",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/access/radius-server.conf"
+    },
+    "RADIUS_SOURCE_V4": {
+      "intent": "IPv4 source address for RADIUS requests.",
+      "use": "The `source-address` a BNG uses toward a RADIUS server; it is an address on the BNG, not the server.",
+      "example": "192.168.17.17",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/access/radius-server.conf"
+    },
+    "RADIUS_SECRET": {
+      "intent": "RADIUS shared secret.",
+      "use": "The `secret` shared with a RADIUS server. It is a credential: never publish a real value.",
+      "example": "\"<RADIUS_SECRET>\"",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/access/radius-server.conf"
+    },
+    "NAS_IDENTIFIER": {
+      "intent": "RADIUS NAS-Identifier string.",
+      "use": "The `nas-identifier` a BNG reports in RADIUS requests.",
+      "example": "R7-BNG1",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/access/profile-vlan-auth-access1.conf"
+    },
+    "REDUNDANCY_SHARED_KEY": {
+      "intent": "Subscriber-redundancy shared key.",
+      "use": "The `shared-key` of an interface under subscriber-management redundancy; both BNGs of a redundant pair use the same key. It is a credential: never publish a real value.",
+      "example": "\"<REDUNDANCY_SHARED_KEY_PS11>\"",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/system/subscriber-management-redundancy-interface.conf"
+    },
+    "SUBSCRIBER_V4_POOL": {
+      "intent": "This BNG's DHCP subscriber IPv4 pool network.",
+      "use": "The `network` of the local DHCPv4 address pool; distinct from SUBSCRIBER_V4_PFX_n, which number every BNG prefix a form carries.",
+      "example": "10.42.0.0/16",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V4_GW": {
+      "intent": "Gateway address of this BNG's subscriber IPv4 pool.",
+      "use": "The pool `router` and DHCP `server-identifier` host address, without a prefix length.",
+      "example": "10.42.0.1",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V4_RANGE_LOW": {
+      "intent": "First address of a subscriber IPv4 pool range.",
+      "use": "The `low` bound of an address-pool `range`.",
+      "example": "10.42.0.2",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Pairs with SUBSCRIBER_V4_RANGE_HIGH.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V4_RANGE_HIGH": {
+      "intent": "Last address of a subscriber IPv4 pool range.",
+      "use": "The `high` bound of an address-pool `range`.",
+      "example": "10.42.255.254",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Pairs with SUBSCRIBER_V4_RANGE_LOW.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V6_POOL": {
+      "intent": "This BNG's DHCP subscriber IPv6 pool prefix.",
+      "use": "The `prefix` of the local DHCPv6 address pool; distinct from SUBSCRIBER_V6_PFX_n, which number every BNG prefix a form carries.",
+      "example": "fc00:125:140::/64",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V6_RANGE_LOW": {
+      "intent": "First address of a subscriber IPv6 pool range.",
+      "use": "The `low` bound of an IPv6 address-pool `range`, with its prefix length.",
+      "example": "fc00:125:140::2/128",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Pairs with SUBSCRIBER_V6_RANGE_HIGH.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "SUBSCRIBER_V6_RANGE_HIGH": {
+      "intent": "Last address of a subscriber IPv6 pool range.",
+      "use": "The `high` bound of an IPv6 address-pool `range`, with its prefix length.",
+      "example": "fc00:125:140::ffff/128",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Pairs with SUBSCRIBER_V6_RANGE_LOW.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "PEER_SUBSCRIBER_V4_GW_1": {
+      "intent": "Another BNG's subscriber IPv4 gateway, one of an ordered set.",
+      "use": "A host address installed as a /32 discard route for a subscriber pool served by another BNG. Numbered _1.._n in source order; the numbers carry no other meaning.",
+      "example": "10.43.0.1",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Covers PEER_SUBSCRIBER_V4_GW_1 through PEER_SUBSCRIBER_V4_GW_3.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "PEER_SUBSCRIBER_V6_PFX_1": {
+      "intent": "Another BNG's subscriber IPv6 prefix, one of an ordered set.",
+      "use": "A prefix installed as a discard route for a subscriber pool served by another BNG. Numbered _1.._n in source order; the numbers carry no other meaning.",
+      "example": "fc00:126:140::/64",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Covers PEER_SUBSCRIBER_V6_PFX_1 through PEER_SUBSCRIBER_V6_PFX_3.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf"
+    },
+    "NEXT_HOP_V4": {
+      "intent": "Explicit IPv4 next hop set by a routing policy.",
+      "use": "The address in a policy `then next-hop` action. Not a firewall `next-ip` prefix (NEXT_HOP).",
+      "example": "192.168.0.11",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/policy-options/policy-statement/vrf-internet-export.conf"
+    },
+    "NEXT_HOP_V6": {
+      "intent": "Explicit IPv6 next hop set by a routing policy.",
+      "use": "The address in a policy `then next-hop` action.",
+      "example": "2001:db8::192:168:0:7",
+      "notes": "Ratified by Kevin Brown on 2026-10-07.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/policy-options/policy-statement/ps-dhcp-subsv6.conf"
+    },
+    "ASN_CUSTOMER_V4": {
+      "intent": "Customer-facing BGP peer AS of the IPv4 neighbor.",
+      "use": "The `peer-as` of the IPv4 CE neighbor when the IPv4 and IPv6 CE neighbors are in different ASes; otherwise use ASN_CUSTOMER.",
+      "example": "200",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Extends ASN_CUSTOMER; pairs with ASN_CUSTOMER_V6.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-internet.conf"
+    },
+    "ASN_CUSTOMER_V6": {
+      "intent": "Customer-facing BGP peer AS of the IPv6 neighbor.",
+      "use": "The `peer-as` of the IPv6 CE neighbor when the IPv4 and IPv6 CE neighbors are in different ASes; otherwise use ASN_CUSTOMER.",
+      "example": "300",
+      "notes": "Ratified by Kevin Brown on 2026-10-07. Extends ASN_CUSTOMER; pairs with ASN_CUSTOMER_V4.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-internet.conf"
     }
   },
   "notes": [

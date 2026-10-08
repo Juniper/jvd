@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "osScopedMirrors": [
+    {
+      "junos": "junos/chassis/aggregated-devices-ethernet.conf",
+      "evo": "evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-core-aggregate-lacp.conf",
+      "evo": "evo/interfaces/ifd-core-aggregate-lacp.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-description.conf",
+      "evo": "evo/interfaces/ifd-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf",
+      "evo": "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-primary-iso.conf",
+      "evo": "evo/interfaces/ifl-loopback-primary-iso.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-primary.conf",
+      "evo": "evo/interfaces/ifl-loopback-primary.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
+      "evo": "evo/policy-options/community/cm-pppoe-subs-comm-1.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-pppoe-subs-comm-2.conf",
+      "evo": "evo/policy-options/community/cm-pppoe-subs-comm-2.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
+      "evo": "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf",
+      "evo": "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-ps-internet-comm.conf",
+      "evo": "evo/policy-options/community/cm-ps-internet-comm.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/cm-ps-radius-comm.conf",
+      "evo": "evo/policy-options/community/cm-ps-radius-comm.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-isis-export.conf",
+      "evo": "evo/policy-options/policy-statement/ps-isis-export.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-pplb.conf",
+      "evo": "evo/policy-options/policy-statement/ps-pplb.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
+      "evo": "evo/policy-options/policy-statement/ps-radius-vrf-export.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-intf-l1-tilfa-bfd.conf",
+      "evo": "evo/protocols/isis-intf-l1-tilfa-bfd.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-intf-l2-tilfa-bfd.conf",
+      "evo": "evo/protocols/isis-intf-l2-tilfa-bfd.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-loopback-passive.conf",
+      "evo": "evo/protocols/isis-loopback-passive.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-srmpls-tilfa-l1.conf",
+      "evo": "evo/protocols/isis-srmpls-tilfa-l1.conf"
+    },
+    {
+      "junos": "junos/protocols/mpls-srgb-ipv6-tunneling.conf",
+      "evo": "evo/protocols/mpls-srgb-ipv6-tunneling.conf"
+    },
+    {
+      "junos": "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+      "evo": "evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
+    },
+    {
+      "junos": "junos/routing-options/autonomous-system.conf",
+      "evo": "evo/routing-options/autonomous-system.conf"
+    },
+    {
+      "junos": "junos/routing-options/forwarding-table-pplb-chained-evpn.conf",
+      "evo": "evo/routing-options/forwarding-table-pplb-chained-evpn.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    },
+    {
+      "junos": "junos/system/ports-console-log-out.conf",
+      "evo": "evo/system/ports-console-log-out.conf"
+    }
+  ],
+  "dependencyContractVersion": 3
+}
