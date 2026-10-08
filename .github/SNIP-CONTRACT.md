@@ -296,8 +296,10 @@ constituent of the statement, not an independently selectable instance.
 
 Which child kinds are independently selectable is **not** derivable from
 hierarchy shape alone: a named rib-group and a policy `term` are structurally
-identical. The distinction is grammar knowledge, and this contract fixes its
-normative vocabulary (**instance-recognition vocabulary, version 4**). The
+identical. The distinction is grammar knowledge: this contract defines the
+normative fragment-selection semantics, and parser and validation
+implementations apply the grammar knowledge needed to enforce them
+(**instance-recognition vocabulary, version 4**). The
 vocabulary is parser and validation knowledge only — not a service taxonomy —
 and carries no naming, category or relationship meaning:
 
