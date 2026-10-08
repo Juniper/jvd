@@ -4,6 +4,82 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-08
+
+Rebuilt the **configuration snippet library for the Broadband Edge JVD**:
+**140 snippets** (77 Junos, 63 Junos Evolved) measured from the twelve validated
+access, aggregation, BNG and core device configurations, covering EVPN-VPWS and
+EVPN-FXC transport, pseudowire headend termination for PPPoE and IPoE/DHCP
+subscribers, and the Internet and RADIUS VRFs.
+
+### New content
+
+- **[Broadband Edge snippet library](service_provider/broadband_edge/configuration/snips)**:
+  every in-scope statement on the twelve design devices is reproduced by a
+  snippet. Each snippet lists the devices it was validated on, its source
+  instance count, the snippets it requires on the same device and, where
+  verified, its peer on another device. The 48 earlier snippets are replaced.
+- **Service forms and roles**: the library describes EVPN-VPWS, EVPN-FXC, PWHT
+  PPPoE, PWHT IPoE, L3VPN Internet and L3VPN RADIUS services across the access
+  node, aggregation, BNG and core router roles. Where several per-BNG
+  forms of the same object exist, such as the `dhcp-subs` subscriber VRF, every
+  eligible form is listed and you pick the one validated on your BNG.
+- **JVD AI Assistant**: the Broadband Edge assistant bundle was regenerated from
+  the new library.
+- **Source configurations**: the Broadband Edge device configurations were
+  cleaned of CLI capture lines, and subscriber passwords and redundancy keys are
+  replaced with placeholders.
+- **Snippet contract**: a snippet may select a statement or block beneath
+  ancestors that only provide context for it, where the configuration grammar
+  allows that boundary. The Metro Ethernet Business Services and Data Center
+  Edge measurement records were refreshed; their snippet counts, values and
+  peer evidence are unchanged.
+
+### What this means for you
+
+- Build Broadband Edge configurations from snippets that match the validated
+  devices exactly, with `$VAR` placeholders for deployment values; see the
+  library [README](service_provider/broadband_edge/configuration/snips/README.md)
+  and [variable glossary](service_provider/broadband_edge/configuration/snips/_variables.md).
+- Links or bookmarks to the earlier Broadband Edge snippet file names no longer
+  resolve; use the topic index in the library README.
+
+---
+
+### By the numbers
+
+Changes since the October 7 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Broadband Edge | 139 | 7 | 41 | 38 | 2 |
+| Service Provider / MEBS | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 2 | 0 |
+| Portal | 0 | 0 | 0 | 12 | 1 |
+| Repository (contracts and glossary) | 0 | 0 | 0 | 3 | 0 |
+| **Total** | **139** | **7** | **41** | **57** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Broadband Edge | 21712 | 8513 | +13199 |
+| Service Provider / MEBS | 5 | 5 | 0 |
+| Enterprise WAN / Data Center Edge | 4 | 4 | 0 |
+| Portal | 30597 | 9698 | +20899 |
+| Repository (contracts and glossary) | 194 | 5 | +189 |
+| **Total** | **52512** | **18225** | **+34287** |
+
+</details>
+
+---
+
 ## 2026-10-07
 
 Catalog, contribution and snippet-contract updates: the Enterprise Data Center
