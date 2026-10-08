@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "ewan_dc_edge",
- "generatedFrom": {"inputsSha256":"8652f93610c64b36075052ddcfbc47a3d9250d0454cf16c45f7e8e562b125ceb","registryVersion":3,"registrySha256":"b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b","toolsSha256":"b04c4653c2df785fdeeecbfd279361c0a0e1c5fabf638ae91f943170257b52af","devices":12,"snips":111},
+ "generatedFrom": {"inputsSha256":"8652f93610c64b36075052ddcfbc47a3d9250d0454cf16c45f7e8e562b125ceb","registryVersion":3,"registrySha256":"b6be96a9cc4686277050b25ecad880a8d7516c8d3e00dc1495aa1cecae41c43b","toolsSha256":"72d13bd82df8a09c5a7f8430fee0e063d6632eb26d389607dcaeeaf647b50a2f","devices":12,"snips":111},
  "deviceInventory": ["dc-edge1_mx480","dc-edge2_mx10003","leaf1_qfx5120-48t","leaf2_qfx5120-48t","p1_acx7100-48l","p2_ptx10001-36mr","spine1_qfx5200","spine2_qfx5200","tor1_ex4200-48t","tor2_ex4200-48t","wan-edge1_mx204","wan-edge2_acx5448-m"],
  "snips": {
   "evo/forwarding-options/l2circuit-control-passthrough.conf": {"variables":[],"count":{"p2_ptx10001-36mr":1},"instances":{"p2_ptx10001-36mr":[{"binding":[],"equivalentBindings":1}]}},

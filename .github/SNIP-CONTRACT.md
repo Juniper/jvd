@@ -153,7 +153,11 @@ configuration and **MAY** be described.
   existing file per directory and partitions the shared source population:
   matches on opposite-OS devices belong to the registered counterpart, not to
   the scoped file's `Seen on` or `Count`. Every source device is still measured
-  and its OS identity must be unambiguous. Unregistered files retain the full
+  and its OS identity must be unambiguous, except a device whose entire source
+  configuration is covered by valid, current, approved exclusions (see
+  *Adjudicated exclusions*): it cannot contribute an instance, so it needs no OS
+  identity and belongs to neither mirror population, but it remains in the
+  source and exclusion inventory. Unregistered files retain the full
   population; no source match may be silently discarded.
 - `(none)` is the only valid empty value. (`SEEN_ON_APPROXIMATION`)
 - It **MUST NOT** contain: `see`, snip or navigation paths, `.conf` filenames,
