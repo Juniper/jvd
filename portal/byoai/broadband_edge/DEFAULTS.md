@@ -1,125 +1,57 @@
-# Auto-Fill Defaults
+# DEFAULTS — Metro Fabric Broadband Edge
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default values the AI uses in `auto` mode (or when the user short-circuits with `all defaults` / `use defaults` / `skip`). It is bundled into [`jvd-bbe-snips.md`](jvd-bbe-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Metro Fabric Broadband Edge JVD. Every value is measured from the validated device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks auto-fill; otherwise ask. Variable meanings are in [`_variables.md`](../_variables.md).
 
-Use these values EXACTLY. Do not invent alternative defaults. Every value the AI auto-fills MUST be listed in the output's `Inputs used:` block so the user can rerun with edits.
+## Device inventory
 
-Addressing follows the JVD lab: `192.168.0.0/24` loopbacks, private AS, and documentation-range subscriber pools.
+| Role | Device | Platform | OS | `$LOOPBACK_V4` / router-id | `$ASN` |
+|------|--------|----------|----|----------------------------|--------|
+| Access node | an1_acx7024 | ACX7024 | EVO | 192.168.0.0 | 65001 |
+| Access node | an2_acx7100-48l | ACX7100-48L | EVO | 192.168.0.1 | 65001 |
+| Access node | an3_acx7100-48l | ACX7100-48L | EVO | 192.168.0.2 | 65001 |
+| Access node | an4_acx7100-48l | ACX7100-48L | EVO | 192.168.0.3 | 65001 |
+| Access node | an5_acx7100-48l | ACX7100-48L | EVO | 192.168.0.4 | 65001 |
+| Aggregation node, route reflector | agn1_acx7100-32c | ACX7100-32C | EVO | 192.168.0.5 | 65001 |
+| Aggregation node, route reflector | agn2_acx7100-32c | ACX7100-32C | EVO | 192.168.0.6 | 65001 |
+| BNG | bng1_mx304 | MX304 | Junos | 192.168.0.7 | 65001 |
+| BNG | bng2_mx204 | MX204 | Junos | 192.168.0.8 | 65001 |
+| BNG | bng3_mx10004 | MX10004 | Junos | 192.168.0.9 | 65001 |
+| BNG | bng4_mx480 | MX480 | Junos | 192.168.0.10 | 65001 |
+| Core router, route reflector | cr1_ptx10004 | PTX10004 | EVO | 192.168.0.11 | 65001 |
 
----
+IPv6 loopbacks are `2001:db8::192:168:0:<n>` with `<n>` the last IPv4 octet in hexadecimal; bng2 uses `2001:db8::192:1:0:8`. Segment-routing node indices are `1000 + n` (IPv4) and `4000 + n` (IPv6).
 
-## Device inventory (the JVD topology)
+## BGP overlay route reflectors
 
-| Device | OS family | Role | Loopback (lo0.0 / router-id) |
-|--------|-----------|------|------------------------------|
-| `an1_acx7024` | EVO | Access Node (AN) | `192.168.0.0` |
-| `an2_acx7100-48l` | EVO | Access Node (AN) | `192.168.0.1` |
-| `an3_acx7100-48l` | EVO | Access Node (AN) | `192.168.0.2` |
-| `an4_acx7100-48l` | EVO | Access Node (AN) | `192.168.0.3` |
-| `an5_acx7100-48l` | EVO | Access Node (AN) | `192.168.0.4` |
-| `agn1_acx7100-32c` | EVO | Aggregation Node (AGN) / fabric RR | `192.168.0.5` |
-| `agn2_acx7100-32c` | EVO | Aggregation Node (AGN) / fabric RR | `192.168.0.6` |
-| `bng1_mx304` | Junos | BNG (Group A) | `192.168.0.7` |
-| `bng2_mx204` | Junos | BNG (Group A) | `192.168.0.8` |
-| `bng3_mx10004` | Junos | BNG (Group B) | `192.168.0.9` |
-| `bng4_mx480` | Junos | BNG (Group B) | `192.168.0.10` |
-| `cr1_ptx10004` | EVO | Core Router / core RR | `192.168.0.11` |
-| `sw1_qfx5120-32c` | Junos | Access switch (helper) | — |
-| `sw2_qfx5210-64c` | Junos | Access switch (helper) | — |
+| Device | BGP form | Route reflectors |
+|--------|----------|------------------|
+| an1–an5 | `evo/protocols/bgp-overlay-an.conf` | agn1 192.168.0.5, agn2 192.168.0.6 |
+| bng1, bng2 | `junos/protocols/bgp-overlay-bng-three-rr.conf` | agn1, agn2, cr1 192.168.0.11 |
+| bng3, bng4 | `junos/protocols/bgp-overlay-bng-core-rr.conf` | cr1 192.168.0.11 |
+| agn1, agn2 | `evo/protocols/bgp-overlay-agn.conf` | reflect for an1–an5 (`GR-IBGP-FABRIC-RR`) and for bng1, bng2 and cr1 (`GR-IBGP-CR`) |
+| cr1 | `evo/protocols/bgp-overlay-cr.conf` | reflects for agn1, agn2, bng1 and bng2 (`GR-IBGP-CORE-RR`) and for bng3 and bng4 (`GR-IBGP-CR`) |
 
-**Device-choice shortcuts** (offered in the clarifying question):
-- `AN` → `an1_acx7024` + `an2_acx7100-48l` (EVO access pair)
-- `BNG` → `bng1_mx304` + `bng2_mx204` (Junos BNG pair, Group A)
-- `PAIR` → `an1_acx7024` (EVO AN) + `bng1_mx304` (Junos BNG) — the end-to-end EVPN-VPWS PWHT service pair
-- `CR` → `cr1_ptx10004` (EVO core, for Internet / RADIUS VRF)
+## Service examples (first validated instance per device)
 
-The AGNs (`agn1/2`) and CR (`cr1`) are the route reflectors — subscriber services are NOT instantiated on them (they carry transport + Internet/RADIUS VRFs only).
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| EVPN-VPWS, access node end | an1 / an2 | `METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1`, `$AC_IFL` ae1.1031, `$VPWS_SVC_ID_LOCAL` 1, `$VPWS_SVC_ID_REMOTE` 21, `$RT_AS:$RT_ID` 60000:1031, `$RD_SUB_ASSIGNED` 1031 |
+| EVPN-VPWS, BNG end | bng1–bng4 | `METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1`, `$AC_IFL` ps0.0, `$VPWS_SVC_ID_LOCAL` 21, `$VPWS_SVC_ID_REMOTE` 1, `$RT_AS:$RT_ID` 60000:1031, `$RD_SUB_ASSIGNED` 1031 |
+| EVPN-VPWS flexible cross-connect | an1 / an2 | `METRO_BBE_EVPN_FXC_IPoE-GROUP_1`, `$IFD` ae0, `$UNIT_A` 1065, `$UNIT_B` 1066, `$SVC_ID_LOCAL` 5002, `$SVC_ID_REMOTE` 6002, `$ESI` `00:15:15:15:00:00:00:15:15:15`, `$RT_AS:$RT_ID` 60000:3001 |
+| PPPoE pseudowire headend | bng1 | `$IFD` ps0, `$ANCHOR_PIC` lt-0/0/0, `$ESI` `00:10:12:12:12:12:12:00:00:31`, `$DF_PREFERENCE` 1000, `$USER_PREFIX` pwht_pppoe, `$DOMAIN_NAME` example.net |
+| DHCP/IPoE pseudowire headend | bng1 | `$IFD` ps11, `$ANCHOR_PIC` lt-0/0/0, `$ESI` `00:10:12:12:12:12:12:00:00:41`, `$DF_PREFERENCE` 1000, `$STATIC_MAC` aa:aa:aa:bb:bb:bb, `$USER_PREFIX` pwht_dhcp |
+| Internet VRF | cr1 | `$AC_IFL` et-0/0/26:1.0, `$CE_PEER_V4` 10.11.110.2 (`$ASN_CUSTOMER_V4` 200), `$CE_PEER_V6` 2001:db8::11:11:110:2 (`$ASN_CUSTOMER_V6` 300), RD 192.168.0.11:1 |
+| RADIUS VRF | bng1 / cr1 | bng1: lo0 unit 7, RD 192.168.117.117:1117. cr1: `$AC_IFL` et-0/0/20:0.0, lo0 unit 11, RD 111.111.111.111:1111, `vrf-target` 11111:111 |
 
-> **OS rule:** ANs / AGNs / CR are **EVO**; BNGs and access switches are **Junos**. All subscriber-management, dynamic-profile, `ps` pseudowire-headend, and BNG chassis snips are **Junos-only** (the BNGs are MX). An EVPN-VPWS service is end-to-end: generate the **AN half** (`evo/`) and the **BNG half** (`junos/`), keeping the shared identifiers matched (see cross-endpoint rule below).
+Per-BNG values for the headend: `$DF_PREFERENCE` is 1000 (bng1), 999 (bng2), 800 (bng3) and 700 (bng4); `$ANCHOR_PIC` is lt-2/0/0 on bng4 and lt-0/0/0 on the others. The BNGs share the RADIUS server 192.0.2.2.
 
----
+## Numbering conventions (hold on every measured instance)
 
-## Transport / underlay defaults
+| Service form | Convention |
+|--------------|------------|
+| EVPN-VPWS (both ends) | `$RT_AS` = 60000 and `$RT_ID` = `$RD_SUB_ASSIGNED`. All four BNGs carry the same instance name and `ps<N>.0` attachment for a given pseudowire group. |
+| EVPN-VPWS, access node end | The unit of `$AC_IFL` = `$RT_ID`; `$VPWS_SVC_ID_REMOTE` = `$VPWS_SVC_ID_LOCAL` + 20. The BNG end swaps the two service IDs. |
+| EVPN-VPWS flexible cross-connect | `$RT_ID` = `$RD_SUB_ASSIGNED`; `$SVC_ID_REMOTE` = `$SVC_ID_LOCAL` + 1000; `$UNIT_B` = `$UNIT_A` + 1. |
+| Route distinguishers | `$RD_SUB_ADMIN` is fixed per device and is not the loopback: an1–an5 use 100.100.100.100 … 104.104.104.104; bng1–bng4 use 192.168.107.107 … 192.168.110.110 for EVPN-VPWS. |
 
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$LOCAL_AS` | `65001` | single iBGP overlay AS, all devices |
-| `$ROUTER_ID` / `$LOOPBACK_V4` | = device lo0.0 (see table) | per device |
-| `$LOOPBACK_V6` | `2001:db8::192:168:0:<n>` | per device |
-| `$RR_AGN1_V4` / `$RR_AGN2_V4` | `192.168.0.5` / `192.168.0.6` | fabric (AGN) route reflectors |
-| `$RR_CR_V4` | `192.168.0.11` | core (CR) route reflector |
-| `$SRGB_START` / `$SRGB_END` | `800000` / `890000` | MPLS SRGB, domain-wide |
-| `$NODE_SID_V4` | `1000 + last octet of lo0` | e.g. bng1 (.7) → `1007` |
-| `$NODE_SID_V6` | `4000 + last octet of lo0` | e.g. bng1 (.7) → `4007` |
-| `$ISIS_LEVEL` | `1` (metro/access), `2` (cr1 core links) | per interface |
-| `$MTU` (core / access LAG) | `9102` | underlay + AN access LAG |
-| `$MTU` (ps interface) | `2022` | pseudowire-headend interface |
-
----
-
-## LAG / interface defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$LAG` / `$LAG_PERSUB` | `ae1` | AN per-subscriber-group access LAG (toward sw) |
-| `$LAG_FXC` | `ae0` | AN FXC access LAG |
-| `$LACP_SYSID_PERSUB` / `$LACP_SYSID_FXC` | `00:00:00:00:02:02` / `00:00:00:00:01:01` | AN LACP system-id overrides |
-| `$PS_DEV` | `ps0`, `ps11`, `ps31`, … | BNG pseudowire-headend ifd (one per subscriber group) |
-| `$ANCHOR_LT` | `lt-0/0/0` | logical-tunnel anchor for the `ps` interface |
-
----
-
-## Service identifiers (EVPN-VPWS PWHT)
-
-Each subscriber group is a distinct EVPN-VPWS routing-instance terminated by PWHT.
-
-| Variable | Rule / default | Example |
-|----------|----------------|---------|
-| `$INSTANCE_NAME` | `METRO_BBE_EVPN_VPWS_<PPPoE\|IPoE>_GROUP_<n>` | `METRO_BBE_EVPN_VPWS_PPPoE_GROUP_1` |
-| Subscriber group id (`$RD_ID`) | PPPoE groups `1031–1040`, IPoE groups `1041–1050` | `1031` |
-| `$RD_LOOPBACK_V4` (BNG side) | BNG "subscriber" loopback `192.168.10X.10X` (NOT lo0.0) | bng1 `192.168.107.107`, bng2 `108.108`, bng3 `109.109`, bng4 `110.110` |
-| `$RD_LOOPBACK_V4` (AN side) | AN "subscriber" loopback `10X.10X.10X.10X` | an4 `103.103.103.103`, an5 `104.104.104.104` |
-| `$RT_AS` : `$RT_ID` | `target:60000:<group-id>` — AS `60000` is the EVPN-VPWS service plane | `target:60000:1031` |
-| `$VPWS_LOCAL_ID` / `$VPWS_REMOTE_ID` (PPPoE) | AN `local 1–10` / `remote 21–30`; BNG `local 21–30` / `remote 1–10` | AN `1`/`21`, BNG `21`/`1` |
-| `$VPWS_LOCAL_ID` / `$VPWS_REMOTE_ID` (IPoE) | AN `local 11–20` / `remote 31–40`; BNG `local 31–40` / `remote 11–20` | AN `11`/`31`, BNG `31`/`11` |
-| `$SVC_LOCAL` / `$SVC_REMOTE` (FXC group) | `5001` / `6001` | FXC bundle service-id pair |
-
-**Cross-endpoint rule:** the route-target, the ESI value, and the VPWS service-id pair MUST match across the AN and BNG halves (AN `local` == BNG `remote`, and vice-versa). Per-device identifiers (loopback, RD, `ps`/`ae` unit) differ.
-
----
-
-## ESI (multihoming) defaults
-
-- **AN per-subscriber (all-active):** `00:10:11:11:11:11:11:00:00:<nn>` on the access LAG unit; the trailing octet is per-group.
-- **AN FXC (shared, all-active):** `00:15:15:15:00:00:00:15:15:15` — one LAG-level ESI for the whole FXC bundle.
-- **BNG `ps` (single-active):** `00:10:12:12:12:12:12:00:00:<nn>` with `df-election-type preference` — **1000** on the primary BNG, **995** on the backup BNG of the pair.
-
----
-
-## L3VPN / subscriber-pool defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$VRF_NAME` | `PPPOE_SUBS_1` (PPPoE), `dhcp-subs` (DHCP/IPoE) | subscriber L3VPN VRF |
-| `$LO_UNIT` | `lo0.1` (PPPoE), `lo0.313` (DHCP) | VRF loopback unit |
-| `$V4_POOL_NETWORK` / `$V6_POOL_PREFIX` (PPPoE) | `10.25.0.0/16` / `fc00:25:140::/48` | address-assignment pool |
-| `$V4_NETWORK` (DHCP) | `10.42.0.0/16` (range `.0.2`–`.255.254`, gw `.0.1`) | dhcp-local-server pool |
-| `$V6_PREFIX` (DHCP) | `fc00:125:140::/64` | DHCPv6 pool |
-| `$LEASE_TIME` | `600` | DHCP maximum-lease-time (s) |
-| Dynamic-profile names | `auto-stacked-pwht` (PPPoE), `auto-stacked-pwht_dhcp` (DHCP), `prod-pppoe-dt-base`, `prod-dhcp-base`, `prof_autosense_ipdemux` | wired by name — leave literal |
-
----
-
-## RADIUS / subscriber-management defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$AUTH_PROFILE` | `vlan-auth-access1` | AAA access-profile invoked by the `ps` auto-configure |
-| `$RADIUS_SERVER_V4` | `10.189.189.2` | reached through the RADIUS L3VPN |
-| `$RADIUS_PORT` | `1812` | RADIUS UDP port |
-| `$RADIUS_SOURCE_V4` | `192.168.17.17` | RADIUS source-address (in RADIUS VRF) |
-| `$NAS_ID` | = device short tag | e.g. `R7-BNG1` |
-| `$USER_PREFIX` / `$USER_PASS` / `$DOMAIN_NAME` | `pwht_pppoe` or `pwht_dhcp` / `joshua` / `jnpr.net` | dynamic-profile username construction |
-| `$PS_DEVICE_COUNT` | `100` | chassis `pseudowire-service device-count` |
-
-> The `$junos-*` placeholders inside `dynamic-profiles` are **runtime-resolved by the BNG `smg-service` daemon** — they are NOT user variables. Leave them literal in rendered config.
+For `N` services, auto-fill increments the per-service number from the example's starting value and keeps the conventions above. Keep a pseudowire's access-node and BNG ends consistent: same instance name, route target and the swapped service-ID pair.
