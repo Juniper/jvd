@@ -4,6 +4,81 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-10
+
+Rebuilt the **configuration snippet library for the Enterprise WAN: Core and Edge JVD**:
+**207 snippets** (105 Junos, 102 Junos Evolved) measured from the eight published
+device configurations, covering L3VPN with VRRP and hub-and-spoke, BGP-VPLS, Layer 2
+circuits, NG-MVPN VRFs, the OSPF/LDP/MPLS core, native-multicast PIM and the
+class-of-service model.
+
+### New content
+
+- **[Enterprise WAN: Core and Edge snippet library](enterprise_wan/ewan_core_edge/configuration/snips)**:
+  every in-scope statement on the eight design devices is reproduced by a snippet,
+  except a lab REST management group on wanedge4. Each snippet lists the devices it
+  was validated on, its source instance count and, where verified, its peer on
+  another device. The earlier 37 topic snippets are replaced.
+- **Scope**: deactivated statements, `traceoptions`, lab MACsec and GRE test
+  configuration on wanedge2, and the P-router route-reflector BGP configuration
+  (whose peers are not devices of this JVD) are recorded as excluded with their
+  source locations.
+- **JVD AI Assistant**: the Core and Edge assistant bundle was regenerated from the
+  new library. Configuration mode renders single service building blocks and lists
+  the prerequisites to supply on the device.
+
+### Known limitations
+
+- Some interfaces and loopbacks referenced by the published configurations are not
+  defined in them, including the access units of the wanedge3 and wanedge4 NG-MVPN
+  VRFs, so the dependencies between snippets are not yet fully declared.
+- The published WAN-edge BGP sessions do not carry MVPN signaling, and
+  interface-level HQoS, part of the validated design, is not active in the published
+  configurations; no HQoS snippet is offered.
+- See the library [README](enterprise_wan/ewan_core_edge/configuration/snips/README.md#scope)
+  for details.
+
+### What this means for you
+
+- Build Core and Edge service configurations from snippets that match the published
+  devices exactly, with `$VAR` placeholders for deployment values; see the library
+  [README](enterprise_wan/ewan_core_edge/configuration/snips/README.md) and
+  [variable glossary](enterprise_wan/ewan_core_edge/configuration/snips/_variables.md).
+- Treat each snippet as a building block: supply the attachment interfaces, underlay
+  and overlay the service requires on your device.
+- Links or bookmarks to the earlier Core and Edge snippet file names no longer
+  resolve; use the topic index in the library README.
+
+---
+
+### By the numbers
+
+Changes since the October 9 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Enterprise WAN / Core and Edge | 213 | 0 | 38 | 13 | 2 |
+| Portal | 0 | 0 | 1 | 11 | 1 |
+| **Total** | **213** | **0** | **39** | **24** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN / Core and Edge | 20709 | 3815 | +16894 |
+| Portal | 29114 | 5523 | +23591 |
+| **Total** | **49823** | **9338** | **+40485** |
+
+</details>
+
+---
+
 ## 2026-10-09
 
 Rebuilt the **configuration snippet library for the Enterprise WAN: Finance JVD**:
