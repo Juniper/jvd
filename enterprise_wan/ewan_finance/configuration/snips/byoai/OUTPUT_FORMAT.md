@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-ewan-fin-snips.md`](jvd-ewan-fin-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-ewan-fin-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,22 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   pe1: { name: <hostname>, os: <junos|evo>, loopback4: <addr> }
-#   pe2: { ... }
+#   wanedge1: { name: <hostname>, os: junos, loopback4: <addr> }
+#   ap1: { name: <hostname>, os: junos, loopback4: <addr> }
 # services:
-#   - { kind: <mvpn|evpn-virtual-switch|l3vpn-vrf|virtual-router>,
+#   - { kind: <ng-mvpn-sender|ng-mvpn-receiver|l3vpn-irb|l3vpn-2-ce|evpn-virtual-switch|virtual-router-multicast|virtual-router-unicast>,
 #       count: <int>,
-#       instance_name: <name>,
-#       rd: <loopback:id>,
-#       rt: <target:...>,
-#       esi_base: <hex>,          # for evpn-virtual-switch
-#       mvpn_rt: <target:...>,    # for mvpn
-#       rp: <addr>, group_range: <prefix> }   # for mvpn / virtual-router
+#       start_id: <int>,
+#       attachments: <ifl list>,
+#       rt: <rt_as:rt_id>,
+#       rd: <loopback:assigned> }
 # snips_used:
-#   - junos/services/mvpn-instance.conf
-#   - junos/interfaces/irb-l3-gateway.conf
+#   - junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf
 #   - ...
 ```
 
@@ -49,15 +46,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries and the requirements TIERS.md lists under the Blocked entry for that device (attachment interfaces, IRB units, VRF loopback units, export policies, the iBGP mesh and the EVPN virtual switch that owns an IRB). Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-PE / cross-device consistency the user must verify:
-  - EVPN **ESI values** and the LACP system-id MUST match on both PEs of a multihomed pair.
-  - MVPN **route-targets** and the **P2MP provider-tunnel** must be consistent across the sender/receiver PEs.
-  - L3VPN **route-targets** must match across the PEs that share the VRF.
-  - virtual-router: the **eBGP AS toward the AP** (`64512`) is shared; the VR's own AS differs per CR (`cr1` = 64520, `cr2` = 64521).
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- MVPN / multicast turn-ups: remind that `bootstrap/chassis-config.conf` provisions **tunnel-services** (needed for multicast replication) and that `multicast/forwarding-multicast-tuning.conf` + `firewall/multicast-fwd-cache-filter.conf` are the resolve-rate / CoS-marking pair.
+- Cross-device consistency the user must verify: an NG-MVPN instance uses the same route targets, MVPN target, RP and group range on both WAN edges and both access points; an EVPN virtual-switch instance and its IRB unit are identical on both WAN edges; a customer-router virtual router's eBGP neighbors are the access-point PE-CE addresses of the same instance.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

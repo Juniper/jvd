@@ -297,6 +297,111 @@
       "example": "300",
       "notes": "Ratified by Kevin Brown on 2026-10-07. Extends ASN_CUSTOMER; pairs with ASN_CUSTOMER_V4.",
       "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-internet.conf"
+    },
+    "PIM_RP_V4": {
+      "intent": "IPv4 address of a PIM rendezvous point.",
+      "use": "The static RP `address` on a receiver, or the local RP `address` on the RP itself.",
+      "example": "10.10.47.101",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+    },
+    "MCAST_GROUP_V4_PFX": {
+      "intent": "IPv4 multicast group prefix.",
+      "use": "A PIM RP `group-ranges` entry, a selective provider-tunnel group or a firewall destination that matches multicast groups.",
+      "example": "225.0.0.0/22",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+    },
+    "ASN_PROVIDER": {
+      "intent": "Provider autonomous-system number as seen from a CE.",
+      "use": "The `peer-as` a customer router configures toward the provider PEs; the inverse of ASN_CUSTOMER.",
+      "example": "64512",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+    },
+    "PE_PEER_V4": {
+      "intent": "IPv4 address of a provider PE eBGP neighbor, as configured on a CE.",
+      "use": "Numbered _1/_2 when a CE peers with several PEs in one group; the numbers follow neighbor order.",
+      "example": "10.101.48.1",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers PE_PEER_V4_1 and PE_PEER_V4_2.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+    },
+    "AC_IFL_A": {
+      "intent": "Attachment-circuit logical interface, one of a lettered set.",
+      "use": "Extends AC_IFL when one instance, bridge domain or VLAN names several attachment units; _A.._E order the members.",
+      "example": "et-0/0/6.1",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers AC_IFL_A through AC_IFL_E.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf"
+    },
+    "ASN_CUSTOMER_1": {
+      "intent": "Customer-facing BGP peer AS, one of an ordered set.",
+      "use": "Extends ASN_CUSTOMER when one instance peers with several customer routers; the numbers follow the BGP groups.",
+      "example": "64520",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers ASN_CUSTOMER_1 and ASN_CUSTOMER_2.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+    },
+    "BGP_EXPORT_POL": {
+      "intent": "Policy-statement name applied as a BGP `export`.",
+      "use": "Numbered _1/_2 for the members of an `export [ … ]` list, in evaluation order.",
+      "example": "PS-ADV_DIRECT",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers BGP_EXPORT_POL_1 and BGP_EXPORT_POL_2.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/protocols/bgp-ibgp-full-mesh-5.conf"
+    },
+    "OSPF_EXPORT_POL": {
+      "intent": "Policy-statement name applied as an OSPF `export`.",
+      "use": "The OSPF export policy inside a routing instance.",
+      "example": "PS-send-ospf",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+    },
+    "IBGP_PEER_V4": {
+      "intent": "IPv4 address of an internal BGP neighbor.",
+      "use": "An iBGP neighbor that is not a route reflector; numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "10.200.50.13",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers IBGP_PEER_V4_1 through IBGP_PEER_V4_5.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/protocols/bgp-ibgp-full-mesh-5.conf"
+    },
+    "IFL": {
+      "intent": "Logical interface identifier, including its unit.",
+      "use": "A logical interface named in a protocol or instance stanza where no attachment-circuit or core role is established; numbered _1.._n for an ordered set.",
+      "example": "et-0/0/42.1",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers IFL_1 through IFL_3.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+    },
+    "INPUT_FILTER": {
+      "intent": "Firewall filter name applied as `filter input`.",
+      "use": "The input filter of a logical interface family.",
+      "example": "mfc-filter",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/interfaces/ifl-irb-filter-mac.conf"
+    },
+    "LSP_NAME_1": {
+      "intent": "RSVP-TE label-switched-path name, one of an ordered set.",
+      "use": "Pairs with LSP_TO_V4_n of the same number.",
+      "example": "lsp_to_AP2",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers LSP_NAME_1 through LSP_NAME_3.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/protocols/mpls-p2mp-template-3-lsp-2-core.conf"
+    },
+    "LSP_TO_V4_1": {
+      "intent": "Egress (`to`) IPv4 address of a label-switched path, one of an ordered set.",
+      "use": "Pairs with LSP_NAME_n of the same number.",
+      "example": "10.200.50.16",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers LSP_TO_V4_1 through LSP_TO_V4_3.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/protocols/mpls-p2mp-template-3-lsp-2-core.conf"
+    },
+    "MATCH_DEST_V4_PFX_1": {
+      "intent": "Destination IPv4 prefix a firewall term matches, one of an ordered set.",
+      "use": "A `destination-address` entry of a filter term.",
+      "example": "10.8.21.2/32",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge. Covers MATCH_DEST_V4_PFX_1 and MATCH_DEST_V4_PFX_2.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/firewall/filter-mfc-filter1-fc-high.conf"
+    },
+    "MVPN_RT_ID": {
+      "intent": "Route Target Assigned Number of an MVPN route target.",
+      "use": "The tail of the MVPN `route-target` import/export target; the Administrator subfield is RT_AS.",
+      "example": "101",
+      "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
     }
   },
   "notes": [

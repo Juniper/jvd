@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "osScopedMirrors": [
+    {
+      "junos": "junos/chassis/aggregated-devices-ethernet.conf",
+      "evo": "evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    {
+      "junos": "junos/chassis/dump-on-panic.conf",
+      "evo": "evo/chassis/dump-on-panic.conf"
+    },
+    {
+      "junos": "junos/chassis/network-services-enhanced-ip.conf",
+      "evo": "evo/chassis/network-services-enhanced-ip.conf"
+    },
+    {
+      "junos": "junos/class-of-service/classifiers/cl-exp-4class.conf",
+      "evo": "evo/class-of-service/classifiers/cl-exp-4class.conf"
+    },
+    {
+      "junos": "junos/class-of-service/forwarding-classes/fc-4queue-model.conf",
+      "evo": "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifd-scheduler-map.conf",
+      "evo": "evo/class-of-service/interfaces/ifd-scheduler-map.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/rewrite-rules/rr-exp-4class.conf",
+      "evo": "evo/class-of-service/rewrite-rules/rr-exp-4class.conf"
+    },
+    {
+      "junos": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
+      "evo": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-description.conf",
+      "evo": "evo/interfaces/ifd-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "evo": "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-core-inet-iso-mpls.conf",
+      "evo": "evo/interfaces/ifl-core-inet-iso-mpls.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-inet.conf",
+      "evo": "evo/interfaces/ifl-vlan-inet.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-accept-bgp.conf",
+      "evo": "evo/policy-options/policy-statement/ps-accept-bgp.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-accept-direct.conf",
+      "evo": "evo/policy-options/policy-statement/ps-accept-direct.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-accept-ospf.conf",
+      "evo": "evo/policy-options/policy-statement/ps-accept-ospf.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-default-longer-metric-30.conf",
+      "evo": "evo/policy-options/policy-statement/ps-default-longer-metric-30.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf",
+      "evo": "evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-ibgp-full-mesh-5.conf",
+      "evo": "evo/protocols/bgp-ibgp-full-mesh-5.conf"
+    },
+    {
+      "junos": "junos/protocols/lldp-interface-all.conf",
+      "evo": "evo/protocols/lldp-interface-all.conf"
+    },
+    {
+      "junos": "junos/protocols/ospf-traffic-engineering.conf",
+      "evo": "evo/protocols/ospf-traffic-engineering.conf"
+    },
+    {
+      "junos": "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf",
+      "evo": "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+    },
+    {
+      "junos": "junos/routing-options/autonomous-system.conf",
+      "evo": "evo/routing-options/autonomous-system.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    }
+  ],
+  "dependencyContractVersion": 3
+}
