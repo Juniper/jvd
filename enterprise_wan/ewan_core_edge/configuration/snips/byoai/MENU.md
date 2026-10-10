@@ -1,53 +1,32 @@
-# EWAN Core & Edge BYOAI — Full Query Menu
+# Enterprise WAN Core and Edge BYOAI — Full Query Menu
 
-The always-current catalog of generation asks for the Enterprise WAN Core & Edge JVD. Replace `N` with any count (e.g. `Generate 3 …`). All services render on the chosen device pair with the chosen form tier (`minimum` / `with-overlay` / `as-deployed`).
+The always-current catalog of generation asks for the Enterprise WAN Core and Edge JVD. Replace `N` with any count (e.g. `Generate 3 …`). Every service renders on the devices it is validated on, in the `minimum` form: the service construct only, on a device that already runs its prerequisites (attachment units, BGP overlay and transport).
 
 ## Services — L3VPN
 
-- `Generate N L3VPN services with VRRP` — eBGP PE-CE, vrf-target, vrf-table-label
-- `Generate N L3VPN Hub-and-Spoke spoke VRFs` — asymmetric import/export with community-based RT selection
+- `Generate N L3VPN VRFs with VRRP on wanedge1 and wanedge2` — eBGP to the CE through the VRRP virtual address, `vrf-target` route targets
+- `Generate N hub-and-spoke spoke VRFs on wanedge1` — eBGP with `as-override`, import/export through the hub and spoke communities
+- `Generate N hub VRF pairs on wanedge3` — one VRF advertising hub routes to the spokes, one receiving spoke routes
 
-## Services — VPLS (L2 multipoint)
+## Services — Layer 2
 
-- `Generate N VPLS instances` — LDP-signaled virtual-switch with FAT pseudowire (Junos: bridge-domains; EVO: vlans)
+- `Generate N BGP-VPLS instances on wanedge1, wanedge3 and wanedge4` — virtual switch with one VLAN
+- `Generate N Layer 2 circuits on wanedge1` — hot-standby pseudowire toward two remote WAN edges
+- `Generate N Layer 2 circuits on wanedge3` — single pseudowire toward one remote WAN edge
+- `Generate N local-switching cross-connects on ce1` — two local units switched without a remote PE
 
-## Services — L2CKT (L2 point-to-point)
+## Services — multicast
 
-- `Generate N L2CKT pseudowires` — Ethernet-VLAN encap, hot-standby backup PE, control-word
-
-## Services — NGMVPN (Multicast VPN)
-
-- `Generate N NGMVPN instances` — MVPN + PIM + OSPF CE + ldp-p2mp provider tunnel
-- `Generate NGMVPN Hub-and-Spoke pair` — Hub_Adv + Spokes_Adv VRFs with asymmetric policies (EVO only)
-
-## Add a feature to a device
-
-- `Add CoS to <device>` — 8-class DSCP + 802.1p classifiers + forwarding-classes
-- `Add ECMP hash-key to <device>` — MPLS label + multiservice ECMP + entropy-label
-- `Add PIM to <device>` — sparse-mode with static RP (PE) or local RP (P-router)
-- `Add LFA convergence to <device>` — OSPF remote-backup + per-prefix + node-link-protection
-
-## Greenfield / turn-up
-
-- `Build a new WAN-edge turn-up for an ACX7509` — full as-deployed baseline (EVO)
-- `Bootstrap a new MX304 PE end-to-end` — chassis + underlay + overlay + a sample service
-- `Build a P-router / Route Reflector config for a PTX10003` — core transport + BGP RR
-
-## Transport / underlay
-
-- `Generate the OSPF + LDP + LFA underlay for <device>`
-- `Generate MPLS LSPs with entropy-label`
-- `Generate iBGP overlay to the route reflectors`
-- `Generate PIM for NGMVPN provider tunnels`
+- `Generate N NG-MVPN VRFs on wanedge1 and wanedge3` — VRF building block with LDP point-to-multipoint provider tunnels and one selective tunnel; wanedge3 is the PIM RP. Access units, global PIM/LDP and MVPN BGP signaling are prerequisites you supply
 
 ## Audit / explain
 
-- `Which snips are EVO-only vs Junos-only?`
-- `Compare VPLS bridge-domains (Junos) vs vlans (EVO)`
-- `Explain the Hub-and-Spoke NGMVPN topology`
-- `Explain the hot-standby L2CKT failover design`
-- `Explain the LFA convergence strategy`
+- `Which snippets are validated on wanedge4?`
+- `What does an L3VPN VRF with VRRP need on wanedge2?`
+- `Explain the hub-and-spoke L3VPN model in this JVD`
+- `Explain LFA and BFD in the OSPF core`
+- `What does this library not cover?`
 
 ---
 
-Don't see what you need? Describe it and the assistant will tell you whether the EWAN Core & Edge JVD covers it.
+Don't see what you need? Describe it and the assistant will tell you whether the Enterprise WAN Core and Edge JVD covers it.

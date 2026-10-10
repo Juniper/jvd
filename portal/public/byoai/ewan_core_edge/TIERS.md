@@ -1,133 +1,236 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-ewan-core-edge-snips.md`](jvd-ewan-core-edge-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd enterprise_wan/ewan_core_edge`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. PE already has working OSPF/LDP underlay AND iBGP. You just want the new service. | Service routing-instance + AC interface + parent LAG. **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. PE has working underlay but you want to (re)assert the iBGP overlay families. | `minimum` + `transport/bgp-ibgp-rr-client.conf`. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + overlay + OSPF/LDP underlay + MPLS LSPs + PIM + hash + bootstrap + CoS + policy. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new ACX7509 WAN-edge turn-up", "bootstrap a new MX304 PE end-to-end") are always treated as **`as-deployed`** regardless of the user's tier choice.
-
-If the user picks `minimum` and the AI cannot tell whether the iBGP overlay is already on the PE, it should call that out in the `Notes:` section ("assumed `family inet-vpn` and `family l2vpn signaling` already active under `protocols bgp group ibgp`").
-
----
-
-## Shared underlay (the `as-deployed` baseline for every service)
-
-Every `as-deployed` service includes this common baseline. OS-select each file:
-
-- `transport/bgp-ibgp-rr-client.conf` (Junos) / `transport/bgp-ibgp-rr.conf` (EVO P-routers) — iBGP to RR with inet-vpn/l2vpn/route-target
-- `transport/ospf-lfa.conf` — OSPF area 0 + LFA (remote-backup, per-prefix, node-link-degradation)
-- `transport/ldp.conf` — LDP with auto-targeted-session + P2MP
-- `transport/mpls-lsp.conf` (Junos WAN Edges) / `transport/mpls-transit.conf` (EVO P-routers) — MPLS LSPs / transit
-- `transport/pim-sparse.conf` (Junos WAN Edges) / `transport/pim-sparse-rp.conf` (EVO P-routers) — PIM for NGMVPN
-- `interfaces/ae-lag-core.conf` — core uplink LAG (family inet + mpls)
-- `bootstrap/chassis.conf` — aggregated-devices count; **EVO also sets `network-services enhanced-ip` (REQUIRED for MPLS/VPN)**
-- `bootstrap/forwarding-options-hash.conf` — ECMP/LAG hash keys (MPLS label + multiservice)
-- `cos/classifiers-forwarding-classes.conf` — 8-class DSCP + 802.1p (Junos WAN Edges only)
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## L3VPN with VRRP (instance-type vrf, eBGP CE, vrf-target)
+## L3VPN hub-and-spoke spoke VRF with as-override
 
-**minimum** (just the service)
-- `services/l3vpn-vrf-vrrp.conf`
-- `interfaces/ae-lag-access.conf` (parent LAG for ACs)
+Family l3vpn, form hub-spoke-spoke. OS mode Junos. Attachment: VLAN-tagged IPv4 unit toward the spoke CE.
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf` (verify `family inet-vpn` active)
+### wanedge1_mx304 (junos)
 
-**as-deployed** (= with-overlay + the shared underlay baseline above)
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - reference-external: policy-statement:$IMPORT_POL
+  - reference-external: policy-statement:$EXPORT_POL
 
----
+### wanedge2_mx10008 (junos)
 
-## L3VPN Hub-and-Spoke (asymmetric vrf-import/export)
-
-**minimum** (just the service)
-- `services/l3vpn-vrf-spoke.conf`
-- `policy/hub-spoke-community.conf` (RT community definitions)
-- `policy/hub-spoke-import-export.conf` (hub_N / spoke_N policies)
-- `interfaces/ae-lag-access.conf` (parent LAG)
-
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf`
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - reference-external: policy-statement:$IMPORT_POL
+  - reference-external: policy-statement:$EXPORT_POL
 
 ---
 
-## VPLS (virtual-switch, LDP-signaled)
+## L3VPN hub VRF advertising hub routes to the spokes
 
-Pick the OS-appropriate flavor:
-- **Junos MX:** `junos/services/vpls-virtual-switch.conf` (bridge-domains syntax)
-- **EVO ACX:** `evo/services/vpls-virtual-switch.conf` (vlans syntax)
+Family l3vpn, form hub-spoke-hub-export. OS mode EVO. Attachment: VLAN-tagged IPv4 unit toward the hub CE.
 
-**minimum** (just the service)
-- the flavor above
-- `interfaces/ae-lag-access.conf` (parent LAG for ACs)
+### wanedge3_acx7509 (evo)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf` (verify `family l2vpn signaling`)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-export-vrf-policy.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - reference-external: policy-statement:$IMPORT_POL
+  - reference-external: policy-statement:$EXPORT_POL
 
 ---
 
-## L2CKT (pseudowire with hot-standby backup)
+## L3VPN hub VRF receiving spoke routes
 
-**minimum** (just the service)
-- `services/l2ckt-pseudowire.conf`
-- `interfaces/ae-lag-access.conf` (parent LAG for ACs)
+Family l3vpn, form hub-spoke-hub-import. OS mode EVO. Attachment: VLAN-tagged IPv4 unit toward the hub CE.
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf`
-- `transport/ldp.conf` (targeted LDP session to remote PE)
+### wanedge3_acx7509 (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
-
----
-
-## NGMVPN (Next-Generation Multicast VPN)
-
-**minimum** (just the multicast VRF)
-- `services/ngmvpn-vrf.conf`
-- `policy/bgp-to-ospf.conf` (OSPF export for CE redistribution)
-
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf`
-- `transport/pim-sparse.conf` (global PIM for provider tunnels)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-vrf-policy.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - reference-external: policy-statement:$IMPORT_POL
+  - reference-external: policy-statement:$EXPORT_POL
 
 ---
 
-## NGMVPN Hub-and-Spoke (EVO only — hub advertise + spoke advertise VRFs)
+## L3VPN VRF with VRRP gateway redundancy and an eBGP CE session
 
-**minimum** (just the hub/spoke VRF pair)
-- `services/ngmvpn-hub-adv.conf` (hub side)
-- `services/ngmvpn-spoke-adv.conf` (spoke side)
-- `policy/redistribute-vpn.conf` (hub CE export)
-- `policy/hub-spoke-community.conf` + `policy/hub-spoke-import-export.conf`
+Family l3vpn, form vrrp. OS mode MIXED. Attachment: VLAN-tagged IPv4 unit with a VRRP group.
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-rr-client.conf`
+### wanedge3_acx7509 (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
+- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
+- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge2_mx10008 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/protocols/bgp-overlay-pe.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
 ---
 
-## Add-a-feature requests (no full service)
+## BGP-VPLS virtual switch with one VLAN
 
-When the user asks to add a supporting feature to an existing device, emit ONLY that snip set:
-- **CoS** → `cos/classifiers-forwarding-classes.conf`
-- **ECMP / load-balancing** → `bootstrap/forwarding-options-hash.conf`
-- **PIM / multicast** → `transport/pim-sparse.conf` (PE) or `transport/pim-sparse-rp.conf` (P/RP)
-- **LFA convergence** → `transport/ospf-lfa.conf`
+Family vpls, form bgp-vpls-virtual-switch. OS mode MIXED. Attachment: VLAN bridge unit on the access bundle.
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## BGP-VPLS virtual switch with flow labels
+
+Family vpls, form bgp-vpls-virtual-switch-flow-label. OS mode MIXED. Attachment: VLAN bridge unit on the access bundle.
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans-flow-label.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain-flow-label.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## LDP Layer 2 circuit with a hot-standby backup pseudowire
+
+Family l2circuit, form hot-standby. OS mode Junos. Attachment: VLAN circuit cross-connect unit.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge2_mx10008 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## LDP Layer 2 circuit
+
+Family l2circuit, form single-homed. OS mode EVO. Attachment: VLAN circuit cross-connect unit.
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## NG-MVPN VRF with a static RP over LDP point-to-multipoint tunnels
+
+Family ngmvpn, form rp-static-group-range. OS mode Junos. Attachment: VLAN-tagged IPv4 unit and a VRF loopback unit.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
+- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### wanedge2_mx10008 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
+- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## NG-MVPN VRF acting as the PIM RP over LDP point-to-multipoint tunnels
+
+Family ngmvpn, form rp-local. OS mode EVO. Attachment: VLAN-tagged IPv4 unit and a VRF loopback unit.
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf`
+- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## NG-MVPN VRF with a static RP and null-register processing
+
+Family ngmvpn, form rp-static-group-range-null-register. OS mode EVO. Attachment: VLAN-tagged IPv4 unit and a VRF loopback unit.
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range-null-register.conf`
+- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## Local switching between two units on a CE
+
+Family l2circuit, form local-switching. OS mode MIXED. Attachment: Two VLAN circuit cross-connect units on the same device.
+
+### ce1_acx7100-48l (evo)
+
+- `minimum`: `evo/protocols/l2circuit-local-switching.conf`
+- `self-contained`: the above plus `evo/interfaces/ifl-vlan-ccc.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### ce2_mx480 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-local-switching.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-vlan-ccc.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---

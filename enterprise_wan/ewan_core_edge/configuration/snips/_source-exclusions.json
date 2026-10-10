@@ -1,0 +1,2313 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "scope-wanedge1-class-of-service-interfaces-xe-0-0-15-0-inactive-unit-4001",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "41a670824bb052b81d74bb080cf70946865d0a84c33ab22b2d876bb569edd133",
+      "hierarchy": [
+        "class-of-service",
+        "interfaces",
+        "xe-0/0/15:0",
+        "inactive: unit 4001"
+      ],
+      "sourceIds": [
+        46961,
+        46962,
+        46963
+      ],
+      "terminalSourceIds": [
+        46963
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: unit 4001",
+        "statements": 1
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-class-of-service-interfaces-inactive-ae2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "41a670824bb052b81d74bb080cf70946865d0a84c33ab22b2d876bb569edd133",
+      "hierarchy": [
+        "class-of-service",
+        "interfaces",
+        "inactive: ae2"
+      ],
+      "sourceIds": [
+        46967,
+        46968,
+        46969,
+        46970
+      ],
+      "terminalSourceIds": [
+        46970
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: ae2",
+        "statements": 1
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-options-ppm-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "41a670824bb052b81d74bb080cf70946865d0a84c33ab22b2d876bb569edd133",
+      "hierarchy": [
+        "routing-options",
+        "ppm",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        90102,
+        90103,
+        90104
+      ],
+      "terminalSourceIds": [
+        90103,
+        90104
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-protocols-vrrp-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "41a670824bb052b81d74bb080cf70946865d0a84c33ab22b2d876bb569edd133",
+      "hierarchy": [
+        "protocols",
+        "vrrp",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        90111,
+        90112,
+        90113
+      ],
+      "terminalSourceIds": [
+        90112,
+        90113
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-protocols-ldp-inactive-entropy-label",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "41a670824bb052b81d74bb080cf70946865d0a84c33ab22b2d876bb569edd133",
+      "hierarchy": [
+        "protocols",
+        "ldp",
+        "inactive: entropy-label"
+      ],
+      "sourceIds": [
+        130119,
+        130120
+      ],
+      "terminalSourceIds": [
+        130120
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: entropy-label",
+        "statements": 1
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-xe-3-1-13-inactive-hierarchical-scheduler",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "xe-3/1/13",
+        "inactive: hierarchical-scheduler"
+      ],
+      "sourceIds": [
+        12864
+      ],
+      "terminalSourceIds": [
+        12864
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: hierarchical-scheduler",
+        "statements": 1,
+        "openGap": "HQoS: tested configuration not active in the published source"
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited. Interface-level HQoS is documented as validated, but this hierarchy is deactivated in the published configuration; it is not modelled and no configuration is substituted.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-options-ppm-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "routing-options",
+        "ppm",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        64830,
+        64831,
+        64832
+      ],
+      "terminalSourceIds": [
+        64831,
+        64832
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-vrrp-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "vrrp",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        64839,
+        64840,
+        64841
+      ],
+      "terminalSourceIds": [
+        64840,
+        64841
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-bgp-inactive-group-macsec-ibgp",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "bgp",
+        "inactive: group macsec_ibgp"
+      ],
+      "sourceIds": [
+        64905,
+        64906,
+        64907,
+        64908,
+        64909,
+        64910,
+        64911,
+        64912,
+        64913,
+        64914,
+        64915,
+        64916,
+        64917,
+        64918,
+        64919,
+        64920,
+        64921,
+        64922,
+        64923,
+        64924,
+        64925,
+        64926,
+        64927,
+        64928,
+        64929,
+        64930,
+        64931,
+        64932,
+        64933,
+        64934,
+        64935,
+        64936,
+        64937,
+        64938,
+        64939,
+        64940,
+        64941,
+        64942,
+        64943,
+        64944,
+        64945,
+        64946,
+        64947,
+        64948,
+        64949,
+        64950,
+        64951,
+        64952,
+        64953
+      ],
+      "terminalSourceIds": [
+        64907,
+        64908,
+        64909,
+        64911,
+        64912,
+        64913,
+        64915,
+        64916,
+        64917,
+        64919,
+        64920,
+        64921,
+        64923,
+        64924,
+        64925,
+        64927,
+        64928,
+        64929,
+        64931,
+        64932,
+        64933,
+        64935,
+        64936,
+        64937,
+        64939,
+        64940,
+        64941,
+        64943,
+        64944,
+        64945,
+        64947,
+        64948,
+        64949,
+        64951,
+        64952,
+        64953
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: group macsec_ibgp",
+        "statements": 36
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-ospf-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        70043,
+        70044
+      ],
+      "terminalSourceIds": [
+        70044
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 1
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-inactive-pim",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "inactive: pim"
+      ],
+      "sourceIds": [
+        70045,
+        70046,
+        70047,
+        70048,
+        70049,
+        70050,
+        70051,
+        70052,
+        70053,
+        70054,
+        70055,
+        70056,
+        70057,
+        70058,
+        70059,
+        70060,
+        70061,
+        70062,
+        70063,
+        70064,
+        70065,
+        70066,
+        70067,
+        70068,
+        70069,
+        70070,
+        70071,
+        70072,
+        70073,
+        70074,
+        70075,
+        70076,
+        70077,
+        70078,
+        70079,
+        70080,
+        70081,
+        70082
+      ],
+      "terminalSourceIds": [
+        70048,
+        70050,
+        70052,
+        70054,
+        70056,
+        70058,
+        70060,
+        70062,
+        70064,
+        70066,
+        70068,
+        70070,
+        70072,
+        70074,
+        70076,
+        70078,
+        70080,
+        70082
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: pim",
+        "statements": 18
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge3-inactive-class-of-service",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge3_acx7509",
+      "sourceSha256": "c4081c43d7f43ec66b7cd116b80e43db4f173cc2189d287c6dd7b2f15a55f1a1",
+      "hierarchy": [
+        "inactive: class-of-service"
+      ],
+      "sourceIds": [
+        56488,
+        56489,
+        56490,
+        56491,
+        56492,
+        56493,
+        56494,
+        56495,
+        56496,
+        56497,
+        56498,
+        56499,
+        56500,
+        56501,
+        56502,
+        56503,
+        56504,
+        56505,
+        56506,
+        56507,
+        56508,
+        56509,
+        56510,
+        56511,
+        56512,
+        56513,
+        56514,
+        56515,
+        56516,
+        56517,
+        56518,
+        56519,
+        56520,
+        56521,
+        56522,
+        56523,
+        56524,
+        56525,
+        56526,
+        56527,
+        56528,
+        56529,
+        56530,
+        56531,
+        56532,
+        56533,
+        56534,
+        56535,
+        56536,
+        56537,
+        56538,
+        56539,
+        56540,
+        56541,
+        56542,
+        56543,
+        56544,
+        56545,
+        56546,
+        56547,
+        56548,
+        56549,
+        56550,
+        56551,
+        56552,
+        56553,
+        56554,
+        56555,
+        56556,
+        56557,
+        56558,
+        56559,
+        56560,
+        56561,
+        56562,
+        56563,
+        56564,
+        56565,
+        56566,
+        56567,
+        56568,
+        56569,
+        56570,
+        56571,
+        56572,
+        56573,
+        56574,
+        56575,
+        56576,
+        56577,
+        56578,
+        56579,
+        56580,
+        56581,
+        56582,
+        56583,
+        56584,
+        56585,
+        56586,
+        56587,
+        56588,
+        56589,
+        56590,
+        56591,
+        56592,
+        56593,
+        56594,
+        56595,
+        56596,
+        56597,
+        56598,
+        56599,
+        56600,
+        56601,
+        56602,
+        56603,
+        56604,
+        56605,
+        56606,
+        56607,
+        56608,
+        56609,
+        56610,
+        56611,
+        56612,
+        56613,
+        56614,
+        56615,
+        56616,
+        56617,
+        56618,
+        56619,
+        56620,
+        56621,
+        56622,
+        56623,
+        56624,
+        56625,
+        56626,
+        56627,
+        56628,
+        56629,
+        56630,
+        56631,
+        56632,
+        56633,
+        56634,
+        56635,
+        56636,
+        56637,
+        56638,
+        56639,
+        56640,
+        56641,
+        56642,
+        56643,
+        56644,
+        56645,
+        56646,
+        56647,
+        56648,
+        56649,
+        56650,
+        56651,
+        56652,
+        56653,
+        56654,
+        56655,
+        56656,
+        56657,
+        56658,
+        56659,
+        56660,
+        56661,
+        56662,
+        56663,
+        56664,
+        56665,
+        56666,
+        56667,
+        56668,
+        56669,
+        56670,
+        56671,
+        56672,
+        56673,
+        56674,
+        56675,
+        56676,
+        56677,
+        56678,
+        56679,
+        56680,
+        56681,
+        56682,
+        56683,
+        56684,
+        56685,
+        56686,
+        56687,
+        56688,
+        56689,
+        56690,
+        56691,
+        56692,
+        56693,
+        56694,
+        56695,
+        56696,
+        56697,
+        56698,
+        56699,
+        56700
+      ],
+      "terminalSourceIds": [
+        56492,
+        56494,
+        56496,
+        56498,
+        56500,
+        56502,
+        56504,
+        56506,
+        56509,
+        56511,
+        56513,
+        56515,
+        56517,
+        56519,
+        56521,
+        56523,
+        56525,
+        56526,
+        56527,
+        56528,
+        56529,
+        56530,
+        56531,
+        56532,
+        56535,
+        56536,
+        56537,
+        56539,
+        56540,
+        56541,
+        56543,
+        56544,
+        56545,
+        56547,
+        56548,
+        56553,
+        56555,
+        56557,
+        56559,
+        56561,
+        56563,
+        56565,
+        56567,
+        56569,
+        56571,
+        56573,
+        56575,
+        56577,
+        56579,
+        56581,
+        56583,
+        56585,
+        56587,
+        56589,
+        56591,
+        56593,
+        56595,
+        56597,
+        56599,
+        56601,
+        56603,
+        56605,
+        56607,
+        56609,
+        56611,
+        56613,
+        56615,
+        56617,
+        56619,
+        56623,
+        56625,
+        56627,
+        56629,
+        56631,
+        56633,
+        56635,
+        56637,
+        56640,
+        56641,
+        56642,
+        56643,
+        56644,
+        56645,
+        56646,
+        56647,
+        56649,
+        56650,
+        56651,
+        56652,
+        56653,
+        56654,
+        56655,
+        56656,
+        56658,
+        56659,
+        56660,
+        56661,
+        56662,
+        56663,
+        56664,
+        56665,
+        56667,
+        56668,
+        56669,
+        56670,
+        56671,
+        56672,
+        56673,
+        56674,
+        56677,
+        56678,
+        56679,
+        56681,
+        56682,
+        56684,
+        56685,
+        56687,
+        56688,
+        56690,
+        56691,
+        56693,
+        56694,
+        56696,
+        56697,
+        56699,
+        56700
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: class-of-service",
+        "statements": 126,
+        "openGap": "HQoS: tested configuration not active in the published source"
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited. Interface-level HQoS is documented as validated, but this hierarchy is deactivated in the published configuration; it is not modelled and no configuration is substituted.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge3-routing-options-ppm-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge3_acx7509",
+      "sourceSha256": "c4081c43d7f43ec66b7cd116b80e43db4f173cc2189d287c6dd7b2f15a55f1a1",
+      "hierarchy": [
+        "routing-options",
+        "ppm",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        109815,
+        109816,
+        109817
+      ],
+      "terminalSourceIds": [
+        109816,
+        109817
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge3-protocols-vrrp-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge3_acx7509",
+      "sourceSha256": "c4081c43d7f43ec66b7cd116b80e43db4f173cc2189d287c6dd7b2f15a55f1a1",
+      "hierarchy": [
+        "protocols",
+        "vrrp",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        109824,
+        109825,
+        109826
+      ],
+      "terminalSourceIds": [
+        109825,
+        109826
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge3-protocols-ldp-inactive-entropy-label",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge3_acx7509",
+      "sourceSha256": "c4081c43d7f43ec66b7cd116b80e43db4f173cc2189d287c6dd7b2f15a55f1a1",
+      "hierarchy": [
+        "protocols",
+        "ldp",
+        "inactive: entropy-label"
+      ],
+      "sourceIds": [
+        145871,
+        145872
+      ],
+      "terminalSourceIds": [
+        145872
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: entropy-label",
+        "statements": 1
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-groups-zr-wavelength-interfaces-inactive-et-0-0-48",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "8703eea9a17f7cc9d50f2b33304ba536c1efb1d258850c106418b9435b6a9549",
+      "hierarchy": [
+        "groups",
+        "ZR_Wavelength",
+        "interfaces",
+        "inactive: et-0/0/48"
+      ],
+      "sourceIds": [
+        3,
+        4,
+        5
+      ],
+      "terminalSourceIds": [
+        5
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: et-0/0/48",
+        "statements": 1
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-routing-options-ppm-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "8703eea9a17f7cc9d50f2b33304ba536c1efb1d258850c106418b9435b6a9549",
+      "hierarchy": [
+        "routing-options",
+        "ppm",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        56343,
+        56344,
+        56345
+      ],
+      "terminalSourceIds": [
+        56344,
+        56345
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-protocols-vrrp-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "8703eea9a17f7cc9d50f2b33304ba536c1efb1d258850c106418b9435b6a9549",
+      "hierarchy": [
+        "protocols",
+        "vrrp",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        56350,
+        56351,
+        56352
+      ],
+      "terminalSourceIds": [
+        56351,
+        56352
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-protocols-inactive-pim",
+      "classification": "excluded-model-scope",
+      "semanticClass": "deactivated-configuration",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "8703eea9a17f7cc9d50f2b33304ba536c1efb1d258850c106418b9435b6a9549",
+      "hierarchy": [
+        "protocols",
+        "inactive: pim"
+      ],
+      "sourceIds": [
+        92423,
+        92424,
+        92425,
+        92426,
+        92427,
+        92428,
+        92429,
+        92430,
+        92431,
+        92432,
+        92433,
+        92434,
+        92435,
+        92436,
+        92437,
+        92438,
+        92439,
+        92440,
+        92441,
+        92442,
+        92443,
+        92444,
+        92445,
+        92446,
+        92447,
+        92448,
+        92449,
+        92450,
+        92451,
+        92452,
+        92453,
+        92454,
+        92455,
+        92456,
+        92457,
+        92458,
+        92459,
+        92460,
+        92461,
+        92462,
+        92463,
+        92464,
+        92465,
+        92466
+      ],
+      "terminalSourceIds": [
+        92426,
+        92428,
+        92430,
+        92432,
+        92434,
+        92436,
+        92438,
+        92440,
+        92442,
+        92444,
+        92446,
+        92448,
+        92450,
+        92452,
+        92454,
+        92456,
+        92458,
+        92460,
+        92462,
+        92464,
+        92466
+      ],
+      "evidence": {
+        "sourceStatement": "inactive: pim",
+        "statements": 21
+      },
+      "reason": "Library policy: deactivated configuration is not part of the active reusable model; never activated or edited.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-security",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "security"
+      ],
+      "sourceIds": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74
+      ],
+      "terminalSourceIds": [
+        41,
+        42,
+        44,
+        46,
+        47,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60,
+        62,
+        64,
+        66,
+        68,
+        70,
+        72,
+        74
+      ],
+      "evidence": {
+        "sourceStatement": "security",
+        "statements": 18
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/0"
+      ],
+      "sourceIds": [
+        98,
+        99,
+        100,
+        101
+      ],
+      "terminalSourceIds": [
+        101
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/0/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-0-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/1"
+      ],
+      "sourceIds": [
+        112,
+        113,
+        114,
+        115
+      ],
+      "terminalSourceIds": [
+        115
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/0/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-0-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/2"
+      ],
+      "sourceIds": [
+        116,
+        117,
+        118,
+        119
+      ],
+      "terminalSourceIds": [
+        119
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/0/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-0-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/0/3"
+      ],
+      "sourceIds": [
+        120,
+        121,
+        122,
+        123
+      ],
+      "terminalSourceIds": [
+        123
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/0/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-1-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/1/0"
+      ],
+      "sourceIds": [
+        124,
+        125,
+        126,
+        127
+      ],
+      "terminalSourceIds": [
+        127
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/1/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-1-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/1/1"
+      ],
+      "sourceIds": [
+        128,
+        129,
+        130,
+        131
+      ],
+      "terminalSourceIds": [
+        131
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/1/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-1-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/1/2"
+      ],
+      "sourceIds": [
+        132,
+        133,
+        134,
+        135
+      ],
+      "terminalSourceIds": [
+        135
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/1/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-1-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/1/3"
+      ],
+      "sourceIds": [
+        136,
+        137,
+        138,
+        139
+      ],
+      "terminalSourceIds": [
+        139
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/1/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-2-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/2/0"
+      ],
+      "sourceIds": [
+        140,
+        141,
+        142,
+        143
+      ],
+      "terminalSourceIds": [
+        143
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/2/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-2-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/2/1"
+      ],
+      "sourceIds": [
+        144,
+        145,
+        146,
+        147
+      ],
+      "terminalSourceIds": [
+        147
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/2/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-2-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/2/2"
+      ],
+      "sourceIds": [
+        148,
+        149,
+        150,
+        151
+      ],
+      "terminalSourceIds": [
+        151
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/2/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-2-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/2/3"
+      ],
+      "sourceIds": [
+        152,
+        153,
+        154,
+        155
+      ],
+      "terminalSourceIds": [
+        155
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/2/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-3-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/3/0"
+      ],
+      "sourceIds": [
+        156,
+        157,
+        158,
+        159
+      ],
+      "terminalSourceIds": [
+        159
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/3/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-3-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/3/1"
+      ],
+      "sourceIds": [
+        160,
+        161,
+        162,
+        163
+      ],
+      "terminalSourceIds": [
+        163
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/3/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-3-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/3/2"
+      ],
+      "sourceIds": [
+        164,
+        165,
+        166,
+        167
+      ],
+      "terminalSourceIds": [
+        167
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/3/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-3-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/3/3"
+      ],
+      "sourceIds": [
+        168,
+        169,
+        170,
+        171
+      ],
+      "terminalSourceIds": [
+        171
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/3/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-4-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/4/0"
+      ],
+      "sourceIds": [
+        172,
+        173,
+        174,
+        175
+      ],
+      "terminalSourceIds": [
+        175
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/4/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-4-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/4/1"
+      ],
+      "sourceIds": [
+        176,
+        177,
+        178,
+        179
+      ],
+      "terminalSourceIds": [
+        179
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/4/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-4-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/4/2"
+      ],
+      "sourceIds": [
+        180,
+        181,
+        182,
+        183
+      ],
+      "terminalSourceIds": [
+        183
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/4/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-4-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/4/3"
+      ],
+      "sourceIds": [
+        184,
+        185,
+        186,
+        187
+      ],
+      "terminalSourceIds": [
+        187
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/4/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-5-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/5/0"
+      ],
+      "sourceIds": [
+        188,
+        189,
+        190,
+        191
+      ],
+      "terminalSourceIds": [
+        191
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/5/0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-5-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/5/1"
+      ],
+      "sourceIds": [
+        192,
+        193,
+        194,
+        195
+      ],
+      "terminalSourceIds": [
+        195
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/5/1",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-5-2",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/5/2"
+      ],
+      "sourceIds": [
+        196,
+        197,
+        198,
+        199
+      ],
+      "terminalSourceIds": [
+        199
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/5/2",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-et-2-5-3",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "et-2/5/3"
+      ],
+      "sourceIds": [
+        200,
+        201,
+        202,
+        203
+      ],
+      "terminalSourceIds": [
+        203
+      ],
+      "evidence": {
+        "sourceStatement": "et-2/5/3",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-bgp-group-macsec",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "bgp",
+        "group macsec"
+      ],
+      "sourceIds": [
+        64856,
+        64857,
+        64858,
+        64859,
+        64860,
+        64861,
+        64862,
+        64863,
+        64864,
+        64865,
+        64866,
+        64867,
+        64868,
+        64869,
+        64870,
+        64871,
+        64872,
+        64873,
+        64874,
+        64875,
+        64876,
+        64877,
+        64878,
+        64879,
+        64880,
+        64881,
+        64882,
+        64883,
+        64884,
+        64885,
+        64886,
+        64887,
+        64888,
+        64889,
+        64890,
+        64891,
+        64892,
+        64893,
+        64894,
+        64895,
+        64896,
+        64897,
+        64898,
+        64899,
+        64900,
+        64901,
+        64902,
+        64903,
+        64904
+      ],
+      "terminalSourceIds": [
+        64858,
+        64859,
+        64860,
+        64862,
+        64863,
+        64864,
+        64866,
+        64867,
+        64868,
+        64870,
+        64871,
+        64872,
+        64874,
+        64875,
+        64876,
+        64878,
+        64879,
+        64880,
+        64882,
+        64883,
+        64884,
+        64886,
+        64887,
+        64888,
+        64890,
+        64891,
+        64892,
+        64894,
+        64895,
+        64896,
+        64898,
+        64899,
+        64900,
+        64902,
+        64903,
+        64904
+      ],
+      "evidence": {
+        "sourceStatement": "group macsec",
+        "statements": 36
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-bgp-group-macsec-lo-ibgp",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "bgp",
+        "group macsec_lo_ibgp"
+      ],
+      "sourceIds": [
+        64954,
+        64955,
+        64956,
+        64957,
+        64958,
+        64959,
+        64960,
+        64961
+      ],
+      "terminalSourceIds": [
+        64955,
+        64956,
+        64957,
+        64959,
+        64960,
+        64961
+      ],
+      "evidence": {
+        "sourceStatement": "group macsec_lo_ibgp",
+        "statements": 6
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-ospf-area-0-0-0-1",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "area 0.0.0.1"
+      ],
+      "sourceIds": [
+        70018,
+        70019,
+        70020,
+        70021,
+        70022,
+        70023,
+        70024,
+        70025,
+        70026,
+        70027,
+        70028,
+        70029,
+        70030,
+        70031,
+        70032,
+        70033,
+        70034,
+        70035,
+        70036,
+        70037,
+        70038,
+        70039,
+        70040,
+        70041,
+        70042
+      ],
+      "terminalSourceIds": [
+        70020,
+        70022,
+        70024,
+        70026,
+        70028,
+        70030,
+        70032,
+        70034,
+        70036,
+        70038,
+        70040,
+        70042
+      ],
+      "evidence": {
+        "sourceStatement": "area 0.0.0.1",
+        "statements": 12
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-ospf-area-0-0-0-0-interface-et-2-0-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "area 0.0.0.0",
+        "interface et-2/0/0.0"
+      ],
+      "sourceIds": [
+        69994
+      ],
+      "terminalSourceIds": [
+        69994
+      ],
+      "evidence": {
+        "sourceStatement": "interface et-2/0/0.0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device. OSPF on an excluded MACsec test link.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-ospf-area-0-0-0-0-interface-et-2-0-1-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "area 0.0.0.0",
+        "interface et-2/0/1.0"
+      ],
+      "sourceIds": [
+        69995
+      ],
+      "terminalSourceIds": [
+        69995
+      ],
+      "evidence": {
+        "sourceStatement": "interface et-2/0/1.0",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device. OSPF on an excluded MACsec test link.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-policy-options-policy-statement-nhs",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "policy-options",
+        "policy-statement nhs"
+      ],
+      "sourceIds": [
+        25679,
+        25680,
+        25681
+      ],
+      "terminalSourceIds": [
+        25681
+      ],
+      "evidence": {
+        "sourceStatement": "policy-statement nhs",
+        "statements": 1
+      },
+      "reason": "Lab MACsec test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; peers 10.19.x.1/10.21.x.2 and 9.0.0.1 exist on no JVD device. Only consumer is the excluded group macsec_lo_ibgp.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-gr-2-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "gr-2/0/0"
+      ],
+      "sourceIds": [
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ],
+      "terminalSourceIds": [
+        108,
+        109,
+        111
+      ],
+      "evidence": {
+        "sourceStatement": "gr-2/0/0",
+        "statements": 3
+      },
+      "reason": "Lab GRE test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; tunnel destination 14.0.14.2 and routed prefix 14.0.16.0/24 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-interfaces-ge-2-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "interfaces",
+        "ge-2/0/0"
+      ],
+      "sourceIds": [
+        102,
+        103,
+        104
+      ],
+      "terminalSourceIds": [
+        104
+      ],
+      "evidence": {
+        "sourceStatement": "ge-2/0/0",
+        "statements": 1
+      },
+      "reason": "Lab GRE test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; tunnel destination 14.0.14.2 and routed prefix 14.0.16.0/24 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-firewall-family-inet-filter-gre-f",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "firewall",
+        "family inet",
+        "filter GRE_F"
+      ],
+      "sourceIds": [
+        35708,
+        35709,
+        35710,
+        35711,
+        35712,
+        35713,
+        35714,
+        35715
+      ],
+      "terminalSourceIds": [
+        35712,
+        35715
+      ],
+      "evidence": {
+        "sourceStatement": "filter GRE_F",
+        "statements": 2
+      },
+      "reason": "Lab GRE test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; tunnel destination 14.0.14.2 and routed prefix 14.0.16.0/24 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-options-static-route-14-0-16-0-24-next-hop-gr-2-0-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "routing-options",
+        "static",
+        "route 14.0.16.0/24 next-hop gr-2/0/0.0"
+      ],
+      "sourceIds": [
+        64834
+      ],
+      "terminalSourceIds": [
+        64834
+      ],
+      "evidence": {
+        "sourceStatement": "route 14.0.16.0/24 next-hop gr-2/0/0.0",
+        "statements": 1
+      },
+      "reason": "Lab GRE test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; tunnel destination 14.0.14.2 and routed prefix 14.0.16.0/24 exist on no JVD device.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-protocols-ospf-area-0-0-0-0-interface-gr-2-0-0-0",
+      "classification": "excluded-model-scope",
+      "semanticClass": "out-of-design-test-bed",
+      "device": "wanedge2_mx10008",
+      "sourceSha256": "535647bd14349d5e8b105aed4ff5b9dbfe141045f3aeeb7264102e1b36557ed7",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "area 0.0.0.0",
+        "interface gr-2/0/0.0"
+      ],
+      "sourceIds": [
+        69996
+      ],
+      "terminalSourceIds": [
+        69996
+      ],
+      "evidence": {
+        "sourceStatement": "interface gr-2/0/0.0",
+        "statements": 1
+      },
+      "reason": "Lab GRE test configuration, not part of the validated design: Not in the design guide, solution overview, test report or datasheet; tunnel destination 14.0.14.2 and routed prefix 14.0.16.0/24 exist on no JVD device. OSPF adjacency over the excluded test tunnel.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "defect-p1-protocols-bgp",
+      "classification": "excluded-source-defect",
+      "semanticClass": "route-reflector-peering-mismatch",
+      "device": "p1_ptx10003",
+      "sourceSha256": "e826ad2d3a4dfcd469602af8e1687c1e74e1a8cb9b3e2639559ff5fac7fb7f81",
+      "hierarchy": [
+        "protocols",
+        "bgp"
+      ],
+      "sourceIds": [
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196
+      ],
+      "terminalSourceIds": [
+        176,
+        177,
+        179,
+        181,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196
+      ],
+      "evidence": {
+        "sourceStatement": "bgp",
+        "statements": 17
+      },
+      "reason": "Route-reflector peering that does not correspond to this design: the neighbors 2.2.2.2, 4.4.4.4, 5.5.5.5 and 7.7.7.7 are not addresses of any device in this JVD (they match the WAN-edge loopbacks of EWAN Advanced Core and Edge), while the Core and Edge WAN edges peer with 192.168.0.11 and 192.168.0.17, which no published device carries. Retained in the source configuration; not modelled.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-10"
+    },
+    {
+      "id": "defect-p2-protocols-bgp",
+      "classification": "excluded-source-defect",
+      "semanticClass": "route-reflector-peering-mismatch",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "8af347455b98f2b6e9d962ff1079a1e1fe0c0fd4a94d409328b071bf5d907f9e",
+      "hierarchy": [
+        "protocols",
+        "bgp"
+      ],
+      "sourceIds": [
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "terminalSourceIds": [
+        56,
+        57,
+        59,
+        61,
+        62,
+        63,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "evidence": {
+        "sourceStatement": "bgp",
+        "statements": 12
+      },
+      "reason": "Route-reflector peering that does not correspond to this design: the neighbors 2.2.2.2, 4.4.4.4, 5.5.5.5 and 7.7.7.7 are not addresses of any device in this JVD (they match the WAN-edge loopbacks of EWAN Advanced Core and Edge), while the Core and Edge WAN edges peer with 192.168.0.11 and 192.168.0.17, which no published device carries. Retained in the source configuration; not modelled.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-10"
+    }
+  ]
+}
