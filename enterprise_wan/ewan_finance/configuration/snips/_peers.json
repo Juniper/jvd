@@ -1,0 +1,1685 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "da1fbd56ac0f1117a2e8c5f44e92f6a86b527523a8e15635fa217f33ce96dbc5",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "c67a17e63024fdfcc6f490ae98723316d4fac6b1547abef966a09c78d5eb35d5",
+    "devices": 9,
+    "snips": 118,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "evo/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/dump-on-panic.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/fpc-ptx10003-5x100g-1x40g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/fpc-ptx10003-6x100g-1x40g-3x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/network-services-enhanced-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/classifiers/cl-exp-4class.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/forwarding-classes/fc-4queue-model.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/interfaces/ifd-scheduler-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/rewrite-rules/rr-exp-4class.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/class-of-service/schedulers/sc-4class-priority.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ae-description-flexible-mtu-lacp.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 1,
+          "devices": [
+            "l2-l3_edge_acx7100"
+          ],
+          "witness": {
+            "device": "l2-l3_edge_acx7100",
+            "sourceId": 78
+          }
+        }
+      ]
+    },
+    "evo/interfaces/ifd-breakout-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-speed-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-speed-10g-mtu.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-ethernet-services-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-lag-member-ether-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-speed-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-speed-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-speed-40g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-core-inet-iso-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-description-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-loopback-localhost-127-64-mgmt-iso-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-loopback-primary-localhost-127-64-mgmt-iso-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-vlan-bridge.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-accept-bgp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-accept-direct.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-accept-ospf.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-default-longer-metric-30.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/bgp-ibgp-full-mesh-5.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "p1_ptx10003-80c"
+            ]
+          },
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "p2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "p1_ptx10003-80c"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "p2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "p1_ptx10003-80c"
+            ],
+            "right": [
+              "p2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "p1_ptx10003-80c"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "p1_ptx10003-80c"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "p2_ptx10001-36mr"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "p2_ptx10001-36mr"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/lldp-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 4,
+          "devices": [
+            "cr1_acx7100-48l",
+            "l2-l3_edge_acx7100",
+            "p1_ptx10003-80c",
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 851
+          }
+        }
+      ]
+    },
+    "evo/protocols/mpls-interface-4-core-loopback.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/ospf-area0-bfd-4-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p2_ptx10001-36mr",
+            "sourceId": 192
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-area0-node-link-protection-bfd-4-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "p1_ptx10003-80c"
+          ],
+          "witness": {
+            "device": "p1_ptx10003-80c",
+            "sourceId": 207
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-traffic-engineering.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 2,
+          "devices": [
+            "p1_ptx10003-80c",
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p1_ptx10003-80c",
+            "sourceId": 205
+          }
+        }
+      ]
+    },
+    "evo/protocols/rsvp-interface-loopback-4-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rsvp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rsvp",
+          "instances": 2,
+          "devices": [
+            "p1_ptx10003-80c",
+            "p2_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "p1_ptx10003-80c",
+            "sourceId": 234
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:pim",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 10,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 524
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 10,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 504
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:pim",
+          "instances": 10,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 524
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 3,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 608
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 3,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 600
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/virtual-router/ri-virtual-router-ospf-2-intf.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 562
+          }
+        },
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 559
+          }
+        }
+      ]
+    },
+    "evo/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/services/monitoring-twamp-client-cr1.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "cr1_acx7100-48l"
+          ],
+          "witness": {
+            "device": "cr1_acx7100-48l",
+            "sourceId": 269
+          }
+        }
+      ]
+    },
+    "evo/vlans/vlan-two-interfaces.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 13,
+          "devices": [
+            "l2-l3_edge_acx7100"
+          ],
+          "witness": {
+            "device": "l2-l3_edge_acx7100",
+            "sourceId": 140
+          }
+        }
+      ]
+    },
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/dump-on-panic.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx10004-3x100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx10004-tunnel-100g-13x100g-5x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx304-tunnel-10g-11x100g-1x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx304-tunnel-10g-6x100g-3x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-tunnel-services-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/network-services-enhanced-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/classifiers/cl-exp-4class.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/forwarding-classes/fc-4queue-model.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/interfaces/ifd-description-scheduler-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/interfaces/ifd-scheduler-map.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/rewrite-rules/rr-exp-4class.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/class-of-service/schedulers/sc-4class-rates.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-mfc-filter-low-latency-class-count.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-mfc-filter-low-latency-class.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-mfc-filter1-fc-high.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-mfc-filter2-best-effort.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-mfc-filter3-control.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/multicast-resolve-rate-mismatch-rate.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/multicast-resolve-rate.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 1,
+          "devices": [
+            "wanedge1_mx304"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 65
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 1,
+          "devices": [
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge2_mx10004",
+            "sourceId": 52
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-ethernet-services-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-gigether-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-description-inet-iso-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-iso-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-iso-mpls.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-irb-filter-mac.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-anycast-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-primary-localhost-mgmt-iso-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-primary-preferred.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-bridge-esi-single-active.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "wanedge1_mx304"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-bgp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-direct.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-ospf.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-default-longer-metric-30.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-ibgp-full-mesh-5.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "ap2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "p1_ptx10003-80c"
+            ]
+          },
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "p2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ap1_mx304"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "p1_ptx10003-80c"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "p2_ptx10001-36mr"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "ap2_mx10004"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "p1_ptx10003-80c"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "p1_ptx10003-80c"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "p2_ptx10001-36mr"
+            ],
+            "right": [
+              "wanedge1_mx304"
+            ]
+          },
+          {
+            "left": [
+              "p2_ptx10001-36mr"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          },
+          {
+            "left": [
+              "wanedge1_mx304"
+            ],
+            "right": [
+              "wanedge2_mx10004"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/lacp-ppm-inline.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp",
+        "protocol:lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 1,
+          "devices": [
+            "wanedge1_mx304"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1176
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:lacp",
+          "instances": 1,
+          "devices": [
+            "wanedge1_mx304"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1177
+          }
+        }
+      ]
+    },
+    "junos/protocols/lldp-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 5,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004",
+            "cr2_mx480",
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 1094
+          }
+        }
+      ]
+    },
+    "junos/protocols/mpls-3-lsp-loopback-3-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 1,
+          "devices": [
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap2_mx10004",
+            "sourceId": 997
+          }
+        }
+      ]
+    },
+    "junos/protocols/mpls-explicit-null-p2mp-template-3-lsp-3-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 1066
+          }
+        }
+      ]
+    },
+    "junos/protocols/mpls-p2mp-template-3-lsp-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 2,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1218
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-bfd-post-convergence-lfa-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 2,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1228
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-node-link-protection-bfd-3-core-default-intf.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 1070
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-node-link-protection-bfd-3-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap2_mx10004",
+            "sourceId": 1001
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-te-spring-post-convergence-lfa.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 2,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1224
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-traffic-engineering.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 2,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 1068
+          }
+        }
+      ]
+    },
+    "junos/protocols/rsvp-interface-loopback-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rsvp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rsvp",
+          "instances": 2,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 1243
+          }
+        }
+      ]
+    },
+    "junos/protocols/rsvp-interface-loopback-3-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rsvp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rsvp",
+          "instances": 2,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 1092
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:virtual-switch"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 26,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 490
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 6,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 425
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 6,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 417
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 6,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 456
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 6,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 448
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:mvpn",
+        "protocol:ospf",
+        "protocol:pim",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 489
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 480
+          }
+        },
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 508
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:mvpn",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 533
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:pim",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 533
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:mvpn",
+        "protocol:ospf",
+        "protocol:pim",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 19,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 543
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 19,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 534
+          }
+        },
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 19,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 562
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:mvpn",
+          "instances": 19,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 587
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:pim",
+          "instances": 19,
+          "devices": [
+            "ap1_mx304",
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 587
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:mvpn",
+        "protocol:ospf",
+        "protocol:pim",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 20,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 680
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 20,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 672
+          }
+        },
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 20,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 702
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:mvpn",
+          "instances": 20,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 721
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:pim",
+          "instances": 20,
+          "devices": [
+            "wanedge1_mx304",
+            "wanedge2_mx10004"
+          ],
+          "witness": {
+            "device": "wanedge1_mx304",
+            "sourceId": 721
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:pim",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 10,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 536
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 10,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 516
+          }
+        },
+        {
+          "reason": "rule-coverage:protocol:pim",
+          "instances": 10,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 536
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 3,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 582
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 3,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 574
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/services/rpm-twamp-client-cr2.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "cr2_mx480"
+          ],
+          "witness": {
+            "device": "cr2_mx480",
+            "sourceId": 272
+          }
+        }
+      ]
+    },
+    "junos/services/rpm-twamp-server-ap1.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ap1_mx304"
+          ],
+          "witness": {
+            "device": "ap1_mx304",
+            "sourceId": 146
+          }
+        }
+      ]
+    },
+    "junos/services/rpm-twamp-server-ap2.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ap2_mx10004"
+          ],
+          "witness": {
+            "device": "ap2_mx10004",
+            "sourceId": 167
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,119 +1,232 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-ewan-fin-snips.md`](jvd-ewan-fin-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd enterprise_wan/ewan_finance`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. Node already has a working MPLS/RSVP-TE + OSPF underlay AND the iBGP core mesh. You just want the new service. | Service routing-instance + its attachment interface(s) + service-essential helpers (IRB, provider-tunnel, multicast tuning/filter). **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. Node has the underlay but you want to (re)assert the iBGP core mesh that carries the service address family (inet-vpn / inet-mvpn / evpn). | `minimum` + `transport/ibgp-core-mesh.conf`. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + attachment + iBGP core mesh + OSPF-TE + RSVP + MPLS (P2MP/interfaces) + loopback + core p2p + chassis + CoS + LLDP + policy. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new MX304 WAN-edge turn-up", "bootstrap a new ACX7100 core router") are always treated as **`as-deployed`** regardless of the user's tier choice.
-
-If the user picks `minimum` and the AI cannot tell whether the iBGP core mesh already carries the needed family, it should call that out in the `Notes:` section.
-
----
-
-## Shared underlay (the `as-deployed` baseline for every routing node)
-
-Every `as-deployed` service includes this common baseline. OS-select each file (the MPLS forwarding snip differs: Junos folds LSPs into `mpls-lsp-p2mp`; EVO uses `mpls-interfaces`):
-
-- `bootstrap/chassis-config.conf` — chassis hardware, aggregated-devices, FPC/PIC, tunnel-services
-- `interfaces/physical-p2p-mpls.conf` — core P2P links (family inet + mpls)
-- `interfaces/loopback-multi-af.conf` — lo0 router-id (v4 + v6 + ISO NET)
-- `transport/ibgp-core-mesh.conf` — iBGP full mesh / route-reflection (inet-vpn, inet-mvpn, evpn families)
-- `transport/ospf-te-protection.conf` — OSPF area + TE extensions + link protection + BFD
-- `transport/rsvp-signaling.conf` — RSVP-TE signaling on core interfaces
-- `transport/mpls-lsp-p2mp.conf` (Junos) / `transport/mpls-interfaces.conf` (EVO) — MPLS forwarding + LSPs
-- `cos/exp-classifiers-schedulers.conf` — EXP classifiers, forwarding classes, schedulers
-- `policy/protocol-redistribution.conf` — direct/BGP↔OSPF redistribution policies
-- `oam/lldp-discovery.conf` — LLDP neighbor discovery
-
-> The **L2/L3 edge** (`l2-l3_edge_acx7100`) is NOT a full routing node. It takes only `evo/bootstrap/chassis-config.conf` + `evo/interfaces/lag-lacp.conf` + `evo/interfaces/vlan-bridge-domain.conf` + `evo/oam/lldp-discovery.conf`.
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## NG-MVPN (multicast VRF — SPT-only, RSVP-TE P2MP)  ·  Junos only
+## NG-MVPN sender-site VRF on a WAN edge (SPT-only, hot-root standby)
 
-Runs on the WAN-edge / aggregation PEs (`wanedge1/2`, `ap1/2`).
+Family ng-mvpn, form spt-only-sender. OS mode Junos. Attachment: IRB unit of the EVPN virtual-switch bridge domain plus a VRF loopback unit.
 
-**minimum** (just the service)
-- `junos/services/mvpn-instance.conf`
-- `junos/interfaces/irb-l3-gateway.conf` (IRB bound to the MVPN VRF)
-- `junos/transport/mpls-lsp-p2mp.conf` (P2MP provider-tunnel template)
-- `junos/multicast/forwarding-multicast-tuning.conf` (resolve/mismatch rate)
-- `junos/firewall/multicast-fwd-cache-filter.conf` (multicast CoS marking)
+### wanedge1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `inet-mvpn` / MVPN NLRI, Type-5/7)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
-**as-deployed** (= with-overlay + the shared underlay baseline above)
+### wanedge2_mx10004 (junos)
 
----
-
-## EVPN virtual-switch (Active/Standby, ESI multihoming)  ·  Junos only
-
-Runs on the WAN-edge PEs (`wanedge1/2`).
-
-**minimum** (just the service)
-- `junos/services/evpn-virtual-switch-esi.conf`
-- `junos/interfaces/lag-esi-lacp.conf` (ae0 with ESI + LACP, per-unit DF)
-- `junos/interfaces/irb-l3-gateway.conf` (IRB gateway in the bridge domain)
-
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `evpn` family)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
 ---
 
-## L3VPN VRF (unicast VRF, eBGP PE-CE)  ·  Junos only
+## NG-MVPN receiver VRF on an access point toward two customer routers (SPT-only)
 
-Runs on the WAN-edge / aggregation PEs (`wanedge1/2`, `ap1/2`).
+Family ng-mvpn, form spt-only-receiver. OS mode Junos. Attachment: Two tagged routed units, one toward each customer router, plus a VRF loopback unit.
 
-**minimum** (just the service)
-- `junos/services/vrf-l3vpn.conf`
-- `junos/interfaces/irb-l3-gateway.conf` (IRB the VRF binds)
-- `junos/firewall/multicast-fwd-cache-filter.conf` (VRF CoS-marking filter)
+### ap1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `inet-vpn`)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### ap2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
-## Virtual-router (CR PE-CE context — eBGP to AP, PIM-SM)  ·  Junos + EVO
+## L3VPN order-entry VRF on a WAN edge (eBGP over IRB)
 
-Runs on the core routers (`cr1_acx7100-48l` = EVO, `cr2_mx480` = Junos).
+Family l3vpn, form ebgp-irb. OS mode Junos. Attachment: IRB unit of the EVPN virtual-switch bridge domain.
 
-**minimum** (just the service) — OS-select every file
-- `services/virtual-router-instance.conf`
-- `interfaces/flexible-vlan-subinterface.conf` (PE-CE subinterfaces)
-- `policy/route-filter-med.conf` (MED export policies)
-- `oam/twamp-client.conf` (SLA probing)
-- **EVO only, additionally:** `evo/interfaces/vlan-bridge-domain.conf` + `evo/interfaces/lag-lacp.conf`
+### wanedge1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `transport/ibgp-core-mesh.conf` (CR global iBGP toward the RRs)
-- `policy/protocol-redistribution.conf`
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
 ---
 
-## Add-a-feature requests (no full service)
+## L3VPN order-entry VRF on an access point toward two customer routers
 
-When the user asks to add a supporting feature to an existing device, emit ONLY that snip set (OS-select):
-- **CoS** → `cos/exp-classifiers-schedulers.conf`
-- **TWAMP / OAM** → `oam/twamp-server.conf` (Junos AP/WAN-edge) and/or `oam/twamp-client.conf` (CR) + `oam/lldp-discovery.conf`
-- **Multicast forwarding filter (CoS marking)** → `junos/firewall/multicast-fwd-cache-filter.conf`
-- **Multicast PFE tuning** → `junos/multicast/forwarding-multicast-tuning.conf`
-- **MED / redistribution policy** → `policy/route-filter-med.conf` + `policy/protocol-redistribution.conf`
-- **L2/L3 edge bridging** → `evo/interfaces/vlan-bridge-domain.conf` + `evo/interfaces/lag-lacp.conf`
+Family l3vpn, form ebgp-2-ce. OS mode Junos. Attachment: Two tagged routed units, one toward each customer router.
+
+### ap1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### ap2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
+
+## EVPN-MPLS virtual switch with single-active ESI and IRB on a WAN edge
+
+Family e-lan, form evpn-virtual-switch-irb. OS mode Junos. Attachment: One vlan-bridge unit with a per-unit single-active ESI on the aggregate toward the Layer 2 edge, plus the IRB routing interface.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+  - occurrence-selection-required: filter:$INPUT_FILTER
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+  - occurrence-selection-required: filter:$INPUT_FILTER
+
+---
+
+## Customer-router virtual router with eBGP to both access points and PIM sparse mode
+
+Family virtual-router, form ebgp-ibgp-pim-static-rp. OS mode MIXED. Attachment: Three tagged routed units: one toward each access point and one toward the attached host.
+
+### cr1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### cr2_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
+
+## Customer-router virtual router with eBGP to both access points (unicast)
+
+Family virtual-router, form ebgp-ibgp. OS mode MIXED. Attachment: Three tagged routed units: one toward each access point and one toward the attached host.
+
+### cr1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### cr2_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
