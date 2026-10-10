@@ -34,9 +34,8 @@ class-of-service model.
 - Some interfaces and loopbacks referenced by the published configurations are not
   defined in them, including the access units of the wanedge3 and wanedge4 NG-MVPN
   VRFs, so the dependencies between snippets are not yet fully declared.
-- The published WAN-edge BGP sessions do not carry MVPN signaling, and
-  interface-level HQoS, part of the validated design, is not active in the published
-  configurations; no HQoS snippet is offered.
+- The published WAN-edge BGP sessions do not carry MVPN signaling, and the published
+  configurations carry no active HQoS, so no HQoS snippet is offered.
 - See the library [README](enterprise_wan/ewan_core_edge/configuration/snips/README.md#scope)
   for details.
 
