@@ -81,17 +81,15 @@ evidence.
 Snippets reproduce the active configuration of the eight design devices.
 Deactivated statements and `traceoptions` are not modelled; each one is
 recorded with its source location in `_source-exclusions.json`, as are the
-wanedge2 MACsec and GRE test configuration, which is not part of the validated
-design, and the p1/p2 route-reflector BGP configuration, whose peers are not
-devices of this JVD.
+wanedge2 MACsec and GRE test configuration and the p1/p2 route-reflector BGP
+configuration, whose peers are not devices of this JVD.
 
 ### Known limitations of the published configurations
 
-- **Hierarchical QoS.** Interface-level HQoS is part of the validated design
-  (design guide, test report), but the published configurations carry no active
-  HQoS: the wanedge3 `class-of-service` hierarchy is deactivated and wanedge1
-  has no schedulers or traffic-control profiles. No HQoS snippet is offered.
-  HQoS on interface sets and on AE, VPLS, L3VPN and L2CKT is not part of the design.
+- **Hierarchical QoS.** The published configurations carry no active HQoS: the
+  wanedge3 `class-of-service` hierarchy and the wanedge2 `hierarchical-scheduler`
+  are deactivated, and wanedge1 has no schedulers or traffic-control profiles.
+  No HQoS snippet is offered.
 - **NG-MVPN.** The VRF snippets are exact, but the access units of the wanedge3
   and wanedge4 multicast VRFs are not in the published configurations, and the
   WAN-edge sessions to the route reflectors carry no MVPN BGP family. The access

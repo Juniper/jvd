@@ -182,9 +182,8 @@ must supply. Specifically:
   BGP or offer a P router as a complete configuration.
 - Native multicast: the WAN edges use RP 192.168.0.17, p1 is
   configured as RP 1.1.1.8; say so if asked.
-- HQoS: interface-level HQoS is part of the validated design but is
-  not in the published configurations; never generate HQoS. HQoS on
-  interface sets and on AE, VPLS, L3VPN and L2CKT is a design non-goal.
+- HQoS: the published configurations carry no active HQoS (the
+  wanedge3 hierarchy is deactivated); never generate HQoS.
 - The device configurations at
   https://github.com/Juniper/jvd/tree/main/enterprise_wan/ewan_core_edge/configuration/conf
   are as-captured references with these gaps, not templates. Point
