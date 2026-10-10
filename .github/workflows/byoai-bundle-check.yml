@@ -1,26 +1,27 @@
 name: BYOAI bundle assembly consistency
 
-# Ensures jvd-mebs-snips.md and jvd-mebs-byoai-prompt.txt are
-# reassembled whenever any source file under the MEBS snips/
-# tree (or the byoai/ companion files) changes.
+# For every JVD whose configuration/snips/ tree changed, reassembles its
+# BYOAI bundle with regenerate-bundle.sh --public-only and fails if the
+# committed bundle differs. JVDs are discovered from the diff; a JVD is
+# checked only when its byoai/regenerate-bundle.sh supports --public-only.
+# A change to this workflow checks every supported bundle.
 #
-# Public CI has no builder, so it runs regenerate-bundle.sh --public-only:
-# bundle assembly consistency using committed public artifacts
-# (TIERS.md/MANIFEST.json as committed). This is not regeneration,
-# freshness verification or qualification; trusted-builder qualification
-# remains responsible for semantic freshness before publication.
-#
-# Fails the PR if the committed bundle does not match what
-# regenerate-bundle.sh --public-only would assemble right now.
+# Public CI has no builder, so --public-only is bundle assembly consistency
+# using committed public artifacts (TIERS.md/MANIFEST.json as committed).
+# This is not regeneration, freshness verification or qualification;
+# trusted-builder qualification remains responsible for semantic freshness
+# before publication.
 
 on:
   pull_request:
     paths:
-      - 'service_provider/metro_ethernet_business_services/configuration/snips/**'
+      - '**/configuration/snips/**'
+      - '.github/workflows/byoai-bundle-check.yml'
   push:
     branches: [main]
     paths:
-      - 'service_provider/metro_ethernet_business_services/configuration/snips/**'
+      - '**/configuration/snips/**'
+      - '.github/workflows/byoai-bundle-check.yml'
 
 permissions:
   contents: read
@@ -31,19 +32,40 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
+          fetch-depth: 0
           persist-credentials: false
 
-      - name: Bundle assembly consistency using committed public artifacts
-        working-directory: service_provider/metro_ethernet_business_services/configuration/snips/byoai
-        run: ./regenerate-bundle.sh --public-only
-
-      - name: Verify bundle is up to date
+      - name: Bundle assembly consistency for changed JVDs
+        env:
+          RANGE_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          RANGE_HEAD: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
         run: |
-          if ! git diff --exit-code -- \
-              'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-snips.md' \
-              'service_provider/metro_ethernet_business_services/configuration/snips/byoai/jvd-mebs-byoai-prompt.txt'; then
-            echo ""
-            echo "::error::BYOAI bundle is stale. Run regenerate-bundle.sh (with JVD_BUILDER set) from the byoai/ folder and commit the result."
-            exit 1
+          set -euo pipefail
+          base=$RANGE_BASE
+          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then base=$(git rev-parse "$RANGE_HEAD~1"); fi
+          changed=$(git diff --name-only "$base...$RANGE_HEAD")
+          if printf '%s\n' "$changed" | grep -qx '.github/workflows/byoai-bundle-check.yml'; then
+            roots=$(git ls-files '*/configuration/snips/byoai/regenerate-bundle.sh' | sed 's#/configuration/snips/byoai/regenerate-bundle.sh$##')
+          else
+            roots=$(printf '%s\n' "$changed" | sed -n 's#^\(.*\)/configuration/snips/.*#\1#p' | sort -u)
           fi
-          echo "Bundle is up to date."
+          fail=0; checked=0
+          for root in $roots; do
+            byoai="$root/configuration/snips/byoai"
+            if [ ! -f "$byoai/regenerate-bundle.sh" ] || ! grep -q -- '--public-only' "$byoai/regenerate-bundle.sh"; then
+              echo "::notice::$root: no public-only BYOAI bundle; not checked"
+              continue
+            fi
+            checked=$((checked + 1))
+            echo "== $root"
+            if ! (cd "$byoai" && bash regenerate-bundle.sh --public-only); then
+              echo "::error::$root: BYOAI bundle assembly failed"; fail=1; continue
+            fi
+            if [ -n "$(git status --porcelain -- "$byoai")" ]; then
+              git --no-pager diff --stat -- "$byoai"; git status --porcelain -- "$byoai"
+              echo "::error::$root: BYOAI bundle is stale. Run regenerate-bundle.sh (with JVD_BUILDER set) from $byoai and commit the result."
+              fail=1
+            fi
+          done
+          echo "Checked $checked BYOAI bundle(s)."
+          exit $fail
