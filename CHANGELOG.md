@@ -26,6 +26,8 @@ class-of-service model.
 - **JVD AI Assistant**: the Core and Edge assistant bundle was regenerated from the
   new library. Configuration mode renders single service building blocks and lists
   the prerequisites to supply on the device.
+- **Shared variable vocabulary**: new entries for BGP group, VRRP, VRF loopback and
+  multicast source variables, so other JVDs reuse the same names.
 
 ### Known limitations
 
@@ -62,7 +64,8 @@ Changes since the October 9 entry, excluding this changelog.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Core and Edge | 213 | 0 | 38 | 13 | 2 |
 | Portal | 0 | 0 | 1 | 11 | 1 |
-| **Total** | **213** | **0** | **39** | **24** | **3** |
+| Repository (glossary) | 0 | 0 | 0 | 1 | 0 |
+| **Total** | **213** | **0** | **39** | **25** | **3** |
 
 </details>
 
@@ -71,9 +74,10 @@ Changes since the October 9 entry, excluding this changelog.
 
 | Area | Lines added | Lines removed | Net |
 | --- | ---: | ---: | ---: |
-| Enterprise WAN / Core and Edge | 20709 | 3815 | +16894 |
-| Portal | 29114 | 5523 | +23591 |
-| **Total** | **49823** | **9338** | **+40485** |
+| Enterprise WAN / Core and Edge | 20735 | 3818 | +16917 |
+| Portal | 29125 | 5525 | +23600 |
+| Repository (glossary) | 35 | 0 | +35 |
+| **Total** | **49895** | **9343** | **+40552** |
 
 </details>
 
