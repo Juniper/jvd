@@ -4,6 +4,72 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-09
+
+Rebuilt the **configuration snippet library for the Enterprise WAN: Finance JVD**:
+**118 snippets** (69 Junos, 49 Junos Evolved) measured from the nine validated device
+configurations, covering the IP/MPLS core, L3VPN and NG-MVPN services, EVPN
+virtual switches, the customer virtual routers and the Finance class-of-service model.
+
+### New content
+
+- **[Enterprise WAN: Finance snippet library](enterprise_wan/ewan_finance/configuration/snips)**:
+  every in-scope statement on the nine design devices is reproduced by a snippet.
+  Each snippet lists the devices it was validated on, its source instance count,
+  the snippets it requires on the same device and, where verified, its peer on
+  another device. The earlier topic snippets are replaced.
+- **Source configurations**: five device configurations are corrected so they
+  commit as published — a stray closing brace, a `description` keyword typo, and
+  BGP export policy names that were missing their `PS-` prefix. The wanedge1
+  export now matches the other routers in the iBGP mesh.
+- **Scope**: MVPN `traceoptions` on the WAN-edge sender VRFs are diagnostic only and
+  are recorded as excluded.
+- **JVD AI Assistant**: the Finance assistant bundle was regenerated from the new
+  library.
+- **Shared variable vocabulary**: new entries for multicast, provider-peering and
+  ordered-set variables, so other JVDs reuse the same names.
+
+### What this means for you
+
+- Build Finance configurations from snippets that match the validated devices
+  exactly, with `$VAR` placeholders for deployment values; see the library
+  [README](enterprise_wan/ewan_finance/configuration/snips/README.md) and
+  [variable glossary](enterprise_wan/ewan_finance/configuration/snips/_variables.md).
+- Links or bookmarks to the earlier Finance snippet file names no longer resolve;
+  use the topic index in the library README.
+
+---
+
+### By the numbers
+
+Changes since the October 8 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Enterprise WAN / Finance | 124 | 0 | 38 | 18 | 2 |
+| Portal | 0 | 0 | 0 | 12 | 1 |
+| Repository (glossary) | 0 | 0 | 0 | 1 | 0 |
+| **Total** | **124** | **0** | **38** | **31** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Enterprise WAN / Finance | 18304 | 5771 | +12533 |
+| Portal | 24518 | 7715 | +16803 |
+| Repository (glossary) | 105 | 0 | +105 |
+| **Total** | **42927** | **13486** | **+29441** |
+
+</details>
+
+---
+
 ## 2026-10-08
 
 Rebuilt the **configuration snippet library for the Broadband Edge JVD**:

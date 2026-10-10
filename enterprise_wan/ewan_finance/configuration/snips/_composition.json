@@ -1,0 +1,1089 @@
+{
+  "schemaVersion": 1,
+  "jvd": "ewan_finance",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "roles": {
+    "wanedge": "WAN Edge",
+    "ap": "Access Point (AP)",
+    "cr": "Customer Router (CR)",
+    "p": "Provider (P)",
+    "l": "L2/L3 Edge"
+  },
+  "forms": [
+    {
+      "id": "ng-mvpn-sender",
+      "family": "ng-mvpn",
+      "form": "spt-only-sender",
+      "aliases": [
+        "NG-MVPN sender-site VRF on a WAN edge (SPT-only, hot-root standby)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB unit of the EVPN virtual-switch bridge domain plus a VRF loopback unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$PE_LOCAL_V4",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4",
+        "$ASN_CUSTOMER",
+        "$MVPN_TRACE_FILE",
+        "$RT_AS",
+        "$MVPN_RT_ID",
+        "$UNIT",
+        "$OSPF_EXPORT_POL",
+        "$RP_V4",
+        "$MCAST_GROUP_V4_PFX",
+        "$IRB_UNIT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "ng-mvpn-receiver",
+      "family": "ng-mvpn",
+      "form": "spt-only-receiver",
+      "aliases": [
+        "NG-MVPN receiver VRF on an access point toward two customer routers (SPT-only)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Two tagged routed units, one toward each customer router, plus a VRF loopback unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$PE_LOCAL_V4_1",
+        "$BGP_EXPORT_POL",
+        "$ASN_CUSTOMER_1",
+        "$CE_PEER_V4_1",
+        "$PE_LOCAL_V4_2",
+        "$ASN_CUSTOMER_2",
+        "$CE_PEER_V4_2",
+        "$RT_AS",
+        "$MVPN_RT_ID",
+        "$UNIT",
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$OSPF_EXPORT_POL",
+        "$RP_V4",
+        "$MCAST_GROUP_V4_PFX",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-irb",
+      "family": "l3vpn",
+      "form": "ebgp-irb",
+      "aliases": [
+        "L3VPN order-entry VRF on a WAN edge (eBGP over IRB)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB unit of the EVPN virtual-switch bridge domain",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$PE_LOCAL_V4",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4",
+        "$ASN_CUSTOMER",
+        "$IRB_UNIT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-2-ce",
+      "family": "l3vpn",
+      "form": "ebgp-2-ce",
+      "aliases": [
+        "L3VPN order-entry VRF on an access point toward two customer routers"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Two tagged routed units, one toward each customer router",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$PE_LOCAL_V4_1",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4_1",
+        "$ASN_CUSTOMER_1",
+        "$PE_LOCAL_V4_2",
+        "$CE_PEER_V4_2",
+        "$ASN_CUSTOMER_2",
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "evpn-virtual-switch",
+      "family": "e-lan",
+      "form": "evpn-virtual-switch-irb",
+      "aliases": [
+        "EVPN-MPLS virtual switch with single-active ESI and IRB on a WAN edge"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "One vlan-bridge unit with a per-unit single-active ESI on the aggregate toward the Layer 2 edge, plus the IRB routing interface",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BD_NAME",
+        "$VLAN",
+        "$AC_IFL",
+        "$IRB_UNIT",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "virtual-router-multicast",
+      "family": "virtual-router",
+      "form": "ebgp-ibgp-pim-static-rp",
+      "aliases": [
+        "Customer-router virtual router with eBGP to both access points and PIM sparse mode"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Three tagged routed units: one toward each access point and one toward the attached host",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2",
+        "$ASN_PEER",
+        "$EBGP_PEER_V4_1",
+        "$EBGP_PEER_V4_2",
+        "$ASN",
+        "$IBGP_PEER_V4",
+        "$RP_V4",
+        "$MCAST_GROUP_V4_PFX",
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    },
+    {
+      "id": "virtual-router-unicast",
+      "family": "virtual-router",
+      "form": "ebgp-ibgp",
+      "aliases": [
+        "Customer-router virtual router with eBGP to both access points (unicast)"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Three tagged routed units: one toward each access point and one toward the attached host",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2",
+        "$ASN_PEER",
+        "$EBGP_PEER_V4_1",
+        "$EBGP_PEER_V4_2",
+        "$ASN",
+        "$IBGP_PEER_V4",
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": null,
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-ospf-rsvp-underlay",
+      "aliases": [
+        "Add the OSPF / RSVP-TE underlay to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-bgp-overlay",
+      "aliases": [
+        "Add the iBGP overlay to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-cos-four-class",
+      "aliases": [
+        "Add the four-class CoS model to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-twamp",
+      "aliases": [
+        "Add TWAMP SLA monitoring to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "TWAMP forms are complete deployed per-device test plans, not reusable templates."
+    }
+  ],
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "1aa1d9bad009c1a3053c52a75fd76fdfd9fdeba24227e792a4b4138f185f9e10"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/class-of-service/classifiers/cl-exp-4class.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "FC-HIGH",
+        "BEST-EFFORT",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/interfaces/ifd-scheduler-map.conf",
+      "kind": "scheduler-map",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf"
+      ],
+      "slots": [
+        "sched-map"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/classifiers/cl-exp-4class.conf"
+      ],
+      "slots": [
+        "EXP"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/rewrite-rules/rr-exp-4class.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "FC-HIGH",
+        "BEST-EFFORT",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "BEST-EFFORT",
+        "FC-HIGH",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf",
+      "kind": "scheduler",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/schedulers/sc-4class-priority.conf"
+      ],
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-flexible-mtu-lacp.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf",
+        "evo/interfaces/ifd-lag-member-ether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-iso-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-100g.conf",
+        "evo/interfaces/ifd-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-description-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-mtu-lacp.conf",
+        "evo/interfaces/ifd-description-flexible-speed-10g-mtu.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf",
+        "evo/interfaces/ifd-lag-member-ether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-flexible-speed-100g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-ibgp-full-mesh-5.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-accept-bgp.conf",
+        "evo/policy-options/policy-statement/ps-accept-ospf.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-default-longer-metric-30.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-default-longer-metric-30.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/virtual-router/ri-virtual-router-ospf-2-intf.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-description-vlan-inet.conf",
+        "evo/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/class-of-service/classifiers/cl-exp-4class.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "FC-HIGH",
+        "BEST-EFFORT",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifd-description-scheduler-map.conf",
+      "kind": "scheduler-map",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
+      ],
+      "slots": [
+        "sched-map"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifd-scheduler-map.conf",
+      "kind": "scheduler-map",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
+      ],
+      "slots": [
+        "sched-map"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/classifiers/cl-exp-4class.conf"
+      ],
+      "slots": [
+        "EXP"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/rewrite-rules/rr-exp-4class.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "FC-HIGH",
+        "BEST-EFFORT",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
+      "kind": "forwarding-class",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
+      ],
+      "slots": [
+        "BEST-EFFORT",
+        "FC-HIGH",
+        "FC-LLQ",
+        "CONTROL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
+      "kind": "scheduler",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/schedulers/sc-4class-rates.conf"
+      ],
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-iso-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-irb-filter-mac.conf",
+      "kind": "filter",
+      "scope": "whole",
+      "providers": [
+        "junos/firewall/filter-mfc-filter-low-latency-class-count.conf",
+        "junos/firewall/filter-mfc-filter-low-latency-class.conf",
+        "junos/firewall/filter-mfc-filter1-fc-high.conf",
+        "junos/firewall/filter-mfc-filter2-best-effort.conf",
+        "junos/firewall/filter-mfc-filter3-control.conf"
+      ],
+      "slots": [
+        "$INPUT_FILTER"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-esi-single-active.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp.conf",
+        "junos/interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-esi-single-active.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-ibgp-full-mesh-5.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-bgp.conf",
+        "junos/policy-options/policy-statement/ps-accept-ospf.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-filter-mac.conf",
+        "junos/interfaces/ifl-vlan-bridge-esi-single-active.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "irb.$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-direct.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
+        "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
+        "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "declaredDependency": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-filter-mac.conf"
+      ],
+      "slots": [
+        "irb.$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-direct.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet.conf",
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B",
+        "lo0.$UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-direct.conf",
+        "junos/policy-options/policy-statement/ps-accept-ospf.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL",
+        "$OSPF_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet.conf",
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B",
+        "lo0.$UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-bgp.conf",
+        "junos/policy-options/policy-statement/ps-accept-direct.conf",
+        "junos/policy-options/policy-statement/ps-accept-ospf.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL",
+        "$OSPF_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf",
+        "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
+        "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
+        "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "declaredDependency": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-filter-mac.conf",
+        "junos/interfaces/ifl-loopback-anycast-inet.conf",
+        "junos/interfaces/ifl-loopback-inet.conf"
+      ],
+      "slots": [
+        "irb.$IRB_UNIT",
+        "lo0.$UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-direct.conf",
+        "junos/policy-options/policy-statement/ps-accept-ospf.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL",
+        "$OSPF_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_3",
+        "$IFL_1",
+        "$IFL_2"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-default-longer-metric-30.conf",
+        "junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-default-longer-metric-30.conf",
+        "junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": [],
+  "occurrenceEntrySets": {}
+}

@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance1-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE1",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        683,
+        684,
+        685
+      ],
+      "terminalSourceIds": [
+        684,
+        685
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance10-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE10",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        733,
+        734,
+        735
+      ],
+      "terminalSourceIds": [
+        734,
+        735
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance2-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE2",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        783,
+        784,
+        785
+      ],
+      "terminalSourceIds": [
+        784,
+        785
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance3-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE3",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        833,
+        834,
+        835
+      ],
+      "terminalSourceIds": [
+        834,
+        835
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance4-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE4",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        883,
+        884,
+        885
+      ],
+      "terminalSourceIds": [
+        884,
+        885
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance5-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE5",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        933,
+        934,
+        935
+      ],
+      "terminalSourceIds": [
+        934,
+        935
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance6-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE6",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        983,
+        984,
+        985
+      ],
+      "terminalSourceIds": [
+        984,
+        985
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance7-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE7",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1033,
+        1034,
+        1035
+      ],
+      "terminalSourceIds": [
+        1034,
+        1035
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance8-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE8",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1083,
+        1084,
+        1085
+      ],
+      "terminalSourceIds": [
+        1084,
+        1085
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge1-routing-instances-mvpn-instance9-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge1_mx304",
+      "sourceSha256": "4d0f0eb1cac7c8a1d9000a869d5b00a617f370840d30385cff09d6ef8bb9cf4f",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE9",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1133,
+        1134,
+        1135
+      ],
+      "terminalSourceIds": [
+        1134,
+        1135
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance1-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE1",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        671,
+        672,
+        673
+      ],
+      "terminalSourceIds": [
+        672,
+        673
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance10-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE10",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        721,
+        722,
+        723
+      ],
+      "terminalSourceIds": [
+        722,
+        723
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance2-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE2",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        771,
+        772,
+        773
+      ],
+      "terminalSourceIds": [
+        772,
+        773
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance3-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE3",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        821,
+        822,
+        823
+      ],
+      "terminalSourceIds": [
+        822,
+        823
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance4-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE4",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        871,
+        872,
+        873
+      ],
+      "terminalSourceIds": [
+        872,
+        873
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance5-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE5",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        921,
+        922,
+        923
+      ],
+      "terminalSourceIds": [
+        922,
+        923
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance6-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE6",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        971,
+        972,
+        973
+      ],
+      "terminalSourceIds": [
+        972,
+        973
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance7-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE7",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1021,
+        1022,
+        1023
+      ],
+      "terminalSourceIds": [
+        1022,
+        1023
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance8-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE8",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1071,
+        1072,
+        1073
+      ],
+      "terminalSourceIds": [
+        1072,
+        1073
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge2-routing-instances-mvpn-instance9-protocols-mvpn-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge2_mx10004",
+      "sourceSha256": "9636a6409fa296f562eb0955eebc00f3ec560b42efd39d3da19851bf3d96f9e3",
+      "hierarchy": [
+        "routing-instances",
+        "MVPN_INSTANCE9",
+        "protocols",
+        "mvpn",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        1121,
+        1122,
+        1123
+      ],
+      "terminalSourceIds": [
+        1122,
+        1123
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Standing owner policy (Kevin Brown, 2026-10-09): diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    }
+  ]
+}

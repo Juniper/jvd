@@ -1,83 +1,209 @@
-# JVD EWAN Finance snippet library
+# JVD Enterprise WAN for Finance & Stock Exchange snippet library
 
-## evo/bootstrap/chassis-config.conf
+## evo/chassis/aggregated-devices-ethernet.conf
 
 ```
 /*
- * Topic:   Chassis hardware initialization — aggregated devices and FPC/PIC port speeds
+ * Topic: Aggregated-Ethernet device count
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr l2-l3_edge_acx7100
- *
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l l2-l3_edge_acx7100 p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   l2-l3_edge_acx7100 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 4
  * Highlights:
- *  - aggregated-devices ethernet device-count reserves LAG interface namespace
- *  - Per-port speed and sub-port breakout configured at PIC level
- *  - dump-on-panic enables core dumps for hardware troubleshooting
- *
- * Pair with:
- *  - evo/interfaces/physical-p2p-mpls.conf  (interfaces bound to these ports)
- *  - evo/interfaces/lag-lacp.conf           (LAG interfaces using aggregated-devices)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $DEVICE_COUNT       e.g. 25
- *   $FPC_SLOT           e.g. 0
- *   $PIC_SLOT           e.g. 0
- *   $PORT_ID            e.g. 0
- *   $PORT_SPEED         e.g. 100g
- *   $BREAKOUT_PORT_ID   e.g. 2
- *   $BREAKOUT_SPEED     e.g. 10g
- *   $BREAKOUT_SUB_PORTS e.g. 4
+ *  - Allocates the number of `ae` interfaces the chassis may create; it must cover the highest `aeN` configured.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $AE_DEVICE_COUNT   e.g. 25
  */
-
 chassis {
-    dump-on-panic;
     aggregated-devices {
         ethernet {
-            device-count $DEVICE_COUNT;
+            device-count $AE_DEVICE_COUNT;
         }
     }
+}
+```
+
+## evo/chassis/dump-on-panic.conf
+
+```
+/*
+ * Topic: Core dump on kernel panic
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l l2-l3_edge_acx7100 p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   l2-l3_edge_acx7100 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 4
+ * Highlights:
+ *  - Writes a kernel core dump when the system panics, preserving evidence for post-incident analysis.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    dump-on-panic;
+}
+```
+
+## evo/chassis/fpc-ptx10003-5x100g-1x40g.conf
+
+```
+/*
+ * Topic: PTX10003 FPC with five 100G ports and one 40G port
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   total 1
+ * Highlights:
+ *  - Sets per-port speeds on two PICs: five ports at 100G and one at 40G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $FPC_SLOT   e.g. 1
+ */
+chassis {
     fpc $FPC_SLOT {
-        pic $PIC_SLOT {
-            port $PORT_ID {
-                speed $PORT_SPEED;
+        pic 0 {
+            port 0 {
+                speed 100g;
             }
-            port $BREAKOUT_PORT_ID {
-                number-of-sub-ports $BREAKOUT_SUB_PORTS;
-                speed $BREAKOUT_SPEED;
+            port 1 {
+                speed 40g;
+            }
+            port 5 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            port 5 {
+                speed 100g;
+            }
+            port 6 {
+                speed 100g;
+            }
+            port 7 {
+                speed 100g;
             }
         }
     }
 }
 ```
 
-## evo/cos/exp-classifiers-schedulers.conf
+## evo/chassis/fpc-ptx10003-6x100g-1x40g-3x4x10g.conf
 
 ```
 /*
- * Topic:   MPLS EXP-based QoS — classifiers, forwarding classes, schedulers, and rewrite rules
+ * Topic: PTX10003 FPC with six 100G ports, one 40G port and three 4x10G ports
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   total 1
  * Highlights:
- *  - 4 forwarding classes: FC-LLQ (strict-high, queue 2) for low-latency finance traffic,
- *    FC-HIGH (queue 1), CONTROL (queue 3), BEST-EFFORT (queue 0)
- *  - EXP classifier maps 3-bit MPLS EXP values to forwarding classes
- *  - EXP rewrite rule re-marks egress frames to preserve QoS across hops
- *  - scheduler-map applied per-interface with classifier + rewrite on each unit
- *  - FC-LLQ uses strict-high priority for deterministic low-latency forwarding
- *
- * Pair with:
- *  - evo/interfaces/physical-p2p-mpls.conf  (interfaces where CoS is applied)
- *  - evo/transport/mpls-interfaces.conf     (MPLS transport carrying marked traffic)
- *
+ *  - Sets per-port speeds on two PICs: six ports at 100G, one at 40G and three channelised into four 10G sub-ports.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from p1_ptx10003-80c):
- *   $INTERFACE_1     e.g. et-0/0/0
- *   $INTERFACE_2     e.g. et-0/0/1
- *   $INTERFACE_3     e.g. et-0/0/3
- *   $INTERFACE_4     e.g. et-0/0/4
+ *   $FPC_SLOT   e.g. 0
  */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 3 {
+                speed 100g;
+            }
+            port 4 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+            port 8 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            port 3 {
+                speed 40g;
+            }
+            port 4 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 9 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+}
+```
 
+## evo/chassis/network-services-enhanced-ip.conf
+
+```
+/*
+ * Topic: Enhanced-IP network services mode
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - Sets the chassis network-services mode to enhanced IP.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    network-services enhanced-ip;
+}
+```
+
+## evo/class-of-service/classifiers/cl-exp-4class.conf
+
+```
+/*
+ * Topic: EXP classifier for the four-class model
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - Maps MPLS EXP code points 000-011 to BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL, all at low loss priority.
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
 class-of-service {
     classifiers {
         exp EXP {
@@ -95,27 +221,94 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## evo/class-of-service/forwarding-classes/fc-4queue-model.conf
+
+```
+/*
+ * Topic: CoS forwarding classes (four-queue model)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL on queues 0-3; FC-LLQ is the low-latency queue that carries the market-data multicast.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     forwarding-classes {
         class FC-HIGH queue-num 1;
         class BEST-EFFORT queue-num 0;
         class CONTROL queue-num 3;
         class FC-LLQ queue-num 2;
     }
+}
+```
+
+## evo/class-of-service/interfaces/ifd-scheduler-map.conf
+
+```
+/*
+ * Topic: Interface scheduler-map application
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 4
+ *   p2_ptx10001-36mr 4
+ *   total 8
+ * Highlights:
+ *  - Applies `sched-map` to the physical or aggregated interface, so its queues are scheduled by the four-class model.
+ * Pair with:
+ *  - evo/class-of-service/scheduler-maps/sm-4class-mapping.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $COS_INTF   e.g. et-0/0/0
+ */
+class-of-service {
     interfaces {
-        $INTERFACE_1 {
+        $COS_INTF {
             scheduler-map sched-map;
-            unit 0 {
-                classifiers {
-                    exp EXP;
-                }
-                rewrite-rules {
-                    exp EXP_REWRITE;
-                }
-            }
         }
-        $INTERFACE_2 {
-            scheduler-map sched-map;
-            unit 0 {
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf
+
+```
+/*
+ * Topic: Per-unit EXP classifier and rewrite application
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 4
+ *   p2_ptx10001-36mr 4
+ *   total 8
+ * Highlights:
+ *  - Classifies incoming MPLS traffic by EXP and rewrites EXP on egress for the unit, keeping the class across the core link.
+ * Pair with:
+ *  - evo/class-of-service/classifiers/cl-exp-4class.conf
+ *  - evo/class-of-service/rewrite-rules/rr-exp-4class.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $COS_INTF   e.g. et-0/0/0
+ *   $UNIT       e.g. 0
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
                 classifiers {
                     exp EXP;
                 }
@@ -125,6 +318,30 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## evo/class-of-service/rewrite-rules/rr-exp-4class.conf
+
+```
+/*
+ * Topic: EXP rewrite rule for the four-class model
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - Marks each forwarding class with the same EXP code point the EXP classifier maps it from, so the class survives every MPLS hop.
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     rewrite-rules {
         exp EXP_REWRITE {
             forwarding-class FC-HIGH {
@@ -141,6 +358,31 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## evo/class-of-service/scheduler-maps/sm-4class-mapping.conf
+
+```
+/*
+ * Topic: Scheduler map for the four-class model
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - Binds BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL to schedulers s0-s3.
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *  - evo/class-of-service/schedulers/sc-4class-priority.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     scheduler-maps {
         sched-map {
             forwarding-class BEST-EFFORT scheduler s0;
@@ -149,6 +391,28 @@ class-of-service {
             forwarding-class CONTROL scheduler s3;
         }
     }
+}
+```
+
+## evo/class-of-service/schedulers/sc-4class-priority.conf
+
+```
+/*
+ * Topic: Priority-only schedulers for the four-class model
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - s2 (FC-LLQ) is strict-high priority and the other three schedulers are low priority, with no transmit or shaping rates.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     schedulers {
         s0 {
             priority low;
@@ -166,181 +430,370 @@ class-of-service {
 }
 ```
 
-## evo/interfaces/flexible-vlan-subinterface.conf
+## evo/interfaces/ifd-ae-description-flexible-mtu-lacp.conf
 
 ```
 /*
- * Topic:   Flexible VLAN-tagged subinterfaces with per-unit addressing
- * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
- * Highlights:
- *  - Body is structurally identical to the Junos sibling
- *  - flexible-vlan-tagging + flexible-ethernet-services enables mixed encapsulation per-unit
- *  - Each unit carries a distinct VLAN-ID and IPv4 /30 or /24 address for PE-CE connectivity
- *  - Used for per-virtual-router PE-CE links on CR devices
- *  - Multiple units (13+) on a single physical interface to scale VPN instances
- *
- * Pair with:
- *  - evo/services/virtual-router-instance.conf  (VR instances bind these subinterfaces)
- *  - evo/oam/twamp-client.conf                  (TWAMP probes use these as source)
- *  - evo/interfaces/vlan-bridge-domain.conf     (VLAN bridge-domains on same interface)
- *
- * Variables (example values from cr1_acx7100-48l):
- *   $INTERFACE_NAME   e.g. et-0/0/47
- *   $DESCRIPTION      e.g. CR1_AP1
- *   $UNIT_ID          e.g. 1
- *   $VLAN_ID          e.g. 1
- *   $IPV4_ADDRESS     e.g. 10.101.48.2/30
- */
-
-interfaces {
-    $INTERFACE_NAME {
-        description "$DESCRIPTION";
-        flexible-vlan-tagging;
-        encapsulation flexible-ethernet-services;
-        unit $UNIT_ID {
-            vlan-id $VLAN_ID;
-            family inet {
-                address $IPV4_ADDRESS;
-            }
-        }
-    }
-}
-```
-
-## evo/interfaces/lag-lacp.conf
-
-```
-/*
- * Topic:   LAG with LACP active and vlan-bridge encapsulated units
+ * Topic: Described LACP aggregate with flexible VLAN tagging, MTU 1522 and flexible Ethernet services
  * Seen on:
  *   Junos: (none)
- *   EVO:   l2-l3_edge_acx7100
- *
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
  * Highlights:
- *  - Aggregated Ethernet with LACP active for link bundling to dual-homed WAN edges
- *  - flexible-vlan-tagging + flexible-ethernet-services for multi-VLAN trunk
- *  - Per-unit vlan-bridge encapsulation ties into vlans{} bridge-domain membership
- *  - MTU 1522 accommodates VLAN tag overhead
- *
- * Pair with:
- *  - evo/interfaces/vlan-bridge-domain.conf       (VLANs referencing ae0 units)
- *  - evo/bootstrap/chassis-config.conf            (aggregated-devices device-count)
- *
+ *  - One bundle with members toward both WAN edges, which present it a single-active Ethernet segment; LACP runs active.
+ * Pair with: none
  * Variables (example values from l2-l3_edge_acx7100):
- *   $AE_NAME         e.g. ae0
- *   $DESCRIPTION     e.g. L2/L3 to WANEDGE1/2
- *   $MTU             e.g. 1522
- *   $VLAN_ID         e.g. 1
+ *   $IFD           e.g. ae0
+ *   $DESCRIPTION   e.g. "L2/L3 to WANEDGE1/2"
  */
-
 interfaces {
-    $AE_NAME {
-        description "$DESCRIPTION";
+    $IFD {
+        description $DESCRIPTION;
         flexible-vlan-tagging;
-        mtu $MTU;
+        mtu 1522;
         encapsulation flexible-ethernet-services;
         aggregated-ether-options {
             lacp {
                 active;
             }
         }
-        unit $VLAN_ID {
-            encapsulation vlan-bridge;
-            vlan-id $VLAN_ID;
+    }
+}
+```
+
+## evo/interfaces/ifd-breakout-10g.conf
+
+```
+/*
+ * Topic: Port channelised into 10G sub-ports
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 2
+ *   total 2
+ * Highlights:
+ *  - `number-of-sub-ports` with `speed 10g` breaks the port out into 10G channels (`:0`-`:N` interfaces).
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD                  e.g. et-0/0/48
+ *   $BREAKOUT_SUB_PORTS   e.g. 4
+ */
+interfaces {
+    $IFD {
+        number-of-sub-ports $BREAKOUT_SUB_PORTS;
+        speed 10g;
+    }
+}
+```
+
+## evo/interfaces/ifd-description-100g.conf
+
+```
+/*
+ * Topic: Described 100G interface device
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p2_ptx10001-36mr
+ * Count:
+ *   p2_ptx10001-36mr 4
+ *   total 4
+ * Highlights:
+ *  - Describes the physical port and runs it at 100G; its logical units are configured separately.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from p2_ptx10001-36mr):
+ *   $IFD           e.g. et-0/2/11
+ *   $DESCRIPTION   e.g. "P2_AP1"
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        speed 100g;
+    }
+}
+```
+
+## evo/interfaces/ifd-description-flexible-speed-100g.conf
+
+```
+/*
+ * Topic: Described 100G port with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 2
+ *   total 2
+ * Highlights:
+ *  - Runs the port at 100G and carries one routed VLAN unit per virtual router toward the access point.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $IFD           e.g. et-0/0/49
+ *   $DESCRIPTION   e.g. CR1_to_AP1
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        speed 100g;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-description-flexible-speed-10g-mtu.conf
+
+```
+/*
+ * Topic: Described 10G port with flexible VLAN tagging, MTU 1522 and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
+ * Highlights:
+ *  - MTU 1522 admits a full 1500-byte payload with one VLAN tag; each unit is a Layer 2 vlan-bridge attachment.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD           e.g. et-0/0/47
+ *   $DESCRIPTION   e.g. "L2/L3 to TG-9/1"
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        speed 10g;
+        mtu 1522;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-description.conf
+
+```
+/*
+ * Topic: Physical interface description
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c
+ * Count:
+ *   p1_ptx10003-80c 4
+ *   total 4
+ * Highlights:
+ *  - Names the far end of the link; the logical units beneath it are separate fragments.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $IFD           e.g. et-0/0/3
+ *   $DESCRIPTION   e.g. "Link to P1Node to AP1Node"
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet-services-description.conf
+
+```
+/*
+ * Topic: Physical port with a description, flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - `flexible-vlan-tagging` with `flexible-ethernet-services` lets each VLAN unit on the port carry its own family, one routed unit per VRF or virtual router.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $IFD           e.g. et-0/0/42
+ *   $DESCRIPTION   e.g. "CR1 to TG-9/2"
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf
+
+```
+/*
+ * Topic: Described 10G member link of an aggregated-Ethernet bundle
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
+ * Highlights:
+ *  - Runs the port at 10G and assigns it to its bundle with `ether-options 802.3ad`.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD           e.g. et-0/0/46
+ *   $DESCRIPTION   e.g. "L2/L3 to Wanedge2"
+ *   $AE_BUNDLE     e.g. ae0
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        speed 10g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
         }
     }
 }
 ```
 
-## evo/interfaces/loopback-multi-af.conf
+## evo/interfaces/ifd-lag-member-ether-description.conf
 
 ```
 /*
- * Topic:   Loopback interface with IPv4, ISO, and IPv6 address families
+ * Topic: Described member link of an aggregated-Ethernet bundle
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004 cr2_mx480
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr cr1_acx7100-48l l2-l3_edge_acx7100
- *
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
  * Highlights:
- *  - Primary/preferred IPv4 used as router-id and BGP local-address
- *  - ISO address required for OSPF/IS-IS CLNS adjacency
- *  - IPv6 primary enables dual-stack management and IPv6 BGP peering
- *  - 127.0.0.x addresses used for internal loopback functions
- *
- * Pair with:
- *  - evo/transport/ibgp-core-mesh.conf  (local-address sourced from lo0)
- *  - evo/transport/ospf-te-protection.conf  (lo0 passive interface in area 0)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $ROUTER_ID_ADDRESS   e.g. 10.200.50.13/32
- *   $MGMT_LOOPBACK       e.g. 10.255.163.148/32
- *   $ISO_ADDRESS         e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5516.3148.00
- *   $IPV6_ADDRESS        e.g. 2001:db8::10:255:163:148/128
+ *  - `ether-options 802.3ad` assigns the port to its bundle; every Layer 2 setting lives on the `ae` interface.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD           e.g. et-0/0/48:0
+ *   $DESCRIPTION   e.g. "L2/L3 to Wanedge1"
+ *   $AE_BUNDLE     e.g. ae0
  */
-
 interfaces {
-    lo0 {
-        unit 0 {
-            family inet {
-                address $ROUTER_ID_ADDRESS {
-                    primary;
-                    preferred;
-                }
-                address 127.0.0.1/32;
-                address 127.0.0.64/32;
-                address $MGMT_LOOPBACK {
-                    primary;
-                }
-            }
-            family iso {
-                address $ISO_ADDRESS;
-            }
-            family inet6 {
-                address $IPV6_ADDRESS {
-                    primary;
-                }
-            }
+    $IFD {
+        description $DESCRIPTION;
+        ether-options {
+            802.3ad $AE_BUNDLE;
         }
     }
 }
 ```
 
-## evo/interfaces/physical-p2p-mpls.conf
+## evo/interfaces/ifd-speed-100g.conf
 
 ```
 /*
- * Topic:   Core point-to-point interfaces with inet/ISO/MPLS families
+ * Topic: Interface device at 100G
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l l2-l3_edge_acx7100 p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 3
+ *   l2-l3_edge_acx7100 2
+ *   p2_ptx10001-36mr 11
+ *   total 16
  * Highlights:
- *  - Multi-protocol family (inet + ISO + MPLS) on every core-facing link
- *  - ISO enables IS-IS/CLNS routing; MPLS enables label switching
- *  - /24 point-to-point addressing convention for inter-router links
- *
- * Pair with:
- *  - evo/cos/exp-classifiers-schedulers.conf
- *  - evo/transport/ospf-te-protection.conf  (OSPF runs over these interfaces)
- *  - evo/transport/mpls-interfaces.conf     (MPLS enabled on these interfaces)
- *  - evo/transport/rsvp-signaling.conf      (RSVP signaling on these interfaces)
- *  - evo/bootstrap/chassis-config.conf      (port speed defined at chassis level)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $INTERFACE_NAME   e.g. et-0/0/0
- *   $DESCRIPTION      e.g. Link to P1Node to WANEdge1
- *   $IPV4_ADDRESS     e.g. 10.101.23.2/24
+ *  - Sets the port speed to 100G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $IFD   e.g. et-0/0/50
  */
-
 interfaces {
-    $INTERFACE_NAME {
-        description "$DESCRIPTION";
-        unit 0 {
+    $IFD {
+        speed 100g;
+    }
+}
+```
+
+## evo/interfaces/ifd-speed-10g.conf
+
+```
+/*
+ * Topic: Interface device at 10G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
+ * Highlights:
+ *  - Sets the port speed to 10G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD   e.g. et-0/0/45
+ */
+interfaces {
+    $IFD {
+        speed 10g;
+    }
+}
+```
+
+## evo/interfaces/ifd-speed-40g.conf
+
+```
+/*
+ * Topic: Interface device at 40G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - Sets the port speed to 40G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $IFD   e.g. et-0/0/52
+ */
+interfaces {
+    $IFD {
+        speed 40g;
+    }
+}
+```
+
+## evo/interfaces/ifl-core-inet-iso-mpls.conf
+
+```
+/*
+ * Topic: Core logical interface with IPv4, ISO and MPLS
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 4
+ *   p2_ptx10001-36mr 4
+ *   total 8
+ * Highlights:
+ *  - Carries the OSPF/RSVP-TE underlay (IPv4) and MPLS-labelled traffic on the core link.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $IFD            e.g. et-0/0/0
+ *   $UNIT           e.g. 0
+ *   $CORE_V4_ADDR   e.g. 10.101.23.2/24
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
             family inet {
-                address $IPV4_ADDRESS;
+                address $CORE_V4_ADDR;
             }
             family iso;
             family mpls;
@@ -349,112 +802,77 @@ interfaces {
 }
 ```
 
-## evo/interfaces/vlan-bridge-domain.conf
+## evo/interfaces/ifl-description-vlan-inet.conf
 
 ```
 /*
- * Topic:   Single-tag VLAN bridge-domains with interface membership binding
+ * Topic: Described tagged routed unit with an IPv4 address
  * Seen on:
  *   Junos: (none)
- *   EVO:   l2-l3_edge_acx7100
- *
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
  * Highlights:
- *  - Each VLAN defined with explicit vlan-id and interface membership
- *  - Interfaces bound to VLANs via their vlan-bridge encapsulated units
- *  - Dual-homed: ae0 (LAG to WAN edges) + et-0/0/47 (local access port)
- *  - Simple L2-only switching — no IRB, no routing, no STP in this config
- *
- * Pair with:
- *  - evo/interfaces/lag-lacp.conf                   (ae0 LAG carrying these VLANs)
- *  - evo/interfaces/flexible-vlan-subinterface.conf  (interface vlan-bridge units)
- *
- * Variables (example values from l2-l3_edge_acx7100):
- *   $VLAN_NAME         e.g. vlan1
- *   $VLAN_ID           e.g. 1
- *   $LAG_UNIT          e.g. ae0.1
- *   $ACCESS_UNIT       e.g. et-0/0/47.1
- */
-
-vlans {
-    $VLAN_NAME {
-        vlan-id $VLAN_ID;
-        interface $LAG_UNIT;
-        interface $ACCESS_UNIT;
-    }
-}
-```
-
-## evo/oam/lldp-discovery.conf
-
-```
-/*
- * Topic:   LLDP protocol enabled on all interfaces for neighbor discovery
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004 cr2_mx480
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr cr1_acx7100-48l l2-l3_edge_acx7100
- *
- * Highlights:
- *  - "interface all" enables LLDP on every physical port
- *  - Essential for topology discovery and cable verification
- *  - No per-interface filtering or hold-time tuning in this JVD
- *
- * Variables (example values from p1_ptx10003-80c):
- *   (no variables — static config)
- */
-
-protocols {
-    lldp {
-        interface all;
-    }
-}
-```
-
-## evo/oam/twamp-client.conf
-
-```
-/*
- * Topic:   TWAMP client with per-virtual-router control connections and test sessions
- * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
- * Highlights:
- *  - Body is structurally identical to the Junos sibling
- *  - TWAMP client (RFC 5357) probes AP reflectors for per-VRF latency/jitter measurement
- *  - One control-connection per VR targeting each AP server (dual-homed: AP1 + AP2)
- *  - routing-instance scoping ensures probes originate from the correct VRF
- *  - probe-count 100 at probe-interval 1s for continuous 100-second measurement cycles
- *  - test-count 0 means infinite test iterations (continuous monitoring)
- *
- * Pair with:
- *  - evo/services/virtual-router-instance.conf      (VR instances where probes originate)
- *  - evo/interfaces/flexible-vlan-subinterface.conf (PE-CE links carrying probes)
- *
+ *  - A VLAN sub-interface with its own description and IPv4 subnet.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from cr1_acx7100-48l):
- *   $CONNECTION_NAME     e.g. CR14_1
- *   $DEST_PORT           e.g. 862
- *   $ROUTING_INSTANCE    e.g. VIRTUAL-ROUTER-V1
- *   $TARGET_ADDRESS      e.g. 10.101.48.1
- *   $TEST_SESSION_NAME   e.g. T14_1
- *   $PROBE_COUNT         e.g. 100
- *   $PROBE_INTERVAL      e.g. 1
+ *   $IFD           e.g. et-0/0/42
+ *   $UNIT          e.g. 100
+ *   $DESCRIPTION   e.g. For_OSPF_route_Push
+ *   $VLAN          e.g. 100
+ *   $AC_ADDR_V4    e.g. 10.101.201.1/24
  */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
 
-services {
-    rpm {
-        twamp {
-            client {
-                control-connection $CONNECTION_NAME {
-                    control-type managed;
-                    destination-port $DEST_PORT;
-                    routing-instance $ROUTING_INSTANCE;
-                    target-address $TARGET_ADDRESS;
-                    test-count 0;
-                    test-session $TEST_SESSION_NAME {
-                        target-address $TARGET_ADDRESS;
-                        probe-count $PROBE_COUNT;
-                        probe-interval $PROBE_INTERVAL;
-                    }
+## evo/interfaces/ifl-loopback-localhost-127-64-mgmt-iso-inet6.conf
+
+```
+/*
+ * Topic: Loopback with two localhost and management IPv4 addresses, ISO and IPv6
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 1
+ *   total 1
+ * Highlights:
+ *  - The management address is the primary IPv4 loopback and equals the router ID.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $LOOPBACK_MGMT_V4_PFX   e.g. 10.255.163.58/32
+ *   $ISO_NET                e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5516.3058.00
+ *   $LOOPBACK_V6_PFX        e.g. 2001:db8::10:255:163:58/128
+ */
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address 127.0.0.1/32;
+                address 127.0.0.64/32;
+                address $LOOPBACK_MGMT_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISO_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
                 }
             }
         }
@@ -462,225 +880,311 @@ services {
 }
 ```
 
-## evo/policy/protocol-redistribution.conf
+## evo/interfaces/ifl-loopback-primary-localhost-127-64-mgmt-iso-inet6.conf
 
 ```
 /*
- * Topic:   Routing policy statements for BGP/OSPF/direct protocol redistribution
+ * Topic: Loopback with primary, two localhost and management IPv4 addresses, ISO and IPv6
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 3
  * Highlights:
- *  - PS-ADV_DIRECT: redistributes directly-connected routes into BGP
- *  - PS-BGP-TO-OSPF: leaks BGP-learned routes into OSPF (for CE reachability)
- *  - PS-send-ospf: exports OSPF routes into BGP for VPN distribution
- *  - Simple accept-all policies — no route-filtering or manipulation
- *
- * Pair with:
- *  - evo/policy/route-filter-med.conf
- *  - evo/transport/ibgp-core-mesh.conf  (export policies referenced in BGP group)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $DIRECT_POLICY_NAME   e.g. PS-ADV_DIRECT
- *   $BGP_TO_OSPF_NAME     e.g. PS-BGP-TO-OSPF
- *   $OSPF_TO_BGP_NAME     e.g. PS-send-ospf
+ *  - Carries the design loopback (primary, preferred, equal to the router ID), 127.0.0.1, 127.0.0.64 and the management loopback (primary), plus ISO and IPv6 addresses.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $LOOPBACK_V4_PFX        e.g. 10.200.50.9/32
+ *   $LOOPBACK_MGMT_V4_PFX   e.g. 10.255.165.85/32
+ *   $ISO_NET                e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5516.5085.00
+ *   $LOOPBACK_V6_PFX        e.g. 2001:db8::10:255:165:85/128
  */
-
-policy-options {
-    policy-statement $DIRECT_POLICY_NAME {
-        from protocol direct;
-        then accept;
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                    preferred;
+                }
+                address 127.0.0.1/32;
+                address 127.0.0.64/32;
+                address $LOOPBACK_MGMT_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISO_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
     }
-    policy-statement $BGP_TO_OSPF_NAME {
+}
+```
+
+## evo/interfaces/ifl-vlan-bridge.conf
+
+```
+/*
+ * Topic: Single-VLAN Layer 2 unit with vlan-bridge encapsulation
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 26
+ *   total 26
+ * Highlights:
+ *  - One unit per VLAN; `encapsulation vlan-bridge` makes the unit a Layer 2 member of its VLAN.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $IFD    e.g. ae0
+ *   $UNIT   e.g. 1
+ *   $VLAN   e.g. 1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic: Tagged routed unit with an IPv4 address (VLAN sub-interface)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 40
+ *   total 40
+ * Highlights:
+ *  - One VLAN unit per VRF or virtual router on the PE-CE link; the unit belongs to that routing instance.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $IFD          e.g. et-0/0/49
+ *   $UNIT         e.g. 100
+ *   $VLAN         e.g. 100
+ *   $AC_ADDR_V4   e.g. 10.101.200.2/24
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-accept-bgp.conf
+
+```
+/*
+ * Topic: Policy accepting BGP routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 3
+ * Highlights:
+ *  - Used as a protocol export to redistribute BGP-learned routes.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $POLICY_NAME   e.g. PS-BGP-TO-OSPF
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
         from protocol bgp;
         then accept;
     }
-    policy-statement $OSPF_TO_BGP_NAME {
+}
+```
+
+## evo/policy-options/policy-statement/ps-accept-direct.conf
+
+```
+/*
+ * Topic: Policy accepting directly connected routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 3
+ * Highlights:
+ *  - Applied as the `export` of the PE-CE eBGP groups in the VRFs.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $POLICY_NAME   e.g. PS-ADV_DIRECT
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from protocol direct;
+        then accept;
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-accept-ospf.conf
+
+```
+/*
+ * Topic: Policy accepting OSPF routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 3
+ * Highlights:
+ *  - Used as a protocol export to redistribute OSPF-learned routes.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $POLICY_NAME   e.g. PS-send-ospf
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
         from protocol ospf;
         then accept;
     }
 }
 ```
 
-## evo/policy/route-filter-med.conf
+## evo/policy-options/policy-statement/ps-default-longer-metric-30.conf
 
 ```
 /*
- * Topic:   Route-filter-based MED metric assignment for BGP export
+ * Topic: Policy setting metric 30 on every IPv4 route
  * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
  * Highlights:
- *  - Body is structurally identical to the Junos sibling
- *  - PS-med-10: assigns MED 10 to specific infrastructure prefix (preferred path)
- *  - PS-med-30: assigns MED 30 to all other prefixes (less-preferred backup)
- *  - Used as export policy in virtual-router BGP groups to influence AP path selection
- *
- * Pair with:
- *  - evo/services/virtual-router-instance.conf  (BGP group references these as export)
- *  - evo/policy/protocol-redistribution.conf    (other policies in same policy-options)
- *
+ *  - As a BGP export it advertises all remaining routes with MED 30, the less preferred path in the MED-based steering design.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from cr1_acx7100-48l):
- *   $MED_LOW_NAME       e.g. PS-med-10
- *   $MED_LOW_PREFIX     e.g. 10.101.0.0/16
- *   $MED_LOW_VALUE      e.g. 10
- *   $MED_HIGH_NAME      e.g. PS-med-30
- *   $MED_HIGH_VALUE     e.g. 30
+ *   $POLICY_NAME   e.g. PS-med-30
  */
-
 policy-options {
-    policy-statement $MED_LOW_NAME {
-        from {
-            route-filter $MED_LOW_PREFIX exact;
-        }
-        then {
-            metric $MED_LOW_VALUE;
-            accept;
-        }
-    }
-    policy-statement $MED_HIGH_NAME {
+    policy-statement $POLICY_NAME {
         from {
             route-filter 0.0.0.0/0 longer;
         }
         then {
-            metric $MED_HIGH_VALUE;
+            metric 30;
             accept;
         }
     }
 }
 ```
 
-## evo/services/virtual-router-instance.conf
+## evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
 
 ```
 /*
- * Topic:   Virtual-router instance with BGP, PIM sparse-mode, and multicast RP
+ * Topic: Policy setting metric 10 on one exact prefix
  * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
  * Highlights:
- *  - Body is structurally identical to the Junos sibling
- *  - instance-type virtual-router: full routing table isolation without MPLS VPN signaling
- *  - eBGP group "AP" peers to both AP nodes with MED export policy for path preference
- *  - iBGP group "IXIA" for traffic-generator peering within the VR
- *  - PIM sparse-mode with static RP pointing to AP node's loopback (multicast receiver side)
- *  - Each VR gets unique multicast group-ranges matching the MVPN sender's PIM RP config
- *
- * Pair with:
- *  - evo/interfaces/flexible-vlan-subinterface.conf (PE-CE interfaces bound to VR)
- *  - evo/oam/twamp-client.conf                     (TWAMP probes originate per-VR)
- *  - evo/policy/route-filter-med.conf              (MED export policies referenced)
- *
- * JVD service mapping:
- *   13 instances total (high 10 / med 0 / low 3)
- *   On devices: cr1_acx7100-48l (13), cr2_mx480 (13)
- *   Example: VIRTUAL-ROUTER-V1 (RD —, RT —)
- *     cr1_acx7100-48l  et-0/0/42.1
- *     cr2_mx480  xe-3/0/6.1
- *
+ *  - As a BGP export it advertises the matched prefix with MED 10, the preferred path in the MED-based steering design.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from cr1_acx7100-48l):
- *   $VR_NAME             e.g. VIRTUAL-ROUTER-V1
- *   $AP_PEER_AS          e.g. 64512
- *   $AP_NEIGHBOR_1       e.g. 10.101.48.1
- *   $AP_NEIGHBOR_2       e.g. 10.101.78.1
- *   $EXPORT_POLICIES     e.g. [ med-10 med-30 ]
- *   $IXIA_PEER_AS        e.g. 64520
- *   $IXIA_NEIGHBOR       e.g. 10.101.81.2
- *   $RP_ADDRESS          e.g. 10.10.47.101
- *   $MCAST_GROUP_RANGE   e.g. 225.0.0.0/22
- *   $IFACE_AP1           e.g. et-0/0/42.1
- *   $IFACE_AP2           e.g. et-0/0/48.1
- *   $IFACE_TG            e.g. et-0/0/49.1
+ *   $POLICY_NAME   e.g. PS-med-10
+ *   $PREFIX        e.g. 10.101.0.0/16
  */
-
-routing-instances {
-    $VR_NAME {
-        instance-type virtual-router;
-        protocols {
-            bgp {
-                group AP {
-                    type external;
-                    export $EXPORT_POLICIES;
-                    peer-as $AP_PEER_AS;
-                    neighbor $AP_NEIGHBOR_1;
-                    neighbor $AP_NEIGHBOR_2;
-                }
-                group IXIA {
-                    type internal;
-                    peer-as $IXIA_PEER_AS;
-                    neighbor $IXIA_NEIGHBOR;
-                }
-            }
-            pim {
-                rp {
-                    static {
-                        address $RP_ADDRESS {
-                            group-ranges {
-                                $MCAST_GROUP_RANGE;
-                            }
-                        }
-                    }
-                }
-                interface $IFACE_AP1 {
-                    mode sparse;
-                }
-                interface $IFACE_AP2 {
-                    mode sparse;
-                }
-                interface $IFACE_TG {
-                    mode sparse;
-                }
-            }
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX exact;
         }
-        interface $IFACE_TG;
-        interface $IFACE_AP1;
-        interface $IFACE_AP2;
+        then {
+            metric 10;
+            accept;
+        }
     }
 }
 ```
 
-## evo/transport/ibgp-core-mesh.conf
+## evo/protocols/bgp-ibgp-full-mesh-5.conf
 
 ```
 /*
- * Topic:   iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families
+ * Topic: iBGP group with five loopback neighbors for IPv4, L3VPN, EVPN and NG-MVPN
  * Seen on:
  *   Junos: (none)
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
  * Highlights:
- *  - family inet-vpn unicast + any for L3VPN route exchange
- *  - family evpn signaling for EVPN Type-1 through Type-5
- *  - family inet-mvpn signaling for NG-MVPN (multicast VPN) control plane
- *  - family route-target enables RT-constrain to limit VPN route distribution
- *  - BFD at 100ms × 3 for sub-second peer failure detection
- *  - All peers in a single iBGP group (full mesh, no route-reflectors)
- *
+ *  - One internal group carries IPv4 unicast, `inet-vpn` (unicast and any), EVPN signaling, `inet-mvpn` signaling for NG-MVPN Type-5/Type-7 routes and route-target constrained distribution.
+ *  - BFD at 100 ms x 3 protects every session.
  * Pair with:
- *  - evo/interfaces/loopback-multi-af.conf
- *  - evo/transport/ospf-te-protection.conf   (IGP underlay for iBGP next-hops)
- *  - evo/transport/mpls-interfaces.conf      (label transport for VPN families)
- *  - evo/policy/protocol-redistribution.conf (export policies referenced in group)
+ *  - evo/policy-options/policy-statement/ps-accept-bgp.conf
+ *  - evo/policy-options/policy-statement/ps-accept-ospf.conf
  *
+ * Peers with:
+ *   [ap1_mx304] <-> [p1_ptx10003-80c]
+ *   [ap1_mx304] <-> [p2_ptx10001-36mr]
+ *   [ap2_mx10004] <-> [p1_ptx10003-80c]
+ *   [ap2_mx10004] <-> [p2_ptx10001-36mr]
+ *   [p1_ptx10003-80c] <-> [p2_ptx10001-36mr]
+ *   [p1_ptx10003-80c] <-> [wanedge1_mx304]
+ *   [p1_ptx10003-80c] <-> [wanedge2_mx10004]
+ *   [p2_ptx10001-36mr] <-> [wanedge1_mx304]
+ *   [p2_ptx10001-36mr] <-> [wanedge2_mx10004]
  * Variables (example values from p1_ptx10003-80c):
- *   $LOCAL_ADDRESS   e.g. 10.200.50.13
- *   $LOCAL_AS        e.g. 64512
- *   $EXPORT_POLICY   e.g. [ PS-send-ospf PS-BGP-TO-OSPF ]
- *   $NEIGHBOR_1      e.g. 10.200.50.15
- *   $NEIGHBOR_2      e.g. 10.200.50.14
- *   $NEIGHBOR_3      e.g. 10.200.50.12
- *   $NEIGHBOR_4      e.g. 10.200.50.11
- *   $NEIGHBOR_5      e.g. 10.200.50.16
+ *   $LOOPBACK_V4        e.g. 10.200.50.13
+ *   $BGP_EXPORT_POL_1   e.g. PS-send-ospf
+ *   $BGP_EXPORT_POL_2   e.g. PS-BGP-TO-OSPF
+ *   $ASN                e.g. 64512
+ *   $IBGP_PEER_V4_1     e.g. 10.200.50.15
+ *   $IBGP_PEER_V4_2     e.g. 10.200.50.14
+ *   $IBGP_PEER_V4_3     e.g. 10.200.50.12
+ *   $IBGP_PEER_V4_4     e.g. 10.200.50.11
+ *   $IBGP_PEER_V4_5     e.g. 10.200.50.16
  */
-
 protocols {
     bgp {
         group IBGP {
             type internal;
-            local-address $LOCAL_ADDRESS;
+            local-address $LOOPBACK_V4;
             family inet {
                 unicast;
             }
@@ -695,123 +1199,126 @@ protocols {
                 signaling;
             }
             family route-target;
-            export $EXPORT_POLICY;
-            local-as $LOCAL_AS;
+            export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+            local-as $ASN;
             bfd-liveness-detection {
                 minimum-interval 100;
                 multiplier 3;
             }
-            neighbor $NEIGHBOR_1;
-            neighbor $NEIGHBOR_2;
-            neighbor $NEIGHBOR_3;
-            neighbor $NEIGHBOR_4;
-            neighbor $NEIGHBOR_5;
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+            neighbor $IBGP_PEER_V4_3;
+            neighbor $IBGP_PEER_V4_4;
+            neighbor $IBGP_PEER_V4_5;
         }
     }
 }
 ```
 
-## evo/transport/mpls-interfaces.conf
+## evo/protocols/lldp-interface-all.conf
 
 ```
 /*
- * Topic:   MPLS protocol enablement on core and loopback interfaces
+ * Topic: LLDP on all interfaces
  * Seen on:
  *   Junos: (none)
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   EVO: cr1_acx7100-48l l2-l3_edge_acx7100 p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   l2-l3_edge_acx7100 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 4
  * Highlights:
- *  - MPLS enabled on every core-facing interface for label switching
- *  - lo0.0 included to support targeted LDP sessions and LSP origination
- *  - Combined with RSVP-TE for traffic-engineered label-switched paths
- *
- * Pair with:
- *  - evo/cos/exp-classifiers-schedulers.conf
- *  - evo/transport/ospf-te-protection.conf
- *  - evo/transport/rsvp-signaling.conf       (RSVP signals LSPs over these interfaces)
- *  - evo/transport/ibgp-core-mesh.conf       (BGP VPN families ride over MPLS)
- *  - evo/interfaces/physical-p2p-mpls.conf   (family mpls configured on interfaces)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $CORE_IFACE_1   e.g. et-0/0/0.0
- *   $CORE_IFACE_2   e.g. et-0/0/3.0
- *   $CORE_IFACE_3   e.g. et-0/0/1.0
- *   $CORE_IFACE_4   e.g. et-0/0/4.0
+ *  - Enables LLDP neighbor discovery on every interface.
+ * Pair with: none
+ * Variables: none
  */
+protocols {
+    lldp {
+        interface all;
+    }
+}
+```
 
+## evo/protocols/mpls-interface-4-core-loopback.conf
+
+```
+/*
+ * Topic: MPLS on four core interfaces and the loopback
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - Transit-only MPLS: enables label switching on the core links with no locally originated LSPs.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from p1_ptx10003-80c):
+ *   $CORE_INTF_1   e.g. et-0/0/0.0
+ *   $CORE_INTF_2   e.g. et-0/0/3.0
+ *   $CORE_INTF_3   e.g. et-0/0/1.0
+ *   $CORE_INTF_4   e.g. et-0/0/4.0
+ */
 protocols {
     mpls {
-        interface $CORE_IFACE_1;
-        interface $CORE_IFACE_2;
-        interface $CORE_IFACE_3;
-        interface $CORE_IFACE_4;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+        interface $CORE_INTF_4;
         interface lo0.0;
     }
 }
 ```
 
-## evo/transport/ospf-te-protection.conf
+## evo/protocols/ospf-area0-bfd-4-core.conf
 
 ```
 /*
- * Topic:   OSPF with traffic engineering, node-link-protection, and BFD
+ * Topic: OSPF area 0 with four BFD core interfaces and a passive loopback
  * Seen on:
  *   Junos: (none)
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   EVO: p2_ptx10001-36mr
+ * Count:
+ *   p2_ptx10001-36mr 1
+ *   total 1
  * Highlights:
- *  - traffic-engineering enables OSPF-TE extensions (RFC 3630) for RSVP-TE CSPF
- *  - node-link-protection provides LFA backup for sub-50ms failover
- *  - BFD at 10ms × 3 for ultra-fast adjacency failure detection (finance/low-latency)
- *  - lo0.0 as passive ensures router-id reachability without forming adjacency
- *  - All interfaces in area 0.0.0.0 (single-area backbone)
- *
- * Pair with:
- *  - evo/interfaces/loopback-multi-af.conf
- *  - evo/transport/ibgp-core-mesh.conf
- *  - evo/transport/rsvp-signaling.conf       (RSVP uses OSPF-TE database for CSPF)
- *  - evo/transport/mpls-interfaces.conf      (MPLS co-exists on same interfaces)
- *  - evo/interfaces/physical-p2p-mpls.conf   (the physical interfaces referenced)
- *
- * Variables (example values from p1_ptx10003-80c):
- *   $CORE_IFACE_1   e.g. et-0/0/0.0
- *   $CORE_IFACE_2   e.g. et-0/0/3.0
- *   $CORE_IFACE_3   e.g. et-0/0/1.0
- *   $CORE_IFACE_4   e.g. et-0/0/4.0
- *   $BFD_INTERVAL   e.g. 10
- *   $BFD_MULTIPLIER e.g. 3
+ *  - BFD at 10 ms x 3 gives fast failure detection on every core link.
+ * Pair with: none
+ * Variables (example values from p2_ptx10001-36mr):
+ *   $CORE_INTF_1   e.g. et-0/0/2.0
+ *   $CORE_INTF_2   e.g. et-0/2/8.0
+ *   $CORE_INTF_3   e.g. et-0/2/10.0
+ *   $CORE_INTF_4   e.g. et-0/2/11.0
  */
-
 protocols {
     ospf {
-        traffic-engineering;
         area 0.0.0.0 {
-            interface $CORE_IFACE_1 {
-                node-link-protection;
+            interface $CORE_INTF_1 {
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
                 }
             }
-            interface $CORE_IFACE_2 {
-                node-link-protection;
+            interface $CORE_INTF_2 {
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
                 }
             }
-            interface $CORE_IFACE_3 {
-                node-link-protection;
+            interface $CORE_INTF_3 {
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
                 }
             }
-            interface $CORE_IFACE_4 {
-                node-link-protection;
+            interface $CORE_INTF_4 {
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
                 }
             }
             interface lo0.0 {
@@ -822,128 +1329,1112 @@ protocols {
 }
 ```
 
-## evo/transport/rsvp-signaling.conf
+## evo/protocols/ospf-area0-node-link-protection-bfd-4-core.conf
 
 ```
 /*
- * Topic:   RSVP-TE interface enablement for label-switched path signaling
+ * Topic: OSPF area 0 with four node-link-protected BFD core interfaces and a passive loopback
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   total 1
  * Highlights:
- *  - RSVP enabled on all core transport interfaces and loopback
- *  - Provides RSVP-TE signaling for traffic-engineered LSPs
- *  - Works with OSPF-TE CSPF to compute constrained shortest paths
- *  - lo0.0 included for targeted RSVP sessions (graceful restart, etc.)
- *
- * Pair with:
- *  - evo/transport/mpls-interfaces.conf      (MPLS forwarding on same interfaces)
- *  - evo/transport/ospf-te-protection.conf   (OSPF-TE provides path computation)
- *  - evo/interfaces/physical-p2p-mpls.conf   (physical interfaces referenced)
- *
+ *  - `node-link-protection` precomputes a loop-free alternate that avoids the neighbor node; BFD at 10 ms x 3 detects the failure.
+ * Pair with: none
  * Variables (example values from p1_ptx10003-80c):
- *   $CORE_IFACE_1   e.g. et-0/0/0.0
- *   $CORE_IFACE_2   e.g. et-0/0/3.0
- *   $CORE_IFACE_3   e.g. et-0/0/1.0
- *   $CORE_IFACE_4   e.g. et-0/0/4.0
+ *   $CORE_INTF_1   e.g. et-0/0/0.0
+ *   $CORE_INTF_2   e.g. et-0/0/1.0
+ *   $CORE_INTF_3   e.g. et-0/0/3.0
+ *   $CORE_INTF_4   e.g. et-0/0/4.0
  */
-
 protocols {
-    rsvp {
-        interface lo0.0;
-        interface $CORE_IFACE_1;
-        interface $CORE_IFACE_2;
-        interface $CORE_IFACE_3;
-        interface $CORE_IFACE_4;
+    ospf {
+        area 0.0.0.0 {
+            interface $CORE_INTF_1 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_2 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_3 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_4 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
     }
 }
 ```
 
-## junos/bootstrap/chassis-config.conf
+## evo/protocols/ospf-traffic-engineering.conf
 
 ```
 /*
- * Topic:   Chassis hardware initialization — aggregated devices, FPC/PIC port speeds, tunnel-services
+ * Topic: OSPF traffic-engineering extensions
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr l2-l3_edge_acx7100
- *
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
  * Highlights:
- *  - aggregated-devices ethernet device-count reserves LAG interface namespace
- *  - tunnel-services bandwidth enables GRE/IP-IP tunnel encapsulation for MVPN
- *  - Per-port speed and sub-port breakout at PIC level
- *  - network-services enhanced-ip required for inet-mvpn and multicast forwarding
- *
- * Pair with:
- *  - junos/interfaces/physical-p2p-mpls.conf  (interfaces bound to these ports)
- *  - junos/interfaces/lag-esi-lacp.conf       (LAG interfaces using aggregated-devices)
- *  - junos/services/mvpn-instance.conf        (MVPN uses tunnel-services)
- *
- * Variables (example values from wanedge1_mx304):
- *   $DEVICE_COUNT       e.g. 25
- *   $FPC_SLOT           e.g. 0
- *   $PIC_SLOT           e.g. 0
- *   $TUNNEL_BW          e.g. 10g
- *   $PORT_ID            e.g. 0
- *   $PORT_SPEED         e.g. 100g
- *   $BREAKOUT_PORT_ID   e.g. 9
- *   $BREAKOUT_SPEED     e.g. 10g
- *   $BREAKOUT_SUB_PORTS e.g. 4
+ *  - Floods TE information so RSVP-TE can compute constrained paths for the LSPs.
+ * Pair with: none
+ * Variables: none
  */
+protocols {
+    ospf {
+        traffic-engineering;
+    }
+}
+```
 
-chassis {
-    dump-on-panic;
-    aggregated-devices {
-        ethernet {
-            device-count $DEVICE_COUNT;
+## evo/protocols/rsvp-interface-loopback-4-core.conf
+
+```
+/*
+ * Topic: RSVP on the loopback and four core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 2
+ * Highlights:
+ *  - RSVP signals the point-to-point and P2MP RSVP-TE LSPs on every core link; the loopback is included so it can terminate signaling.
+ * Pair with: none
+ * Variables (example values from p1_ptx10003-80c):
+ *   $CORE_INTF_1   e.g. et-0/0/0.0
+ *   $CORE_INTF_2   e.g. et-0/0/1.0
+ *   $CORE_INTF_3   e.g. et-0/0/3.0
+ *   $CORE_INTF_4   e.g. et-0/0/4.0
+ */
+protocols {
+    rsvp {
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+        interface $CORE_INTF_4;
+    }
+}
+```
+
+## evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf
+
+```
+/*
+ * Topic: Virtual router with eBGP to two access points, an iBGP host session and PIM sparse mode with a static RP
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 10
+ *   total 10
+ * Highlights:
+ *  - eBGP to both access points exports routes through the MED-setting policies (metric 10 for one prefix, 30 for every other route).
+ *  - PIM sparse mode on all three interfaces joins the market-data groups toward the static rendezvous point.
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet.conf
+ *  - evo/policy-options/policy-statement/ps-default-longer-metric-30.conf
+ *  - evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
+ *
+ * Variables (example values from cr1_acx7100-48l):
+ *   $INSTANCE_NAME        e.g. VIRTUAL-ROUTER-V1
+ *   $BGP_EXPORT_POL_1     e.g. PS-med-10
+ *   $BGP_EXPORT_POL_2     e.g. PS-med-30
+ *   $ASN_PROVIDER         e.g. 64512
+ *   $PE_PEER_V4_1         e.g. 10.101.48.1
+ *   $PE_PEER_V4_2         e.g. 10.101.78.1
+ *   $ASN                  e.g. 64520
+ *   $IBGP_PEER_V4         e.g. 10.101.81.2
+ *   $PIM_RP_V4            e.g. 10.10.47.101
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.0.0/22
+ *   $IFL_1                e.g. et-0/0/42.1
+ *   $IFL_2                e.g. et-0/0/48.1
+ *   $IFL_3                e.g. et-0/0/49.1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+                    peer-as $ASN_PROVIDER;
+                    neighbor $PE_PEER_V4_1;
+                    neighbor $PE_PEER_V4_2;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as $ASN;
+                    neighbor $IBGP_PEER_V4;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address $PIM_RP_V4 {
+                            group-ranges {
+                                $MCAST_GROUP_V4_PFX;
+                            }
+                        }
+                    }
+                }
+                interface $IFL_1 {
+                    mode sparse;
+                }
+                interface $IFL_2 {
+                    mode sparse;
+                }
+                interface $IFL_3 {
+                    mode sparse;
+                }
+            }
+        }
+        interface $IFL_1;
+        interface $IFL_2;
+        interface $IFL_3;
+    }
+}
+```
+
+## evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf
+
+```
+/*
+ * Topic: Virtual router with eBGP to two access points and an iBGP host session
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 3
+ *   total 3
+ * Highlights:
+ *  - Unicast customer routing context: eBGP to both access points through the MED-setting export policies and iBGP to the attached host.
+ * Pair with:
+ *  - evo/interfaces/ifl-vlan-inet.conf
+ *  - evo/policy-options/policy-statement/ps-default-longer-metric-30.conf
+ *  - evo/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
+ *
+ * Variables (example values from cr1_acx7100-48l):
+ *   $INSTANCE_NAME      e.g. VIRTUAL-ROUTER-V21
+ *   $BGP_EXPORT_POL_1   e.g. PS-med-10
+ *   $BGP_EXPORT_POL_2   e.g. PS-med-30
+ *   $ASN_PROVIDER       e.g. 64512
+ *   $PE_PEER_V4_1       e.g. 10.101.48.41
+ *   $PE_PEER_V4_2       e.g. 10.101.78.41
+ *   $ASN                e.g. 64520
+ *   $IBGP_PEER_V4       e.g. 10.8.21.2
+ *   $IFL_1              e.g. et-0/0/42.21
+ *   $IFL_2              e.g. et-0/0/48.21
+ *   $IFL_3              e.g. et-0/0/49.21
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+                    peer-as $ASN_PROVIDER;
+                    neighbor $PE_PEER_V4_1;
+                    neighbor $PE_PEER_V4_2;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as $ASN;
+                    neighbor $IBGP_PEER_V4;
+                }
+            }
+        }
+        interface $IFL_1;
+        interface $IFL_2;
+        interface $IFL_3;
+    }
+}
+```
+
+## evo/routing-instances/virtual-router/ri-virtual-router-ospf-2-intf.conf
+
+```
+/*
+ * Topic: Virtual router running OSPF area 0 on two interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - A separate routing context that exchanges routes over OSPF on two tagged units.
+ * Pair with:
+ *  - evo/interfaces/ifl-description-vlan-inet.conf
+ *  - evo/interfaces/ifl-vlan-inet.conf
+ *
+ * Variables (example values from cr1_acx7100-48l):
+ *   $INSTANCE_NAME   e.g. VIRTUAL-ROUTER-V100
+ *   $IFL_1           e.g. et-0/0/42.100
+ *   $IFL_2           e.g. et-0/0/49.100
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-router;
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface $IFL_1;
+                    interface $IFL_2;
+                }
+            }
+        }
+        interface $IFL_1;
+        interface $IFL_2;
+    }
+}
+```
+
+## evo/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Autonomous system number
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 3
+ * Highlights:
+ *  - The provider core shares one AS; each customer router has its own AS for eBGP to the access points.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $ASN   e.g. 64520
+ */
+routing-options {
+    autonomous-system $ASN;
+}
+```
+
+## evo/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Router ID
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l l2-l3_edge_acx7100 p1_ptx10003-80c p2_ptx10001-36mr
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   l2-l3_edge_acx7100 1
+ *   p1_ptx10003-80c 1
+ *   p2_ptx10001-36mr 1
+ *   total 4
+ * Highlights:
+ *  - Explicit router ID; on the PE, P and CR routers it equals the primary lo0 address.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_acx7100-48l):
+ *   $ROUTER_ID   e.g. 10.200.50.9
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## evo/services/monitoring-twamp-client-cr1.conf
+
+```
+/*
+ * Topic: TWAMP client with 26 control connections across the virtual routers
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_acx7100-48l
+ * Count:
+ *   cr1_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *  - One control connection per access point and virtual router; each runs a test session toward the access point to measure SLA (latency, loss, jitter).
+ * Pair with: none
+ * Variables: none
+ */
+services {
+    monitoring {
+        twamp {
+            client {
+                control-connection CR14_1 {
+                    target 10.101.48.1;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T1 {
+                        target 10.101.48.1;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_1 {
+                    target 10.101.78.1;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_1 {
+                        target 10.101.78.1;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_2 {
+                    target 10.101.48.5;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T2 {
+                        target 10.101.48.5;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_2 {
+                    target 10.101.78.5;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_2 {
+                        target 10.101.78.5;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_3 {
+                    target 10.101.48.9;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T3 {
+                        target 10.101.48.9;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_3 {
+                    target 10.101.78.9;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_3 {
+                        target 10.101.78.9;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_4 {
+                    target 10.101.48.13;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T4 {
+                        target 10.101.48.13;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_4 {
+                    target 10.101.78.13;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_4 {
+                        target 10.101.78.13;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_5 {
+                    target 10.101.48.17;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T5 {
+                        target 10.101.48.17;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_5 {
+                    target 10.101.78.17;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_5 {
+                        target 10.101.78.17;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_6 {
+                    target 10.101.48.21;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T6 {
+                        target 10.101.48.21;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_6 {
+                    target 10.101.78.21;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_6 {
+                        target 10.101.78.21;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_7 {
+                    target 10.101.48.25;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T7 {
+                        target 10.101.48.25;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_7 {
+                    target 10.101.78.25;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_7 {
+                        target 10.101.78.25;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_8 {
+                    target 10.101.48.29;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T8 {
+                        target 10.101.48.29;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_8 {
+                    target 10.101.78.29;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_8 {
+                        target 10.101.78.29;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_9 {
+                    target 10.101.48.33;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T9 {
+                        target 10.101.48.33;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_9 {
+                    target 10.101.78.33;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_9 {
+                        target 10.101.78.33;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_10 {
+                    target 10.101.48.37;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T1 {
+                        target 10.101.48.37;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_10 {
+                    target 10.101.78.37;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_1 {
+                        target 10.101.78.37;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_21 {
+                    target 10.101.48.41;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T1 {
+                        target 10.101.48.41;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_21 {
+                    target 10.101.78.41;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_1 {
+                        target 10.101.78.41;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_22 {
+                    target 10.101.48.45;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T1 {
+                        target 10.101.48.45;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_22 {
+                    target 10.101.78.45;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_1 {
+                        target 10.101.78.45;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR14_23 {
+                    target 10.101.48.49;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR1_T1 {
+                        target 10.101.48.49;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR17_23 {
+                    target 10.101.78.49;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    test-start auto;
+                    test-interval 5;
+                    test-session CR17_1 {
+                        target 10.101.78.49;
+                        probe-count 10;
+                        probe-interval 1;
+                    }
+                }
+            }
         }
     }
+}
+```
+
+## evo/vlans/vlan-two-interfaces.conf
+
+```
+/*
+ * Topic: VLAN with two member interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: l2-l3_edge_acx7100
+ * Count:
+ *   l2-l3_edge_acx7100 13
+ *   total 13
+ * Highlights:
+ *  - Bridges one VLAN between the access port and the aggregate toward the WAN edges.
+ * Pair with: none
+ * Variables (example values from l2-l3_edge_acx7100):
+ *   $VLAN_NAME   e.g. vlan1
+ *   $VLAN        e.g. 1
+ *   $AC_IFL_A    e.g. ae0.1
+ *   $AC_IFL_B    e.g. et-0/0/47.1
+ */
+vlans {
+    $VLAN_NAME {
+        vlan-id $VLAN;
+        interface $AC_IFL_A;
+        interface $AC_IFL_B;
+    }
+}
+```
+
+## junos/chassis/aggregated-devices-ethernet.conf
+
+```
+/*
+ * Topic: Aggregated-Ethernet device count
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Allocates the number of `ae` interfaces the chassis may create; it must cover the highest `aeN` configured.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $AE_DEVICE_COUNT   e.g. 25
+ */
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
+        }
+    }
+}
+```
+
+## junos/chassis/dump-on-panic.conf
+
+```
+/*
+ * Topic: Core dump on kernel panic
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Writes a kernel core dump when the system panics, preserving evidence for post-incident analysis.
+ * Pair with: none
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    dump-on-panic;
+}
+```
+
+## junos/chassis/fpc-mx10004-3x100g.conf
+
+```
+/*
+ * Topic: MX10004 FPC with three 100G ports on PICs 0 and 3
+ * Seen on:
+ *   Junos: wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - Runs the two cabled PIC 0 ports and one PIC 3 port at 100G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from wanedge2_mx10004):
+ *   $FPC_SLOT   e.g. 3
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+        }
+        pic 3 {
+            port 0 {
+                speed 100g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx10004-tunnel-100g-13x100g-5x4x10g.conf
+
+```
+/*
+ * Topic: MX10004 FPC with 100G tunnel services, thirteen 100G ports and five 4x10G ports across six PICs
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - Reserves 100G of PIC 0 bandwidth for tunnel services; the remaining cabled ports run at 100G or are channelised into four 10G sub-ports.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap2_mx10004):
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            tunnel-services {
+                bandwidth 100g;
+            }
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+        pic 1 {
+            port 0 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 1 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 2 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+        pic 2 {
+            port 1 {
+                speed 100g;
+            }
+        }
+        pic 3 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+        pic 4 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+        pic 5 {
+            port 1 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx304-tunnel-10g-11x100g-1x4x10g.conf
+
+```
+/*
+ * Topic: MX304 FPC with 10G tunnel services, eleven 100G ports and one 4x10G port
+ * Seen on:
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - Reserves 10G of PIC 0 bandwidth for tunnel services, runs eleven ports at 100G and channelises port 15 into four 10G sub-ports.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            tunnel-services {
+                bandwidth 10g;
+            }
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+            port 4 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+            port 6 {
+                speed 100g;
+            }
+            port 7 {
+                speed 100g;
+            }
+            port 10 {
+                speed 100g;
+            }
+            port 11 {
+                speed 100g;
+            }
+            port 12 {
+                speed 100g;
+            }
+            port 15 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx304-tunnel-10g-6x100g-3x4x10g.conf
+
+```
+/*
+ * Topic: MX304 FPC with 10G tunnel services, six 100G ports and three 4x10G ports
+ * Seen on:
+ *   Junos: wanedge1_mx304
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - Reserves 10G of PIC 0 bandwidth for tunnel services, runs six ports at 100G and channelises three ports into four 10G sub-ports each.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $FPC_SLOT   e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            tunnel-services {
+                bandwidth 10g;
+            }
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 3 {
+                speed 100g;
+            }
+            port 4 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+            port 9 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 11 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 13 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-tunnel-services-10g.conf
+
+```
+/*
+ * Topic: 10G tunnel services on a PIC
+ * Seen on:
+ *   Junos: ap1_mx304 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 4
+ * Highlights:
+ *  - Reserves 10G of PIC bandwidth for tunnel services.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $FPC_SLOT   e.g. 0
+ *   $PIC_SLOT   e.g. 0
+ */
+chassis {
     fpc $FPC_SLOT {
         pic $PIC_SLOT {
             tunnel-services {
-                bandwidth $TUNNEL_BW;
-            }
-            port $PORT_ID {
-                speed $PORT_SPEED;
-            }
-            port $BREAKOUT_PORT_ID {
-                number-of-sub-ports $BREAKOUT_SUB_PORTS;
-                speed $BREAKOUT_SPEED;
+                bandwidth 10g;
             }
         }
     }
+}
+```
+
+## junos/chassis/network-services-enhanced-ip.conf
+
+```
+/*
+ * Topic: Enhanced-IP network services mode
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 4
+ * Highlights:
+ *  - Sets the chassis network-services mode to enhanced IP.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
     network-services enhanced-ip;
 }
 ```
 
-## junos/cos/exp-classifiers-schedulers.conf
+## junos/class-of-service/classifiers/cl-exp-4class.conf
 
 ```
 /*
- * Topic:   MPLS EXP-based QoS — classifiers, forwarding classes, schedulers, and rewrite rules
+ * Topic: EXP classifier for the four-class model
  * Seen on:
  *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 3
  * Highlights:
- *  - 4 forwarding classes: FC-LLQ (strict-high, queue 2) for low-latency finance traffic,
- *    FC-HIGH (queue 1), CONTROL (queue 3), BEST-EFFORT (queue 0)
- *  - EXP classifier maps 3-bit MPLS EXP values to forwarding classes
- *  - EXP rewrite rule re-marks egress frames to preserve QoS across hops
- *  - scheduler-map applied per-interface with classifier + rewrite on each unit
- *  - FC-LLQ uses strict-high priority for deterministic low-latency forwarding
- *
+ *  - Maps MPLS EXP code points 000-011 to BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL, all at low loss priority.
  * Pair with:
- *  - junos/firewall/multicast-fwd-cache-filter.conf
- *  - junos/interfaces/physical-p2p-mpls.conf  (interfaces where CoS is applied)
- *  - junos/transport/mpls-lsp-p2mp.conf       (MPLS transport carrying marked traffic)
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
  *
- * Variables (example values from wanedge1_mx304):
- *   $INTERFACE_1     e.g. et-0/0/1
- *   $INTERFACE_2     e.g. et-0/0/3
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     classifiers {
         exp EXP {
@@ -961,27 +2452,128 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## junos/class-of-service/forwarding-classes/fc-4queue-model.conf
+
+```
+/*
+ * Topic: CoS forwarding classes (four-queue model)
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 3
+ * Highlights:
+ *  - BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL on queues 0-3; FC-LLQ is the low-latency queue that carries the market-data multicast.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     forwarding-classes {
         class FC-HIGH queue-num 1;
         class BEST-EFFORT queue-num 0;
         class CONTROL queue-num 3;
         class FC-LLQ queue-num 2;
     }
+}
+```
+
+## junos/class-of-service/interfaces/ifd-description-scheduler-map.conf
+
+```
+/*
+ * Topic: Interface scheduler-map application with a description
+ * Seen on:
+ *   Junos: wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - Applies `sched-map` to the interface and carries a description on the CoS interface entry.
+ * Pair with:
+ *  - junos/class-of-service/scheduler-maps/sm-4class-mapping.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from wanedge2_mx10004):
+ *   $COS_INTF      e.g. et-3/3/0
+ *   $DESCRIPTION   e.g. "Wanedge2_to_P2"
+ */
+class-of-service {
     interfaces {
-        $INTERFACE_1 {
+        $COS_INTF {
+            description $DESCRIPTION;
             scheduler-map sched-map;
-            unit 0 {
-                classifiers {
-                    exp EXP;
-                }
-                rewrite-rules {
-                    exp EXP_REWRITE;
-                }
-            }
         }
-        $INTERFACE_2 {
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifd-scheduler-map.conf
+
+```
+/*
+ * Topic: Interface scheduler-map application
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 5
+ *   wanedge1_mx304 3
+ *   wanedge2_mx10004 2
+ *   total 10
+ * Highlights:
+ *  - Applies `sched-map` to the physical or aggregated interface, so its queues are scheduled by the four-class model.
+ * Pair with:
+ *  - junos/class-of-service/scheduler-maps/sm-4class-mapping.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $COS_INTF   e.g. et-0/0/11
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
             scheduler-map sched-map;
-            unit 0 {
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf
+
+```
+/*
+ * Topic: Per-unit EXP classifier and rewrite application
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 3
+ *   wanedge1_mx304 2
+ *   wanedge2_mx10004 2
+ *   total 7
+ * Highlights:
+ *  - Classifies incoming MPLS traffic by EXP and rewrites EXP on egress for the unit, keeping the class across the core link.
+ * Pair with:
+ *  - junos/class-of-service/classifiers/cl-exp-4class.conf
+ *  - junos/class-of-service/rewrite-rules/rr-exp-4class.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $COS_INTF   e.g. et-0/0/3
+ *   $UNIT       e.g. 0
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
                 classifiers {
                     exp EXP;
                 }
@@ -991,6 +2583,31 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## junos/class-of-service/rewrite-rules/rr-exp-4class.conf
+
+```
+/*
+ * Topic: EXP rewrite rule for the four-class model
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 3
+ * Highlights:
+ *  - Marks each forwarding class with the same EXP code point the EXP classifier maps it from, so the class survives every MPLS hop.
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     rewrite-rules {
         exp EXP_REWRITE {
             forwarding-class FC-HIGH {
@@ -1007,6 +2624,32 @@ class-of-service {
             }
         }
     }
+}
+```
+
+## junos/class-of-service/scheduler-maps/sm-4class-mapping.conf
+
+```
+/*
+ * Topic: Scheduler map for the four-class model
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 3
+ * Highlights:
+ *  - Binds BEST-EFFORT, FC-HIGH, FC-LLQ and CONTROL to schedulers s0-s3.
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *  - junos/class-of-service/schedulers/sc-4class-rates.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     scheduler-maps {
         sched-map {
             forwarding-class BEST-EFFORT scheduler s0;
@@ -1015,69 +2658,88 @@ class-of-service {
             forwarding-class CONTROL scheduler s3;
         }
     }
+}
+```
+
+## junos/class-of-service/schedulers/sc-4class-rates.conf
+
+```
+/*
+ * Topic: Schedulers with transmit and shaping rates for the four-class model
+ * Seen on:
+ *   Junos: ap1_mx304 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 3
+ * Highlights:
+ *  - s2 (FC-LLQ) is strict-high priority; s1 and s3 are rate-limited and shaped; s0 (BEST-EFFORT) takes the remainder.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+class-of-service {
     schedulers {
         s0 {
+            transmit-rate {
+                remainder;
+            }
             priority low;
         }
         s1 {
+            transmit-rate percent 20;
+            shaping-rate percent 20;
             priority low;
         }
         s2 {
+            transmit-rate percent 40;
             priority strict-high;
         }
         s3 {
+            transmit-rate percent 20;
+            shaping-rate percent 20;
             priority low;
         }
     }
 }
 ```
 
-## junos/firewall/multicast-fwd-cache-filter.conf
+## junos/firewall/filter-mfc-filter-low-latency-class-count.conf
 
 ```
 /*
- * Topic:   Multicast forwarding-cache filters with destination-based CoS marking
+ * Topic: Interface-specific filter classifying a multicast group range into FC-LLQ with a counter
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   Junos: wanedge1_mx304
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   total 1
  * Highlights:
- *  - interface-specific allows per-IRB filter counters and statistics
- *  - mfc-filter: classifies 225.0.0.0/16 multicast to FC-LLQ (strict-high) for stock exchange
- *  - mfc-filter1/2/3: classify unicast VRF traffic into FC-HIGH / BEST-EFFORT / CONTROL
- *  - Applied as input filter on IRB interfaces to mark at L3 ingress before MPLS encap
- *  - Ensures multicast stock-exchange data gets low-latency queue treatment end-to-end
- *
+ *  - Traffic to the market-data multicast groups is counted and placed in the low-latency FC-LLQ class at low loss priority; everything else is accepted unchanged.
  * Pair with:
- *  - junos/multicast/forwarding-multicast-tuning.conf
- *  - junos/services/mvpn-instance.conf
- *  - junos/services/vrf-l3vpn.conf
- *  - junos/interfaces/irb-l3-gateway.conf      (filter applied on IRB input)
- *  - junos/cos/exp-classifiers-schedulers.conf  (forwarding classes referenced here)
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
  *
+ * Peers with: n/a
  * Variables (example values from wanedge1_mx304):
- *   $FILTER_NAME           e.g. mfc-filter
- *   $MCAST_DEST_PREFIX     e.g. 225.0.0.0/16
- *   $FORWARDING_CLASS      e.g. FC-LLQ
- *   $UNICAST_DEST_1        e.g. 10.8.21.2/32
- *   $UNICAST_DEST_2        e.g. 10.9.21.2/32
- *   $UNICAST_FWD_CLASS     e.g. FC-HIGH
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.0.0/16
  */
-
 firewall {
     family inet {
-        filter $FILTER_NAME {
+        filter mfc-filter {
             interface-specific;
             term stock_exch {
                 from {
                     destination-address {
-                        $MCAST_DEST_PREFIX;
+                        $MCAST_GROUP_V4_PFX;
                     }
                 }
                 then {
                     count c1;
                     loss-priority low;
-                    forwarding-class $FORWARDING_CLASS;
+                    forwarding-class FC-LLQ;
                 }
             }
             term accept-all-else {
@@ -1088,134 +2750,268 @@ firewall {
 }
 ```
 
-## junos/interfaces/flexible-vlan-subinterface.conf
+## junos/firewall/filter-mfc-filter-low-latency-class.conf
 
 ```
 /*
- * Topic:   Flexible VLAN-tagged subinterfaces with per-unit addressing
+ * Topic: Interface-specific filter classifying a multicast group range into FC-LLQ
  * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
+ *   Junos: wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge2_mx10004 1
+ *   total 1
  * Highlights:
- *  - flexible-vlan-tagging + flexible-ethernet-services enables mixed encapsulation per-unit
- *  - Each unit carries a distinct VLAN-ID and IPv4 /30 or /24 address for PE-CE connectivity
- *  - Used for per-VRF / per-virtual-router PE-CE links on CR devices
- *  - Multiple units (13+) on a single physical interface to scale VPN instances
- *
+ *  - Traffic to the market-data multicast groups is placed in the low-latency FC-LLQ class at low loss priority; everything else is accepted unchanged.
  * Pair with:
- *  - junos/services/virtual-router-instance.conf  (VR instances bind these subinterfaces)
- *  - junos/oam/twamp-client.conf                  (TWAMP probes use these as source)
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
  *
- * Variables (example values from cr2_mx480):
- *   $INTERFACE_NAME   e.g. et-5/0/0
- *   $DESCRIPTION      e.g. CR2_AP1
- *   $UNIT_ID          e.g. 1
- *   $VLAN_ID          e.g. 1
- *   $IPV4_ADDRESS     e.g. 10.101.49.2/30
+ * Peers with: n/a
+ * Variables (example values from wanedge2_mx10004):
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.0.0/16
  */
-
-interfaces {
-    $INTERFACE_NAME {
-        description "$DESCRIPTION";
-        flexible-vlan-tagging;
-        encapsulation flexible-ethernet-services;
-        unit $UNIT_ID {
-            vlan-id $VLAN_ID;
-            family inet {
-                address $IPV4_ADDRESS;
-            }
-        }
-    }
-}
-```
-
-## junos/interfaces/irb-l3-gateway.conf
-
-```
-/*
- * Topic:   IRB L3 gateway with multicast forwarding-cache filter and static MAC
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
- * Highlights:
- *  - IRB provides L3 gateway for EVPN bridge-domains (routed multicast ingress)
- *  - Input filter (mfc-filter) classifies multicast traffic into QoS forwarding classes
- *  - Static MAC per unit ensures deterministic gateway MAC across EVPN active/standby
- *  - One IRB unit per MVPN instance / EVPN bridge-domain
- *
- * Pair with:
- *  - junos/interfaces/lag-esi-lacp.conf
- *  - junos/services/vrf-l3vpn.conf
- *  - junos/services/evpn-virtual-switch-esi.conf  (bridge-domain routing-interface irb.N)
- *  - junos/services/mvpn-instance.conf            (MVPN instance binds interface irb.N)
- *  - junos/firewall/multicast-fwd-cache-filter.conf (mfc-filter applied here)
- *
- * Variables (example values from wanedge1_mx304):
- *   $UNIT_ID        e.g. 1
- *   $FILTER_NAME    e.g. mfc-filter
- *   $IPV4_ADDRESS   e.g. 172.16.1.1/24
- *   $STATIC_MAC     e.g. 00:10:94:00:00:01
- */
-
-interfaces {
-    irb {
-        unit $UNIT_ID {
-            family inet {
-                filter {
-                    input $FILTER_NAME;
+firewall {
+    family inet {
+        filter mfc-filter {
+            interface-specific;
+            term stock_exch {
+                from {
+                    destination-address {
+                        $MCAST_GROUP_V4_PFX;
+                    }
                 }
-                address $IPV4_ADDRESS;
+                then {
+                    loss-priority low;
+                    forwarding-class FC-LLQ;
+                }
             }
-            mac $STATIC_MAC;
+            term accept-all-else {
+                then accept;
+            }
         }
     }
 }
 ```
 
-## junos/interfaces/lag-esi-lacp.conf
+## junos/firewall/filter-mfc-filter1-fc-high.conf
 
 ```
 /*
- * Topic:   ESI-based LAG with LACP, single-active DF election, and vlan-bridge units
+ * Topic: Interface-specific filter classifying two destination hosts into FC-HIGH
  * Seen on:
  *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
  * Highlights:
- *  - Interface-level ESI with single-active redundancy for EVPN multihoming
- *  - df-election-granularity per-esi with lacp-oos-on-ndf takes non-DF link out-of-service
- *  - Per-unit ESI allows per-VLAN designated-forwarder assignment
- *  - LACP system-priority + system-id must match across ESI peers (wanedge1 + wanedge2)
- *  - vlan-bridge encapsulation on each unit ties into EVPN virtual-switch instances
- *
+ *  - Unicast traffic to the two listed hosts is placed in FC-HIGH at low loss priority; everything else is accepted unchanged.
  * Pair with:
- *  - junos/services/evpn-virtual-switch-esi.conf  (EVPN instances reference ae0 units)
- *  - junos/interfaces/irb-l3-gateway.conf         (IRB interfaces for L3 gateway)
- *  - junos/bootstrap/chassis-config.conf          (aggregated-devices device-count)
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
  *
+ * Peers with: n/a
  * Variables (example values from wanedge1_mx304):
- *   $AE_NAME             e.g. ae0
- *   $DESCRIPTION         e.g. Link to WANEdge1 to L2/L3Edge AE
- *   $MTU                 e.g. 1522
- *   $ESI_ID              e.g. 00:11:11:11:11:11:12:12:12:12
- *   $DF_PREFERENCE       e.g. 150
- *   $LACP_PRIORITY       e.g. 100
- *   $LACP_SYSTEM_ID      e.g. 00:00:00:00:00:10
- *   $VLAN_ID             e.g. 1
- *   $UNIT_ESI            e.g. 00:01:71:81:11:12:a1:00:00:01
- *   $UNIT_DF_PREFERENCE  e.g. 150
+ *   $MATCH_DEST_V4_PFX_1   e.g. 10.8.21.2/32
+ *   $MATCH_DEST_V4_PFX_2   e.g. 10.9.21.2/32
  */
+firewall {
+    family inet {
+        filter mfc-filter1 {
+            interface-specific;
+            term stock_exch {
+                from {
+                    destination-address {
+                        $MATCH_DEST_V4_PFX_1;
+                        $MATCH_DEST_V4_PFX_2;
+                    }
+                }
+                then {
+                    loss-priority low;
+                    forwarding-class FC-HIGH;
+                }
+            }
+            term accept-all-else {
+                then accept;
+            }
+        }
+    }
+}
+```
 
+## junos/firewall/filter-mfc-filter2-best-effort.conf
+
+```
+/*
+ * Topic: Interface-specific filter classifying two destination hosts into BEST-EFFORT
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - Unicast traffic to the two listed hosts is placed in BEST-EFFORT at low loss priority; everything else is accepted unchanged.
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $MATCH_DEST_V4_PFX_1   e.g. 10.8.22.2/32
+ *   $MATCH_DEST_V4_PFX_2   e.g. 10.9.22.2/32
+ */
+firewall {
+    family inet {
+        filter mfc-filter2 {
+            interface-specific;
+            term stock_exch {
+                from {
+                    destination-address {
+                        $MATCH_DEST_V4_PFX_1;
+                        $MATCH_DEST_V4_PFX_2;
+                    }
+                }
+                then {
+                    loss-priority low;
+                    forwarding-class BEST-EFFORT;
+                }
+            }
+            term accept-all-else {
+                then accept;
+            }
+        }
+    }
+}
+```
+
+## junos/firewall/filter-mfc-filter3-control.conf
+
+```
+/*
+ * Topic: Interface-specific filter classifying two destination hosts into CONTROL
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - Unicast traffic to the two listed hosts is placed in CONTROL at low loss priority; everything else is accepted unchanged.
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-4queue-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $MATCH_DEST_V4_PFX_1   e.g. 10.8.23.2/32
+ *   $MATCH_DEST_V4_PFX_2   e.g. 10.9.23.2/32
+ */
+firewall {
+    family inet {
+        filter mfc-filter3 {
+            interface-specific;
+            term stock_exch {
+                from {
+                    destination-address {
+                        $MATCH_DEST_V4_PFX_1;
+                        $MATCH_DEST_V4_PFX_2;
+                    }
+                }
+                then {
+                    loss-priority low;
+                    forwarding-class CONTROL;
+                }
+            }
+            term accept-all-else {
+                then accept;
+            }
+        }
+    }
+}
+```
+
+## junos/forwarding-options/multicast-resolve-rate-mismatch-rate.conf
+
+```
+/*
+ * Topic: Multicast resolve and RPF-mismatch rate limits
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - Sets the multicast forwarding-cache `resolve-rate` and `mismatch-rate` limits to 1000.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+forwarding-options {
+    multicast {
+        resolve-rate 1000;
+        mismatch-rate 1000;
+    }
+}
+```
+
+## junos/forwarding-options/multicast-resolve-rate.conf
+
+```
+/*
+ * Topic: Multicast resolve rate limit
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - Sets the multicast forwarding-cache `resolve-rate` limit to 1000.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+forwarding-options {
+    multicast {
+        resolve-rate 1000;
+    }
+}
+```
+
+## junos/interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp.conf
+
+```
+/*
+ * Topic: Described single-active ESI-LAG with flexible VLAN tagging, MTU 1522, per-ESI DF election and LACP
+ * Seen on:
+ *   Junos: wanedge1_mx304
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - The Ethernet segment is single-active: `lacp-oos-on-ndf` holds the non-designated forwarder's LACP members out of service so the downstream switch sends only to the DF.
+ *  - `df-election-type preference` makes the DF choice deterministic; both WAN edges share the `system-id` so the switch sees one LAG.
+ * Pair with: none
+ * Variables (example values from wanedge1_mx304):
+ *   $IFD             e.g. ae0
+ *   $DESCRIPTION     e.g. "Link to WANEdge1 to L2/L3Edge AE"
+ *   $ESI             e.g. 00:11:11:11:11:11:12:12:12:12
+ *   $DF_PREFERENCE   e.g. 150
+ *   $LACP_SYS_ID     e.g. 00:00:00:00:00:10
+ */
 interfaces {
-    $AE_NAME {
-        description "$DESCRIPTION";
+    $IFD {
+        description $DESCRIPTION;
         flexible-vlan-tagging;
-        mtu $MTU;
+        mtu 1522;
         encapsulation flexible-ethernet-services;
         esi {
-            $ESI_ID;
+            $ESI;
             single-active;
             df-election-granularity {
                 per-esi {
@@ -1231,113 +3027,182 @@ interfaces {
         aggregated-ether-options {
             lacp {
                 active;
-                system-priority $LACP_PRIORITY;
-                system-id $LACP_SYSTEM_ID;
-            }
-        }
-        unit $VLAN_ID {
-            encapsulation vlan-bridge;
-            vlan-id $VLAN_ID;
-            esi {
-                $UNIT_ESI;
-                single-active;
-                df-election-type {
-                    preference {
-                        value $UNIT_DF_PREFERENCE;
-                    }
-                }
+                system-priority 100;
+                system-id $LACP_SYS_ID;
             }
         }
     }
 }
 ```
 
-## junos/interfaces/loopback-multi-af.conf
+## junos/interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp.conf
 
 ```
 /*
- * Topic:   Loopback interface with IPv4, ISO, and IPv6 address families
+ * Topic: Single-active ESI-LAG with flexible VLAN tagging, MTU 1522, per-ESI DF election and LACP
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004 cr2_mx480
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr cr1_acx7100-48l l2-l3_edge_acx7100
- *
+ *   Junos: wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge2_mx10004 1
+ *   total 1
  * Highlights:
- *  - Primary/preferred IPv4 used as router-id and BGP local-address
- *  - ISO address required for OSPF/IS-IS CLNS adjacency
- *  - IPv6 primary enables dual-stack management and IPv6 BGP peering
- *  - 127.0.0.x addresses used for internal loopback functions
- *
- * Pair with:
- *  - junos/transport/ibgp-core-mesh.conf       (local-address sourced from lo0)
- *  - junos/transport/ospf-te-protection.conf   (lo0 passive interface in area 0)
- *
+ *  - The Ethernet segment is single-active: `lacp-oos-on-ndf` holds the non-designated forwarder's LACP members out of service so the downstream switch sends only to the DF.
+ *  - `df-election-type preference` makes the DF choice deterministic; both WAN edges share the `system-id` so the switch sees one LAG.
+ * Pair with: none
+ * Variables (example values from wanedge2_mx10004):
+ *   $IFD             e.g. ae0
+ *   $ESI             e.g. 00:11:11:11:11:11:12:12:12:12
+ *   $DF_PREFERENCE   e.g. 100
+ *   $LACP_SYS_ID     e.g. 00:00:00:00:00:10
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        mtu 1522;
+        encapsulation flexible-ethernet-services;
+        esi {
+            $ESI;
+            single-active;
+            df-election-granularity {
+                per-esi {
+                    lacp-oos-on-ndf;
+                }
+            }
+            df-election-type {
+                preference {
+                    value $DF_PREFERENCE;
+                }
+            }
+        }
+        aggregated-ether-options {
+            lacp {
+                active;
+                system-priority 100;
+                system-id $LACP_SYS_ID;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-description.conf
+
+```
+/*
+ * Topic: Physical interface description
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 2
+ *   ap2_mx10004 3
+ *   wanedge1_mx304 2
+ *   wanedge2_mx10004 2
+ *   total 9
+ * Highlights:
+ *  - Names the far end of the link; the logical units beneath it are separate fragments.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from ap1_mx304):
- *   $ROUTER_ID_ADDRESS   e.g. 10.200.50.13/32
- *   $MGMT_LOOPBACK       e.g. 10.255.163.148/32
- *   $ISO_ADDRESS         e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5516.3148.00
- *   $IPV6_ADDRESS        e.g. 2001:db8::10:255:163:148/128
+ *   $IFD           e.g. et-0/0/5
+ *   $DESCRIPTION   e.g. "AP1_AP2"
  */
-
 interfaces {
-    lo0 {
-        unit 0 {
-            family inet {
-                address $ROUTER_ID_ADDRESS {
-                    primary;
-                    preferred;
-                }
-                address 127.0.0.1/32;
-                address 127.0.0.64/32;
-                address $MGMT_LOOPBACK {
-                    primary;
-                }
-            }
-            family iso {
-                address $ISO_ADDRESS;
-            }
-            family inet6 {
-                address $IPV6_ADDRESS {
-                    primary;
-                }
-            }
+    $IFD {
+        description $DESCRIPTION;
+    }
+}
+```
+
+## junos/interfaces/ifd-flexible-ethernet-services-description.conf
+
+```
+/*
+ * Topic: Physical port with a description, flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 2
+ *   ap2_mx10004 2
+ *   cr2_mx480 3
+ *   total 7
+ * Highlights:
+ *  - `flexible-vlan-tagging` with `flexible-ethernet-services` lets each VLAN unit on the port carry its own family, one routed unit per VRF or virtual router.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $IFD           e.g. et-0/0/11
+ *   $DESCRIPTION   e.g. "AP1_CR1"
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## junos/interfaces/ifd-lag-member-gigether-description.conf
+
+```
+/*
+ * Topic: Described member link of an aggregated-Ethernet bundle (gigether-options)
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - `gigether-options 802.3ad` assigns the port to its bundle; every Layer 2 setting lives on the `ae` interface.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $IFD           e.g. xe-0/0/13:0
+ *   $DESCRIPTION   e.g. "Link to WANEdge1 to L2/L3Edge"
+ *   $AE_BUNDLE     e.g. ae0
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        gigether-options {
+            802.3ad $AE_BUNDLE;
         }
     }
 }
 ```
 
-## junos/interfaces/physical-p2p-mpls.conf
+## junos/interfaces/ifl-core-description-inet-iso-mpls.conf
 
 ```
 /*
- * Topic:   Core point-to-point interfaces with inet/ISO/MPLS families
+ * Topic: Described core logical interface with IPv4, ISO and MPLS
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
  * Highlights:
- *  - Multi-protocol family (inet + ISO + MPLS) on every core-facing link
- *  - ISO enables IS-IS/CLNS routing; MPLS enables label switching
- *  - /24 point-to-point addressing convention for inter-router links
- *
- * Pair with:
- *  - junos/cos/exp-classifiers-schedulers.conf
- *  - junos/transport/ospf-te-protection.conf  (OSPF runs over these interfaces)
- *  - junos/transport/mpls-lsp-p2mp.conf       (MPLS LSPs traverse these interfaces)
- *  - junos/transport/rsvp-signaling.conf      (RSVP signaling on these interfaces)
- *  - junos/bootstrap/chassis-config.conf      (port speed defined at chassis level)
- *
- * Variables (example values from wanedge1_mx304):
- *   $INTERFACE_NAME   e.g. et-0/0/1
- *   $DESCRIPTION      e.g. Link to WANEdge1 to WANEdge2
- *   $IPV4_ADDRESS     e.g. 10.101.25.1/24
+ *  - Carries the OSPF/RSVP-TE underlay (IPv4) and MPLS-labelled traffic; the description names the far end.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $IFD            e.g. et-0/0/7
+ *   $UNIT           e.g. 0
+ *   $DESCRIPTION    e.g. "AP1_P2"
+ *   $CORE_V4_ADDR   e.g. 10.101.46.1/24
  */
-
 interfaces {
-    $INTERFACE_NAME {
-        description "$DESCRIPTION";
-        unit 0 {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
             family inet {
-                address $IPV4_ADDRESS;
+                address $CORE_V4_ADDR;
             }
             family iso;
             family mpls;
@@ -1346,643 +3211,539 @@ interfaces {
 }
 ```
 
-## junos/multicast/forwarding-multicast-tuning.conf
+## junos/interfaces/ifl-core-inet-iso-mpls.conf
 
 ```
 /*
- * Topic:   Multicast forwarding-options tuning — resolve-rate and mismatch-rate
+ * Topic: Core logical interface with IPv4, ISO and MPLS
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   (none)
- *
+ *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 2
+ *   ap2_mx10004 3
+ *   wanedge1_mx304 2
+ *   wanedge2_mx10004 2
+ *   total 9
  * Highlights:
- *  - resolve-rate 1000 pps: max rate for resolving new multicast (S,G) entries in the PFE
- *  - mismatch-rate 1000 pps: max rate for handling RPF mismatch packets to RE
- *  - Critical for finance/stock-exchange multicast to prevent PFE drops during burst joins
- *  - Default values (~100 pps) are insufficient for high-frequency multicast environments
- *
- * Pair with:
- *  - junos/services/mvpn-instance.conf              (MVPN drives multicast state creation)
- *  - junos/firewall/multicast-fwd-cache-filter.conf (CoS marking for multicast traffic)
- *
- * Variables (example values from wanedge1_mx304):
- *   $RESOLVE_RATE    e.g. 1000
- *   $MISMATCH_RATE   e.g. 1000
- */
-
-forwarding-options {
-    multicast {
-        resolve-rate $RESOLVE_RATE;
-        mismatch-rate $MISMATCH_RATE;
-    }
-}
-```
-
-## junos/oam/lldp-discovery.conf
-
-```
-/*
- * Topic:   LLDP protocol enabled on all interfaces for neighbor discovery
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004 cr2_mx480
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr cr1_acx7100-48l l2-l3_edge_acx7100
- *
- * Highlights:
- *  - "interface all" enables LLDP on every physical port
- *  - Essential for topology discovery and cable verification
- *  - No per-interface filtering or hold-time tuning in this JVD
- *
- * Variables (example values from wanedge1_mx304):
- *   (no variables — static config)
- */
-
-protocols {
-    lldp {
-        interface all;
-    }
-}
-```
-
-## junos/oam/twamp-client.conf
-
-```
-/*
- * Topic:   TWAMP client with per-virtual-router control connections and test sessions
- * Seen on:
- *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
- * Highlights:
- *  - TWAMP client (RFC 5357) probes AP reflectors for per-VRF latency/jitter measurement
- *  - One control-connection per VR targeting each AP server (dual-homed: AP1 + AP2)
- *  - routing-instance scoping ensures probes originate from the correct VRF
- *  - probe-count 100 at probe-interval 1s for continuous 100-second measurement cycles
- *  - test-count 0 means infinite test iterations (continuous monitoring)
- *  - destination-port per connection matches server routing-instance-list port mapping
- *
- * Pair with:
- *  - junos/services/virtual-router-instance.conf    (VR instances where probes originate)
- *  - junos/interfaces/flexible-vlan-subinterface.conf (PE-CE links carrying probes)
- *
- * Variables (example values from cr2_mx480):
- *   $CONNECTION_NAME     e.g. CR24_1
- *   $DEST_PORT           e.g. 862
- *   $ROUTING_INSTANCE    e.g. VIRTUAL-ROUTER-V1
- *   $TARGET_ADDRESS      e.g. 10.101.49.1
- *   $TEST_SESSION_NAME   e.g. T24_1
- *   $PROBE_COUNT         e.g. 100
- *   $PROBE_INTERVAL      e.g. 1
- */
-
-services {
-    rpm {
-        twamp {
-            client {
-                control-connection $CONNECTION_NAME {
-                    control-type managed;
-                    destination-port $DEST_PORT;
-                    routing-instance $ROUTING_INSTANCE;
-                    target-address $TARGET_ADDRESS;
-                    test-count 0;
-                    test-session $TEST_SESSION_NAME {
-                        target-address $TARGET_ADDRESS;
-                        probe-count $PROBE_COUNT;
-                        probe-interval $PROBE_INTERVAL;
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-## junos/oam/twamp-server.conf
-
-```
-/*
- * Topic:   TWAMP server with per-VRF port mappings and client authentication lists
- * Seen on:
- *   Junos: ap1_mx304 ap2_mx10004
- *   EVO:   (none)
- *
- * Highlights:
- *  - TWAMP server (RFC 5357) provides reflector endpoints for latency/jitter measurement
- *  - routing-instance-list maps each MVPN/VRF to a unique port (862 + 49152-49163)
- *  - Per-client address lists (CR1_N, CR2_N) restrict which probers can connect
- *  - authentication-mode none for minimal overhead in controlled lab/DC environment
- *  - "light" mode enables lightweight TWAMP-Light without full control session
- *  - Port 1862 as global server port for non-VRF probes
- *
- * Pair with:
- *  - junos/services/mvpn-instance.conf   (VRF instances whose latency is monitored)
- *
+ *  - Carries the OSPF/RSVP-TE underlay (IPv4) and MPLS-labelled traffic on the core link.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from ap1_mx304):
- *   $VRF_NAME_1          e.g. MVPN_INSTANCE1
- *   $VRF_PORT_1          e.g. 862
- *   $VRF_NAME_2          e.g. MVPN_INSTANCE2
- *   $VRF_PORT_2          e.g. 49152
- *   $GLOBAL_PORT         e.g. 1862
- *   $CLIENT_LIST_NAME    e.g. CR1_1
- *   $CLIENT_ADDRESS      e.g. 10.101.48.2/32
+ *   $IFD            e.g. et-0/0/3
+ *   $UNIT           e.g. 0
+ *   $CORE_V4_ADDR   e.g. 10.101.34.2/24
  */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family mpls;
+        }
+    }
+}
+```
 
-services {
-    rpm {
-        twamp {
-            server {
-                routing-instance-list {
-                    $VRF_NAME_1 {
-                        port $VRF_PORT_1;
-                    }
-                    $VRF_NAME_2 {
-                        port $VRF_PORT_2;
-                    }
+## junos/interfaces/ifl-core-iso-mpls.conf
+
+```
+/*
+ * Topic: Logical interface with ISO and MPLS families
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - Enables MPLS and ISO on the unit without an IPv4 address.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap2_mx10004):
+ *   $IFD    e.g. et-3/3/0
+ *   $UNIT   e.g. 0
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family iso;
+            family mpls;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-irb-filter-mac.conf
+
+```
+/*
+ * Topic: IRB unit with an IPv4 address, an input filter and a static MAC
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 13
+ *   wanedge2_mx10004 13
+ *   total 26
+ * Highlights:
+ *  - Layer 3 gateway of the EVPN bridge domain inside the VRF; the input filter classifies the traffic into its forwarding class.
+ *  - Both WAN edges configure the same address and MAC on the IRB, so the gateway is identical on whichever edge is designated forwarder.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $UNIT           e.g. 1
+ *   $INPUT_FILTER   e.g. mfc-filter
+ *   $IRB_ADDR       e.g. 172.16.1.1/24
+ *   $STATIC_MAC     e.g. 00:10:94:00:00:01
+ */
+interfaces {
+    irb {
+        unit $UNIT {
+            family inet {
+                filter {
+                    input $INPUT_FILTER;
                 }
-                authentication-mode none;
-                port $GLOBAL_PORT;
-                client-list $CLIENT_LIST_NAME {
-                    address {
-                        $CLIENT_ADDRESS;
-                    }
-                }
-                light;
+                address $IRB_ADDR;
+            }
+            mac $STATIC_MAC;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-anycast-inet.conf
+
+```
+/*
+ * Topic: VRF loopback unit with an anycast IPv4 address and a node address
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 9
+ *   wanedge2_mx10004 10
+ *   total 19
+ * Highlights:
+ *  - Both WAN edges configure the first address on the same unit and use it as the local RP of the VRF; the second address differs per WAN edge.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from wanedge1_mx304):
+ *   $UNIT                  e.g. 1
+ *   $LOOPBACK_ANYCAST_V4   e.g. 10.10.47.101
+ *   $LOOPBACK_V4_PFX       e.g. 10.20.20.20/32
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_ANYCAST_V4/32;
+                address $LOOPBACK_V4_PFX;
             }
         }
     }
 }
 ```
 
-## junos/policy/protocol-redistribution.conf
+## junos/interfaces/ifl-loopback-inet.conf
 
 ```
 /*
- * Topic:   Routing policy statements for BGP/OSPF/direct protocol redistribution
+ * Topic: VRF loopback unit with one IPv4 address
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 10
+ *   ap2_mx10004 10
+ *   wanedge1_mx304 1
+ *   total 21
  * Highlights:
- *  - PS-ADV_DIRECT: redistributes directly-connected routes into BGP
- *  - PS-BGP-TO-OSPF: leaks BGP-learned routes into OSPF (for CE reachability)
- *  - PS-send-ospf: exports OSPF routes into BGP for VPN distribution
- *  - Simple accept-all policies — no route-filtering or manipulation
- *
- * Pair with:
- *  - junos/policy/route-filter-med.conf
- *  - junos/transport/ibgp-core-mesh.conf  (export policies referenced in BGP group)
- *
- * Variables (example values from wanedge1_mx304):
- *   $DIRECT_POLICY_NAME   e.g. PS-ADV_DIRECT
- *   $BGP_TO_OSPF_NAME     e.g. PS-BGP-TO-OSPF
- *   $OSPF_TO_BGP_NAME     e.g. PS-send-ospf
+ *  - The VRF names the unit in OSPF and PIM.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $UNIT              e.g. 1
+ *   $LOOPBACK_V4_PFX   e.g. 10.10.4.101/32
  */
-
-policy-options {
-    policy-statement $DIRECT_POLICY_NAME {
-        from protocol direct;
-        then accept;
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX;
+            }
+        }
     }
-    policy-statement $BGP_TO_OSPF_NAME {
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-localhost-mgmt-iso-inet6.conf
+
+```
+/*
+ * Topic: Loopback with primary, localhost and management IPv4 addresses, ISO and IPv6
+ * Seen on:
+ *   Junos: ap1_mx304 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 4
+ * Highlights:
+ *  - Carries the design loopback (primary, preferred, equal to the router ID), 127.0.0.1 and the management loopback (primary), plus ISO and IPv6 addresses.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $LOOPBACK_V4_PFX        e.g. 10.200.50.14/32
+ *   $LOOPBACK_MGMT_V4_PFX   e.g. 10.255.161.231/32
+ *   $ISO_NET                e.g. 47.0005.80ff.f800.0000.0108.0001.0102.5516.1231.00
+ *   $LOOPBACK_V6_PFX        e.g. 2001:db8::10:255:161:231/128
+ */
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                    preferred;
+                }
+                address 127.0.0.1/32;
+                address $LOOPBACK_MGMT_V4_PFX {
+                    primary;
+                }
+            }
+            family iso {
+                address $ISO_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-preferred.conf
+
+```
+/*
+ * Topic: Loopback with one primary, preferred IPv4 address
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - The address equals the router ID and the iBGP local address.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap2_mx10004):
+ *   $LOOPBACK_V4_PFX   e.g. 10.200.50.16/32
+ */
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                    preferred;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-bridge-esi-single-active.conf
+
+```
+/*
+ * Topic: Single-VLAN vlan-bridge unit with a single-active per-unit ESI and DF preference
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 13
+ *   wanedge2_mx10004 13
+ *   total 26
+ * Highlights:
+ *  - Each VLAN unit carries its own Ethernet segment, so DF election runs per VLAN between the two WAN edges.
+ * Pair with: none
+ * Peers with:
+ *   [wanedge1_mx304] <-> [wanedge2_mx10004]
+ * Variables (example values from wanedge1_mx304):
+ *   $IFD             e.g. ae0
+ *   $UNIT            e.g. 1
+ *   $VLAN            e.g. 1
+ *   $ESI             e.g. 00:01:71:81:11:12:a1:00:00:01
+ *   $DF_PREFERENCE   e.g. 150
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                single-active;
+                df-election-type {
+                    preference {
+                        value $DF_PREFERENCE;
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic: Tagged routed unit with an IPv4 address (VLAN sub-interface)
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 27
+ *   ap2_mx10004 26
+ *   cr2_mx480 39
+ *   total 92
+ * Highlights:
+ *  - One VLAN unit per VRF or virtual router on the PE-CE link; the unit belongs to that routing instance.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $IFD          e.g. et-0/0/11
+ *   $UNIT         e.g. 100
+ *   $VLAN         e.g. 100
+ *   $AC_ADDR_V4   e.g. 10.101.200.1/24
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-accept-bgp.conf
+
+```
+/*
+ * Topic: Policy accepting BGP routes
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Used as a protocol export to redistribute BGP-learned routes.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $POLICY_NAME   e.g. PS-BGP-TO-OSPF
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
         from protocol bgp;
         then accept;
     }
-    policy-statement $OSPF_TO_BGP_NAME {
+}
+```
+
+## junos/policy-options/policy-statement/ps-accept-direct.conf
+
+```
+/*
+ * Topic: Policy accepting directly connected routes
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Applied as the `export` of the PE-CE eBGP groups in the VRFs.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $POLICY_NAME   e.g. PS-ADV_DIRECT
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from protocol direct;
+        then accept;
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-accept-ospf.conf
+
+```
+/*
+ * Topic: Policy accepting OSPF routes
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Used as a protocol export to redistribute OSPF-learned routes.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $POLICY_NAME   e.g. PS-send-ospf
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
         from protocol ospf;
         then accept;
     }
 }
 ```
 
-## junos/policy/route-filter-med.conf
+## junos/policy-options/policy-statement/ps-default-longer-metric-30.conf
 
 ```
 /*
- * Topic:   Route-filter-based MED metric assignment for BGP export
+ * Topic: Policy setting metric 30 on every IPv4 route
  * Seen on:
  *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
+ *   EVO: (none)
+ * Count:
+ *   cr2_mx480 1
+ *   total 1
  * Highlights:
- *  - PS-med-10: assigns MED 10 to specific infrastructure prefix (preferred path)
- *  - PS-med-30: assigns MED 30 to all other prefixes (less-preferred backup)
- *  - Used as export policy in virtual-router BGP groups to influence AP path selection
- *  - route-filter with "exact" match for precise prefix control
- *
- * Pair with:
- *  - junos/services/virtual-router-instance.conf  (BGP group references these as export)
- *  - junos/policy/protocol-redistribution.conf    (other policies in same policy-options)
- *
+ *  - As a BGP export it advertises all remaining routes with MED 30, the less preferred path in the MED-based steering design.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from cr2_mx480):
- *   $MED_LOW_NAME       e.g. PS-med-10
- *   $MED_LOW_PREFIX     e.g. 10.101.0.0/16
- *   $MED_LOW_VALUE      e.g. 10
- *   $MED_HIGH_NAME      e.g. PS-med-30
- *   $MED_HIGH_VALUE     e.g. 30
+ *   $POLICY_NAME   e.g. PS-med-30
  */
-
 policy-options {
-    policy-statement $MED_LOW_NAME {
-        from {
-            route-filter $MED_LOW_PREFIX exact;
-        }
-        then {
-            metric $MED_LOW_VALUE;
-            accept;
-        }
-    }
-    policy-statement $MED_HIGH_NAME {
+    policy-statement $POLICY_NAME {
         from {
             route-filter 0.0.0.0/0 longer;
         }
         then {
-            metric $MED_HIGH_VALUE;
+            metric 30;
             accept;
         }
     }
 }
 ```
 
-## junos/services/evpn-virtual-switch-esi.conf
+## junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
 
 ```
 /*
- * Topic:   EVPN virtual-switch instance with MPLS encapsulation and bridge-domain
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
- * Highlights:
- *  - instance-type virtual-switch: provides per-tenant MAC/VLAN isolation
- *  - EVPN with MPLS encapsulation for Type-2 MAC/IP and Type-3 IM route exchange
- *  - default-gateway do-not-advertise: suppresses gateway MAC advertisement (anycast not used)
- *  - no-control-word: omits 4-byte control word for compatibility with older MPLS nodes
- *  - bridge-domain binds ESI LAG unit + IRB routing-interface for integrated routing/bridging
- *  - One virtual-switch instance per VLAN/service (EVPN_ESI_LAG1 through LAG23)
- *
- * Pair with:
- *  - junos/interfaces/lag-esi-lacp.conf     (ae0 units referenced in bridge-domains)
- *  - junos/interfaces/irb-l3-gateway.conf   (IRB routing-interface for L3 gateway)
- *  - junos/services/mvpn-instance.conf      (MVPN uses same IRB for multicast ingress)
- *
- * JVD service mapping:
- *   13 instances total (high 13 / med 0 / low 0)
- *   On devices: wanedge1_mx304 (13), wanedge2_mx10004 (13)
- *   Example: EVPN_ESI_LAG1 (RD 10.200.50.12:1, RT target:61535:1)
- *     wanedge1_mx304  ae0.1 00:11:11:11:11:11:12:12:12:12 S-A
- *     wanedge2_mx10004  ae0.1 00:11:11:11:11:11:12:12:12:12 S-A
- *
- * Variables (example values from wanedge1_mx304):
- *   $INSTANCE_NAME         e.g. EVPN_ESI_LAG1
- *   $BD_NAME               e.g. BD_EVPN_GROUP1
- *   $VLAN_ID               e.g. 1
- *   $AE_UNIT               e.g. ae0.1
- *   $IRB_UNIT              e.g. irb.1
- *   $ROUTE_DISTINGUISHER   e.g. 10.200.50.12:1
- *   $VRF_TARGET            e.g. target:61535:1
- */
-
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type virtual-switch;
-        protocols {
-            evpn {
-                encapsulation mpls;
-                default-gateway do-not-advertise;
-                no-control-word;
-            }
-        }
-        bridge-domains {
-            $BD_NAME {
-                vlan-id $VLAN_ID;
-                interface $AE_UNIT;
-                routing-interface $IRB_UNIT;
-            }
-        }
-        route-distinguisher $ROUTE_DISTINGUISHER;
-        vrf-target $VRF_TARGET;
-    }
-}
-```
-
-## junos/services/mvpn-instance.conf
-
-```
-/*
- * Topic:   NG-MVPN VRF instance with PIM, OSPF, BGP, and RSVP-TE provider-tunnel
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
- * Highlights:
- *  - instance-type vrf with mvpn protocol for NG-MVPN (RFC 6513/6514)
- *  - mvpn-mode spt-only: shortest-path-tree only (no shared-tree), optimal for finance
- *  - hot-root-standby with source-tree: pre-builds backup multicast tree for fast failover
- *  - min-rate 3m + revert-delay 5: traffic threshold and holdoff for standby activation
- *  - sender-based-rpf: validates multicast source via BGP MVPN routes (not RPF on IGP)
- *  - PIM local RP with per-instance multicast group-ranges (225.0.x.0/22 per VRF)
- *  - provider-tunnel rsvp-te with default-template: uses P2MP LSP for multicast transport
- *  - Per-VRF OSPF for CE route distribution + BGP eBGP for traffic-generator peering
- *
- * Pair with:
- *  - junos/bootstrap/chassis-config.conf
- *  - junos/oam/twamp-server.conf
- *  - junos/services/evpn-virtual-switch-esi.conf
- *  - junos/transport/mpls-lsp-p2mp.conf               (P2MP template referenced)
- *  - junos/interfaces/irb-l3-gateway.conf             (IRB interface bound to this VRF)
- *  - junos/multicast/forwarding-multicast-tuning.conf (multicast PFE rate-limiting)
- *  - junos/firewall/multicast-fwd-cache-filter.conf   (CoS marking on multicast ingress)
- *
- * JVD service mapping:
- *   10 instances total (high 10 / med 0 / low 0)
- *   On devices: ap1_mx304 (10), ap2_mx10004 (10), wanedge1_mx304 (10), wanedge2_mx10004 (10)
- *   Example: MVPN_INSTANCE1 (RD 10.200.50.14:61, RT target:64512:11)
- *     ap1_mx304  et-0/0/6.1
- *     ap2_mx10004  et-0/0/2.1
- *     wanedge1_mx304
- *     wanedge2_mx10004
- *
- * Variables (example values from wanedge1_mx304):
- *   $INSTANCE_NAME       e.g. MVPN_INSTANCE1
- *   $CE_LOCAL_ADDRESS    e.g. 172.16.1.1
- *   $CE_NEIGHBOR         e.g. 172.16.1.2
- *   $CE_PEER_AS          e.g. 64513
- *   $MVPN_RT_IMPORT      e.g. target:64512:101
- *   $MVPN_RT_EXPORT      e.g. target:64512:101
- *   $RP_ADDRESS          e.g. 10.10.47.101
- *   $MCAST_GROUP_RANGE   e.g. 225.0.0.0/22
- *   $IRB_UNIT            e.g. irb.1
- *   $LO_UNIT             e.g. lo0.1
- *   $ROUTE_DISTINGUISHER e.g. 10.200.50.12:61
- *   $VRF_TARGET          e.g. target:64512:11
- */
-
-routing-instances {
-    $INSTANCE_NAME {
-        instance-type vrf;
-        protocols {
-            bgp {
-                group custA_TGN {
-                    type external;
-                    local-address $CE_LOCAL_ADDRESS;
-                    export PS-ADV_DIRECT;
-                    neighbor $CE_NEIGHBOR {
-                        peer-as $CE_PEER_AS;
-                    }
-                }
-            }
-            mvpn {
-                sender-site;
-                mvpn-mode {
-                    spt-only;
-                }
-                route-target {
-                    import-target {
-                        target $MVPN_RT_IMPORT;
-                    }
-                    export-target {
-                        target $MVPN_RT_EXPORT;
-                    }
-                }
-                sender-based-rpf;
-                hot-root-standby {
-                    source-tree;
-                    min-rate {
-                        rate 3m;
-                        revert-delay 5;
-                    }
-                }
-            }
-            ospf {
-                area 0.0.0.0 {
-                    interface $LO_UNIT;
-                }
-                export PS-send-ospf;
-            }
-            pim {
-                join-prune-timeout 420;
-                rp {
-                    local {
-                        address $RP_ADDRESS;
-                        group-ranges {
-                            $MCAST_GROUP_RANGE;
-                        }
-                    }
-                }
-                interface $IRB_UNIT;
-                interface $LO_UNIT;
-            }
-        }
-        interface $IRB_UNIT;
-        interface $LO_UNIT;
-        route-distinguisher $ROUTE_DISTINGUISHER;
-        vrf-target $VRF_TARGET;
-        vrf-table-label;
-        provider-tunnel {
-            rsvp-te {
-                label-switched-path-template {
-                    default-template;
-                }
-            }
-        }
-    }
-}
-```
-
-## junos/services/virtual-router-instance.conf
-
-```
-/*
- * Topic:   Virtual-router instance with BGP, PIM sparse-mode, and multicast RP
+ * Topic: Policy setting metric 10 on one exact prefix
  * Seen on:
  *   Junos: cr2_mx480
- *   EVO:   cr1_acx7100-48l
- *
+ *   EVO: (none)
+ * Count:
+ *   cr2_mx480 1
+ *   total 1
  * Highlights:
- *  - instance-type virtual-router: full routing table isolation without MPLS VPN signaling
- *  - eBGP group "AP" peers to both AP nodes with MED export policy for path preference
- *  - iBGP group "IXIA" for traffic-generator peering within the VR
- *  - PIM sparse-mode with static RP pointing to AP node's loopback (multicast receiver side)
- *  - Each VR gets unique multicast group-ranges matching the MVPN sender's PIM RP config
- *  - VRFs V21/V22/V23 omit PIM (unicast-only traffic classes)
- *
- * Pair with:
- *  - junos/interfaces/flexible-vlan-subinterface.conf (PE-CE interfaces bound to VR)
- *  - junos/oam/twamp-client.conf                     (TWAMP probes originate per-VR)
- *  - junos/policy/route-filter-med.conf              (MED export policies referenced)
- *
- * JVD service mapping:
- *   13 instances total (high 10 / med 0 / low 3)
- *   On devices: cr1_acx7100-48l (13), cr2_mx480 (13)
- *   Example: VIRTUAL-ROUTER-V1 (RD —, RT —)
- *     cr1_acx7100-48l  et-0/0/42.1
- *     cr2_mx480  xe-3/0/6.1
- *
+ *  - As a BGP export it advertises the matched prefix with MED 10, the preferred path in the MED-based steering design.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from cr2_mx480):
- *   $VR_NAME             e.g. VIRTUAL-ROUTER-V1
- *   $AP_PEER_AS          e.g. 64512
- *   $AP_NEIGHBOR_1       e.g. 10.101.49.1
- *   $AP_NEIGHBOR_2       e.g. 10.101.79.1
- *   $EXPORT_POLICIES     e.g. [ med-10 med-30 ]
- *   $IXIA_PEER_AS        e.g. 64521
- *   $IXIA_NEIGHBOR       e.g. 10.101.91.2
- *   $RP_ADDRESS          e.g. 10.10.47.101
- *   $MCAST_GROUP_RANGE   e.g. 225.0.0.0/22
- *   $IFACE_AP1           e.g. et-5/0/0.1
- *   $IFACE_AP2           e.g. et-5/0/1.1
- *   $IFACE_TG            e.g. xe-3/0/6.1
+ *   $POLICY_NAME   e.g. PS-med-10
+ *   $PREFIX        e.g. 10.101.0.0/16
  */
-
-routing-instances {
-    $VR_NAME {
-        instance-type virtual-router;
-        protocols {
-            bgp {
-                group AP {
-                    type external;
-                    export $EXPORT_POLICIES;
-                    peer-as $AP_PEER_AS;
-                    neighbor $AP_NEIGHBOR_1;
-                    neighbor $AP_NEIGHBOR_2;
-                }
-                group IXIA {
-                    type internal;
-                    peer-as $IXIA_PEER_AS;
-                    neighbor $IXIA_NEIGHBOR;
-                }
-            }
-            pim {
-                rp {
-                    static {
-                        address $RP_ADDRESS {
-                            group-ranges {
-                                $MCAST_GROUP_RANGE;
-                            }
-                        }
-                    }
-                }
-                interface $IFACE_AP1 {
-                    mode sparse;
-                }
-                interface $IFACE_AP2 {
-                    mode sparse;
-                }
-                interface $IFACE_TG {
-                    mode sparse;
-                }
-            }
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX exact;
         }
-        interface $IFACE_TG;
-        interface $IFACE_AP1;
-        interface $IFACE_AP2;
+        then {
+            metric 10;
+            accept;
+        }
     }
 }
 ```
 
-## junos/services/vrf-l3vpn.conf
+## junos/protocols/bgp-ibgp-full-mesh-5.conf
 
 ```
 /*
- * Topic:   L3VPN VRF instance with external BGP peer (traffic-generator / CE device)
- * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
- * Highlights:
- *  - instance-type vrf for L3VPN isolation (non-multicast VRFs: VRF21/22/23)
- *  - eBGP peering to traffic-generator or CE device in each VRF
- *  - vrf-table-label enables per-VRF MPLS label for penultimate-hop popping
- *  - route-distinguisher unique per-PE per-VRF for BGP path distinction
- *  - vrf-target with shared RT allows route import/export between PE nodes
- *  - IRB interface provides the VRF's L3 gateway
- *
- * Pair with:
- *  - junos/interfaces/irb-l3-gateway.conf             (IRB bound to this VRF)
- *  - junos/firewall/multicast-fwd-cache-filter.conf   (filter on IRB for these VRFs)
- *  - junos/transport/ibgp-core-mesh.conf              (inet-vpn family carries VRF routes)
- *
- * JVD service mapping:
- *   13 instances total (high 13 / med 0 / low 0)
- *   On devices: ap1_mx304 (13), ap2_mx10004 (13), wanedge1_mx304 (13), wanedge2_mx10004 (13)
- *   Example: MVPN_INSTANCE1 (RD 10.200.50.14:61, RT target:64512:11)
- *     ap1_mx304  et-0/0/6.1
- *     ap2_mx10004  et-0/0/2.1
- *     wanedge1_mx304
- *     wanedge2_mx10004
- *
- * Variables (example values from wanedge1_mx304):
- *   $VRF_NAME             e.g. VRF21
- *   $LOCAL_ADDRESS        e.g. 172.16.21.1
- *   $EXPORT_POLICY        e.g. PS-ADV_DIRECT
- *   $CE_NEIGHBOR          e.g. 172.16.21.2
- *   $CE_PEER_AS           e.g. 64513
- *   $IRB_UNIT             e.g. irb.21
- *   $ROUTE_DISTINGUISHER  e.g. 10.200.50.12:221
- *   $VRF_TARGET           e.g. target:64512:21
- */
-
-routing-instances {
-    $VRF_NAME {
-        instance-type vrf;
-        protocols {
-            bgp {
-                group TGN_AF {
-                    type external;
-                    local-address $LOCAL_ADDRESS;
-                    export $EXPORT_POLICY;
-                    neighbor $CE_NEIGHBOR {
-                        peer-as $CE_PEER_AS;
-                    }
-                }
-            }
-        }
-        interface $IRB_UNIT;
-        route-distinguisher $ROUTE_DISTINGUISHER;
-        vrf-target $VRF_TARGET;
-        vrf-table-label;
-    }
-}
-```
-
-## junos/transport/ibgp-core-mesh.conf
-
-```
-/*
- * Topic:   iBGP full-mesh with inet-vpn, EVPN, and inet-mvpn address families
+ * Topic: iBGP group with five loopback neighbors for IPv4, L3VPN, EVPN and NG-MVPN
  * Seen on:
  *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 4
  * Highlights:
- *  - family inet-vpn unicast + any for L3VPN route exchange
- *  - family evpn signaling for EVPN Type-1 through Type-5
- *  - family inet-mvpn signaling for NG-MVPN (multicast VPN) control plane
- *  - family route-target enables RT-constrain to limit VPN route distribution
- *  - BFD at 100ms × 3 for sub-second peer failure detection
- *  - All peers in a single iBGP group (full mesh, no route-reflectors)
- *
+ *  - One internal group carries IPv4 unicast, `inet-vpn` (unicast and any), EVPN signaling, `inet-mvpn` signaling for NG-MVPN Type-5/Type-7 routes and route-target constrained distribution.
+ *  - BFD at 100 ms x 3 protects every session.
  * Pair with:
- *  - junos/interfaces/loopback-multi-af.conf
- *  - junos/services/vrf-l3vpn.conf
- *  - junos/transport/ospf-te-protection.conf   (IGP underlay for iBGP next-hops)
- *  - junos/transport/mpls-lsp-p2mp.conf        (label transport for VPN families)
- *  - junos/policy/protocol-redistribution.conf (export policies referenced in group)
+ *  - junos/policy-options/policy-statement/ps-accept-bgp.conf
+ *  - junos/policy-options/policy-statement/ps-accept-ospf.conf
  *
- * Variables (example values from wanedge1_mx304):
- *   $LOCAL_ADDRESS   e.g. 10.200.50.12
- *   $LOCAL_AS        e.g. 64512
- *   $EXPORT_POLICY   e.g. [ PS-send-ospf PS-BGP-TO-OSPF ]
- *   $NEIGHBOR_1      e.g. 10.200.50.13
- *   $NEIGHBOR_2      e.g. 10.200.50.14
- *   $NEIGHBOR_3      e.g. 10.200.50.15
- *   $NEIGHBOR_4      e.g. 10.200.50.11
- *   $NEIGHBOR_5      e.g. 10.200.50.16
+ * Peers with:
+ *   [ap1_mx304] <-> [ap2_mx10004]
+ *   [ap1_mx304] <-> [p1_ptx10003-80c]
+ *   [ap1_mx304] <-> [p2_ptx10001-36mr]
+ *   [ap1_mx304] <-> [wanedge1_mx304]
+ *   [ap1_mx304] <-> [wanedge2_mx10004]
+ *   [ap2_mx10004] <-> [p1_ptx10003-80c]
+ *   [ap2_mx10004] <-> [p2_ptx10001-36mr]
+ *   [ap2_mx10004] <-> [wanedge1_mx304]
+ *   [ap2_mx10004] <-> [wanedge2_mx10004]
+ *   [p1_ptx10003-80c] <-> [wanedge1_mx304]
+ *   [p1_ptx10003-80c] <-> [wanedge2_mx10004]
+ *   [p2_ptx10001-36mr] <-> [wanedge1_mx304]
+ *   [p2_ptx10001-36mr] <-> [wanedge2_mx10004]
+ *   [wanedge1_mx304] <-> [wanedge2_mx10004]
+ * Variables (example values from ap1_mx304):
+ *   $LOOPBACK_V4        e.g. 10.200.50.14
+ *   $BGP_EXPORT_POL_1   e.g. PS-send-ospf
+ *   $BGP_EXPORT_POL_2   e.g. PS-BGP-TO-OSPF
+ *   $ASN                e.g. 64512
+ *   $IBGP_PEER_V4_1     e.g. 10.200.50.13
+ *   $IBGP_PEER_V4_2     e.g. 10.200.50.11
+ *   $IBGP_PEER_V4_3     e.g. 10.200.50.12
+ *   $IBGP_PEER_V4_4     e.g. 10.200.50.15
+ *   $IBGP_PEER_V4_5     e.g. 10.200.50.16
  */
-
 protocols {
     bgp {
         group IBGP {
             type internal;
-            local-address $LOCAL_ADDRESS;
+            local-address $LOOPBACK_V4;
             family inet {
                 unicast;
             }
@@ -1997,62 +3758,147 @@ protocols {
                 signaling;
             }
             family route-target;
-            export $EXPORT_POLICY;
-            local-as $LOCAL_AS;
+            export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+            local-as $ASN;
             bfd-liveness-detection {
                 minimum-interval 100;
                 multiplier 3;
             }
-            neighbor $NEIGHBOR_1;
-            neighbor $NEIGHBOR_2;
-            neighbor $NEIGHBOR_3;
-            neighbor $NEIGHBOR_4;
-            neighbor $NEIGHBOR_5;
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+            neighbor $IBGP_PEER_V4_3;
+            neighbor $IBGP_PEER_V4_4;
+            neighbor $IBGP_PEER_V4_5;
         }
     }
 }
 ```
 
-## junos/transport/mpls-lsp-p2mp.conf
+## junos/protocols/lacp-ppm-inline.conf
 
 ```
 /*
- * Topic:   MPLS LSPs with P2MP template and named point-to-point paths
+ * Topic: LACP periodic packet management in line
  * Seen on:
- *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   Junos: wanedge1_mx304
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   total 1
  * Highlights:
- *  - P2MP LSP template enables dynamic multipoint trees for NG-MVPN provider-tunnels
- *  - optimize-aggressive + optimize-timer 5 enables frequent CSPF reoptimization
- *  - link-protection on P2MP template provides FRR bypass tunnels
- *  - Named unicast LSPs (lsp_to_*) provide pre-established paths to PE/AP peers
- *  - retry-timer 5 for fast LSP re-establishment after failure
- *
- * Pair with:
- *  - junos/cos/exp-classifiers-schedulers.conf
- *  - junos/interfaces/physical-p2p-mpls.conf
- *  - junos/transport/ibgp-core-mesh.conf
- *  - junos/transport/rsvp-signaling.conf     (RSVP signals these LSPs)
- *  - junos/transport/ospf-te-protection.conf (CSPF uses OSPF-TE TED)
- *  - junos/services/mvpn-instance.conf       (MVPN uses P2MP provider-tunnel)
- *
- * Variables (example values from wanedge1_mx304):
- *   $P2MP_LSP_NAME     e.g. P2MP
- *   $LSP_NAME_1        e.g. lsp_to_AP1
- *   $LSP_DEST_1        e.g. 10.200.50.14
- *   $LSP_NAME_2        e.g. lsp_to_AP2
- *   $LSP_DEST_2        e.g. 10.200.50.16
- *   $LSP_NAME_3        e.g. lsp_to_PE2
- *   $LSP_DEST_3        e.g. 10.200.50.15
- *   $CORE_IFACE_1      e.g. et-0/0/1.0
- *   $CORE_IFACE_2      e.g. et-0/0/3.0
+ *  - `ppm inline` runs LACP periodic packet management on the line card.
+ * Pair with: none
+ * Variables: none
  */
+protocols {
+    lacp {
+        ppm inline;
+    }
+}
+```
 
+## junos/protocols/lldp-interface-all.conf
+
+```
+/*
+ * Topic: LLDP on all interfaces
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Enables LLDP neighbor discovery on every interface.
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    lldp {
+        interface all;
+    }
+}
+```
+
+## junos/protocols/mpls-3-lsp-loopback-3-core.conf
+
+```
+/*
+ * Topic: MPLS with three RSVP-TE LSPs on the loopback and three core interfaces
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - One point-to-point RSVP-TE LSP to each remote PE carries unicast VPN traffic.
+ * Pair with: none
+ * Variables (example values from ap2_mx10004):
+ *   $LSP_NAME_1    e.g. lsp_to_PE2
+ *   $LSP_TO_V4_1   e.g. 10.200.50.15
+ *   $LSP_NAME_2    e.g. lsp_to_PE1
+ *   $LSP_TO_V4_2   e.g. 10.200.50.12
+ *   $LSP_NAME_3    e.g. lsp_to_AP1
+ *   $LSP_TO_V4_3   e.g. 10.200.50.14
+ *   $CORE_INTF_1   e.g. et-0/0/0.0
+ *   $CORE_INTF_2   e.g. et-0/0/1.0
+ *   $CORE_INTF_3   e.g. et-3/3/0.0
+ */
+protocols {
+    mpls {
+        label-switched-path $LSP_NAME_1 {
+            to $LSP_TO_V4_1;
+        }
+        label-switched-path $LSP_NAME_2 {
+            to $LSP_TO_V4_2;
+        }
+        label-switched-path $LSP_NAME_3 {
+            to $LSP_TO_V4_3;
+        }
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+    }
+}
+```
+
+## junos/protocols/mpls-explicit-null-p2mp-template-3-lsp-3-core.conf
+
+```
+/*
+ * Topic: MPLS with explicit null, a P2MP LSP template, three RSVP-TE LSPs and three core interfaces
+ * Seen on:
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - `explicit-null` advertises label 0 so the penultimate hop keeps the EXP bits up to this egress PE.
+ *  - `P2MP` is a link-protected point-to-multipoint LSP template for the multicast provider tunnels; `optimize-aggressive` re-optimizes LSP paths using IGP metrics only.
+ * Pair with: none
+ * Variables (example values from ap1_mx304):
+ *   $LSP_NAME_1    e.g. lsp_to_AP2
+ *   $LSP_TO_V4_1   e.g. 10.200.50.16
+ *   $LSP_NAME_2    e.g. lsp_to_PE2
+ *   $LSP_TO_V4_2   e.g. 10.200.50.15
+ *   $LSP_NAME_3    e.g. lsp_to_PE1
+ *   $LSP_TO_V4_3   e.g. 10.200.50.12
+ *   $CORE_INTF_1   e.g. et-0/0/3.0
+ *   $CORE_INTF_2   e.g. et-0/0/5.0
+ *   $CORE_INTF_3   e.g. et-0/0/7.0
+ */
 protocols {
     mpls {
         optimize-aggressive;
-        label-switched-path $P2MP_LSP_NAME {
+        explicit-null;
+        label-switched-path P2MP {
             template;
             retry-timer 5;
             optimize-timer 5;
@@ -2060,67 +3906,217 @@ protocols {
             p2mp;
         }
         label-switched-path $LSP_NAME_1 {
-            to $LSP_DEST_1;
+            to $LSP_TO_V4_1;
         }
         label-switched-path $LSP_NAME_2 {
-            to $LSP_DEST_2;
+            to $LSP_TO_V4_2;
         }
         label-switched-path $LSP_NAME_3 {
-            to $LSP_DEST_3;
+            to $LSP_TO_V4_3;
         }
-        interface $CORE_IFACE_1;
-        interface $CORE_IFACE_2;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
         interface lo0.0;
     }
 }
 ```
 
-## junos/transport/ospf-te-protection.conf
+## junos/protocols/mpls-p2mp-template-3-lsp-2-core.conf
 
 ```
 /*
- * Topic:   OSPF with traffic engineering, node-link-protection, and BFD
+ * Topic: MPLS with a P2MP LSP template, three RSVP-TE LSPs and two core interfaces
  * Seen on:
- *   Junos: ap1_mx304 ap2_mx10004 wanedge1_mx304 wanedge2_mx10004
- *   EVO:   (none)
- *
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
  * Highlights:
- *  - traffic-engineering enables OSPF-TE extensions (RFC 3630) for RSVP-TE CSPF
- *  - node-link-protection provides LFA backup for sub-50ms failover
- *  - BFD at 10ms × 3 for ultra-fast adjacency failure detection (finance/low-latency)
- *  - lo0.0 as passive ensures router-id reachability without forming adjacency
- *  - All interfaces in area 0.0.0.0 (single-area backbone)
- *
- * Pair with:
- *  - junos/interfaces/loopback-multi-af.conf
- *  - junos/transport/ibgp-core-mesh.conf
- *  - junos/transport/rsvp-signaling.conf       (RSVP uses OSPF-TE database for CSPF)
- *  - junos/transport/mpls-lsp-p2mp.conf        (MPLS LSPs use CSPF paths)
- *  - junos/interfaces/physical-p2p-mpls.conf   (the physical interfaces referenced)
- *
+ *  - `P2MP` is a link-protected point-to-multipoint LSP template for the multicast provider tunnels; `optimize-aggressive` re-optimizes LSP paths using IGP metrics only.
+ *  - One point-to-point RSVP-TE LSP to each remote PE carries unicast VPN traffic.
+ * Pair with: none
  * Variables (example values from wanedge1_mx304):
- *   $CORE_IFACE_1   e.g. et-0/0/1.0
- *   $CORE_IFACE_2   e.g. et-0/0/3.0
- *   $BFD_INTERVAL   e.g. 10
- *   $BFD_MULTIPLIER e.g. 3
+ *   $LSP_NAME_1    e.g. lsp_to_AP1
+ *   $LSP_TO_V4_1   e.g. 10.200.50.14
+ *   $LSP_NAME_2    e.g. lsp_to_AP2
+ *   $LSP_TO_V4_2   e.g. 10.200.50.16
+ *   $LSP_NAME_3    e.g. lsp_to_PE2
+ *   $LSP_TO_V4_3   e.g. 10.200.50.15
+ *   $CORE_INTF_1   e.g. et-0/0/1.0
+ *   $CORE_INTF_2   e.g. et-0/0/3.0
  */
+protocols {
+    mpls {
+        optimize-aggressive;
+        label-switched-path P2MP {
+            template;
+            retry-timer 5;
+            optimize-timer 5;
+            link-protection;
+            p2mp;
+        }
+        label-switched-path $LSP_NAME_1 {
+            to $LSP_TO_V4_1;
+        }
+        label-switched-path $LSP_NAME_2 {
+            to $LSP_TO_V4_2;
+        }
+        label-switched-path $LSP_NAME_3 {
+            to $LSP_TO_V4_3;
+        }
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface lo0.0;
+    }
+}
+```
 
+## junos/protocols/ospf-area0-bfd-post-convergence-lfa-2-core.conf
+
+```
+/*
+ * Topic: OSPF area 0 with a passive loopback and two BFD core interfaces with node-protecting post-convergence LFA
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - BFD at 10 ms x 3 detects the failure and `post-convergence-lfa node-protection` installs a node-protecting backup path.
+ * Pair with: none
+ * Variables (example values from wanedge1_mx304):
+ *   $CORE_INTF_1   e.g. et-0/0/1.0
+ *   $CORE_INTF_2   e.g. et-0/0/3.0
+ */
 protocols {
     ospf {
-        traffic-engineering;
         area 0.0.0.0 {
-            interface $CORE_IFACE_1 {
-                node-link-protection;
+            interface lo0.0 {
+                passive;
+            }
+            interface $CORE_INTF_1 {
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+                post-convergence-lfa {
+                    node-protection;
                 }
             }
-            interface $CORE_IFACE_2 {
+            interface $CORE_INTF_2 {
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+                post-convergence-lfa {
+                    node-protection;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/ospf-area0-node-link-protection-bfd-3-core-default-intf.conf
+
+```
+/*
+ * Topic: OSPF area 0 with three node-link-protected BFD core interfaces, a passive loopback and one default interface
+ * Seen on:
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - `node-link-protection` precomputes a loop-free alternate that avoids the neighbor node; BFD at 10 ms x 3 detects the failure.
+ *  - The loopback is passive; the last interface runs OSPF with default settings.
+ * Pair with: none
+ * Variables (example values from ap1_mx304):
+ *   $CORE_INTF_1   e.g. et-0/0/3.0
+ *   $CORE_INTF_2   e.g. et-0/0/5.0
+ *   $CORE_INTF_3   e.g. et-0/0/7.0
+ *   $IFL           e.g. et-0/0/11.100
+ */
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface $CORE_INTF_1 {
                 node-link-protection;
                 bfd-liveness-detection {
-                    minimum-interval $BFD_INTERVAL;
-                    multiplier $BFD_MULTIPLIER;
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_2 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_3 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface lo0.0 {
+                passive;
+            }
+            interface $IFL;
+        }
+    }
+}
+```
+
+## junos/protocols/ospf-area0-node-link-protection-bfd-3-core.conf
+
+```
+/*
+ * Topic: OSPF area 0 with three node-link-protected BFD core interfaces and a passive loopback
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - `node-link-protection` precomputes a loop-free alternate that avoids the neighbor node; BFD at 10 ms x 3 detects the failure.
+ * Pair with: none
+ * Variables (example values from ap2_mx10004):
+ *   $CORE_INTF_1   e.g. et-0/0/0.0
+ *   $CORE_INTF_2   e.g. et-0/0/1.0
+ *   $CORE_INTF_3   e.g. et-0/3/3.0
+ */
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface $CORE_INTF_1 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_2 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
+                }
+            }
+            interface $CORE_INTF_3 {
+                node-link-protection;
+                bfd-liveness-detection {
+                    minimum-interval 10;
+                    multiplier 3;
                 }
             }
             interface lo0.0 {
@@ -2131,474 +4127,1987 @@ protocols {
 }
 ```
 
-## junos/transport/rsvp-signaling.conf
+## junos/protocols/ospf-te-spring-post-convergence-lfa.conf
 
 ```
 /*
- * Topic:   RSVP-TE interface enablement for label-switched path signaling
+ * Topic: OSPF traffic engineering with source packet routing and post-convergence LFA
  * Seen on:
- *   Junos: wanedge1_mx304 wanedge2_mx10004 ap1_mx304 ap2_mx10004
- *   EVO:   p1_ptx10003-80c p2_ptx10001-36mr
- *
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
  * Highlights:
- *  - RSVP enabled on all core transport interfaces and loopback
- *  - Provides RSVP-TE signaling for traffic-engineered LSPs
- *  - Works with OSPF-TE CSPF to compute constrained shortest paths
- *  - lo0.0 included for targeted RSVP sessions (graceful restart, etc.)
- *
- * Pair with:
- *  - junos/transport/mpls-lsp-p2mp.conf        (MPLS LSPs signaled via RSVP)
- *  - junos/transport/ospf-te-protection.conf   (OSPF-TE provides path computation)
- *  - junos/interfaces/physical-p2p-mpls.conf   (physical interfaces referenced)
- *
- * Variables (example values from wanedge1_mx304):
- *   $CORE_IFACE_1   e.g. et-0/0/1.0
- *   $CORE_IFACE_2   e.g. et-0/0/3.0
+ *  - `backup-spf-options` computes post-convergence (TI-LFA style) backup paths using source-packet-routing labels.
+ * Pair with: none
+ * Variables: none
  */
+protocols {
+    ospf {
+        backup-spf-options {
+            use-post-convergence-lfa;
+            use-source-packet-routing;
+        }
+        traffic-engineering;
+        source-packet-routing;
+    }
+}
+```
 
+## junos/protocols/ospf-traffic-engineering.conf
+
+```
+/*
+ * Topic: OSPF traffic-engineering extensions
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - Floods TE information so RSVP-TE can compute constrained paths for the LSPs.
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    ospf {
+        traffic-engineering;
+    }
+}
+```
+
+## junos/protocols/rsvp-interface-loopback-2-core.conf
+
+```
+/*
+ * Topic: RSVP on the loopback and two core interfaces
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - RSVP signals the point-to-point and P2MP RSVP-TE LSPs on every core link; the loopback is included so it can terminate signaling.
+ * Pair with: none
+ * Variables (example values from wanedge1_mx304):
+ *   $CORE_INTF_1   e.g. et-0/0/1.0
+ *   $CORE_INTF_2   e.g. et-0/0/3.0
+ */
 protocols {
     rsvp {
         interface lo0.0;
-        interface $CORE_IFACE_1;
-        interface $CORE_IFACE_2;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## junos/protocols/rsvp-interface-loopback-3-core.conf
+
+```
+/*
+ * Topic: RSVP on the loopback and three core interfaces
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   total 2
+ * Highlights:
+ *  - RSVP signals the point-to-point and P2MP RSVP-TE LSPs on every core link; the loopback is included so it can terminate signaling.
+ * Pair with: none
+ * Variables (example values from ap1_mx304):
+ *   $CORE_INTF_1   e.g. et-0/0/3.0
+ *   $CORE_INTF_2   e.g. et-0/0/5.0
+ *   $CORE_INTF_3   e.g. et-0/0/7.0
+ */
+protocols {
+    rsvp {
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+    }
+}
+```
+
+## junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf
+
+```
+/*
+ * Topic: EVPN-MPLS virtual switch with one bridge domain, an attachment unit and an IRB
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 13
+ *   wanedge2_mx10004 13
+ *   total 26
+ * Highlights:
+ *  - The bridge domain attaches one single-active ESI unit of the aggregate toward the Layer 2 edge and routes through its IRB.
+ *  - `default-gateway do-not-advertise` keeps the shared IRB MAC/IP out of EVPN, and `no-control-word` omits the MPLS control word.
+ * Pair with:
+ *  - junos/interfaces/ifl-irb-filter-mac.conf
+ *  - junos/interfaces/ifl-vlan-bridge-esi-single-active.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *
+ * Variables (example values from wanedge1_mx304):
+ *   $INSTANCE_NAME     e.g. EVPN_ESI_LAG1
+ *   $BD_NAME           e.g. BD_EVPN_GROUP1
+ *   $VLAN              e.g. 1
+ *   $AC_IFL            e.g. ae0.1
+ *   $IRB_UNIT          e.g. 1
+ *   $LOOPBACK_V4       e.g. 10.200.50.12
+ *   $RD_SUB_ASSIGNED   e.g. 1
+ *   $RT_AS             e.g. 61535
+ *   $RT_ID             e.g. 1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            evpn {
+                encapsulation mpls;
+                default-gateway do-not-advertise;
+                no-control-word;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN;
+                interface $AC_IFL;
+                routing-interface irb.$IRB_UNIT;
+            }
+        }
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf
+
+```
+/*
+ * Topic: L3VPN VRF with eBGP sessions to two customer routers
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 3
+ *   ap2_mx10004 3
+ *   total 6
+ * Highlights:
+ *  - Unicast order-entry VRF toward both customer routers; `vrf-table-label` allows an IP lookup on egress.
+ * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-accept-direct.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *
+ * Variables (example values from ap1_mx304):
+ *   $INSTANCE_NAME     e.g. VRF21
+ *   $PE_LOCAL_V4_1     e.g. 10.101.48.41
+ *   $BGP_EXPORT_POL    e.g. PS-ADV_DIRECT
+ *   $CE_PEER_V4_1      e.g. 10.101.48.42
+ *   $ASN_CUSTOMER_1    e.g. 64520
+ *   $PE_LOCAL_V4_2     e.g. 10.101.49.41
+ *   $CE_PEER_V4_2      e.g. 10.101.49.42
+ *   $ASN_CUSTOMER_2    e.g. 64521
+ *   $AC_IFL_A          e.g. et-0/0/6.21
+ *   $AC_IFL_B          e.g. et-0/0/11.21
+ *   $LOOPBACK_V4       e.g. 10.200.50.14
+ *   $RD_SUB_ASSIGNED   e.g. 221
+ *   $RT_AS             e.g. 64512
+ *   $RT_ID             e.g. 21
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group TGN_AF_CR1 {
+                    type external;
+                    local-address $PE_LOCAL_V4_1;
+                    export $BGP_EXPORT_POL;
+                    neighbor $CE_PEER_V4_1 {
+                        peer-as $ASN_CUSTOMER_1;
+                    }
+                }
+                group TGN_AF_CR2 {
+                    type external;
+                    local-address $PE_LOCAL_V4_2;
+                    export $BGP_EXPORT_POL;
+                    neighbor $CE_PEER_V4_2 {
+                        peer-as $ASN_CUSTOMER_2;
+                    }
+                }
+            }
+        }
+        interface $AC_IFL_A;
+        interface $AC_IFL_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf
+
+```
+/*
+ * Topic: L3VPN VRF with one eBGP CE session on an IRB interface
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 3
+ *   wanedge2_mx10004 3
+ *   total 6
+ * Highlights:
+ *  - Unicast order-entry VRF: the IRB of the EVPN bridge domain is the CE-facing interface and `vrf-table-label` allows an IP lookup on egress.
+ * Pair with:
+ *  - junos/interfaces/ifl-irb-filter-mac.conf
+ *  - junos/policy-options/policy-statement/ps-accept-direct.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *  - junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf
+ *
+ * Variables (example values from wanedge1_mx304):
+ *   $INSTANCE_NAME     e.g. VRF21
+ *   $PE_LOCAL_V4       e.g. 172.16.21.1
+ *   $BGP_EXPORT_POL    e.g. PS-ADV_DIRECT
+ *   $CE_PEER_V4        e.g. 172.16.21.2
+ *   $ASN_CUSTOMER      e.g. 64513
+ *   $IRB_UNIT          e.g. 21
+ *   $LOOPBACK_V4       e.g. 10.200.50.12
+ *   $RD_SUB_ASSIGNED   e.g. 221
+ *   $RT_AS             e.g. 64512
+ *   $RT_ID             e.g. 21
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group TGN_AF {
+                    type external;
+                    local-address $PE_LOCAL_V4;
+                    export $BGP_EXPORT_POL;
+                    neighbor $CE_PEER_V4 {
+                        peer-as $ASN_CUSTOMER;
+                    }
+                }
+            }
+        }
+        interface irb.$IRB_UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf
+
+```
+/*
+ * Topic: NG-MVPN VRF in SPT-only mode with eBGP, OSPF and PIM toward two customer routers (loopback listed second)
+ * Seen on:
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - `mvpn-mode spt-only` runs NG-MVPN on source trees only; the VRF peers with both customer routers over eBGP, OSPF and PIM.
+ *  - Multicast arrives over RSVP-TE P2MP provider tunnels built from the default LSP template.
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-inet.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-accept-direct.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *
+ * Variables (example values from ap1_mx304):
+ *   $INSTANCE_NAME        e.g. MVPN_INSTANCE1
+ *   $PE_LOCAL_V4_1        e.g. 10.101.48.1
+ *   $BGP_EXPORT_POL       e.g. PS-ADV_DIRECT
+ *   $ASN_CUSTOMER_1       e.g. 64520
+ *   $CE_PEER_V4_1         e.g. 10.101.48.2
+ *   $PE_LOCAL_V4_2        e.g. 10.101.49.1
+ *   $ASN_CUSTOMER_2       e.g. 64521
+ *   $CE_PEER_V4_2         e.g. 10.101.49.2
+ *   $RT_AS                e.g. 64512
+ *   $MVPN_RT_ID           e.g. 101
+ *   $AC_IFL_A             e.g. et-0/0/6.1
+ *   $UNIT                 e.g. 1
+ *   $AC_IFL_B             e.g. et-0/0/11.1
+ *   $OSPF_EXPORT_POL      e.g. PS-send-ospf
+ *   $PIM_RP_V4            e.g. 10.10.47.101
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.0.0/22
+ *   $LOOPBACK_V4          e.g. 10.200.50.14
+ *   $RD_SUB_ASSIGNED      e.g. 61
+ *   $RT_ID                e.g. 11
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address $PE_LOCAL_V4_1;
+                    export $BGP_EXPORT_POL;
+                    peer-as $ASN_CUSTOMER_1;
+                    neighbor $CE_PEER_V4_1 {
+                        peer-as $ASN_CUSTOMER_1;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address $PE_LOCAL_V4_2;
+                    export $BGP_EXPORT_POL;
+                    peer-as $ASN_CUSTOMER_2;
+                    neighbor $CE_PEER_V4_2 {
+                        peer-as $ASN_CUSTOMER_2;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                    export-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface $AC_IFL_A;
+                    interface lo0.$UNIT;
+                    interface $AC_IFL_B;
+                }
+                export $OSPF_EXPORT_POL;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address $PIM_RP_V4 {
+                            group-ranges {
+                                $MCAST_GROUP_V4_PFX;
+                            }
+                        }
+                    }
+                }
+                interface $AC_IFL_A {
+                    mode sparse;
+                }
+                interface lo0.$UNIT;
+                interface $AC_IFL_B {
+                    mode sparse;
+                }
+            }
+        }
+        interface $AC_IFL_A;
+        interface $AC_IFL_B;
+        interface lo0.$UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf
+
+```
+/*
+ * Topic: NG-MVPN VRF in SPT-only mode with eBGP, OSPF and PIM toward two customer routers
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 9
+ *   ap2_mx10004 10
+ *   total 19
+ * Highlights:
+ *  - `mvpn-mode spt-only` runs NG-MVPN on source trees only; the VRF peers with both customer routers over eBGP, OSPF and PIM.
+ *  - Multicast arrives over RSVP-TE P2MP provider tunnels built from the default LSP template.
+ *  - PIM uses a static RP; the VRF loopback unit is in both OSPF and PIM.
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-inet.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-accept-direct.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *
+ * Variables (example values from ap1_mx304):
+ *   $INSTANCE_NAME        e.g. MVPN_INSTANCE10
+ *   $PE_LOCAL_V4_1        e.g. 10.101.48.37
+ *   $BGP_EXPORT_POL       e.g. PS-ADV_DIRECT
+ *   $ASN_CUSTOMER_1       e.g. 64520
+ *   $CE_PEER_V4_1         e.g. 10.101.48.38
+ *   $PE_LOCAL_V4_2        e.g. 10.101.49.37
+ *   $ASN_CUSTOMER_2       e.g. 64521
+ *   $CE_PEER_V4_2         e.g. 10.101.49.38
+ *   $RT_AS                e.g. 64512
+ *   $MVPN_RT_ID           e.g. 110
+ *   $UNIT                 e.g. 10
+ *   $AC_IFL_A             e.g. et-0/0/6.10
+ *   $AC_IFL_B             e.g. et-0/0/11.10
+ *   $OSPF_EXPORT_POL      e.g. PS-send-ospf
+ *   $PIM_RP_V4            e.g. 10.10.47.110
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.36.0/22
+ *   $LOOPBACK_V4          e.g. 10.200.50.14
+ *   $RD_SUB_ASSIGNED      e.g. 70
+ *   $RT_ID                e.g. 20
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group CR1_CE {
+                    type external;
+                    local-address $PE_LOCAL_V4_1;
+                    export $BGP_EXPORT_POL;
+                    peer-as $ASN_CUSTOMER_1;
+                    neighbor $CE_PEER_V4_1 {
+                        peer-as $ASN_CUSTOMER_1;
+                    }
+                }
+                group CR2_CE {
+                    type external;
+                    local-address $PE_LOCAL_V4_2;
+                    export $BGP_EXPORT_POL;
+                    peer-as $ASN_CUSTOMER_2;
+                    neighbor $CE_PEER_V4_2 {
+                        peer-as $ASN_CUSTOMER_2;
+                    }
+                }
+            }
+            mvpn {
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                    export-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.$UNIT;
+                    interface $AC_IFL_A;
+                    interface $AC_IFL_B;
+                }
+                export $OSPF_EXPORT_POL;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    static {
+                        address $PIM_RP_V4 {
+                            group-ranges {
+                                $MCAST_GROUP_V4_PFX;
+                            }
+                        }
+                    }
+                }
+                interface lo0.$UNIT;
+                interface $AC_IFL_A {
+                    mode sparse;
+                }
+                interface $AC_IFL_B {
+                    mode sparse;
+                }
+            }
+        }
+        interface $AC_IFL_A;
+        interface $AC_IFL_B;
+        interface lo0.$UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf
+
+```
+/*
+ * Topic: NG-MVPN sender-site VRF in SPT-only mode with hot-root standby and a local RP
+ * Seen on:
+ *   Junos: wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   wanedge1_mx304 10
+ *   wanedge2_mx10004 10
+ *   total 20
+ * Highlights:
+ *  - `sender-site` with `sender-based-rpf` and `hot-root-standby` (`source-tree`, `min-rate` 3m, revert-delay 5) runs the two WAN edges as active and standby roots of each source tree.
+ *  - The WAN edge is the local (anycast) rendezvous point for the market-data group range.
+ * Pair with:
+ *  - junos/interfaces/ifl-irb-filter-mac.conf
+ *  - junos/policy-options/policy-statement/ps-accept-direct.conf
+ *  - junos/policy-options/policy-statement/ps-accept-ospf.conf
+ *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
+ *  - junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf
+ *
+ * Variables (example values from wanedge1_mx304):
+ *   $INSTANCE_NAME        e.g. MVPN_INSTANCE1
+ *   $PE_LOCAL_V4          e.g. 172.16.1.1
+ *   $BGP_EXPORT_POL       e.g. PS-ADV_DIRECT
+ *   $CE_PEER_V4           e.g. 172.16.1.2
+ *   $ASN_CUSTOMER         e.g. 64513
+ *   $RT_AS                e.g. 64512
+ *   $MVPN_RT_ID           e.g. 101
+ *   $UNIT                 e.g. 1
+ *   $OSPF_EXPORT_POL      e.g. PS-send-ospf
+ *   $PIM_RP_V4            e.g. 10.10.47.101
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.0.0/22
+ *   $IRB_UNIT             e.g. 1
+ *   $LOOPBACK_V4          e.g. 10.200.50.12
+ *   $RD_SUB_ASSIGNED      e.g. 61
+ *   $RT_ID                e.g. 11
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group custA_TGN {
+                    type external;
+                    local-address $PE_LOCAL_V4;
+                    export $BGP_EXPORT_POL;
+                    neighbor $CE_PEER_V4 {
+                        peer-as $ASN_CUSTOMER;
+                    }
+                }
+            }
+            mvpn {
+                sender-site;
+                mvpn-mode {
+                    spt-only;
+                }
+                route-target {
+                    import-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                    export-target {
+                        target target:$RT_AS:$MVPN_RT_ID;
+                    }
+                }
+                sender-based-rpf;
+                hot-root-standby {
+                    source-tree;
+                    min-rate {
+                        rate 3m;
+                        revert-delay 5;
+                    }
+                }
+            }
+            ospf {
+                area 0.0.0.0 {
+                    interface lo0.$UNIT;
+                }
+                export $OSPF_EXPORT_POL;
+            }
+            pim {
+                join-prune-timeout 420;
+                rp {
+                    local {
+                        address $PIM_RP_V4;
+                        group-ranges {
+                            $MCAST_GROUP_V4_PFX;
+                        }
+                    }
+                }
+                interface irb.$IRB_UNIT;
+                interface lo0.$UNIT;
+            }
+        }
+        interface irb.$IRB_UNIT;
+        interface lo0.$UNIT;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+        provider-tunnel {
+            rsvp-te {
+                label-switched-path-template {
+                    default-template;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf
+
+```
+/*
+ * Topic: Virtual router with eBGP to two access points, an iBGP host session and PIM sparse mode with a static RP (instance interface list led by the last PIM interface)
+ * Seen on:
+ *   Junos: cr2_mx480
+ *   EVO: (none)
+ * Count:
+ *   cr2_mx480 10
+ *   total 10
+ * Highlights:
+ *  - eBGP to both access points exports routes through the MED-setting policies (metric 10 for one prefix, 30 for every other route).
+ *  - PIM sparse mode on all three interfaces joins the market-data groups toward the static rendezvous point.
+ * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-default-longer-metric-30.conf
+ *  - junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
+ *
+ * Variables (example values from cr2_mx480):
+ *   $INSTANCE_NAME        e.g. VIRTUAL-ROUTER-V10
+ *   $BGP_EXPORT_POL_1     e.g. PS-med-10
+ *   $BGP_EXPORT_POL_2     e.g. PS-med-30
+ *   $ASN_PROVIDER         e.g. 64512
+ *   $PE_PEER_V4_1         e.g. 10.101.49.37
+ *   $PE_PEER_V4_2         e.g. 10.101.79.37
+ *   $ASN                  e.g. 64521
+ *   $IBGP_PEER_V4         e.g. 10.101.100.2
+ *   $PIM_RP_V4            e.g. 10.10.47.110
+ *   $MCAST_GROUP_V4_PFX   e.g. 225.0.36.0/22
+ *   $IFL_1                e.g. et-5/0/0.10
+ *   $IFL_2                e.g. et-5/0/1.10
+ *   $IFL_3                e.g. xe-3/0/6.10
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+                    peer-as $ASN_PROVIDER;
+                    neighbor $PE_PEER_V4_1;
+                    neighbor $PE_PEER_V4_2;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as $ASN;
+                    neighbor $IBGP_PEER_V4;
+                }
+            }
+            pim {
+                rp {
+                    static {
+                        address $PIM_RP_V4 {
+                            group-ranges {
+                                $MCAST_GROUP_V4_PFX;
+                            }
+                        }
+                    }
+                }
+                interface $IFL_1 {
+                    mode sparse;
+                }
+                interface $IFL_2 {
+                    mode sparse;
+                }
+                interface $IFL_3 {
+                    mode sparse;
+                }
+            }
+        }
+        interface $IFL_3;
+        interface $IFL_1;
+        interface $IFL_2;
+    }
+}
+```
+
+## junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf
+
+```
+/*
+ * Topic: Virtual router with eBGP to two access points and an iBGP host session
+ * Seen on:
+ *   Junos: cr2_mx480
+ *   EVO: (none)
+ * Count:
+ *   cr2_mx480 3
+ *   total 3
+ * Highlights:
+ *  - Unicast customer routing context: eBGP to both access points through the MED-setting export policies and iBGP to the attached host.
+ * Pair with:
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-default-longer-metric-30.conf
+ *  - junos/policy-options/policy-statement/ps-route-filter-exact-metric-10.conf
+ *
+ * Variables (example values from cr2_mx480):
+ *   $INSTANCE_NAME      e.g. VIRTUAL-ROUTER-V21
+ *   $BGP_EXPORT_POL_1   e.g. PS-med-10
+ *   $BGP_EXPORT_POL_2   e.g. PS-med-30
+ *   $ASN_PROVIDER       e.g. 64512
+ *   $PE_PEER_V4_1       e.g. 10.101.49.41
+ *   $PE_PEER_V4_2       e.g. 10.101.79.41
+ *   $ASN                e.g. 64521
+ *   $IBGP_PEER_V4       e.g. 10.9.21.2
+ *   $IFL_1              e.g. xe-3/0/6.21
+ *   $IFL_2              e.g. et-5/0/0.21
+ *   $IFL_3              e.g. et-5/0/1.21
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-router;
+        protocols {
+            bgp {
+                group AP {
+                    type external;
+                    export [ $BGP_EXPORT_POL_1 $BGP_EXPORT_POL_2 ];
+                    peer-as $ASN_PROVIDER;
+                    neighbor $PE_PEER_V4_1;
+                    neighbor $PE_PEER_V4_2;
+                }
+                group IXIA {
+                    type internal;
+                    peer-as $ASN;
+                    neighbor $IBGP_PEER_V4;
+                }
+            }
+        }
+        interface $IFL_1;
+        interface $IFL_2;
+        interface $IFL_3;
+    }
+}
+```
+
+## junos/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Autonomous system number
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - The provider core shares one AS; each customer router has its own AS for eBGP to the access points.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $ASN   e.g. 64512
+ */
+routing-options {
+    autonomous-system $ASN;
+}
+```
+
+## junos/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Router ID
+ * Seen on:
+ *   Junos: ap1_mx304 ap2_mx10004 cr2_mx480 wanedge1_mx304 wanedge2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   ap2_mx10004 1
+ *   cr2_mx480 1
+ *   wanedge1_mx304 1
+ *   wanedge2_mx10004 1
+ *   total 5
+ * Highlights:
+ *  - Explicit router ID; on the PE, P and CR routers it equals the primary lo0 address.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ap1_mx304):
+ *   $ROUTER_ID   e.g. 10.200.50.14
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## junos/services/rpm-twamp-client-cr2.conf
+
+```
+/*
+ * Topic: TWAMP client with 26 managed control connections across the virtual routers
+ * Seen on:
+ *   Junos: cr2_mx480
+ *   EVO: (none)
+ * Count:
+ *   cr2_mx480 1
+ *   total 1
+ * Highlights:
+ *  - One control connection per access point and virtual router; each runs a test session toward the access point to measure SLA (latency, loss, jitter).
+ * Pair with: none
+ * Variables: none
+ */
+services {
+    rpm {
+        twamp {
+            client {
+                control-connection CR24_1 {
+                    control-type managed;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    target-address 10.101.49.1;
+                    test-count 0;
+                    test-session T24_1 {
+                        target-address 10.101.49.1;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_1 {
+                    control-type managed;
+                    destination-port 862;
+                    routing-instance VIRTUAL-ROUTER-V1;
+                    target-address 10.101.79.1;
+                    test-count 0;
+                    test-session T27_1 {
+                        target-address 10.101.79.1;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_2 {
+                    control-type managed;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    target-address 10.101.49.5;
+                    test-count 0;
+                    test-session T24_2 {
+                        target-address 10.101.49.5;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_2 {
+                    control-type managed;
+                    destination-port 49152;
+                    routing-instance VIRTUAL-ROUTER-V2;
+                    target-address 10.101.79.5;
+                    test-count 0;
+                    test-session T27_2 {
+                        target-address 10.101.79.5;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_3 {
+                    control-type managed;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    target-address 10.101.49.9;
+                    test-count 0;
+                    test-session T24_3 {
+                        target-address 10.101.49.9;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_3 {
+                    control-type managed;
+                    destination-port 49153;
+                    routing-instance VIRTUAL-ROUTER-V3;
+                    target-address 10.101.79.9;
+                    test-count 0;
+                    test-session T27_3 {
+                        target-address 10.101.79.9;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_4 {
+                    control-type managed;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    target-address 10.101.49.13;
+                    test-count 0;
+                    test-session T24_4 {
+                        target-address 10.101.49.13;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_4 {
+                    control-type managed;
+                    destination-port 49154;
+                    routing-instance VIRTUAL-ROUTER-V4;
+                    target-address 10.101.79.13;
+                    test-count 0;
+                    test-session T27_4 {
+                        target-address 10.101.79.13;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_5 {
+                    control-type managed;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    target-address 10.101.49.17;
+                    test-count 0;
+                    test-session T24_5 {
+                        target-address 10.101.49.17;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_5 {
+                    control-type managed;
+                    destination-port 49155;
+                    routing-instance VIRTUAL-ROUTER-V5;
+                    target-address 10.101.79.17;
+                    test-count 0;
+                    test-session T27_5 {
+                        target-address 10.101.79.17;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_6 {
+                    control-type managed;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    target-address 10.101.49.21;
+                    test-count 0;
+                    test-session T24_6 {
+                        target-address 10.101.49.21;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_6 {
+                    control-type managed;
+                    destination-port 49156;
+                    routing-instance VIRTUAL-ROUTER-V6;
+                    target-address 10.101.79.21;
+                    test-count 0;
+                    test-session T27_6 {
+                        target-address 10.101.79.21;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_7 {
+                    control-type managed;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    target-address 10.101.49.25;
+                    test-count 0;
+                    test-session T24_7 {
+                        target-address 10.101.49.25;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_7 {
+                    control-type managed;
+                    destination-port 49157;
+                    routing-instance VIRTUAL-ROUTER-V7;
+                    target-address 10.101.79.25;
+                    test-count 0;
+                    test-session T27_7 {
+                        target-address 10.101.79.25;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_8 {
+                    control-type managed;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    target-address 10.101.49.29;
+                    test-count 0;
+                    test-session T24_8 {
+                        target-address 10.101.49.29;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_8 {
+                    control-type managed;
+                    destination-port 49158;
+                    routing-instance VIRTUAL-ROUTER-V8;
+                    target-address 10.101.79.29;
+                    test-count 0;
+                    test-session T27_8 {
+                        target-address 10.101.79.29;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_9 {
+                    control-type managed;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    target-address 10.101.49.33;
+                    test-count 0;
+                    test-session T24_9 {
+                        target-address 10.101.49.33;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_9 {
+                    control-type managed;
+                    destination-port 49159;
+                    routing-instance VIRTUAL-ROUTER-V9;
+                    target-address 10.101.79.33;
+                    test-count 0;
+                    test-session T27_9 {
+                        target-address 10.101.79.33;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_10 {
+                    control-type managed;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    target-address 10.101.49.37;
+                    test-count 0;
+                    test-session T24_10 {
+                        target-address 10.101.49.37;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_10 {
+                    control-type managed;
+                    destination-port 49160;
+                    routing-instance VIRTUAL-ROUTER-V10;
+                    target-address 10.101.79.37;
+                    test-count 0;
+                    test-session T27_10 {
+                        target-address 10.101.79.37;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_21 {
+                    control-type managed;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    target-address 10.101.49.41;
+                    test-count 0;
+                    test-session T24_21 {
+                        target-address 10.101.49.41;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_21 {
+                    control-type managed;
+                    destination-port 49161;
+                    routing-instance VIRTUAL-ROUTER-V21;
+                    target-address 10.101.79.41;
+                    test-count 0;
+                    test-session T27_21 {
+                        target-address 10.101.79.41;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_22 {
+                    control-type managed;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    target-address 10.101.49.45;
+                    test-count 0;
+                    test-session T24_22 {
+                        target-address 10.101.49.45;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_22 {
+                    control-type managed;
+                    destination-port 49162;
+                    routing-instance VIRTUAL-ROUTER-V22;
+                    target-address 10.101.79.45;
+                    test-count 0;
+                    test-session T27_22 {
+                        target-address 10.101.79.45;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR24_23 {
+                    control-type managed;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    target-address 10.101.49.49;
+                    test-count 0;
+                    test-session T24_23 {
+                        target-address 10.101.49.49;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+                control-connection CR27_23 {
+                    control-type managed;
+                    destination-port 49163;
+                    routing-instance VIRTUAL-ROUTER-V23;
+                    target-address 10.101.79.49;
+                    test-count 0;
+                    test-session T27_23 {
+                        target-address 10.101.79.49;
+                        probe-count 100;
+                        probe-interval 1;
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/services/rpm-twamp-server-ap1.conf
+
+```
+/*
+ * Topic: TWAMP server for 13 routing instances with client lists in 10.101.48.0/24 and 10.101.49.0/24
+ * Seen on:
+ *   Junos: ap1_mx304
+ *   EVO: (none)
+ * Count:
+ *   ap1_mx304 1
+ *   total 1
+ * Highlights:
+ *  - Listens per routing instance on its own port and admits only the listed customer-router addresses; `authentication-mode none` runs unauthenticated test sessions.
+ * Pair with: none
+ * Variables: none
+ */
+services {
+    rpm {
+        twamp {
+            server {
+                routing-instance-list {
+                    MVPN_INSTANCE1 {
+                        port 862;
+                    }
+                    MVPN_INSTANCE2 {
+                        port 49152;
+                    }
+                    MVPN_INSTANCE3 {
+                        port 49153;
+                    }
+                    MVPN_INSTANCE4 {
+                        port 49154;
+                    }
+                    MVPN_INSTANCE5 {
+                        port 49155;
+                    }
+                    MVPN_INSTANCE6 {
+                        port 49156;
+                    }
+                    MVPN_INSTANCE7 {
+                        port 49157;
+                    }
+                    MVPN_INSTANCE8 {
+                        port 49158;
+                    }
+                    MVPN_INSTANCE9 {
+                        port 49159;
+                    }
+                    MVPN_INSTANCE10 {
+                        port 49160;
+                    }
+                    VRF21 {
+                        port 49161;
+                    }
+                    VRF22 {
+                        port 49162;
+                    }
+                    VRF23 {
+                        port 49163;
+                    }
+                }
+                authentication-mode none;
+                port 1862;
+                client-list CR1_1 {
+                    address {
+                        10.101.48.2/32;
+                    }
+                }
+                client-list CR2_1 {
+                    address {
+                        10.101.49.2/32;
+                    }
+                }
+                client-list CR1_2 {
+                    address {
+                        10.101.48.6/32;
+                    }
+                }
+                client-list CR2_2 {
+                    address {
+                        10.101.49.6/32;
+                    }
+                }
+                client-list CR1_3 {
+                    address {
+                        10.101.48.10/32;
+                    }
+                }
+                client-list CR2_3 {
+                    address {
+                        10.101.49.10/32;
+                    }
+                }
+                client-list CR1_4 {
+                    address {
+                        10.101.48.14/32;
+                    }
+                }
+                client-list CR2_4 {
+                    address {
+                        10.101.49.14/32;
+                    }
+                }
+                client-list CR1_5 {
+                    address {
+                        10.101.48.18/32;
+                    }
+                }
+                client-list CR2_5 {
+                    address {
+                        10.101.49.18/32;
+                    }
+                }
+                client-list CR1_6 {
+                    address {
+                        10.101.48.22/32;
+                    }
+                }
+                client-list CR2_6 {
+                    address {
+                        10.101.49.22/32;
+                    }
+                }
+                client-list CR1_7 {
+                    address {
+                        10.101.48.26/32;
+                    }
+                }
+                client-list CR2_7 {
+                    address {
+                        10.101.49.26/32;
+                    }
+                }
+                client-list CR1_8 {
+                    address {
+                        10.101.48.30/32;
+                    }
+                }
+                client-list CR2_8 {
+                    address {
+                        10.101.49.30/32;
+                    }
+                }
+                client-list CR1_9 {
+                    address {
+                        10.101.48.34/32;
+                    }
+                }
+                client-list CR2_9 {
+                    address {
+                        10.101.49.34/32;
+                    }
+                }
+                client-list CR1_10 {
+                    address {
+                        10.101.48.38/32;
+                    }
+                }
+                client-list CR2_10 {
+                    address {
+                        10.101.49.38/32;
+                    }
+                }
+                client-list CR1_21 {
+                    address {
+                        10.101.48.42/32;
+                    }
+                }
+                client-list CR2_21 {
+                    address {
+                        10.101.49.42/32;
+                    }
+                }
+                client-list CR1_22 {
+                    address {
+                        10.101.48.46/32;
+                    }
+                }
+                client-list CR2_22 {
+                    address {
+                        10.101.49.46/32;
+                    }
+                }
+                client-list CR1_23 {
+                    address {
+                        10.101.48.50/32;
+                    }
+                }
+                client-list CR2_23 {
+                    address {
+                        10.101.49.50/32;
+                    }
+                }
+                light;
+            }
+        }
+    }
+}
+```
+
+## junos/services/rpm-twamp-server-ap2.conf
+
+```
+/*
+ * Topic: TWAMP server for 13 routing instances with client lists in 10.101.78.0/24 and 10.101.79.0/24
+ * Seen on:
+ *   Junos: ap2_mx10004
+ *   EVO: (none)
+ * Count:
+ *   ap2_mx10004 1
+ *   total 1
+ * Highlights:
+ *  - Listens per routing instance on its own port and admits only the listed customer-router addresses; `authentication-mode none` runs unauthenticated test sessions.
+ * Pair with: none
+ * Variables: none
+ */
+services {
+    rpm {
+        twamp {
+            server {
+                routing-instance-list {
+                    MVPN_INSTANCE1 {
+                        port 862;
+                    }
+                    MVPN_INSTANCE2 {
+                        port 49152;
+                    }
+                    MVPN_INSTANCE3 {
+                        port 49153;
+                    }
+                    MVPN_INSTANCE4 {
+                        port 49154;
+                    }
+                    MVPN_INSTANCE5 {
+                        port 49155;
+                    }
+                    MVPN_INSTANCE6 {
+                        port 49156;
+                    }
+                    MVPN_INSTANCE7 {
+                        port 49157;
+                    }
+                    MVPN_INSTANCE8 {
+                        port 49158;
+                    }
+                    MVPN_INSTANCE9 {
+                        port 49159;
+                    }
+                    MVPN_INSTANCE10 {
+                        port 49160;
+                    }
+                    VRF21 {
+                        port 49161;
+                    }
+                    VRF22 {
+                        port 49162;
+                    }
+                    VRF23 {
+                        port 49163;
+                    }
+                }
+                authentication-mode none;
+                port 1862;
+                client-list CR1_1 {
+                    address {
+                        10.101.78.2/32;
+                    }
+                }
+                client-list CR2_1 {
+                    address {
+                        10.101.79.2/32;
+                    }
+                }
+                client-list CR1_2 {
+                    address {
+                        10.101.78.6/32;
+                    }
+                }
+                client-list CR2_2 {
+                    address {
+                        10.101.79.6/32;
+                    }
+                }
+                client-list CR1_3 {
+                    address {
+                        10.101.78.10/32;
+                    }
+                }
+                client-list CR2_3 {
+                    address {
+                        10.101.79.10/32;
+                    }
+                }
+                client-list CR1_4 {
+                    address {
+                        10.101.78.14/32;
+                    }
+                }
+                client-list CR2_4 {
+                    address {
+                        10.101.79.14/32;
+                    }
+                }
+                client-list CR1_5 {
+                    address {
+                        10.101.78.18/32;
+                    }
+                }
+                client-list CR2_5 {
+                    address {
+                        10.101.79.18/32;
+                    }
+                }
+                client-list CR1_6 {
+                    address {
+                        10.101.78.22/32;
+                    }
+                }
+                client-list CR2_6 {
+                    address {
+                        10.101.79.22/32;
+                    }
+                }
+                client-list CR1_7 {
+                    address {
+                        10.101.78.26/32;
+                    }
+                }
+                client-list CR2_7 {
+                    address {
+                        10.101.79.26/32;
+                    }
+                }
+                client-list CR1_8 {
+                    address {
+                        10.101.78.30/32;
+                    }
+                }
+                client-list CR2_8 {
+                    address {
+                        10.101.79.30/32;
+                    }
+                }
+                client-list CR1_9 {
+                    address {
+                        10.101.78.34/32;
+                    }
+                }
+                client-list CR2_9 {
+                    address {
+                        10.101.79.34/32;
+                    }
+                }
+                client-list CR1_10 {
+                    address {
+                        10.101.78.38/32;
+                    }
+                }
+                client-list CR2_10 {
+                    address {
+                        10.101.79.38/32;
+                    }
+                }
+                client-list CR1_21 {
+                    address {
+                        10.101.78.42/32;
+                    }
+                }
+                client-list CR2_21 {
+                    address {
+                        10.101.79.42/32;
+                    }
+                }
+                client-list CR1_22 {
+                    address {
+                        10.101.78.46/32;
+                    }
+                }
+                client-list CR2_22 {
+                    address {
+                        10.101.79.46/32;
+                    }
+                }
+                client-list CR1_23 {
+                    address {
+                        10.101.78.50/32;
+                    }
+                }
+                client-list CR2_23 {
+                    address {
+                        10.101.79.50/32;
+                    }
+                }
+                light;
+            }
+        }
     }
 }
 ```
 
 ## _variables.md
 
-# Variables Glossary
+# Snippet variable glossary
 
-All `$VARIABLE` placeholders used across the ewan_finance snip library.
-Replace these with site-specific values when deploying.
+All `.conf` files under `junos/` and `evo/` are templates: identifiers that vary
+between deployments are written as `$VAR`. Render a snippet by substituting each
+placeholder with your deployment's value. The placeholders each snippet uses are
+listed in its `Variables:` header and in the glossary below. Variable names and
+meanings follow the shared JVD snippet vocabulary; entries marked **new** were
+introduced by this JVD. Numbered variables (`_1`, `_2`, …) form an ordered set;
+the numbers carry no other meaning.
 
-## Identifiers & Addressing
+Values left literal on purpose: class-of-service object names (`EXP`, `EXP_REWRITE`,
+`sched-map`, `s0`–`s3`, forwarding classes), firewall filter and term names, BGP group
+names, the `P2MP` LSP template, scheduler rates, BFD timers and the multicast
+rate limits. The TWAMP forms are complete deployed test plans and carry no variables.
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$LOCAL_ADDRESS` | BGP local-address (router-id loopback) | `10.200.50.12` |
-| `$LOCAL_AS` | BGP autonomous system number | `64512` |
-| `$ROUTER_ID_ADDRESS` | Primary loopback IPv4 with /32 mask | `10.200.50.13/32` |
-| `$MGMT_LOOPBACK` | Management loopback address | `10.255.163.148/32` |
-| `$ISO_ADDRESS` | IS-IS/CLNS NET address on lo0 | `47.0005.80ff.f800.0000.0108.0001.0102.5516.3148.00` |
-| `$IPV6_ADDRESS` | Primary IPv6 loopback address | `2001:db8::10:255:163:148/128` |
-| `$IPV4_ADDRESS` | Interface IPv4 address with mask | `10.101.23.2/24` |
-| `$ROUTE_DISTINGUISHER` | BGP route-distinguisher (router-id:id) | `10.200.50.12:61` |
-| `$VRF_TARGET` | VPN route-target community | `target:64512:11` |
+## Identity / topology
 
-## Interfaces & LAG
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN` | Local device autonomous-system number. | `64512` |
+| `$ASN_CUSTOMER` | Customer-facing BGP peer autonomous-system number. | `64513` |
+| `$ASN_CUSTOMER_1` | **new** Customer-facing BGP peer AS of the first customer router (`_1`/`_2` follow the BGP groups). | `64520` |
+| `$ASN_CUSTOMER_2` | **new** Customer-facing BGP peer AS of the second customer router. | `64521` |
+| `$ASN_PROVIDER` | **new** Provider (WAN) autonomous-system number of the eBGP neighbor, as configured on a CE. | `64512` |
+| `$ISO_NET` | ISO network entity title on lo0 `family iso`. | `47.0005.80ff.f800.0000.0108.0001.0102.5516.3058.00` |
+| `$LOOPBACK_ANYCAST_V4` | Shared anycast IPv4 loopback address. | `10.10.47.101` |
+| `$LOOPBACK_MGMT_V4_PFX` | Management-network lo0 IPv4 `/32` configured alongside the design loopback. | `10.255.163.58/32` |
+| `$LOOPBACK_V4` | Primary per-node IPv4 loopback address. | `10.200.50.13` |
+| `$LOOPBACK_V4_PFX` | This node's lo0 IPv4 written with its `/32` prefix length (address form). | `10.200.50.9/32` |
+| `$LOOPBACK_V6_PFX` | This node's lo0 IPv6 written with its `/128` prefix length. | `2001:db8::10:255:163:58/128` |
+| `$ROUTER_ID` | Complete router identifier in IPv4 dotted-decimal form. | `10.200.50.9` |
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$INTERFACE_NAME` | Physical interface name | `et-0/0/0` |
-| `$AE_NAME` | Aggregated Ethernet (LAG) name | `ae0` |
-| `$DESCRIPTION` | Interface description string | `Link to P1Node to WANEdge1` |
-| `$MTU` | Interface MTU value | `1522` |
-| `$CORE_IFACE_1` .. `$CORE_IFACE_4` | Core transport interface.unit | `et-0/0/1.0` |
-| `$UNIT_ID` | Logical interface unit number | `1` |
-| `$VLAN_ID` | 802.1Q VLAN identifier | `1` |
+## Interfaces
 
-## LAG / ESI
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$ESI_ID` | Ethernet Segment Identifier (10 bytes) | `00:11:11:11:11:11:12:12:12:12` |
-| `$DF_PREFERENCE` | Designated-forwarder election preference | `150` |
-| `$LACP_PRIORITY` | LACP system priority | `100` |
-| `$LACP_SYSTEM_ID` | LACP system-id (must match across ESI peers) | `00:00:00:00:00:10` |
-| `$UNIT_ESI` | Per-unit ESI for per-VLAN DF election | `00:01:71:81:11:12:a1:00:00:01` |
-| `$UNIT_DF_PREFERENCE` | Per-unit DF preference value | `150` |
-
-## IRB
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$FILTER_NAME` | Firewall filter applied on IRB input | `mfc-filter` |
-| `$STATIC_MAC` | Static MAC for deterministic gateway | `00:10:94:00:00:01` |
-
-## Chassis
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$DEVICE_COUNT` | Aggregated Ethernet device-count | `25` |
-| `$FPC_SLOT` | FPC slot number | `0` |
-| `$PIC_SLOT` | PIC slot number | `0` |
-| `$TUNNEL_BW` | Tunnel-services bandwidth | `10g` |
-| `$PORT_ID` | Physical port number | `0` |
-| `$PORT_SPEED` | Port speed setting | `100g` |
-| `$BREAKOUT_PORT_ID` | Port to be broken out | `9` |
-| `$BREAKOUT_SPEED` | Per-lane speed after breakout | `10g` |
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_ADDR_V4` | IPv4 address on a routed attachment-circuit unit. | `10.101.201.1/24` |
+| `$AC_IFL` | Full logical attachment-circuit interface identifier, including its unit. | `ae0.1` |
+| `$AC_IFL_A` | **new** First attachment logical interface (with unit) of a set; `_A`…`_E` order the members. | `ae0.1` |
+| `$AC_IFL_B` | **new** Second attachment logical interface (with unit) of a set. | `et-0/0/47.1` |
+| `$AE_BUNDLE` | Aggregated-Ethernet bundle a member link joins (`802.3ad`). | `ae0` |
+| `$AE_DEVICE_COUNT` | Number of aggregated-Ethernet devices the chassis allocates. | `25` |
 | `$BREAKOUT_SUB_PORTS` | Number of breakout sub-ports | `4` |
+| `$CORE_INTF_1` | Ordered core-facing logical interfaces named in one protocol stanza (`_1`–`_4` follow configuration order). | `et-0/0/0.0` |
+| `$CORE_INTF_2` | Ordered core-facing logical interfaces named in one protocol stanza (`_1`–`_4` follow configuration order). | `et-0/0/3.0` |
+| `$CORE_INTF_3` | Ordered core-facing logical interfaces named in one protocol stanza (`_1`–`_4` follow configuration order). | `et-0/0/1.0` |
+| `$CORE_INTF_4` | Ordered core-facing logical interfaces named in one protocol stanza (`_1`–`_4` follow configuration order). | `et-0/0/4.0` |
+| `$CORE_V4_ADDR` | Core interface IPv4 address. | `10.101.23.2/24` |
+| `$COS_INTF` | Interface to which the class-of-service configuration is applied, physical or aggregated and independent of topology role. | `et-0/0/0` |
+| `$DESCRIPTION` | Free-text interface `description`. | `"L2/L3 to WANEDGE1/2"` |
+| `$DF_PREFERENCE` | Designated-forwarder election preference value of an Ethernet segment (`df-election-type preference value`); higher wins. | `150` |
+| `$ESI` | 10-byte Ethernet segment identifier (EVPN multihoming). | `00:11:11:11:11:11:12:12:12:12` |
+| `$IFD` | Interface-device identifier, excluding a logical unit. | `ae0` |
+| `$IFL` | **new** A logical interface (unit included) named in a protocol or instance stanza. | `et-0/0/11.100` |
+| `$IFL_1` | **new** First logical interface (unit included) of an ordered set named in one instance. | `et-0/0/42.1` |
+| `$IFL_2` | **new** Second logical interface of the same ordered set. | `et-0/0/48.1` |
+| `$IFL_3` | **new** Third logical interface of the same ordered set. | `et-0/0/49.1` |
+| `$INPUT_FILTER` | **new** Firewall filter applied as `filter input` on a logical interface. | `mfc-filter` |
+| `$IRB_ADDR` | IPv4 address configured on an `irb` unit. | `172.16.1.1/24` |
+| `$IRB_UNIT` | irb.X unit number for IRB integration. | `1` |
+| `$LACP_SYS_ID` | LACP system-id on a multihomed LAG; identical on every device attached to the same Ethernet segment. | `00:00:00:00:00:10` |
+| `$STATIC_MAC` | Static MAC address configured on an interface (here an IRB unit). | `00:10:94:00:00:01` |
+| `$UNIT` | Logical-interface unit number, without the parent interface name. | `0` |
+| `$VLAN` | A single VLAN identifier. | `100` |
+| `$VLAN_NAME` | Name of a `vlans` definition. | `vlan1` |
 
-## BGP Peers
+## Routing, BGP and policy
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$NEIGHBOR_1` .. `$NEIGHBOR_5` | iBGP peer addresses | `10.200.50.13` |
-| `$EXPORT_POLICY` | BGP group export policy list | `[ PS-send-ospf PS-BGP-TO-OSPF ]` |
-| `$CE_NEIGHBOR` | CE/TG BGP peer address | `172.16.1.2` |
-| `$CE_PEER_AS` | CE/TG peer autonomous system | `64513` |
-| `$AP_PEER_AS` | AP router peer AS (for CR VRs) | `64512` |
-| `$AP_NEIGHBOR_1` | AP1 peer address in virtual-router | `10.101.49.1` |
-| `$AP_NEIGHBOR_2` | AP2 peer address in virtual-router | `10.101.79.1` |
-| `$IXIA_PEER_AS` | Traffic generator peer AS | `64521` |
-| `$IXIA_NEIGHBOR` | Traffic generator peer address | `10.101.91.2` |
+| Variable | What it is | Example value |
+|---|---|---|
+| `$BGP_EXPORT_POL` | **new** Name of the policy a BGP group applies with `export`. | `PS-ADV_DIRECT` |
+| `$BGP_EXPORT_POL_1` | **new** First policy in a BGP group `export [ … ]` list; order is evaluation order. | `PS-send-ospf` |
+| `$BGP_EXPORT_POL_2` | **new** Second policy in the same BGP `export` list. | `PS-BGP-TO-OSPF` |
+| `$CE_PEER_V4` | IPv4 address of the external BGP peer (CE). | `172.16.21.2` |
+| `$CE_PEER_V4_1` | **new** IPv4 address of the first customer-router eBGP neighbor. | `10.101.48.42` |
+| `$CE_PEER_V4_2` | **new** IPv4 address of the second customer-router eBGP neighbor. | `10.101.49.42` |
+| `$IBGP_PEER_V4` | **new** IPv4 address of the internal BGP neighbor of a routing instance. | `10.101.81.2` |
+| `$IBGP_PEER_V4_1` | **new** Loopback of an internal BGP neighbor; `_1`–`_5` follow the neighbor order of the group. | `10.200.50.15` |
+| `$IBGP_PEER_V4_2` | **new** Loopback of an internal BGP neighbor; `_1`–`_5` follow the neighbor order of the group. | `10.200.50.14` |
+| `$IBGP_PEER_V4_3` | **new** Loopback of an internal BGP neighbor; `_1`–`_5` follow the neighbor order of the group. | `10.200.50.12` |
+| `$IBGP_PEER_V4_4` | **new** Loopback of an internal BGP neighbor; `_1`–`_5` follow the neighbor order of the group. | `10.200.50.11` |
+| `$IBGP_PEER_V4_5` | **new** Loopback of an internal BGP neighbor; `_1`–`_5` follow the neighbor order of the group. | `10.200.50.16` |
+| `$LSP_NAME_1` | **new** Name of an RSVP-TE label-switched path; `_1`–`_3` follow configuration order. | `lsp_to_PE2` |
+| `$LSP_NAME_2` | **new** Name of an RSVP-TE label-switched path; `_1`–`_3` follow configuration order. | `lsp_to_PE1` |
+| `$LSP_NAME_3` | **new** Name of an RSVP-TE label-switched path; `_1`–`_3` follow configuration order. | `lsp_to_AP1` |
+| `$LSP_TO_V4_1` | **new** Egress (`to`) loopback of the matching label-switched path. | `10.200.50.15` |
+| `$LSP_TO_V4_2` | **new** Egress (`to`) loopback of the matching label-switched path. | `10.200.50.12` |
+| `$LSP_TO_V4_3` | **new** Egress (`to`) loopback of the matching label-switched path. | `10.200.50.14` |
+| `$MATCH_DEST_V4_PFX_1` | **new** Destination IPv4 prefix a firewall term matches; `_1`/`_2` follow term order. | `10.8.21.2/32` |
+| `$MATCH_DEST_V4_PFX_2` | **new** Second destination IPv4 prefix in the same term. | `10.9.21.2/32` |
+| `$OSPF_EXPORT_POL` | **new** Name of the policy OSPF applies with `export` inside a routing instance. | `PS-send-ospf` |
+| `$PE_LOCAL_V4` | PE local IPv4 address of the PE-CE eBGP session (MEBS `$CE_PEER_V4` / `$PE_LOCAL_V4`). | `172.16.21.1` |
+| `$PE_LOCAL_V4_1` | **new** PE local address of the eBGP session to the first customer router. | `10.101.48.41` |
+| `$PE_LOCAL_V4_2` | **new** PE local address of the eBGP session to the second customer router. | `10.101.49.41` |
+| `$PE_PEER_V4_1` | **new** IPv4 address of the first WAN-edge (PE) eBGP neighbor, as configured on a CE; `_1`/`_2` follow the neighbor order. | `10.101.48.1` |
+| `$PE_PEER_V4_2` | **new** IPv4 address of the second PE eBGP neighbor in the same group. | `10.101.78.1` |
+| `$POLICY_NAME` | Policy-statement name where the name is the object the body defines. | `PS-BGP-TO-OSPF` |
+| `$PREFIX` | Prefix a route-filter matches where the prefix itself is what the policy selects. | `10.101.0.0/16` |
 
-## MPLS / RSVP
+## Services and multicast
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$P2MP_LSP_NAME` | P2MP LSP template name | `P2MP` |
-| `$LSP_NAME_1` .. `$LSP_NAME_3` | Named unicast LSP | `lsp_to_AP1` |
-| `$LSP_DEST_1` .. `$LSP_DEST_3` | LSP destination (peer loopback) | `10.200.50.14` |
+| Variable | What it is | Example value |
+|---|---|---|
+| `$BD_NAME` | Bridge-domain (VLAN) name inside an EVPN instance. | `BD_EVPN_GROUP1` |
+| `$INSTANCE_NAME` | Identity stem of a service instance. | `VIRTUAL-ROUTER-V1` |
+| `$MCAST_GROUP_V4_PFX` | **new** IPv4 multicast group prefix: a PIM RP group range, a selective provider-tunnel group or a filter destination. | `225.0.0.0/22` |
+| `$MVPN_RT_ID` | **new** Route-target Assigned Number of the MVPN `route-target` import/export target (Administrator is `$RT_AS`). | `101` |
+| `$PIM_RP_V4` | **new** IPv4 address of a PIM rendezvous point (static RP, or the local RP address on the RP itself). | `10.10.47.101` |
+| `$RD_SUB_ASSIGNED` | Route Distinguisher Assigned Number subfield. | `1` |
+| `$RT_AS` | Route Target Administrator subfield. | `61535` |
+| `$RT_ID` | Route Target Assigned Number subfield. | `1` |
 
-## OSPF / BFD
+## Platform
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$BFD_INTERVAL` | BFD minimum-interval (ms) | `10` |
-| `$BFD_MULTIPLIER` | BFD detect-multiplier | `3` |
-
-## Policy
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$DIRECT_POLICY_NAME` | Direct-route redistribution policy | `PS-ADV_DIRECT` |
-| `$BGP_TO_OSPF_NAME` | BGP-to-OSPF leak policy | `PS-BGP-TO-OSPF` |
-| `$OSPF_TO_BGP_NAME` | OSPF-to-BGP export policy | `PS-send-ospf` |
-| `$MED_LOW_NAME` | Low-MED route-filter policy | `PS-med-10` |
-| `$MED_LOW_PREFIX` | Route-filter prefix for low MED | `10.101.0.0/16` |
-| `$MED_LOW_VALUE` | Low MED metric value | `10` |
-| `$MED_HIGH_NAME` | High-MED catch-all policy | `PS-med-30` |
-| `$MED_HIGH_VALUE` | High MED metric value | `30` |
-| `$EXPORT_POLICIES` | VR BGP export policy list | `[ med-10 med-30 ]` |
-
-## CoS
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$INTERFACE_1` .. `$INTERFACE_4` | CoS-applied interfaces | `et-0/0/1` |
-
-## Firewall
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$MCAST_DEST_PREFIX` | Multicast destination prefix to match | `225.0.0.0/16` |
-| `$FORWARDING_CLASS` | Target forwarding class for match | `FC-LLQ` |
-| `$UNICAST_DEST_1` | Unicast destination for VRF filter | `10.8.21.2/32` |
-| `$UNICAST_DEST_2` | Second unicast destination | `10.9.21.2/32` |
-| `$UNICAST_FWD_CLASS` | Forwarding class for unicast match | `FC-HIGH` |
-
-## Multicast / MVPN
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$RESOLVE_RATE` | Multicast PFE resolve-rate (pps) | `1000` |
-| `$MISMATCH_RATE` | RPF mismatch-rate (pps) | `1000` |
-| `$INSTANCE_NAME` | MVPN/VRF routing-instance name | `MVPN_INSTANCE1` |
-| `$CE_LOCAL_ADDRESS` | MVPN VRF local-address for CE peering | `172.16.1.1` |
-| `$MVPN_RT_IMPORT` | MVPN route-target import | `target:64512:101` |
-| `$MVPN_RT_EXPORT` | MVPN route-target export | `target:64512:101` |
-| `$RP_ADDRESS` | PIM Rendezvous Point address | `10.10.47.101` |
-| `$MCAST_GROUP_RANGE` | PIM multicast group-range prefix | `225.0.0.0/22` |
-| `$IRB_UNIT` | IRB interface bound to MVPN | `irb.1` |
-| `$LO_UNIT` | Loopback unit bound to MVPN | `lo0.1` |
-
-## EVPN
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$BD_NAME` | Bridge-domain name | `BD_EVPN_GROUP1` |
-| `$AE_UNIT` | LAG unit in bridge-domain | `ae0.1` |
-| `$IRB_UNIT` | Routing-interface in bridge-domain | `irb.1` |
-
-## L3VPN / Virtual-Router
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$VRF_NAME` | L3VPN VRF instance name | `VRF21` |
-| `$VR_NAME` | Virtual-router instance name | `VIRTUAL-ROUTER-V1` |
-| `$LOCAL_ADDRESS` | VRF eBGP local-address | `172.16.21.1` |
-| `$IFACE_AP1` | AP1-facing interface in VR | `et-5/0/0.1` |
-| `$IFACE_AP2` | AP2-facing interface in VR | `et-5/0/1.1` |
-| `$IFACE_TG` | Traffic-generator interface in VR | `xe-3/0/6.1` |
-
-## TWAMP / OAM
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$VRF_NAME_1` | TWAMP server VRF name | `MVPN_INSTANCE1` |
-| `$VRF_PORT_1` | TWAMP server port for VRF | `862` |
-| `$GLOBAL_PORT` | TWAMP server global port | `1862` |
-| `$CLIENT_LIST_NAME` | TWAMP client-list ACL name | `CR1_1` |
-| `$CLIENT_ADDRESS` | TWAMP client source address | `10.101.48.2/32` |
-| `$CONNECTION_NAME` | TWAMP client control-connection name | `CR24_1` |
-| `$DEST_PORT` | TWAMP client destination port | `862` |
-| `$ROUTING_INSTANCE` | TWAMP client routing-instance | `VIRTUAL-ROUTER-V1` |
-| `$TARGET_ADDRESS` | TWAMP probe target (server) address | `10.101.49.1` |
-| `$TEST_SESSION_NAME` | TWAMP test-session identifier | `T24_1` |
-| `$PROBE_COUNT` | Probes per test-session iteration | `100` |
-| `$PROBE_INTERVAL` | Probe interval in seconds | `1` |
-
-## VLAN Bridge-Domain (L2 Edge)
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `$VLAN_NAME` | VLAN definition name | `vlan1` |
-| `$LAG_UNIT` | LAG unit in VLAN membership | `ae0.1` |
-| `$ACCESS_UNIT` | Access port unit in VLAN membership | `et-0/0/47.1` |
+| Variable | What it is | Example value |
+|---|---|---|
+| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `1` |
+| `$PIC_SLOT` | PIC slot within an FPC. | `0` |
 
 ## byoai/TIERS.md
 
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-ewan-fin-snips.md`](jvd-ewan-fin-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd enterprise_wan/ewan_finance`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. Node already has a working MPLS/RSVP-TE + OSPF underlay AND the iBGP core mesh. You just want the new service. | Service routing-instance + its attachment interface(s) + service-essential helpers (IRB, provider-tunnel, multicast tuning/filter). **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. Node has the underlay but you want to (re)assert the iBGP core mesh that carries the service address family (inet-vpn / inet-mvpn / evpn). | `minimum` + `transport/ibgp-core-mesh.conf`. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + attachment + iBGP core mesh + OSPF-TE + RSVP + MPLS (P2MP/interfaces) + loopback + core p2p + chassis + CoS + LLDP + policy. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new MX304 WAN-edge turn-up", "bootstrap a new ACX7100 core router") are always treated as **`as-deployed`** regardless of the user's tier choice.
-
-If the user picks `minimum` and the AI cannot tell whether the iBGP core mesh already carries the needed family, it should call that out in the `Notes:` section.
-
----
-
-## Shared underlay (the `as-deployed` baseline for every routing node)
-
-Every `as-deployed` service includes this common baseline. OS-select each file (the MPLS forwarding snip differs: Junos folds LSPs into `mpls-lsp-p2mp`; EVO uses `mpls-interfaces`):
-
-- `bootstrap/chassis-config.conf` — chassis hardware, aggregated-devices, FPC/PIC, tunnel-services
-- `interfaces/physical-p2p-mpls.conf` — core P2P links (family inet + mpls)
-- `interfaces/loopback-multi-af.conf` — lo0 router-id (v4 + v6 + ISO NET)
-- `transport/ibgp-core-mesh.conf` — iBGP full mesh / route-reflection (inet-vpn, inet-mvpn, evpn families)
-- `transport/ospf-te-protection.conf` — OSPF area + TE extensions + link protection + BFD
-- `transport/rsvp-signaling.conf` — RSVP-TE signaling on core interfaces
-- `transport/mpls-lsp-p2mp.conf` (Junos) / `transport/mpls-interfaces.conf` (EVO) — MPLS forwarding + LSPs
-- `cos/exp-classifiers-schedulers.conf` — EXP classifiers, forwarding classes, schedulers
-- `policy/protocol-redistribution.conf` — direct/BGP↔OSPF redistribution policies
-- `oam/lldp-discovery.conf` — LLDP neighbor discovery
-
-> The **L2/L3 edge** (`l2-l3_edge_acx7100`) is NOT a full routing node. It takes only `evo/bootstrap/chassis-config.conf` + `evo/interfaces/lag-lacp.conf` + `evo/interfaces/vlan-bridge-domain.conf` + `evo/oam/lldp-discovery.conf`.
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## NG-MVPN (multicast VRF — SPT-only, RSVP-TE P2MP)  ·  Junos only
+## NG-MVPN sender-site VRF on a WAN edge (SPT-only, hot-root standby)
 
-Runs on the WAN-edge / aggregation PEs (`wanedge1/2`, `ap1/2`).
+Family ng-mvpn, form spt-only-sender. OS mode Junos. Attachment: IRB unit of the EVPN virtual-switch bridge domain plus a VRF loopback unit.
 
-**minimum** (just the service)
-- `junos/services/mvpn-instance.conf`
-- `junos/interfaces/irb-l3-gateway.conf` (IRB bound to the MVPN VRF)
-- `junos/transport/mpls-lsp-p2mp.conf` (P2MP provider-tunnel template)
-- `junos/multicast/forwarding-multicast-tuning.conf` (resolve/mismatch rate)
-- `junos/firewall/multicast-fwd-cache-filter.conf` (multicast CoS marking)
+### wanedge1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `inet-mvpn` / MVPN NLRI, Type-5/7)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
-**as-deployed** (= with-overlay + the shared underlay baseline above)
+### wanedge2_mx10004 (junos)
 
----
-
-## EVPN virtual-switch (Active/Standby, ESI multihoming)  ·  Junos only
-
-Runs on the WAN-edge PEs (`wanedge1/2`).
-
-**minimum** (just the service)
-- `junos/services/evpn-virtual-switch-esi.conf`
-- `junos/interfaces/lag-esi-lacp.conf` (ae0 with ESI + LACP, per-unit DF)
-- `junos/interfaces/irb-l3-gateway.conf` (IRB gateway in the bridge domain)
-
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `evpn` family)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
 ---
 
-## L3VPN VRF (unicast VRF, eBGP PE-CE)  ·  Junos only
+## NG-MVPN receiver VRF on an access point toward two customer routers (SPT-only)
 
-Runs on the WAN-edge / aggregation PEs (`wanedge1/2`, `ap1/2`).
+Family ng-mvpn, form spt-only-receiver. OS mode Junos. Attachment: Two tagged routed units, one toward each customer router, plus a VRF loopback unit.
 
-**minimum** (just the service)
-- `junos/services/vrf-l3vpn.conf`
-- `junos/interfaces/irb-l3-gateway.conf` (IRB the VRF binds)
-- `junos/firewall/multicast-fwd-cache-filter.conf` (VRF CoS-marking filter)
+### ap1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `junos/transport/ibgp-core-mesh.conf` (carries `inet-vpn`)
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### ap2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$OSPF_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
-## Virtual-router (CR PE-CE context — eBGP to AP, PIM-SM)  ·  Junos + EVO
+## L3VPN order-entry VRF on a WAN edge (eBGP over IRB)
 
-Runs on the core routers (`cr1_acx7100-48l` = EVO, `cr2_mx480` = Junos).
+Family l3vpn, form ebgp-irb. OS mode Junos. Attachment: IRB unit of the EVPN virtual-switch bridge domain.
 
-**minimum** (just the service) — OS-select every file
-- `services/virtual-router-instance.conf`
-- `interfaces/flexible-vlan-subinterface.conf` (PE-CE subinterfaces)
-- `policy/route-filter-med.conf` (MED export policies)
-- `oam/twamp-client.conf` (SLA probing)
-- **EVO only, additionally:** `evo/interfaces/vlan-bridge-domain.conf` + `evo/interfaces/lag-lacp.conf`
+### wanedge1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `transport/ibgp-core-mesh.conf` (CR global iBGP toward the RRs)
-- `policy/protocol-redistribution.conf`
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: filter:$INPUT_FILTER
 
 ---
 
-## Add-a-feature requests (no full service)
+## L3VPN order-entry VRF on an access point toward two customer routers
 
-When the user asks to add a supporting feature to an existing device, emit ONLY that snip set (OS-select):
-- **CoS** → `cos/exp-classifiers-schedulers.conf`
-- **TWAMP / OAM** → `oam/twamp-server.conf` (Junos AP/WAN-edge) and/or `oam/twamp-client.conf` (CR) + `oam/lldp-discovery.conf`
-- **Multicast forwarding filter (CoS marking)** → `junos/firewall/multicast-fwd-cache-filter.conf`
-- **Multicast PFE tuning** → `junos/multicast/forwarding-multicast-tuning.conf`
-- **MED / redistribution policy** → `policy/route-filter-med.conf` + `policy/protocol-redistribution.conf`
-- **L2/L3 edge bridging** → `evo/interfaces/vlan-bridge-domain.conf` + `evo/interfaces/lag-lacp.conf`
+Family l3vpn, form ebgp-2-ce. OS mode Junos. Attachment: Two tagged routed units, one toward each customer router.
+
+### ap1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### ap2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
+
+## EVPN-MPLS virtual switch with single-active ESI and IRB on a WAN edge
+
+Family e-lan, form evpn-virtual-switch-irb. OS mode Junos. Attachment: One vlan-bridge unit with a per-unit single-active ESI on the aggregate toward the Layer 2 edge, plus the IRB routing interface.
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+  - occurrence-selection-required: filter:$INPUT_FILTER
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+  - occurrence-selection-required: filter:$INPUT_FILTER
+
+---
+
+## Customer-router virtual router with eBGP to both access points and PIM sparse mode
+
+Family virtual-router, form ebgp-ibgp-pim-static-rp. OS mode MIXED. Attachment: Three tagged routed units: one toward each access point and one toward the attached host.
+
+### cr1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### cr2_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
+
+## Customer-router virtual router with eBGP to both access points (unicast)
+
+Family virtual-router, form ebgp-ibgp. OS mode MIXED. Attachment: Three tagged routed units: one toward each access point and one toward the attached host.
+
+### cr1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+### cr2_mx480 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+  - occurrence-selection-required: interface-parent:source-occurrence
+
+---
 
 ## byoai/DEFAULTS.md
 
-# Auto-Fill Defaults
+# DEFAULTS — Enterprise WAN for Finance & Stock Exchange
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default values the AI uses in `auto` mode (or when the user short-circuits with `all defaults` / `use defaults` / `skip`). It is bundled into [`jvd-ewan-fin-snips.md`](jvd-ewan-fin-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Enterprise WAN for Finance & Stock Exchange JVD. Every value is measured from the validated device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks auto-fill; otherwise ask. Variable meanings are in [`_variables.md`](../_variables.md).
 
-Use these values EXACTLY. Do not invent alternative defaults. Every value the AI auto-fills MUST be listed in the output's `Inputs used:` block so the user can rerun with edits.
+## Device inventory
 
-Addresses below are the JVD lab's actual values (from each device `.conf`). Substitute site values when deploying.
+| Role | Device | Platform | OS | `$LOOPBACK_V4` / router-id | `$ASN` |
+|------|--------|----------|----|----------------------------|--------|
+| WAN Edge | wanedge1_mx304 | MX304 | Junos | 10.200.50.12 | 64512 |
+| WAN Edge | wanedge2_mx10004 | MX10004 | Junos | 10.200.50.15 | 64512 |
+| Access Point | ap1_mx304 | MX304 | Junos | 10.200.50.14 | 64512 |
+| Access Point | ap2_mx10004 | MX10004 | Junos | 10.200.50.16 | 64512 |
+| Provider (P) | p1_ptx10003-80c | PTX10003-80C | EVO | 10.200.50.13 | 64512 |
+| Provider (P) | p2_ptx10001-36mr | PTX10001-36MR | EVO | 10.200.50.11 | 64512 |
+| Customer Router | cr1_acx7100-48l | ACX7100-48L | EVO | 10.200.50.9 | 64520 |
+| Customer Router | cr2_mx480 | MX480 | Junos | 10.200.50.18 | 64521 |
+| L2/L3 Edge | l2-l3_edge_acx7100 | ACX7100 | EVO | 10.255.163.58 (router-id only) | — |
 
----
+The six provider devices (WAN edges, access points, P routers) run one iBGP full mesh (`protocols/bgp-ibgp-full-mesh-5.conf`) between their loopbacks in AS 64512, over OSPF area 0 with RSVP-TE.
 
-## Device inventory (the JVD topology)
+## Service examples (first validated instance per device)
 
-| Device | Platform | OS family | Role | Loopback (router-id) |
-|--------|----------|-----------|------|----------------------|
-| `wanedge1_mx304` | MX304 | Junos | WAN Edge PE — ESI LAG, EVPN, MVPN sender | `10.200.50.12` |
-| `wanedge2_mx10004` | MX10004 | Junos | WAN Edge PE — ESI LAG, EVPN, MVPN sender | `10.200.50.15` |
-| `ap1_mx304` | MX304 | Junos | Aggregation PE — TWAMP server, MVPN | `10.200.50.14` |
-| `ap2_mx10004` | MX10004 | Junos | Aggregation PE — TWAMP server, MVPN | `10.200.50.16` |
-| `cr1_acx7100-48l` | ACX7100-48L | **EVO** | Core Router — virtual-router, TWAMP client | `10.200.50.9` |
-| `cr2_mx480` | MX480 | Junos | Core Router — virtual-router, TWAMP client | `10.200.50.18` |
-| `p1_ptx10003-80c` | PTX10003-80C | **EVO** | P-router — MPLS/RSVP transit | `10.200.50.13` |
-| `p2_ptx10001-36mr` | PTX10001-36MR | **EVO** | P-router — MPLS/RSVP transit | `10.200.50.11` |
-| `l2-l3_edge_acx7100` | ACX7100 | **EVO** | L2/L3 Edge — VLAN bridge, LAG (no L3 overlay) | — |
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| NG-MVPN sender VRF | wanedge1 / wanedge2 | `MVPN_INSTANCE1`, `irb.1`, `lo0.1`, `$PE_LOCAL_V4` 172.16.1.1, `$CE_PEER_V4` 172.16.1.2 (`$ASN_CUSTOMER` 64513), RP 10.10.47.101, group range 225.0.0.0/22, `vrf-target` 64512:11, MVPN target 64512:101, RD `<loopback>`:61 |
+| NG-MVPN receiver VRF | ap1 | `MVPN_INSTANCE2`, `$AC_IFL_1` et-0/0/6.2, `$AC_IFL_2` et-0/0/11.2, `lo0.2`, CE peers 10.101.48.6 (AS 64520) and 10.101.49.6 (AS 64521), static RP 10.10.47.102, group range 225.0.4.0/22 |
+| NG-MVPN receiver VRF | ap2 | `MVPN_INSTANCE1`, `$AC_IFL_1` et-0/0/2.1, `$AC_IFL_2` et-0/4/3.1, CE peers 10.101.78.2 (AS 64520) and 10.101.79.2 (AS 64521) |
+| L3VPN VRF over IRB | wanedge1 / wanedge2 | `VRF21`, `irb.21`, `$PE_LOCAL_V4` 172.16.21.1, `$CE_PEER_V4` 172.16.21.2 (AS 64513), `vrf-target` 64512:21, RD `<loopback>`:221 |
+| L3VPN VRF to two customer routers | ap1 | `VRF21`, et-0/0/6.21 and et-0/0/11.21, CE peers 10.101.48.42 (AS 64520) and 10.101.49.42 (AS 64521) |
+| EVPN virtual switch | wanedge1 / wanedge2 | `EVPN_ESI_LAG1`, bridge domain `BD_EVPN_GROUP1`, VLAN 1, `$AC_IFL` ae0.1, `irb.1`, `vrf-target` 61535:1, RD `<loopback>`:1 |
+| Virtual router (multicast) | cr1 | `VIRTUAL-ROUTER-V1`, et-0/0/42.1 / et-0/0/48.1 / et-0/0/49.1, eBGP to 10.101.48.1 and 10.101.78.1 (AS 64512), iBGP host 10.101.81.2, static RP 10.10.47.101, group range 225.0.0.0/22 |
+| Virtual router (multicast) | cr2 | `VIRTUAL-ROUTER-V1`, et-5/0/0.1 / et-5/0/1.1 / xe-3/0/6.1, eBGP to 10.101.49.1 and 10.101.79.1 (AS 64512), iBGP host 10.101.91.2 |
+| Virtual router (unicast) | cr1 / cr2 | `VIRTUAL-ROUTER-V21`, iBGP host 10.8.21.2 (cr1) / 10.9.21.2 (cr2) |
 
-**Device-choice shortcuts** (offered in the clarifying question):
-- `WANEDGE` → `wanedge1_mx304` + `wanedge2_mx10004` (Junos; MVPN / EVPN / L3VPN senders)
-- `AP` → `ap1_mx304` + `ap2_mx10004` (Junos; MVPN, TWAMP server)
-- `CR` → `cr1_acx7100-48l` (EVO) + `cr2_mx480` (Junos) (virtual-router, TWAMP client)
-- `P` → `p1_ptx10003-80c` + `p2_ptx10001-36mr` (EVO; MPLS transit only — no service instances)
+## Numbering conventions (hold on every measured instance)
 
-The multicast finance overlay (NG-MVPN, EVPN A/S, L3VPN, IRB/ESI, firewall CoS marking, multicast tuning, TWAMP-server) is **Junos-exclusive** on the MX WAN-edge / AP nodes. EVO nodes (ACX/PTX) carry the shared underlay plus the **virtual-router** overlay and the L2/L3-edge bridging snips.
-
----
-
-## Transport / underlay defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$LOCAL_AS` | `64512` | single iBGP core AS (wanedge / ap / p / cr global) |
-| `$ROUTER_ID_ADDRESS` / `$LOCAL_ADDRESS` | = device loopback | per device (see table), `/32` |
-| `$MGMT_LOOPBACK` | `10.255.163.<n>/32` | management lo0 unit |
-| `$ISO_ADDRESS` | NET derived from loopback | `47.0005.80ff.f800.0000.0108.0001.<lo-as-nibbles>.00` |
-| `$IPV6_ADDRESS` | `2001:db8::10:200:50:<n>/128` | v6 loopback |
-| `$NEIGHBOR_1..5` | other core loopbacks | iBGP peers from the table |
-| `$BFD_INTERVAL` / `$BFD_MULTIPLIER` | `10` / `3` | OSPF + RSVP BFD |
-| `$MTU` | `1522` | core P2P (jumbo-capable links) |
-| `$CORE_IFACE_1..4` | `et-0/0/<n>.0` | core transport interfaces |
-
-**RSVP-TE / MPLS:** named unicast LSPs `lsp_to_<peer>` toward each core loopback (`$LSP_NAME_n` / `$LSP_DEST_n`); P2MP provider-tunnel template `$P2MP_LSP_NAME` = `P2MP`.
-
----
-
-## LAG / interface defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$AE_NAME` | `ae0` | access-facing LAG (ESI on WAN-edge; plain LACP on L2/L3 edge) |
-| `$INTERFACE_NAME` | `et-0/0/0` | first physical member |
-| `$DEVICE_COUNT` | `25` | aggregated-devices ethernet device-count |
-| `$LACP_SYSTEM_ID` | `00:00:00:00:00:10` | must match across ESI peers |
-| `$VLAN_ID` | `1` | first service VLAN |
-| `$UNIT_ID` | `1` | first logical unit |
-
----
-
-## ESI (multi-homing) defaults — EVPN virtual-switch
-
-- All-active / Active-Standby ESI on `ae0` for multi-homed CEs.
-- `$ESI_ID` pattern: `00:11:11:11:11:11:12:12:12:12` — MUST match on both PEs of the multihomed pair.
-- `$DF_PREFERENCE` `150`; per-unit ESI `$UNIT_ESI` for per-VLAN DF election.
-- `$LACP_SYSTEM_ID` on the shared LAG MUST match on both PEs of the ESI.
-
----
-
-## Service instance-name conventions
-
-Each service kind uses a distinct instance-name + RD/RT namespace. Increment the trailing numeric per instance.
-
-| Service | Instance name | RD (`<loopback>:<id>`) | RT | Start IDs |
-|---------|---------------|------------------------|----|-----------|
-| NG-MVPN | `MVPN_INSTANCE<n>` | `10.200.50.12:61` | `target:64512:101` (import=export) | instance `1`, RT `101` |
-| EVPN virtual-switch | `EVPN_ESI_LAG<n>` / BD `BD_EVPN_GROUP<n>` | `10.200.50.12:1` | `target:61535:1` | group `1`, VLAN `1`, `ae0.1` |
-| L3VPN VRF | `VRF<n>` | `10.200.50.12:2<n>` | `target:64512:<n>` | `VRF21`, RD `…:221`, RT `…:21`, `irb.21` |
-| Virtual-router | `VIRTUAL-ROUTER-V<n>` | — (eBGP context) | — | AP peer AS `64512`; VR AS cr1 `64520` / cr2 `64521` |
-
----
-
-## Multicast / MVPN defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$RP_ADDRESS` | `10.10.47.101` | PIM Rendezvous Point |
-| `$MCAST_GROUP_RANGE` | `225.0.0.0/22` | PIM group-range (virtual-router); MVPN filter `225.0.0.0/16` |
-| `$RESOLVE_RATE` / `$MISMATCH_RATE` | `1000` / `1000` | multicast PFE resolve / RPF-mismatch (pps) |
-| `$IRB_UNIT` / `$LO_UNIT` | `irb.1` / `lo0.1` | bound to the MVPN instance |
-| `$CE_PEER_AS` | `64513` | CE / traffic-generator AS |
-
----
-
-## Policy (MED) defaults — virtual-router
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$MED_LOW_NAME` / `$MED_LOW_VALUE` | `PS-med-10` / `10` | preferred path, prefix `$MED_LOW_PREFIX` `10.101.0.0/16` |
-| `$MED_HIGH_NAME` / `$MED_HIGH_VALUE` | `PS-med-30` / `30` | catch-all backup path |
-| `$EXPORT_POLICIES` | `[ med-10 med-30 ]` | VR BGP export list |
-| `$OSPF_TO_BGP_NAME` / `$BGP_TO_OSPF_NAME` | `PS-send-ospf` / `PS-BGP-TO-OSPF` | redistribution leak policies |
-
----
-
-## TWAMP / OAM defaults
-
-- TWAMP **server** on Junos AP / WAN-edge: VRF port `$VRF_PORT_1` `862`, global port `$GLOBAL_PORT` `1862`.
-- TWAMP **client** on CR: `$PROBE_COUNT` `100`, `$PROBE_INTERVAL` `1` s, target = server loopback.
-- `$ROUTING_INSTANCE` for client = `VIRTUAL-ROUTER-V1`.
-
----
-
-## CoS defaults
-
-EXP-based classifiers + schedulers with a low-latency queue for market-data (`FC-LLQ`) and a high-priority unicast class (`FC-HIGH`). These forwarding-class names and queue numbers are JVD-wide constants — never parameterize them.
+- **NG-MVPN instance `n` (1–10)** on all four PEs: `MVPN_INSTANCE<n>`; `vrf-target` 64512:`10+n`; MVPN `route-target` 64512:`100+n`; RD `<loopback>`:`60+n`; RP 10.10.47.`100+n`; group range 225.0.`4(n-1)`.0/22; VRF loopback unit `n` and, on the WAN edges, IRB unit `n`.
+- **L3VPN `VRF2x` (21–23)** on all four PEs: `vrf-target` 64512:`2x`; RD `<loopback>`:`22x`; IRB unit `2x` on the WAN edges.
+- **EVPN virtual switch `EVPN_ESI_LAG<n>`** (1–10, 21–23) on both WAN edges: VLAN `n`, attachment `ae0.<n>`, `irb.<n>`, `vrf-target` 61535:`n`, RD `<loopback>`:`n`. Bridge domains are `BD_EVPN_GROUP<n>` for 1–10; instances 21–23 use the name `BD_EVPN_GROUP1`.
+- **Customer-router virtual routers** `VIRTUAL-ROUTER-V<n>` use unit `n` on all three interfaces; the virtual routers with PIM (1–10) use RP 10.10.47.`100+n` and group range 225.0.`4(n-1)`.0/22.
+- PE-CE links use one /30 per instance from 10.101.48.x (ap1–cr1), 10.101.49.x (ap1–cr2), 10.101.78.x (ap2–cr1) and 10.101.79.x (ap2–cr2); the access point holds the first host address.
+- Both WAN edges configure the same IRB address and MAC for a given unit, and the same anycast RP address on the VRF loopback unit.
 
 ## byoai/OUTPUT_FORMAT.md
 
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-ewan-fin-snips.md`](jvd-ewan-fin-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-ewan-fin-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -2607,22 +6116,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   pe1: { name: <hostname>, os: <junos|evo>, loopback4: <addr> }
-#   pe2: { ... }
+#   wanedge1: { name: <hostname>, os: junos, loopback4: <addr> }
+#   ap1: { name: <hostname>, os: junos, loopback4: <addr> }
 # services:
-#   - { kind: <mvpn|evpn-virtual-switch|l3vpn-vrf|virtual-router>,
+#   - { kind: <ng-mvpn-sender|ng-mvpn-receiver|l3vpn-irb|l3vpn-2-ce|evpn-virtual-switch|virtual-router-multicast|virtual-router-unicast>,
 #       count: <int>,
-#       instance_name: <name>,
-#       rd: <loopback:id>,
-#       rt: <target:...>,
-#       esi_base: <hex>,          # for evpn-virtual-switch
-#       mvpn_rt: <target:...>,    # for mvpn
-#       rp: <addr>, group_range: <prefix> }   # for mvpn / virtual-router
+#       start_id: <int>,
+#       attachments: <ifl list>,
+#       rt: <rt_as:rt_id>,
+#       rd: <loopback:assigned> }
 # snips_used:
-#   - junos/services/mvpn-instance.conf
-#   - junos/interfaces/irb-l3-gateway.conf
+#   - junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf
 #   - ...
 ```
 
@@ -2647,15 +6153,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries and the requirements TIERS.md lists under the Blocked entry for that device (attachment interfaces, IRB units, VRF loopback units, export policies, the iBGP mesh and the EVPN virtual switch that owns an IRB). Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-PE / cross-device consistency the user must verify:
-  - EVPN **ESI values** and the LACP system-id MUST match on both PEs of a multihomed pair.
-  - MVPN **route-targets** and the **P2MP provider-tunnel** must be consistent across the sender/receiver PEs.
-  - L3VPN **route-targets** must match across the PEs that share the VRF.
-  - virtual-router: the **eBGP AS toward the AP** (`64512`) is shared; the VR's own AS differs per CR (`cr1` = 64520, `cr2` = 64521).
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- MVPN / multicast turn-ups: remind that `bootstrap/chassis-config.conf` provisions **tunnel-services** (needed for multicast replication) and that `multicast/forwarding-multicast-tuning.conf` + `firewall/multicast-fwd-cache-filter.conf` are the resolve-rate / CoS-marking pair.
+- Cross-device consistency the user must verify: an NG-MVPN instance uses the same route targets, MVPN target, RP and group range on both WAN edges and both access points; an EVPN virtual-switch instance and its IRB unit are identical on both WAN edges; a customer-router virtual router's eBGP neighbors are the access-point PE-CE addresses of the same instance.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 
