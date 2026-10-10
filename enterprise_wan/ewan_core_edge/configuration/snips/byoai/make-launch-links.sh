@@ -3,6 +3,14 @@
 # Print the one-click "Open in ChatGPT" / "Open in Claude" launch
 # URLs that bootstrap an AI chat with the BYOAI system prompt.
 #
+# These URLs ship a short bootstrap message that tells the AI to
+# fetch jvd-ewan-core-edge-byoai-prompt.txt from GitHub and adopt it as its
+# system prompt, then greet the user per the prompt's own
+# instructions. Works in any AI with web fetch enabled.
+#
+# Run from anywhere; print to stdout. Used by the README and as a
+# sanity check that the URLs still encode correctly.
+#
 set -euo pipefail
 
 PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_core_edge/configuration/snips/byoai/jvd-ewan-core-edge-byoai-prompt.txt"

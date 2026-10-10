@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 1,
+  "jvd": "ewan_core_edge",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "roles": {
+    "wanedge": "WAN Edge (PE)",
+    "p": "Core / P Router",
+    "ce": "L2/L3 Edge (CE)"
+  },
+  "forms": [
+    {
+      "id": "l3vpn-hub-spoke-spoke",
+      "family": "l3vpn",
+      "form": "hub-spoke-spoke",
+      "aliases": [
+        "L3VPN hub-and-spoke spoke VRF with as-override"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit toward the spoke CE",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$AC_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$IMPORT_POL",
+        "$EXPORT_POL"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-hub-and-spoke-spoke-vrf-with-as-override",
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-hub-spoke-hub-export",
+      "family": "l3vpn",
+      "form": "hub-spoke-hub-export",
+      "aliases": [
+        "L3VPN hub VRF advertising hub routes to the spokes"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-export-vrf-policy.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit toward the hub CE",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$AC_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$IMPORT_POL",
+        "$EXPORT_POL"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-hub-vrf-advertising-hub-routes-to-the-spokes",
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-hub-spoke-hub-import",
+      "family": "l3vpn",
+      "form": "hub-spoke-hub-import",
+      "aliases": [
+        "L3VPN hub VRF receiving spoke routes"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-vrf-policy.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit toward the hub CE",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$AC_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$IMPORT_POL",
+        "$EXPORT_POL"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-hub-vrf-receiving-spoke-routes",
+      "status": "supported"
+    },
+    {
+      "id": "l3vpn-vrrp",
+      "family": "l3vpn",
+      "form": "vrrp",
+      "aliases": [
+        "L3VPN VRF with VRRP gateway redundancy and an eBGP CE session"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit with a VRRP group",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$LOOPBACK_V4",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$AC_IFL",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-vrf-with-vrrp-gateway-redundancy-and-an-ebgp-ce-session",
+      "status": "supported"
+    },
+    {
+      "id": "bgp-vpls",
+      "family": "vpls",
+      "form": "bgp-vpls-virtual-switch",
+      "aliases": [
+        "BGP-VPLS virtual switch with one VLAN"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=l2vpn"
+      ],
+      "attachment": "VLAN bridge unit on the access bundle",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VPLS_SITE",
+        "$VPLS_SITE_ID",
+        "$VC_ID",
+        "$BD_NAME",
+        "$VLAN",
+        "$AC_IFL",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$VLAN_NAME"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#bgp-vpls-virtual-switch-with-one-vlan",
+      "status": "supported"
+    },
+    {
+      "id": "bgp-vpls-flow-label",
+      "family": "vpls",
+      "form": "bgp-vpls-virtual-switch-flow-label",
+      "aliases": [
+        "BGP-VPLS virtual switch with flow labels"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain-flow-label.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans-flow-label.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=l2vpn"
+      ],
+      "attachment": "VLAN bridge unit on the access bundle",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VPLS_SITE",
+        "$VPLS_SITE_ID",
+        "$VC_ID",
+        "$BD_NAME",
+        "$VLAN",
+        "$AC_IFL",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$VLAN_NAME"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#bgp-vpls-virtual-switch-with-flow-labels",
+      "status": "supported"
+    },
+    {
+      "id": "l2circuit-hot-standby",
+      "family": "l2circuit",
+      "form": "hot-standby",
+      "aliases": [
+        "LDP Layer 2 circuit with a hot-standby backup pseudowire"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [],
+      "attachment": "VLAN circuit cross-connect unit",
+      "userInputs": [
+        "$PRIMARY_LOOPBACK",
+        "$AC_IFL",
+        "$VC_ID",
+        "$BACKUP_LOOPBACK"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ldp-layer-2-circuit-with-a-hot-standby-backup-pseudowire",
+      "status": "supported"
+    },
+    {
+      "id": "l2circuit",
+      "family": "l2circuit",
+      "form": "single-homed",
+      "aliases": [
+        "LDP Layer 2 circuit"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/protocols/l2circuit-ethernet-vlan-control-word.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "VLAN circuit cross-connect unit",
+      "userInputs": [
+        "$REMOTE_PE_V4",
+        "$AC_IFL",
+        "$VC_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ldp-layer-2-circuit",
+      "status": "supported"
+    },
+    {
+      "id": "ngmvpn-rp-static",
+      "family": "ngmvpn",
+      "form": "rp-static-group-range",
+      "aliases": [
+        "NG-MVPN VRF with a static RP over LDP point-to-multipoint tunnels"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit and a VRF loopback unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$UNIT",
+        "$AC_IFL",
+        "$MCAST_GROUP_V4_PFX",
+        "$PIM_RP_V4",
+        "$LOOPBACK_VRF_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$MCAST_SOURCE_V4_PFX"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ng-mvpn-vrf-with-a-static-rp-over-ldp-point-to-multipoint-tunnels",
+      "status": "supported"
+    },
+    {
+      "id": "ngmvpn-rp-local",
+      "family": "ngmvpn",
+      "form": "rp-local",
+      "aliases": [
+        "NG-MVPN VRF acting as the PIM RP over LDP point-to-multipoint tunnels"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit and a VRF loopback unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$UNIT",
+        "$AC_IFL",
+        "$LOOPBACK_VRF_V4",
+        "$MCAST_GROUP_V4_PFX",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$MCAST_SOURCE_V4_PFX"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ng-mvpn-vrf-acting-as-the-pim-rp-over-ldp-point-to-multipoint-tunnels",
+      "status": "supported"
+    },
+    {
+      "id": "ngmvpn-rp-static-null-register",
+      "family": "ngmvpn",
+      "form": "rp-static-group-range-null-register",
+      "aliases": [
+        "NG-MVPN VRF with a static RP and null-register processing"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range-null-register.conf"
+        ]
+      },
+      "pairedConstructs": [
+        "variant:ewan-core-edge-bgp-overlay families=inet-vpn"
+      ],
+      "attachment": "VLAN-tagged IPv4 unit and a VRF loopback unit",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$UNIT",
+        "$AC_IFL",
+        "$MCAST_GROUP_V4_PFX",
+        "$PIM_RP_V4",
+        "$LOOPBACK_VRF_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$MCAST_SOURCE_V4_PFX"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ng-mvpn-vrf-with-a-static-rp-and-null-register-processing",
+      "status": "supported"
+    },
+    {
+      "id": "l2-local-switching",
+      "family": "l2circuit",
+      "form": "local-switching",
+      "aliases": [
+        "Local switching between two units on a CE"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/protocols/l2circuit-local-switching.conf"
+        ],
+        "evo": [
+          "evo/protocols/l2circuit-local-switching.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Two VLAN circuit cross-connect units on the same device",
+      "userInputs": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#local-switching-between-two-units-on-a-ce",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-ospf-lfa",
+      "aliases": [
+        "Add OSPF loop-free alternates to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-load-balancing",
+      "aliases": [
+        "Add per-packet load balancing to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ]
+}

@@ -4,16 +4,41 @@
 # snips/junos/, snips/evo/, and snips/_variables.md.
 #
 # Run after any change to the snip library so the BYOAI bundle
-# stays in sync with the source files.
+# stays in sync with the source files. TIERS.md (and MANIFEST.json, once the dependency
+# declaration is qualified) are produced by the private builder (git-jvd-builder): set
+# JVD_BUILDER to its checkout to regenerate them.
+#
+# Modes:
+#   (default)       full regeneration; requires JVD_BUILDER, exits 3 without it
+#   --public-only   bundle assembly consistency using committed public artifacts
+#                   (TIERS.md as committed); not regeneration, freshness
+#                   verification or qualification
 #
 set -euo pipefail
 
 cd "$(dirname "$0")/.."   # cd into snips/
 
+PUBLIC_ONLY=0
+for arg in "$@"; do
+  case "$arg" in
+    --public-only) PUBLIC_ONLY=1 ;;
+    *) echo "unknown argument: $arg" >&2; exit 2 ;;
+  esac
+done
+
+if [ "$PUBLIC_ONLY" -eq 1 ]; then
+  echo "public-only: bundle assembly consistency using committed public artifacts (TIERS.md as committed); not regeneration, freshness verification or qualification" >&2
+elif [ -z "${JVD_BUILDER:-}" ]; then
+  echo "ERROR: regeneration requires the private builder (set JVD_BUILDER=<git-jvd-builder checkout>); TIERS.md and MANIFEST.json were NOT regenerated. Use --public-only to assemble from committed artifacts." >&2
+  exit 3
+else
+  JVD_REPO="$(cd ../../../.. && pwd -P)" node "$JVD_BUILDER/engine/js/generate-tiers.mjs" --jvd enterprise_wan/ewan_core_edge
+fi
+
 OUT="byoai/jvd-ewan-core-edge-snips.md"
 
 {
-  echo "# JVD EWAN Core & Edge snippet library"
+  echo "# JVD Enterprise WAN Core and Edge snippet library"
   echo
   for f in $(find junos evo -name '*.conf' | sort); do
     echo "## $f"
@@ -28,6 +53,12 @@ OUT="byoai/jvd-ewan-core-edge-snips.md"
   cat _variables.md
   echo
   echo "## byoai/TIERS.md"
+  echo
+  echo "> **Tier qualification for this JVD.** Only \`minimum\` is qualified and selectable."
+  echo "> The \`self-contained\` and \`as-deployed\` lists below are computed from same-device"
+  echo "> dependencies that are not yet qualified (the published configurations reference"
+  echo "> interfaces and loopbacks they do not define). They are not qualified and not"
+  echo "> selectable: never offer or render them."
   echo
   cat byoai/TIERS.md
   echo
@@ -51,6 +82,13 @@ plines=$(wc -l < "$PROMPT_OUT")
 psize=$(du -h "$PROMPT_OUT" | cut -f1)
 echo "regenerated: $PROMPT_OUT ($plines lines, $psize)"
 
-# Regenerate the MANIFEST.json (used by AIs with web fetch to pull
-# only the snips they need on demand).
-byoai/make-manifest.py
+# Regenerate the MANIFEST.json (used by AIs with web fetch to pull only the snips they need
+# on demand) only when the library declares a qualified dependency contract;
+# --public-only keeps the committed state.
+if [ "$PUBLIC_ONLY" -eq 0 ]; then
+  if grep -q '"dependencyContractVersion"' _snip-library.json; then
+    byoai/make-manifest.py
+  else
+    echo "MANIFEST.json not generated: the same-device dependency declaration is not qualified for this JVD"
+  fi
+fi

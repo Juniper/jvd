@@ -1,89 +1,49 @@
-# Auto-Fill Defaults
+# DEFAULTS — Enterprise WAN Core and Edge
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default values the AI uses in `auto` mode (or when the user short-circuits with `all defaults` / `use defaults` / `skip`). It is bundled into [`jvd-ewan-core-edge-snips.md`](jvd-ewan-core-edge-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Enterprise WAN Core and Edge JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks auto-fill; otherwise ask. Variable meanings are in [`_variables.md`](../_variables.md).
 
-Use these values EXACTLY. Do not invent alternative defaults. Every value the AI auto-fills MUST be listed in the output's `Inputs used:` block so the user can rerun with edits.
+## Device inventory
 
----
+| Role | Device | Platform | OS | `$LOOPBACK_V4` / router-id | `$ASN` |
+|------|--------|----------|----|----------------------------|--------|
+| WAN Edge (PE) | wanedge1_mx304 | MX304 | Junos | 10.10.0.12 | 64512 |
+| WAN Edge (PE) | wanedge2_mx10008 | MX10008 | Junos | 192.168.0.15 | 64512 |
+| WAN Edge (PE) | wanedge3_acx7509 | ACX7509 | EVO | 192.168.0.14 | 64512 |
+| WAN Edge (PE) | wanedge4_acx7100-48l | ACX7100-48L | EVO | 192.168.0.16 | 64512 |
+| Core / P Router | p1_ptx10003 | PTX10003 | EVO | 1.1.1.8 | 64512 |
+| Core / P Router | p2_ptx10001-36mr | PTX10001-36MR | EVO | 6.6.6.6 | 64512 |
+| L2/L3 Edge (CE) | ce1_acx7100-48l | ACX7100-48L | EVO | — | — |
+| L2/L3 Edge (CE) | ce2_mx480 | MX480 | Junos | — | 64520 |
 
-## Device inventory (the JVD topology)
+## BGP overlay
 
-| Device | OS family | Role | Loopback (router-id) |
-|--------|-----------|------|----------------------|
-| `wanedge1_mx304` | Junos | WAN Edge PE | `10.10.0.12` |
-| `wanedge2_mx10008` | Junos | WAN Edge PE | `192.168.0.11` |
-| `wanedge3_acx7509` | EVO | WAN Edge PE | `192.168.0.14` |
-| `wanedge4_acx7100-48l` | EVO | WAN Edge PE | `192.168.0.16` |
-| `p1_ptx10003` | EVO | Core P / Route Reflector | `1.1.1.8` |
-| `p2_ptx10001-36mr` | EVO | Core P / Route Reflector | `192.168.0.17` |
-| `ce1_acx7100-48l` | EVO | L2/L3 Edge (CE) | — |
-| `ce2_mx480` | Junos | L2/L3 Edge (CE) | — |
+| Device | BGP form | Peers |
+|--------|----------|-------|
+| wanedge1, wanedge3 | `{junos,evo}/protocols/bgp-overlay-pe-labeled-unicast.conf` | 192.168.0.17, 192.168.0.11 |
+| wanedge2 | `junos/protocols/bgp-overlay-pe.conf` | 192.168.0.17, 192.168.0.11 |
+| wanedge4 | `evo/protocols/bgp-overlay-pe-local-as.conf` | 192.168.0.17, 192.168.0.11 |
+| p1, p2 | not modelled | route-reflector peering toward 2.2.2.2, 4.4.4.4, 5.5.5.5, 7.7.7.7 does not correspond to this JVD's WAN edges |
 
-**Device-choice shortcuts** (offered in the clarifying question):
-- `EVO` → `wanedge3_acx7509` + `wanedge4_acx7100-48l`
-- `JUNOS` → `wanedge1_mx304` + `wanedge2_mx10008`
-- `MIXED` → `wanedge1_mx304` (Junos) + `wanedge3_acx7509` (EVO)
+## Service examples (measured instances)
 
-The two P routers (`p1_ptx10003`, `p2_ptx10001-36mr`) are the iBGP route reflectors — services are NOT instantiated on them. The two CE devices are customer-premises equipment — generate PE-side config only.
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| L3VPN with VRRP | wanedge1 / wanedge2 | `l3vpn_vrrp_3001_3001`, `$AC_IFL` xe-0/0/15:1.3001 / xe-3/1/12.3001, `$BGP_GROUP` CE1, `$CE_PEER_V4` 10.45.0.3, `$PE_LOCAL_V4` 10.45.0.4 (the VRRP virtual address), `$ASN_CUSTOMER` 64510, `vrf-target` 64510:3001, RD `<loopback>:3001`; unit priority 250 on wanedge1, 150 on wanedge2 |
+| L3VPN with VRRP | wanedge3 / wanedge4 | `l3vpn_vrrp_3001_3001`, `$AC_IFL` et-1/0/12.3001 / et-0/0/51:0.3001, `$BGP_GROUP` CE2, `$CE_PEER_V4` 10.75.0.3, `$PE_LOCAL_V4` 10.75.0.4, `$ASN_CUSTOMER` 64520, `vrf-target` 64510:3001 |
+| L3VPN hub-and-spoke, spoke | wanedge1 / wanedge2 | `l3vpn_Spoke_1_1` / `l3vpn_Spoke_2_1`, `$AC_IFL` xe-0/0/15:0.4001 / xe-3/1/10.4001, `$BGP_GROUP` v4spirent, `$CE_PEER_V4` 10.40.0.1 / 10.50.0.1, `$ASN_CUSTOMER` 64510, `$IMPORT_POL` hub_1, `$EXPORT_POL` spoke_1, RD `<loopback>:4001` |
+| L3VPN hub-and-spoke, hub | wanedge3 | advertise: `Hub_Adv_To_Spokes_1001` on et-1/0/12.2001, import `spoke_1`, export `null`; receive: `Spokes_Adv_To_Hub_1001` on et-1/0/12.1001, import `null`, export `hub_1`; `$BGP_GROUP` CE2, `$ASN_CUSTOMER` 64520 |
+| BGP-VPLS | wanedge1 / wanedge3 / wanedge4 | `vpls_group_101_<n>`, `$AC_IFL` ae1.<n>, `$VLAN` <n>, `$VC_ID` <n>, `$VPLS_SITE` 101 / 103 / 104, `$VPLS_SITE_ID` 1001 / 1003 / 1004, RD 2222 / 4444 / 7777 : `10<n>`-style, `vrf-target` 64512:<RD assigned> |
+| Layer 2 circuit, hot standby | wanedge1 / wanedge2 | `$AC_IFL` ae1.1501 / ae1.1001, `$VC_ID` = unit, `$PRIMARY_LOOPBACK` 192.168.0.14, `$BACKUP_LOOPBACK` 192.168.0.16 |
+| Layer 2 circuit | wanedge3 / wanedge4 | `$AC_IFL` ae1.1001, `$VC_ID` 1001, `$REMOTE_PE_V4` 192.168.0.15 |
+| NG-MVPN | wanedge1–wanedge4 | `vpn-mcast_<n>`, `$AC_IFL` <access port>.<n>, lo0 unit <n>, `$LOOPBACK_VRF_V4` 10.11.11.<n> / 10.22.22.<n> / 10.33.33.<n> / 10.44.44.<n>, `$PIM_RP_V4` 10.33.33.<n> (wanedge3 is the RP), `$MCAST_GROUP_V4_PFX` 227.1.1.<n>/32, `$MCAST_SOURCE_V4_PFX` 124.1.<n>.1/32, `vrf-target` 1:<n> |
+| Local switching | ce1 / ce2 | `$AC_IFL_A` ae1.1501 / et-2/1/4:0.1, `$AC_IFL_B` et-0/0/44.1501 / xe-2/0/0:0.1 |
 
----
+## Numbering conventions (hold on every measured instance)
 
-## Transport / underlay defaults
+| Service form | Convention |
+|--------------|------------|
+| L3VPN (all forms) | RD administrator = the WAN edge loopback (`$LOOPBACK_V4`); the VRRP VRF router-id is the same loopback. |
+| BGP-VPLS | `$RT_ID` = `$RD_SUB_ASSIGNED`; `$RD_SUB_ADMIN` is fixed per device (2222, 4444, 7777) and is not the loopback. |
+| NG-MVPN | RD administrator = the VRF loopback `lo0.<n>` address; the PIM group range equals the selective-tunnel group. |
 
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$LOCAL_AS` | `64512` | single iBGP AS, all devices |
-| `$RR_NEIGHBOR_1` | `192.168.0.17` | p2_ptx10001-36mr loopback |
-| `$RR_NEIGHBOR_2` | `192.168.0.11` | — (wanedge2 is also a neighbor on some devices) |
-| `$ROUTER_ID` / `$LOCAL_ADDRESS` | = device loopback | per device (see table) |
-| `$AREA` | `0.0.0.0` | OSPF single area |
-| `$CE_PEER_AS` | `64510` (site 1) / `64520` (site 2) | CE AS numbers |
-| `$RP_ADDRESS` | `1.1.1.8` (on PEs: static RP) | p1_ptx10003 loopback |
-| `$MTU` | — | core uplinks (use platform default) |
-
----
-
-## LAG / interface defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$AE_INTF` (core) | `ae2` | core-facing LAG to P-routers |
-| `$AE_INTF` (access) | `ae1` | access-facing LAG for service ACs |
-| `$LACP_SYSTEM_ID` | `00:00:22:00:00:01` (wanedge1) / `00:00:44:00:00:01` (wanedge3) | per-device |
-| `$AE_DEVICE_COUNT` | `25` | aggregated-devices ethernet device-count |
-
----
-
-## Service instance-name conventions
-
-Each service kind uses a distinct instance-name prefix. Increment the trailing numeric per instance.
-
-| Service | Instance name pattern | Starting example | Unit / VLAN start |
-|---------|----------------------|------------------|-------------------|
-| L3VPN VRRP | `l3vpn_vrrp_3001_<n>` | `l3vpn_vrrp_3001_3002` | unit `3002` |
-| L3VPN Spoke | `l3vpn_Spoke_<site>_<n>` | `l3vpn_Spoke_1_1` | unit `4001` |
-| VPLS | `vpls_group_101_<n>` | `vpls_group_101_1` | unit/VLAN `1` |
-| L2CKT | — (no routing-instance) | — | unit `1501` |
-| NGMVPN | `vpn-mcast_<n>` | `vpn-mcast_1` | lo0 unit `1` |
-| NGMVPN Hub | `Hub_Adv_To_Spokes_<n>` | `Hub_Adv_To_Spokes_1001` | unit `2001` |
-| NGMVPN Spoke | `Spokes_Adv_To_Hub_<n>` | `Spokes_Adv_To_Hub_1001` | unit `1001` |
-
----
-
-## Route-distinguisher / route-target defaults
-
-| Variable | Rule | Example |
-|----------|------|---------|
-| `$RD` | `<device-loopback>:<unit>` | `10.10.0.12:3002` (wanedge1) |
-| `$VRF_TARGET` | `<CE_AS>:<unit>` for L3VPN | `64510:3002` |
-| `$VRF_TARGET` (VPLS) | `64512:<RD-suffix>` | `64512:1011` |
-| Hub/Spoke RT | `target:65535:<2N-1>` (hub) / `target:65535:<2N>` (spoke) | hub_1 = `target:65535:1`, spoke_1 = `target:65535:2` |
-| NGMVPN | `<RP-address>:<id>` | `10.33.33.1:1` |
-
-**Cross-PE consistency rule:** route-targets and VPLS-IDs MUST match across all PEs in the same service instance. Per-PE identifiers (loopback, RD, site-identifier, AC interface) differ.
-
----
-
-## CoS defaults
-
-8-class model: af(2), af1(6), be(0), be1(4), ef(1), ef1(5), nc(3), nc1(7). DSCP classifier "mydscp" + 802.1p "dot1p". These are JVD-wide constants — never parameterize the class names or queue numbers.
+For `N` services, auto-fill increments the per-service number from the example's starting value and keeps the conventions above. Keep the two WAN edges of a service consistent: same instance name and route target; for VRRP the same virtual address with different priorities.
