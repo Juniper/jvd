@@ -402,6 +402,41 @@
       "example": "101",
       "notes": "Provisionally accepted by Kevin Brown on 2026-10-09; reconciled across EWAN Finance and EWAN Core/Edge.",
       "establishedFrom": "enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf"
+    },
+    "BGP_GROUP": {
+      "intent": "Name of a BGP peer group.",
+      "use": "The `group` name of a CE-facing group in a VRF, or of a CE group toward the provider edge, when the name differs between instances. A fixed group name that other configuration references stays literal.",
+      "example": "CE1",
+      "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf"
+    },
+    "VRRP_VIP": {
+      "intent": "IPv4 VRRP virtual address.",
+      "use": "The `virtual-address` of a VRRP group on an attachment unit, shared by the routers of the group.",
+      "example": "10.75.0.104",
+      "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf"
+    },
+    "VRRP_PRIORITY": {
+      "intent": "VRRP priority of this router in a group.",
+      "use": "The `priority` of a VRRP group on an attachment unit; the routers of one group carry different values.",
+      "example": "250",
+      "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf"
+    },
+    "LOOPBACK_VRF_V4": {
+      "intent": "IPv4 address of a VRF loopback unit.",
+      "use": "The address on the lo0 unit placed in a VRF. Retain this name where the same value also supplies the RD Administrator subfield or the local PIM RP address in that VRF.",
+      "example": "10.33.33.10",
+      "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf"
+    },
+    "MCAST_SOURCE_V4_PFX": {
+      "intent": "IPv4 multicast source prefix.",
+      "use": "The `source` of a selective provider-tunnel (S,G) entry.",
+      "example": "124.1.10.1/32",
+      "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
+      "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf"
     }
   },
   "notes": [
