@@ -28,6 +28,9 @@ virtual switches, the customer virtual routers and the Finance class-of-service 
   library.
 - **Shared variable vocabulary**: new entries for multicast, provider-peering and
   ordered-set variables, so other JVDs reuse the same names.
+- **AI assistant bundle check**: pull requests now check the assistant bundle of
+  every JVD whose snippet library they change, not only Metro Ethernet Business
+  Services. JVDs with a modernized library are included automatically.
 
 ### What this means for you
 
@@ -37,6 +40,8 @@ virtual switches, the customer virtual routers and the Finance class-of-service 
   [variable glossary](enterprise_wan/ewan_finance/configuration/snips/_variables.md).
 - Links or bookmarks to the earlier Finance snippet file names no longer resolve;
   use the topic index in the library README.
+- If you change a modernized snippet library, regenerate its assistant bundle in
+  the same pull request; the check reports a stale bundle.
 
 ---
 
@@ -51,8 +56,8 @@ Changes since the October 8 entry, excluding this changelog.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Enterprise WAN / Finance | 124 | 0 | 38 | 18 | 2 |
 | Portal | 0 | 0 | 0 | 12 | 1 |
-| Repository (glossary) | 0 | 0 | 0 | 1 | 0 |
-| **Total** | **124** | **0** | **38** | **31** | **3** |
+| Repository (CI and glossary) | 0 | 0 | 0 | 2 | 0 |
+| **Total** | **124** | **0** | **38** | **32** | **3** |
 
 </details>
 
@@ -63,8 +68,8 @@ Changes since the October 8 entry, excluding this changelog.
 | --- | ---: | ---: | ---: |
 | Enterprise WAN / Finance | 18304 | 5771 | +12533 |
 | Portal | 24518 | 7715 | +16803 |
-| Repository (glossary) | 105 | 0 | +105 |
-| **Total** | **42927** | **13486** | **+29441** |
+| Repository (CI and glossary) | 152 | 25 | +127 |
+| **Total** | **42974** | **13511** | **+29463** |
 
 </details>
 
