@@ -162,6 +162,76 @@
     "repoPath": "data_center/adc/evpn_vxlan_sflow_apstra"
   },
   {
+    "id": "3stage_dc_update",
+    "name": "3-Stage Data Center Update",
+    "area": "Data Center",
+    "description": "Updated 3-stage EVPN/VXLAN ERB fabric validation: new platforms, larger scale, multiple MAC-VRF instances and overlapping VLANs, Apstra-managed.",
+    "platforms": [
+      "ACX7100-48L",
+      "EX4100-48P",
+      "EX4400-48MP",
+      "PTX10001-36MR",
+      "QFX5110-48S-4C",
+      "QFX5120-32C",
+      "QFX5120-48Y-8C",
+      "QFX5120-48YM-8C",
+      "QFX5130-32CD",
+      "QFX5130-48C",
+      "QFX5130-48CM",
+      "QFX5140-24CD8O",
+      "QFX5210-64C",
+      "QFX5220-128C",
+      "QFX5220-32CD",
+      "QFX5230-64CD"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/3stage_dc_update"
+  },
+  {
+    "id": "3stage_dc_ipv6_update",
+    "name": "3-Stage Data Center with IPv6 Underlay and Overlay",
+    "area": "Data Center",
+    "description": "3-stage EVPN/VXLAN fabric with IPv6 eBGP underlay and IPv6 EVPN overlay, Apstra-managed.",
+    "platforms": [
+      "EX4400-48MP",
+      "QFX5120-32C",
+      "QFX5120-48Y-8C",
+      "QFX5120-48YM-8C",
+      "QFX5130-32CD",
+      "QFX5130-48C",
+      "QFX5130-48CM",
+      "QFX5140-24CD8O",
+      "QFX5210-64C",
+      "QFX5220-128C",
+      "QFX5220-32CD"
+    ],
+    "os": [
+      "Junos",
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/3stage_dc_ipv6_update"
+  },
+  {
+    "id": "hybrid_telco_dc_fabric",
+    "name": "Telco Cloud and EVPN-VXLAN Data Center Fabric",
+    "area": "Data Center",
+    "description": "IPv6 EVPN-VXLAN bridged-overlay fabric for private telco clouds with JCNR, SR-IOV Q-in-Q and an offramp gateway, Apstra-managed.",
+    "platforms": [
+      "PTX10002-36QDD",
+      "QFX5130-32CD",
+      "QFX5130-48C",
+      "QFX5130-48CM",
+      "QFX5230-64CD"
+    ],
+    "os": [
+      "Junos EVO"
+    ],
+    "repoPath": "data_center/adc/hybrid_telco_dc_fabric"
+  },
+  {
     "id": "aiml_multitenancy_backend",
     "name": "AI/ML Multitenancy Backend",
     "area": "Data Center",
