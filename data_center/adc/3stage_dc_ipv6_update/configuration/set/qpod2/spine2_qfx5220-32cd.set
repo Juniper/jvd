@@ -1,0 +1,292 @@
+set version 25.2X100-D30.4-EVO
+set system host-name spine2
+set system services netconf ssh
+set system services ssh root-login allow
+set system management-instance
+set system ports console log-out-on-disconnect
+set system extensions extension-service application file aos_show_tech_evo.py username root
+set system extensions extension-service application file aos_show_version_evo.py username root
+set chassis fpc 0 pic 0 port 0 speed 100g
+set chassis fpc 0 pic 0 port 3 speed 100g
+set chassis fpc 0 pic 0 port 4 speed 100g
+set chassis fpc 0 pic 0 port 7 speed 100g
+set chassis fpc 0 pic 0 port 8 speed 100g
+set chassis fpc 0 pic 0 port 9 speed 100g
+set chassis fpc 0 pic 0 port 10 speed 100g
+set chassis fpc 0 pic 0 port 11 speed 100g
+set chassis fpc 0 pic 0 port 12 speed 100g
+set chassis fpc 0 pic 0 port 13 speed 100g
+set interfaces et-0/0/0 description facing_dc2-single-sub-001-leaf1:et-0/0/49
+set interfaces et-0/0/0 mtu 9216
+set interfaces et-0/0/0 unit 0 family inet
+set interfaces et-0/0/0 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/0 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::26/127
+set interfaces et-0/0/1 unit 0 family inet
+set interfaces et-0/0/2 unit 0 family inet
+set interfaces et-0/0/3 description facing_dc2-esi-001-leaf1:et-0/0/49
+set interfaces et-0/0/3 mtu 9216
+set interfaces et-0/0/3 unit 0 family inet
+set interfaces et-0/0/3 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/3 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::18/127
+set interfaces et-0/0/4 description facing_dc2-esi-001-leaf2:et-0/0/49
+set interfaces et-0/0/4 mtu 9216
+set interfaces et-0/0/4 unit 0 family inet
+set interfaces et-0/0/4 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/4 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1a/127
+set interfaces et-0/0/5 unit 0 family inet
+set interfaces et-0/0/6 unit 0 family inet
+set interfaces et-0/0/7 description facing_dc2-esi-002-leaf1:et-0/0/1
+set interfaces et-0/0/7 mtu 9216
+set interfaces et-0/0/7 unit 0 family inet
+set interfaces et-0/0/7 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/7 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1c/127
+set interfaces et-0/0/8 description facing_dc2-esi-002-leaf2:et-0/0/1
+set interfaces et-0/0/8 mtu 9216
+set interfaces et-0/0/8 unit 0 family inet
+set interfaces et-0/0/8 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/8 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1e/127
+set interfaces et-0/0/9 description facing_dc2-single-001-leaf1:et-0/0/49
+set interfaces et-0/0/9 mtu 9216
+set interfaces et-0/0/9 unit 0 family inet
+set interfaces et-0/0/9 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/9 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::24/127
+set interfaces et-0/0/10 description facing_dc2-borderleaf-001-leaf1:et-0/0/49
+set interfaces et-0/0/10 mtu 9216
+set interfaces et-0/0/10 unit 0 family inet
+set interfaces et-0/0/10 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/10 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::14/127
+set interfaces et-0/0/11 description facing_dc2-borderleaf-001-leaf2:et-0/0/49
+set interfaces et-0/0/11 mtu 9216
+set interfaces et-0/0/11 unit 0 family inet
+set interfaces et-0/0/11 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/11 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::16/127
+set interfaces et-0/0/12 description facing_dc2-esi-003-leaf1:et-0/0/49
+set interfaces et-0/0/12 mtu 9216
+set interfaces et-0/0/12 unit 0 family inet
+set interfaces et-0/0/12 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/12 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::20/127
+set interfaces et-0/0/13 description facing_dc2-esi-003-leaf2:et-0/0/49
+set interfaces et-0/0/13 mtu 9216
+set interfaces et-0/0/13 unit 0 family inet
+set interfaces et-0/0/13 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/13 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::22/127
+set interfaces et-0/0/14 unit 0 family inet
+set interfaces et-0/0/15 unit 0 family inet
+set interfaces et-0/0/16 unit 0 family inet
+set interfaces et-0/0/17 unit 0 family inet
+set interfaces et-0/0/18 unit 0 family inet
+set interfaces et-0/0/19 unit 0 family inet
+set interfaces et-0/0/20 unit 0 family inet
+set interfaces et-0/0/21 unit 0 family inet
+set interfaces et-0/0/22 unit 0 family inet
+set interfaces et-0/0/23 unit 0 family inet
+set interfaces et-0/0/24 unit 0 family inet
+set interfaces et-0/0/25 unit 0 family inet
+set interfaces et-0/0/26 unit 0 family inet
+set interfaces et-0/0/27 unit 0 family inet
+set interfaces et-0/0/28 unit 0 family inet
+set interfaces et-0/0/29 unit 0 family inet
+set interfaces et-0/0/30 unit 0 family inet
+set interfaces et-0/0/31 unit 0 family inet
+set interfaces et-0/0/32 unit 0 family inet
+set interfaces et-0/0/33 unit 0 family inet
+set interfaces lo0 unit 0 family inet address 192.168.254.2/32
+set interfaces lo0 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1002/128 primary
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 from family inet
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 from protocol direct
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 then community add DEFAULT_DIRECT_V4
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 then accept
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 from family inet6
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 from protocol direct
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 then community add DEFAULT_DIRECT_V6
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 then accept
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-100 then reject
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-10 from policy AllPodNetworks
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-10 then accept
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-20 from protocol bgp
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-20 then accept
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-100 then reject
+set policy-options policy-statement PFE-LB then load-balance per-packet
+set policy-options policy-statement SPINE_TO_LEAF_EVPN_OUT term SPINE_TO_LEAF_EVPN_OUT-10 then community add FROM_SPINE_EVPN_TIER
+set policy-options policy-statement SPINE_TO_LEAF_EVPN_OUT term SPINE_TO_LEAF_EVPN_OUT-10 then accept
+set policy-options policy-statement SPINE_TO_LEAF_FABRIC_OUT term SPINE_TO_LEAF_FABRIC_OUT-10 then community add FROM_SPINE_FABRIC_TIER
+set policy-options policy-statement SPINE_TO_LEAF_FABRIC_OUT term SPINE_TO_LEAF_FABRIC_OUT-10 then accept
+set policy-options community DEFAULT_DIRECT_V4 members 2:20007
+set policy-options community DEFAULT_DIRECT_V4 members 21001:26000
+set policy-options community DEFAULT_DIRECT_V6 members 2:20008
+set policy-options community DEFAULT_DIRECT_V6 members 21001:26000
+set policy-options community FROM_SPINE_EVPN_TIER members 0:14
+set policy-options community FROM_SPINE_FABRIC_TIER members 0:15
+set routing-options router-id 192.168.254.2
+set routing-options autonomous-system 65101
+set routing-options graceful-restart
+set routing-options forwarding-table export PFE-LB
+set routing-options forwarding-table ecmp-fast-reroute
+set protocols router-advertisement interface et-0/0/0.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/0.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/10.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/10.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/11.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/11.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/12.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/12.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/13.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/13.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/3.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/3.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/4.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/4.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/7.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/7.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/8.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/8.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/9.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/9.0 min-advertisement-interval 10
+set protocols bgp group l3clos-s type external
+set protocols bgp group l3clos-s multipath multiple-as
+set protocols bgp group l3clos-s bfd-liveness-detection minimum-interval 1000
+set protocols bgp group l3clos-s bfd-liveness-detection multiplier 3
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 description facing_dc2-borderleaf-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 local-address fdf6:ed70:1fac:f2d2::14
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 peer-as 65114
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 description facing_dc2-borderleaf-001-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 local-address fdf6:ed70:1fac:f2d2::16
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 peer-as 65115
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 description facing_dc2-esi-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 local-address fdf6:ed70:1fac:f2d2::18
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 peer-as 65103
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b description facing_dc2-esi-001-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b local-address fdf6:ed70:1fac:f2d2::1a
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b peer-as 65104
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d description facing_dc2-esi-002-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d local-address fdf6:ed70:1fac:f2d2::1c
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d peer-as 65105
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f description facing_dc2-esi-002-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f local-address fdf6:ed70:1fac:f2d2::1e
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f peer-as 65106
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 description facing_dc2-esi-003-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 local-address fdf6:ed70:1fac:f2d2::20
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 peer-as 65108
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 description facing_dc2-esi-003-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 local-address fdf6:ed70:1fac:f2d2::22
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 peer-as 65109
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 description facing_dc2-single-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 local-address fdf6:ed70:1fac:f2d2::24
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 peer-as 65107
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 description facing_dc2-single-sub-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 local-address fdf6:ed70:1fac:f2d2::26
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 family inet unicast extended-nexthop
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 peer-as 65102
+set protocols bgp group l3clos-s vpn-apply-export
+set protocols bgp group l3clos-s-evpn type external
+set protocols bgp group l3clos-s-evpn multihop ttl 1
+set protocols bgp group l3clos-s-evpn multihop no-nexthop-change
+set protocols bgp group l3clos-s-evpn family evpn signaling loops 2
+set protocols bgp group l3clos-s-evpn multipath multiple-as
+set protocols bgp group l3clos-s-evpn bfd-liveness-detection minimum-interval 3000
+set protocols bgp group l3clos-s-evpn bfd-liveness-detection multiplier 3
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1015 description facing_dc2-borderleaf-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1015 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1015 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1015 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1015 peer-as 65114
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1016 description facing_dc2-borderleaf-001-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1016 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1016 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1016 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1016 peer-as 65115
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1004 description facing_dc2-esi-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1004 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1004 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1004 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1004 peer-as 65103
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1005 description facing_dc2-esi-001-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1005 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1005 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1005 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1005 peer-as 65104
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1006 description facing_dc2-esi-002-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1006 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1006 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1006 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1006 peer-as 65105
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1007 description facing_dc2-esi-002-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1007 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1007 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1007 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1007 peer-as 65106
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1009 description facing_dc2-esi-003-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1009 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1009 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1009 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1009 peer-as 65108
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1014 description facing_dc2-esi-003-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1014 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1014 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1014 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1014 peer-as 65109
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1008 description facing_dc2-single-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1008 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1008 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1008 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1008 peer-as 65107
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1003 description facing_dc2-single-sub-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1003 local-address fdf6:ed70:1fac:f2d2::1002
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1003 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1003 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor fdf6:ed70:1fac:f2d2::1003 peer-as 65102
+set protocols bgp group l3clos-s-evpn vpn-apply-export
+set protocols bgp enable-oc-attr-set
+set protocols bgp log-updown
+set protocols bgp graceful-restart dont-help-shared-fate-bfd-down
+set protocols bgp multipath
+set protocols lldp port-id-subtype interface-name
+set protocols lldp port-description-type interface-description
+set protocols lldp neighbour-port-info-display port-id
+set protocols lldp interface all
+set protocols sflow agent-id inet6 fdf6:ed70:1fac:f2d2::1002
+set protocols sflow polling-interval 10
+set protocols sflow sample-rate ingress 1024
+set protocols sflow sample-rate egress 1024
+set protocols sflow source-ip inet6 fdf6:ed70:1fac:f2d2::1002
+set protocols sflow collector 2001:db8:dc4:10:d8:1:0:2 udp-port 6343
+set protocols sflow interfaces et-0/0/0.0
+set protocols sflow interfaces et-0/0/3.0
+set protocols sflow interfaces et-0/0/4.0
+set protocols sflow interfaces et-0/0/7.0
+set protocols sflow interfaces et-0/0/8.0
+set protocols sflow interfaces et-0/0/9.0
+set protocols sflow interfaces et-0/0/10.0
+set protocols sflow interfaces et-0/0/11.0
+set protocols sflow interfaces et-0/0/12.0
+set protocols sflow interfaces et-0/0/13.0
+set protocols rstp disable

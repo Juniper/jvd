@@ -1,0 +1,238 @@
+set version 25.4R1-S2.1-EVO
+set system ports console log-out-on-disconnect
+set interfaces et-0/0/5 speed 100g
+set interfaces et-0/0/5 unit 0 family inet
+set interfaces et-0/0/5 unit 0 family inet6 address 2001:2001:2001:2001::23/127
+set interfaces et-0/0/11 speed 100g
+set interfaces et-0/0/11 unit 0 family inet
+set interfaces et-0/0/11 unit 0 family inet6 tunnel-termination
+set interfaces et-0/0/11 unit 0 family inet6 address 2001:2001:2001:2001::21/127
+set interfaces et-0/0/14 description "Interface for MAC-VRF egress"
+set interfaces et-0/0/14 flexible-vlan-tagging
+set interfaces et-0/0/14 speed 100g
+set interfaces et-0/0/14 mtu 9000
+set interfaces et-0/0/14 encapsulation extended-vlan-bridge
+set interfaces et-0/0/14 unit 2001 vlan-id 2001
+set interfaces et-0/0/14 unit 2001 input-vlan-map pop
+set interfaces et-0/0/14 unit 2001 output-vlan-map push
+set interfaces et-0/0/14 unit 2002 vlan-id 2002
+set interfaces et-0/0/14 unit 2002 input-vlan-map pop
+set interfaces et-0/0/14 unit 2002 output-vlan-map push
+set interfaces et-0/0/14 unit 2003 vlan-id 2003
+set interfaces et-0/0/14 unit 2003 input-vlan-map pop
+set interfaces et-0/0/14 unit 2003 output-vlan-map push
+set interfaces et-0/0/14 unit 2004 vlan-id 2004
+set interfaces et-0/0/14 unit 2004 input-vlan-map pop
+set interfaces et-0/0/14 unit 2004 output-vlan-map push
+set interfaces et-0/0/14 unit 2005 vlan-id 2005
+set interfaces et-0/0/14 unit 2005 input-vlan-map pop
+set interfaces et-0/0/14 unit 2005 output-vlan-map push
+set interfaces et-0/0/14 unit 2006 vlan-id 2006
+set interfaces et-0/0/14 unit 2006 input-vlan-map pop
+set interfaces et-0/0/14 unit 2006 output-vlan-map push
+set interfaces et-0/0/14 unit 2007 vlan-id 2007
+set interfaces et-0/0/14 unit 2007 input-vlan-map pop
+set interfaces et-0/0/14 unit 2007 output-vlan-map push
+set interfaces et-0/0/14 unit 2008 vlan-id 2008
+set interfaces et-0/0/14 unit 2008 input-vlan-map pop
+set interfaces et-0/0/14 unit 2008 output-vlan-map push
+set interfaces et-0/0/23 speed 100g
+set interfaces et-0/0/25 speed 100g
+set interfaces et-0/0/34 description "SRIOV bridge handoff to et-0/0/35"
+set interfaces et-0/0/34 flexible-vlan-tagging
+set interfaces et-0/0/34 speed 100g
+set interfaces et-0/0/34 mtu 9000
+set interfaces et-0/0/34 encapsulation extended-vlan-bridge
+set interfaces et-0/0/34 unit 2001 vlan-id 2001
+set interfaces et-0/0/34 unit 2001 input-vlan-map pop
+set interfaces et-0/0/34 unit 2001 output-vlan-map push
+set interfaces et-0/0/34 unit 2005 vlan-id 2005
+set interfaces et-0/0/34 unit 2005 input-vlan-map pop
+set interfaces et-0/0/34 unit 2005 output-vlan-map push
+set interfaces et-0/0/35 description "SRIOV routed QinQ handoff from et-0/0/34"
+set interfaces et-0/0/35 flexible-vlan-tagging
+set interfaces et-0/0/35 speed 100g
+set interfaces et-0/0/35 mtu 9000
+set interfaces et-0/0/35 encapsulation flexible-ethernet-services
+set interfaces et-0/0/35 unit 1 description "SVLAN 2001 CVLAN 100 routed gateway"
+set interfaces et-0/0/35 unit 1 vlan-tags outer 0x8100.2001
+set interfaces et-0/0/35 unit 1 vlan-tags inner 0x8100.100
+set interfaces et-0/0/35 unit 1 family inet address 10.201.255.1/24 vrrp-group 1 virtual-address 10.201.255.254
+set interfaces et-0/0/35 unit 1 family inet address 10.201.255.1/24 vrrp-group 1 accept-data
+set interfaces et-0/0/35 unit 1 family inet6 address 2001::10:201:255:1/112 vrrp-inet6-group 1 virtual-inet6-address 2001::10:201:255:ffff
+set interfaces et-0/0/35 unit 1 family inet6 address 2001::10:201:255:1/112 vrrp-inet6-group 1 virtual-link-local-address fe80::2001:100
+set interfaces et-0/0/35 unit 1 family inet6 address 2001::10:201:255:1/112 vrrp-inet6-group 1 accept-data
+set interfaces et-0/0/35 unit 5 description "SVLAN 2005 CVLAN 100 routed gateway"
+set interfaces et-0/0/35 unit 5 vlan-tags outer 0x8100.2005
+set interfaces et-0/0/35 unit 5 vlan-tags inner 0x8100.100
+set interfaces et-0/0/35 unit 5 family inet address 12.201.255.1/24 vrrp-group 5 virtual-address 12.201.255.254
+set interfaces et-0/0/35 unit 5 family inet address 12.201.255.1/24 vrrp-group 5 accept-data
+set interfaces et-0/0/35 unit 5 family inet6 address 2001::12:201:255:1/112 vrrp-inet6-group 5 virtual-inet6-address 2001::12:201:255:ffff
+set interfaces et-0/0/35 unit 5 family inet6 address 2001::12:201:255:1/112 vrrp-inet6-group 5 virtual-link-local-address fe80::2005:100
+set interfaces et-0/0/35 unit 5 family inet6 address 2001::12:201:255:1/112 vrrp-inet6-group 5 accept-data
+set interfaces fti0 unit 1 tunnel encapsulation udp tunnel-termination
+set interfaces fti0 unit 1 tunnel encapsulation udp source address fd86:8ff:73b0:22de::b
+set interfaces fti0 unit 1 tunnel encapsulation udp payload-port-profile jcnr
+set interfaces fti0 unit 1 family inet address 172.31.255.1/32
+set interfaces fti0 unit 1 family inet6 address fd86:8ff:73b0:22df::ffff/128
+set interfaces fti0 unit 1 family mpls
+set interfaces lo0 unit 0 family inet address 192.168.255.11/32
+set interfaces lo0 unit 0 family inet6 address fd86:08ff:73b0:22de::b/128
+set interfaces lo0 unit 1 family inet address 10.101.255.254/32
+set interfaces lo0 unit 1 family inet6 address 2001::10:101:255:254/128
+set forwarding-options tunnels udp payload-port-profile jcnr
+set forwarding-options tunnels udp payload-port-profile inet 6636
+set forwarding-options tunnels udp payload-port-profile inet6 6637
+set forwarding-options tunnels udp payload-port-profile mpls 6635
+set forwarding-options tunnels udp payload-port-profile iso 6638
+set policy-options policy-statement EXPORT_Lo0 term IPV4-LOOPBACK from family inet
+set policy-options policy-statement EXPORT_Lo0 term IPV4-LOOPBACK from route-filter 192.168.255.11/32 exact
+set policy-options policy-statement EXPORT_Lo0 term IPV4-LOOPBACK then accept
+set policy-options policy-statement EXPORT_Lo0 term 1 from route-filter fd86:08ff:73b0:22de::/64 prefix-length-range /128-/128
+set policy-options policy-statement EXPORT_Lo0 term 1 then accept
+set policy-options policy-statement NODE2-T1-IMPORT term jcnr from community NODE2-JCNR-RT
+set policy-options policy-statement NODE2-T1-IMPORT term jcnr then accept
+set policy-options policy-statement NODE2-T1-IMPORT term sriov from community NODE2-SRIOV-RT
+set policy-options policy-statement NODE2-T1-IMPORT term sriov then accept
+set policy-options policy-statement NODE2-T1-IMPORT term reject then reject
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 from family inet
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 from protocol direct
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 from interface et-0/0/35.1
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 from route-filter 10.201.255.0/24 exact
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 then community add SRIOV-2001-RT
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v4 then accept
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 from family inet6
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 from protocol direct
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 from interface et-0/0/35.1
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 from route-filter 2001::10:201:255:0/112 exact
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 then community add SRIOV-2001-RT
+set policy-options policy-statement SRIOV-2001-EXPORT term connected-v6 then accept
+set policy-options policy-statement SRIOV-2001-EXPORT term reject then reject
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 from family inet
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 from protocol direct
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 from interface et-0/0/35.5
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 from route-filter 12.201.255.0/24 exact
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 then community add SRIOV-2005-RT
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v4 then accept
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 from family inet6
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 from protocol direct
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 from interface et-0/0/35.5
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 from route-filter 2001::12:201:255:0/112 exact
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 then community add SRIOV-2005-RT
+set policy-options policy-statement SRIOV-2005-EXPORT term connected-v6 then accept
+set policy-options policy-statement SRIOV-2005-EXPORT term reject then reject
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v4 from community SRIOV-2001-RT
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v4 from route-filter 10.201.255.0/24 exact
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v4 then accept
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v6 from community SRIOV-2001-RT
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v6 from route-filter 2001::10:201:255:0/112 exact
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2001-v6 then accept
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v4 from community SRIOV-2005-RT
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v4 from route-filter 12.201.255.0/24 exact
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v4 then accept
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v6 from community SRIOV-2005-RT
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v6 from route-filter 2001::12:201:255:0/112 exact
+set policy-options policy-statement SRIOV-PAIR-IMPORT term svlan-2005-v6 then accept
+set policy-options policy-statement SRIOV-PAIR-IMPORT term reject then reject
+set policy-options policy-statement T1-JCNR-EXPORT term local-v4 from protocol direct
+set policy-options policy-statement T1-JCNR-EXPORT term local-v4 from route-filter 10.101.255.254/32 exact
+set policy-options policy-statement T1-JCNR-EXPORT term local-v4 then community add jcnr-t1
+set policy-options policy-statement T1-JCNR-EXPORT term local-v4 then accept
+set policy-options policy-statement T1-JCNR-EXPORT term local-v6 from protocol direct
+set policy-options policy-statement T1-JCNR-EXPORT term local-v6 from route-filter 2001::10:101:255:254/128 exact
+set policy-options policy-statement T1-JCNR-EXPORT term local-v6 then community add jcnr-t1
+set policy-options policy-statement T1-JCNR-EXPORT term local-v6 then accept
+set policy-options policy-statement T1-JCNR-EXPORT term reject then reject
+set policy-options policy-statement T1-JCNR-IMPORT term tenant from community jcnr-t1
+set policy-options policy-statement T1-JCNR-IMPORT term tenant then accept
+set policy-options policy-statement T1-JCNR-IMPORT term reject then reject
+set policy-options community NODE2-JCNR-RT members target:4200000002L:1001
+set policy-options community NODE2-SRIOV-RT members target:100:10000
+set policy-options community SRIOV-2001-RT members target:100:10000
+set policy-options community SRIOV-2005-RT members target:100:10004
+set policy-options community jcnr-t1 members target:4200000002L:1001
+set routing-instances virtual-switch-2001-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2001-sriov-vns vlans vlan-2001-sriov-svlan interface et-0/0/14.2001
+set routing-instances virtual-switch-2001-sriov-vns vlans vlan-2001-sriov-svlan interface et-0/0/34.2001
+set routing-instances virtual-switch-2002-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2002-sriov-vns vlans vlan-2002-sriov-svlan interface et-0/0/14.2002
+set routing-instances virtual-switch-2003-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2003-sriov-vns vlans vlan-2003-sriov-svlan interface et-0/0/14.2003
+set routing-instances virtual-switch-2004-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2004-sriov-vns vlans vlan-2004-sriov-svlan interface et-0/0/14.2004
+set routing-instances virtual-switch-2005-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2005-sriov-vns vlans vlan-2005-sriov-svlan interface et-0/0/14.2005
+set routing-instances virtual-switch-2005-sriov-vns vlans vlan-2005-sriov-svlan interface et-0/0/34.2005
+set routing-instances virtual-switch-2006-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2006-sriov-vns vlans vlan-2006-sriov-svlan interface et-0/0/14.2006
+set routing-instances virtual-switch-2007-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2007-sriov-vns vlans vlan-2007-sriov-svlan interface et-0/0/14.2007
+set routing-instances virtual-switch-2008-sriov-vns instance-type virtual-switch
+set routing-instances virtual-switch-2008-sriov-vns vlans vlan-2008-sriov-svlan interface et-0/0/14.2008
+set routing-instances vrf-jcnr-node2-t1 instance-type vrf
+set routing-instances vrf-jcnr-node2-t1 routing-options rib vrf-jcnr-node2-t1.inet6.0
+set routing-instances vrf-jcnr-node2-t1 routing-options auto-export family inet6 unicast
+set routing-instances vrf-jcnr-node2-t1 interface lo0.1
+set routing-instances vrf-jcnr-node2-t1 vrf-import NODE2-T1-IMPORT
+set routing-instances vrf-jcnr-node2-t1 vrf-target target:4200000002L:1001
+set routing-instances vrf-jcnr-node2-t1 vrf-target import target:100:10000
+set routing-instances vrf-jcnr-node2-t1 vrf-table-label
+set routing-instances vrf-sriov-2001-c100 instance-type vrf
+set routing-instances vrf-sriov-2001-c100 routing-options auto-export family inet unicast
+set routing-instances vrf-sriov-2001-c100 routing-options auto-export family inet6 unicast
+set routing-instances vrf-sriov-2001-c100 interface et-0/0/35.1
+set routing-instances vrf-sriov-2001-c100 vrf-import SRIOV-PAIR-IMPORT
+set routing-instances vrf-sriov-2001-c100 vrf-export SRIOV-2001-EXPORT
+set routing-instances vrf-sriov-2001-c100 vrf-target target:100:10000
+set routing-instances vrf-sriov-2001-c100 vrf-table-label
+set routing-instances vrf-sriov-2005-c100 instance-type vrf
+set routing-instances vrf-sriov-2005-c100 routing-options auto-export family inet unicast
+set routing-instances vrf-sriov-2005-c100 routing-options auto-export family inet6 unicast
+set routing-instances vrf-sriov-2005-c100 interface et-0/0/35.5
+set routing-instances vrf-sriov-2005-c100 vrf-import SRIOV-PAIR-IMPORT
+set routing-instances vrf-sriov-2005-c100 vrf-export SRIOV-2005-EXPORT
+set routing-instances vrf-sriov-2005-c100 vrf-target target:100:10004
+set routing-instances vrf-sriov-2005-c100 vrf-table-label
+set routing-options rib inet6.0 static route fd52:9b86:a688:2862::3/128 next-hop fd51:9b86:a688:2862::3
+set routing-options rib inet6.0 static route fdf9:db3c:29c5:ac6c::ffff:fffe/128 next-hop fdf8:db3c:29c5:ac6c::ffff
+set routing-options rib inet6.0 static route fdf9:db3c:29c5:ac6c::ffff:fffe/128 next-hop fd86:8ff:73b0:22de::8
+set routing-options rib inet6.0 static route fdf9:db3c:29c5:ac6c::ffff:ffff/128 next-hop fdf8:db3c:29c5:ac6c::ffff
+set routing-options rib inet6.0 static route fdf9:db3c:29c5:ac6c::ffff:ffff/128 next-hop fd86:8ff:73b0:22de::8
+set routing-options router-id 192.168.255.11
+set routing-options route-distinguisher-id-use-router-id
+set routing-options autonomous-system 64513
+set routing-options dynamic-tunnels ocp-jcnr-fabric source-address fd86:8ff:73b0:22de::b
+set routing-options dynamic-tunnels ocp-jcnr-fabric udp
+set routing-options dynamic-tunnels ocp-jcnr-fabric destination-networks fd52:9b86:a688:2862::/64
+set routing-options dynamic-tunnels ocp-jcnr-fabric destination-networks fd51:9b86:a688:2862::/64
+set routing-options dynamic-tunnels ocp-jcnr-fabric destination-networks fd52:9b86:a688:2862::3/128
+set routing-options dynamic-tunnels ocp-jcnr-fabric destination-networks fe52:9b86:a688:2862::4/128
+set routing-options dynamic-tunnels ocp-jcnr-fabric destination-networks fd52:9b86:a688:2862::5/128
+set protocols bgp group EBGP_TO_BL1 type external
+set protocols bgp group EBGP_TO_BL1 multihop ttl 1
+set protocols bgp group EBGP_TO_BL1 family inet unicast loops 2
+set protocols bgp group EBGP_TO_BL1 family inet unicast extended-nexthop
+set protocols bgp group EBGP_TO_BL1 family inet6 unicast loops 2
+set protocols bgp group EBGP_TO_BL1 multipath multiple-as
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::20 local-address 2001:2001:2001:2001::21
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::20 export EXPORT_Lo0
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::20 peer-as 108
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::22 local-address 2001:2001:2001:2001::23
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::22 export EXPORT_Lo0
+set protocols bgp group EBGP_TO_BL1 neighbor 2001:2001:2001:2001::22 peer-as 109
+set protocols bgp group client type internal
+set protocols bgp group client local-address fd86:8ff:73b0:22de::b
+set protocols bgp group client family inet-vpn unicast extended-nexthop
+set protocols bgp group client family inet6-vpn unicast extended-nexthop-tunnel
+set protocols bgp group client cluster 192.168.255.11
+set protocols bgp group client local-as 4200000001
+set protocols bgp group client multipath
+set protocols bgp group client neighbor fdf9:db3c:29c5:ac6c::ffff:ffff
+set protocols bgp group client neighbor fdf9:db3c:29c5:ac6c::ffff:fffe
+set protocols bgp group client neighbor fd52:9b86:a688:2862::3
+set protocols bgp group client neighbor fe52:9b86:a688:2862::4
+set protocols bgp group client neighbor fd52:9b86:a688:2862::5
+set protocols bgp group client neighbor fe52:9b86:a688:2862::6
+set protocols bgp group client vpn-apply-export
+set protocols ospf area 0.0.0.0 interface all
+set protocols lldp interface all

@@ -4,6 +4,103 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-10-18
+
+Added **three Data Center JVDs** with their full validated device configurations:
+the updated **3-Stage Data Center** validation, a new **3-Stage EVPN/VXLAN fabric with
+an IPv6 underlay and overlay**, and the **Telco Cloud and EVPN-VXLAN Data Center
+Fabric**. All three appear in the portal JVD catalog.
+
+### New content
+
+- **[3-Stage Data Center Update](data_center/adc/3stage_dc_update)**: the updated
+  validation of the 3-Stage EVPN/VXLAN ERB fabric with Juniper Apstra, at full tested
+  scale. It spans six PODs, each a complete fabric with a different platform mix:
+  - Spine: QFX5120, QFX5130, QFX5210, QFX5220 and QFX5230
+  - Border leaf: QFX5120, QFX5130, QFX5140, PTX10001-36MR and ACX7100-48L
+  - Server leaf: QFX5110, QFX5120, QFX5130 and PTX10001-36MR
+  - Access: EX4100 and EX4400
+
+  The configurations include multiple MAC-VRF instances and overlapping VLANs.
+  There are 85 device configurations in hierarchical and `set` format, plus the
+  Apstra blueprint for each POD. The earlier release remains in
+  [3-Stage Data Center](data_center/adc/3stage_dc).
+- **[3-Stage Data Center with IPv6 Underlay and Overlay](data_center/adc/3stage_dc_ipv6_update)**:
+  a 3-stage EVPN/VXLAN fabric in which both the underlay eBGP sessions and the EVPN
+  overlay eBGP sessions run over IPv6. It spans four PODs and has 54 device
+  configurations in hierarchical and `set` format, plus the Apstra blueprint for each
+  POD.
+- **[Telco Cloud and EVPN-VXLAN Data Center Fabric](data_center/adc/hybrid_telco_dc_fabric)**
+  (JVD-TELCO-DC-01-01): an IPv6 bridged-overlay fabric for private telco clouds,
+  managed by Apstra Data Center Director 6.2. Anycast IRB gateways run on the border
+  leaf switches. Kubernetes workloads connect through Juniper Cloud-Native Router
+  over MPLS-over-UDP, and SR-IOV workloads connect through Q-in-Q. A PTX10002-36QDD
+  offramp gateway provides inter-VRF and inter-tenant routing. The JVD includes
+  11 device configurations (QFX5230-64CD spines, QFX5130 server and border leaves,
+  PTX10002-36QDD), the full
+  [design guide](data_center/adc/hybrid_telco_dc_fabric/documentation/design-guide.md)
+  with all 41 figures, and a
+  [datasheet](data_center/adc/hybrid_telco_dc_fabric/documentation/datasheet.md).
+
+### What this means for you
+
+- Use the POD that matches your platform mix: each POD folder under `configuration/conf/`
+  and `configuration/set/` is a complete fabric. Decompress the
+  `configuration/apstra/*.json.gz` blueprints to inspect the Apstra design.
+- If you are planning an IPv6-only fabric, start from the
+  [IPv6 underlay and overlay configurations](data_center/adc/3stage_dc_ipv6_update).
+- For private telco cloud designs, read the Telco Cloud
+  [datasheet](data_center/adc/hybrid_telco_dc_fabric/documentation/datasheet.md) first,
+  then the design guide.
+
+---
+
+### By the numbers
+
+Changes in this release, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / 3-Stage Data Center Update | 177 | 0 | 0 | 0 | 1 |
+| Data Center / 3-Stage IPv6 Underlay and Overlay | 113 | 0 | 0 | 0 | 1 |
+| Data Center / Telco Cloud DC Fabric | 68 | 0 | 0 | 0 | 2 |
+| Portal (JVD catalog) | 0 | 0 | 0 | 1 | 0 |
+| **Total** | **358** | **0** | **0** | **1** | **4** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / 3-Stage Data Center Update | 4440982 | 0 | +4440982 |
+| Data Center / 3-Stage IPv6 Underlay and Overlay | 2924503 | 0 | +2924503 |
+| Data Center / Telco Cloud DC Fabric | 473748 | 0 | +473748 |
+| Portal (JVD catalog) | 70 | 0 | +70 |
+| **Total** | **7839303** | **0** | **+7839303** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Device configurations, hierarchical (`configuration/conf/`) | 150 | 5180445 |
+| Device configurations, `set` format (`configuration/set/`) | 150 | 2654510 |
+| Apstra blueprints (`configuration/apstra/`, gzip) | 10 | — |
+| Telco Cloud design guide, datasheet and figures (`documentation/`) | 44 | 3939 |
+| READMEs and README image | 4 | 339 |
+| **Total** | **358** | **7839233** |
+
+</details>
+
+---
+
 ## 2026-10-10
 
 Rebuilt the **configuration snippet library for the Enterprise WAN: Core and Edge JVD**:

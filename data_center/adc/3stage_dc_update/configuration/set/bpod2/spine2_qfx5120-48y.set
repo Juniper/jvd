@@ -1,0 +1,553 @@
+set version 25.2R2-S2.2
+set groups PROTECT_RE_CONFIGLET interfaces lo0 unit 0 family inet filter input cpp-filter
+set groups PROTECT_RE_CONFIGLET interfaces lo0 unit 0 family inet6 filter input cpp-filter-ipv6
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list BGP_NEIGHBORS_V4 apply-path "protocols bgp group <*> neighbor <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list BGP_VRF_NEIGHBOURS_V4 apply-path "routing-instances <*> protocols bgp group <*> neighbor <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list REMOTE_MGMT_NETS_V4 10.0.0.0/8
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list REMOTE_MGMT_NETS_V4 66.0.0.0/8
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list REMOTE_MGMT_NETS_V4 172.0.0.0/8
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list REMOTE_MGMT_NETS_V4 192.0.0.0/8
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list DNS_SERVERS_V4 apply-path "system name-server <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list NTP_SERVERS_V4 apply-path "system ntp server <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list NTP_SERVERS_PEERS apply-path "system ntp peer <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list LOOPBACKS_V4 apply-path "interfaces lo0 unit 0 family inet address <*>"
+set groups PROTECT_RE_CONFIGLET policy-options prefix-list LOCAL_IPV4 apply-path "interfaces <*> unit <*> family inet address <*>"
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp from source-prefix-list BGP_NEIGHBORS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp from source-prefix-list BGP_VRF_NEIGHBOURS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp from destination-port 179
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp then count cpp_bgp_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bgp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ssh from source-prefix-list REMOTE_MGMT_NETS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ssh from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ssh from destination-port ssh
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ssh then count cpp_ssh_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ssh then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term no_icmp_fragments_v4 from is-fragment
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term no_icmp_fragments_v4 from protocol icmp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term no_icmp_fragments_v4 then count no_icmp_fragments_v4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term no_icmp_fragments_v4 then log
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term no_icmp_fragments_v4 then discard
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp from protocol icmp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp from icmp-type echo-request
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp from icmp-type echo-reply
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp from icmp-type unreachable
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp from icmp-type time-exceeded
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp then policer 5MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp then count cpp_icmp_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term icmp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns from source-prefix-list DNS_SERVERS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns from source-port domain
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns then policer 1MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns then count cpp_dns_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dns then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ntp from source-prefix-list NTP_SERVERS_PEERS
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ntp from source-prefix-list NTP_SERVERS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ntp from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ntp from destination-port ntp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ntp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp from source-port dhcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp from destination-port dhcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp then policer 5MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp then count dhcp_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term dhcp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc from source-prefix-list REMOTE_MGMT_NETS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc from destination-port 830
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc from destination-port 50051
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc from destination-port 32767
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc then count cpp_netconf_grpc_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term netconf_grpc then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from source-prefix-list BGP_NEIGHBORS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from source-prefix-list BGP_VRF_NEIGHBOURS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from destination-port 3784
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from destination-port 3785
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd from destination-port 4784
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd then count cpp_bfd_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from source-prefix-list BGP_NEIGHBORS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from source-prefix-list BGP_VRF_NEIGHBOURS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from source-port 3784
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from source-port 3785
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep from source-port 4784
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep then count cpp_bfd_rep_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term bfd-rep then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp from source-prefix-list REMOTE_MGMT_NETS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp from destination-prefix-list LOCAL_IPV4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp from protocol udp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp from destination-port snmp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp then policer 5MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp then count cpp_snmp_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term snmp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ospf from protocol ospf
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ospf then count cpp_ospf_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term ospf then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term tcp-established from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term tcp-established from tcp-established
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term tcp-established then count cpp_tcp_established_accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term tcp-established then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term synflood from source-prefix-list REMOTE_MGMT_NETS_V4
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term synflood from protocol tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term synflood from tcp-flags "(syn & !ack) | fin | rst"
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term synflood then policer 1MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term synflood then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term discard-rest then count cpp_discard_rest
+set groups PROTECT_RE_CONFIGLET firewall family inet filter cpp-filter term discard-rest then discard
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ssh from next-header tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ssh from destination-port ssh
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ssh then count cpp_ssh_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ssh then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from next-header icmp6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type echo-request
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type echo-reply
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type time-exceeded
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type membership-query
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type membership-report
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type neighbor-advertisement
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type neighbor-solicit
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type router-advertisement
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type router-solicit
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type packet-too-big
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 from icmp-type parameter-problem
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 then policer 5MB_CP_POLICER
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term icmp6 then count cpp_icmp_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bgp from next-header tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bgp from destination-port bgp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bgp then count cpp_bgp_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bgp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns from destination-port 53
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns then count cpp_dns_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns-rep from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns-rep from source-port 53
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns-rep then count cpp_dns_rep_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dns-rep then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp from destination-port ntp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp then count cpp_ntp_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp-rep from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp-rep from source-port ntp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp-rep then count cpp_ntp_rep_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ntp-rep then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcp from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcp from destination-port 546
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcp from destination-port 547
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcp then count cpp_dhcp_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcpv6-from-server from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcpv6-from-server from source-port 547
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcpv6-from-server then count cpp_dhcp_from_server_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term dhcpv6-from-server then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term netconf from next-header tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term netconf from destination-port 830
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term netconf then count cpp_netconf_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term netconf then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd from destination-port 3784
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd from destination-port 4784
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd from destination-port 3785
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd then count cpp_bfd_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep from source-port 3784
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep from source-port 3785
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep from source-port 4784
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep then count cpp_bfd_rep_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term bfd-rep then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term snmp from next-header udp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term snmp from destination-port snmp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term snmp then count cpp_snmp_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term snmp then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ospf from next-header ospf
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ospf then count cpp_ospf_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term ospf then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term openssl from next-header tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term openssl from destination-port 32767
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term openssl then count cpp_openssl_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term openssl then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term tcp-established from next-header tcp
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term tcp-established from tcp-established
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term tcp-established then count cpp_tcp_established_accept_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term tcp-established then accept
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term discard-rest then count cpp_discard_rest_v6
+set groups PROTECT_RE_CONFIGLET firewall family inet6 filter cpp-filter-ipv6 term discard-rest then discard
+set groups PROTECT_RE_CONFIGLET firewall policer 5MB_CP_POLICER if-exceeding bandwidth-limit 5m
+set groups PROTECT_RE_CONFIGLET firewall policer 5MB_CP_POLICER if-exceeding burst-size-limit 1m
+set groups PROTECT_RE_CONFIGLET firewall policer 5MB_CP_POLICER then discard
+set groups PROTECT_RE_CONFIGLET firewall policer 1MB_CP_POLICER if-exceeding bandwidth-limit 1m
+set groups PROTECT_RE_CONFIGLET firewall policer 1MB_CP_POLICER if-exceeding burst-size-limit 200k
+set groups PROTECT_RE_CONFIGLET firewall policer 1MB_CP_POLICER then discard
+set apply-groups PROTECT_RE_CONFIGLET
+set system host-name spine2
+set system services netconf ssh
+set system services ssh root-login allow
+set system services extension-service request-response grpc ssl port 32767
+set system services extension-service request-response grpc ssl local-certificate aos_grpc
+set system services extension-service request-response grpc routing-instance mgmt_junos
+set system management-instance
+set system ports console log-out-on-disconnect
+set chassis fpc 0 pic 0 port 0 speed 25g
+set chassis fpc 0 pic 0 port 4 speed 25g
+set chassis fpc 0 pic 0 port 8 speed 25g
+set chassis fpc 0 pic 0 port 12 speed 25g
+set chassis fpc 0 pic 0 port 32 speed 25g
+set chassis fpc 0 pic 0 port 36 speed 25g
+set chassis fpc 0 pic 0 port 40 speed 25g
+set chassis fpc 0 pic 0 port 44 speed 25g
+set chassis fpc 0 pic 0 port 48 speed 100g
+set chassis fpc 0 pic 0 port 49 speed 100g
+set security certificates local aos_grpc "<REMOVED>"
+set interfaces et-0/0/0 description facing_dc2-esi-003-leaf2:et-0/0/47
+set interfaces et-0/0/0 mtu 9216
+set interfaces et-0/0/0 unit 0 family inet mtu 9170
+set interfaces et-0/0/0 unit 0 family inet address 10.0.2.34/31
+set interfaces et-0/0/0 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/0 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::22/127
+set interfaces et-0/0/1 description facing_dc2-esi-003-leaf1:et-0/0/47
+set interfaces et-0/0/1 mtu 9216
+set interfaces et-0/0/1 unit 0 family inet mtu 9170
+set interfaces et-0/0/1 unit 0 family inet address 10.0.2.32/31
+set interfaces et-0/0/1 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/1 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::20/127
+set interfaces et-0/0/2 unit 0 family inet
+set interfaces et-0/0/3 description facing_dc2-esi-002-leaf1:et-0/0/47
+set interfaces et-0/0/3 mtu 9216
+set interfaces et-0/0/3 unit 0 family inet mtu 9170
+set interfaces et-0/0/3 unit 0 family inet address 10.0.2.28/31
+set interfaces et-0/0/3 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/3 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1c/127
+set interfaces et-0/0/4 description facing_dc2-esi-001-leaf2:et-0/0/47
+set interfaces et-0/0/4 mtu 9216
+set interfaces et-0/0/4 unit 0 family inet mtu 9170
+set interfaces et-0/0/4 unit 0 family inet address 10.0.2.26/31
+set interfaces et-0/0/4 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/4 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1a/127
+set interfaces et-0/0/5 description facing_dc2-esi-001-leaf1:et-0/0/47
+set interfaces et-0/0/5 mtu 9216
+set interfaces et-0/0/5 unit 0 family inet mtu 9170
+set interfaces et-0/0/5 unit 0 family inet address 10.0.2.24/31
+set interfaces et-0/0/5 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/5 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::18/127
+set interfaces et-0/0/6 description facing_dc2-esi-sub-001-leaf2:et-0/0/47
+set interfaces et-0/0/6 mtu 9216
+set interfaces et-0/0/6 unit 0 family inet mtu 9170
+set interfaces et-0/0/6 unit 0 family inet address 10.0.2.38/31
+set interfaces et-0/0/6 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/6 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::26/127
+set interfaces et-0/0/7 description facing_dc2-esi-sub-001-leaf1:et-0/0/47
+set interfaces et-0/0/7 mtu 9216
+set interfaces et-0/0/7 unit 0 family inet mtu 9170
+set interfaces et-0/0/7 unit 0 family inet address 10.0.2.36/31
+set interfaces et-0/0/7 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/7 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::24/127
+set interfaces et-0/0/8 unit 0 family inet
+set interfaces et-0/0/9 unit 0 family inet
+set interfaces et-0/0/10 unit 0 family inet
+set interfaces et-0/0/11 unit 0 family inet
+set interfaces et-0/0/12 unit 0 family inet
+set interfaces et-0/0/13 unit 0 family inet
+set interfaces et-0/0/14 unit 0 family inet
+set interfaces et-0/0/15 unit 0 family inet
+set interfaces et-0/0/16 unit 0 family inet
+set interfaces et-0/0/17 unit 0 family inet
+set interfaces et-0/0/18 unit 0 family inet
+set interfaces et-0/0/19 unit 0 family inet
+set interfaces et-0/0/20 unit 0 family inet
+set interfaces et-0/0/21 unit 0 family inet
+set interfaces et-0/0/22 unit 0 family inet
+set interfaces et-0/0/23 unit 0 family inet
+set interfaces et-0/0/24 unit 0 family inet
+set interfaces et-0/0/25 unit 0 family inet
+set interfaces et-0/0/26 unit 0 family inet
+set interfaces et-0/0/27 unit 0 family inet
+set interfaces et-0/0/28 unit 0 family inet
+set interfaces et-0/0/29 unit 0 family inet
+set interfaces et-0/0/30 unit 0 family inet
+set interfaces et-0/0/31 unit 0 family inet
+set interfaces et-0/0/32 unit 0 family inet
+set interfaces et-0/0/33 unit 0 family inet
+set interfaces et-0/0/34 unit 0 family inet
+set interfaces et-0/0/35 unit 0 family inet
+set interfaces et-0/0/36 unit 0 family inet
+set interfaces et-0/0/37 unit 0 family inet
+set interfaces et-0/0/38 unit 0 family inet
+set interfaces et-0/0/39 unit 0 family inet
+set interfaces et-0/0/40 unit 0 family inet
+set interfaces et-0/0/41 unit 0 family inet
+set interfaces et-0/0/42 unit 0 family inet
+set interfaces et-0/0/43 description facing_dc2-esi-002-leaf2:et-0/0/39
+set interfaces et-0/0/43 mtu 9216
+set interfaces et-0/0/43 unit 0 family inet mtu 9170
+set interfaces et-0/0/43 unit 0 family inet address 10.0.2.30/31
+set interfaces et-0/0/43 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/43 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1e/127
+set interfaces et-0/0/44 unit 0 family inet
+set interfaces et-0/0/45 unit 0 family inet
+set interfaces et-0/0/46 unit 0 family inet
+set interfaces et-0/0/47 unit 0 family inet
+set interfaces et-0/0/48 description facing_dc2-borderleaf-001-leaf1:et-0/0/1
+set interfaces et-0/0/48 mtu 9216
+set interfaces et-0/0/48 unit 0 family inet mtu 9170
+set interfaces et-0/0/48 unit 0 family inet address 10.0.2.20/31
+set interfaces et-0/0/48 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/48 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::14/127
+set interfaces et-0/0/49 description facing_dc2-borderleaf-001-leaf2:et-0/0/1
+set interfaces et-0/0/49 mtu 9216
+set interfaces et-0/0/49 unit 0 family inet mtu 9170
+set interfaces et-0/0/49 unit 0 family inet address 10.0.2.22/31
+set interfaces et-0/0/49 unit 0 family inet6 mtu 9170
+set interfaces et-0/0/49 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::16/127
+set interfaces et-0/0/50 unit 0 family inet
+set interfaces et-0/0/51 unit 0 family inet
+set interfaces et-0/0/52 unit 0 family inet
+set interfaces et-0/0/53 unit 0 family inet
+set interfaces et-0/0/54 unit 0 family inet
+set interfaces et-0/0/55 unit 0 family inet
+set interfaces lo0 unit 0 family inet address 192.168.254.2/32
+set interfaces lo0 unit 0 family inet6 address fdf6:ed70:1fac:f2d2::1001/128
+set forwarding-options evpn-vxlan shared-tunnels
+set forwarding-options vxlan-routing overlay-ecmp
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 from family inet
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 from protocol direct
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 then community add DEFAULT_DIRECT_V4
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-10 then accept
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 from family inet6
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 from protocol direct
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 then community add DEFAULT_DIRECT_V6
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-20 then accept
+set policy-options policy-statement AllPodNetworks term AllPodNetworks-100 then reject
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-10 from policy AllPodNetworks
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-10 then accept
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-20 from protocol bgp
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-20 then accept
+set policy-options policy-statement BGP-AOS-Policy term BGP-AOS-Policy-100 then reject
+set policy-options policy-statement PFE-LB then load-balance per-packet
+set policy-options policy-statement SPINE_TO_LEAF_EVPN_OUT term SPINE_TO_LEAF_EVPN_OUT-10 then community add FROM_SPINE_EVPN_TIER
+set policy-options policy-statement SPINE_TO_LEAF_EVPN_OUT term SPINE_TO_LEAF_EVPN_OUT-10 then accept
+set policy-options policy-statement SPINE_TO_LEAF_FABRIC_OUT term SPINE_TO_LEAF_FABRIC_OUT-10 then community add FROM_SPINE_FABRIC_TIER
+set policy-options policy-statement SPINE_TO_LEAF_FABRIC_OUT term SPINE_TO_LEAF_FABRIC_OUT-10 then accept
+set policy-options community DEFAULT_DIRECT_V4 members 2:20007
+set policy-options community DEFAULT_DIRECT_V4 members 21001:26000
+set policy-options community DEFAULT_DIRECT_V6 members 2:20008
+set policy-options community DEFAULT_DIRECT_V6 members 21001:26000
+set policy-options community FROM_SPINE_EVPN_TIER members 0:14
+set policy-options community FROM_SPINE_FABRIC_TIER members 0:15
+set routing-options router-id 192.168.254.2
+set routing-options autonomous-system 65101
+set routing-options graceful-restart
+set routing-options forwarding-table export PFE-LB
+set routing-options forwarding-table ecmp-fast-reroute
+set protocols router-advertisement interface et-0/0/0.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/0.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/1.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/1.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/3.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/3.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/4.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/4.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/43.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/43.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/48.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/48.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/49.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/49.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/5.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/5.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/6.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/6.0 min-advertisement-interval 10
+set protocols router-advertisement interface et-0/0/7.0 max-advertisement-interval 30
+set protocols router-advertisement interface et-0/0/7.0 min-advertisement-interval 10
+set protocols bgp group l3clos-s type external
+set protocols bgp group l3clos-s multipath multiple-as
+set protocols bgp group l3clos-s bfd-liveness-detection minimum-interval 1000
+set protocols bgp group l3clos-s bfd-liveness-detection multiplier 3
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 description facing_dc2-borderleaf-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 local-address fdf6:ed70:1fac:f2d2::14
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::15 peer-as 65110
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 description facing_dc2-borderleaf-001-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 local-address fdf6:ed70:1fac:f2d2::16
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::17 peer-as 65111
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 description facing_dc2-esi-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 local-address fdf6:ed70:1fac:f2d2::18
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::19 peer-as 65104
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b description facing_dc2-esi-001-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b local-address fdf6:ed70:1fac:f2d2::1a
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1b peer-as 65105
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d description facing_dc2-esi-002-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d local-address fdf6:ed70:1fac:f2d2::1c
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1d peer-as 65106
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f description facing_dc2-esi-002-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f local-address fdf6:ed70:1fac:f2d2::1e
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::1f peer-as 65107
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 description facing_dc2-esi-003-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 local-address fdf6:ed70:1fac:f2d2::20
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::21 peer-as 65108
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 description facing_dc2-esi-003-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 local-address fdf6:ed70:1fac:f2d2::22
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::23 peer-as 65109
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 description facing_dc2-esi-sub-001-leaf1
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 local-address fdf6:ed70:1fac:f2d2::24
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::25 peer-as 65102
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 description facing_dc2-esi-sub-001-leaf2
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 local-address fdf6:ed70:1fac:f2d2::26
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 family inet6 unicast
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor fdf6:ed70:1fac:f2d2::27 peer-as 65103
+set protocols bgp group l3clos-s neighbor 10.0.2.21 description facing_dc2-borderleaf-001-leaf1
+set protocols bgp group l3clos-s neighbor 10.0.2.21 local-address 10.0.2.20
+set protocols bgp group l3clos-s neighbor 10.0.2.21 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.21 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.21 peer-as 65110
+set protocols bgp group l3clos-s neighbor 10.0.2.23 description facing_dc2-borderleaf-001-leaf2
+set protocols bgp group l3clos-s neighbor 10.0.2.23 local-address 10.0.2.22
+set protocols bgp group l3clos-s neighbor 10.0.2.23 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.23 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.23 peer-as 65111
+set protocols bgp group l3clos-s neighbor 10.0.2.25 description facing_dc2-esi-001-leaf1
+set protocols bgp group l3clos-s neighbor 10.0.2.25 local-address 10.0.2.24
+set protocols bgp group l3clos-s neighbor 10.0.2.25 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.25 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.25 peer-as 65104
+set protocols bgp group l3clos-s neighbor 10.0.2.27 description facing_dc2-esi-001-leaf2
+set protocols bgp group l3clos-s neighbor 10.0.2.27 local-address 10.0.2.26
+set protocols bgp group l3clos-s neighbor 10.0.2.27 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.27 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.27 peer-as 65105
+set protocols bgp group l3clos-s neighbor 10.0.2.29 description facing_dc2-esi-002-leaf1
+set protocols bgp group l3clos-s neighbor 10.0.2.29 local-address 10.0.2.28
+set protocols bgp group l3clos-s neighbor 10.0.2.29 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.29 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.29 peer-as 65106
+set protocols bgp group l3clos-s neighbor 10.0.2.31 description facing_dc2-esi-002-leaf2
+set protocols bgp group l3clos-s neighbor 10.0.2.31 local-address 10.0.2.30
+set protocols bgp group l3clos-s neighbor 10.0.2.31 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.31 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.31 peer-as 65107
+set protocols bgp group l3clos-s neighbor 10.0.2.33 description facing_dc2-esi-003-leaf1
+set protocols bgp group l3clos-s neighbor 10.0.2.33 local-address 10.0.2.32
+set protocols bgp group l3clos-s neighbor 10.0.2.33 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.33 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.33 peer-as 65108
+set protocols bgp group l3clos-s neighbor 10.0.2.35 description facing_dc2-esi-003-leaf2
+set protocols bgp group l3clos-s neighbor 10.0.2.35 local-address 10.0.2.34
+set protocols bgp group l3clos-s neighbor 10.0.2.35 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.35 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.35 peer-as 65109
+set protocols bgp group l3clos-s neighbor 10.0.2.37 description facing_dc2-esi-sub-001-leaf1
+set protocols bgp group l3clos-s neighbor 10.0.2.37 local-address 10.0.2.36
+set protocols bgp group l3clos-s neighbor 10.0.2.37 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.37 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.37 peer-as 65102
+set protocols bgp group l3clos-s neighbor 10.0.2.39 description facing_dc2-esi-sub-001-leaf2
+set protocols bgp group l3clos-s neighbor 10.0.2.39 local-address 10.0.2.38
+set protocols bgp group l3clos-s neighbor 10.0.2.39 family inet unicast
+set protocols bgp group l3clos-s neighbor 10.0.2.39 export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy )
+set protocols bgp group l3clos-s neighbor 10.0.2.39 peer-as 65103
+set protocols bgp group l3clos-s vpn-apply-export
+set protocols bgp group l3clos-s-evpn type external
+set protocols bgp group l3clos-s-evpn multihop ttl 1
+set protocols bgp group l3clos-s-evpn multihop no-nexthop-change
+set protocols bgp group l3clos-s-evpn family evpn signaling loops 2
+set protocols bgp group l3clos-s-evpn multipath multiple-as
+set protocols bgp group l3clos-s-evpn bfd-liveness-detection minimum-interval 3000
+set protocols bgp group l3clos-s-evpn bfd-liveness-detection multiplier 3
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.11 description facing_dc2-borderleaf-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.11 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.11 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.11 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.11 peer-as 65110
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.12 description facing_dc2-borderleaf-001-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.12 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.12 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.12 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.12 peer-as 65111
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.5 description facing_dc2-esi-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.5 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.5 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.5 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.5 peer-as 65104
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.6 description facing_dc2-esi-001-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.6 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.6 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.6 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.6 peer-as 65105
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.7 description facing_dc2-esi-002-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.7 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.7 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.7 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.7 peer-as 65106
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.8 description facing_dc2-esi-002-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.8 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.8 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.8 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.8 peer-as 65107
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.9 description facing_dc2-esi-003-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.9 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.9 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.9 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.9 peer-as 65108
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.10 description facing_dc2-esi-003-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.10 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.10 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.10 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.10 peer-as 65109
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.3 description facing_dc2-esi-sub-001-leaf1-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.3 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.3 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.3 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.3 peer-as 65102
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.4 description facing_dc2-esi-sub-001-leaf2-evpn-overlay
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.4 local-address 192.168.254.2
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.4 family evpn signaling
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.4 export ( SPINE_TO_LEAF_EVPN_OUT )
+set protocols bgp group l3clos-s-evpn neighbor 192.168.254.4 peer-as 65103
+set protocols bgp group l3clos-s-evpn vpn-apply-export
+set protocols bgp enable-oc-attr-set
+set protocols bgp log-updown
+set protocols bgp graceful-restart dont-help-shared-fate-bfd-down
+set protocols bgp multipath
+set protocols lldp port-id-subtype interface-name
+set protocols lldp port-description-type interface-description
+set protocols lldp neighbour-port-info-display port-id
+set protocols lldp interface all
+set protocols sflow polling-interval 10
+set protocols sflow sample-rate ingress 1024
+set protocols sflow sample-rate egress 1024
+set protocols sflow source-ip 10.216.34.115
+set protocols sflow collector 10.219.1.2 udp-port 6343
+set protocols sflow interfaces et-0/0/0.0
+set protocols sflow interfaces et-0/0/1.0
+set protocols sflow interfaces et-0/0/3.0
+set protocols sflow interfaces et-0/0/4.0
+set protocols sflow interfaces et-0/0/5.0
+set protocols sflow interfaces et-0/0/6.0
+set protocols sflow interfaces et-0/0/7.0
+set protocols sflow interfaces et-0/0/43.0
+set protocols sflow interfaces et-0/0/48.0
+set protocols sflow interfaces et-0/0/49.0
+set protocols rstp disable
