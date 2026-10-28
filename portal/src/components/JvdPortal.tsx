@@ -39,7 +39,7 @@ const NAV = [
   { label: "Explorer", href: "#snips" },
   { label: "Design", href: "#byoai" },
   { label: "Generator", href: "#generator" },
-  { label: "Deploy", href: "#mcp" },
+  { label: "Automate", href: "#mcp" },
   { label: "Why JVDs", href: "#about" },
 ];
 
@@ -83,12 +83,12 @@ const LADDER = [
     cta: "Build Something",
   },
   {
-    stage: "Deploy",
+    stage: "Automate",
     title: "JVD MCP Server",
     desc: "Bring validated JVD knowledge and configuration into AI automation.",
     href: "#mcp",
     comingSoon: true,
-    cta: "Deploy It!",
+    cta: "See the MCP Server",
   },
 ];
 
@@ -763,7 +763,7 @@ export default function JvdPortal() {
       <section id="mcp" className="border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-            Stage 5 · Deploy
+            Stage 5 · Automate
           </div>
           <div className="mt-4 overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-surface to-surface p-8">
             <div className="flex flex-col items-start gap-5 sm:flex-row">
