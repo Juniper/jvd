@@ -187,12 +187,6 @@
         "MEF E-Line"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf"
@@ -217,7 +211,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-vpws",
+      "byoai": "TIERS.md#evpn-vpws-services",
       "status": "supported"
     },
     {
@@ -228,12 +222,6 @@
         "port-based EVPN-VPWS services"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [],
         "evo": []
@@ -247,7 +235,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-vpws",
+      "byoai": "TIERS.md#port-based-evpn-vpws-services",
       "status": "incomplete",
       "reason": "MENU advertises a port-based form but no distinct entry snippet models it; TIERS reaches it only through an interface pattern, and a pattern may not count as supported."
     },
@@ -260,12 +248,6 @@
         "Flexible Cross-Connect"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf"
@@ -289,7 +271,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-fxc-flexible-cross-connect",
+      "byoai": "TIERS.md#evpn-fxc-services",
       "status": "supported",
       "note": "2-UNI and 3-UNI forms and the vlan-aware forms exist as separate snippets; only the 4-UNI form is declared here until the UNI-count dimension is modelled."
     },
@@ -302,12 +284,6 @@
         "RFC 4761"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf"
@@ -331,7 +307,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "byoai": "TIERS.md#kompella-l2vpn-pseudowires",
       "status": "supported",
       "note": "an3_acx7100-48l and ma5_mx204 each contain 201 L2VPN instances across five structural forms: one port-based, 51 VLAN, 49 VLAN with control-word, 50 VLAN with export policy, and 50 VLAN with both control-word and export policy. This advertised port-based template matches one instance on each device. The additional junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf representation covers that same MA5 instance plus a root group-application statement; it is not a second population of services and is not an additional advertised entry."
     },
@@ -343,10 +319,6 @@
         "L2Circuit hot-standby pseudowires"
       ],
       "osMode": "EVO",
-      "roles": [
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [],
         "evo": [
@@ -365,7 +337,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2circuit-including-hot-standby",
+      "byoai": "TIERS.md#l2circuit-hot-standby-pseudowires",
       "status": "supported",
       "note": "LDP-signalled: carries no BGP overlay requirement. Hub-side forms are separate snippets."
     },
@@ -377,10 +349,6 @@
         "L2Circuit floating pseudowires"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "mse",
-        "ma"
-      ],
       "entry": {
         "junos": [
           "junos/protocols/l2circuit-floating-pw.conf"
@@ -399,7 +367,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2circuit-floating-pseudowire",
+      "byoai": "TIERS.md#l2circuit-floating-pseudowires",
       "status": "supported",
       "note": "MENU describes a Junos head-end plus an EVO vlan-ccc tail; only the Junos head-end has a declared entry snippet, so the EVO tail is not claimed here."
     },
@@ -412,10 +380,6 @@
         "MEF E-Access hand-off"
       ],
       "osMode": "EVO",
-      "roles": [
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [],
         "evo": [
@@ -433,7 +397,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2circuit-local-switching-cross-connect-on-one-pe",
+      "byoai": "TIERS.md#l2circuit-local-switching-cross-connects",
       "status": "supported"
     },
     {
@@ -445,12 +409,6 @@
         "MEF E-LAN"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf"
@@ -474,7 +432,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "byoai": "TIERS.md#evpn-elan-instances",
       "status": "supported",
       "note": "EVO models mac-vrf and Junos MX models instance-type evpn; the two entry snippets are not twins."
     },
@@ -487,11 +445,6 @@
         "service-type vlan-bundle"
       ],
       "osMode": "EVO",
-      "roles": [
-        "an",
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [],
         "evo": [
@@ -512,7 +465,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "byoai": "TIERS.md#port-based-evpn-elan-instances",
       "status": "supported"
     },
     {
@@ -523,12 +476,6 @@
         "BGP-VPLS instances"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
@@ -552,7 +499,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "byoai": "TIERS.md#bgp-vpls-instances",
       "status": "supported"
     },
     {
@@ -563,10 +510,6 @@
         "LDP-VPLS instances"
       ],
       "osMode": "EVO",
-      "roles": [
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [],
         "evo": [
@@ -585,7 +528,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l2vpn-family-kompella-l2vpn-bgp-vpls-ldp-vpls",
+      "byoai": "TIERS.md#ldp-vpls-instances",
       "status": "supported",
       "note": "LDP-signalled: carries no BGP overlay requirement. MENU states EVO only in this JVD."
     },
@@ -598,9 +541,6 @@
         "MEF E-Tree"
       ],
       "osMode": "Junos",
-      "roles": [
-        "ma"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/evpn-etree/ri-evpn-etree.conf"
@@ -622,7 +562,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-e-tree",
+      "byoai": "TIERS.md#evpn-e-tree-services",
       "status": "supported"
     },
     {
@@ -633,11 +573,6 @@
         "EVPN-ELAN with IRB"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
@@ -663,7 +598,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-elan-vlan-based-irb-vlan-bundle-or-port-based",
+      "byoai": "TIERS.md#evpn-elan-with-irb",
       "status": "supported"
     },
     {
@@ -675,11 +610,6 @@
         "EVPN Type-5"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf"
@@ -705,7 +635,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#evpn-type-5-ip-prefix-vrfs",
+      "byoai": "TIERS.md#evpn-elan-with-l3-type-2--type-5",
       "status": "supported",
       "note": "JVD default. Requires its validated EVPN-ELAN/IRB half, declared as a paired construct."
     },
@@ -717,11 +647,6 @@
         "slim L3VPN anchor VRFs"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "an",
-        "ma",
-        "meg"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf"
@@ -745,7 +670,7 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#slim-l3vpn-irb-anchor-vrf-host-32s-ride-rt-2",
+      "byoai": "TIERS.md#slim-l3vpn-anchor-vrfs",
       "status": "supported"
     },
     {
@@ -756,11 +681,6 @@
         "L3VPN VRFs with PE-CE eBGP"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
@@ -786,9 +706,8 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l3vpn-pe-ce-ebgp-or-pe-ce-ospf",
-      "status": "supported",
-      "note": "TIERS records that no snippet in this library captures the L3VPN family inet attachment interface."
+      "byoai": "TIERS.md#l3vpn-vrfs-with-pe-ce-ebgp",
+      "status": "supported"
     },
     {
       "id": "l3vpn-pece-ospf",
@@ -798,11 +717,6 @@
         "L3VPN VRFs with PE-CE OSPF"
       ],
       "osMode": "MIXED",
-      "roles": [
-        "ma",
-        "meg",
-        "mse"
-      ],
       "entry": {
         "junos": [
           "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf"
@@ -827,9 +741,8 @@
         "as-deployed"
       ],
       "generator": null,
-      "byoai": "TIERS.md#l3vpn-pe-ce-ebgp-or-pe-ce-ospf",
-      "status": "supported",
-      "note": "TIERS records that no snippet in this library captures the L3VPN family inet attachment interface."
+      "byoai": "TIERS.md#l3vpn-vrfs-with-pe-ce-ospf",
+      "status": "supported"
     }
   ],
   "nonServiceAsks": [
@@ -847,7 +760,7 @@
         "Add OAM/CFM perf-mon to a service"
       ],
       "status": "incomplete",
-      "reason": "TIERS cites oam/oam-cfm-perf-mon.conf, a category that no longer exists."
+      "reason": "No declared entry set. The library's CFM snippets are not yet composed into a service add-on."
     },
     {
       "id": "add-uni-policers",
@@ -863,7 +776,7 @@
         "Build a new access-node turn-up for an ACX7024"
       ],
       "status": "incomplete",
-      "reason": "Bootstrap section cites removed categories."
+      "reason": "No declared entry set for a full-device turn-up."
     },
     {
       "id": "greenfield-mx304",
@@ -871,7 +784,7 @@
         "Bootstrap a new MX304 PE end-to-end"
       ],
       "status": "incomplete",
-      "reason": "Bootstrap section cites removed categories."
+      "reason": "No declared entry set for a full-device turn-up."
     }
   ],
   "occurrenceBindings": [
