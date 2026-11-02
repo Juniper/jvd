@@ -48,17 +48,24 @@ jobs:
 
       - name: Stamp the publishing commit into the built corpus
         # Runs in the build job, so pull-request CI exercises it. Never
-        # committed: the tracked export has to stay reproducible from the
+        # committed: the tracked exports have to stay reproducible from the
         # sources alone. Excluded from exportDigest, so stamping cannot
         # invalidate what it stamps.
         run: |
           node -e '
             const fs = require("node:fs");
-            const f = "dist/snips.json";
-            const b = JSON.parse(fs.readFileSync(f, "utf8"));
-            b.publishedCommit = process.env.GITHUB_SHA;
-            fs.writeFileSync(f, JSON.stringify(b, null, 2) + "\n");
-            console.log(`stamped ${f} with ${b.publishedCommit}`);
+            const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
+            const library = read("dist/snips.json");
+            for (const f of ["dist/snips.json", "dist/snip-dependencies.json"]) {
+              if (!fs.existsSync(f)) continue;
+              const b = read(f);
+              b.publishedCommit = process.env.GITHUB_SHA;
+              fs.writeFileSync(f, JSON.stringify(b, null, 2) + "\n");
+              console.log(`stamped ${f} with ${b.publishedCommit}`);
+              if (b.libraryDigest && b.libraryDigest !== library.exportDigest) {
+                console.log(`::warning file=portal/public/${f.slice(5)}::built from a different snips.json; consumers will ignore it until it is regenerated`);
+              }
+            }
           '
 
       - name: Copy index.html to 404.html (SPA fallback)
