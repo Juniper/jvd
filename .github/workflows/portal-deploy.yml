@@ -43,6 +43,22 @@ jobs:
       - name: Verify snip library parses
         run: node -e 'JSON.parse(require("node:fs").readFileSync("src/data/snips.json","utf8")); JSON.parse(require("node:fs").readFileSync("public/snips.json","utf8"))'
 
+      - name: Verify dependency links match the snip library
+        # Consumers ignore a snip-dependencies.json built from another
+        # snips.json, so a change to either must carry the other.
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
+            const library = read("public/snips.json");
+            const links = read("public/snip-dependencies.json");
+            if (links.libraryDigest !== library.exportDigest) {
+              console.log("::error file=portal/public/snip-dependencies.json::built from a different snips.json; regenerate it in the same change as snips.json");
+              process.exit(1);
+            }
+            console.log(`snip-dependencies.json matches snips.json ${library.exportDigest.slice(0, 12)}`);
+          '
+
       - name: Build
         run: bun run build
 
@@ -54,17 +70,11 @@ jobs:
         run: |
           node -e '
             const fs = require("node:fs");
-            const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
-            const library = read("dist/snips.json");
             for (const f of ["dist/snips.json", "dist/snip-dependencies.json"]) {
-              if (!fs.existsSync(f)) continue;
-              const b = read(f);
+              const b = JSON.parse(fs.readFileSync(f, "utf8"));
               b.publishedCommit = process.env.GITHUB_SHA;
               fs.writeFileSync(f, JSON.stringify(b, null, 2) + "\n");
               console.log(`stamped ${f} with ${b.publishedCommit}`);
-              if (b.libraryDigest && b.libraryDigest !== library.exportDigest) {
-                console.log(`::warning file=portal/public/${f.slice(5)}::built from a different snips.json; consumers will ignore it until it is regenerated`);
-              }
             }
           '
 
