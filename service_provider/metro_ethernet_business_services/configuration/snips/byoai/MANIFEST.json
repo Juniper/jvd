@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "9b59987af721a9057c3a1b0388a855f5d8de34561a1211dfe7a0ba5a7bb45ac2",
+  "dependency_declaration_sha256": "97da6e67f1b340dc8a4b8a9512cf5d8c6e490d842fcb47e7c41896b690de47b8",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
   "snip_count": 585,
@@ -21489,6 +21489,7 @@
             "@source:irb-service"
           ],
           "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -21628,6 +21629,7 @@
             "@source:irb-service"
           ],
           "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -21756,6 +21758,50 @@
         }
       ],
       "occurrence_requires": [
+        {
+          "id": "context-irb-service",
+          "kind": "irb-service",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:irb-service"
+          ],
+          "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf",
+            "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf",
+            "junos/routing-instances/evpn-etree/ri-evpn-etree.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
+            "junos/routing-instances/l3vpn/ri-internet-vrf-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-export.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
+          ]
+        },
         {
           "id": "ref-logical-interface",
           "kind": "logical-interface",
@@ -23322,8 +23368,8 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md",
-      "size_bytes": 86266,
-      "sha256": "62223d55b8ed3fd725ad20f3ceec84f1f94c67aae240d0716eff0a38ad405eb7"
+      "size_bytes": 86396,
+      "sha256": "c8eaeed6b1db27f66a79f30295eae3d74113a2950cc8b68e4294a65f8087f367"
     },
     {
       "path": "byoai/DEFAULTS.md",

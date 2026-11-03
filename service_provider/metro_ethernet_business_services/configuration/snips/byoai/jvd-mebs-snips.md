@@ -32771,6 +32771,7 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
   - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
   - occurrence-selection-required: group:GR-BGP-BCP
   - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT
@@ -32809,6 +32810,7 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
   - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
   - occurrence-selection-required: group:GR-BGP-BCP
   - occurrence-selection-required: policy-statement:PS-AS63535-IMPORT

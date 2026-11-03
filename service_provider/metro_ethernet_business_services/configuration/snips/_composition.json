@@ -9089,6 +9089,7 @@
       "kind": "irb-service",
       "scope": "object",
       "providers": [
+        "junos/bridge-domains/bridge-domain-irb.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -9193,6 +9194,7 @@
       "kind": "irb-service",
       "scope": "object",
       "providers": [
+        "junos/bridge-domains/bridge-domain-irb.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
         "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -9287,6 +9289,50 @@
       "slots": [
         "$IMPORT_POL",
         "$EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/bridge-domains/bridge-domain-irb.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf",
+        "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf",
+        "junos/routing-instances/evpn-etree/ri-evpn-etree.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+        "junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
+        "junos/routing-instances/l3vpn/ri-internet-vrf-export.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf",
+        "junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf",
+        "junos/routing-instances/vpls/ri-bgp-vpls-export.conf",
+        "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
+        "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
       ],
       "presence": "required",
       "unbound": "required"
@@ -10085,6 +10131,6 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "9b59987af721a9057c3a1b0388a855f5d8de34561a1211dfe7a0ba5a7bb45ac2"
+    "sha256": "97da6e67f1b340dc8a4b8a9512cf5d8c6e490d842fcb47e7c41896b690de47b8"
   }
 }

@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "c6641589af2f4a8e78d24c0ea1744d96bd954f329a1ed3aadf8b27b38d1f5183",
+  "libraryDigest": "db3e99fa232e848c3e86a2ff8d8dc20f27e51a47e99c15166d2abdc4298ba17c",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-10-10T17:07:14.743Z",
+  "generatedAt": "2026-11-03T18:04:08.189Z",
   "resolutions": [
     {
       "jvd": "broadband_edge",
@@ -21277,6 +21277,17 @@
       "jvd": "metro_ethernet_business_services",
       "device": "meg1_acx7100-32c",
       "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community",
+        "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct"
+      ]
+    },
+    {
+      "jvd": "metro_ethernet_business_services",
+      "device": "meg1_acx7100-32c",
+      "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "ref-logical-interface",
       "status": "resolved",
       "providers": [
@@ -22802,6 +22813,17 @@
       "jvd": "metro_ethernet_business_services",
       "device": "meg2_acx7509",
       "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community",
+        "metro_ethernet_business_services/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct"
+      ]
+    },
+    {
+      "jvd": "metro_ethernet_business_services",
+      "device": "meg2_acx7509",
+      "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "ref-logical-interface",
       "status": "resolved",
       "providers": [
@@ -23369,8 +23391,10 @@
       "device": "mse1_mx304",
       "snip": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "context-irb-service",
-      "status": "not-needed",
-      "providers": []
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/junos/bridge-domains/bridge-domain-irb"
+      ]
     },
     {
       "jvd": "metro_ethernet_business_services",
@@ -24589,6 +24613,16 @@
       "jvd": "metro_ethernet_business_services",
       "device": "mse1_mx304",
       "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/junos/bridge-domains/bridge-domain-irb"
+      ]
+    },
+    {
+      "jvd": "metro_ethernet_business_services",
+      "device": "mse1_mx304",
+      "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "ref-logical-interface",
       "status": "resolved",
       "providers": [
@@ -25091,8 +25125,10 @@
       "device": "mse2_mx304",
       "snip": "metro_ethernet_business_services/evo/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "context-irb-service",
-      "status": "not-needed",
-      "providers": []
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/junos/bridge-domains/bridge-domain-irb"
+      ]
     },
     {
       "jvd": "metro_ethernet_business_services",
@@ -26265,6 +26301,16 @@
       "jvd": "metro_ethernet_business_services",
       "device": "mse2_mx304",
       "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/junos/bridge-domains/bridge-domain-irb"
+      ]
+    },
+    {
+      "jvd": "metro_ethernet_business_services",
+      "device": "mse2_mx304",
+      "snip": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
       "requirement": "ref-logical-interface",
       "status": "resolved",
       "providers": [
@@ -26398,5 +26444,5 @@
       ]
     }
   ],
-  "exportDigest": "8768492635a21e5fee74d27b9685bcda16430a9916e95f886318708bffa481e0"
+  "exportDigest": "6bd15c7b159ba46f9c8439610391b9d823408530792d01d19b35ce5b52b0461e"
 }
