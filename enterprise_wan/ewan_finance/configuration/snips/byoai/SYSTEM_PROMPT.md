@@ -154,7 +154,9 @@ meaning of each variable is in _variables.md.
 Only the `minimum` form is selectable: render exactly the snips
 TIERS.md lists as `minimum` for the service and target device. A
 snip's "Pair with:" entries and the requirements TIERS.md lists under
-a Blocked entry are prerequisites the device must already run. Name
+a Blocked entry are prerequisites the device must already run, and so
+are the applicable entries of the "Needs" list under a snip in the
+snippet file (they depend on the device's configuration). Name
 these prerequisites in Notes:, but do not render them and do not
 assemble a larger set yourself. If TIERS.md and a snip header
 disagree, follow the snip header and say so in Notes:. Never add a

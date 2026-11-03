@@ -113,6 +113,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifd-ae-flexible-lacp-fast-mtu.conf
 
 ```
@@ -154,6 +157,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## evo/interfaces/ifd-breakout-10g.conf
 
@@ -214,6 +220,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-description-100g`, `interfaces/ifd-core-lag-member-ether-description`
+
 ## evo/interfaces/ifd-core-aggregate-vlan-tagging-min-links-lacp.conf
 
 ```
@@ -248,6 +257,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## evo/interfaces/ifd-core-lag-member-ether-description-100g.conf
 
@@ -512,6 +524,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-lacp`, `interfaces/ifd-description-100g`, `interfaces/ifd-description`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-description-100g`, `interfaces/ifd-core-lag-member-ether-description`
+
 ## evo/interfaces/ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16.conf
 
 ```
@@ -548,6 +564,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description-100g`
 
 ## evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf
 
@@ -590,6 +609,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-aggregate-vlan-tagging-min-links-lacp`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifl-inet-inet6.conf
 
 ```
@@ -625,6 +648,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description`
 
 ## evo/interfaces/ifl-loopback-primary-iso.conf
 
@@ -761,6 +787,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-flexible-lacp-fast-mtu`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifl-vlan-ccc-family-ccc.conf
 
 ```
@@ -796,6 +826,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-flexible-lacp-fast-mtu-esi-single-active`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## evo/policy-options/community/cm-pppoe-subs-comm-1.conf
 
@@ -970,6 +1004,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `prefix-list` (`PL-CORE`): required, for each reference; one of `policy-options/prefix-list/pl-core-agn`, `policy-options/prefix-list/pl-core-cr`
+
 ## evo/policy-options/policy-statement/ps-client-rr-export.conf
 
 ```
@@ -1001,6 +1038,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; one of `policy-options/prefix-list/pl-an-region-agn`, `policy-options/prefix-list/pl-an-region-cr`
 
 ## evo/policy-options/policy-statement/ps-isis-export.conf
 
@@ -1842,6 +1882,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16`, `interfaces/ifl-core-inet-iso-inet6-noaddr-mpls-max-labels-16`, `interfaces/ifl-core-vlan-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l2-tilfa-bfd.conf
 
 ```
@@ -1882,6 +1925,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16`
 
 ## evo/protocols/isis-loopback-passive.conf
 
@@ -2144,6 +2190,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFD.$UNIT_A`, `$IFD.$UNIT_B`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf
 
 ```
@@ -2201,6 +2250,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-esi-all-active-family-ccc`
+
 ## evo/routing-instances/l3vpn/ri-radius-server-ospf.conf
 
 ```
@@ -2250,6 +2302,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`$AC_IFL`, `lo0.$UNIT`): required, for each reference; one of `interfaces/ifl-inet-inet6`, `interfaces/ifl-loopback-primary`
 
 ## evo/routing-instances/l3vpn/ri-vrf-internet.conf
 
@@ -2323,6 +2379,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-inet-inet6`
 
 ## evo/routing-options/autonomous-system.conf
 
@@ -3241,6 +3301,9 @@ dynamic-profiles {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `routing-instance` (`dhcp-subs`): required, for each reference; one of `routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates`, `routing-instances/l3vpn/ri-dhcp-subs-four-pools`, `routing-instances/l3vpn/ri-dhcp-subs-two-pools`
+
 ## junos/dynamic-profiles/prod-dhcp-base.conf
 
 ```
@@ -3309,6 +3372,9 @@ dynamic-profiles {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `routing-instance` (`dhcp-subs`): required, for each reference; one of `routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates`, `routing-instances/l3vpn/ri-dhcp-subs-four-pools`, `routing-instances/l3vpn/ri-dhcp-subs-two-pools`
 
 ## junos/dynamic-profiles/prod-pppoe-dt-base.conf
 
@@ -3444,6 +3510,9 @@ dynamic-profiles {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `routing-instance` (`dhcp-subs`): required, for each reference; one of `routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates`, `routing-instances/l3vpn/ri-dhcp-subs-four-pools`, `routing-instances/l3vpn/ri-dhcp-subs-two-pools`
 
 ## junos/firewall/filter-clear-df-bit.conf
 
@@ -3597,6 +3666,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether-description`
+
 ## junos/interfaces/ifd-core-lag-member-gigether-description.conf
 
 ```
@@ -3738,6 +3810,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `ps-device-capacity`: required, for each reference; `chassis/pseudowire-service`
+- `tunnel-pic`: required, for each reference; `chassis/fpc-tunnel-services-100g`
+
 ## junos/interfaces/ifd-ps-pwht-pppoe.conf
 
 ```
@@ -3822,6 +3898,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `ps-device-capacity`: required, for each reference; `chassis/pseudowire-service`
+- `tunnel-pic`: required, for each reference; `chassis/fpc-tunnel-services-100g`
+
 ## junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16.conf
 
 ```
@@ -3864,6 +3944,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-lacp`, `interfaces/ifd-description`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether-description`
 
 ## junos/interfaces/ifl-loopback-description-primary-secondary.conf
 
@@ -4192,6 +4276,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `l2circuit-interface` (`$AC_IFL`): required, for each reference; `routing-instances/evpn-vpws/ri-evpn-vpws`
+
 ## junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf
 
 ```
@@ -4313,6 +4400,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `routing-instance` (`dhcp-subs`): required, for each reference; one of `routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates`, `routing-instances/l3vpn/ri-dhcp-subs-four-pools`, `routing-instances/l3vpn/ri-dhcp-subs-two-pools`
 
 ## junos/policy-options/policy-statement/ps-isis-export.conf
 
@@ -4801,6 +4891,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16`
+
 ## junos/protocols/isis-intf-l2-tilfa-bfd.conf
 
 ```
@@ -4842,6 +4935,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-16`
 
 ## junos/protocols/isis-loopback-passive.conf
 
@@ -5053,6 +5149,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; one of `interfaces/ifd-ps-pwht-dhcp`, `interfaces/ifd-ps-pwht-pppoe`
+
 ## junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools-three-v6-aggregates.conf
 
 ```
@@ -5253,6 +5352,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-description-primary-secondary`
 
 ## junos/routing-instances/l3vpn/ri-dhcp-subs-four-pools.conf
 
@@ -5457,6 +5560,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-description-primary-secondary`
+
 ## junos/routing-instances/l3vpn/ri-dhcp-subs-two-pools.conf
 
 ```
@@ -5645,6 +5752,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-description-primary-secondary`
+
 ## junos/routing-instances/l3vpn/ri-pppoe-subs.conf
 
 ```
@@ -5713,6 +5824,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-primary`
+
 ## junos/routing-instances/l3vpn/ri-radius.conf
 
 ```
@@ -5754,6 +5869,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of `policy-options/community/cm-pppoe-subs-comm-1`, `policy-options/community/cm-pppoe-subs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm-2`, `policy-options/community/cm-ps-dhcpsubs-comm`, `policy-options/community/cm-ps-internet-comm`, `policy-options/community/cm-ps-radius-comm`
+- `logical-interface` (`lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-primary`
 
 ## junos/routing-options/autonomous-system.conf
 

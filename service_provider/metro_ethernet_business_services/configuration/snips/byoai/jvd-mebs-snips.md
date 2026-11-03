@@ -385,6 +385,9 @@ class-of-service {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler-map` (`5G_SCHEDULER`): required, for each reference; `class-of-service/scheduler-maps/sm-6class-mapping`
+
 ## evo/class-of-service/interfaces/ifl-dscp-classifier-rewrite.conf
 
 ```
@@ -429,6 +432,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `classifier` (`DSCP`): required, for each reference; one of `class-of-service/classifiers/cl-6class-exp-import-default`, `class-of-service/classifiers/cl-6class`
 
 ## evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf
 
@@ -489,6 +495,9 @@ class-of-service {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `classifier` (`EXP`): required, for each reference; one of `class-of-service/classifiers/cl-6class-exp-import-default`, `class-of-service/classifiers/cl-6class`
+
 ## evo/class-of-service/interfaces/ifl-forwarding-class-ieee8021p-rewrite.conf
 
 ```
@@ -536,6 +545,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `forwarding-class` (`$FORWARDING_CLASS`): required, for each reference; `class-of-service/forwarding-classes/fc-6queue-model`
 
 ## evo/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf
 
@@ -587,6 +599,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `classifier` (`8021P`): required, for each reference; one of `class-of-service/classifiers/cl-6class-exp-import-default`, `class-of-service/classifiers/cl-6class`
 
 ## evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf
 
@@ -799,6 +814,9 @@ class-of-service {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler` (`BEST-EFFORT-SC`, `BUSINESS-SC`, `CONTROL-SC`, `MEDIUM-SC`, `REALTIME-SC`, `SIG-OAM-SC`): required, for each reference; one of `class-of-service/schedulers/sc-2-priority-model-ptx`, `class-of-service/schedulers/sc-2-priority-model`
+
 ## evo/class-of-service/schedulers/sc-2-priority-model-ptx.conf
 
 ```
@@ -999,6 +1017,9 @@ firewall {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policer` (`50mbps_policer`): required, for each reference; `firewall/policers`
+
 ## evo/firewall/filter-family-any-policers.conf
 
 ```
@@ -1046,6 +1067,9 @@ firewall {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policer` (`50mbps_policer`, `5mbps_policer`): required, for each reference; `firewall/policers`
 
 ## evo/firewall/filter-ipv6-router-access.conf
 
@@ -1164,6 +1188,9 @@ forwarding-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-FATPW-LB`): required, for each reference; `groups/gr-fatpw-lb`
+
 ## evo/forwarding-options/hash-key-mpls-all-labels-layer-3-payload.conf
 
 ```
@@ -1280,6 +1307,9 @@ forwarding-options {
  *   $GROUP_A   e.g. GR-FATPW-LABEL
  */
 apply-groups [ $GROUP_A ];```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`): required, for each reference; one of `groups/gr-fatpw-label-elan-vpls-l2circuit`, `groups/gr-l3vpn-ospf-service-map`
 
 ## evo/groups/gr-ae-interface-mtu.conf
 
@@ -2590,6 +2620,9 @@ interfaces {
     apply-groups [ $GROUP_A $GROUP_B ];
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-ae-interface-mtu`, `groups/gr-interface-mtu-meg2`
+
 ## evo/interfaces/core-isis-mpls-interface.conf
 
 ```
@@ -2650,6 +2683,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-100g`, `interfaces/ifd-core-lag-member`, `interfaces/ifd-lag-member-ether`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
 
 ## evo/interfaces/core-isis-mpls.conf
 
@@ -2730,6 +2767,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ethernet-bridge.conf
 
 ```
@@ -2767,6 +2808,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-100g`
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
 
 ## evo/interfaces/ifd-ae-lacp-fast.conf
 
@@ -2815,6 +2860,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-edge-lag-member-mh`, `interfaces/ifd-edge-lag-member-mh-10g`, `interfaces/ifd-edge-lag-member-mh`
+- `group` (`GR-EDGE-INTF-MH`): required, for each reference; `groups/gr-edge-intf-mh-interface`
+
 ## evo/interfaces/ifd-ae-lacp.conf
 
 ```
@@ -2860,6 +2909,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh`
+- `group` (`GR-EDGE-INTF-MH`): required, for each reference; `groups/gr-edge-intf-mh-interface`
 
 ## evo/interfaces/ifd-breakout-4x100g.conf
 
@@ -2947,6 +3000,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-10g`, `interfaces/ifd-core-lag-member`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ifd-core-aggregate-flexible-lacp-fast.conf
 
 ```
@@ -2982,6 +3039,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-100g`, `interfaces/ifd-core-lag-member`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
 
 ## evo/interfaces/ifd-core-aggregate-lacp-fast-mtu.conf
 
@@ -3028,6 +3089,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-100g`, `interfaces/ifd-core-lag-member`, `interfaces/ifd-lag-member-ether`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ifd-core-aggregate-lacp-fast.conf
 
 ```
@@ -3063,6 +3128,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-ether-100g`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
 
 ## evo/interfaces/ifd-core-aggregate-unit-group.conf
 
@@ -3109,6 +3178,9 @@ interfaces {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member`
+
 ## evo/interfaces/ifd-core-edge-lag-member-mh.conf
 
 ```
@@ -3137,6 +3209,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; one of `groups/gr-core-intf-lag-member`, `groups/gr-lag-member`
 
 ## evo/interfaces/ifd-core-flexible-100g-ether-tpid.conf
 
@@ -3204,6 +3279,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ifd-core-group-mtu.conf
 
 ```
@@ -3242,6 +3320,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ifd-core-lag-member-ether-100g.conf
 
 ```
@@ -3273,6 +3354,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; `groups/gr-core-intf-lag-member`
+
 ## evo/interfaces/ifd-core-lag-member-ether-10g.conf
 
 ```
@@ -3302,6 +3386,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; `groups/gr-core-intf-lag-member`
 
 ## evo/interfaces/ifd-core-lag-member.conf
 
@@ -3350,6 +3437,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; `groups/gr-core-intf-lag-member`
+
 ## evo/interfaces/ifd-edge-flexible-10g.conf
 
 ```
@@ -3376,6 +3466,9 @@ interfaces {
         encapsulation flexible-ethernet-services;
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
 
 ## evo/interfaces/ifd-edge-lag-member-mh-10g.conf
 
@@ -3623,6 +3716,9 @@ interfaces {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
+
 ## evo/interfaces/ifd-flexible-ethernet-group.conf
 
 ```
@@ -3654,6 +3750,9 @@ interfaces {
         encapsulation flexible-ethernet-services;
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
 
 ## evo/interfaces/ifd-flexible-ethernet.conf
 
@@ -3785,6 +3884,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-aggregate-lacp-fast-mtu`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member`
+
 ## evo/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf
 
 ```
@@ -3826,6 +3929,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-flexible-100g-ether-tpid`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
 
 ```
@@ -3864,6 +3971,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-group-mtu`
 
 ## evo/interfaces/ifl-core-inet-iso-inet6-mpls.conf
 
@@ -3918,6 +4028,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-lacp-fast-mtu`, `interfaces/ifd-core-aggregate-lacp-fast`, `interfaces/ifd-core-group-100g-mtu`, `interfaces/ifd-core-group-mtu`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-100g`, `interfaces/ifd-core-lag-member`, `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifl-core-vlan-inet-iso-inet6-mpls.conf
 
 ```
@@ -3956,6 +4070,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu`, `interfaces/ifd-core-aggregate-flexible-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-ether-100g`, `interfaces/ifd-core-lag-member-ether-10g`, `interfaces/ifd-core-lag-member`
 
 ## evo/interfaces/ifl-irb-inet.conf
 
@@ -4092,6 +4210,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
+- `filter` (`IPV6-ROUTER-ACCESS`): required, for each reference; `firewall/filter-ipv6-router-access`
+
 ## evo/interfaces/ifl-loopback-primary-iso-mpls.conf
 
 ```
@@ -4133,6 +4255,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
 
 ## evo/interfaces/ifl-loopback-primary-iso.conf
 
@@ -4188,6 +4313,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
+
 ## evo/interfaces/ifl-loopback-primary-preferred-iso.conf
 
 ```
@@ -4230,6 +4358,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
+
 ## evo/interfaces/ifl-vlan-bridge-description-esi.conf
 
 ```
@@ -4266,6 +4397,10 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh`
 
 ## evo/interfaces/ifl-vlan-bridge-esi.conf
 
@@ -4322,6 +4457,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast`, `interfaces/ifd-ae-lacp`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-edge-lag-member-mh`, `interfaces/ifd-edge-lag-member-mh`
+
 ## evo/interfaces/ifl-vlan-bridge-vlan-list-esi.conf
 
 ```
@@ -4365,6 +4504,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-edge-lag-member-mh`, `interfaces/ifd-edge-lag-member-mh`
+
 ## evo/interfaces/ifl-vlan-bridge-vlan-list.conf
 
 ```
@@ -4400,6 +4543,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-100g`
 
 ## evo/interfaces/ifl-vlan-bridge-vlan-map.conf
 
@@ -4445,6 +4591,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-flexible-10g`, `interfaces/ifd-flexible-ethernet-group`, `interfaces/ifd-flexible-ethernet`
+
 ## evo/interfaces/ifl-vlan-bridge.conf
 
 ```
@@ -4476,6 +4625,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group-100g`, `interfaces/ifd-flexible-ethernet`
 
 ## evo/interfaces/ifl-vlan-ccc-dual-tag-esi.conf
 
@@ -4524,6 +4676,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast`, `interfaces/ifd-ae-lacp`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-edge-lag-member-mh`, `interfaces/ifd-edge-lag-member-mh`
+
 ## evo/interfaces/ifl-vlan-ccc-esi.conf
 
 ```
@@ -4566,6 +4722,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh`
+
 ## evo/interfaces/ifl-vlan-ccc-outer-tag-tpid.conf
 
 ```
@@ -4594,6 +4754,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-flexible-100g-ether-tpid`
 
 ## evo/interfaces/ifl-vlan-ccc-vlan-list.conf
 
@@ -4631,6 +4794,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group`, `interfaces/ifd-flexible-ethernet`
 
 ## evo/interfaces/ifl-vlan-ccc-vlan-map-esi.conf
 
@@ -4690,6 +4856,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast`, `interfaces/ifd-ae-lacp`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-edge-lag-member-mh`, `interfaces/ifd-edge-lag-member-mh-10g`, `interfaces/ifd-edge-lag-member-mh`
+
 ## evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf
 
 ```
@@ -4741,6 +4911,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-flexible-10g`, `interfaces/ifd-flexible-ethernet-group`
+- `filter` (`50MB_filter`): required, for each reference; `firewall/filter-family-any-50mb`
+
 ## evo/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
 
 ```
@@ -4789,6 +4963,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group-100g`, `interfaces/ifd-flexible-ethernet-group`
+- `filter` (`50MB_filter`): required, for each reference; `firewall/filter-family-any-50mb`
+
 ## evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf
 
 ```
@@ -4835,6 +5013,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
+
 ## evo/interfaces/ifl-vlan-ccc-vlan-map-list.conf
 
 ```
@@ -4875,6 +5056,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
 
 ## evo/interfaces/ifl-vlan-ccc-vlan-map.conf
 
@@ -4917,6 +5101,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-100g`
+
 ## evo/interfaces/ifl-vlan-ccc.conf
 
 ```
@@ -4958,6 +5145,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-flexible-100g-ether-tpid`, `interfaces/ifd-flexible-ethernet-group`, `interfaces/ifd-flexible-ethernet`
 
 ## evo/interfaces/ifl-vlan-inet.conf
 
@@ -5005,6 +5195,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group-100g`, `interfaces/ifd-flexible-ethernet-group`
+
 ## evo/interfaces/ifl-vlan-inet6.conf
 
 ```
@@ -5050,6 +5243,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
+
 ## evo/policy-options/apply-group.conf
 
 ```
@@ -5069,6 +5265,9 @@ interfaces {
 policy-options {
     apply-groups $GROUP_A;
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`): required, for each reference; `groups/gr-l3vpn-ospf-color-map`
 
 ## evo/policy-options/community/cm-access-fabric.conf
 
@@ -5982,6 +6181,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-NO-ADVERTISE`): required, for each reference; one of `policy-options/community/cm-loopback`, `policy-options/community/cm-no-advertise`
+
 ## evo/policy-options/policy-statement/nhs1-ma1-1.conf
 
 ```
@@ -6069,6 +6271,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-RING`): required, for each reference; `policy-options/community/cm-metro-ring`
 
 ## evo/policy-options/policy-statement/per-packet-load-balance.conf
 
@@ -6158,6 +6363,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`): required, for each reference; `policy-options/community/cm-service-edge`
+
 ## evo/policy-options/policy-statement/ps-bgp-export-ring-cr1.conf
 
 ```
@@ -6222,6 +6430,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`, `CM-REGIONAL-BORDER`, `CM-SERVICE-EDGE`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-regional-border`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-METRO-RING`, `PL-BORDER-NODES`): required, for each reference; one of `policy-options/prefix-list/pl-border-nodes`, `policy-options/prefix-list/pl-metro-ring`
+
 ## evo/policy-options/policy-statement/ps-bgp-export-ring-cr2.conf
 
 ```
@@ -6279,6 +6491,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`, `CM-REGIONAL-BORDER`, `CM-SERVICE-EDGE`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-regional-border`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-METRO-RING`, `BORDER-NODES`): required, for each reference; one of `policy-options/prefix-list/border-nodes`, `policy-options/prefix-list/pl-metro-ring`
+
 ## evo/policy-options/policy-statement/ps-bgp-export-rr-client-access-meg.conf
 
 ```
@@ -6332,6 +6548,10 @@ policy-options {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-REGIONAL-BORDER`, `CM-METRO-RING`, `CM-ACCESS-FABRIC`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-regional-border`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region-access-meg`
 
 ## evo/policy-options/policy-statement/ps-bgp-export.conf
 
@@ -6397,6 +6617,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`): required, for each reference; `policy-options/community/cm-access-fabric`
+
 ## evo/policy-options/policy-statement/ps-bgp-mse-export-backup.conf
 
 ```
@@ -6457,6 +6680,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`, `CM-METRO-RING`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region`
 
 ## evo/policy-options/policy-statement/ps-bgp-mse-export.conf
 
@@ -6564,6 +6791,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`, `CM-TC-4000-GOLD`, `CM-TC-6000-BRONZE`, `CM-METRO-RING`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`, `policy-options/community/cm-tc-4000-gold`, `policy-options/community/cm-tc-6000-bronze`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region`
+
 ## evo/policy-options/policy-statement/ps-bgp-rr-export.conf
 
 ```
@@ -6630,6 +6861,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-RING`, `CM-REGIONAL-BORDER`, `CM-SERVICE-EDGE`): required, for each reference; one of `policy-options/community/cm-metro-ring`, `policy-options/community/cm-regional-border`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-CORE`, `PL-FABRIC`): required, for each reference; one of `policy-options/prefix-list/pl-core`, `policy-options/prefix-list/pl-fabric`
+
 ## evo/policy-options/policy-statement/ps-bgp-transport-export.conf
 
 ```
@@ -6687,6 +6922,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-RING`): required, for each reference; `policy-options/community/cm-metro-ring`
 
 ## evo/policy-options/policy-statement/ps-cr-import.conf
 
@@ -6767,6 +7005,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-METRO-RING`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-CORE-NODES`, `PL-METRO-FABRIC`): required, for each reference; one of `policy-options/prefix-list/pl-core-nodes`, `policy-options/prefix-list/pl-metro-fabric`
 
 ## evo/policy-options/policy-statement/ps-export-isis-metro-a-ribs.conf
 
@@ -7009,6 +7251,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`${INSTANCE_NAME}_RT`, `$COLOR_COMMUNITY`): required, for each reference; one of `policy-options/community/cm-service-rt`, `policy-options/community/cm-tc-map2bronze`, `policy-options/community/cm-tc-map2gold`
+
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf
 
 ```
@@ -7068,6 +7313,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
 
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
 
@@ -7133,6 +7381,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf
 
 ```
@@ -7197,6 +7448,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf
 
 ```
@@ -7257,6 +7511,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
 
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf
 
@@ -7322,6 +7579,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
+
 ## evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
 
 ```
@@ -7382,6 +7642,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## evo/policy-options/policy-statement/ps-ibgp-cr-export-cr1.conf
 
 ```
@@ -7437,6 +7700,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-SERVICE-EDGE`, `CM-ACCESS-FABRIC`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-loopback`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-METRO-RING`): required, for each reference; `policy-options/prefix-list/pl-metro-ring`
 
 ## evo/policy-options/policy-statement/ps-ibgp-cr-export-meg1.conf
 
@@ -7535,6 +7802,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-REGIONAL-BORDER`, `CM-TC-4000-GOLD`, `CM-TC-6000-BRONZE`, `CM-ACCESS-FABRIC`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-regional-border`, `policy-options/community/cm-service-edge`, `policy-options/community/cm-tc-4000-gold`, `policy-options/community/cm-tc-6000-bronze`
+- `prefix-list` (`PL-AN-NODES`): required, for each reference; `policy-options/prefix-list/pl-an-nodes`
+
 ## evo/policy-options/policy-statement/ps-ibgp-mdr-export.conf
 
 ```
@@ -7587,6 +7858,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-METRO-RING`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-loopback`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`
 
 ## evo/policy-options/policy-statement/ps-ibgp-rr-export.conf
 
@@ -7644,6 +7918,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`
+- `prefix-list` (`PL-MSE`, `PL-AN-REGION`): required, for each reference; one of `policy-options/prefix-list/pl-an-region`, `policy-options/prefix-list/pl-mse`
 
 ## evo/policy-options/policy-statement/ps-import-bgp-lo0-filter.conf
 
@@ -7739,6 +8017,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`, `CM-INET-DEFAULT`): required, for each reference; one of `policy-options/community/cm-inet-default`, `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn`
+
 ## evo/policy-options/policy-statement/ps-import-l3vpn.conf
 
 ```
@@ -7784,6 +8065,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-l3vpn`
 
 ## evo/policy-options/policy-statement/ps-isis-export-core.conf
 
@@ -8128,6 +8412,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`): required, for each reference; `policy-options/community/cm-access-fabric`
+
 ## evo/policy-options/policy-statement/ps-multipath.conf
 
 ```
@@ -8337,6 +8624,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-NO-ADVERTISE`): required, for each reference; `policy-options/community/cm-no-advertise`
 
 ## evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
 
@@ -8915,6 +9205,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp-an3`
+- `policy-statement` (`PS-BGP-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-bgp-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## evo/protocols/bgp-overlay-cr1.conf
 
 ```
@@ -9113,6 +9408,11 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-EXPORT-RING`, `PS-AS63536-IMPORT`, `PS-EBGP-MSE-EXPORT`, `PS-CR-IMPORT`, `PS-IBGP-CR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-as63536-import`, `policy-options/policy-statement/ps-bgp-export-ring-cr1`, `policy-options/policy-statement/ps-cr-import`, `policy-options/policy-statement/ps-ebgp-mse-export`, `policy-options/policy-statement/ps-ibgp-cr-export-cr1`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
 
 ## evo/protocols/bgp-overlay-cr2.conf
 
@@ -9313,6 +9613,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-EXPORT-RING`, `PS-AS63536-IMPORT`, `PS-EBGP-MSE-EXPORT`, `PS-CR-IMPORT`, `PS-IBGP-CR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-as63536-import`, `policy-options/policy-statement/ps-bgp-export-ring-cr2`, `policy-options/policy-statement/ps-cr-import`, `policy-options/policy-statement/ps-ebgp-mse-export`, `policy-options/policy-statement/ps-ibgp-cr-export-cr1`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## evo/protocols/bgp-overlay-ma3.conf
 
 ```
@@ -9430,6 +9735,11 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-TRANSPORT-EXPORT`, `nhs1`): required, for each reference; one of `policy-options/policy-statement/nhs1-ma3`, `policy-options/policy-statement/ps-bgp-transport-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
 
 ## evo/protocols/bgp-overlay-mdr1.conf
 
@@ -9614,6 +9924,11 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-IBGP-RR-EXPORT`, `PS-BGP-MSE-EXPORT`, `PS-IBGP-MDR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-bgp-mse-export`, `policy-options/policy-statement/ps-ibgp-mdr-export`, `policy-options/policy-statement/ps-ibgp-rr-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
 
 ## evo/protocols/bgp-overlay-meg1.conf
 
@@ -9826,6 +10141,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`IMPORT-BGP`, `PS-BGP-RR-EXPORT`, `PS-IBGP-CR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-bgp-rr-export`, `policy-options/policy-statement/ps-ibgp-cr-export-meg1`, `policy-options/policy-statement/ps-import-bgp-lo0-filter`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## evo/protocols/bgp-overlay-meg2.conf
 
 ```
@@ -10030,6 +10350,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`IMPORT-BGP`, `PS-BGP-RR-EXPORT`, `PS-IBGP-CR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-bgp-rr-export`, `policy-options/policy-statement/ps-ibgp-cr-export-meg1`, `policy-options/policy-statement/ps-import-bgp-lo0-filter`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## evo/protocols/bgp-overlay.conf
 
 ```
@@ -10172,6 +10497,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-TRANSPORT-EXPORT`, `nhs1`): required, for each reference; one of `policy-options/policy-statement/nhs1-ma1-1`, `policy-options/policy-statement/ps-bgp-transport-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## evo/protocols/esis-disable.conf
 
 ```
@@ -10250,6 +10580,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-vlan-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-instance-intf-l2-bfd.conf
 
 ```
@@ -10304,6 +10637,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls`, `interfaces/ifl-core-vlan-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-instance-intf-l2-metric-bfd.conf
 
 ```
@@ -10354,6 +10690,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-vlan-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-instance-l2-export.conf
 
@@ -10420,6 +10759,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`, `$EXPORT_POLICY`): required, for each reference; one of `policy-options/policy-statement/ps-export-isis-metro-a-ribs`, `policy-options/policy-statement/ps-export-isis-metro-b-ribs`, `policy-options/policy-statement/ps-isis-export-loopbacks`
+
 ## evo/protocols/isis-instance-l2-net.conf
 
 ```
@@ -10483,6 +10826,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
+
 ## evo/protocols/isis-instance-loopback-passive.conf
 
 ```
@@ -10511,6 +10858,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; `interfaces/ifl-loopback-primary-iso`
 
 ## evo/protocols/isis-interface-1-te-metric-10-admin-group-blue-delay-metric-10-bfd.conf
 
@@ -10561,6 +10911,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-1-te-metric-10-admin-group-green-delay-metric-10-bfd.conf
 
 ```
@@ -10610,6 +10963,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-1-te-metric-110-admin-group-blue-metric-15-delay-metric-105-asla.conf
 
 ```
@@ -10653,6 +11009,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-description-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-1-te-metric-110-admin-group-blue-metric-25-delay-metric-105-asla.conf
 
 ```
@@ -10695,6 +11054,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-interface-1-te-metric-110-admin-group-green-blue-delay-metric-105-bfd.conf
 
@@ -10745,6 +11107,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-1-te-metric-110-admin-group-green-delay-metric-105-bfd.conf
 
 ```
@@ -10793,6 +11158,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-interface-1-te-metric-15-admin-group-blue-delay-metric-8-bfd.conf
 
@@ -10843,6 +11211,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
 ## evo/protocols/isis-interface-1-te-metric-15-admin-group-blue-green-delay-metric-10-bfd.conf
 
 ```
@@ -10891,6 +11262,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-interface-1-te-metric-15-admin-group-green-delay-metric-8-bfd.conf
 
@@ -10941,6 +11315,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-interface-2-1-disable-te-metric-10-admin-group-blue-green-delay-metric-10-bfd.conf
 
@@ -10993,6 +11370,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-2-te-metric-10-admin-group-green-blue-delay-metric-10-bfd.conf
 
 ```
@@ -11042,6 +11422,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-2-te-metric-5-admin-group-blue-green-delay-metric-5-bfd.conf
 
 ```
@@ -11090,6 +11473,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-interface-2-te-metric-5-admin-group-blue-green-metric-15-delay-metric-5-bfd.conf
 
@@ -11141,6 +11527,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-interface-2-te-metric-5-admin-group-green-blue-metric-15-delay-metric-5-bfd.conf
 
 ```
@@ -11191,6 +11580,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifd-core-aggregate-unit-group`
+
 ## evo/protocols/isis-intf-l1-bfd-meg2.conf
 
 ```
@@ -11240,6 +11632,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-intf-l1-groups-bfd.conf
 
@@ -11297,6 +11692,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l1-groups-metric-bfd.conf
 
 ```
@@ -11348,6 +11746,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l1-metric-an3.conf
 
 ```
@@ -11391,6 +11792,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-intf-l1-metric-bfd-ag1-1.conf
 
@@ -11442,6 +11846,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-intf-l1-metric-bfd-meg1.conf
 
@@ -11499,6 +11906,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l1-metric-bfd.conf
 
 ```
@@ -11554,6 +11964,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l1.conf
 
 ```
@@ -11595,6 +12008,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## evo/protocols/isis-intf-l2-bfd-mdr1.conf
 
@@ -11652,6 +12068,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l2-bfd.conf
 
 ```
@@ -11707,6 +12126,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls-interface`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-intf-l2-groups-bfd-mdr1.conf
 
 ```
@@ -11761,6 +12183,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/ifl-core-inet-iso-inet6-mpls`, `interfaces/ifl-core-vlan-inet-iso-inet6-mpls`
+
 ## evo/protocols/isis-loopback-passive.conf
 
 ```
@@ -11805,6 +12230,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; one of `interfaces/ifl-loopback-primary-iso-filter`, `interfaces/ifl-loopback-primary-iso-mpls`, `interfaces/ifl-loopback-primary-iso`, `interfaces/ifl-loopback-primary-preferred-iso`
+
 ## evo/protocols/isis-source-packet-routing-enable.conf
 
 ```
@@ -11829,6 +12257,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
 
 ## evo/protocols/isis-srmpls-tilfa-l1-bfd-group-max-lsp-8000.conf
 
@@ -11895,6 +12326,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`, `GR-ISIS-BFD`): required, for each reference; one of `groups/gr-isis-bcp`, `groups/gr-isis-bfd`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-core`
+
 ## evo/protocols/isis-srmpls-tilfa-l1-l2.conf
 
 ```
@@ -11955,6 +12390,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-core`
 
 ## evo/protocols/isis-srmpls-tilfa-l1-max-lsp-8000.conf
 
@@ -12021,6 +12460,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-interface-spf`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-core`
+
 ## evo/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf
 
 ```
@@ -12083,6 +12526,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-loopbacks`
 
 ## evo/protocols/isis-srmpls-tilfa-l2-net.conf
 
@@ -12150,6 +12597,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
+
 ## evo/protocols/isis-srmpls-tilfa-l2-sensor-stats.conf
 
 ```
@@ -12212,6 +12663,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
 
 ## evo/protocols/isis-srmpls-tilfa-l2.conf
 
@@ -12277,6 +12732,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
 
 ## evo/protocols/isis-srmpls-tilfa.conf
 
@@ -12389,6 +12848,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `logical-interface` (`$CORE_INTF`, `lo0.0`): required, for each reference; one of `interfaces/core-isis-mpls`, `interfaces/ifd-core-aggregate-unit-group`, `interfaces/ifl-loopback-primary-iso`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
+
 ## evo/protocols/l2circuit-hsb-hub-color-ignore-encap.conf
 
 ```
@@ -12456,6 +12920,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-TC-MAP2GOLD`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
+
 ## evo/protocols/l2circuit-hsb-hub-color.conf
 
 ```
@@ -12519,6 +12987,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-TC-MAP2GOLD`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
+
 ## evo/protocols/l2circuit-hsb-hub-ignore-encap.conf
 
 ```
@@ -12580,6 +13052,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
 
 ## evo/protocols/l2circuit-hsb-pe-color.conf
 
@@ -12647,6 +13122,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`map2gold`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
+
 ## evo/protocols/l2circuit-hsb-pe-primary-color.conf
 
 ```
@@ -12709,6 +13188,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`map2gold`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
+
 ## evo/protocols/l2circuit-hsb-pe-primary.conf
 
 ```
@@ -12761,6 +13244,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
 
 ## evo/protocols/l2circuit-hsb-pe.conf
 
@@ -12818,6 +13304,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter-ccc`
+
 ## evo/protocols/l2circuit-lsw.conf
 
 ```
@@ -12870,6 +13359,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_1.$UNIT_1`, `$AC_INTF_2.$UNIT_2`): required, for each reference; one of `interfaces/ifl-vlan-ccc-outer-tag-tpid`, `interfaces/ifl-vlan-ccc-vlan-map-list-tpid`
+
 ## evo/protocols/l2circuit-static-color.conf
 
 ```
@@ -12907,6 +13399,10 @@ protocols {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$COLOR_COMMUNITY`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-list`
+
 ## evo/protocols/l2circuit-static.conf
 
 ```
@@ -12942,6 +13438,9 @@ protocols {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc`
+
 ## evo/protocols/ldp-loopback.conf
 
 ```
@@ -12969,6 +13468,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; one of `interfaces/ifl-loopback-primary-iso-mpls`, `interfaces/ifl-loopback-primary-iso`, `interfaces/ifl-loopback-primary-preferred-iso`
 
 ## evo/protocols/lldp-interface-all.conf
 
@@ -13431,6 +13933,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-FATPW-LABEL`): required, for each reference; one of `groups/gr-fatpw-label-elan-vpls-l2circuit`, `groups/gr-fatpw-label-vpws-static`
+
 ## evo/routing-instances/apply-groups/gr-l3vpn-fatpw-label.conf
 
 ```
@@ -13475,6 +13980,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-L3VPN`, `GR-FATPW-LABEL`): required, for each reference; one of `groups/gr-fatpw-label-etree-vpws-vpls`, `groups/gr-fatpw-label`, `groups/gr-l3vpn`
+
 ## evo/routing-instances/apply-groups/gr-l3vpn.conf
 
 ```
@@ -13517,6 +14025,9 @@ routing-instances {
     apply-groups GR-L3VPN;
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-L3VPN`): required, for each reference; `groups/gr-l3vpn`
 
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf
 
@@ -13570,6 +14081,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `$IRB_UNIT`): required, for each reference; one of `interfaces/ifl-irb-virtual-gateway`, `interfaces/ifl-vlan-bridge-esi`
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community.conf
 
 ```
@@ -13620,6 +14134,9 @@ routing-instances {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `$IRB_UNIT`): required, for each reference; one of `interfaces/ifl-irb-virtual-gateway`, `interfaces/ifl-vlan-bridge-esi`
 
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
 
@@ -13695,6 +14212,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `$IRB_UNIT`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-irb-inet`, `interfaces/ifl-irb-virtual-gateway`, `interfaces/ifl-vlan-bridge-esi`, `interfaces/ifl-vlan-bridge`
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf
 
 ```
@@ -13769,6 +14289,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-description-esi`, `interfaces/ifl-vlan-bridge-esi`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf
 
 ```
@@ -13820,6 +14345,9 @@ routing-instances {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-bridge-esi`
 
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-export.conf
 
@@ -13886,6 +14414,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-vlan-bridge-esi`, `interfaces/ifl-vlan-bridge`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni.conf
 
 ```
@@ -13945,6 +14478,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-vlan-bridge-esi`, `interfaces/ifl-vlan-bridge`
 
 ## evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-export.conf
 
@@ -14013,6 +14549,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-vlan-list-esi`, `interfaces/ifl-vlan-bridge-vlan-list`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/evpn-elan/ri-evpn-port-based.conf
 
 ```
@@ -14071,6 +14612,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifd-ethernet-bridge-unit0-description`, `interfaces/ifd-ethernet-bridge-unit0`
 
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf
 
@@ -14134,6 +14678,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`): required, for each reference; `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-3-uni-export.conf
 
@@ -14208,6 +14757,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`): required, for each reference; one of `interfaces/ifl-vlan-ccc-vlan-list`, `interfaces/ifl-vlan-ccc-vlan-map-list`, `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf
 
@@ -14287,6 +14841,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`, `$AC_INTF.$UNIT_D`): required, for each reference; `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf
 
 ```
@@ -14363,6 +14922,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`, `$AC_INTF.$UNIT_D`): required, for each reference; `interfaces/ifl-vlan-ccc`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni-export.conf
 
 ```
@@ -14436,6 +14998,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-esi`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf
 
 ```
@@ -14508,6 +15075,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; `interfaces/ifl-vlan-ccc-dual-tag-esi`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-vpws-2-uni-control-word.conf
 
 ```
@@ -14578,6 +15148,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; one of `interfaces/ifl-vlan-ccc-vlan-map-list-tpid`, `interfaces/ifl-vlan-ccc`
+
 ## evo/routing-instances/evpn-vpws/ri-evpn-vpws-export.conf
 
 ```
@@ -14639,6 +15212,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-ccc-vlan-map-esi`, `interfaces/ifl-vlan-ccc-vlan-map`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf
 
@@ -14715,6 +15293,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifd-ethernet-ccc-unit0-description-family`, `interfaces/ifd-ethernet-ccc-unit0-family`, `interfaces/ifl-vlan-ccc-vlan-map-esi`, `interfaces/ifl-vlan-ccc-vlan-map-filter`, `interfaces/ifl-vlan-ccc-vlan-map`
+
 ## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf
 
 ```
@@ -14778,6 +15359,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf
 
 ```
@@ -14839,6 +15425,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
 
 ## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf
 
@@ -14903,6 +15492,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf
 
 ```
@@ -14964,6 +15558,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
 
 ## evo/routing-instances/l2vpn/ri-l2vpn-kompella.conf
 
@@ -15029,6 +15626,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ethernet-ccc-unit0-description`
 
 ## evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf
 
@@ -15103,6 +15703,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet6`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy.conf
 
 ```
@@ -15171,6 +15776,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet6`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4`, `policy-options/policy-statement/ps-import-l3vpn-internet`
 
 ## evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
 
@@ -15251,6 +15861,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-3`, `policy-options/policy-statement/ps-export-l3vpn-public-default-4`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf
 
 ```
@@ -15325,6 +15940,12 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 35 providers listed in MANIFEST.json
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-virtual-gateway`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public`, `policy-options/policy-statement/ps-import-l3vpn`
 
 ## evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf
 
@@ -15421,6 +16042,12 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 35 providers listed in MANIFEST.json
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public`, `policy-options/policy-statement/ps-import-l3vpn`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-irb.conf
 
 ```
@@ -15480,6 +16107,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 35 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-virtual-gateway`
 
 ## evo/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
 
@@ -15553,6 +16184,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-3`, `policy-options/policy-statement/ps-export-l3vpn-public-default-4`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-unequal-cost.conf
 
 ```
@@ -15611,6 +16247,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
 
 ## evo/routing-instances/vpls/ri-bgp-vpls-export.conf
 
@@ -15696,6 +16335,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-vlan-map`, `interfaces/ifl-vlan-bridge`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-vlans.conf
 
 ```
@@ -15747,6 +16391,11 @@ routing-instances {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-bridge-vlan-map`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf
 
@@ -15813,6 +16462,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-vlan-map`, `interfaces/ifl-vlan-bridge`
+
 ## evo/routing-instances/vpls/ri-ldp-vpls.conf
 
 ```
@@ -15870,6 +16522,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ethernet-vpls-unit0-100g`
 
 ## evo/routing-options/aggregate-discard-routes.conf
 
@@ -15998,6 +16653,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `isis-flex-algorithm`: required, as the source shows; one of 10 providers listed in MANIFEST.json
+
 ## evo/routing-options/flex-algorithm-129-transport-class.conf
 
 ```
@@ -16032,6 +16690,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `isis-flex-algorithm`: required, as the source shows; one of 10 providers listed in MANIFEST.json
 
 ## evo/routing-options/flex-algorithm.conf
 
@@ -16093,6 +16754,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `isis-flex-algorithm`: required, as the source shows; one of 10 providers listed in MANIFEST.json
+
 ## evo/routing-options/forwarding-table-pplb-chained-nh.conf
 
 ```
@@ -16142,6 +16806,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## evo/routing-options/forwarding-table.conf
 
 ```
@@ -16182,6 +16849,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## evo/routing-options/interface-routes-loopback.conf
 
@@ -16294,6 +16964,10 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-MULTIPATH`): required, for each reference; `policy-options/policy-statement/ps-multipath`
+- `resolution-transport-class`: required, as the source shows; `routing-options/transport-class`
+
 ## evo/routing-options/resolution-transport-class-l3vpn-rib.conf
 
 ```
@@ -16344,6 +17018,10 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-MULTIPATH`): required, for each reference; `policy-options/policy-statement/ps-multipath`
+- `resolution-transport-class`: required, as the source shows; `routing-options/transport-class`
 
 ## evo/routing-options/resolution-transport-class.conf
 
@@ -16397,6 +17075,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `resolution-transport-class`: required, as the source shows; `routing-options/transport-class`
+
 ## evo/routing-options/rib-group-remote-loopbacks-mse.conf
 
 ```
@@ -16436,6 +17117,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-REMOTE-LOOPBACKS`): required, for each reference; `policy-options/policy-statement/ps-remote-loopbacks-mse`
 
 ## evo/routing-options/rib-groups.conf
 
@@ -16491,6 +17175,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-LOCAL-LOOPBACK`, `PS-REMOTE-LOOPBACKS`): required, for each reference; one of `policy-options/policy-statement/loopback-rib-leak`, `policy-options/policy-statement/ps-remote-loopbacks-mse`
 
 ## evo/routing-options/rib-inet3-protect-core.conf
 
@@ -16766,6 +17453,9 @@ bridge-domains {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `irb.$IRB_UNIT`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-irb-inet`, `interfaces/ifl-vlan-bridge`
+
 ## junos/bridge-domains/bridge-domain-local-switch.conf
 
 ```
@@ -16801,6 +17491,9 @@ bridge-domains {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; one of `interfaces/ifl-vlan-bridge-outer-tag-tpid`, `interfaces/ifl-vlan-bridge-vlan-map-list`, `interfaces/ifl-vlan-bridge`
 
 ## junos/chassis/aggregated-devices-ethernet.conf
 
@@ -17306,6 +17999,9 @@ class-of-service {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler-map` (`5G_SCHEDULER`): required, for each reference; `class-of-service/scheduler-maps/sm-6class-mapping`
+
 ## junos/class-of-service/interfaces/ifd-scheduler-map.conf
 
 ```
@@ -17356,6 +18052,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler-map` (`5G_SCHEDULER`): required, for each reference; `class-of-service/scheduler-maps/sm-6class-mapping`
 
 ## junos/class-of-service/interfaces/ifl-dscp-classifier-rewrite.conf
 
@@ -17509,6 +18208,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `forwarding-class` (`$FORWARDING_CLASS`): required, for each reference; `class-of-service/forwarding-classes/fc-6queue-model`
 
 ## junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf
 
@@ -17704,6 +18406,9 @@ class-of-service {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `classifier` (`$CLASSIFIER`): required, for each reference; `class-of-service/classifiers/cl-6class`
+
 ## junos/class-of-service/scheduler-maps/sm-6class-mapping.conf
 
 ```
@@ -17762,6 +18467,9 @@ class-of-service {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler` (`BEST-EFFORT-SC`, `BUSINESS-SC`, `CONTROL-SC`, `MEDIUM-SC`, `REALTIME-SC`, `SIG-OAM-SC`): required, for each reference; one of `class-of-service/schedulers/sc-2-priority-model-legacy-acx`, `class-of-service/schedulers/sc-2-priority-model`
 
 ## junos/class-of-service/schedulers/sc-2-priority-model-legacy-acx.conf
 
@@ -17962,6 +18670,9 @@ firewall {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policer` (`50mbps_policer`): required, for each reference; one of `firewall/policers-2m-burst`, `firewall/policers`
+
 ## junos/firewall/filter-family-any-policers.conf
 
 ```
@@ -18009,6 +18720,9 @@ firewall {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policer` (`50mbps_policer`, `5mbps_policer`): required, for each reference; `firewall/policers-2m-burst`
 
 ## junos/firewall/policers-2m-burst.conf
 
@@ -18151,6 +18865,9 @@ forwarding-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-FATPW-LB`): required, for each reference; `groups/gr-fatpw-lb`
+
 ## junos/forwarding-options/hash-key-mpls-label-stack.conf
 
 ```
@@ -18258,6 +18975,9 @@ forwarding-options {
  */
 apply-groups [ $GROUP_A ];```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`): required, for each reference; one of `groups/gr-ae-interface-mtu`, `groups/gr-evpn-etree-load-balance-label`
+
 ## junos/groups/apply-global-three.conf
 
 ```
@@ -18279,6 +18999,9 @@ apply-groups [ $GROUP_A ];```
  */
 apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`, `$GROUP_C`): required, for each reference; one of `groups/gr-fatpw-label-l2circuit`, `groups/gr-l3vpn-ospf-service-map-mse`, `groups/gr-routing-instance-dscp-classifier`
+
 ## junos/groups/apply-global-two.conf
 
 ```
@@ -18297,6 +19020,9 @@ apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];```
  *   $GROUP_B   e.g. l3vpn_ospf_serv_map
  */
 apply-groups [ $GROUP_A $GROUP_B ];```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-evpn-etree-load-balance-label`, `groups/gr-l3vpn-ospf-service-map`
 
 ## junos/groups/bgp-bcp-ma5.conf
 
@@ -19435,6 +20161,9 @@ interfaces {
     apply-groups [ $GROUP_A $GROUP_B ];
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-ae-interface-mtu`, `groups/gr-mpls-maximum-labels`
+
 ## junos/interfaces/core-isis-mpls.conf
 
 ```
@@ -19489,6 +20218,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ethernet-bridge.conf
 
 ```
@@ -19528,6 +20261,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-mtu`
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
 
 ## junos/interfaces/ifd-ae-lacp-fast-disabled.conf
 
@@ -19573,6 +20310,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh`
+- `group` (`GR-EDGE-INTF-MH`): required, for each reference; `groups/gr-edge-intf-mh`
 
 ## junos/interfaces/ifd-ae-lacp-fast.conf
 
@@ -19621,6 +20362,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh-gigether`
+- `group` (`GR-EDGE-INTF-MH`): required, for each reference; `groups/gr-edge-intf-mh`
+
 ## junos/interfaces/ifd-ae-lacp.conf
 
 ```
@@ -19667,6 +20412,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh-gigether`
+- `group` (`GR-EDGE-INTF-MH`): required, for each reference; `groups/gr-edge-intf-mh`
+
 ## junos/interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu.conf
 
 ```
@@ -19704,6 +20453,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ifd-core-aggregate-flexible-lacp-fast.conf
 
 ```
@@ -19739,6 +20492,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
 
 ## junos/interfaces/ifd-core-aggregate-lacp-fast-mtu.conf
 
@@ -19785,6 +20542,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-gigether`, `interfaces/ifd-core-lag-member`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ifd-core-aggregate-lacp-fast.conf
 
 ```
@@ -19820,6 +20581,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-gigether`, `interfaces/ifd-core-lag-member`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
 
 ## junos/interfaces/ifd-core-flexible-gigether-tpid.conf
 
@@ -19883,6 +20648,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ifd-core-group-mtu.conf
 
 ```
@@ -19921,6 +20689,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ifd-core-lag-member-gigether.conf
 
 ```
@@ -19953,6 +20724,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; `groups/gr-core-intf-lag-member`
 
 ## junos/interfaces/ifd-core-lag-member.conf
 
@@ -20000,6 +20774,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-CORE-INTF-LAG-MEMBER`): required, for each reference; `groups/gr-core-intf-lag-member`
 
 ## junos/interfaces/ifd-edge-lag-member-mh-gigether.conf
 
@@ -20117,6 +20894,9 @@ interfaces {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-EDGE-INTF`): required, for each reference; `groups/gr-edge-intf`
+
 ## junos/interfaces/ifd-flexible-ethernet-group.conf
 
 ```
@@ -20148,6 +20928,9 @@ interfaces {
         encapsulation flexible-ethernet-services;
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-EDGE-INTF`): required, for each reference; one of `groups/gr-edge-intf-flexible-ethernet`, `groups/gr-edge-intf`
 
 ## junos/interfaces/ifd-logical-tunnel-mac-profile.conf
 
@@ -20261,6 +21044,11 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-device`: required, for each reference; `interfaces/ifd-logical-tunnel-mac-profile`
+- `ps-device-capacity`: required, for each reference; `chassis/pseudowire-service`
+- `tunnel-pic`: required, for each reference; `chassis/tunnel-services`
+
 ## junos/interfaces/ifl-core-description-vlan-inet-iso-inet6-mpls.conf
 
 ```
@@ -20300,6 +21088,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-flexible-lacp-fast-mtu`, `interfaces/ifd-core-aggregate-flexible-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-core-lag-member-gigether`
 
 ## junos/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf
 
@@ -20342,6 +21134,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-flexible-gigether-tpid`
+- `group` (`GR-CORE-INTF`): required, for each reference; `groups/gr-core-intf`
+
 ## junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
 
 ```
@@ -20380,6 +21176,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-aggregate-lacp-fast-mtu`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-gigether`, `interfaces/ifd-core-lag-member`
 
 ## junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf
 
@@ -20433,6 +21233,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-aggregate-lacp-fast-mtu`, `interfaces/ifd-core-aggregate-lacp-fast`, `interfaces/ifd-core-group-description`, `interfaces/ifd-core-group-mtu`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-core-lag-member-gigether`, `interfaces/ifd-core-lag-member`
 
 ## junos/interfaces/ifl-irb-inet.conf
 
@@ -20563,6 +21367,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
+
 ## junos/interfaces/ifl-loopback-primary-iso-sr-v6.conf
 
 ```
@@ -20605,6 +21412,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
 
 ## junos/interfaces/ifl-loopback-primary-iso.conf
 
@@ -20660,6 +21470,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-loopback-description`
+
 ## junos/interfaces/ifl-ps-vlan-bridge-esi.conf
 
 ```
@@ -20704,6 +21517,13 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ps-transport`
+- `interface-device`: required, for each reference; `interfaces/ifd-logical-tunnel-mac-profile`
+- `logical-interface`: required, for each reference; `interfaces/ifd-ps-transport`
+- `ps-device-capacity`: required, for each reference; `chassis/pseudowire-service`
+- `tunnel-pic`: required, for each reference; `chassis/tunnel-services`
 
 ## junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf
 
@@ -20755,6 +21575,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast-disabled`, `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-lag-member-mh-gigether`, `interfaces/ifd-edge-lag-member-mh`
+
 ## junos/interfaces/ifl-vlan-bridge-esi-etree-root.conf
 
 ```
@@ -20799,6 +21623,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-lacp`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-edge-lag-member-mh-gigether`
 
 ## junos/interfaces/ifl-vlan-bridge-esi.conf
 
@@ -20855,6 +21683,14 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast-disabled`, `interfaces/ifd-ae-lacp-fast`, `interfaces/ifd-ae-lacp`, `interfaces/ifd-ps-transport`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-lag-member-mh-gigether`, `interfaces/ifd-edge-lag-member-mh`
+- `interface-device`: when the router's configuration has it, for each reference; `interfaces/ifd-logical-tunnel-mac-profile`
+- `logical-interface`: when the router's configuration has it, for each reference; `interfaces/ifd-ps-transport`
+- `ps-device-capacity`: when the router's configuration has it, for each reference; `chassis/pseudowire-service`
+- `tunnel-pic`: when the router's configuration has it, for each reference; `chassis/tunnel-services`
+
 ## junos/interfaces/ifl-vlan-bridge-etree-leaf.conf
 
 ```
@@ -20895,6 +21731,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group-mtu`, `interfaces/ifd-flexible-ethernet-group`
+
 ## junos/interfaces/ifl-vlan-bridge-outer-tag-tpid.conf
 
 ```
@@ -20927,6 +21766,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-flexible-gigether-tpid`
 
 ## junos/interfaces/ifl-vlan-bridge-vlan-map-list.conf
 
@@ -20969,6 +21811,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-mtu`
+
 ## junos/interfaces/ifl-vlan-bridge.conf
 
 ```
@@ -21001,6 +21846,9 @@ interfaces {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-flexible-gigether-tpid`, `interfaces/ifd-flexible-ethernet-group-mtu`, `interfaces/ifd-flexible-ethernet-group`
+
 ## junos/interfaces/ifl-vlan-ccc-dual-tag.conf
 
 ```
@@ -21028,6 +21876,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
 
 ## junos/interfaces/ifl-vlan-ccc-esi.conf
 
@@ -21070,6 +21921,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast-disabled`, `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-lag-member-mh-gigether`, `interfaces/ifd-edge-lag-member-mh`
 
 ## junos/interfaces/ifl-vlan-ccc-vlan-map-esi.conf
 
@@ -21129,6 +21984,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-lacp-fast-disabled`, `interfaces/ifd-ae-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-edge-lag-member-mh-gigether`, `interfaces/ifd-edge-lag-member-mh`
+
 ## junos/interfaces/ifl-vlan-ccc-vlan-map-filter.conf
 
 ```
@@ -21177,6 +22036,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-group-mtu`, `interfaces/ifd-flexible-ethernet-group`
+- `filter` (`50MB_filter`): required, for each reference; `firewall/filter-family-any-50mb`
+
 ## junos/interfaces/ifl-vlan-ccc.conf
 
 ```
@@ -21219,6 +22082,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-core-flexible-gigether-tpid`, `interfaces/ifd-flexible-ethernet-group-mtu`, `interfaces/ifd-flexible-ethernet-group`
+
 ## junos/interfaces/ifl-vlan-inet-inet6.conf
 
 ```
@@ -21254,6 +22120,9 @@ interfaces {
         }
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
 
 ## junos/interfaces/ifl-vlan-inet.conf
 
@@ -21301,6 +22170,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
+
 ## junos/interfaces/ifl-vlan-inet6.conf
 
 ```
@@ -21346,6 +22218,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group`
+
 ## junos/interfaces/ifl-vlan-vpls-vlan-map.conf
 
 ```
@@ -21385,6 +22260,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-group-mtu`
 
 ## junos/policy-options/community/cm-access-fabric.conf
 
@@ -22257,6 +23135,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `l2circuit-interface` (`$PS_INTF.0`): required, for each reference; one of `protocols/l2circuit-floating-pw-color`, `protocols/l2circuit-static-color`
+
 ## junos/policy-options/policy-statement/loopback-rib-leak.conf
 
 ```
@@ -22330,6 +23211,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-NO-ADVERTISE`): required, for each reference; one of `policy-options/community/cm-loopback`, `policy-options/community/cm-no-advertise`
 
 ## junos/policy-options/policy-statement/nhs1.conf
 
@@ -22461,6 +23345,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-FABRIC`): required, for each reference; `policy-options/community/cm-metro-fabric`
+
 ## junos/policy-options/policy-statement/ps-bgp-export.conf
 
 ```
@@ -22525,6 +23412,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`): required, for each reference; `policy-options/community/cm-access-fabric`
+
 ## junos/policy-options/policy-statement/ps-bgp-mse-export-backup.conf
 
 ```
@@ -22585,6 +23475,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`, `CM-METRO-RING`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region`
 
 ## junos/policy-options/policy-statement/ps-bgp-mse-export.conf
 
@@ -22692,6 +23586,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-SERVICE-EDGE`, `CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`, `CM-TC-4000-GOLD`, `CM-TC-6000-BRONZE`, `CM-METRO-RING`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`, `policy-options/community/cm-tc-4000-gold`, `policy-options/community/cm-tc-6000-bronze`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region`
+
 ## junos/policy-options/policy-statement/ps-bgp-transport-export.conf
 
 ```
@@ -22750,6 +23648,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-RING`): required, for each reference; `policy-options/community/cm-metro-ring`
+
 ## junos/policy-options/policy-statement/ps-ebgp-cr-export.conf
 
 ```
@@ -22805,6 +23706,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`, `CM-METRO-RING`, `CM-SERVICE-EDGE`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-AN-REGION`, `PL-MSE`): required, for each reference; one of `policy-options/prefix-list/pl-an-region`, `policy-options/prefix-list/pl-mse`
 
 ## junos/policy-options/policy-statement/ps-export-isis-metro-a-ribs.conf
 
@@ -23047,6 +23952,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`${INSTANCE_NAME}_RT`, `$COLOR_COMMUNITY`): required, for each reference; one of `policy-options/community/cm-service-rt`, `policy-options/community/cm-tc-map2gold`
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf
 
 ```
@@ -23117,6 +24025,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-2.conf
 
 ```
@@ -23176,6 +24087,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
 
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3-color.conf
 
@@ -23241,6 +24155,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`, `CM-TC-MAP2GOLD`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-tc-map2gold`
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-3.conf
 
 ```
@@ -23304,6 +24221,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
 
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-4.conf
 
@@ -23369,6 +24289,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2.conf
 
 ```
@@ -23429,6 +24352,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
 
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3.conf
 
@@ -23491,6 +24417,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
 
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4.conf
 
@@ -23555,6 +24484,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
 
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route.conf
 
@@ -23621,6 +24553,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn-pub`
+
 ## junos/policy-options/policy-statement/ps-export-l3vpn-public.conf
 
 ```
@@ -23681,6 +24616,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-L3VPN-PUB`, `$INSTANCE_NAME`): required, for each reference; one of `policy-options/community/cm-l3vpn-pub`, `policy-options/community/cm-l3vpn`
+
 ## junos/policy-options/policy-statement/ps-floating-pw-conditional.conf
 
 ```
@@ -23723,6 +24661,9 @@ policy-options {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `condition` (`$CONDITION_NAME`): required, for each reference; `policy-options/condition/condition-floating-pw`
 
 ## junos/policy-options/policy-statement/ps-ibgp-mdr-export-mdr2.conf
 
@@ -23776,6 +24717,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-METRO-RING`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-loopback`, `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`
 
 ## junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf
 
@@ -23839,6 +24783,11 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-METRO-RING`, `CM-REGION-EDGE`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-metro-fabric`, `policy-options/community/cm-metro-ring`, `policy-options/community/cm-region-edge`
+- `condition` (`Floating-PW-Condition`): required, for each reference; `policy-options/condition/condition-floating-pw`
+- `prefix-list` (`PL-MSE-PRIMARY`): required, for each reference; `policy-options/prefix-list/pl-mse-primary`
+
 ## junos/policy-options/policy-statement/ps-ibgp-mse-export.conf
 
 ```
@@ -23898,6 +24847,10 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`, `CM-ACCESS-FABRIC`, `CM-SERVICE-EDGE`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-loopback`, `policy-options/community/cm-service-edge`
+- `prefix-list` (`PL-AN-REGION`): required, for each reference; `policy-options/prefix-list/pl-an-region`
+
 ## junos/policy-options/policy-statement/ps-ibgp-rr-export.conf
 
 ```
@@ -23954,6 +24907,10 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-ACCESS-FABRIC`, `CM-METRO-FABRIC`): required, for each reference; one of `policy-options/community/cm-access-fabric`, `policy-options/community/cm-metro-fabric`
+- `prefix-list` (`PL-MSE`, `PL-AN-REGION`): required, for each reference; one of `policy-options/prefix-list/pl-an-region`, `policy-options/prefix-list/pl-mse`
 
 ## junos/policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn.conf
 
@@ -24102,6 +25059,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`, `CM-INET-DEFAULT`): required, for each reference; one of `policy-options/community/cm-inet-default`, `policy-options/community/cm-l3vpn-bgpv4`, `policy-options/community/cm-l3vpn-bgpv6`, `policy-options/community/cm-l3vpn`
+
 ## junos/policy-options/policy-statement/ps-import-l3vpn.conf
 
 ```
@@ -24147,6 +25107,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-l3vpn`
 
 ## junos/policy-options/policy-statement/ps-inet-vrf-default.conf
 
@@ -24204,6 +25167,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-INET-DEFAULT`): required, for each reference; `policy-options/community/cm-inet-default`
 
 ## junos/policy-options/policy-statement/ps-isis-export-core.conf
 
@@ -24498,6 +25464,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-LOOPBACK`): required, for each reference; `policy-options/community/cm-loopback`
 
 ## junos/policy-options/policy-statement/ps-loopback-allow.conf
 
@@ -24794,6 +25763,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`CM-NO-ADVERTISE`): required, for each reference; `policy-options/community/cm-no-advertise`
 
 ## junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
 
@@ -25111,6 +26083,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-BGP-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-bgp-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## junos/protocols/bgp-overlay-ma4.conf
 
 ```
@@ -25248,6 +26224,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`BGP-BCP`, `GR-BGP-BCP`): required, for each reference; one of `groups/bgp-bcp-ma5`, `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-TRANSPORT-EXPORT`, `nhs1`): required, for each reference; one of `policy-options/policy-statement/nhs1`, `policy-options/policy-statement/ps-bgp-transport-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## junos/protocols/bgp-overlay-ma5.conf
 
 ```
@@ -25362,6 +26343,11 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`BGP-BCP`): required, for each reference; `groups/bgp-bcp-ma5`
+- `policy-statement` (`PS-BGP-TRANSPORT-EXPORT`, `nhs1`): required, for each reference; one of `policy-options/policy-statement/nhs1`, `policy-options/policy-statement/ps-bgp-transport-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
 
 ## junos/protocols/bgp-overlay-mdr2.conf
 
@@ -25546,6 +26532,11 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-IBGP-RR-EXPORT`, `PS-BGP-MSE-EXPORT`, `PS-IBGP-MDR-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-bgp-mse-export`, `policy-options/policy-statement/ps-ibgp-mdr-export-mdr2`, `policy-options/policy-statement/ps-ibgp-rr-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
 
 ## junos/protocols/bgp-overlay-mse1.conf
 
@@ -25823,6 +26814,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-AS63535-IMPORT`, `PS-EBGP-CR-EXPORT`, `IMPORT-BGP`, `PS-IBGP-MDR-EXPORT`, `PS-MSE-IMPORT`, `PS-IBGP-MSE-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-as63535-import`, `policy-options/policy-statement/ps-ebgp-cr-export`, `policy-options/policy-statement/ps-ibgp-mdr-export-mse1`, `policy-options/policy-statement/ps-ibgp-mse-export`, `policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn`, `policy-options/policy-statement/ps-mse-import`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups-local-loopback-transport-class`
+
 ## junos/protocols/bgp-overlay-mse2.conf
 
 ```
@@ -26099,6 +27095,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-AS63535-IMPORT`, `PS-EBGP-CR-EXPORT`, `IMPORT-BGP`, `PS-IBGP-MDR-EXPORT`, `PS-MSE-IMPORT`, `PS-IBGP-MSE-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-as63535-import`, `policy-options/policy-statement/ps-ebgp-cr-export`, `policy-options/policy-statement/ps-ibgp-mdr-export-mse1`, `policy-options/policy-statement/ps-ibgp-mse-export`, `policy-options/policy-statement/ps-import-bgp-lo0-filter-evpn`, `policy-options/policy-statement/ps-mse-import`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups-local-loopback-transport-class`
+
 ## junos/protocols/bgp-overlay.conf
 
 ```
@@ -26221,6 +27222,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-BGP-BCP`): required, for each reference; `groups/gr-bgp-bcp`
+- `policy-statement` (`PS-BGP-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-bgp-export`
+- `rib-group` (`RG-REMOTE-LOOPBACKS`): required, for each reference; one of `routing-options/rib-group-remote-loopbacks-mse`, `routing-options/rib-groups`
+
 ## junos/protocols/esis-disable.conf
 
 ```
@@ -26323,6 +27329,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-description-vlan-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-instance-intf-l2-bfd.conf
 
 ```
@@ -26376,6 +27385,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/ifl-core-description-vlan-inet-iso-inet6-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## junos/protocols/isis-instance-l2-export.conf
 
@@ -26442,6 +27454,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `policy-statement` (`PS-ISIS-EXPORT`, `$EXPORT_POLICY`): required, for each reference; one of `policy-options/policy-statement/ps-export-isis-metro-a-ribs`, `policy-options/policy-statement/ps-export-isis-metro-b-ribs`, `policy-options/policy-statement/ps-isis-export-loopbacks`
+
 ## junos/protocols/isis-instance-loopback-passive.conf
 
 ```
@@ -26470,6 +27486,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; `interfaces/ifl-loopback-primary-iso`
 
 ## junos/protocols/isis-interface-2-1-disable-te-metric-10-admin-group-green-blue-delay-metric-10-bfd.conf
 
@@ -26521,6 +27540,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-interface-2-te-metric-10-admin-group-blue-green-delay-metric-10-bfd.conf
 
 ```
@@ -26571,6 +27593,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-interface-2-te-metric-20-admin-group-blue-green-delay-metric-10-bfd.conf
 
 ```
@@ -26620,6 +27645,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
 
 ## junos/protocols/isis-intf-l1-groups-bfd.conf
 
@@ -26677,6 +27705,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-intf-l2-bfd-mdr1.conf
 
 ```
@@ -26733,6 +27764,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-intf-l2-bfd.conf
 
 ```
@@ -26788,6 +27822,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-intf-l2-groups-bfd-mdr1.conf
 
 ```
@@ -26842,6 +27879,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/ifl-core-description-vlan-inet-iso-inet6-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+
 ## junos/protocols/isis-loopback-passive.conf
 
 ```
@@ -26885,6 +27925,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; one of `interfaces/ifl-loopback-description-primary-iso`, `interfaces/ifl-loopback-primary-iso-anycast-v4-sr-v6`, `interfaces/ifl-loopback-primary-iso-sr-v6`, `interfaces/ifl-loopback-primary-iso`
 
 ## junos/protocols/isis-srmpls-tilfa-l1.conf
 
@@ -26950,6 +27993,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; one of `policy-options/policy-statement/ps-isis-export-core`, `policy-options/policy-statement/ps-isis-export`
+
 ## junos/protocols/isis-srmpls-tilfa-l2-conditional.conf
 
 ```
@@ -27014,6 +28061,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `policy-statement` (`PS-ISIS-EXPORT`, `FLOAT-PW-CONDITIONAL`): required, for each reference; one of `policy-options/policy-statement/ps-floating-pw-conditional`, `policy-options/policy-statement/ps-isis-export`
+
 ## junos/protocols/isis-srmpls-tilfa-l2-net-mdr1.conf
 
 ```
@@ -27076,6 +28127,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-loopbacks`
 
 ## junos/protocols/isis-srmpls-tilfa-l2-net.conf
 
@@ -27142,6 +28197,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
 
 ## junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf
 
@@ -27257,6 +28316,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/core-isis-mpls`, `interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
+
 ## junos/protocols/isis-srmpls-tilfa-l2.conf
 
 ```
@@ -27321,6 +28385,10 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp-high-metrics`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export`
 
 ## junos/protocols/isis-srmpls-tilfa.conf
 
@@ -27455,6 +28523,11 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-ISIS-BCP`): required, for each reference; `groups/gr-isis-bcp`
+- `logical-interface` (`$CORE_INTF_1`, `$CORE_INTF_2`, `lo0.0`): required, for each reference; one of `interfaces/core-isis-mpls`, `interfaces/ifl-core-inet-iso-inet6-mpls`, `interfaces/ifl-loopback-description-primary-iso`
+- `policy-statement` (`PS-ISIS-EXPORT`): required, for each reference; `policy-options/policy-statement/ps-isis-export-core`
+
 ## junos/protocols/l2circuit-floating-pw-color.conf
 
 ```
@@ -27508,6 +28581,10 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$COLOR_COMMUNITY`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$PS_INTF.0`): required, for each reference; `interfaces/ifd-ps-transport`
+
 ## junos/protocols/l2circuit-floating-pw.conf
 
 ```
@@ -27557,6 +28634,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$PS_INTF.0`): required, for each reference; `interfaces/ifd-ps-transport`
+
 ## junos/protocols/l2circuit-static-color.conf
 
 ```
@@ -27595,6 +28675,10 @@ protocols {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$COLOR_COMMUNITY`): required, for each reference; `policy-options/community/cm-tc-map2gold`
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ps-transport`
+
 ## junos/protocols/l2circuit-static.conf
 
 ```
@@ -27631,6 +28715,9 @@ protocols {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ps-transport`
+
 ## junos/protocols/ldp-loopback.conf
 
 ```
@@ -27658,6 +28745,9 @@ protocols {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; one of `interfaces/ifl-loopback-primary-iso-anycast-v4-sr-v6`, `interfaces/ifl-loopback-primary-iso-sr-v6`
 
 ## junos/protocols/lldp-interface-all.conf
 
@@ -28016,6 +29106,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-FATPW-LABEL`): required, for each reference; `groups/gr-fatpw-label`
+
 ## junos/routing-instances/apply-groups/gr-l3vpn.conf
 
 ```
@@ -28058,6 +29151,9 @@ routing-instances {
     apply-groups GR-L3VPN;
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-L3VPN`): required, for each reference; `groups/gr-l3vpn`
 
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
 
@@ -28138,6 +29234,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT`, `irb.$IRB_UNIT`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-irb-inet`, `interfaces/ifl-vlan-bridge`
 
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf
 
@@ -28221,6 +29320,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-bridge-esi`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf
 
 ```
@@ -28287,6 +29391,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$VLAN_UNIT`): required, for each reference; one of `interfaces/ifl-vlan-bridge-esi-df-preference`, `interfaces/ifl-vlan-bridge-esi`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf
 
 ```
@@ -28339,6 +29446,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `$PS_INTF`): required, for each reference; one of `interfaces/ifl-ps-vlan-bridge-esi`, `interfaces/ifl-vlan-bridge-esi`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf
 
 ```
@@ -28379,6 +29489,11 @@ routing-instances {
         vrf-target target:$RT_AS:$RT_ID;
     }
 }```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-bridge-esi-df-preference`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf
 
@@ -28450,6 +29565,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; one of `interfaces/ifl-vlan-bridge-esi-etree-root`, `interfaces/ifl-vlan-bridge-etree-leaf`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/evpn-etree/ri-evpn-etree.conf
 
 ```
@@ -28504,6 +29624,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT`): required, for each reference; one of `interfaces/ifl-vlan-bridge-esi-etree-root`, `interfaces/ifl-vlan-bridge-etree-leaf`
 
 ## junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf
 
@@ -28575,6 +29698,11 @@ routing-instances {
     }
 }```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`, `$AC_INTF.$UNIT_D`, `$AC_INTF.$UNIT_E`, `$AC_INTF.$UNIT_F`, `$AC_INTF.$UNIT_G`, `$AC_INTF.$UNIT_H`, `$AC_INTF.$UNIT_I`, `$AC_INTF.$UNIT_J`, `$AC_INTF.$UNIT_K`, `$AC_INTF.$UNIT_L`): required, for each reference; one of `interfaces/ifl-vlan-ccc-dual-tag`, `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf
 
 ```
@@ -28637,6 +29765,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`): required, for each reference; `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
 
 ## junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf
 
@@ -28720,6 +29853,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`, `$AC_INTF.$UNIT_D`): required, for each reference; `interfaces/ifl-vlan-ccc`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf
 
 ```
@@ -28800,6 +29938,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF.$UNIT_A`, `$AC_INTF.$UNIT_B`, `$AC_INTF.$UNIT_C`, `$AC_INTF.$UNIT_D`): required, for each reference; `interfaces/ifl-vlan-ccc`
+
 ## junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf
 
 ```
@@ -28876,6 +30017,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-ccc-vlan-map-esi`, `interfaces/ifl-vlan-ccc-vlan-map-filter`
+
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf
 
 ```
@@ -28941,6 +30085,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ethernet-ccc-unit0`
+
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf
 
 ```
@@ -29004,6 +30151,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf
 
 ```
@@ -29065,6 +30217,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
 
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf
 
@@ -29129,6 +30284,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf
 
 ```
@@ -29190,6 +30350,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-ccc-vlan-map-filter`
 
 ## junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf
 
@@ -29261,6 +30424,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`GR-FATPW-LABEL`): required, for each reference; `groups/gr-fatpw-label`
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ethernet-ccc-unit0`
 
 ## junos/routing-instances/l3vpn/ri-internet-vrf-export.conf
 
@@ -29357,6 +30524,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet-inet6`
+- `policy-statement` (`$EXPORT_POL`): required, for each reference; `policy-options/policy-statement/ps-inet-vrf-default`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf
 
 ```
@@ -29429,6 +30601,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet6`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-3`, `policy-options/policy-statement/ps-export-l3vpn-public-default-v6-4`, `policy-options/policy-statement/ps-export-l3vpn-public-v6-default-route`, `policy-options/policy-statement/ps-import-l3vpn-internet`
 
 ## junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf
 
@@ -29516,6 +30693,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-3`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf
 
 ```
@@ -29594,6 +30776,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-3-color`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf
 
 ```
@@ -29665,6 +30852,12 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 32 providers listed in MANIFEST.json
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public`, `policy-options/policy-statement/ps-import-l3vpn`
 
 ## junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf
 
@@ -29764,6 +30957,12 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 32 providers listed in MANIFEST.json
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public`, `policy-options/policy-statement/ps-import-l3vpn`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-irb.conf
 
 ```
@@ -29827,6 +31026,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 32 providers listed in MANIFEST.json
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-inet`
 
 ## junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf
 
@@ -29903,6 +31106,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-2`, `policy-options/policy-statement/ps-export-l3vpn-public-default-3`, `policy-options/policy-statement/ps-export-l3vpn-public-default-4`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf
 
 ```
@@ -29977,6 +31185,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-export-l3vpn-public-default-3`, `policy-options/policy-statement/ps-import-l3vpn-internet`
+
 ## junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf
 
 ```
@@ -30045,6 +31258,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-vlan-bridge`
 
 ## junos/routing-instances/vpls/ri-bgp-vpls-export.conf
 
@@ -30126,6 +31342,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ethernet-bridge`, `interfaces/ifl-vlan-bridge`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf
 
 ```
@@ -30185,6 +31406,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; one of 20 providers listed in MANIFEST.json
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-vpls-vlan-map`
+- `policy-statement` (`$INSTANCE_NAME`): required, for each reference; `policy-options/policy-statement/ps-export-l2-color`
+
 ## junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf
 
 ```
@@ -30242,6 +31468,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-vpls-vlan-map`
 
 ## junos/routing-options/aggregate-discard-routes.conf
 
@@ -30369,6 +31598,10 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `transport-class` (`4000`): required, for each reference; one of `routing-options/transport-class-fallback-none`, `routing-options/transport-class`
+- `isis-flex-algorithm`: required, as the source shows; one of `protocols/isis-instance-l2-export`, `protocols/isis-srmpls-tilfa-l1`, `protocols/isis-srmpls-tilfa-l2-conditional`, `protocols/isis-srmpls-tilfa-l2-net-mdr1`, `protocols/isis-srmpls-tilfa-l2-net`, `protocols/isis-srmpls-tilfa-l2-single-interface`, `protocols/isis-srmpls-tilfa-l2`, `protocols/isis-srmpls-tilfa`
+
 ## junos/routing-options/flex-algorithm-129-transport-class.conf
 
 ```
@@ -30402,6 +31635,10 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `transport-class` (`6000`): required, for each reference; one of `routing-options/transport-class-fallback-none`, `routing-options/transport-class`
+- `isis-flex-algorithm`: required, as the source shows; one of `protocols/isis-instance-l2-export`, `protocols/isis-srmpls-tilfa-l1`, `protocols/isis-srmpls-tilfa-l2-conditional`, `protocols/isis-srmpls-tilfa-l2-net-mdr1`, `protocols/isis-srmpls-tilfa-l2-net`, `protocols/isis-srmpls-tilfa-l2-single-interface`, `protocols/isis-srmpls-tilfa-l2`, `protocols/isis-srmpls-tilfa`
 
 ## junos/routing-options/flex-algorithm.conf
 
@@ -30462,6 +31699,10 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `transport-class` (`4000`, `6000`): required, for each reference; one of `routing-options/transport-class-gold-bronze-anycast`, `routing-options/transport-class-gold-local-bronze-anycast`, `routing-options/transport-class`
+- `isis-flex-algorithm`: required, as the source shows; one of `protocols/isis-instance-l2-export`, `protocols/isis-srmpls-tilfa-l1`, `protocols/isis-srmpls-tilfa-l2-conditional`, `protocols/isis-srmpls-tilfa-l2-net-mdr1`, `protocols/isis-srmpls-tilfa-l2-net`, `protocols/isis-srmpls-tilfa-l2-single-interface`, `protocols/isis-srmpls-tilfa-l2`, `protocols/isis-srmpls-tilfa`
+
 ## junos/routing-options/forwarding-table-export.conf
 
 ```
@@ -30498,6 +31739,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## junos/routing-options/forwarding-table-pplb-chained-nh.conf
 
@@ -30548,6 +31792,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-l2vpn.conf
 
 ```
@@ -30582,6 +31829,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf
 
 ```
@@ -30615,6 +31865,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/forwarding-table-pplb-evpn-l3vpn.conf
 
 ```
@@ -30646,6 +31899,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## junos/routing-options/forwarding-table.conf
 
@@ -30699,6 +31955,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/interface-routes-loopback.conf
 
 ```
@@ -30735,6 +31994,9 @@ routing-options {
   }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `rib-group` (`RG-LOCAL-LOOPBACK`): required, for each reference; one of `routing-options/rib-groups-local-loopback-transport-class`, `routing-options/rib-groups`
 
 ## junos/routing-options/protect-core.conf
 
@@ -30809,6 +32071,10 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-MULTIPATH`): required, for each reference; `policy-options/policy-statement/ps-multipath`
+- `resolution-transport-class`: required, as the source shows; one of `routing-options/transport-class-fallback-none`, `routing-options/transport-class-gold-bronze-anycast`, `routing-options/transport-class-gold-local-bronze-anycast`, `routing-options/transport-class`
+
 ## junos/routing-options/resolution-transport-class-l3vpn-rib.conf
 
 ```
@@ -30859,6 +32125,10 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-MULTIPATH`): required, for each reference; `policy-options/policy-statement/ps-multipath`
+- `resolution-transport-class`: required, as the source shows; one of `routing-options/transport-class-fallback-none`, `routing-options/transport-class-gold-bronze-anycast`, `routing-options/transport-class-gold-local-bronze-anycast`, `routing-options/transport-class`
 
 ## junos/routing-options/resolution-transport-class.conf
 
@@ -30916,6 +32186,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `resolution-transport-class`: required, as the source shows; one of `routing-options/transport-class-fallback-none`, `routing-options/transport-class-gold-bronze-anycast`, `routing-options/transport-class-gold-local-bronze-anycast`, `routing-options/transport-class`
+
 ## junos/routing-options/rib-group-remote-loopbacks-mse.conf
 
 ```
@@ -30955,6 +32228,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-REMOTE-LOOPBACKS`): required, for each reference; `policy-options/policy-statement/ps-remote-loopbacks-mse`
+
 ## junos/routing-options/rib-groups-local-loopback-transport-class.conf
 
 ```
@@ -30987,6 +32263,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-LOCAL-LOOPBACK`, `PS-REMOTE-LOOPBACKS`): required, for each reference; one of `policy-options/policy-statement/ps-local-loopback-anycast`, `policy-options/policy-statement/ps-remote-loopbacks-mse`
 
 ## junos/routing-options/rib-groups.conf
 
@@ -31044,6 +32323,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`PS-LOCAL-LOOPBACK`, `PS-REMOTE-LOOPBACKS`): required, for each reference; one of `policy-options/policy-statement/loopback-rib-leak`, `policy-options/policy-statement/ps-remote-loopbacks-mse`
 
 ## junos/routing-options/rib-inet3-protect-core.conf
 

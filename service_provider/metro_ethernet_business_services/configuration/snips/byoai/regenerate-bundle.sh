@@ -34,6 +34,34 @@ else
   JVD_REPO="$(cd ../../../.. && pwd -P)" node "$JVD_BUILDER/engine/js/generate-tiers.mjs"
 fi
 
+# Generate the manifest first (used by AIs with web fetch to pull only the snips
+# they need on demand, and for the needs listed under each snippet below);
+# --public-only keeps the committed file.
+if [ "$PUBLIC_ONLY" -eq 0 ]; then byoai/make-manifest.py; fi
+
+# Each snippet's typed requirements from MANIFEST.json, listed under it in the bundle.
+NEEDS="$(mktemp -d)"
+trap 'rm -rf "$NEEDS"' EXIT
+python3 - "$NEEDS" byoai/MANIFEST.json <<'PY'
+import json, os, sys
+
+out, manifest = sys.argv[1], sys.argv[2]
+presence = {"required": "required", "conditional": "when the router's configuration has it"}
+selection = {"each-reference": "for each reference", "all-related": "all related", "source-witness": "as the source shows"}
+for snip in json.load(open(manifest))["snips"]:
+    lines = []
+    for need in snip.get("occurrence_requires") or []:
+        slots = ", ".join(f"`{s}`" for s in need["slots"] if not s.startswith("@source:"))
+        count = len(need["providers"])
+        providers = ", ".join(f"`{p.split('/', 1)[1][:-5]}`" for p in need["providers"]) if count <= 8 else f"{count} providers listed in MANIFEST.json"
+        lines.append(f"- `{need['kind']}`{f' ({slots})' if slots else ''}: {presence[need['presence']]}, {selection[need['selection']]}; {'one of ' if count > 1 else ''}{providers}")
+    if lines:
+        path = os.path.join(out, snip["path"])
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as handle:
+            handle.write("Needs (MANIFEST.json occurrence_requires; same OS):\n" + "\n".join(lines) + "\n")
+PY
+
 OUT="byoai/jvd-mebs-snips.md"
 
 {
@@ -46,6 +74,7 @@ OUT="byoai/jvd-mebs-snips.md"
     cat "$f"
     echo '```'
     echo
+    if [ -f "$NEEDS/$f" ]; then cat "$NEEDS/$f"; echo; fi
   done
   echo "## _variables.md"
   echo
@@ -74,7 +103,3 @@ awk '/^```$/{f=!f; next} f' byoai/SYSTEM_PROMPT.md > "$PROMPT_OUT"
 plines=$(wc -l < "$PROMPT_OUT")
 psize=$(du -h "$PROMPT_OUT" | cut -f1)
 echo "regenerated: $PROMPT_OUT ($plines lines, $psize)"
-
-# Regenerate the MANIFEST.json (used by AIs with web fetch to pull
-# only the snips they need on demand); --public-only keeps the committed file.
-if [ "$PUBLIC_ONLY" -eq 0 ]; then byoai/make-manifest.py; fi

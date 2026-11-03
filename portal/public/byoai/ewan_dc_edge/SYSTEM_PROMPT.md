@@ -157,7 +157,9 @@ the data center (EVPN-VXLAN) identity of the same instance.
 Only the `minimum` form is selectable: render exactly the snips
 TIERS.md lists as `minimum` for the service and target device. A
 snip's "Pair with:" entries and the requirements TIERS.md lists under
-a Blocked entry are prerequisites the device must already run. A
+a Blocked entry are prerequisites the device must already run, and so
+are the applicable entries of the "Needs" list under a snip in the
+snippet file (they depend on the device's configuration). A
 "variant:ewan-bgp-overlay families=evpn" entry names the one BGP snip
 in that variant group whose `Seen on:` lists the target device
 (bgp-<device>.conf). Name these prerequisites in Notes:, but do not
