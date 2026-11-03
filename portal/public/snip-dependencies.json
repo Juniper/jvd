@@ -2952,12 +2952,10 @@
       "device": "leaf1_qfx5120-48t",
       "snip": "ewan_dc_edge/junos/interfaces/ifd-ae-flexible-lacp-esi",
       "requirement": "context-lag-member",
-      "status": "unresolved",
-      "providers": [],
-      "candidates": [
+      "status": "resolved",
+      "providers": [
         "ewan_dc_edge/junos/interfaces/ifd-lag-member-ether"
-      ],
-      "reason": "relation-missing-source-members"
+      ]
     },
     {
       "jvd": "ewan_dc_edge",
@@ -2995,12 +2993,10 @@
       "device": "leaf1_qfx5120-48t",
       "snip": "ewan_dc_edge/junos/interfaces/ifl-vlan-bridge",
       "requirement": "context-lag-member",
-      "status": "unresolved",
-      "providers": [],
-      "candidates": [
+      "status": "resolved",
+      "providers": [
         "ewan_dc_edge/junos/interfaces/ifd-lag-member-ether"
-      ],
-      "reason": "relation-missing-source-members"
+      ]
     },
     {
       "jvd": "ewan_dc_edge",
@@ -3090,12 +3086,10 @@
       "device": "leaf2_qfx5120-48t",
       "snip": "ewan_dc_edge/junos/interfaces/ifd-ae-flexible-lacp-esi",
       "requirement": "context-lag-member",
-      "status": "unresolved",
-      "providers": [],
-      "candidates": [
+      "status": "resolved",
+      "providers": [
         "ewan_dc_edge/junos/interfaces/ifd-lag-member-ether"
-      ],
-      "reason": "relation-missing-source-members"
+      ]
     },
     {
       "jvd": "ewan_dc_edge",
@@ -3133,12 +3127,10 @@
       "device": "leaf2_qfx5120-48t",
       "snip": "ewan_dc_edge/junos/interfaces/ifl-vlan-bridge",
       "requirement": "context-lag-member",
-      "status": "unresolved",
-      "providers": [],
-      "candidates": [
+      "status": "resolved",
+      "providers": [
         "ewan_dc_edge/junos/interfaces/ifd-lag-member-ether"
-      ],
-      "reason": "relation-missing-source-members"
+      ]
     },
     {
       "jvd": "ewan_dc_edge",
@@ -12040,8 +12032,10 @@
       "device": "ma1-1_acx7024",
       "snip": "metro_ethernet_business_services/evo/protocols/isis-interface-2-te-metric-5-admin-group-green-blue-metric-15-delay-metric-5-bfd",
       "requirement": "ref-logical-interface",
-      "status": "not-needed",
-      "providers": []
+      "status": "resolved",
+      "providers": [
+        "metro_ethernet_business_services/evo/interfaces/core-isis-mpls"
+      ]
     },
     {
       "jvd": "metro_ethernet_business_services",
@@ -26404,5 +26398,5 @@
       ]
     }
   ],
-  "exportDigest": "dbd34f565d04859a7a78192b4d551beefc56c4be9ca107ef86a5ba1daf17c703"
+  "exportDigest": "8768492635a21e5fee74d27b9685bcda16430a9916e95f886318708bffa481e0"
 }
