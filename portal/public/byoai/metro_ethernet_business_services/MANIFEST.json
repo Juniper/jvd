@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "97da6e67f1b340dc8a4b8a9512cf5d8c6e490d842fcb47e7c41896b690de47b8",
+  "dependency_declaration_sha256": "754fee689be1df289f0bf07b83eee90b919b7b582c24cf0013cc7b06f659976f",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
   "snip_count": 585,
@@ -1440,12 +1440,11 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1684,
+      "size_bytes": 1638,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls-interface.conf",
       "dependency_contract_version": 3,
       "pair_with": [
-        "evo/groups/gr-core-intf.conf",
-        "evo/interfaces/ifd-core-lag-member.conf"
+        "evo/groups/gr-core-intf.conf"
       ],
       "variant_requires": [],
       "occurrence_requires": [
@@ -1463,8 +1462,7 @@
             "evo/interfaces/ifd-core-lag-member-ether-100g.conf",
             "evo/interfaces/ifd-core-lag-member.conf",
             "evo/interfaces/ifd-lag-member-ether.conf"
-          ],
-          "fulfills": "evo/interfaces/ifd-core-lag-member.conf"
+          ]
         },
         {
           "id": "ref-group",
@@ -13943,12 +13941,11 @@
         "an1_mx204",
         "ma2_mx204"
       ],
-      "size_bytes": 1388,
+      "size_bytes": 1340,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/interfaces/core-isis-mpls.conf",
       "dependency_contract_version": 3,
       "pair_with": [
-        "junos/groups/gr-core-intf.conf",
-        "junos/interfaces/ifd-core-lag-member.conf"
+        "junos/groups/gr-core-intf.conf"
       ],
       "variant_requires": [],
       "occurrence_requires": [
@@ -13963,10 +13960,8 @@
             "@source:lag-member"
           ],
           "providers": [
-            "junos/interfaces/ifd-core-lag-member-gigether.conf",
-            "junos/interfaces/ifd-core-lag-member.conf"
-          ],
-          "fulfills": "junos/interfaces/ifd-core-lag-member.conf"
+            "junos/interfaces/ifd-core-lag-member-gigether.conf"
+          ]
         },
         {
           "id": "ref-group",
@@ -19382,13 +19377,12 @@
         "ma4_mx204",
         "ma5_mx204"
       ],
-      "size_bytes": 3484,
+      "size_bytes": 3441,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/groups/gr-core-intf.conf",
         "junos/groups/gr-isis-bcp-high-metrics.conf",
-        "junos/interfaces/core-isis-mpls.conf",
         "junos/protocols/mpls-segment-routing.conf"
       ],
       "variant_requires": [],
@@ -19422,7 +19416,6 @@
             "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf",
             "junos/interfaces/ifl-loopback-primary-iso.conf"
           ],
-          "fulfills": "junos/interfaces/core-isis-mpls.conf",
           "preferObject": true
         },
         {

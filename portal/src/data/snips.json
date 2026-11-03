@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-03T18:04:08.189Z",
-  "snippetSourceDigest": "c972216a493e4db897b52dbd21a781ce24564c9d8459b3bec08080fda01c489e",
+  "generatedAt": "2026-11-03T19:44:28.833Z",
+  "snippetSourceDigest": "5bb6145f9792f53c1662e3f8fefb3be080d39fc5eb8d7ddda656ddbdaa123c80",
   "counts": {
     "total": 1640,
     "junos": 851,
@@ -75402,11 +75402,6 @@
           "raw": "evo/groups/gr-core-intf.conf",
           "id": "metro_ethernet_business_services/evo/groups/gr-core-intf",
           "note": null
-        },
-        {
-          "raw": "evo/interfaces/ifd-core-lag-member.conf",
-          "id": "metro_ethernet_business_services/evo/interfaces/ifd-core-lag-member",
-          "note": null
         }
       ],
       "dependencyContractVersion": 3,
@@ -75425,8 +75420,7 @@
             "evo/interfaces/ifd-core-lag-member-ether-100g.conf",
             "evo/interfaces/ifd-core-lag-member.conf",
             "evo/interfaces/ifd-lag-member-ether.conf"
-          ],
-          "fulfills": "evo/interfaces/ifd-core-lag-member.conf"
+          ]
         },
         {
           "id": "ref-group",
@@ -75442,7 +75436,7 @@
           ]
         }
       ],
-      "sourceText": "/*\n * Topic:   Core-facing LAG (ISIS + MPLS underlay attachment)\n * Seen on:\n *   Junos: (none)\n *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509\n * Count:\n *   ag1-1_acx7100-32c 5\n *   ag1-2_acx7100-32c 5\n *   an3_acx7100-48l 3\n *   cr1_ptx10001-36mr 2\n *   cr2_ptx10001-36mr 2\n *   ma1-2_acx7024 2\n *   mdr1_acx7509 1\n *   meg1_acx7100-32c 2\n *   meg2_acx7509 2\n *   total 24\n * Highlights:\n *  - A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1).\n *    Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.\n *  - Common core knobs (jumbo MTU 9192, per-family MTU overrides,\n *    mpls maximum-labels 14, LACP) come from apply-groups GR-CORE-INTF\n *    (see groups/gr-core-intf).\n *\n * Pair with:\n *  - evo/groups/gr-core-intf.conf\n *  - evo/interfaces/ifd-core-lag-member.conf\n *\n * Variables (example values from an1_mx204):\n *   $CORE_PHYS         e.g. ae71\n *   $CORE_DESC         e.g. \"to AG1.1 rtme-acx7100-32c-a ae71\"\n *   $CORE_V4_ADDR      e.g. 10.10.0.197/30\n *   $CORE_V6_ADDR      e.g. 2001::10:10:0:c5/126\n */\ninterfaces {\n    $CORE_PHYS {\n        apply-groups GR-CORE-INTF;\n        description $CORE_DESC;\n        mtu 9192;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $CORE_V4_ADDR;\n            }\n            family iso;\n            family inet6 {\n                address $CORE_V6_ADDR;\n            }\n            family mpls;\n        }\n    }\n}\n",
+      "sourceText": "/*\n * Topic:   Core-facing LAG (ISIS + MPLS underlay attachment)\n * Seen on:\n *   Junos: (none)\n *   EVO: ag1-1_acx7100-32c ag1-2_acx7100-32c an3_acx7100-48l cr1_ptx10001-36mr cr2_ptx10001-36mr ma1-2_acx7024 mdr1_acx7509 meg1_acx7100-32c meg2_acx7509\n * Count:\n *   ag1-1_acx7100-32c 5\n *   ag1-2_acx7100-32c 5\n *   an3_acx7100-48l 3\n *   cr1_ptx10001-36mr 2\n *   cr2_ptx10001-36mr 2\n *   ma1-2_acx7024 2\n *   mdr1_acx7509 1\n *   meg1_acx7100-32c 2\n *   meg2_acx7509 2\n *   total 24\n * Highlights:\n *  - A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1).\n *    Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.\n *  - Common core knobs (jumbo MTU 9192, per-family MTU overrides,\n *    mpls maximum-labels 14, LACP) come from apply-groups GR-CORE-INTF\n *    (see groups/gr-core-intf).\n *\n * Pair with:\n *  - evo/groups/gr-core-intf.conf\n *\n * Variables (example values from an1_mx204):\n *   $CORE_PHYS         e.g. ae71\n *   $CORE_DESC         e.g. \"to AG1.1 rtme-acx7100-32c-a ae71\"\n *   $CORE_V4_ADDR      e.g. 10.10.0.197/30\n *   $CORE_V6_ADDR      e.g. 2001::10:10:0:c5/126\n */\ninterfaces {\n    $CORE_PHYS {\n        apply-groups GR-CORE-INTF;\n        description $CORE_DESC;\n        mtu 9192;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $CORE_V4_ADDR;\n            }\n            family iso;\n            family inet6 {\n                address $CORE_V6_ADDR;\n            }\n            family mpls;\n        }\n    }\n}\n",
       "variables": [
         {
           "name": "$CORE_PHYS",
@@ -75477,7 +75471,7 @@
         "Mobile Backhaul"
       ],
       "parseWarnings": [],
-      "recordSha256": "d5d9319bb6439cd25d7ac1122ea6127306f43e934258f6125654fe61006362b1"
+      "recordSha256": "aa9f563036227f40532f20b6abb1bffd8eaef3167036cfbe00b7b6e747d5f1d6"
     },
     {
       "id": "metro_ethernet_business_services/evo/interfaces/core-isis-mpls",
@@ -107268,11 +107262,6 @@
           "raw": "junos/groups/gr-core-intf.conf",
           "id": "metro_ethernet_business_services/junos/groups/gr-core-intf",
           "note": null
-        },
-        {
-          "raw": "junos/interfaces/ifd-core-lag-member.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/ifd-core-lag-member",
-          "note": null
         }
       ],
       "dependencyContractVersion": 3,
@@ -107288,10 +107277,8 @@
             "@source:lag-member"
           ],
           "providers": [
-            "junos/interfaces/ifd-core-lag-member-gigether.conf",
-            "junos/interfaces/ifd-core-lag-member.conf"
-          ],
-          "fulfills": "junos/interfaces/ifd-core-lag-member.conf"
+            "junos/interfaces/ifd-core-lag-member-gigether.conf"
+          ]
         },
         {
           "id": "ref-group",
@@ -107307,7 +107294,7 @@
           ]
         }
       ],
-      "sourceText": "/*\n * Topic:   Core-facing LAG (ISIS + MPLS underlay attachment)\n * Seen on:\n *   Junos: an1_mx204 ma2_mx204\n *   EVO: (none)\n * Count:\n *   an1_mx204 2\n *   ma2_mx204 2\n *   total 4\n * Highlights:\n *  - A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1).\n *    Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.\n *  - Common core knobs (jumbo MTU 9192, per-family MTU overrides,\n *    mpls maximum-labels 14, LACP) come from apply-groups GR-CORE-INTF\n *    (see groups/gr-core-intf).\n *\n * Pair with:\n *  - junos/groups/gr-core-intf.conf\n *  - junos/interfaces/ifd-core-lag-member.conf\n *\n * Variables (example values from an1_mx204):\n *   $CORE_PHYS         e.g. ae71\n *   $CORE_DESC         e.g. \"to AG1.1 rtme-acx7100-32c-a ae71\"\n *   $CORE_V4_ADDR      e.g. 10.10.0.197/30\n *   $CORE_V6_ADDR      e.g. 2001::10:10:0:c5/126\n */\ninterfaces {\n    $CORE_PHYS {\n        apply-groups GR-CORE-INTF;\n        description $CORE_DESC;\n        mtu 9192;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $CORE_V4_ADDR;\n            }\n            family iso;\n            family inet6 {\n                address $CORE_V6_ADDR;\n            }\n            family mpls;\n        }\n    }\n}\n",
+      "sourceText": "/*\n * Topic:   Core-facing LAG (ISIS + MPLS underlay attachment)\n * Seen on:\n *   Junos: an1_mx204 ma2_mx204\n *   EVO: (none)\n * Count:\n *   an1_mx204 2\n *   ma2_mx204 2\n *   total 4\n * Highlights:\n *  - A core-facing aggregated-ethernet bundle to the upstream AG (AG1.1).\n *    Carries the SR-MPLS underlay: family inet/iso/mpls plus IPv6 for 6PE.\n *  - Common core knobs (jumbo MTU 9192, per-family MTU overrides,\n *    mpls maximum-labels 14, LACP) come from apply-groups GR-CORE-INTF\n *    (see groups/gr-core-intf).\n *\n * Pair with:\n *  - junos/groups/gr-core-intf.conf\n *\n * Variables (example values from an1_mx204):\n *   $CORE_PHYS         e.g. ae71\n *   $CORE_DESC         e.g. \"to AG1.1 rtme-acx7100-32c-a ae71\"\n *   $CORE_V4_ADDR      e.g. 10.10.0.197/30\n *   $CORE_V6_ADDR      e.g. 2001::10:10:0:c5/126\n */\ninterfaces {\n    $CORE_PHYS {\n        apply-groups GR-CORE-INTF;\n        description $CORE_DESC;\n        mtu 9192;\n        aggregated-ether-options {\n            minimum-links 1;\n            lacp {\n                active;\n                periodic fast;\n            }\n        }\n        unit 0 {\n            family inet {\n                address $CORE_V4_ADDR;\n            }\n            family iso;\n            family inet6 {\n                address $CORE_V6_ADDR;\n            }\n            family mpls;\n        }\n    }\n}\n",
       "variables": [
         {
           "name": "$CORE_PHYS",
@@ -107342,7 +107329,7 @@
         "Mobile Backhaul"
       ],
       "parseWarnings": [],
-      "recordSha256": "e590e283773ae5d175c9851a84404ef4ca18bbefad902316c3aad557586721a6"
+      "recordSha256": "025a10a7991319cba6281b03dedac66893e84b676fb90680aff88b89a012b6de"
     },
     {
       "id": "metro_ethernet_business_services/junos/interfaces/ethernet-bridge",
@@ -121342,11 +121329,6 @@
           "note": null
         },
         {
-          "raw": "junos/interfaces/core-isis-mpls.conf",
-          "id": "metro_ethernet_business_services/junos/interfaces/core-isis-mpls",
-          "note": null
-        },
-        {
           "raw": "junos/protocols/mpls-segment-routing.conf",
           "id": "metro_ethernet_business_services/junos/protocols/mpls-segment-routing",
           "note": null
@@ -121383,7 +121365,6 @@
             "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf",
             "junos/interfaces/ifl-loopback-primary-iso.conf"
           ],
-          "fulfills": "junos/interfaces/core-isis-mpls.conf",
           "preferObject": true
         },
         {
@@ -121400,7 +121381,7 @@
           ]
         }
       ],
-      "sourceText": "/*\n * Topic:   ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo\n * Seen on:\n *   Junos: ma2_mx204 ma4_mx204 ma5_mx204\n *   EVO: (none)\n * Count:\n *   ma2_mx204 2\n *   ma4_mx204 2\n *   ma5_mx204 2\n *   total 6\n *\n * Highlights:\n *  - source-packet-routing (SR-MPLS) with per-router node-segment IDs\n *    (ipv4-index 17, ipv6-index 117 on this PE) into the global SRGB\n *    (16000–24000, set in protocols mpls).\n *  - flex-algorithm [ 128 129 ] — two custom topologies (here\n *    delay-optimised and color-constrained) advertised alongside the\n *    default 0/SPF.\n *  - strict-asla-based-flex-algorithm — only ASLA-tagged links\n *    participate in flex-algo computation (clean separation).\n *  - TI-LFA: post-convergence-lfa with node-protection on every core\n *    interface, plus backup-spf-options use-source-packet-routing\n *    so backup paths are computed via SR (label-stack push, no LDP).\n *  - microloop-avoidance with 5 s post-convergence delay.\n *  - BFD 100ms × 3 no-adaptation under family inet — sub-second\n *    failure detection that triggers TI-LFA.\n *\n * Pair with:\n *  - junos/groups/gr-core-intf.conf\n *  - junos/groups/gr-isis-bcp-high-metrics.conf\n *  - junos/interfaces/core-isis-mpls.conf\n *  - junos/protocols/mpls-segment-routing.conf\n *\n * Variables (example values from ma1-1_acx7024):\n *   $CORE_INTF     e.g. ae83.0   (repeat the per-interface block\n *                                  for each additional core link)\n *   $NODE_SID_V4   e.g. 17\n *   $NODE_SID_V6   e.g. 117\n *   $ISIS_NET      e.g. 49.0001.0010.0100.0017.00\n */\nprotocols {\n    isis {\n        apply-groups GR-ISIS-BCP;\n        interface $CORE_INTF {\n            level 2 {\n                post-convergence-lfa {\n                    node-protection cost 16777214;\n                }\n                application-specific {\n                    attribute-group ASLA {\n                        advertise-delay-metric;\n                        te-metric 5;\n                        admin-group [ green blue ];\n                        application {\n                            flex-algorithm;\n                        }\n                    }\n                }\n            }\n            delay-metric 5;\n            point-to-point;\n            family inet {\n                bfd-liveness-detection {\n                    minimum-interval 100;\n                    multiplier 3;\n                    no-adaptation;\n                }\n            }\n        }\n        interface lo0.0 {\n            passive;\n        }\n        source-packet-routing {\n            node-segment {\n                ipv4-index $NODE_SID_V4;\n                ipv6-index $NODE_SID_V6;\n            }\n            flex-algorithm [ 128 129 ];\n            strict-asla-based-flex-algorithm;\n            explicit-null;\n            traffic-statistics {\n                statistics-granularity per-interface;\n            }\n        }\n        level 1 disable;\n        level 2 wide-metrics-only;\n        spf-options {\n            microloop-avoidance {\n                post-convergence-path {\n                    delay 5000;\n                }\n            }\n        }\n        backup-spf-options {\n            use-post-convergence-lfa maximum-labels 3;\n            use-source-packet-routing;\n        }\n        traffic-engineering {\n            advertisement {\n                application-specific {\n                    all-applications;\n                }\n            }\n        }\n        export PS-ISIS-EXPORT;\n        net $ISIS_NET;\n    }\n}\n",
+      "sourceText": "/*\n * Topic:   ISIS underlay with SR-MPLS, TI-LFA and Flex-Algo\n * Seen on:\n *   Junos: ma2_mx204 ma4_mx204 ma5_mx204\n *   EVO: (none)\n * Count:\n *   ma2_mx204 2\n *   ma4_mx204 2\n *   ma5_mx204 2\n *   total 6\n *\n * Highlights:\n *  - source-packet-routing (SR-MPLS) with per-router node-segment IDs\n *    (ipv4-index 17, ipv6-index 117 on this PE) into the global SRGB\n *    (16000–24000, set in protocols mpls).\n *  - flex-algorithm [ 128 129 ] — two custom topologies (here\n *    delay-optimised and color-constrained) advertised alongside the\n *    default 0/SPF.\n *  - strict-asla-based-flex-algorithm — only ASLA-tagged links\n *    participate in flex-algo computation (clean separation).\n *  - TI-LFA: post-convergence-lfa with node-protection on every core\n *    interface, plus backup-spf-options use-source-packet-routing\n *    so backup paths are computed via SR (label-stack push, no LDP).\n *  - microloop-avoidance with 5 s post-convergence delay.\n *  - BFD 100ms × 3 no-adaptation under family inet — sub-second\n *    failure detection that triggers TI-LFA.\n *\n * Pair with:\n *  - junos/groups/gr-core-intf.conf\n *  - junos/groups/gr-isis-bcp-high-metrics.conf\n *  - junos/protocols/mpls-segment-routing.conf\n *\n * Variables (example values from ma1-1_acx7024):\n *   $CORE_INTF     e.g. ae83.0   (repeat the per-interface block\n *                                  for each additional core link)\n *   $NODE_SID_V4   e.g. 17\n *   $NODE_SID_V6   e.g. 117\n *   $ISIS_NET      e.g. 49.0001.0010.0100.0017.00\n */\nprotocols {\n    isis {\n        apply-groups GR-ISIS-BCP;\n        interface $CORE_INTF {\n            level 2 {\n                post-convergence-lfa {\n                    node-protection cost 16777214;\n                }\n                application-specific {\n                    attribute-group ASLA {\n                        advertise-delay-metric;\n                        te-metric 5;\n                        admin-group [ green blue ];\n                        application {\n                            flex-algorithm;\n                        }\n                    }\n                }\n            }\n            delay-metric 5;\n            point-to-point;\n            family inet {\n                bfd-liveness-detection {\n                    minimum-interval 100;\n                    multiplier 3;\n                    no-adaptation;\n                }\n            }\n        }\n        interface lo0.0 {\n            passive;\n        }\n        source-packet-routing {\n            node-segment {\n                ipv4-index $NODE_SID_V4;\n                ipv6-index $NODE_SID_V6;\n            }\n            flex-algorithm [ 128 129 ];\n            strict-asla-based-flex-algorithm;\n            explicit-null;\n            traffic-statistics {\n                statistics-granularity per-interface;\n            }\n        }\n        level 1 disable;\n        level 2 wide-metrics-only;\n        spf-options {\n            microloop-avoidance {\n                post-convergence-path {\n                    delay 5000;\n                }\n            }\n        }\n        backup-spf-options {\n            use-post-convergence-lfa maximum-labels 3;\n            use-source-packet-routing;\n        }\n        traffic-engineering {\n            advertisement {\n                application-specific {\n                    all-applications;\n                }\n            }\n        }\n        export PS-ISIS-EXPORT;\n        net $ISIS_NET;\n    }\n}\n",
       "variables": [
         {
           "name": "$CORE_INTF",
@@ -121435,7 +121416,7 @@
         "Mobile Backhaul"
       ],
       "parseWarnings": [],
-      "recordSha256": "767b76d96fe02307af642c7f92fd106c6f634d28c1ae7591e6b5b45f95c5d169"
+      "recordSha256": "15f7576da7ec5f1322672d6093f50aac7f2253ea1a1e400a12e648d6532109df"
     },
     {
       "id": "metro_ethernet_business_services/junos/protocols/isis-srmpls-tilfa-l2",

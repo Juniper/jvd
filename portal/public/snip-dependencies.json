@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "db3e99fa232e848c3e86a2ff8d8dc20f27e51a47e99c15166d2abdc4298ba17c",
+  "libraryDigest": "737ba6f118f6dd1ad413ab36c52a3f53548bb049f4e225c8ff3f9bbdfca789f2",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-03T18:04:08.189Z",
+  "generatedAt": "2026-11-03T19:44:28.833Z",
   "resolutions": [
     {
       "jvd": "broadband_edge",
@@ -26444,5 +26444,5 @@
       ]
     }
   ],
-  "exportDigest": "6bd15c7b159ba46f9c8439610391b9d823408530792d01d19b35ce5b52b0461e"
+  "exportDigest": "f9732977d4546914b3ba015b8f38791b537d51849e0b36b8f55b25df6983abd7"
 }

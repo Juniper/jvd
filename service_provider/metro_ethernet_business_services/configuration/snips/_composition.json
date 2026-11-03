@@ -1069,8 +1069,7 @@
         "@source:lag-member"
       ],
       "presence": "conditional",
-      "unbound": "required",
-      "declaredDependency": "evo/interfaces/ifd-core-lag-member.conf"
+      "unbound": "required"
     },
     {
       "consumer": "evo/interfaces/core-isis-mpls-interface.conf",
@@ -5891,15 +5890,13 @@
       "kind": "lag-member",
       "scope": "object",
       "providers": [
-        "junos/interfaces/ifd-core-lag-member-gigether.conf",
-        "junos/interfaces/ifd-core-lag-member.conf"
+        "junos/interfaces/ifd-core-lag-member-gigether.conf"
       ],
       "slots": [
         "@source:lag-member"
       ],
       "presence": "conditional",
-      "unbound": "required",
-      "declaredDependency": "junos/interfaces/ifd-core-lag-member.conf"
+      "unbound": "required"
     },
     {
       "consumer": "junos/interfaces/core-isis-mpls.conf",
@@ -7991,7 +7988,6 @@
       ],
       "presence": "required",
       "unbound": "required",
-      "declaredDependency": "junos/interfaces/core-isis-mpls.conf",
       "preferObject": true
     },
     {
@@ -10131,6 +10127,6 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "97da6e67f1b340dc8a4b8a9512cf5d8c6e490d842fcb47e7c41896b690de47b8"
+    "sha256": "754fee689be1df289f0bf07b83eee90b919b7b582c24cf0013cc7b06f659976f"
   }
 }

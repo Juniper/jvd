@@ -2619,7 +2619,6 @@ interfaces {
  *
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
- *  - evo/interfaces/ifd-core-lag-member.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_PHYS         e.g. ae71
@@ -19446,7 +19445,6 @@ interfaces {
  *
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
- *  - junos/interfaces/ifd-core-lag-member.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_PHYS         e.g. ae71
@@ -27156,7 +27154,6 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
- *  - junos/interfaces/core-isis-mpls.conf
  *  - junos/protocols/mpls-segment-routing.conf
  *
  * Variables (example values from ma1-1_acx7024):
