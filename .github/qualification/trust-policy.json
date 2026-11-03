@@ -16,6 +16,7 @@
     "catalog:fresh",
     "manifest:fresh",
     "tiers:fresh",
+    "dependency-links:fresh",
     "bindings:remeasure",
     "relationships:remeasure+peers",
     "dependencies:declaration-qualified",
