@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-10T17:07:14.743Z",
+  "generatedAt": "2026-11-03T18:04:08.189Z",
   "snippetSourceDigest": "c972216a493e4db897b52dbd21a781ce24564c9d8459b3bec08080fda01c489e",
   "counts": {
     "total": 1640,
@@ -123394,6 +123394,7 @@
             "@source:irb-service"
           ],
           "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -123556,7 +123557,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "6724db7efe482a877d61c80db2561eb2eacd9cdd7025e7d52f7a4c3fa6bf4bde"
+      "recordSha256": "a614035c1dca9a0f61c8cd6a29508e46f5897f06a4f90af15e3bf429a106fb1f"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy",
@@ -123625,6 +123626,7 @@
             "@source:irb-service"
           ],
           "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
             "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
@@ -123795,7 +123797,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "797e2a6424fb76d176caaccb29789d97c8b7e67a5d96ac8734336415cb7d057e"
+      "recordSha256": "a0465de4a66a8b0e065ae1b1363be8d71780ef00d13f9d75d125ba10a89105bf"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-irb",
@@ -123845,6 +123847,50 @@
       ],
       "dependencyContractVersion": 3,
       "occurrenceRequires": [
+        {
+          "id": "context-irb-service",
+          "kind": "irb-service",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:irb-service"
+          ],
+          "providers": [
+            "junos/bridge-domains/bridge-domain-irb.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-floating-pw.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-no-normalization-export.conf",
+            "junos/routing-instances/evpn-etree/ri-evpn-etree-export.conf",
+            "junos/routing-instances/evpn-etree/ri-evpn-etree.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-12-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-2-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni-export.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-4-uni.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-site.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word-export.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-control-word.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan-export.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella-vlan.conf",
+            "junos/routing-instances/l2vpn/ri-l2vpn-kompella.conf",
+            "junos/routing-instances/l3vpn/ri-internet-vrf-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-irb.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-bridge-domain.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-export.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
+            "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
+          ]
+        },
         {
           "id": "ref-logical-interface",
           "kind": "logical-interface",
@@ -123935,7 +123981,7 @@
         "Route Reflector",
         "Mobile Backhaul"
       ],
-      "recordSha256": "86ef7b7c7205ad7e6dbb92f24c9f023d2e9fad377e16c7cc43650105ba2936ac"
+      "recordSha256": "d8a956c9bc2304298f9bed35b4b82808c947b7cc4fdef05a8b7dad233e3aeb42"
     },
     {
       "id": "metro_ethernet_business_services/junos/routing-instances/l3vpn/ri-l3vpn-ospf-vrf-policy-auto-export",
@@ -132315,6 +132361,6 @@
       ]
     }
   ],
-  "exportDigest": "c6641589af2f4a8e78d24c0ea1744d96bd954f329a1ed3aadf8b27b38d1f5183",
-  "publishedCommit": "7b77dfc3218651fe53167976be92d3d41d3c976b"
+  "exportDigest": "db3e99fa232e848c3e86a2ff8d8dc20f27e51a47e99c15166d2abdc4298ba17c",
+  "publishedCommit": "adfbbd454527d8bf864f8b675da8617b1b29c56e"
 }
