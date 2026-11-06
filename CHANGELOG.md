@@ -4,6 +4,237 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-06
+
+Snippet dependencies in the **Metro Ethernet Business Services** and **Enterprise WAN:
+Finance** libraries are now measured from the validated device configurations, and the
+**JVD AI Assistant** bundles for four JVDs list each snippet's configuration-dependent
+needs. New checks keep snippet headers, the published catalog and the dependency data
+consistent.
+
+### New content
+
+- **Measured `Pair with` prerequisites**: the `Pair with` headers in
+  [Metro Ethernet Business Services](service_provider/metro_ethernet_business_services/configuration/snips)
+  and [Enterprise WAN: Finance](enterprise_wan/ewan_finance/configuration/snips) now
+  list prerequisites taken from the validated configurations. 30 entries were added
+  where a referenced object has exactly one provider on every router that uses the
+  snippet, and 12 were removed where the target is not the provider on every router in
+  the snippet's `Seen on`; the typed requirements carry those needs with every
+  provider. 12 snippets that said `Pair with: none` now list their prerequisites.
+  Metro Ethernet Business Services has 496 `Pair with` entries (was 476) and Finance
+  has 59 (was 61). 31 snippet headers changed; no snippet bodies changed.
+- **Simpler typed requirements**: 86 typed requirements that repeated a
+  single-provider `Pair with` entry were removed. Metro Ethernet Business Services has
+  568 (was 598), Broadband Edge 49 (was 86), Enterprise WAN: Data Center Edge 36 (was
+  42) and Enterprise WAN: Finance 37 (was 50). The
+  [per-router dependency links](portal/public/snip-dependencies.json) were regenerated:
+  2,178 answers, each resolved or not needed on its router.
+- **Needs in the JVD AI Assistant**: the snippet bundles for Metro Ethernet Business
+  Services, Broadband Edge, Enterprise WAN: Data Center Edge and Enterprise WAN: Finance
+  list each snippet's typed requirements under it as **Needs**: the object kind, the
+  names it applies to, whether it is always required or depends on the router's
+  configuration, and the snippets that provide it. That is 690 Needs entries (568, 49,
+  36 and 37). Each assistant prompt treats the list as part of the dependencies to
+  supply.
+
+### Contract and checks
+
+- **`Pair with: none` clarified**: in the [snippet contract](.github/SNIP-CONTRACT.md),
+  `none` means the snippet has no fixed or variant entries. Typed requirements are
+  published in the catalog, so `none` alone does not mean a snippet has no
+  requirements.
+- **Headers must match the catalog**: the Snip contract workflow checks every
+  snippet's `Pair with` entries against `portal/public/snips.json` across all 1,640
+  snippets. A header changed without regenerating the catalog fails the check.
+
+### What this means for you
+
+- When building from Metro Ethernet Business Services or Enterprise WAN: Finance
+  snippets, include every `Pair with` entry: each is a prerequisite measured on the
+  validated routers.
+- For needs that depend on your router's configuration, use the Needs list in the JVD
+  AI Assistant bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Pull the latest `main` for the regenerated catalog, tiers, assistant bundles and
+  manifests.
+
+---
+
+### By the numbers
+
+Changes since the November 3 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 36 | 0 |
+| Service Provider / Broadband Edge | 0 | 0 | 0 | 7 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 7 | 0 |
+| Enterprise WAN / Finance | 0 | 0 | 0 | 8 | 0 |
+| Portal | 0 | 0 | 0 | 26 | 0 |
+| Repository (contract and CI) | 1 | 0 | 0 | 2 | 0 |
+| **Total** | **1** | **0** | **0** | **86** | **0** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 1586 | 1141 | +445 |
+| Service Provider / Broadband Edge | 192 | 1416 | -1224 |
+| Enterprise WAN / Data Center Edge | 173 | 210 | -37 |
+| Enterprise WAN / Finance | 141 | 434 | -293 |
+| Portal | 3067 | 9591 | -6524 |
+| Repository (contract and CI) | 57 | 1 | +56 |
+| **Total** | **5216** | **12793** | **-7577** |
+
+</details>
+
+---
+
+## 2026-11-03
+
+The portal now publishes **per-router snippet dependency links** for the four JVDs
+whose snippet libraries carry typed dependencies, and the portal build checks that
+they match the published snippet catalog.
+
+### New content
+
+- **Per-router dependency links**: [`portal/public/snip-dependencies.json`](portal/public/snip-dependencies.json)
+  records, for each snippet with typed requirements, each router in its `Seen on` list
+  and each requirement, the snippets that router's validated configuration uses to
+  meet it. It holds 2,579 answers: Metro Ethernet Business Services 2,137, Broadband
+  Edge 271, Enterprise WAN: Finance 92 and Enterprise WAN: Data Center Edge 79. Every
+  requirement resolves or is not needed on its router. A requirement met through a
+  fixed `Pair with` or variant dependency names that dependency, and the ESI LAG member
+  needs on the Data Center Edge leaf switches resolve to `ifd-lag-member-ether`. The
+  JVD MCP Server reads the same file.
+- **Metro Ethernet Business Services VRF IRBs**: on MSE1 and MSE2 the VRF IRB
+  interfaces are gateways of top-level bridge domains. The Junos `ri-l3vpn-irb` snippet
+  now carries the same IRB-service requirement as its Junos Evolved form and resolves
+  to `bridge-domain-irb` on those routers. No snippet bodies or headers changed.
+
+### Fixes and maintenance
+
+- The portal build stops when the dependency links were built from a different
+  snippet catalog, so the two are always published together.
+- Portal dependencies moved to patched releases for three advisories (`zod`,
+  `source-map-js` and `minimatch`), plus a routine dependency update.
+
+### What this means for you
+
+- To see which snippets a validated router used for a requirement, look up the
+  snippet, router and requirement in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- If you generate Metro Ethernet Business Services L3VPN configurations for MSE1 or
+  MSE2, include `bridge-domain-irb` for the VRF IRB interfaces.
+
+---
+
+### By the numbers
+
+Changes since the October 28 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 4 | 0 |
+| Portal | 1 | 0 | 0 | 7 | 0 |
+| Repository (CI) | 0 | 0 | 0 | 2 | 0 |
+| **Total** | **1** | **0** | **0** | **13** | **0** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 100 | 4 | +96 |
+| Portal | 26642 | 50 | +26592 |
+| Repository (CI) | 24 | 6 | +18 |
+| **Total** | **26766** | **60** | **+26706** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 26448 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 101 |
+| Composition matrix, manifest, tiers and assistant bundle (with portal copies) | 7 | 153 |
+| Portal dependencies (`package.json`, `bun.lock`) | 2 | 40 |
+| CI and qualification policy (`.github`) | 2 | 24 |
+| **Total** | **14** | **26766** |
+
+</details>
+
+---
+
+## 2026-10-28
+
+The portal's fifth journey stage is renamed **Automate**, and the **Metro Ethernet
+Business Services** composition matrix now matches the snippets and the generated
+tiers.
+
+### Changes
+
+- **Portal**: the fifth stage of the portal journey is **Automate** (was Deploy). It
+  introduces the JVD MCP Server, which brings validated JVD knowledge into an AI
+  assistant and does not deploy configuration. Existing `#mcp` links keep working.
+- **Metro Ethernet Business Services composition matrix**: device applicability for
+  all 17 service forms now comes only from their entry snippets' `Seen on` rows; the
+  per-form role lists that restated it are removed. Each form links to its section in
+  the generated
+  [TIERS.md](service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md).
+  The tiers, catalog and snippets are unchanged.
+- **Portal dependencies**: two routine dependency updates.
+
+### What this means for you
+
+- Find the JVD MCP Server under the **Automate** stage of the portal.
+- No action is needed for Metro Ethernet Business Services: the generated tiers and
+  snippets are unchanged.
+
+---
+
+### By the numbers
+
+Changes since the October 18 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 3 | 0 |
+| **Total** | **0** | **0** | **0** | **4** | **0** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 22 | 109 | -87 |
+| Portal | 139 | 137 | +2 |
+| **Total** | **161** | **246** | **-85** |
+
+</details>
+
+---
+
 ## 2026-10-18
 
 Added **three Data Center JVDs** with their full validated device configurations:
