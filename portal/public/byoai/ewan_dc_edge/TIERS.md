@@ -30,16 +30,16 @@ Family evpn-interconnect, form vlan-based-irb. OS mode Junos. Attachment: IRB un
 - `minimum`: `junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
-  - occurrence-selection-required: policy-statement:lo0
-  - occurrence-selection-required: policy-statement:policy_ospf_bgp
+  - reference-external: policy-statement:lo0
+  - reference-external: policy-statement:policy_ospf_bgp
 
 ### dc-edge2_mx10003 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:irb.$IRB_UNIT
-  - occurrence-selection-required: policy-statement:lo0
-  - occurrence-selection-required: policy-statement:policy_ospf_bgp
+  - reference-external: policy-statement:lo0
+  - reference-external: policy-statement:policy_ospf_bgp
 
 ---
 
@@ -51,15 +51,15 @@ Family evpn-interconnect, form vlan-bundle. OS mode Junos. Attachment: none in t
 
 - `minimum`: `junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-bundle.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-selection-required: policy-statement:lo0
-  - occurrence-selection-required: policy-statement:policy_ospf_bgp
+  - reference-external: policy-statement:lo0
+  - reference-external: policy-statement:policy_ospf_bgp
 
 ### dc-edge2_mx10003 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-bundle.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - occurrence-selection-required: policy-statement:lo0
-  - occurrence-selection-required: policy-statement:policy_ospf_bgp
+  - reference-external: policy-statement:lo0
+  - reference-external: policy-statement:policy_ospf_bgp
 
 ---
 
@@ -72,14 +72,14 @@ Family evpn-elan, form mac-vrf-vlan-based. OS mode Junos. Attachment: VLAN logic
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
-  - occurrence-selection-required: policy-statement:lo0
+  - reference-external: policy-statement:lo0
 
 ### leaf2_qfx5120-48t (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
-  - occurrence-selection-required: policy-statement:lo0
+  - reference-external: policy-statement:lo0
 
 ---
 
@@ -92,14 +92,14 @@ Family evpn-elan, form mac-vrf-vlan-bundle. OS mode Junos. Attachment: ESI-LAG i
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
-  - occurrence-selection-required: policy-statement:lo0
+  - reference-external: policy-statement:lo0
 
 ### leaf2_qfx5120-48t (junos)
 
 - `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF
-  - occurrence-selection-required: policy-statement:lo0
+  - reference-external: policy-statement:lo0
 
 ---
 

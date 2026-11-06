@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "80db18766c81964488b3da12b7f800da64e4e714d73c0ab6ab096f81e5836a8b",
+  "dependency_declaration_sha256": "347c2fabfc83a5e3711de4dc87423b609c52e7a3ad3cc5ccbba134b27133ffa6",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips",
   "snip_count": 140,
@@ -851,21 +851,7 @@
         "evo/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-COMM"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
@@ -885,25 +871,7 @@
         "evo/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_COMM_1",
-            "PS-DHCPSUBS-COMM",
-            "PS-RADIUS-COMM"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-pppoe-subs-comm-1.conf",
-            "evo/policy-options/community/cm-ps-dhcpsubs-comm.conf",
-            "evo/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/policy-options/policy-statement/ps-redis-ospf.conf",
@@ -938,34 +906,7 @@
         "evo/routing-instances/l3vpn/ri-vrf-internet.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-Internet-COMM"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-ps-internet-comm.conf"
-          ]
-        },
-        {
-          "id": "ref-routing-instance",
-          "kind": "routing-instance",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "VRF_Internet"
-          ],
-          "providers": [
-            "evo/routing-instances/l3vpn/ri-vrf-internet.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/policy-options/policy-statement/stop-leak.conf",
@@ -999,21 +940,7 @@
         "evo/policy-options/community/cm-ps-internet-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-Internet-COMM"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-ps-internet-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/policy-options/policy-statement/vrf-internet-import.conf",
@@ -1033,25 +960,7 @@
         "evo/policy-options/community/cm-ps-internet-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-Internet-COMM",
-            "PPPOE_SUBS_COMM_2",
-            "PS-DHCPSUBS-COMM_2"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-pppoe-subs-comm-2.conf",
-            "evo/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
-            "evo/policy-options/community/cm-ps-internet-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/policy-options/prefix-list/pl-an-region-agn.conf",
@@ -1189,23 +1098,7 @@
         "evo/policy-options/policy-statement/ps-client-rr-export.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-BGP-RR-EXPORT",
-            "PS-CLIENT-RR-EXPORT"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-bgp-rr-export.conf",
-            "evo/policy-options/policy-statement/ps-client-rr-export.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/protocols/isis-intf-l1-tilfa-bfd.conf",
@@ -1303,22 +1196,7 @@
         "evo/interfaces/ifl-loopback-primary-iso.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-logical-interface",
-          "kind": "logical-interface",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0.0"
-          ],
-          "providers": [
-            "evo/interfaces/ifl-loopback-primary-iso.conf"
-          ],
-          "preferObject": true
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/protocols/isis-srmpls-tilfa-l1-l2.conf",
@@ -1337,23 +1215,7 @@
         "evo/policy-options/policy-statement/stop-leak.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-ISIS-EXPORT",
-            "stop_leak"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-isis-export.conf",
-            "evo/policy-options/policy-statement/stop-leak.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/protocols/isis-srmpls-tilfa-l1.conf",
@@ -1377,21 +1239,7 @@
         "evo/policy-options/policy-statement/ps-isis-export.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-ISIS-EXPORT"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-isis-export.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/protocols/lldp-interface-all.conf",
@@ -1575,23 +1423,6 @@
             "evo/interfaces/ifl-loopback-primary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-REDIS-OSPF",
-            "PS-RADIUS-VRF-IMPORT",
-            "PS-RADIUS-VRF-EXPORT"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-radius-vrf-export.conf",
-            "evo/policy-options/policy-statement/ps-radius-vrf-import-subscribers.conf",
-            "evo/policy-options/policy-statement/ps-redis-ospf.conf"
-          ]
         }
       ]
     },
@@ -1645,21 +1476,6 @@
             "evo/interfaces/ifl-inet-inet6.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "VRF_Internet_import",
-            "VRF_Internet_export"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/vrf-internet-export.conf",
-            "evo/policy-options/policy-statement/vrf-internet-import.conf"
-          ]
         }
       ]
     },
@@ -1706,21 +1522,7 @@
         "evo/policy-options/policy-statement/ps-pplb.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPLB"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-pplb.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/routing-options/forwarding-table-pplb.conf",
@@ -1740,21 +1542,7 @@
         "evo/policy-options/policy-statement/ps-pplb.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPLB"
-          ],
-          "providers": [
-            "evo/policy-options/policy-statement/ps-pplb.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/routing-options/router-id.conf",
@@ -2119,21 +1907,7 @@
         "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-routing-instance",
-          "kind": "routing-instance",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_1"
-          ],
-          "providers": [
-            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/dynamic-profiles/auto-stacked-pwht_dhcp.conf",
@@ -2230,34 +2004,7 @@
         "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-filter",
-          "kind": "filter",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "clear-df-bit"
-          ],
-          "providers": [
-            "junos/firewall/filter-clear-df-bit.conf"
-          ]
-        },
-        {
-          "id": "ref-routing-instance",
-          "kind": "routing-instance",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_1"
-          ],
-          "providers": [
-            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/dynamic-profiles/prof_autosense_ipdemux.conf",
@@ -2795,23 +2542,7 @@
         "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-DHCPSUBS-COMM",
-            "PS-DHCPSUBS-COMM_2"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf",
-            "junos/policy-options/community/cm-ps-dhcpsubs-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf",
@@ -2833,23 +2564,7 @@
         "junos/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-COMM",
-            "PS-Internet-COMM"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-internet-comm.conf",
-            "junos/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
@@ -2871,19 +2586,6 @@
       ],
       "variant_requires": [],
       "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-DHCPSUBS-COMM_2"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-dhcpsubs-comm-2.conf"
-          ]
-        },
         {
           "id": "ref-routing-instance",
           "kind": "routing-instance",
@@ -2959,23 +2661,7 @@
         "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_COMM_1",
-            "PPPOE_SUBS_COMM_2"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-pppoe-subs-comm-1.conf",
-            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf",
@@ -2997,23 +2683,7 @@
         "junos/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-COMM",
-            "PS-Internet-COMM"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-internet-comm.conf",
-            "junos/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf",
@@ -3035,34 +2705,7 @@
         "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_COMM_2"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-pppoe-subs-comm-2.conf"
-          ]
-        },
-        {
-          "id": "ref-routing-instance",
-          "kind": "routing-instance",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PPPOE_SUBS_1"
-          ],
-          "providers": [
-            "junos/routing-instances/l3vpn/ri-pppoe-subs.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
@@ -3083,21 +2726,7 @@
         "junos/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-COMM"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/policy-options/policy-statement/ps-radius-vrf-import.conf",
@@ -3118,21 +2747,7 @@
         "junos/policy-options/community/cm-ps-radius-comm.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-COMM"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-ps-radius-comm.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-overlay-bng-core-rr.conf",
@@ -3152,23 +2767,7 @@
         "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPPOE-SUBSv6",
-            "PS-DHCP-SUBSv6"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
-            "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-overlay-bng-three-rr.conf",
@@ -3188,23 +2787,7 @@
         "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPPOE-SUBSv6",
-            "PS-DHCP-SUBSv6"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-dhcp-subsv6.conf",
-            "junos/policy-options/policy-statement/ps-pppoe-subsv6.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/isis-intf-l1-tilfa-bfd.conf",
@@ -3293,22 +2876,7 @@
         "junos/interfaces/ifl-loopback-primary-iso.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-logical-interface",
-          "kind": "logical-interface",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0.0"
-          ],
-          "providers": [
-            "junos/interfaces/ifl-loopback-primary-iso.conf"
-          ],
-          "preferObject": true
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/isis-srmpls-tilfa-l1.conf",
@@ -3327,21 +2895,7 @@
         "junos/policy-options/policy-statement/ps-isis-export.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-ISIS-EXPORT"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-isis-export.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/isis-srmpls-tilfa-l2.conf",
@@ -3360,21 +2914,7 @@
         "junos/policy-options/policy-statement/ps-isis-export.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-ISIS-EXPORT"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-isis-export.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/mpls-srgb-ipv6-tunneling.conf",
@@ -3489,21 +3029,6 @@
             "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "dhcp-subs-vrf-import-pol",
-            "dhcp-subs-vrf-export-pol"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
-          ]
         }
       ]
     },
@@ -3559,21 +3084,6 @@
             "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "dhcp-subs-vrf-import-pol",
-            "dhcp-subs-vrf-export-pol"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
-          ]
         }
       ]
     },
@@ -3630,21 +3140,6 @@
             "junos/interfaces/ifl-loopback-description-primary-secondary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "dhcp-subs-vrf-import-pol",
-            "dhcp-subs-vrf-export-pol"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-export-pol.conf",
-            "junos/policy-options/policy-statement/dhcp-subs-vrf-import-pol.conf"
-          ]
         }
       ]
     },
@@ -3701,21 +3196,6 @@
             "junos/interfaces/ifl-loopback-primary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPPOE-SUBS-1-VRF-IMPORT",
-            "PS-PPPOE-SUBS-1-VRF-EXPORT"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-export.conf",
-            "junos/policy-options/policy-statement/ps-pppoe-subs-1-vrf-import.conf"
-          ]
         }
       ]
     },
@@ -3772,21 +3252,6 @@
             "junos/interfaces/ifl-loopback-primary.conf"
           ],
           "preferObject": true
-        },
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-RADIUS-VRF-IMPORT",
-            "PS-RADIUS-VRF-EXPORT"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-radius-vrf-export.conf",
-            "junos/policy-options/policy-statement/ps-radius-vrf-import.conf"
-          ]
         }
       ]
     },
@@ -3828,21 +3293,7 @@
         "junos/policy-options/policy-statement/ps-pplb.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "PS-PPLB"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-pplb.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/routing-options/nonstop-routing.conf",
@@ -4065,8 +3516,8 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/broadband_edge/configuration/snips/byoai/TIERS.md",
-      "size_bytes": 25774,
-      "sha256": "f44298804839833665020da1bc2a1f6ed6c9637f464840ff8f698dc3ebc48cf3"
+      "size_bytes": 15868,
+      "sha256": "9b8d5f8422f640b3d41ff3e1b743dfae088edc6e3140a1365a79066a282fc586"
     },
     {
       "path": "byoai/DEFAULTS.md",

@@ -466,7 +466,6 @@ class-of-service {
  *    logical unit.
  *
  * Pair with:
- *  - evo/class-of-service/classifiers/cl-6class.conf
  *  - evo/class-of-service/rewrite-rules/rr-6class-marking.conf
  *
  * Peers with: n/a
@@ -4059,7 +4058,8 @@ interfaces {
  * Count:
  *   ag1-1_acx7100-32c 1
  *   total 1
- * Pair with: none
+ * Pair with:
+ *  - evo/firewall/filter-ipv6-router-access.conf
  *
  * Peers with: n/a
  * Variables:
@@ -4712,6 +4712,7 @@ interfaces {
  *  - Decouples customer VLAN IDs from service-internal VLAN IDs at the SP edge.
  *
  * Pair with:
+ *  - evo/firewall/filter-family-any-50mb.conf
  *  - evo/firewall/policers.conf
  *
  * Peers with: n/a
@@ -10066,6 +10067,8 @@ protocols {
  *
  * Pair with:
  *  - evo/groups/gr-bgp-bcp.conf
+ *  - evo/policy-options/policy-statement/nhs1-ma1-1.conf
+ *  - evo/policy-options/policy-statement/ps-bgp-transport-export.conf
  *  - evo/routing-options/rib-groups.conf
  *
  * Peers with:
@@ -10364,7 +10367,9 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
- * Pair with: none
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf
  *
  * Peers with: n/a
  * Variables:
@@ -10426,7 +10431,9 @@ protocols {
  * Count:
  *   ma3_acx7100-48l 2
  *   total 2
- * Pair with: none
+ * Pair with:
+ *  - evo/groups/gr-isis-bcp.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export.conf
  *
  * Peers with: n/a
  * Variables:
@@ -10489,7 +10496,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-primary-iso.conf
  *
  * Peers with: n/a
  * Variables:
@@ -12301,7 +12309,7 @@ protocols {
  * Pair with:
  *  - evo/groups/gr-core-intf.conf
  *  - evo/groups/gr-isis-bcp.conf
- *  - evo/interfaces/core-isis-mpls.conf
+ *  - evo/policy-options/policy-statement/ps-isis-export.conf
  *  - evo/protocols/mpls-segment-routing.conf
  *
  * Variables (example values from ma1-1_acx7024):
@@ -13713,7 +13721,6 @@ routing-instances {
  *    legacy receivers; full ELAN service still works).
  *
  * Pair with:
- *  - evo/interfaces/ifl-vlan-bridge-esi.conf
  *  - evo/policy-options/policy-statement/ps-export-l2-color.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -15282,7 +15289,6 @@ routing-instances {
  *  - evo/groups/gr-l3vpn.conf
  *  - evo/policy-options/policy-statement/ps-export-l3vpn-public.conf
  *  - evo/policy-options/policy-statement/ps-import-l3vpn.conf
- *  - evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -15978,7 +15984,8 @@ routing-options {
  *   ma4_mx204 1
  *   ma5_mx204 1
  *   total 11
- * Pair with: none
+ * Pair with:
+ *  - evo/routing-options/transport-class.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -16012,7 +16019,8 @@ routing-options {
  *   ma4_mx204 1
  *   ma5_mx204 1
  *   total 11
- * Pair with: none
+ * Pair with:
+ *  - evo/routing-options/transport-class.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -16052,6 +16060,7 @@ routing-options {
  *    FA-derived path so a service's colour community resolves over it.
  *
  * Pair with:
+ *  - evo/routing-options/transport-class.conf
  *  - variant:mebs-mpls-admin-groups capabilities=transport:mpls-admin-groups
  *
  * Peers with: n/a
@@ -16199,7 +16208,8 @@ routing-options {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 15
- * Pair with: none
+ * Pair with:
+ *  - evo/routing-options/rib-groups.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -17976,7 +17986,8 @@ firewall {
  *  - Each filter carries a single unconditional term whose only action is the
  *    policer, which makes the filter a pure bandwidth profile.
  *
- * Pair with: none
+ * Pair with:
+ *  - junos/firewall/policers-2m-burst.conf
  *
  * Peers with: n/a
  * Variables: none
@@ -23786,6 +23797,7 @@ policy-options {
  *  - junos/policy-options/community/cm-metro-fabric.conf
  *  - junos/policy-options/community/cm-metro-ring.conf
  *  - junos/policy-options/community/cm-region-edge.conf
+ *  - junos/policy-options/condition/condition-floating-pw.conf
  *  - junos/policy-options/prefix-list/pl-mse-primary.conf
  *
  * Peers with: n/a
@@ -25117,6 +25129,8 @@ protocols {
  *  - Complete deployed BGP control-plane form for ma4_mx204.
  *
  * Pair with:
+ *  - junos/groups/bgp-bcp-ma5.conf
+ *  - junos/groups/gr-bgp-bcp.conf
  *  - junos/policy-options/policy-statement/nhs1.conf
  *  - junos/policy-options/policy-statement/ps-bgp-transport-export.conf
  *  - junos/routing-options/rib-groups.conf
@@ -26122,6 +26136,7 @@ protocols {
  *
  * Pair with:
  *  - junos/groups/gr-bgp-bcp.conf
+ *  - junos/policy-options/policy-statement/ps-bgp-export.conf
  *  - junos/routing-options/rib-groups.conf
  *
  * Peers with:
@@ -26374,7 +26389,9 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 4
- * Pair with: none
+ * Pair with:
+ *  - junos/groups/gr-isis-bcp-high-metrics.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf
  *
  * Peers with: n/a
  * Variables:
@@ -26438,7 +26455,8 @@ protocols {
  *   mdr1_acx7509 2
  *   mdr2_mx10003 2
  *   total 6
- * Pair with: none
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-primary-iso.conf
  *
  * Peers with: n/a
  * Variables:
@@ -26881,7 +26899,8 @@ protocols {
  *   an2_acx5448 1
  *   an4_acx710 1
  *   total 3
- * Pair with: none
+ * Pair with:
+ *  - junos/groups/gr-isis-bcp.conf
  *
  * Peers with: n/a
  * Variables:
@@ -26943,7 +26962,10 @@ protocols {
  *   mse1_mx304 1
  *   mse2_mx304 1
  *   total 2
- * Pair with: none
+ * Pair with:
+ *  - junos/groups/gr-isis-bcp-high-metrics.conf
+ *  - junos/policy-options/policy-statement/ps-floating-pw-conditional.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export.conf
  *
  * Peers with: n/a
  * Variables:
@@ -27154,6 +27176,8 @@ protocols {
  * Pair with:
  *  - junos/groups/gr-core-intf.conf
  *  - junos/groups/gr-isis-bcp-high-metrics.conf
+ *  - junos/interfaces/ifl-loopback-primary-iso.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export.conf
  *  - junos/protocols/mpls-segment-routing.conf
  *
  * Variables (example values from ma1-1_acx7024):
@@ -27323,6 +27347,8 @@ protocols {
  *
  * Pair with:
  *  - junos/groups/gr-isis-bcp.conf
+ *  - junos/interfaces/ifl-loopback-description-primary-iso.conf
+ *  - junos/policy-options/policy-statement/ps-isis-export-core.conf
  *
  * Variables (example values from an1_mx204):
  *   $CORE_INTF_1   e.g. ae71.0   (one stanza per core neighbour;
@@ -28223,7 +28249,6 @@ routing-instances {
  *    over the same ESI-bearing AE (ae11).
  *
  * Pair with:
- *  - junos/interfaces/ifl-vlan-bridge-esi.conf
  *  - variant:mebs-bgp-overlay families=evpn
  *
  * JVD service mapping:
@@ -29441,7 +29466,6 @@ routing-instances {
  * Pair with:
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/interfaces/ifl-vlan-inet.conf
- *  - junos/policy-options/community/cm-l3vpn-bgpv4.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf
  *  - variant:mebs-bgp-overlay families=inet-vpn
  *
@@ -29605,7 +29629,6 @@ routing-instances {
  *  - junos/groups/gr-l3vpn.conf
  *  - junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf
  *  - junos/policy-options/policy-statement/ps-import-l3vpn.conf
- *  - junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf
  *  - variant:mebs-irb-form capabilities=ifl:irb
  *  - variant:mebs-bgp-overlay families=evpn
  *
@@ -31683,7 +31706,6 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-1_acx7024 (evo)
@@ -31699,7 +31721,7 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma1-2_acx7024 (evo)
 
@@ -31714,7 +31736,7 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### meg1_acx7100-32c (evo)
 
@@ -31731,7 +31753,6 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -31765,7 +31786,6 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -31796,7 +31816,7 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### an2_acx5448 (junos)
 
@@ -31810,7 +31830,7 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### an4_acx710 (junos)
 
@@ -31823,7 +31843,6 @@ Family e-line, form vlan-aware. OS mode MIXED. Attachment: vlan-ccc logical unit
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ---
@@ -31853,7 +31872,6 @@ Family e-line, form flexible-cross-connect. OS mode MIXED. Attachment: N vlan-cc
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### mse1_mx304 (junos)
@@ -31888,6 +31906,7 @@ Family e-line, form flexible-cross-connect. OS mode MIXED. Attachment: N vlan-cc
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -31915,7 +31934,6 @@ Family e-line, form rfc4761. OS mode MIXED. Attachment: vlan-ccc logical unit.
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma5_mx204 (junos)
@@ -31931,7 +31949,6 @@ Family e-line, form rfc4761. OS mode MIXED. Attachment: vlan-ccc logical unit.
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ---
@@ -31947,6 +31964,7 @@ Family e-line, form hot-standby. OS mode EVO. Attachment: vlan-ccc logical unit.
   - occurrence-selection-required: logical-interface:$AC_INTF.$UNIT
   - occurrence-selection-required: interface-parent:source-occurrence
   - occurrence-selection-required: filter:50MB_filter
+  - occurrence-selection-required: policer:50mbps_policer
 
 ---
 
@@ -31984,6 +32002,7 @@ Family e-access, form local-switching. OS mode EVO. Attachment: two vlan-ccc UNI
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_INTF_1.$UNIT_1
   - occurrence-selection-required: logical-interface:$AC_INTF_2.$UNIT_2
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -32008,7 +32027,6 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-1_acx7024 (evo)
@@ -32029,7 +32047,7 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma1-2_acx7024 (evo)
 
@@ -32049,7 +32067,7 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### meg1_acx7100-32c (evo)
 
@@ -32071,7 +32089,6 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32110,7 +32127,6 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32141,7 +32157,7 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### an2_acx5448 (junos)
 
@@ -32155,7 +32171,7 @@ Family e-lan, form vlan-based. OS mode MIXED. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ---
 
@@ -32175,7 +32191,6 @@ Family e-lan, form port-based. OS mode EVO. Attachment: single full-port UNI.
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-2_acx7024 (evo)
@@ -32191,7 +32206,7 @@ Family e-lan, form port-based. OS mode EVO. Attachment: single full-port UNI.
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ---
 
@@ -32211,7 +32226,6 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma1-2_acx7024 (evo)
@@ -32227,7 +32241,7 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
+  - occurrence-selection-required: community:CM-METRO-RING
 
 ### meg1_acx7100-32c (evo)
 
@@ -32244,7 +32258,6 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32278,7 +32291,6 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32311,7 +32323,6 @@ Family e-lan, form rfc4761-vpls. OS mode MIXED. Attachment: vlan-bridge logical 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ---
@@ -32346,7 +32357,6 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ### ma5_mx204 (junos)
@@ -32362,7 +32372,6 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
@@ -32394,6 +32403,7 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32432,6 +32442,7 @@ Family e-tree, form root-leaf. OS mode Junos. Attachment: vlan-bridge logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32460,7 +32471,6 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### meg1_acx7100-32c (evo)
@@ -32479,7 +32489,6 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32514,7 +32523,6 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32565,6 +32573,7 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32606,6 +32615,7 @@ Family irb, form type2-only. OS mode MIXED. Attachment: vlan-bridge unit plus an
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32638,7 +32648,6 @@ Family irb, form type2-plus-type5. OS mode MIXED. Attachment: irb unit shared wi
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-L3VPN-PUB
   - occurrence-selection-required: community:$INSTANCE_NAME
@@ -32677,6 +32686,7 @@ Family irb, form type2-plus-type5. OS mode MIXED. Attachment: irb unit shared wi
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32710,7 +32720,6 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32745,7 +32754,6 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-SERVICE-EDGE
   - occurrence-selection-required: community:CM-REGIONAL-BORDER
   - occurrence-selection-required: community:CM-TC-4000-GOLD
@@ -32794,6 +32802,7 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32833,6 +32842,7 @@ Family irb, form slim-anchor. OS mode MIXED. Attachment: irb unit anchored to a 
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32866,7 +32876,6 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma3_acx7100-48l (evo)
@@ -32888,7 +32897,6 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
   - occurrence-selection-required: community:CM-METRO-RING
 
@@ -32912,7 +32920,6 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
@@ -32950,6 +32957,7 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -32994,6 +33002,7 @@ Family l3vpn, form pe-ce-ebgp. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -33027,7 +33036,6 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
 
 ### ma3_acx7100-48l (evo)
@@ -33049,7 +33057,6 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
   - occurrence-selection-required: community:CM-METRO-RING
 
@@ -33076,7 +33083,6 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: policy-statement:PS-REMOTE-LOOPBACKS
   - occurrence-selection-required: community:CM-LOOPBACK
   - occurrence-selection-required: community:CM-NO-ADVERTISE
-  - occurrence-selection-required: route-distinguisher-id:global
   - occurrence-selection-required: community:CM-METRO-RING
 
 ### mse1_mx304 (junos)
@@ -33114,6 +33120,7 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING
@@ -33158,6 +33165,7 @@ Family l3vpn, form pe-ce-ospf. OS mode MIXED. Attachment: family inet logical un
   - occurrence-selection-required: community:CM-REGION-EDGE
   - occurrence-selection-required: condition:Floating-PW-Condition
   - occurrence-selection-required: prefix-list:PL-MSE-PRIMARY
+  - occurrence-selection-required: l2circuit-interface:$PS_INTF.0
   - occurrence-selection-required: community:CM-ACCESS-FABRIC
   - occurrence-selection-required: community:CM-METRO-FABRIC
   - occurrence-selection-required: community:CM-METRO-RING

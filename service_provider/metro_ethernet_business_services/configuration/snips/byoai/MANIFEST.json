@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "754fee689be1df289f0bf07b83eee90b919b7b582c24cf0013cc7b06f659976f",
+  "dependency_declaration_sha256": "362a838ef848ad9d997507bb3d132a4b6adc756a5f9a35fe0bed0e03abad9f1a",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips",
   "snip_count": 585,
@@ -81,26 +81,7 @@
         "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/classifiers/cl-6class.conf",
@@ -137,26 +118,7 @@
         "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/forwarding-classes/fc-6queue-model.conf",
@@ -310,11 +272,10 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1429,
+      "size_bytes": 1375,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
       "dependency_contract_version": 3,
       "pair_with": [
-        "evo/class-of-service/classifiers/cl-6class.conf",
         "evo/class-of-service/rewrite-rules/rr-6class-marking.conf"
       ],
       "variant_requires": [],
@@ -331,8 +292,7 @@
           "providers": [
             "evo/class-of-service/classifiers/cl-6class-exp-import-default.conf",
             "evo/class-of-service/classifiers/cl-6class.conf"
-          ],
-          "fulfills": "evo/class-of-service/classifiers/cl-6class.conf"
+          ]
         }
       ]
     },
@@ -436,21 +396,7 @@
         "evo/class-of-service/classifiers/cl-6class.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "8021P"
-          ],
-          "providers": [
-            "evo/class-of-service/classifiers/cl-6class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/rewrite-rules/rr-6class-marking.conf",
@@ -487,26 +433,7 @@
         "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
@@ -551,24 +478,6 @@
         }
       ],
       "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        },
         {
           "id": "ref-scheduler",
           "kind": "scheduler",
@@ -1287,21 +1196,7 @@
         "evo/policy-options/community/cm-tc-map2gold.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "CM-TC-MAP2GOLD"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-tc-map2gold.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/groups/gr-l3vpn-ospf-service-map.conf",
@@ -1320,21 +1215,7 @@
         "evo/policy-options/community/cm-tc-map2gold.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "CM-TC-MAP2GOLD"
-          ],
-          "providers": [
-            "evo/policy-options/community/cm-tc-map2gold.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/groups/gr-l3vpn.conf",
@@ -1954,19 +1835,6 @@
           "providers": [
             "evo/interfaces/ifd-core-lag-member.conf"
           ]
-        },
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "GR-CORE-INTF"
-          ],
-          "providers": [
-            "evo/groups/gr-core-intf.conf"
-          ]
         }
       ]
     },
@@ -1995,8 +1863,7 @@
           "selection": "each-reference",
           "presence": "required",
           "slots": [
-            "GR-CORE-INTF-LAG-MEMBER",
-            "GR-EDGE-INTF-LAG-MEMBER-MH"
+            "GR-CORE-INTF-LAG-MEMBER"
           ],
           "providers": [
             "evo/groups/gr-core-intf-lag-member.conf",
@@ -2257,21 +2124,7 @@
         "evo/groups/gr-lag-member.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "GR-EDGE-INTF-LAG-MEMBER-MH"
-          ],
-          "providers": [
-            "evo/groups/gr-lag-member.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/interfaces/ifd-edge-lag-member-mh.conf",
@@ -2293,21 +2146,7 @@
         "evo/groups/gr-lag-member.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "GR-EDGE-INTF-LAG-MEMBER-MH"
-          ],
-          "providers": [
-            "evo/groups/gr-lag-member.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/interfaces/ifd-ethernet-bridge-unit0-description.conf",
@@ -2834,10 +2673,12 @@
       "seen_on": [
         "ag1-1_acx7100-32c"
       ],
-      "size_bytes": 741,
+      "size_bytes": 786,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-loopback-primary-iso-filter.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/firewall/filter-ipv6-router-access.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -3455,10 +3296,11 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1251,
+      "size_bytes": 1298,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-ccc-vlan-map-filter-ccc.conf",
       "dependency_contract_version": 3,
       "pair_with": [
+        "evo/firewall/filter-family-any-50mb.conf",
         "evo/firewall/policers.conf"
       ],
       "variant_requires": [],
@@ -6661,11 +6503,13 @@
         "ma1-1_acx7024",
         "ma1-2_acx7024"
       ],
-      "size_bytes": 4272,
+      "size_bytes": 4401,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/bgp-overlay.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "evo/groups/gr-bgp-bcp.conf",
+        "evo/policy-options/policy-statement/nhs1-ma1-1.conf",
+        "evo/policy-options/policy-statement/ps-bgp-transport-export.conf",
         "evo/routing-options/rib-groups.conf"
       ],
       "variant_requires": [],
@@ -6838,10 +6682,13 @@
         "mdr2_mx10003",
         "mdr1_acx7509"
       ],
-      "size_bytes": 1293,
+      "size_bytes": 1394,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/isis-instance-l2-export.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/groups/gr-isis-bcp.conf",
+        "evo/policy-options/policy-statement/ps-isis-export-loopbacks.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -6884,10 +6731,13 @@
       "seen_on": [
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 1202,
+      "size_bytes": 1293,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/isis-instance-l2-net.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/groups/gr-isis-bcp.conf",
+        "evo/policy-options/policy-statement/ps-isis-export.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -6929,10 +6779,12 @@
         "ma3_acx7100-48l",
         "mdr1_acx7509"
       ],
-      "size_bytes": 391,
+      "size_bytes": 437,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/isis-instance-loopback-passive.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/interfaces/ifl-loopback-primary-iso.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -8206,13 +8058,13 @@
       "seen_on": [
         "ma1-1_acx7024"
       ],
-      "size_bytes": 3417,
+      "size_bytes": 3438,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/isis-srmpls-tilfa.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "evo/groups/gr-core-intf.conf",
         "evo/groups/gr-isis-bcp.conf",
-        "evo/interfaces/core-isis-mpls.conf",
+        "evo/policy-options/policy-statement/ps-isis-export.conf",
         "evo/protocols/mpls-segment-routing.conf"
       ],
       "variant_requires": [],
@@ -8245,7 +8097,6 @@
             "evo/interfaces/ifd-core-aggregate-unit-group.conf",
             "evo/interfaces/ifl-loopback-primary-iso.conf"
           ],
-          "fulfills": "evo/interfaces/core-isis-mpls.conf",
           "preferObject": true
         },
         {
@@ -8586,7 +8437,6 @@
             "evo/interfaces/ifl-vlan-ccc-outer-tag-tpid.conf",
             "evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf"
           ],
-          "fulfills": "evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf",
           "preferObject": true
         }
       ]
@@ -9153,11 +9003,10 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2407,
+      "size_bytes": 2361,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-export.conf",
       "dependency_contract_version": 3,
       "pair_with": [
-        "evo/interfaces/ifl-vlan-bridge-esi.conf",
         "evo/policy-options/policy-statement/ps-export-l2-color.conf"
       ],
       "variant_requires": [
@@ -9214,7 +9063,6 @@
             "evo/interfaces/ifl-vlan-bridge-description-esi.conf",
             "evo/interfaces/ifl-vlan-bridge-esi.conf"
           ],
-          "fulfills": "evo/interfaces/ifl-vlan-bridge-esi.conf",
           "preferObject": true
         },
         {
@@ -10715,14 +10563,13 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 2811,
+      "size_bytes": 2751,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "evo/groups/gr-l3vpn.conf",
         "evo/policy-options/policy-statement/ps-export-l3vpn-public.conf",
-        "evo/policy-options/policy-statement/ps-import-l3vpn.conf",
-        "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+        "evo/policy-options/policy-statement/ps-import-l3vpn.conf"
       ],
       "variant_requires": [
         {
@@ -10784,8 +10631,7 @@
             "evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-vlans.conf",
             "evo/routing-instances/vpls/ri-bgp-vpls-vlan.conf",
             "evo/routing-instances/vpls/ri-ldp-vpls.conf"
-          ],
-          "fulfills": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+          ]
         },
         {
           "id": "context-policy-community",
@@ -11546,25 +11392,14 @@
         "ma1-2_acx7024",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 633,
+      "size_bytes": 675,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/flex-algorithm-128-transport-class.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/routing-options/transport-class.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
-        {
-          "id": "ref-transport-class",
-          "kind": "transport-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "4000"
-          ],
-          "providers": [
-            "evo/routing-options/transport-class.conf"
-          ]
-        },
         {
           "id": "source-isis-flex-algorithm",
           "kind": "isis-flex-algorithm",
@@ -11608,25 +11443,14 @@
         "ma1-2_acx7024",
         "ma3_acx7100-48l"
       ],
-      "size_bytes": 633,
+      "size_bytes": 675,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/flex-algorithm-129-transport-class.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/routing-options/transport-class.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
-        {
-          "id": "ref-transport-class",
-          "kind": "transport-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "6000"
-          ],
-          "providers": [
-            "evo/routing-options/transport-class.conf"
-          ]
-        },
         {
           "id": "source-isis-flex-algorithm",
           "kind": "isis-flex-algorithm",
@@ -11665,10 +11489,12 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1764,
+      "size_bytes": 1811,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/flex-algorithm.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/routing-options/transport-class.conf"
+      ],
       "variant_requires": [
         {
           "group": "mebs-mpls-admin-groups",
@@ -11678,20 +11504,6 @@
         }
       ],
       "occurrence_requires": [
-        {
-          "id": "ref-transport-class",
-          "kind": "transport-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "4000",
-            "6000"
-          ],
-          "providers": [
-            "evo/routing-options/transport-class.conf"
-          ]
-        },
         {
           "id": "source-isis-flex-algorithm",
           "kind": "isis-flex-algorithm",
@@ -11813,26 +11625,14 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 761,
+      "size_bytes": 798,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-options/interface-routes-loopback.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "evo/routing-options/rib-groups.conf"
+      ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-rib-group",
-          "kind": "rib-group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "RG-LOCAL-LOOPBACK"
-          ],
-          "providers": [
-            "evo/routing-options/rib-groups.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/routing-options/protect-core.conf",
@@ -12277,21 +12077,7 @@
         "evo/routing-options/route-distinguisher-id.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-route-distinguisher-id",
-          "kind": "route-distinguisher-id",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "global"
-          ],
-          "providers": [
-            "evo/routing-options/route-distinguisher-id.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/apply-groups/gr-ae-interface-mtu.conf",
@@ -12309,21 +12095,7 @@
         "junos/groups/gr-ae-interface-mtu.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "AE-INTERFACE-MTU"
-          ],
-          "providers": [
-            "junos/groups/gr-ae-interface-mtu.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/bridge-domains/bridge-domain-irb.conf",
@@ -12602,26 +12374,7 @@
         "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/forwarding-classes/fc-6queue-model.conf",
@@ -12762,21 +12515,7 @@
         "junos/class-of-service/rewrite-rules/rr-6class-marking.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "DSCP"
-          ],
-          "providers": [
-            "junos/class-of-service/classifiers/cl-6class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
@@ -12814,21 +12553,7 @@
         "junos/class-of-service/rewrite-rules/rr-6class-marking.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "EXP"
-          ],
-          "providers": [
-            "junos/class-of-service/classifiers/cl-6class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/interfaces/ifl-forwarding-class-ieee8021p-rewrite.conf",
@@ -12897,21 +12622,7 @@
         "junos/class-of-service/rewrite-rules/rr-6class-marking.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "8021P"
-          ],
-          "providers": [
-            "junos/class-of-service/classifiers/cl-6class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/rewrite-rules/rr-6class-marking.conf",
@@ -12948,26 +12659,7 @@
         "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/routing-instance-dscp-classifier.conf",
@@ -13042,24 +12734,6 @@
         }
       ],
       "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "BUSINESS",
-            "CONTROL",
-            "MEDIUM",
-            "REALTIME",
-            "SIG-OAM"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-          ]
-        },
         {
           "id": "ref-scheduler",
           "kind": "scheduler",
@@ -13173,10 +12847,12 @@
         "meg1_acx7100-32c",
         "meg2_acx7509"
       ],
-      "size_bytes": 1170,
+      "size_bytes": 1209,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/firewall/filter-family-any-policers.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "junos/firewall/policers-2m-burst.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -13760,21 +13436,7 @@
         "junos/policy-options/community/cm-tc-map2gold.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "map2gold"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-tc-map2gold.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/groups/gr-l3vpn-ospf-service-map.conf",
@@ -13793,21 +13455,7 @@
         "junos/policy-options/community/cm-tc-map2gold.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-community",
-          "kind": "community",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "CM-TC-MAP2GOLD"
-          ],
-          "providers": [
-            "junos/policy-options/community/cm-tc-map2gold.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/groups/gr-l3vpn.conf",
@@ -14579,21 +14227,7 @@
         "junos/groups/gr-lag-member.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "GR-EDGE-INTF-LAG-MEMBER-MH"
-          ],
-          "providers": [
-            "junos/groups/gr-lag-member.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/interfaces/ifd-edge-lag-member-mh.conf",
@@ -14615,21 +14249,7 @@
         "junos/groups/gr-lag-member.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-group",
-          "kind": "group",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "GR-EDGE-INTF-LAG-MEMBER-MH"
-          ],
-          "providers": [
-            "junos/groups/gr-lag-member.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/interfaces/ifd-ethernet-ccc-unit0.conf",
@@ -17524,13 +17144,14 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 1408,
+      "size_bytes": 1472,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/policy-statement/ps-ibgp-mdr-export-mse1.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/policy-options/community/cm-metro-fabric.conf",
         "junos/policy-options/community/cm-metro-ring.conf",
         "junos/policy-options/community/cm-region-edge.conf",
+        "junos/policy-options/condition/condition-floating-pw.conf",
         "junos/policy-options/prefix-list/pl-mse-primary.conf"
       ],
       "variant_requires": [],
@@ -18308,10 +17929,12 @@
       "seen_on": [
         "ma4_mx204"
       ],
-      "size_bytes": 3537,
+      "size_bytes": 3608,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/bgp-overlay-ma4.conf",
       "dependency_contract_version": 3,
       "pair_with": [
+        "junos/groups/bgp-bcp-ma5.conf",
+        "junos/groups/gr-bgp-bcp.conf",
         "junos/policy-options/policy-statement/nhs1.conf",
         "junos/policy-options/policy-statement/ps-bgp-transport-export.conf",
         "junos/routing-options/rib-groups.conf"
@@ -18657,11 +18280,12 @@
         "an1_mx204",
         "an2_acx5448"
       ],
-      "size_bytes": 3727,
+      "size_bytes": 3790,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/bgp-overlay.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/groups/gr-bgp-bcp.conf",
+        "junos/policy-options/policy-statement/ps-bgp-export.conf",
         "junos/routing-options/rib-groups.conf"
       ],
       "variant_requires": [],
@@ -18819,10 +18443,13 @@
         "mdr2_mx10003",
         "mdr1_acx7509"
       ],
-      "size_bytes": 1293,
+      "size_bytes": 1411,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-instance-l2-export.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "junos/groups/gr-isis-bcp-high-metrics.conf",
+        "junos/policy-options/policy-statement/ps-isis-export-loopbacks.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -18867,10 +18494,12 @@
         "ma3_acx7100-48l",
         "mdr1_acx7509"
       ],
-      "size_bytes": 391,
+      "size_bytes": 439,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-instance-loopback-passive.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-primary-iso.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -19188,10 +18817,12 @@
         "an2_acx5448",
         "an4_acx710"
       ],
-      "size_bytes": 1167,
+      "size_bytes": 1198,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa-l1.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "junos/groups/gr-isis-bcp.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -19233,10 +18864,14 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 1187,
+      "size_bytes": 1371,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa-l2-conditional.conf",
       "dependency_contract_version": 3,
-      "pair_with": [],
+      "pair_with": [
+        "junos/groups/gr-isis-bcp-high-metrics.conf",
+        "junos/policy-options/policy-statement/ps-floating-pw-conditional.conf",
+        "junos/policy-options/policy-statement/ps-isis-export.conf"
+      ],
       "variant_requires": [],
       "occurrence_requires": [
         {
@@ -19377,12 +19012,14 @@
         "ma4_mx204",
         "ma5_mx204"
       ],
-      "size_bytes": 3441,
+      "size_bytes": 3558,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa-l2-single-interface.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/groups/gr-core-intf.conf",
         "junos/groups/gr-isis-bcp-high-metrics.conf",
+        "junos/interfaces/ifl-loopback-primary-iso.conf",
+        "junos/policy-options/policy-statement/ps-isis-export.conf",
         "junos/protocols/mpls-segment-routing.conf"
       ],
       "variant_requires": [],
@@ -19407,14 +19044,12 @@
           "selection": "each-reference",
           "presence": "required",
           "slots": [
-            "$CORE_INTF",
-            "lo0.0"
+            "$CORE_INTF"
           ],
           "providers": [
             "junos/interfaces/core-isis-mpls.conf",
             "junos/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf",
-            "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf",
-            "junos/interfaces/ifl-loopback-primary-iso.conf"
+            "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf"
           ],
           "preferObject": true
         },
@@ -19493,11 +19128,13 @@
       "seen_on": [
         "an1_mx204"
       ],
-      "size_bytes": 3862,
+      "size_bytes": 3996,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/protocols/isis-srmpls-tilfa.conf",
       "dependency_contract_version": 3,
       "pair_with": [
-        "junos/groups/gr-isis-bcp.conf"
+        "junos/groups/gr-isis-bcp.conf",
+        "junos/interfaces/ifl-loopback-description-primary-iso.conf",
+        "junos/policy-options/policy-statement/ps-isis-export-core.conf"
       ],
       "variant_requires": [],
       "occurrence_requires": [
@@ -20077,12 +19714,10 @@
         "an1_mx204",
         "an2_acx5448"
       ],
-      "size_bytes": 2436,
+      "size_bytes": 2388,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based.conf",
       "dependency_contract_version": 3,
-      "pair_with": [
-        "junos/interfaces/ifl-vlan-bridge-esi.conf"
-      ],
+      "pair_with": [],
       "variant_requires": [
         {
           "group": "mebs-bgp-overlay",
@@ -20105,7 +19740,6 @@
             "junos/interfaces/ifl-vlan-bridge-esi-df-preference.conf",
             "junos/interfaces/ifl-vlan-bridge-esi.conf"
           ],
-          "fulfills": "junos/interfaces/ifl-vlan-bridge-esi.conf",
           "preferObject": true
         }
       ]
@@ -21270,13 +20904,12 @@
         "mse1_mx304",
         "mse2_mx304"
       ],
-      "size_bytes": 3122,
+      "size_bytes": 3065,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/groups/gr-l3vpn.conf",
         "junos/interfaces/ifl-vlan-inet.conf",
-        "junos/policy-options/community/cm-l3vpn-bgpv4.conf",
         "junos/policy-options/policy-statement/ps-import-l3vpn-internet.conf"
       ],
       "variant_requires": [
@@ -21318,8 +20951,7 @@
             "junos/policy-options/community/cm-tc-6000-bronze.conf",
             "junos/policy-options/community/cm-tc-map2bronze.conf",
             "junos/policy-options/community/cm-tc-map2gold.conf"
-          ],
-          "fulfills": "junos/policy-options/community/cm-l3vpn-bgpv4.conf"
+          ]
         },
         {
           "id": "ref-logical-interface",
@@ -21448,14 +21080,13 @@
       "seen_on": [
         "mse2_mx304"
       ],
-      "size_bytes": 2629,
+      "size_bytes": 2567,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/groups/gr-l3vpn.conf",
         "junos/policy-options/policy-statement/ps-export-l3vpn-nlri-rt5-public.conf",
-        "junos/policy-options/policy-statement/ps-import-l3vpn.conf",
-        "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+        "junos/policy-options/policy-statement/ps-import-l3vpn.conf"
       ],
       "variant_requires": [
         {
@@ -21514,8 +21145,7 @@
             "junos/routing-instances/vpls/ri-bgp-vpls-export.conf",
             "junos/routing-instances/vpls/ri-bgp-vpls-site-range-export.conf",
             "junos/routing-instances/vpls/ri-bgp-vpls-site-range.conf"
-          ],
-          "fulfills": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+          ]
         },
         {
           "id": "context-policy-community",
@@ -23205,21 +22835,7 @@
         "junos/routing-options/route-distinguisher-id.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-route-distinguisher-id",
-          "kind": "route-distinguisher-id",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "global"
-          ],
-          "providers": [
-            "junos/routing-options/route-distinguisher-id.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/routing-options/transport-class-gold-bronze-anycast.conf",
@@ -23237,21 +22853,7 @@
         "junos/routing-options/route-distinguisher-id.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-route-distinguisher-id",
-          "kind": "route-distinguisher-id",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "global"
-          ],
-          "providers": [
-            "junos/routing-options/route-distinguisher-id.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/routing-options/transport-class-gold-local-bronze-anycast.conf",
@@ -23269,21 +22871,7 @@
         "junos/routing-options/route-distinguisher-id.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-route-distinguisher-id",
-          "kind": "route-distinguisher-id",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "global"
-          ],
-          "providers": [
-            "junos/routing-options/route-distinguisher-id.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/routing-options/transport-class.conf",
@@ -23314,21 +22902,7 @@
         "junos/routing-options/route-distinguisher-id.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-route-distinguisher-id",
-          "kind": "route-distinguisher-id",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "global"
-          ],
-          "providers": [
-            "junos/routing-options/route-distinguisher-id.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/system/evpn-mh-firewall-profile.conf",
@@ -23361,8 +22935,8 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/service_provider/metro_ethernet_business_services/configuration/snips/byoai/TIERS.md",
-      "size_bytes": 86396,
-      "sha256": "c8eaeed6b1db27f66a79f30295eae3d74113a2950cc8b68e4294a65f8087f367"
+      "size_bytes": 85383,
+      "sha256": "63434b14027fe2e428fb4a79b936ab34180fd1f61a57c3309d0bfc4c7b8d6d9a"
     },
     {
       "path": "byoai/DEFAULTS.md",

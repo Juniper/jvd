@@ -6330,84 +6330,36 @@ Family e-line, form evpn-vpws. OS mode MIXED. Attachment: Access node: vlan-ccc 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_IFL
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
-  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
-  - occurrence-selection-required: routing-instance:dhcp-subs
 
 ### bng2_mx204 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_IFL
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
-  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
-  - occurrence-selection-required: routing-instance:dhcp-subs
 
 ### bng3_mx10004 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_IFL
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
-  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
-  - occurrence-selection-required: routing-instance:dhcp-subs
 
 ### bng4_mx480 (junos)
 
 - `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: logical-interface:$AC_IFL
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBSv6
-  - occurrence-selection-required: policy-statement:PS-DHCP-SUBSv6
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
+  - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
-  - occurrence-selection-required: routing-instance:dhcp-subs
 
 ---
 
@@ -6482,24 +6434,10 @@ Family bng-subscriber, form pwht-pppoe. OS mode Junos. Attachment: Pseudowire-su
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: ps-device-capacity:source-occurrence
   - occurrence-selection-required: tunnel-pic:source-occurrence
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: filter:clear-df-bit
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng2_mx204 (junos)
 
@@ -6507,24 +6445,10 @@ Family bng-subscriber, form pwht-pppoe. OS mode Junos. Attachment: Pseudowire-su
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: ps-device-capacity:source-occurrence
   - occurrence-selection-required: tunnel-pic:source-occurrence
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: filter:clear-df-bit
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng3_mx10004 (junos)
 
@@ -6532,24 +6456,10 @@ Family bng-subscriber, form pwht-pppoe. OS mode Junos. Attachment: Pseudowire-su
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: ps-device-capacity:source-occurrence
   - occurrence-selection-required: tunnel-pic:source-occurrence
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: filter:clear-df-bit
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng4_mx480 (junos)
 
@@ -6557,24 +6467,10 @@ Family bng-subscriber, form pwht-pppoe. OS mode Junos. Attachment: Pseudowire-su
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: ps-device-capacity:source-occurrence
   - occurrence-selection-required: tunnel-pic:source-occurrence
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-PPPOE-SUBS-1-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: filter:clear-df-bit
-  - occurrence-selection-required: routing-instance:PPPOE_SUBS_1
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ---
 
@@ -6592,10 +6488,6 @@ Family bng-subscriber, form pwht-ipoe. OS mode Junos. Attachment: Pseudowire-sub
   - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng2_mx204 (junos)
 
@@ -6607,10 +6499,6 @@ Family bng-subscriber, form pwht-ipoe. OS mode Junos. Attachment: Pseudowire-sub
   - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng3_mx10004 (junos)
 
@@ -6622,10 +6510,6 @@ Family bng-subscriber, form pwht-ipoe. OS mode Junos. Attachment: Pseudowire-sub
   - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng4_mx480 (junos)
 
@@ -6637,10 +6521,6 @@ Family bng-subscriber, form pwht-ipoe. OS mode Junos. Attachment: Pseudowire-sub
   - occurrence-selection-required: routing-instance:dhcp-subs
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ---
 
@@ -6654,13 +6534,6 @@ Family l3vpn, form l3vpn-internet. OS mode EVO. Attachment: Dual-stack logical u
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_IFL
-  - occurrence-selection-required: policy-statement:VRF_Internet_import
-  - occurrence-selection-required: policy-statement:VRF_Internet_export
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_2
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM_2
-  - occurrence-selection-required: community:PS-Internet-COMM
-  - occurrence-selection-required: community:PS-Internet-COMM
   - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
@@ -6676,13 +6549,6 @@ Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:$AC_IFL
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-REDIS-OSPF
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PPPOE_SUBS_COMM_1
-  - occurrence-selection-required: community:PS-DHCPSUBS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng1_mx304 (junos)
 
@@ -6690,10 +6556,6 @@ Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng2_mx204 (junos)
 
@@ -6701,10 +6563,6 @@ Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng3_mx10004 (junos)
 
@@ -6712,10 +6570,6 @@ Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ### bng4_mx480 (junos)
 
@@ -6723,10 +6577,6 @@ Family l3vpn, form l3vpn-radius. OS mode MIXED. Attachment: BNG: RADIUS loopback
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
   - occurrence-selection-required: policy-community:source-occurrence
   - occurrence-selection-required: logical-interface:lo0.$UNIT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-IMPORT
-  - occurrence-selection-required: policy-statement:PS-RADIUS-VRF-EXPORT
-  - occurrence-selection-required: community:PS-RADIUS-COMM
-  - occurrence-selection-required: community:PS-RADIUS-COMM
 
 ---
 
