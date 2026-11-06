@@ -397,7 +397,9 @@ the dependency.
 - It **MUST NOT** contain optional features, user-selectable service modes,
   alternatives, role variants, other-OS forms, or configuration on a different
   device.
-- Use `Pair with: none` when there are no required same-device dependencies.
+- Use `Pair with: none` when the snip has no fixed or variant entries.
+  Occurrence-specific typed requirements (below) are not header entries, so
+  `none` does not by itself mean the snip has no requirements.
 
 `Pair with` publishes exactly two kinds of entry: **fixed** same-device targets
 (paths, optionally with the compound-object qualifier above) and **variant
