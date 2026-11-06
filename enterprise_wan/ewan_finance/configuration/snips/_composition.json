@@ -328,99 +328,9 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "1aa1d9bad009c1a3053c52a75fd76fdfd9fdeba24227e792a4b4138f185f9e10"
+    "sha256": "51855dd55f6fc76fcea9f7da8061ccc5c8d9ddb1da76036283841d11dca9f6ca"
   },
   "occurrenceBindings": [
-    {
-      "consumer": "evo/class-of-service/classifiers/cl-exp-4class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "FC-HIGH",
-        "BEST-EFFORT",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/interfaces/ifd-scheduler-map.conf",
-      "kind": "scheduler-map",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-      ],
-      "slots": [
-        "sched-map"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/classifiers/cl-exp-4class.conf"
-      ],
-      "slots": [
-        "EXP"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/rewrite-rules/rr-exp-4class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "FC-HIGH",
-        "BEST-EFFORT",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "FC-HIGH",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf",
-      "kind": "scheduler",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/schedulers/sc-4class-priority.conf"
-      ],
-      "slots": [
-        "s0",
-        "s1",
-        "s2",
-        "s3"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
     {
       "consumer": "evo/interfaces/ifd-ae-description-flexible-mtu-lacp.conf",
       "kind": "lag-member",
@@ -598,109 +508,6 @@
       "preferObject": true
     },
     {
-      "consumer": "junos/class-of-service/classifiers/cl-exp-4class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "FC-HIGH",
-        "BEST-EFFORT",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/interfaces/ifd-description-scheduler-map.conf",
-      "kind": "scheduler-map",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-      ],
-      "slots": [
-        "sched-map"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/interfaces/ifd-scheduler-map.conf",
-      "kind": "scheduler-map",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-      ],
-      "slots": [
-        "sched-map"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/classifiers/cl-exp-4class.conf"
-      ],
-      "slots": [
-        "EXP"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/rewrite-rules/rr-exp-4class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "FC-HIGH",
-        "BEST-EFFORT",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "FC-HIGH",
-        "FC-LLQ",
-        "CONTROL"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
-      "kind": "scheduler",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/schedulers/sc-4class-rates.conf"
-      ],
-      "slots": [
-        "s0",
-        "s1",
-        "s2",
-        "s3"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "junos/interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp.conf",
       "kind": "lag-member",
       "scope": "object",
@@ -873,8 +680,7 @@
         "@source:irb-service"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+      "unbound": "required"
     },
     {
       "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
@@ -986,8 +792,7 @@
         "@source:irb-service"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+      "unbound": "required"
     },
     {
       "consumer": "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",

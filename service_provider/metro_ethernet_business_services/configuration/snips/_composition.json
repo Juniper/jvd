@@ -789,42 +789,6 @@
   ],
   "occurrenceBindings": [
     {
-      "consumer": "evo/class-of-service/classifiers/cl-6class-exp-import-default.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/classifiers/cl-6class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "evo/class-of-service/interfaces/ifd-scheduler-map.conf",
       "kind": "scheduler-map",
       "scope": "object",
@@ -863,8 +827,7 @@
         "EXP"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "evo/class-of-service/classifiers/cl-6class.conf"
+      "unbound": "required"
     },
     {
       "consumer": "evo/class-of-service/interfaces/ifl-forwarding-class-ieee8021p-rewrite.conf",
@@ -889,55 +852,6 @@
       ],
       "slots": [
         "8021P"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/classifiers/cl-6class.conf"
-      ],
-      "slots": [
-        "8021P"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/rewrite-rules/rr-6class-marking.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/class-of-service/scheduler-maps/sm-6class-mapping.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "evo/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
       ],
       "presence": "required",
       "unbound": "required"
@@ -1011,32 +925,6 @@
       ],
       "slots": [
         "$GROUP_A"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/groups/gr-l3vpn-ospf-color-map.conf",
-      "kind": "community",
-      "scope": "whole",
-      "providers": [
-        "evo/policy-options/community/cm-tc-map2gold.conf"
-      ],
-      "slots": [
-        "CM-TC-MAP2GOLD"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/groups/gr-l3vpn-ospf-service-map.conf",
-      "kind": "community",
-      "scope": "whole",
-      "providers": [
-        "evo/policy-options/community/cm-tc-map2gold.conf"
-      ],
-      "slots": [
-        "CM-TC-MAP2GOLD"
       ],
       "presence": "required",
       "unbound": "required"
@@ -1312,19 +1200,6 @@
       "unbound": "required"
     },
     {
-      "consumer": "evo/interfaces/ifd-core-aggregate-unit-group.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "evo/groups/gr-core-intf.conf"
-      ],
-      "slots": [
-        "GR-CORE-INTF"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "evo/interfaces/ifd-core-edge-lag-member-mh.conf",
       "kind": "group",
       "scope": "whole",
@@ -1333,8 +1208,7 @@
         "evo/groups/gr-lag-member.conf"
       ],
       "slots": [
-        "GR-CORE-INTF-LAG-MEMBER",
-        "GR-EDGE-INTF-LAG-MEMBER-MH"
+        "GR-CORE-INTF-LAG-MEMBER"
       ],
       "presence": "required",
       "unbound": "required"
@@ -1413,32 +1287,6 @@
       ],
       "slots": [
         "GR-EDGE-INTF"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/interfaces/ifd-edge-lag-member-mh-10g.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "evo/groups/gr-lag-member.conf"
-      ],
-      "slots": [
-        "GR-EDGE-INTF-LAG-MEMBER-MH"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/interfaces/ifd-edge-lag-member-mh.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "evo/groups/gr-lag-member.conf"
-      ],
-      "slots": [
-        "GR-EDGE-INTF-LAG-MEMBER-MH"
       ],
       "presence": "required",
       "unbound": "required"
@@ -3651,7 +3499,6 @@
       ],
       "presence": "required",
       "unbound": "required",
-      "declaredDependency": "evo/interfaces/core-isis-mpls.conf",
       "preferObject": true
     },
     {
@@ -3824,7 +3671,6 @@
       ],
       "presence": "required",
       "unbound": "required",
-      "declaredDependency": "evo/interfaces/ifl-vlan-ccc-vlan-map-list-tpid.conf",
       "preferObject": true
     },
     {
@@ -4019,7 +3865,6 @@
       ],
       "presence": "required",
       "unbound": "required",
-      "declaredDependency": "evo/interfaces/ifl-vlan-bridge-esi.conf",
       "preferObject": true
     },
     {
@@ -4949,8 +4794,7 @@
         "@source:irb-service"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "evo/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+      "unbound": "required"
     },
     {
       "consumer": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-rt.conf",
@@ -5401,46 +5245,6 @@
       "preferObject": true
     },
     {
-      "consumer": "evo/routing-options/flex-algorithm-128-transport-class.conf",
-      "kind": "transport-class",
-      "scope": "whole",
-      "providers": [
-        "evo/routing-options/transport-class.conf"
-      ],
-      "slots": [
-        "4000"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/routing-options/flex-algorithm-129-transport-class.conf",
-      "kind": "transport-class",
-      "scope": "whole",
-      "providers": [
-        "evo/routing-options/transport-class.conf"
-      ],
-      "slots": [
-        "6000"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/routing-options/flex-algorithm.conf",
-      "kind": "transport-class",
-      "scope": "whole",
-      "providers": [
-        "evo/routing-options/transport-class.conf"
-      ],
-      "slots": [
-        "4000",
-        "6000"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "evo/routing-options/forwarding-table-pplb-chained-nh.conf",
       "kind": "policy-statement",
       "scope": "required-object-union",
@@ -5462,19 +5266,6 @@
       ],
       "slots": [
         "$PPLB_NAME"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "evo/routing-options/interface-routes-loopback.conf",
-      "kind": "rib-group",
-      "scope": "whole",
-      "providers": [
-        "evo/routing-options/rib-groups.conf"
-      ],
-      "slots": [
-        "RG-LOCAL-LOOPBACK"
       ],
       "presence": "required",
       "unbound": "required"
@@ -5534,32 +5325,6 @@
       "unbound": "required"
     },
     {
-      "consumer": "evo/routing-options/transport-class.conf",
-      "kind": "route-distinguisher-id",
-      "scope": "whole",
-      "providers": [
-        "evo/routing-options/route-distinguisher-id.conf"
-      ],
-      "slots": [
-        "global"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/apply-groups/gr-ae-interface-mtu.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "junos/groups/gr-ae-interface-mtu.conf"
-      ],
-      "slots": [
-        "AE-INTERFACE-MTU"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "junos/bridge-domains/bridge-domain-irb.conf",
       "kind": "logical-interface",
       "scope": "whole",
@@ -5594,24 +5359,6 @@
       "preferObject": true
     },
     {
-      "consumer": "junos/class-of-service/classifiers/cl-6class.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "junos/class-of-service/interfaces/ifd-scheduler-map-shaping.conf",
       "kind": "scheduler-map",
       "scope": "object",
@@ -5638,32 +5385,6 @@
       "unbound": "required"
     },
     {
-      "consumer": "junos/class-of-service/interfaces/ifl-dscp-classifier-rewrite.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/classifiers/cl-6class.conf"
-      ],
-      "slots": [
-        "DSCP"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/classifiers/cl-6class.conf"
-      ],
-      "slots": [
-        "EXP"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "junos/class-of-service/interfaces/ifl-forwarding-class-ieee8021p-rewrite.conf",
       "kind": "forwarding-class",
       "scope": "whole",
@@ -5677,37 +5398,6 @@
       "unbound": "required"
     },
     {
-      "consumer": "junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf",
-      "kind": "classifier",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/classifiers/cl-6class.conf"
-      ],
-      "slots": [
-        "8021P"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/rewrite-rules/rr-6class-marking.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
       "consumer": "junos/class-of-service/routing-instance-dscp-classifier.conf",
       "kind": "classifier",
       "scope": "whole",
@@ -5716,24 +5406,6 @@
       ],
       "slots": [
         "$CLASSIFIER"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/class-of-service/scheduler-maps/sm-6class-mapping.conf",
-      "kind": "forwarding-class",
-      "scope": "whole",
-      "providers": [
-        "junos/class-of-service/forwarding-classes/fc-6queue-model.conf"
-      ],
-      "slots": [
-        "BEST-EFFORT",
-        "BUSINESS",
-        "CONTROL",
-        "MEDIUM",
-        "REALTIME",
-        "SIG-OAM"
       ],
       "presence": "required",
       "unbound": "required"
@@ -5840,32 +5512,6 @@
       "slots": [
         "$GROUP_A",
         "$GROUP_B"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/groups/gr-l3vpn-ospf-service-map-mse.conf",
-      "kind": "community",
-      "scope": "whole",
-      "providers": [
-        "junos/policy-options/community/cm-tc-map2gold.conf"
-      ],
-      "slots": [
-        "map2gold"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/groups/gr-l3vpn-ospf-service-map.conf",
-      "kind": "community",
-      "scope": "whole",
-      "providers": [
-        "junos/policy-options/community/cm-tc-map2gold.conf"
-      ],
-      "slots": [
-        "CM-TC-MAP2GOLD"
       ],
       "presence": "required",
       "unbound": "required"
@@ -6169,32 +5815,6 @@
       ],
       "slots": [
         "GR-CORE-INTF-LAG-MEMBER"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/interfaces/ifd-edge-lag-member-mh-gigether.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "junos/groups/gr-lag-member.conf"
-      ],
-      "slots": [
-        "GR-EDGE-INTF-LAG-MEMBER-MH"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/interfaces/ifd-edge-lag-member-mh.conf",
-      "kind": "group",
-      "scope": "whole",
-      "providers": [
-        "junos/groups/gr-lag-member.conf"
-      ],
-      "slots": [
-        "GR-EDGE-INTF-LAG-MEMBER-MH"
       ],
       "presence": "required",
       "unbound": "required"
@@ -7979,12 +7599,10 @@
       "providers": [
         "junos/interfaces/core-isis-mpls.conf",
         "junos/interfaces/ifl-core-group-vlan-inet-iso-inet6-mpls.conf",
-        "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf",
-        "junos/interfaces/ifl-loopback-primary-iso.conf"
+        "junos/interfaces/ifl-core-inet-iso-inet6-mpls.conf"
       ],
       "slots": [
-        "$CORE_INTF",
-        "lo0.0"
+        "$CORE_INTF"
       ],
       "presence": "required",
       "unbound": "required",
@@ -8281,7 +7899,6 @@
       ],
       "presence": "required",
       "unbound": "required",
-      "declaredDependency": "junos/interfaces/ifl-vlan-bridge-esi.conf",
       "preferObject": true
     },
     {
@@ -8988,8 +8605,7 @@
         "@source:policy-community"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "junos/policy-options/community/cm-l3vpn-bgpv4.conf"
+      "unbound": "required"
     },
     {
       "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy-auto-export.conf",
@@ -9122,8 +8738,7 @@
         "@source:irb-service"
       ],
       "presence": "required",
-      "unbound": "required",
-      "declaredDependency": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb.conf"
+      "unbound": "required"
     },
     {
       "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-vrf-policy-next-table.conf",
@@ -9817,58 +9432,6 @@
       ],
       "presence": "required",
       "unbound": "required"
-    },
-    {
-      "consumer": "junos/routing-options/transport-class-fallback-none.conf",
-      "kind": "route-distinguisher-id",
-      "scope": "whole",
-      "providers": [
-        "junos/routing-options/route-distinguisher-id.conf"
-      ],
-      "slots": [
-        "global"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/routing-options/transport-class-gold-bronze-anycast.conf",
-      "kind": "route-distinguisher-id",
-      "scope": "whole",
-      "providers": [
-        "junos/routing-options/route-distinguisher-id.conf"
-      ],
-      "slots": [
-        "global"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/routing-options/transport-class-gold-local-bronze-anycast.conf",
-      "kind": "route-distinguisher-id",
-      "scope": "whole",
-      "providers": [
-        "junos/routing-options/route-distinguisher-id.conf"
-      ],
-      "slots": [
-        "global"
-      ],
-      "presence": "required",
-      "unbound": "required"
-    },
-    {
-      "consumer": "junos/routing-options/transport-class.conf",
-      "kind": "route-distinguisher-id",
-      "scope": "whole",
-      "providers": [
-        "junos/routing-options/route-distinguisher-id.conf"
-      ],
-      "slots": [
-        "global"
-      ],
-      "presence": "required",
-      "unbound": "required"
     }
   ],
   "occurrenceEntrySets": {
@@ -10127,6 +9690,6 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "754fee689be1df289f0bf07b83eee90b919b7b582c24cf0013cc7b06f659976f"
+    "sha256": "362a838ef848ad9d997507bb3d132a4b6adc756a5f9a35fe0bed0e03abad9f1a"
   }
 }
