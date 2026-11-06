@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "1aa1d9bad009c1a3053c52a75fd76fdfd9fdeba24227e792a4b4138f185f9e10",
+  "dependency_declaration_sha256": "51855dd55f6fc76fcea9f7da8061ccc5c8d9ddb1da76036283841d11dca9f6ca",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips",
   "snip_count": 118,
@@ -112,24 +112,7 @@
         "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "FC-HIGH",
-            "BEST-EFFORT",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/forwarding-classes/fc-4queue-model.conf",
@@ -165,21 +148,7 @@
         "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-scheduler-map",
-          "kind": "scheduler-map",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "sched-map"
-          ],
-          "providers": [
-            "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
@@ -199,21 +168,7 @@
         "evo/class-of-service/rewrite-rules/rr-exp-4class.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "EXP"
-          ],
-          "providers": [
-            "evo/class-of-service/classifiers/cl-exp-4class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/rewrite-rules/rr-exp-4class.conf",
@@ -232,24 +187,7 @@
         "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "FC-HIGH",
-            "BEST-EFFORT",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/scheduler-maps/sm-4class-mapping.conf",
@@ -269,40 +207,7 @@
         "evo/class-of-service/schedulers/sc-4class-priority.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "FC-HIGH",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "evo/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        },
-        {
-          "id": "ref-scheduler",
-          "kind": "scheduler",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "s0",
-            "s1",
-            "s2",
-            "s3"
-          ],
-          "providers": [
-            "evo/class-of-service/schedulers/sc-4class-priority.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "evo/class-of-service/schedulers/sc-4class-priority.conf",
@@ -1301,24 +1206,7 @@
         "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "FC-HIGH",
-            "BEST-EFFORT",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/forwarding-classes/fc-4queue-model.conf",
@@ -1354,21 +1242,7 @@
         "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-scheduler-map",
-          "kind": "scheduler-map",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "sched-map"
-          ],
-          "providers": [
-            "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/interfaces/ifd-scheduler-map.conf",
@@ -1388,21 +1262,7 @@
         "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-scheduler-map",
-          "kind": "scheduler-map",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "sched-map"
-          ],
-          "providers": [
-            "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
@@ -1423,21 +1283,7 @@
         "junos/class-of-service/rewrite-rules/rr-exp-4class.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-classifier",
-          "kind": "classifier",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "EXP"
-          ],
-          "providers": [
-            "junos/class-of-service/classifiers/cl-exp-4class.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/rewrite-rules/rr-exp-4class.conf",
@@ -1457,24 +1303,7 @@
         "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "FC-HIGH",
-            "BEST-EFFORT",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/scheduler-maps/sm-4class-mapping.conf",
@@ -1495,40 +1324,7 @@
         "junos/class-of-service/schedulers/sc-4class-rates.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-forwarding-class",
-          "kind": "forwarding-class",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "BEST-EFFORT",
-            "FC-HIGH",
-            "FC-LLQ",
-            "CONTROL"
-          ],
-          "providers": [
-            "junos/class-of-service/forwarding-classes/fc-4queue-model.conf"
-          ]
-        },
-        {
-          "id": "ref-scheduler",
-          "kind": "scheduler",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "s0",
-            "s1",
-            "s2",
-            "s3"
-          ],
-          "providers": [
-            "junos/class-of-service/schedulers/sc-4class-rates.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/class-of-service/schedulers/sc-4class-rates.conf",
@@ -2472,14 +2268,13 @@
         "wanedge1_mx304",
         "wanedge2_mx10004"
       ],
-      "size_bytes": 1628,
+      "size_bytes": 1556,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/interfaces/ifl-irb-filter-mac.conf",
         "junos/policy-options/policy-statement/ps-accept-direct.conf",
-        "junos/protocols/bgp-ibgp-full-mesh-5.conf",
-        "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+        "junos/protocols/bgp-ibgp-full-mesh-5.conf"
       ],
       "variant_requires": [],
       "occurrence_requires": [
@@ -2501,8 +2296,7 @@
             "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
             "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
             "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
-          ],
-          "fulfills": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+          ]
         },
         {
           "id": "ref-logical-interface",
@@ -2653,15 +2447,14 @@
         "wanedge1_mx304",
         "wanedge2_mx10004"
       ],
-      "size_bytes": 3524,
+      "size_bytes": 3452,
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_finance/configuration/snips/junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
       "dependency_contract_version": 3,
       "pair_with": [
         "junos/interfaces/ifl-irb-filter-mac.conf",
         "junos/policy-options/policy-statement/ps-accept-direct.conf",
         "junos/policy-options/policy-statement/ps-accept-ospf.conf",
-        "junos/protocols/bgp-ibgp-full-mesh-5.conf",
-        "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+        "junos/protocols/bgp-ibgp-full-mesh-5.conf"
       ],
       "variant_requires": [],
       "occurrence_requires": [
@@ -2683,8 +2476,7 @@
             "junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf",
             "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf",
             "junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf"
-          ],
-          "fulfills": "junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf"
+          ]
         },
         {
           "id": "ref-logical-interface",
