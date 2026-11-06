@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "a88f5489c9edd8fded09cfaf2db7ce5bd0127435d439bd1c1448e047703cc1a8",
+  "dependency_declaration_sha256": "c196d5a6d426bf3e97572425ce6b1161eb60685928a5b38e9d9c219f7c44581d",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_dc_edge/configuration/snips",
   "snip_count": 111,
@@ -1662,23 +1662,7 @@
         "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0",
-            "policy_ospf_bgp"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf",
-            "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-dc-edge2.conf",
@@ -1697,23 +1681,7 @@
         "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0",
-            "policy_ospf_bgp"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf",
-            "junos/policy-options/policy-statement/ps-export-ospf-area0.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-leaf1.conf",
@@ -1731,21 +1699,7 @@
         "junos/policy-options/policy-statement/ps-export-loopback.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-leaf2.conf",
@@ -1763,21 +1717,7 @@
         "junos/policy-options/policy-statement/ps-export-loopback.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-spine1.conf",
@@ -1795,21 +1735,7 @@
         "junos/policy-options/policy-statement/ps-export-loopback.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-spine2.conf",
@@ -1827,21 +1753,7 @@
         "junos/policy-options/policy-statement/ps-export-loopback.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": [
-        {
-          "id": "ref-policy-statement",
-          "kind": "policy-statement",
-          "scope": "whole",
-          "selection": "each-reference",
-          "presence": "required",
-          "slots": [
-            "lo0"
-          ],
-          "providers": [
-            "junos/policy-options/policy-statement/ps-export-loopback.conf"
-          ]
-        }
-      ]
+      "occurrence_requires": []
     },
     {
       "path": "junos/protocols/bgp-wan-edge1.conf",
@@ -2649,8 +2561,8 @@
       "kind": "reference",
       "topic": "Generated service tier and selection requirements",
       "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_dc_edge/configuration/snips/byoai/TIERS.md",
-      "size_bytes": 6927,
-      "sha256": "51b93d41946d61b0659ec47f5e7f9eff95da3154f226e303d602cb00fb75f82a"
+      "size_bytes": 6795,
+      "sha256": "46915f73c16080d5977ee8832845866f2a5458781cc7fde03719245617e12c39"
     },
     {
       "path": "byoai/DEFAULTS.md",

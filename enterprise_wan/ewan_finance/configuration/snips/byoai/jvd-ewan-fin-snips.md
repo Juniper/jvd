@@ -4377,7 +4377,6 @@ routing-instances {
  *  - junos/interfaces/ifl-irb-filter-mac.conf
  *  - junos/policy-options/policy-statement/ps-accept-direct.conf
  *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
- *  - junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf
  *
  * Variables (example values from wanedge1_mx304):
  *   $INSTANCE_NAME     e.g. VRF21
@@ -4682,7 +4681,6 @@ routing-instances {
  *  - junos/policy-options/policy-statement/ps-accept-direct.conf
  *  - junos/policy-options/policy-statement/ps-accept-ospf.conf
  *  - junos/protocols/bgp-ibgp-full-mesh-5.conf
- *  - junos/routing-instances/evpn-elan/ri-evpn-virtual-switch-irb.conf
  *
  * Variables (example values from wanedge1_mx304):
  *   $INSTANCE_NAME        e.g. MVPN_INSTANCE1
