@@ -39,6 +39,8 @@ jobs:
             }
             console.log("public artifacts parse");
           '
+      - name: Every snippet's Pair with matches the catalog
+        run: node .github/scripts/check-pair-with.mjs
       - name: Changed snippets keep the header contract shape
         env:
           BASE: ${{ github.event.pull_request.base.sha }}
