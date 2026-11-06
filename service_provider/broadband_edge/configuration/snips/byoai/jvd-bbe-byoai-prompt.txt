@@ -135,7 +135,9 @@ BNG and must stay literal.
 Only the `minimum` form is selectable: render exactly the snips
 TIERS.md lists as `minimum` for the service and target device. A
 snip's "Pair with:" entries and the requirements TIERS.md lists under
-a Blocked entry are prerequisites the device must already run. A
+a Blocked entry are prerequisites the device must already run, and so
+are the applicable entries of the "Needs" list under a snip in the
+snippet file (they depend on the device's configuration). A
 "variant:bbe-bgp-overlay families=evpn" entry names the one BGP
 overlay snip in that variant group whose `Seen on:` lists the target
 device. Name these prerequisites in Notes:, but do not render them

@@ -463,6 +463,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-description-speed-10g`, `interfaces/ifd-lag-member-ether-description`
+
 ## evo/interfaces/ifd-breakout-10g.conf
 
 ```
@@ -802,6 +805,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-description-100g`, `interfaces/ifd-description`
+
 ## evo/interfaces/ifl-description-vlan-inet.conf
 
 ```
@@ -836,6 +842,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
 
 ## evo/interfaces/ifl-loopback-localhost-127-64-mgmt-iso-inet6.conf
 
@@ -960,6 +969,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-flexible-mtu-lacp`, `interfaces/ifd-description-flexible-speed-10g-mtu`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-description-speed-10g`, `interfaces/ifd-lag-member-ether-description`
+
 ## evo/interfaces/ifl-vlan-inet.conf
 
 ```
@@ -992,6 +1005,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-description-flexible-speed-100g`, `interfaces/ifd-flexible-ethernet-services-description`
 
 ## evo/policy-options/policy-statement/ps-accept-bgp.conf
 
@@ -1214,6 +1230,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-accept-bgp`, `policy-options/policy-statement/ps-accept-ospf`
 
 ## evo/protocols/lldp-interface-all.conf
 
@@ -1524,6 +1543,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFL_1`, `$IFL_2`, `$IFL_3`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-default-longer-metric-30`, `policy-options/policy-statement/ps-route-filter-exact-metric-10`
+
 ## evo/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf
 
 ```
@@ -1581,6 +1604,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFL_1`, `$IFL_2`, `$IFL_3`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-default-longer-metric-30`, `policy-options/policy-statement/ps-route-filter-exact-metric-10`
+
 ## evo/routing-instances/virtual-router/ri-virtual-router-ospf-2-intf.conf
 
 ```
@@ -1619,6 +1646,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFL_1`, `$IFL_2`): required, for each reference; one of `interfaces/ifl-description-vlan-inet`, `interfaces/ifl-vlan-inet`
 
 ## evo/routing-options/autonomous-system.conf
 
@@ -3035,6 +3065,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-description`
+
 ## junos/interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp.conf
 
 ```
@@ -3085,6 +3118,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-description`
 
 ## junos/interfaces/ifd-description.conf
 
@@ -3247,6 +3283,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description`
+
 ## junos/interfaces/ifl-core-iso-mpls.conf
 
 ```
@@ -3313,6 +3352,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `filter` (`$INPUT_FILTER`): required, for each reference; one of `firewall/filter-mfc-filter-low-latency-class-count`, `firewall/filter-mfc-filter-low-latency-class`, `firewall/filter-mfc-filter1-fc-high`, `firewall/filter-mfc-filter2-best-effort`, `firewall/filter-mfc-filter3-control`
 
 ## junos/interfaces/ifl-loopback-anycast-inet.conf
 
@@ -3504,6 +3546,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-flexible-mtu-esi-single-active-lacp`, `interfaces/ifd-ae-flexible-mtu-esi-single-active-lacp`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-description`
+
 ## junos/interfaces/ifl-vlan-inet.conf
 
 ```
@@ -3538,6 +3584,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
 
 ## junos/policy-options/policy-statement/ps-accept-bgp.conf
 
@@ -3773,6 +3822,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-accept-bgp`, `policy-options/policy-statement/ps-accept-ospf`
 
 ## junos/protocols/lacp-ppm-inline.conf
 
@@ -4292,6 +4344,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `irb.$IRB_UNIT`): required, for each reference; one of `interfaces/ifl-irb-filter-mac`, `interfaces/ifl-vlan-bridge-esi-single-active`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce.conf
 
 ```
@@ -4359,6 +4414,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL`): required, for each reference; `policy-options/policy-statement/ps-accept-direct`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-irb.conf
 
 ```
@@ -4412,6 +4471,11 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of `routing-instances/evpn-elan/ri-evpn-virtual-switch-irb`, `routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce`, `routing-instances/l3vpn/ri-l3vpn-ebgp-irb`, `routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second`, `routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce`, `routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby`, `routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first`, `routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp`
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-filter-mac`
+- `policy-statement` (`$BGP_EXPORT_POL`): required, for each reference; `policy-options/policy-statement/ps-accept-direct`
 
 ## junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second.conf
 
@@ -4535,6 +4599,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`, `lo0.$UNIT`): required, for each reference; one of `interfaces/ifl-loopback-inet`, `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL`, `$OSPF_EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-accept-direct`, `policy-options/policy-statement/ps-accept-ospf`
 
 ## junos/routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce.conf
 
@@ -4661,6 +4729,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`, `lo0.$UNIT`): required, for each reference; one of `interfaces/ifl-loopback-inet`, `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL`, `$OSPF_EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-accept-bgp`, `policy-options/policy-statement/ps-accept-direct`, `policy-options/policy-statement/ps-accept-ospf`
+
 ## junos/routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby.conf
 
 ```
@@ -4771,6 +4843,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of `routing-instances/evpn-elan/ri-evpn-virtual-switch-irb`, `routing-instances/l3vpn/ri-l3vpn-ebgp-2-ce`, `routing-instances/l3vpn/ri-l3vpn-ebgp-irb`, `routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce-loopback-second`, `routing-instances/l3vpn/ri-mvpn-spt-only-receiver-2-ce`, `routing-instances/l3vpn/ri-mvpn-spt-only-sender-hot-root-standby`, `routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first`, `routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp`
+- `logical-interface` (`irb.$IRB_UNIT`, `lo0.$UNIT`): required, for each reference; one of `interfaces/ifl-irb-filter-mac`, `interfaces/ifl-loopback-anycast-inet`, `interfaces/ifl-loopback-inet`
+- `policy-statement` (`$BGP_EXPORT_POL`, `$OSPF_EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-accept-direct`, `policy-options/policy-statement/ps-accept-ospf`
+
 ## junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp-pim-static-rp-pim-last-intf-first.conf
 
 ```
@@ -4851,6 +4928,10 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFL_3`, `$IFL_1`, `$IFL_2`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-default-longer-metric-30`, `policy-options/policy-statement/ps-route-filter-exact-metric-10`
+
 ## junos/routing-instances/virtual-router/ri-virtual-router-ebgp-ibgp.conf
 
 ```
@@ -4907,6 +4988,10 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$IFL_1`, `$IFL_2`, `$IFL_3`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-default-longer-metric-30`, `policy-options/policy-statement/ps-route-filter-exact-metric-10`
 
 ## junos/routing-options/autonomous-system.conf
 
