@@ -156,7 +156,8 @@ PART 1 — GROUND RULES
   Each snip's Pair with header lists only fixed paths and variant
   requirements. Typed occurrence requirements come from the reviewed
   dependency declaration and are projected into MANIFEST.json
-  (occurrence_requires), never into snip headers. Fixed paths, variant
+  (occurrence_requires), never into snip headers; the snippet file lists
+  them under each snip as "Needs". Fixed paths, variant
   requirements and typed requirements are all obligations. Do not omit an
   obligation or substitute an explanation in Notes for supplying it. The
   declaration is not a source-correctness oracle.

@@ -41,6 +41,9 @@ forwarding-options {
 apply-groups $GROUP_A;
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`): required, for each reference; `groups/gr-global-p1`
+
 ## evo/groups/apply-global-two.conf
 
 ```
@@ -61,6 +64,9 @@ apply-groups $GROUP_A;
  */
 apply-groups [ $GROUP_A $GROUP_B ];
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-global-p2`, `groups/gr-intspeeds-4x100g`
 
 ## evo/groups/gr-global-p1.conf
 
@@ -282,6 +288,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-speed-100g-enable`, `interfaces/ifd-speed-100g`
+
 ## evo/policy-options/policy-statement/per-packet-load-balance.conf
 
 ```
@@ -342,6 +351,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `$CORE_PHYS_4.0`, `lo0.0`): required, for each reference; one of `groups/gr-global-p1`, `interfaces/ifl-core-inet-mpls`
+
 ## evo/protocols/ldp-interface-all-loopback.conf
 
 ```
@@ -365,6 +377,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; `groups/gr-global-p2`
 
 ## evo/protocols/ldp-interface-management-disable.conf
 
@@ -634,6 +649,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## evo/routing-options/router-id.conf
 
@@ -997,6 +1015,9 @@ forwarding-options {
 apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`, `$GROUP_C`): required, for each reference; one of 15 providers listed in MANIFEST.json
+
 ## junos/groups/apply-global-two.conf
 
 ```
@@ -1017,6 +1038,9 @@ apply-groups [ $GROUP_A $GROUP_B $GROUP_C ];
  */
 apply-groups [ $GROUP_A $GROUP_B ];
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-global-spine1`, `groups/gr-member0-empty`
 
 ## junos/groups/gr-global-dc-edge1.conf
 
@@ -1687,6 +1711,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## junos/interfaces/ifd-ae-flexible-lacp-esi-df-preference.conf
 
 ```
@@ -1731,6 +1758,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## junos/interfaces/ifd-ae-flexible-lacp-esi.conf
 
 ```
@@ -1770,6 +1800,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## junos/interfaces/ifd-ae-flexible-lacp-fast-esi-min-links.conf
 
@@ -1811,6 +1844,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf
 
 ```
@@ -1848,6 +1884,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## junos/interfaces/ifd-ae-lacp-trunk-vlan.conf
 
@@ -1887,6 +1926,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## junos/interfaces/ifd-description.conf
 
@@ -2030,6 +2072,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services`
+
 ## junos/interfaces/ifl-core-inet-mpls.conf
 
 ```
@@ -2062,6 +2107,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description`
 
 ## junos/interfaces/ifl-core-inet.conf
 
@@ -2310,6 +2358,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-flexible-lacp-esi`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## junos/interfaces/ifl-vlan-bridge-vlan-list-family-bridge.conf
 
 ```
@@ -2340,6 +2392,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services`
+
 ## junos/interfaces/ifl-vlan-bridge-vlan-list.conf
 
 ```
@@ -2368,6 +2423,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
 
 ## junos/interfaces/ifl-vlan-bridge.conf
 
@@ -2402,6 +2460,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-flexible-lacp-esi`, `interfaces/ifd-ae-flexible-lacp-fast-esi-min-links`, `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## junos/interfaces/ifl-vlan-inet.conf
 
 ```
@@ -2434,6 +2496,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services`
 
 ## junos/policy-options/policy-statement/per-packet-load-balance.conf
 
@@ -3020,6 +3085,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `lo0.0`): required, for each reference; one of `groups/gr-global-wan-edge1`, `groups/gr-global-wan-edge2`, `groups/gr-re0-loopback`, `interfaces/ifl-core-inet-mpls`
+
 ## junos/protocols/ldp-interface-3-core-all-loopback.conf
 
 ```
@@ -3050,6 +3118,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `lo0.0`): required, for each reference; one of `interfaces/ifl-core-inet-mpls`, `interfaces/ifl-core-inet`, `interfaces/ifl-loopback-inet`
+
 ## junos/protocols/ldp-interface-all-loopback.conf
 
 ```
@@ -3073,6 +3144,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`lo0.0`): required, for each reference; `groups/gr-global-dc-edge1`
 
 ## junos/protocols/lldp-interface-all-management.conf
 
@@ -3455,6 +3529,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-ethernet-switching`, `interfaces/ifl-vlan-bridge`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-bundle.conf
 
 ```
@@ -3508,6 +3585,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifd-ae-ethernet-bridge-lacp-esi`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf
 
 ```
@@ -3550,6 +3630,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`irb.$IRB_UNIT`, `$AC_INTF`): required, for each reference; one of `interfaces/ifl-irb-virtual-gateway`, `interfaces/ifl-vlan-bridge`
 
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-l3-interface.conf
 
@@ -3594,6 +3677,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`irb.$IRB_UNIT`, `$AC_INTF`): required, for each reference; one of `interfaces/ifl-irb-virtual-gateway`, `interfaces/ifl-vlan-bridge`
+
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-no-gateway-community.conf
 
 ```
@@ -3632,6 +3718,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; `interfaces/ifl-vlan-bridge-vlan-list`
 
 ## junos/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle.conf
 
@@ -3672,6 +3761,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-bridge-vlan-list-family-bridge`, `interfaces/ifl-vlan-bridge-vlan-list`
 
 ## junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-based-irb.conf
 
@@ -3733,6 +3825,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`irb.$IRB_UNIT`): required, for each reference; `interfaces/ifl-irb-virtual-gateway`
 
 ## junos/routing-instances/evpn-interconnect/ri-evpn-interconnect-vlan-bundle.conf
 
@@ -3852,6 +3947,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf
 
 ```
@@ -3884,6 +3982,9 @@ routing-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
 ## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf
 
 ```
@@ -3912,6 +4013,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## junos/routing-options/resolution-preserve-nexthop-hierarchy.conf
 
