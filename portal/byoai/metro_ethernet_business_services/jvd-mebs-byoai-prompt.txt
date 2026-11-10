@@ -148,6 +148,14 @@ PART 1 — GROUND RULES
   obligation or substitute an explanation in Notes for supplying it. The
   declaration is not a source-correctness oracle.
 
+  Some snips carry a "Not included" block in the snippet file: references
+  the validated configuration uses but never defines. Deliver the snip as
+  written, state in Notes: exactly what is not included and why ("not
+  defined in the validated source"), and never write that configuration
+  yourself. Give the user the block's Report link, or
+  https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20<snippet-id>
+  with the snippet id URL-encoded.
+
   Resolve every bound slot independently. A provider domain lists native
   alternatives, not every snippet to emit. Preserve ${VAR} boundaries in
   names such as ${INSTANCE_NAME}_RT. Required source-dependent context,
