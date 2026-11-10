@@ -42,10 +42,11 @@ if [ "$PUBLIC_ONLY" -eq 0 ]; then byoai/make-manifest.py; fi
 # Each snippet's typed requirements from MANIFEST.json, listed under it in the bundle.
 NEEDS="$(mktemp -d)"
 trap 'rm -rf "$NEEDS"' EXIT
-python3 - "$NEEDS" byoai/MANIFEST.json <<'PY'
+python3 - "$NEEDS" byoai/MANIFEST.json "$(basename "$(cd .. && cd .. && pwd)")" <<'PY'
 import json, os, sys
+from urllib.parse import quote
 
-out, manifest = sys.argv[1], sys.argv[2]
+out, manifest, jvd = sys.argv[1], sys.argv[2], sys.argv[3]
 presence = {"required": "required", "conditional": "when the router's configuration has it"}
 selection = {"each-reference": "for each reference", "all-related": "all related", "source-witness": "as the source shows"}
 for snip in json.load(open(manifest))["snips"]:
@@ -55,11 +56,20 @@ for snip in json.load(open(manifest))["snips"]:
         count = len(need["providers"])
         providers = ", ".join(f"`{p.split('/', 1)[1][:-5]}`" for p in need["providers"]) if count <= 8 else f"{count} providers listed in MANIFEST.json"
         lines.append(f"- `{need['kind']}`{f' ({slots})' if slots else ''}: {presence[need['presence']]}, {selection[need['selection']]}; {'one of ' if count > 1 else ''}{providers}")
-    if lines:
+    text = "Needs (MANIFEST.json occurrence_requires; same OS):\n" + "\n".join(lines) + "\n" if lines else ""
+    # References the validated configuration uses but never defines: one line per slot and router.
+    groups = {}
+    for row in snip.get("unresolved") or []:
+        groups.setdefault((row["kind"], row["slot"], row["device"]), []).append(row["name"])
+    if groups:
+        missing = [f"- `{kind}` `{names[0] if len(names) == 1 else slot}` on {device}{f' ({len(names)} references)' if len(names) > 1 else ''}" for (kind, slot, device), names in groups.items()]
+        report = "https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=" + quote(f"Missing source: {jvd}/{snip['path'][:-5]}", safe="")
+        text += ("\n" if text else "") + "Not included (not defined in the validated source):\n" + "\n".join(missing) + f"\nReport: {report}\n"
+    if text:
         path = os.path.join(out, snip["path"])
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as handle:
-            handle.write("Needs (MANIFEST.json occurrence_requires; same OS):\n" + "\n".join(lines) + "\n")
+            handle.write(text)
 PY
 
 OUT="byoai/jvd-bbe-snips.md"
