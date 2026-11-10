@@ -21,11 +21,11 @@ reordering policy terms or substituting one semantic object for another.
 
 | | |
 |---|---|
-| Snippets | 207 |
+| Snippets | 208 |
 | Devices | 8 |
-| Snippet/device pairs with at least one instance | 300 |
-| Instances counted | 99,105 |
-| Structural assignments represented | 297,966 |
+| Snippet/device pairs with at least one instance | 303 |
+| Instances counted | 99,108 |
+| Structural assignments represented | 297,969 |
 
 ## Instances per snippet
 
@@ -46,6 +46,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/forwarding-options/load-balance-label-capability.conf` | 1 | 1 | _none_ |
 | `evo/groups/apply-global-two.conf` | 1 | 1 | `$GROUP_A`, `$GROUP_B` |
 | `evo/groups/gr-zr-wavelength.conf` | 1 | 1 | _none_ |
+| `evo/groups/rest-api.conf` | 1 | 1 | _none_ |
 | `evo/interfaces/ifd-ae-description-lacp-fast.conf` | 1 | 1 | `$DESCRIPTION`, `$IFD` |
 | `evo/interfaces/ifd-ae-description-link-speed-mixed-lacp-fast.conf` | 2 | 2 | `$DESCRIPTION`, `$IFD` |
 | `evo/interfaces/ifd-ae-disable-flexible-lacp-fast-system-id.conf` | 1 | 1 | `$IFD`, `$LACP_SYS_ID` |
@@ -66,7 +67,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/interfaces/ifd-speed-100g.conf` | 1 | 4 | `$IFD` |
 | `evo/interfaces/ifd-unused.conf` | 1 | 1 | `$IFD` |
 | `evo/interfaces/ifl-core-inet-mpls.conf` | 5 | 22 | `$CORE_PHYS`, `$CORE_V4_ADDR` |
-| `evo/interfaces/ifl-loopback-inet-primary.conf` | 2 | 2 | `$LOOPBACK_V4_PFX` |
+| `evo/interfaces/ifl-loopback-inet-primary.conf` | 4 | 4 | `$LOOPBACK_V4_PFX` |
 | `evo/interfaces/ifl-loopback-inet.conf` | 3 | 201 | `$LOOPBACK_V4_PFX`, `$UNIT` |
 | `evo/interfaces/ifl-loopback-mpls.conf` | 1 | 1 | _none_ |
 | `evo/interfaces/ifl-vlan-bridge.conf` | 3 | 6,538 | `$IFD`, `$UNIT`, `$VLAN` |
@@ -285,6 +286,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/forwarding-options/load-balance-label-capability.conf` | wanedge3_acx7509 | `{}` |
 | `evo/groups/apply-global-two.conf` | wanedge4_acx7100-48l | `{"GROUP_A":"ZR_Wavelength","GROUP_B":"REST_API"}` |
 | `evo/groups/gr-zr-wavelength.conf` | wanedge4_acx7100-48l | `{}` |
+| `evo/groups/rest-api.conf` | wanedge4_acx7100-48l | `{}` |
 | `evo/interfaces/ifd-ae-description-lacp-fast.conf` | p1_ptx10003 | `{"DESCRIPTION":"\"P1Node to WANEdge1\"","IFD":"ae2"}` |
 | `evo/interfaces/ifd-ae-description-link-speed-mixed-lacp-fast.conf` | p2_ptx10001-36mr | `{"DESCRIPTION":"\"P2 Node to WANEdge4\"","IFD":"ae4"}` |
 | `evo/interfaces/ifd-ae-disable-flexible-lacp-fast-system-id.conf` | wanedge4_acx7100-48l | `{"IFD":"ae1","LACP_SYS_ID":"11:11:11:11:11:11"}` |
@@ -305,7 +307,7 @@ reordering policy terms or substituting one semantic object for another.
 | `evo/interfaces/ifd-speed-100g.conf` | ce1_acx7100-48l | `{"IFD":"et-0/0/48"}` |
 | `evo/interfaces/ifd-unused.conf` | wanedge3_acx7509 | `{"IFD":"et-1/0/9"}` |
 | `evo/interfaces/ifl-core-inet-mpls.conf` | ce1_acx7100-48l | `{"CORE_PHYS":"et-0/0/48","CORE_V4_ADDR":"10.0.13.1/30"}` |
-| `evo/interfaces/ifl-loopback-inet-primary.conf` | wanedge3_acx7509 | `{"LOOPBACK_V4_PFX":"192.168.0.14/32"}` |
+| `evo/interfaces/ifl-loopback-inet-primary.conf` | ce1_acx7100-48l | `{"LOOPBACK_V4_PFX":"1.1.1.7/32"}` |
 | `evo/interfaces/ifl-loopback-inet.conf` | p2_ptx10001-36mr | `{"LOOPBACK_V4_PFX":"6.6.6.6/32","UNIT":"0"}` |
 | `evo/interfaces/ifl-loopback-mpls.conf` | wanedge3_acx7509 | `{}` |
 | `evo/interfaces/ifl-vlan-bridge.conf` | ce1_acx7100-48l | `{"IFD":"ae1","UNIT":"1","VLAN":"1"}` |

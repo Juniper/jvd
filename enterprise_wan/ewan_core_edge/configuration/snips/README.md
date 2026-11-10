@@ -26,7 +26,7 @@ snips/
   evo/          ← Junos Evolved forms (ACX7509, ACX7100-48L, PTX10003, PTX10001-36MR)
 ```
 
-207 snippet files: 105 Junos, 102 EVO; 42 constructs have
+208 snippet files: 105 Junos, 103 EVO; 42 constructs have
 byte-identical Junos and EVO forms registered as OS-scoped mirrors in
 [`_snip-library.json`](_snip-library.json).
 
@@ -97,9 +97,11 @@ configuration, whose peers are not devices of this JVD.
 - **Route reflectors and RP.** The WAN edges peer with route reflectors
   192.168.0.11 and 192.168.0.17, which no published device carries. The WAN
   edges use 192.168.0.17 as the native-multicast RP; p1 is configured as RP 1.1.1.8.
-- **Dependencies.** Some interfaces and loopbacks referenced by the configurations
-  are not defined in them, so same-device dependencies are not fully declared.
-  Snippets are building blocks, not complete device configurations.
+- **Dependencies.** Some interface units the configurations reference are not
+  defined in them: the access units of the NG-MVPN VRFs and a few LDP and Layer 2
+  circuit units. Each snippet that uses one lists it as not included, by router;
+  nothing is substituted for it. Snippets are building blocks, not complete
+  device configurations.
 - **Underlay.** OSPF, LDP and MPLS on the WAN edges differ per device and are
   published per device. The device configurations under [`../conf/`](../conf/)
   are the as-captured reference, including the gaps above.
@@ -148,6 +150,7 @@ OS.
 | `junos/forwarding-options/load-balance-label-capability.conf` | Load-balance label capability (1) |
 | `evo/groups/apply-global-two.conf` | Two configuration groups applied at the top level (1) |
 | `evo/groups/gr-zr-wavelength.conf` | Configuration group setting the optics wavelength on five ports (1) |
+| `evo/groups/rest-api.conf` | Configuration group enabling the REST API over HTTP on port 8080 (1) |
 | `evo/interfaces/ifd-ae-description-lacp-fast.conf` | Described aggregated Ethernet bundle with active fast LACP (1) |
 | `junos/interfaces/ifd-ae-description-lacp-fast.conf` | Described aggregated Ethernet bundle with active fast LACP (1) |
 | `evo/interfaces/ifd-ae-description-link-speed-mixed-lacp-fast.conf` | Described mixed-speed aggregated Ethernet bundle with active fast LACP (2) |
@@ -184,7 +187,7 @@ OS.
 | `evo/interfaces/ifl-core-inet-mpls.conf` | Core-facing point-to-point link with IPv4 and MPLS families (22) |
 | `junos/interfaces/ifl-core-inet-mpls.conf` | Core-facing point-to-point link with IPv4 and MPLS families (4) |
 | `junos/interfaces/ifl-loopback-inet-primary-iso-inet6-primary.conf` | Primary IPv4 and IPv6 loopback addresses with an ISO address (1) |
-| `evo/interfaces/ifl-loopback-inet-primary.conf` | Primary IPv4 loopback address (2) |
+| `evo/interfaces/ifl-loopback-inet-primary.conf` | Primary IPv4 loopback address (4) |
 | `junos/interfaces/ifl-loopback-inet-primary.conf` | Primary IPv4 loopback address (1) |
 | `junos/interfaces/ifl-loopback-inet-two-addresses.conf` | Loopback unit with two IPv4 addresses (1) |
 | `evo/interfaces/ifl-loopback-inet.conf` | Loopback unit with one IPv4 address (201) |
