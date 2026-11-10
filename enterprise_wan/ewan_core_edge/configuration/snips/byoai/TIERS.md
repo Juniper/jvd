@@ -29,15 +29,19 @@ Family l3vpn, form hub-spoke-spoke. OS mode Junos. Attachment: VLAN-tagged IPv4 
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
 
 ---
 
@@ -49,8 +53,12 @@ Family l3vpn, form hub-spoke-hub-export. OS mode EVO. Attachment: VLAN-tagged IP
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-export-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:redistribute-vpn
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -62,8 +70,11 @@ Family l3vpn, form hub-spoke-hub-import. OS mode EVO. Attachment: VLAN-tagged IP
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -74,26 +85,28 @@ Family l3vpn, form vrrp. OS mode MIXED. Attachment: VLAN-tagged IPv4 unit with a
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/protocols/bgp-overlay-pe.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -104,20 +117,26 @@ Family vpls, form bgp-vpls-virtual-switch. OS mode MIXED. Attachment: VLAN bridg
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ---
 
@@ -128,14 +147,18 @@ Family vpls, form bgp-vpls-virtual-switch-flow-label. OS mode MIXED. Attachment:
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans-flow-label.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain-flow-label.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ---
 
@@ -146,14 +169,14 @@ Family l2circuit, form hot-standby. OS mode Junos. Attachment: VLAN circuit cros
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
@@ -164,14 +187,14 @@ Family l2circuit, form single-homed. OS mode EVO. Attachment: VLAN circuit cross
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
@@ -182,14 +205,16 @@ Family ngmvpn, form rp-static-group-range. OS mode Junos. Attachment: VLAN-tagge
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
-- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
-- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -200,8 +225,9 @@ Family ngmvpn, form rp-local. OS mode EVO. Attachment: VLAN-tagged IPv4 unit and
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -212,8 +238,9 @@ Family ngmvpn, form rp-static-group-range-null-register. OS mode EVO. Attachment
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range-null-register.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -224,13 +251,18 @@ Family l2circuit, form local-switching. OS mode MIXED. Attachment: Two VLAN circ
 ### ce1_acx7100-48l (evo)
 
 - `minimum`: `evo/protocols/l2circuit-local-switching.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-ccc.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### ce2_mx480 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-local-switching.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-ccc.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---

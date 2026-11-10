@@ -172,5 +172,6 @@
       "junos": "junos/routing-options/router-id.conf",
       "evo": "evo/routing-options/router-id.conf"
     }
-  ]
+  ],
+  "dependencyContractVersion": 3
 }

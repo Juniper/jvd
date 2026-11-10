@@ -479,6 +479,9 @@ forwarding-options {
 apply-groups [ $GROUP_A $GROUP_B ];
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `group` (`$GROUP_A`, `$GROUP_B`): required, for each reference; one of `groups/gr-zr-wavelength`, `groups/rest-api`
+
 ## evo/groups/gr-zr-wavelength.conf
 
 ```
@@ -529,6 +532,40 @@ groups {
 }
 ```
 
+## evo/groups/rest-api.conf
+
+```
+/*
+ * Topic: Configuration group enabling the REST API over HTTP on port 8080
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: wanedge4_acx7100-48l
+ * Count:
+ *   wanedge4_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *   - Lab management access: applied through `apply-groups`, it serves the REST API and its explorer over plain HTTP on every address.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+groups {
+    REST_API {
+        system {
+            services {
+                rest {
+                    http {
+                        port 8080;
+                        addresses 0.0.0.0;
+                    }
+                    enable-explorer;
+                }
+            }
+        }
+    }
+}
+```
+
 ## evo/interfaces/ifd-ae-description-lacp-fast.conf
 
 ```
@@ -559,6 +596,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-gigether-description`, `interfaces/ifd-lag-member-gigether`
 
 ## evo/interfaces/ifd-ae-description-link-speed-mixed-lacp-fast.conf
 
@@ -592,6 +632,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-gigether-description-100g`, `interfaces/ifd-lag-member-gigether`
 
 ## evo/interfaces/ifd-ae-disable-flexible-lacp-fast-system-id.conf
 
@@ -627,6 +670,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifd-ae-flexible-lacp-fast-system-id.conf
 
 ```
@@ -661,6 +707,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifd-ae-flexible-lacp.conf
 
 ```
@@ -688,6 +737,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether-100g`
 
 ## evo/interfaces/ifd-breakout-100g.conf
 
@@ -1095,6 +1147,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-lacp-fast`, `interfaces/ifd-ae-description-link-speed-mixed-lacp-fast`, `interfaces/ifd-description-100g`, `interfaces/ifd-description`, `interfaces/ifd-disable`, `interfaces/ifd-speed-100g`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-gigether-description-100g`, `interfaces/ifd-lag-member-gigether-description`, `interfaces/ifd-lag-member-gigether`
+
 ## evo/interfaces/ifl-loopback-inet-primary.conf
 
 ```
@@ -1102,11 +1158,13 @@ interfaces {
  * Topic: Primary IPv4 loopback address
  * Seen on:
  *   Junos: (none)
- *   EVO: wanedge3_acx7509 wanedge4_acx7100-48l
+ *   EVO: ce1_acx7100-48l p1_ptx10003 wanedge3_acx7509 wanedge4_acx7100-48l
  * Count:
+ *   ce1_acx7100-48l 1
+ *   p1_ptx10003 1
  *   wanedge3_acx7509 1
  *   wanedge4_acx7100-48l 1
- *   total 2
+ *   total 4
  * Highlights:
  *   - `primary` makes this address the router's default source address.
  * Pair with: none
@@ -1213,6 +1271,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-disable-flexible-lacp-fast-system-id`, `interfaces/ifd-ae-flexible-lacp-fast-system-id`, `interfaces/ifd-ae-flexible-lacp`, `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-100g`, `interfaces/ifd-lag-member-ether`
+
 ## evo/interfaces/ifl-vlan-ccc-family-ccc.conf
 
 ```
@@ -1242,6 +1304,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-disable-flexible-lacp-fast-system-id`, `interfaces/ifd-ae-flexible-lacp-fast-system-id`, `interfaces/ifd-flexible-ethernet-services`, `interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
 
 ## evo/interfaces/ifl-vlan-ccc.conf
 
@@ -1274,6 +1340,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-flexible-lacp`, `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services`, `interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether-100g`
 
 ## evo/interfaces/ifl-vlan-inet-vrrp-accept-data.conf
 
@@ -1318,6 +1388,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services`, `interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services`
+
 ## evo/interfaces/ifl-vlan-inet-vrrp-preempt-accept-data.conf
 
 ```
@@ -1360,6 +1433,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services`
+
 ## evo/interfaces/ifl-vlan-inet.conf
 
 ```
@@ -1391,6 +1467,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services`, `interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services`
 
 ## evo/policy-options/community/cm-instance-target.conf
 
@@ -1511,7 +1590,8 @@ policy-options {
  * Count:
  *   wanedge3_acx7509 1
  *   total 1
- * Pair with: none
+ * Pair with:
+ *  - evo/policy-options/prefix-list/pl-el-pe1.conf
  * Peers with: n/a
  * Variables: none
  */
@@ -1567,6 +1647,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-instance-target`
+
 ## evo/policy-options/policy-statement/ps-hub-spoke-import.conf
 
 ```
@@ -1603,6 +1686,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-instance-target`
 
 ## evo/policy-options/policy-statement/ps-next-hop-self.conf
 
@@ -2030,6 +2116,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; one of `interfaces/ifl-vlan-ccc-family-ccc`, `interfaces/ifl-vlan-ccc`
+
 ## evo/protocols/l2circuit-local-switching.conf
 
 ```
@@ -2063,6 +2152,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`): required, for each reference; `interfaces/ifl-vlan-ccc`
 
 ## evo/protocols/ldp-auto-targeted-3-core-loopback-p2mp.conf
 
@@ -2098,6 +2190,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `lo0.0`): required, for each reference; one of `interfaces/ifl-core-inet-mpls`, `interfaces/ifl-loopback-inet-primary`, `interfaces/ifl-loopback-mpls`
+
 ## evo/protocols/ldp-auto-targeted-4-core-loopback.conf
 
 ```
@@ -2111,7 +2206,8 @@ protocols {
  *   total 1
  * Highlights:
  *   - `auto-targeted-session` brings up targeted LDP sessions on demand for remote-LFA tunnels, torn down 90 seconds after they are no longer needed.
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-inet-primary.conf
  * Variables (example values from ce1_acx7100-48l):
  *   $CORE_PHYS_1  e.g. et-0/0/48
  *   $CORE_PHYS_2  e.g. et-0/0/49
@@ -2133,6 +2229,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `$CORE_PHYS_4.0`): required, for each reference; `interfaces/ifl-core-inet-mpls`
+
 ## evo/protocols/ldp-auto-targeted-8-core-loopback-p2mp.conf
 
 ```
@@ -2147,7 +2246,8 @@ protocols {
  * Highlights:
  *   - `auto-targeted-session` brings up targeted LDP sessions on demand for remote-LFA tunnels.
  *   - `p2mp` enables mLDP point-to-multipoint LSPs for the NG-MVPN provider tunnels.
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-inet-primary.conf
  * Variables (example values from p1_ptx10003):
  *   $CORE_PHYS_1  e.g. et-0/0/0
  *   $CORE_PHYS_2  e.g. et-0/0/1
@@ -2178,6 +2278,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `$CORE_PHYS_4.0`, `$CORE_PHYS_5.0`, `$CORE_PHYS_6.0`, `$CORE_PHYS_7.0`, `$CORE_PHYS_8.0`): required, for each reference; `interfaces/ifl-core-inet-mpls`
+
 ## evo/protocols/ldp-interface-3-core-loopback.conf
 
 ```
@@ -2189,7 +2292,8 @@ protocols {
  * Count:
  *   p2_ptx10001-36mr 1
  *   total 1
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-inet.conf
  * Variables (example values from p2_ptx10001-36mr):
  *   $CORE_PHYS_1  e.g. et-0/0/4
  *   $CORE_PHYS_2  e.g. et-0/0/6
@@ -2205,6 +2309,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`): required, for each reference; `interfaces/ifl-core-inet-mpls`
+
 ## evo/protocols/ldp-wanedge4.conf
 
 ```
@@ -2218,7 +2325,9 @@ protocols {
  *   total 1
  * Highlights:
  *   - `p2mp` enables mLDP point-to-multipoint LSPs for the NG-MVPN provider tunnels.
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-core-inet-mpls.conf
+ *  - evo/interfaces/ifl-loopback-inet-primary.conf
  * Variables: none
  */
 protocols {
@@ -2238,6 +2347,11 @@ protocols {
     }
 }
 ```
+
+Not included (not defined in the validated source):
+- `logical-interface` `ae1.0` on wanedge4_acx7100-48l
+- `logical-interface` `et-0/0/0.0` on wanedge4_acx7100-48l
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fevo%2Fprotocols%2Fldp-wanedge4
 
 ## evo/protocols/mpls-interface-4-core.conf
 
@@ -2958,6 +3072,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; `policy-options/community/cm-instance-target`
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-hub-spoke-import`, `policy-options/policy-statement/ps-null`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf
 
 ```
@@ -3015,6 +3134,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; one of `interfaces/ifl-vlan-inet-vrrp-accept-data`, `interfaces/ifl-vlan-inet-vrrp-preempt-accept-data`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-ebgp-vrf-policy.conf
 
 ```
@@ -3065,6 +3187,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; `policy-options/community/cm-instance-target`
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-hub-spoke-export-bgp`, `policy-options/policy-statement/ps-null`
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-mvpn-ibgp-rp-local-vpn-mcast-1.conf
 
 ```
@@ -3079,7 +3206,9 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-inet.conf
+ *  - evo/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables: none
  */
 routing-instances {
@@ -3137,6 +3266,10 @@ routing-instances {
 }
 ```
 
+Not included (not defined in the validated source):
+- `logical-interface` `et-1/0/10.1` on wanedge3_acx7509
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fevo%2Frouting-instances%2Fl3vpn%2Fri-l3vpn-mvpn-ibgp-rp-local-vpn-mcast-1
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf
 
 ```
@@ -3152,7 +3285,8 @@ routing-instances {
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
  *   - The VRF loopback is the local RP for the group and also the route-distinguisher administrator.
- * Pair with: none
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables (example values from wanedge3_acx7509):
  *   $INSTANCE_NAME        e.g. vpn-mcast_10
  *   $UNIT                 e.g. 10
@@ -3216,6 +3350,13 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-inet`
+
+Not included (not defined in the validated source):
+- `logical-interface` `$AC_IFL` on wanedge3_acx7509 (99 references)
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fevo%2Frouting-instances%2Fl3vpn%2Fri-l3vpn-mvpn-rp-local
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range-null-register.conf
 
 ```
@@ -3230,7 +3371,8 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables (example values from wanedge4_acx7100-48l):
  *   $INSTANCE_NAME        e.g. vpn-mcast_10
  *   $UNIT                 e.g. 10
@@ -3297,6 +3439,13 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `lo0.$UNIT`): required, for each reference; `interfaces/ifl-loopback-inet`
+
+Not included (not defined in the validated source):
+- `logical-interface` `$AC_IFL` on wanedge4_acx7100-48l (99 references)
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fevo%2Frouting-instances%2Fl3vpn%2Fri-l3vpn-mvpn-rp-static-group-range-null-register
+
 ## evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-null-register-vpn-mcast-1.conf
 
 ```
@@ -3311,7 +3460,9 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-inet.conf
+ *  - evo/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables: none
  */
 routing-instances {
@@ -3364,6 +3515,10 @@ routing-instances {
     }
 }
 ```
+
+Not included (not defined in the validated source):
+- `logical-interface` `et-0/0/1.1` on wanedge4_acx7100-48l
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fevo%2Frouting-instances%2Fl3vpn%2Fri-l3vpn-mvpn-rp-static-null-register-vpn-mcast-1
 
 ## evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans-flow-label.conf
 
@@ -3422,6 +3577,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge`
+
 ## evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf
 
 ```
@@ -3476,6 +3634,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge`
 
 ## evo/routing-options/autonomous-system.conf
 
@@ -3542,7 +3703,9 @@ routing-options {
  *   total 1
  * Highlights:
  *   - `ecmp-fast-reroute` pre-installs the remaining ECMP members so a failed path is bypassed in the forwarding plane.
- * Pair with: none
+ * Pair with:
+ *  - evo/policy-options/policy-statement/per-packet-load-balance-accept.conf
+ *  - evo/policy-options/policy-statement/per-packet-load-balance.conf
  * Peers with: n/a
  * Variables: none
  */
@@ -3579,6 +3742,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; one of `policy-options/policy-statement/per-packet-load-balance-accept`, `policy-options/policy-statement/per-packet-load-balance`
 
 ## evo/routing-options/graceful-restart.conf
 
@@ -3746,6 +3912,9 @@ bridge-domains {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`): required, for each reference; `interfaces/ifl-vlan-bridge`
+
 ## junos/bridge-domains/bridge-domain-vlan-2-interfaces.conf
 
 ```
@@ -3777,6 +3946,9 @@ bridge-domains {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`): required, for each reference; `interfaces/ifl-vlan-bridge`
 
 ## junos/bridge-domains/bridge-domain-vlan-5-interfaces.conf
 
@@ -3815,6 +3987,9 @@ bridge-domains {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`, `$AC_IFL_C`, `$AC_IFL_D`, `$AC_IFL_E`): required, for each reference; `interfaces/ifl-vlan-bridge`
 
 ## junos/bridge-domains/bridge-domain-vlan.conf
 
@@ -4489,6 +4664,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
 ## junos/interfaces/ifd-ae-disable-flexible-lacp-fast-system-id.conf
 
 ```
@@ -4522,6 +4700,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-10g`
 
 ## junos/interfaces/ifd-ae-flexible-lacp-fast-system-id.conf
 
@@ -4557,6 +4738,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
 ## junos/interfaces/ifd-ae-flexible-lacp-fast.conf
 
 ```
@@ -4585,6 +4769,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
 
 ## junos/interfaces/ifd-description.conf
 
@@ -4878,6 +5065,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-lacp-fast`, `interfaces/ifd-description`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
 ## junos/interfaces/ifl-loopback-inet-primary-iso-inet6-primary.conf
 
 ```
@@ -5038,6 +5229,10 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-flexible-lacp-fast-system-id`, `interfaces/ifd-ae-flexible-lacp-fast`, `interfaces/ifd-flexible-ethernet-services-description`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
 ## junos/interfaces/ifl-vlan-ccc-family-ccc.conf
 
 ```
@@ -5067,6 +5262,10 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-disable-flexible-lacp-fast-system-id`, `interfaces/ifd-ae-flexible-lacp-fast-system-id`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-gigether-10g`, `interfaces/ifd-lag-member-gigether`
 
 ## junos/interfaces/ifl-vlan-ccc.conf
 
@@ -5100,6 +5299,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
+
 ## junos/interfaces/ifl-vlan-inet-mpls.conf
 
 ```
@@ -5131,6 +5333,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
 
 ## junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf
 
@@ -5175,6 +5380,9 @@ interfaces {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-speed-10g`, `interfaces/ifd-flexible-ethernet-services`
+
 ## junos/interfaces/ifl-vlan-inet.conf
 
 ```
@@ -5207,6 +5415,9 @@ interfaces {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`
 
 ## junos/policy-options/community/cm-instance-target.conf
 
@@ -5360,7 +5571,8 @@ policy-options {
  * Count:
  *   wanedge1_mx304 1
  *   total 1
- * Pair with: none
+ * Pair with:
+ *  - junos/policy-options/prefix-list/pl-el-pe3.conf
  * Peers with: n/a
  * Variables: none
  */
@@ -5440,6 +5652,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-instance-target`
+
 ## junos/policy-options/policy-statement/ps-hub-spoke-export-direct-bgp.conf
 
 ```
@@ -5475,6 +5690,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-instance-target`
 
 ## junos/policy-options/policy-statement/ps-hub-spoke-import.conf
 
@@ -5512,6 +5730,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$INSTANCE_NAME`): required, for each reference; `policy-options/community/cm-instance-target`
 
 ## junos/policy-options/policy-statement/ps-pplb-accept.conf
 
@@ -5874,6 +6095,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf
 
 ```
@@ -5914,6 +6138,9 @@ protocols {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; one of `interfaces/ifl-vlan-ccc-family-ccc`, `interfaces/ifl-vlan-ccc`
 
 ## junos/protocols/l2circuit-hsb-ethernet-vlan.conf
 
@@ -5956,6 +6183,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## junos/protocols/l2circuit-hsb-ignore-mismatch.conf
 
 ```
@@ -5996,6 +6226,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## junos/protocols/l2circuit-hsb-ignore-mtu-mismatch.conf
 
 ```
@@ -6035,6 +6268,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## junos/protocols/l2circuit-hsb.conf
 
 ```
@@ -6073,6 +6309,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
 ## junos/protocols/l2circuit-local-switching-ethernet-vlan-ignore-mismatch.conf
 
 ```
@@ -6104,6 +6343,11 @@ protocols {
     }
 }
 ```
+
+Not included (not defined in the validated source):
+- `logical-interface` `xe-3/0/2.101` on wanedge2_mx10008
+- `logical-interface` `xe-3/0/2.102` on wanedge2_mx10008
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fjunos%2Fprotocols%2Fl2circuit-local-switching-ethernet-vlan-ignore-mismatch
 
 ## junos/protocols/l2circuit-local-switching.conf
 
@@ -6139,6 +6383,9 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL_A`, `$AC_IFL_B`): required, for each reference; `interfaces/ifl-vlan-ccc`
+
 ## junos/protocols/ldp-auto-targeted-3-core-loopback-p2mp.conf
 
 ```
@@ -6173,6 +6420,13 @@ protocols {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_PHYS_1.0`, `$CORE_PHYS_2.0`, `$CORE_PHYS_3.0`, `lo0.0`): required, for each reference; one of `interfaces/ifl-core-inet-mpls`, `interfaces/ifl-loopback-inet-primary-iso-inet6-primary`, `interfaces/ifl-loopback-inet`
+
+Not included (not defined in the validated source):
+- `logical-interface` `ae1.0` on wanedge2_mx10008
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fjunos%2Fprotocols%2Fldp-auto-targeted-3-core-loopback-p2mp
+
 ## junos/protocols/ldp-wanedge1.conf
 
 ```
@@ -6186,7 +6440,10 @@ protocols {
  *   total 1
  * Highlights:
  *   - `p2mp` enables mLDP point-to-multipoint LSPs for the NG-MVPN provider tunnels.
- * Pair with: none
+ * Pair with:
+ *  - junos/interfaces/ifl-core-inet-mpls.conf
+ *  - junos/interfaces/ifl-loopback-inet-primary.conf
+ *  - junos/interfaces/ifl-vlan-inet-mpls.conf
  * Variables: none
  */
 protocols {
@@ -6204,6 +6461,10 @@ protocols {
     }
 }
 ```
+
+Not included (not defined in the validated source):
+- `logical-interface` `xe-0/0/15:0.0` on wanedge1_mx304
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fjunos%2Fprotocols%2Fldp-wanedge1
 
 ## junos/protocols/lldp-interface-all.conf
 
@@ -6627,6 +6888,11 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-community`: required, all related; `policy-options/community/cm-instance-target`
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet`
+- `policy-statement` (`$IMPORT_POL`, `$EXPORT_POL`): required, for each reference; one of `policy-options/policy-statement/ps-hub-spoke-export-bgp-direct`, `policy-options/policy-statement/ps-hub-spoke-export-direct-bgp`, `policy-options/policy-statement/ps-hub-spoke-import`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf
 
 ```
@@ -6685,6 +6951,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet-vrrp-accept-data`
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-mvpn-ibgp-rp-static-vpn-mcast-1.conf
 
 ```
@@ -6699,7 +6968,10 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-inet.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables: none
  */
 routing-instances {
@@ -6768,7 +7040,8 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables (example values from wanedge1_mx304):
  *   $INSTANCE_NAME        e.g. vpn-mcast_10
  *   $UNIT                 e.g. 10
@@ -6834,6 +7107,13 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `lo0.$UNIT`): required, for each reference; one of `interfaces/ifl-loopback-inet`, `interfaces/ifl-vlan-inet`
+
+Not included (not defined in the validated source):
+- `logical-interface` `xe-0/0/15:3.51` on wanedge1_mx304
+Report: https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20ewan_core_edge%2Fjunos%2Frouting-instances%2Fl3vpn%2Fri-l3vpn-mvpn-rp-static-group-range
+
 ## junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-vpn-mcast-1.conf
 
 ```
@@ -6848,7 +7128,10 @@ routing-instances {
  * Highlights:
  *   - NG-MVPN VRF: `mvpn` signals multicast state over BGP, and `ldp-p2mp` provider tunnels carry it, with one selective tunnel for the configured source and group.
  *   - OSPF inside the VRF advertises the access subnet and VRF loopback toward the site; `bgp-to-ospf` redistributes remote VPN routes.
- * Pair with: none
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-inet-two-addresses.conf
+ *  - junos/interfaces/ifl-vlan-inet.conf
+ *  - junos/policy-options/policy-statement/ps-bgp-to-ospf.conf
  * Variables: none
  */
 routing-instances {
@@ -6987,6 +7270,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge`
+
 ## junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain-interface.conf
 
 ```
@@ -7042,6 +7328,9 @@ routing-instances {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge`
+
 ## junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain.conf
 
 ```
@@ -7095,6 +7384,9 @@ routing-instances {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge`
 
 ## junos/routing-options/autonomous-system-loops.conf
 
@@ -7184,6 +7476,7 @@ routing-options {
  *   wanedge2_mx10008 1
  *   total 1
  * Pair with:
+ *  - junos/policy-options/policy-statement/per-packet-load-balance-accept.conf
  *  - junos/policy-options/policy-statement/ps-pplb-accept.conf
  *
  * Peers with: n/a
@@ -7222,6 +7515,9 @@ routing-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
 
 ## junos/routing-options/graceful-restart.conf
 
@@ -7394,10 +7690,9 @@ per-device protocol forms whose interface lists are reproduced as configured, an
 ## byoai/TIERS.md
 
 > **Tier qualification for this JVD.** Only `minimum` is qualified and selectable.
-> The `self-contained` and `as-deployed` lists below are computed from same-device
-> dependencies that are not yet qualified (the published configurations reference
-> interfaces and loopbacks they do not define). They are not qualified and not
-> selectable: never offer or render them.
+> The `self-contained` and `as-deployed` lists below are not qualified (some
+> interfaces the published configurations reference are not defined in them). They are
+> not selectable: never offer or render them.
 
 # Configuration form tiers
 
@@ -7430,15 +7725,19 @@ Family l3vpn, form hub-spoke-spoke. OS mode Junos. Attachment: VLAN-tagged IPv4 
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-as-override-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
 
 ---
 
@@ -7450,8 +7749,12 @@ Family l3vpn, form hub-spoke-hub-export. OS mode EVO. Attachment: VLAN-tagged IP
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-export-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:redistribute-vpn
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -7463,8 +7766,11 @@ Family l3vpn, form hub-spoke-hub-import. OS mode EVO. Attachment: VLAN-tagged IP
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-vrf-policy.conf`
 - `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
-  - reference-external: policy-statement:$IMPORT_POL
-  - reference-external: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: policy-community:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: policy-statement:$IMPORT_POL
+  - occurrence-selection-required: policy-statement:$EXPORT_POL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -7475,26 +7781,28 @@ Family l3vpn, form vrrp. OS mode MIXED. Attachment: VLAN-tagged IPv4 unit with a
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-router-id-vrf-target.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-inet-vrrp-accept-data.conf`, `junos/protocols/bgp-overlay-pe.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
@@ -7505,20 +7813,26 @@ Family vpls, form bgp-vpls-virtual-switch. OS mode MIXED. Attachment: VLAN bridg
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-local-as.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ---
 
@@ -7529,14 +7843,18 @@ Family vpls, form bgp-vpls-virtual-switch-flow-label. OS mode MIXED. Attachment:
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/vpls/ri-vpls-virtual-switch-vlans-flow-label.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-bridge.conf`, `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `evo/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/vpls/ri-vpls-virtual-switch-bridge-domain-flow-label.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-bridge.conf`, `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`, `junos/protocols/bgp-overlay-pe-labeled-unicast.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ---
 
@@ -7547,14 +7865,14 @@ Family l2circuit, form hot-standby. OS mode Junos. Attachment: VLAN circuit cros
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-hsb-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
@@ -7565,14 +7883,14 @@ Family l2circuit, form single-homed. OS mode EVO. Attachment: VLAN circuit cross
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/protocols/l2circuit-ethernet-vlan-control-word.conf`
-- `self-contained`: the above — it names nothing further
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
@@ -7583,14 +7901,16 @@ Family ngmvpn, form rp-static-group-range. OS mode Junos. Attachment: VLAN-tagge
 ### wanedge1_mx304 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
-- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ### wanedge2_mx10008 (junos)
 
 - `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf`
-- `self-contained`: the above plus `junos/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -7601,8 +7921,9 @@ Family ngmvpn, form rp-local. OS mode EVO. Attachment: VLAN-tagged IPv4 unit and
 ### wanedge3_acx7509 (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-local.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -7613,8 +7934,9 @@ Family ngmvpn, form rp-static-group-range-null-register. OS mode EVO. Attachment
 ### wanedge4_acx7100-48l (evo)
 
 - `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range-null-register.conf`
-- `self-contained`: the above plus `evo/policy-options/policy-statement/ps-bgp-to-ospf.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:lo0.$UNIT
 
 ---
 
@@ -7625,14 +7947,19 @@ Family l2circuit, form local-switching. OS mode MIXED. Attachment: Two VLAN circ
 ### ce1_acx7100-48l (evo)
 
 - `minimum`: `evo/protocols/l2circuit-local-switching.conf`
-- `self-contained`: the above plus `evo/interfaces/ifl-vlan-ccc.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
 
 ### ce2_mx480 (junos)
 
 - `minimum`: `junos/protocols/l2circuit-local-switching.conf`
-- `self-contained`: the above plus `junos/interfaces/ifl-vlan-ccc.conf`
-- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+  - occurrence-selection-required: interface-parent:source-occurrence
 
 ---
 
