@@ -145,6 +145,14 @@ render them and do not assemble a larger set yourself. If TIERS.md
 and a snip header disagree, follow the snip header and say so in
 Notes:. Never add a snip that TIERS.md does not list as `minimum`.
 
+Some snips carry a "Not included" block in the snippet file: references
+the validated configuration uses but never defines. Deliver the snip as
+written, state in Notes: exactly what is not included and why ("not
+defined in the validated source"), and never write that configuration
+yourself. Give the user the block's Report link, or
+https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20<snippet-id>
+with the snippet id URL-encoded.
+
 1g — Scope
 The library README Scope lists constructs present in the validated
 configurations but not yet templated (VLAN-aware interconnect and

@@ -150,7 +150,9 @@ meaning of each variable is in _variables.md.
 Only the `minimum` form is selectable: render exactly the snips
 TIERS.md lists as `minimum` for the service and target device. A
 snip's "Pair with:" entries and the requirements TIERS.md lists under
-a Blocked entry are prerequisites the device must already run. A
+a Blocked entry are prerequisites the device must already run, and so
+are the applicable entries of the "Needs" list under a snip in the
+snippet file (they depend on the device's configuration). A
 "variant:ewan-core-edge-bgp-overlay families=..." entry names the one
 BGP overlay snip in that variant group whose `Seen on:` lists the
 target device. Name these prerequisites in Notes:, but do not render
@@ -159,6 +161,14 @@ snip header disagree, follow the snip header and say so in Notes:.
 Never add a snip that TIERS.md does not list as `minimum`. If TIERS.md
 lists no selectable form for a service, say the bundle cannot
 generate it yet and generate nothing.
+
+Some snips carry a "Not included" block in the snippet file: references
+the validated configuration uses but never defines. Deliver the snip as
+written, state in Notes: exactly what is not included and why ("not
+defined in the validated source"), and never write that configuration
+yourself. Give the user the block's Report link, or
+https://github.com/Juniper/jvd/issues/new?template=jvd-content.yml&title=Missing%20source%3A%20<snippet-id>
+with the snippet id URL-encoded.
 
 1g — Scope
 The library README Scope notes what the library does not model.
