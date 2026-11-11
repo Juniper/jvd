@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "c437560161c927a700b0da1b242118d4865fd9e6154944f53b02053e52d918e4",
+  "libraryDigest": "09dabfc0364e4ef784776720ef58303694d3433cd0919ecb2ab87548014fbab7",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-10T19:46:27.982Z",
+  "generatedAt": "2026-11-11T01:21:13.030Z",
   "resolutions": [
     {
       "jvd": "broadband_edge",
@@ -1645,6 +1645,1376 @@
       "status": "resolved",
       "providers": [
         "broadband_edge/evo/interfaces/ifl-inet-inet6"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce1_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce1_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast",
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce1_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce1_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-options/forwarding-table-pplb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/policy-options/policy-statement/per-packet-load-balance-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce4_mx480",
+      "snip": "ewan_adv_core_edge/junos/bridge-domains/bridge-domain-vlan-2-interfaces",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce4_mx480",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether",
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce4_mx480",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast",
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce4_mx480",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether",
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "ce4_mx480",
+      "snip": "ewan_adv_core_edge/junos/routing-options/forwarding-table-pplb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/policy-options/policy-statement/per-packet-load-balance-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p1_ptx10003",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p1_ptx10003",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p1_ptx10003",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p1_ptx10003",
+      "snip": "ewan_adv_core_edge/evo/protocols/ldp-interface-core-loopback-sr-mapping-client",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+        "ewan_adv_core_edge/evo/interfaces/ifl-loopback-inet"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p1_ptx10003",
+      "snip": "ewan_adv_core_edge/evo/routing-options/forwarding-table-pplb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/policy-options/policy-statement/per-packet-load-balance-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-description",
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-vlan-inet-inet6-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast",
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-flexible-speed-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-vlan-inet-inet6-mpls",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-family-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-family-inet-inet6",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-family-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-family-inet6",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-flexible-speed-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/protocols/ldp-interface-core-loopback-sr-mapping-client",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+        "ewan_adv_core_edge/evo/interfaces/ifl-loopback-inet"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "p2_ptx10001-36mr",
+      "snip": "ewan_adv_core_edge/evo/routing-options/forwarding-table-pplb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/policy-options/policy-statement/per-packet-load-balance-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/class-of-service/interfaces/ifl-dscp-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/class-of-service/interfaces/ifl-ieee8021p-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-lacp-fast",
+        "ewan_adv_core_edge/junos/interfaces/ifd-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description",
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description",
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "ref-filter",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/firewall/filter-destination-address-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-destination-address-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-source-address-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-source-address-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-destination-port-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-destination-port-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-source-port-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-source-port-next-ip"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-virtual-gateway",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-virtual-gateway"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge1_mx304",
+      "snip": "ewan_adv_core_edge/junos/routing-options/forwarding-table-pplb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/policy-options/policy-statement/ps-pplb-evpn-term-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/class-of-service/interfaces/ifl-dscp-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/class-of-service/interfaces/ifl-ieee8021p-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description",
+        "ewan_adv_core_edge/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "ref-filter",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/firewall/filter-destination-address-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-destination-address-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-source-address-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-source-address-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-destination-port-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-destination-port-next-ip",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-source-port-next-interface",
+        "ewan_adv_core_edge/junos/firewall/filter-tcp-source-port-next-ip"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/interfaces/ifl-vlan-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-virtual-gateway",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+        "ewan_adv_core_edge/junos/interfaces/ifl-vlan-ccc-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/junos/interfaces/ifl-irb-virtual-gateway"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge2_mx10004",
+      "snip": "ewan_adv_core_edge/junos/routing-options/forwarding-table-pplb-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/junos/policy-options/policy-statement/ps-pplb-evpn-term-accept"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-dscp-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-ieee8021p-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "ref-filter",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-destination-address-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-destination-address-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-source-address-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-source-address-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-destination-port-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-destination-port-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-source-port-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-source-port-next-ip"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/protocols/ldp-interface-3-core-loopback",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-virtual-gateway",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge3_acx7509",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-virtual-gateway"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-dscp-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/class-of-service/interfaces/ifl-ieee8021p-classifier",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-inet6-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-description-speed-40g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-vlan-inet-inet6-mpls",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-core-vlan-inet-inet6-mpls",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+      "requirement": "context-lag-member",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-family-ccc",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-filter-input",
+      "requirement": "ref-filter",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-destination-address-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-destination-address-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-source-address-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-source-address-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-destination-port-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-destination-port-next-ip",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-source-port-next-interface",
+        "ewan_adv_core_edge/evo/firewall/filter-interface-specific-tcp-source-port-next-ip"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-flexible-ethernet-services-description"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-ae-description-flexible-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifd-core-lag-member-ether-description-100g",
+        "ewan_adv_core_edge/evo/interfaces/ifd-lag-member-ether-100g"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/protocols/ldp-interface-core-loopback-sr-mapping-client",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-inet6-mpls",
+        "ewan_adv_core_edge/evo/interfaces/ifl-core-inet-mpls"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-virtual-gateway",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-bridge-esi"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc",
+        "ewan_adv_core_edge/evo/interfaces/ifl-vlan-ccc-family-ccc"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-inet",
+        "ewan_adv_core_edge/evo/interfaces/ifl-irb-virtual-gateway"
+      ]
+    },
+    {
+      "jvd": "ewan_adv_core_edge",
+      "device": "wanedge4_acx7100-48l",
+      "snip": "ewan_adv_core_edge/evo/routing-options/forwarding-table-pplb-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "ewan_adv_core_edge/evo/policy-options/policy-statement/ps-pplb-evpn-term"
       ]
     },
     {
@@ -23649,5 +25019,5 @@
       ]
     }
   ],
-  "exportDigest": "ee329c8b5ea8595498e4adb2b288fe1112cc92f0a2c79c4f05df9e08b640aea8"
+  "exportDigest": "d6ffa47de09e7783eaeeb1d18570b0324c0872eab58fffe0de3783b6346d69c2"
 }
