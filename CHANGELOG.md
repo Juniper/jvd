@@ -4,6 +4,140 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-10
+
+The **Enterprise WAN: Advanced Core and Edge Services** snippet library is rebuilt from
+the eight validated device configurations with measured dependencies, and the
+**Enterprise WAN: Core and Edge** library now declares its measured dependencies. The
+**JVD AI Assistant** bundles say what a snippet uses that its validated configuration
+never defines.
+
+### New content
+
+- **[Enterprise WAN: Advanced Core and Edge Services snippet library](enterprise_wan/ewan_adv_core_edge/configuration/snips)**:
+  186 snippets (79 Junos, 107 Junos Evolved) measured from the eight published device
+  configurations replace the earlier 51 topic snippets. They cover EVPN-VPWS, EVPN
+  flexible cross-connect, EVPN-ELAN and EVPN Type 5 routing instances, the OSPF,
+  segment routing, LDP and MPLS core, iBGP with route reflectors, firewall filters and
+  flow routes, and the class-of-service model, on MX304, MX10004, MX480, ACX7509,
+  ACX7100-48L, PTX10003 and PTX10001-36MR platforms. Every active statement on the
+  eight devices is reproduced by a snippet except `traceoptions`, which are recorded as
+  excluded with their source locations. Each snippet lists the devices it was validated
+  on, its source instance count and, where verified, its peer on another device.
+- **Advanced Core and Edge Services dependencies**: 19 snippets list a measured
+  `Pair with` prerequisite, and 55 snippets carry 71 typed requirements. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 131 answers
+  for this JVD, each resolved (123) or not needed on its router (8). The assistant
+  bundle was regenerated from the new library: it lists each snippet's Needs and offers
+  the `minimum` form (the service instance itself).
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes Advanced Core and
+  Edge Services, grouping its snippets under WAN Edge (PE), Core / P router and L2-mode
+  helper switch, as named in the JVD datasheet.
+- **Core and Edge dependencies**: 16 snippets in the
+  [Core and Edge library](enterprise_wan/ewan_core_edge/configuration/snips) gain
+  measured `Pair with` prerequisites (26 entries); existing entries are kept. The
+  per-router dependency links gain 131 answers for this JVD: 114 resolved, 5 not needed
+  and 12 for objects the validated configuration references but never defines. The
+  assistant bundle lists each snippet's Needs and ships `MANIFEST.json`. A new
+  [`evo/groups/rest-api.conf`](enterprise_wan/ewan_core_edge/configuration/snips/evo/groups/rest-api.conf)
+  snippet covers the REST API configuration group applied on wanedge4.
+- **Not included in the JVD AI Assistant**: some validated configurations reference an
+  object they never define, for example a VRF that lists interface units no
+  `interfaces` stanza creates. The assistants for Metro Ethernet Business Services,
+  Broadband Edge and the four Enterprise WAN JVDs with snippet libraries deliver such a
+  snippet as validated, state what is not included and why, never write that
+  configuration themselves, and give a link to report it. In Core and Edge, 9 snippets
+  carry a **Not included** block: the NG-MVPN VRF access units and a few LDP and Layer 2
+  circuit units.
+
+### Fixes and maintenance
+
+- **Core and Edge loopbacks**: the published ce1 and p1 configurations define
+  `lo0 unit 0` again. The loopback was in a configuration group that had not been
+  carried into the published files.
+- A routine portal dependency update.
+
+### Known limitations
+
+- The published Advanced Core and Edge Services configurations carry no MACsec, and
+  enable `hierarchical-scheduler` on one port each of wanedge1 and wanedge2 without
+  schedulers or traffic-control profiles, so no MACsec or HQoS snippet is offered. See
+  the library [README](enterprise_wan/ewan_adv_core_edge/configuration/snips/README.md#scope).
+
+### What this means for you
+
+- Build Advanced Core and Edge Services configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values; see the
+  library [README](enterprise_wan/ewan_adv_core_edge/configuration/snips/README.md) and
+  [variable glossary](enterprise_wan/ewan_adv_core_edge/configuration/snips/_variables.md).
+- When building from Core and Edge or Advanced Core and Edge Services snippets, include
+  every `Pair with` entry. For needs that depend on your router's configuration, use the
+  Needs list in the JVD AI Assistant bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- When an assistant reports that something is not included, supply that object from
+  your own design, and use the link it gives to report the gap.
+- Links or bookmarks to the earlier Advanced Core and Edge Services snippet file names
+  no longer resolve; use the topic index in the library
+  [README](enterprise_wan/ewan_adv_core_edge/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundles and manifests.
+
+---
+
+### By the numbers
+
+Changes since the November 6 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 3 | 0 |
+| Service Provider / Broadband Edge | 0 | 0 | 0 | 3 | 0 |
+| Enterprise WAN / Core and Edge | 2 | 0 | 0 | 32 | 2 |
+| Enterprise WAN / Advanced Core and Edge Services | 190 | 2 | 49 | 13 | 2 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 3 | 0 |
+| Enterprise WAN / Finance | 0 | 0 | 0 | 3 | 0 |
+| Portal | 1 | 0 | 0 | 33 | 2 |
+| **Total** | **193** | **2** | **49** | **90** | **6** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 30 | 4 | +26 |
+| Service Provider / Broadband Edge | 30 | 4 | +26 |
+| Enterprise WAN / Core and Edge | 8051 | 205 | +7846 |
+| Enterprise WAN / Advanced Core and Edge Services | 22305 | 6012 | +16293 |
+| Enterprise WAN / Data Center Edge | 30 | 4 | +26 |
+| Enterprise WAN / Finance | 30 | 4 | +26 |
+| Portal | 48495 | 9365 | +39130 |
+| **Total** | **78971** | **15598** | **+63373** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding assistant bundles) | 268 | 11956 |
+| JVD AI Assistant bundles (with portal copies) | 59 | 37060 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 27168 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 2711 |
+| Device configurations (`configuration/conf/`) | 2 | 18 |
+| Portal dependencies (`package.json`, `bun.lock`) | 2 | 58 |
+| **Total** | **334** | **78971** |
+
+</details>
+
+---
+
 ## 2026-11-06
 
 Snippet dependencies in the **Metro Ethernet Business Services** and **Enterprise WAN:
