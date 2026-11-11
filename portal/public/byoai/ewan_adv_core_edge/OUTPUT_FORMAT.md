@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-ewan-ace-snips.md`](jvd-ewan-ace-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-ewan-ace-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,22 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   pe1: { name: <hostname>, os: <junos|evo>, loopback4: <addr> }
-#   pe2: { ... }
+#   wanedge1: { name: <hostname>, os: junos, loopback4: <addr> }
+#   wanedge3: { name: <hostname>, os: evo, loopback4: <addr> }
 # services:
-#   - { kind: <evpn-vpws|evpn-fxc|evpn-elan|evpn-elan-irb|evpn-type5>,
+#   - { kind: <evpn-vpws|evpn-fxc|evpn-elan-2-uni|evpn-elan-1-uni|evpn-elan-irb|evpn-type5>,
 #       count: <int>,
 #       start_id: <int>,
-#       start_vlan: <int>,
-#       start_ac_unit: <int>,
-#       rt: <target:...>,
-#       esi_base: <hex>,         # for multihomed services
-#       irb_subnet: <prefix> }   # for evpn-elan-irb / evpn-type5
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - junos/services/evpn-vpws-vlan-based.conf
-#   - evo/services/evpn-vpws-vlan-based.conf
+#   - junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf
 #   - ...
 ```
 
@@ -49,11 +46,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-PE consistency the user must verify (RTs, ESIs, VPWS service-id pairs, MAC-VRF / instance names).
-- Anything that is by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- For EVO devices: remind that `network-services enhanced-ip` (from `bootstrap/chassis-network-services.conf`) is a prerequisite for EVPN/MPLS and requires a reboot if not already set.
+- Cross-device consistency the user must verify: the WAN edges of one service use the same instance name and route target; an EVPN-VPWS or flexible cross-connect service swaps the local and remote VPWS service identifiers between its two ends.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

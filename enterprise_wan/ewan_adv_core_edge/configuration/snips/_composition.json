@@ -1,0 +1,1297 @@
+{
+  "schemaVersion": 1,
+  "jvd": "ewan_adv_core_edge",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "roles": {
+    "wanedge": "WAN Edge (PE)",
+    "p": "Core / P router",
+    "ce": "L2-mode helper switch"
+  },
+  "forms": [
+    {
+      "id": "evpn-vpws-control-word",
+      "family": "e-line",
+      "form": "evpn-vpws-control-word",
+      "aliases": [
+        "EVPN-VPWS point-to-point service with control word"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "VLAN CCC unit on an all-active Ethernet segment aggregate toward the CE.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_IFL",
+        "$VPWS_SVC_ID_LOCAL",
+        "$VPWS_SVC_ID_REMOTE",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vpws-point-to-point-service-with-control-word",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-fxc-vlan-aware-2-uni",
+      "family": "e-line",
+      "form": "evpn-fxc-vlan-aware-2-uni",
+      "aliases": [
+        "EVPN flexible cross-connect, VLAN-aware, two attachment circuits"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Two VLAN CCC units on an all-active Ethernet segment aggregate toward the CE.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_IFL_A",
+        "$SVC_ID_LOCAL_A",
+        "$SVC_ID_REMOTE_A",
+        "$AC_IFL_B",
+        "$SVC_ID_LOCAL_B",
+        "$SVC_ID_REMOTE_B",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-flexible-cross-connect-vlan-aware-two-attachment-circuits",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-2-uni",
+      "family": "e-lan",
+      "form": "evpn-elan-2-uni",
+      "aliases": [
+        "EVPN-ELAN with two attachment circuits"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Two VLAN bridge units toward the CE; Junos uses an EVPN instance, EVO a VLAN-bundle MAC-VRF.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_IFL_A",
+        "$AC_IFL_B",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$BD_NAME"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-with-two-attachment-circuits",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-1-uni",
+      "family": "e-lan",
+      "form": "evpn-elan-1-uni",
+      "aliases": [
+        "EVPN-ELAN with one attachment circuit"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "One VLAN bridge unit toward the CE; Junos uses an EVPN instance, EVO a VLAN-based MAC-VRF.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$AC_IFL",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$BD_NAME",
+        "$VLAN_BD"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-with-one-attachment-circuit",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-elan-irb",
+      "family": "e-lan",
+      "form": "evpn-elan-irb",
+      "aliases": [
+        "EVPN-ELAN with an IRB gateway"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "One VLAN bridge unit toward the CE and an IRB unit as the layer 3 gateway.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$IRB_UNIT",
+        "$AC_IFL",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID",
+        "$BD_NAME",
+        "$VLAN_BD"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-elan-with-an-irb-gateway",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf",
+      "aliases": [
+        "EVPN Type 5 IP-prefix VRF"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB unit of an EVPN-ELAN service as the VRF interface.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$ROUTER_ID",
+        "$IRB_UNIT",
+        "$RD_SUB_ADMIN",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-ip-prefix-vrf",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-ospf-lfa",
+      "aliases": [
+        "Add OSPF loop-free alternates to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "add-load-balancing",
+      "aliases": [
+        "Add per-packet load balancing to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped feature add; no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "4b7b638102bb4a523c396280628de6a811449cf45338058c963cd0f0792c6709"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+      ],
+      "slots": [
+        "DSCP"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+      ],
+      "slots": [
+        "EXP"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+        "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+      ],
+      "slots": [
+        "8021P"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-description-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-inet6-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-100g.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-lacp-fast.conf",
+        "evo/interfaces/ifd-description-100g.conf",
+        "evo/interfaces/ifd-description-speed-40g.conf",
+        "evo/interfaces/ifd-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-vlan-inet-inet6-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+        "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf",
+        "evo/interfaces/ifd-description-flexible-speed-100g.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-vlan-inet-inet6-mpls.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge-esi.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge-esi.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-bridge.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether-description.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-family-inet-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-family-inet-inet6.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-family-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-family-inet6.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-filter-input.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-filter-input.conf",
+      "kind": "filter",
+      "scope": "whole",
+      "providers": [
+        "evo/firewall/filter-interface-specific-destination-address-next-interface.conf",
+        "evo/firewall/filter-interface-specific-destination-address-next-ip.conf",
+        "evo/firewall/filter-interface-specific-source-address-next-interface.conf",
+        "evo/firewall/filter-interface-specific-source-address-next-ip.conf",
+        "evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf",
+        "evo/firewall/filter-interface-specific-tcp-destination-port-next-ip.conf",
+        "evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf",
+        "evo/firewall/filter-interface-specific-tcp-source-port-next-ip.conf"
+      ],
+      "slots": [
+        "$INPUT_FILTER"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+        "evo/interfaces/ifd-lag-member-ether-100g.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-flexible-speed-100g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/ldp-interface-3-core-loopback.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-core-inet-mpls.conf"
+      ],
+      "slots": [
+        "$CORE_PHYS_1.0",
+        "$CORE_PHYS_2.0",
+        "$CORE_PHYS_3.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/protocols/ldp-interface-core-loopback-sr-mapping-client.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-core-inet-inet6-mpls.conf",
+        "evo/interfaces/ifl-core-inet-mpls.conf",
+        "evo/interfaces/ifl-loopback-inet.conf"
+      ],
+      "slots": [
+        "$CORE_INTF_1",
+        "lo0.0"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-irb-inet.conf",
+        "evo/interfaces/ifl-irb-virtual-gateway.conf",
+        "evo/interfaces/ifl-vlan-bridge-esi.conf",
+        "evo/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-bridge-esi.conf",
+        "evo/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-bridge-esi.conf",
+        "evo/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+        "evo/interfaces/ifl-vlan-ccc-family-ccc.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+        "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf",
+        "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf",
+        "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+        "evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+        "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-irb-inet.conf",
+        "evo/interfaces/ifl-irb-virtual-gateway.conf"
+      ],
+      "slots": [
+        "$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-pplb-evpn-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-accept.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/bridge-domains/bridge-domain-vlan-2-interfaces.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+      ],
+      "slots": [
+        "DSCP"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+      ],
+      "slots": [
+        "8021P"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-description.conf",
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-description-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-description-lacp-fast.conf",
+        "junos/interfaces/ifd-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mpls.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-esi.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+        "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge-esi.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+        "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-bridge.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-description.conf",
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+        "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-filter-input.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-filter-input.conf",
+      "kind": "filter",
+      "scope": "whole",
+      "providers": [
+        "junos/firewall/filter-destination-address-next-interface.conf",
+        "junos/firewall/filter-destination-address-next-ip.conf",
+        "junos/firewall/filter-source-address-next-interface.conf",
+        "junos/firewall/filter-source-address-next-ip.conf",
+        "junos/firewall/filter-tcp-destination-port-next-interface.conf",
+        "junos/firewall/filter-tcp-destination-port-next-ip.conf",
+        "junos/firewall/filter-tcp-source-port-next-interface.conf",
+        "junos/firewall/filter-tcp-source-port-next-ip.conf"
+      ],
+      "slots": [
+        "$INPUT_FILTER"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-mpls.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+        "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge-esi.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-inet.conf",
+        "junos/interfaces/ifl-irb-virtual-gateway.conf",
+        "junos/interfaces/ifl-vlan-bridge-esi.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$IRB_UNIT",
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-bridge-esi.conf",
+        "junos/interfaces/ifl-vlan-bridge.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+      ],
+      "slots": [
+        "$AC_IFL_A",
+        "$AC_IFL_B"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+        "junos/interfaces/ifl-vlan-ccc-family-ccc.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf",
+        "junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+        "junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+        "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-irb-inet.conf",
+        "junos/interfaces/ifl-irb-virtual-gateway.conf"
+      ],
+      "slots": [
+        "$IRB_UNIT"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+        "junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}

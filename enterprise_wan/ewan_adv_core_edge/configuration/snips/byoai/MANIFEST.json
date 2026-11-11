@@ -1,802 +1,4320 @@
 {
-  "schema_version": 1,
-  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "schema_version": 2,
+  "contract_versions": {
+    "dependencies": 3,
+    "relationships": 2
+  },
+  "dependency_declaration_sha256": "4b7b638102bb4a523c396280628de6a811449cf45338058c963cd0f0792c6709",
+  "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips",
-  "snip_count": 51,
+  "snip_count": 186,
   "snips": [
     {
-      "path": "evo/bootstrap/chassis-network-services.conf",
+      "path": "evo/chassis/aggregated-devices-ethernet.conf",
       "os": "evo",
-      "category": "bootstrap",
-      "name": "chassis-network-services",
-      "topic": "Chassis network-services and aggregated-device count (platform bootstrap)",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device count",
       "seen_on": [
+        "ce1_acx7100-48l",
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
         "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 646,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/chassis/fpc-ptx10003-port-speeds-100g-40g.conf",
+      "os": "evo",
+      "category": "chassis",
+      "name": "fpc-ptx10003-port-speeds-100g-40g",
+      "topic": "PTX10003 line card port speeds",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 1514,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/chassis/fpc-ptx10003-port-speeds-100g-40g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/chassis/network-services-enhanced-ip.conf",
+      "os": "evo",
+      "category": "chassis",
+      "name": "network-services-enhanced-ip",
+      "topic": "Enhanced-IP network services mode",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 508,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/chassis/network-services-enhanced-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "classifiers/cl-dscp-exp-ieee8021p-7class",
+      "topic": "DSCP, EXP and IEEE 802.1p classifiers for seven forwarding classes",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 2878,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-7queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "classifiers/cl-dscp-exp-ieee8021p-8class",
+      "topic": "DSCP, EXP and IEEE 802.1p classifiers for eight forwarding classes",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 4023,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-8queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/classifiers/cl-exp-8class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "classifiers/cl-exp-8class",
+      "topic": "MPLS EXP classifier for eight forwarding classes",
+      "seen_on": [
         "p1_ptx10003",
         "p2_ptx10001-36mr"
       ],
-      "size_bytes": 1027,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/bootstrap/chassis-network-services.conf"
-    },
-    {
-      "path": "evo/cos/classifier-dscp-exp-8021p.conf",
-      "os": "evo",
-      "category": "cos",
-      "name": "classifier-dscp-exp-8021p",
-      "topic": "Multi-field BA classifiers (DSCP, MPLS EXP, 802.1p \u2192 8-class forwarding)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+      "size_bytes": 1322,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/classifiers/cl-exp-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-8queue-model.conf"
       ],
-      "size_bytes": 3547,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/cos/classifier-dscp-exp-8021p.conf"
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/cos/forwarding-class-map.conf",
+      "path": "evo/class-of-service/drop-profiles/drop-profiles-fill-level.conf",
       "os": "evo",
-      "category": "cos",
-      "name": "forwarding-class-map",
-      "topic": "Forwarding-class to queue-number mapping (8-class CoS model)",
+      "category": "class-of-service",
+      "name": "drop-profiles/drop-profiles-fill-level",
+      "topic": "Two fill-level drop profiles",
       "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+        "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1330,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/cos/forwarding-class-map.conf"
+      "size_bytes": 573,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/drop-profiles/drop-profiles-fill-level.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/cos/rewrite-rules-exp.conf",
+      "path": "evo/class-of-service/forwarding-classes/fc-7queue-model.conf",
       "os": "evo",
-      "category": "cos",
-      "name": "rewrite-rules-exp",
-      "topic": "EXP rewrite rule and per-interface CoS binding (core egress marking)",
+      "category": "class-of-service",
+      "name": "forwarding-classes/fc-7queue-model",
+      "topic": "Seven forwarding classes on seven queues",
       "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+        "wanedge3_acx7509"
       ],
-      "size_bytes": 1320,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/cos/rewrite-rules-exp.conf"
+      "size_bytes": 635,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/forwarding-classes/fc-7queue-model.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/ddos-mitigation/flowspec-routes.conf",
+      "path": "evo/class-of-service/forwarding-classes/fc-8queue-model.conf",
       "os": "evo",
-      "category": "ddos-mitigation",
-      "name": "flowspec-routes",
-      "topic": "BGP FlowSpec enablement for dynamic DDoS mitigation",
+      "category": "class-of-service",
+      "name": "forwarding-classes/fc-8queue-model",
+      "topic": "Eight forwarding classes on eight queues",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 759,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/forwarding-classes/fc-8queue-model.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-dscp-classifier",
+      "topic": "DSCP classifier on a logical interface",
       "seen_on": [
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1084,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/ddos-mitigation/flowspec-routes.conf"
+      "size_bytes": 638,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-classifier",
+          "kind": "classifier",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "DSCP"
+          ],
+          "providers": [
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/firewall/filter-ipv4-stateless.conf",
+      "path": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite",
+      "topic": "EXP classifier with EXP and 802.1p rewrite on a logical interface",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 787,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-classifier",
+          "kind": "classifier",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "EXP"
+          ],
+          "providers": [
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-exp-classifier-rewrite",
+      "topic": "Per-unit EXP classifier and rewrite application",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 670,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/classifiers/cl-exp-8class.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-ieee8021p-classifier",
+      "topic": "Per-unit 802.1p classifier application",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 559,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-classifier",
+          "kind": "classifier",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "8021P"
+          ],
+          "providers": [
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class.conf",
+            "evo/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/class-of-service/rewrite-rules/rr-dscp-exp-ieee8021p-8class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "rewrite-rules/rr-dscp-exp-ieee8021p-8class",
+      "topic": "DSCP, EXP and IEEE 802.1p rewrite rules for eight forwarding classes",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 3062,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/rewrite-rules/rr-dscp-exp-ieee8021p-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-8queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/rewrite-rules/rr-exp-8class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "rewrite-rules/rr-exp-8class",
+      "topic": "MPLS EXP rewrite rule for eight forwarding classes",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1321,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/rewrite-rules/rr-exp-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-8queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/class-of-service/rewrite-rules/rr-exp-ieee8021p-7class.conf",
+      "os": "evo",
+      "category": "class-of-service",
+      "name": "rewrite-rules/rr-exp-ieee8021p-7class",
+      "topic": "EXP and IEEE 802.1p rewrite rules for seven forwarding classes",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 1971,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/class-of-service/rewrite-rules/rr-exp-ieee8021p-7class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/class-of-service/forwarding-classes/fc-7queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-destination-address-next-interface.conf",
       "os": "evo",
       "category": "firewall",
-      "name": "filter-ipv4-stateless",
-      "topic": "IPv4 stateless firewall filter (PBR with next-ip/next-interface)",
+      "name": "filter-interface-specific-destination-address-next-interface",
+      "topic": "Interface-specific filter-based forwarding on destination address to a next interface",
       "seen_on": [
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1192,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-ipv4-stateless.conf"
+      "size_bytes": 1053,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/interfaces/irb-gateway.conf",
+      "path": "evo/firewall/filter-interface-specific-destination-address-next-ip.conf",
       "os": "evo",
-      "category": "interfaces",
-      "name": "irb-gateway",
-      "topic": "IRB gateway interface (per-VRF L3 address for EVPN Type-5 routing)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 935,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/irb-gateway.conf"
-    },
-    {
-      "path": "evo/interfaces/lag-flexible-services.conf",
-      "os": "evo",
-      "category": "interfaces",
-      "name": "lag-flexible-services",
-      "topic": "LAG with flexible VLAN services (multi-service bundle for VPWS/ELAN ACs)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1759,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/lag-flexible-services.conf"
-    },
-    {
-      "path": "evo/interfaces/loopback.conf",
-      "os": "evo",
-      "category": "interfaces",
-      "name": "loopback",
-      "topic": "Loopback interface (router-id, BGP source, MPLS label binding)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 908,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/loopback.conf"
-    },
-    {
-      "path": "evo/interfaces/physical-uplink-mpls.conf",
-      "os": "evo",
-      "category": "interfaces",
-      "name": "physical-uplink-mpls",
-      "topic": "Physical core uplink with MPLS and IPv4 (WAN backbone interface)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1290,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/physical-uplink-mpls.conf"
-    },
-    {
-      "path": "evo/interfaces/vlan-bridge.conf",
-      "os": "evo",
-      "category": "interfaces",
-      "name": "vlan-bridge",
-      "topic": "ELAN attachment-circuit (vlan-bridge encapsulation)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1122,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/vlan-bridge.conf"
-    },
-    {
-      "path": "evo/interfaces/vlan-ccc-esi.conf",
-      "os": "evo",
-      "category": "interfaces",
-      "name": "vlan-ccc-esi",
-      "topic": "VPWS attachment-circuit (vlan-ccc with ESI all-active multi-homing)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1340,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/vlan-ccc-esi.conf"
-    },
-    {
-      "path": "evo/oam/cfm-maintenance-domain.conf",
-      "os": "evo",
-      "category": "oam",
-      "name": "cfm-maintenance-domain",
-      "topic": "CFM maintenance domain with continuity-check MEP (802.1ag OAM)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1593,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/oam/cfm-maintenance-domain.conf"
-    },
-    {
-      "path": "evo/oam/cfm-sla-iterator.conf",
-      "os": "evo",
-      "category": "oam",
-      "name": "cfm-sla-iterator",
-      "topic": "CFM enhanced SLA iterator (two-way delay and synthetic loss measurement)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1269,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/oam/cfm-sla-iterator.conf"
-    },
-    {
-      "path": "evo/policy/per-packet-load-balance.conf",
-      "os": "evo",
-      "category": "policy",
-      "name": "per-packet-load-balance",
-      "topic": "Per-packet load-balance and BGP redistribution policies",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1429,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy/per-packet-load-balance.conf"
-    },
-    {
-      "path": "evo/services/evpn-elan-vlan-based-irb.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-elan-vlan-based-irb",
-      "topic": "EVPN-ELAN vlan-based with IRB gateway (L2+L3 integrated)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 2076,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-elan-vlan-based-irb.conf"
-    },
-    {
-      "path": "evo/services/evpn-elan-vlan-bundle.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-elan-vlan-bundle",
-      "topic": "EVPN-ELAN vlan-bundle (L2 multipoint, no IRB)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1627,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-elan-vlan-bundle.conf"
-    },
-    {
-      "path": "evo/services/evpn-fxc-vlan-aware.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-fxc-vlan-aware",
-      "topic": "EVPN FXC vlan-aware (Flexible Cross-Connect, multi-AC)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 2158,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-fxc-vlan-aware.conf"
-    },
-    {
-      "path": "evo/services/evpn-vpws-vlan-based.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-vpws-vlan-based",
-      "topic": "EVPN-VPWS vlan-based point-to-point pseudowire (single AC, control-word)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1760,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-vpws-vlan-based.conf"
-    },
-    {
-      "path": "evo/services/evpn-vrf-ip-prefix.conf",
-      "os": "evo",
-      "category": "services",
-      "name": "evpn-vrf-ip-prefix",
-      "topic": "EVPN IP-prefix route VRF (L3 VPN with EVPN Type-5 advertisement)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1795,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/services/evpn-vrf-ip-prefix.conf"
-    },
-    {
-      "path": "evo/transport/bgp-ibgp-evpn.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "bgp-ibgp-evpn",
-      "topic": "iBGP overlay with EVPN signaling (route-reflector client config)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1755,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/bgp-ibgp-evpn.conf"
-    },
-    {
-      "path": "evo/transport/forwarding-options-hash.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "forwarding-options-hash",
-      "topic": "Forwarding hash-key configuration for ECMP and LAG load distribution",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1450,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/forwarding-options-hash.conf"
-    },
-    {
-      "path": "evo/transport/ldp-sr-coexistence.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "ldp-sr-coexistence",
-      "topic": "LDP with SR coexistence (sr-mapping-client + ldp-synchronization)",
-      "seen_on": [
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1553,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/ldp-sr-coexistence.conf"
-    },
-    {
-      "path": "evo/transport/mpls-lsp.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "mpls-lsp",
-      "topic": "MPLS label-switched paths and interface enablement",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1515,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/mpls-lsp.conf"
-    },
-    {
-      "path": "evo/transport/ospf-sr-lfa.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "ospf-sr-lfa",
-      "topic": "OSPF with Segment Routing and TI-LFA (post-convergence node protection)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 2866,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/ospf-sr-lfa.conf"
-    },
-    {
-      "path": "evo/transport/sr-mapping-server.conf",
-      "os": "evo",
-      "category": "transport",
-      "name": "sr-mapping-server",
-      "topic": "SR prefix-SID mapping server (LDP-to-SR stitching on P routers)",
-      "seen_on": [
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1746,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/transport/sr-mapping-server.conf"
-    },
-    {
-      "path": "junos/bootstrap/chassis-network-services.conf",
-      "os": "junos",
-      "category": "bootstrap",
-      "name": "chassis-network-services",
-      "topic": "Chassis network-services and aggregated-device count (platform bootstrap)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1137,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/bootstrap/chassis-network-services.conf"
-    },
-    {
-      "path": "junos/cos/classifier-dscp-exp-8021p.conf",
-      "os": "junos",
-      "category": "cos",
-      "name": "classifier-dscp-exp-8021p",
-      "topic": "Multi-field BA classifiers (DSCP, MPLS EXP, 802.1p \u2192 8-class forwarding)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 3669,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/cos/classifier-dscp-exp-8021p.conf"
-    },
-    {
-      "path": "junos/cos/forwarding-class-map.conf",
-      "os": "junos",
-      "category": "cos",
-      "name": "forwarding-class-map",
-      "topic": "Forwarding-class to queue-number mapping (8-class CoS model)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1473,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/cos/forwarding-class-map.conf"
-    },
-    {
-      "path": "junos/cos/rewrite-rules-exp.conf",
-      "os": "junos",
-      "category": "cos",
-      "name": "rewrite-rules-exp",
-      "topic": "EXP rewrite rule and per-interface CoS binding (core egress marking)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1556,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/cos/rewrite-rules-exp.conf"
-    },
-    {
-      "path": "junos/ddos-mitigation/flowspec-routes.conf",
-      "os": "junos",
-      "category": "ddos-mitigation",
-      "name": "flowspec-routes",
-      "topic": "BGP FlowSpec enablement for dynamic DDoS mitigation",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1539,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/ddos-mitigation/flowspec-routes.conf"
-    },
-    {
-      "path": "junos/firewall/filter-ipv4-stateless.conf",
-      "os": "junos",
       "category": "firewall",
-      "name": "filter-ipv4-stateless",
-      "topic": "IPv4 stateless firewall filter (PBR with next-ip/next-interface)",
+      "name": "filter-interface-specific-destination-address-next-ip",
+      "topic": "Interface-specific filter-based forwarding on destination address to a next-hop IP address",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1429,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-ipv4-stateless.conf"
+      "size_bytes": 999,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/irb-gateway.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "irb-gateway",
-      "topic": "IRB gateway interface (per-VRF L3 address for EVPN Type-5 routing)",
+      "path": "evo/firewall/filter-interface-specific-source-address-next-interface.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-source-address-next-interface",
+      "topic": "Interface-specific filter-based forwarding on source address to a next interface",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1045,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-source-address-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-source-address-next-ip.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-source-address-next-ip",
+      "topic": "Interface-specific filter-based forwarding on source address to a next-hop IP address",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 991,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-source-address-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-tcp-destination-port-next-interface",
+      "topic": "Interface-specific filter-based forwarding on TCP destination port to a next interface",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1019,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-tcp-destination-port-next-ip.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-tcp-destination-port-next-ip",
+      "topic": "Interface-specific filter-based forwarding on TCP destination port to a next-hop IP address",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 965,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-destination-port-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-tcp-source-port-next-interface",
+      "topic": "Interface-specific filter-based forwarding on TCP source port to a next interface",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1012,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/firewall/filter-interface-specific-tcp-source-port-next-ip.conf",
+      "os": "evo",
+      "category": "firewall",
+      "name": "filter-interface-specific-tcp-source-port-next-ip",
+      "topic": "Interface-specific filter-based forwarding on TCP source port to a next-hop IP address",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 958,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-source-port-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/forwarding-options/hash-key-inet-inet6-layer-3-4-multiservice-mac.conf",
+      "os": "evo",
+      "category": "forwarding-options",
+      "name": "hash-key-inet-inet6-layer-3-4-multiservice-mac",
+      "topic": "Load-balancing hash on layer 3 and 4 for IPv4 and IPv6, MAC addresses for multiservice",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 706,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/forwarding-options/hash-key-inet-inet6-layer-3-4-multiservice-mac.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/forwarding-options/hash-key-mpls-all-labels.conf",
+      "os": "evo",
+      "category": "forwarding-options",
+      "name": "hash-key-mpls-all-labels",
+      "topic": "Hash key on IPv4/IPv6 layer 3-4, all MPLS labels with IP payload, and Ethernet MACs",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 749,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/forwarding-options/hash-key-mpls-all-labels.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast-failover-system-id",
+      "topic": "Aggregated Ethernet with fast LACP, fast failover and system ID",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 838,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast-system-id",
+      "topic": "Aggregated Ethernet with flexible services, fast LACP and system ID",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 781,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast",
+      "topic": "Aggregated Ethernet with flexible services and fast LACP",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 753,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-mtu-lacp-fast",
+      "topic": "Aggregated Ethernet with flexible services, MTU and fast LACP",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 786,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifd-ae-description-lacp-fast.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-ae-description-lacp-fast",
+      "topic": "Described aggregated Ethernet bundle with active fast LACP",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 620,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifd-breakout-4x10g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-breakout-4x10g",
+      "topic": "Four-subport 10G physical interface breakout",
+      "seen_on": [
+        "ce1_acx7100-48l"
+      ],
+      "size_bytes": 353,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-breakout-4x10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-core-lag-member-ether-description-100g",
+      "topic": "Described 100G physical member of a core aggregated Ethernet bundle",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 594,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description-100g",
+      "topic": "Described 100G port",
+      "seen_on": [
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 487,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-description-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description-flexible-speed-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description-flexible-speed-100g",
+      "topic": "Described 100G port with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 536,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-description-flexible-speed-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description-speed-40g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description-speed-40g",
+      "topic": "40G port with a description",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 464,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-description-speed-40g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-description.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-description",
+      "topic": "Interface description",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 377,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-flexible-ethernet-services-description-speed-10g",
+      "topic": "10G port with flexible services",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 571,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-flexible-ethernet-services-description",
+      "topic": "Described port with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 709,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-lag-member-ether-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-lag-member-ether-100g",
+      "topic": "100G aggregated Ethernet member link through ether-options",
+      "seen_on": [
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 496,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-lag-member-ether-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-lag-member-ether-description.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-lag-member-ether-description",
+      "topic": "Described member link of an aggregated-Ethernet bundle",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 510,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-lag-member-ether-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-lag-member-ether.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-lag-member-ether",
+      "topic": "Aggregated Ethernet member link through ether-options",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 493,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-lag-member-ether.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-speed-100g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-speed-100g",
+      "topic": "100G port speed",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 306,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-speed-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-speed-10g.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-speed-10g",
+      "topic": "Interface device at 10G",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 313,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-speed-10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifd-unused.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-unused",
+      "topic": "Port marked unused",
+      "seen_on": [
+        "ce1_acx7100-48l"
+      ],
+      "size_bytes": 387,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-unused.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-core-inet-inet6-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-inet-inet6-mpls",
+      "topic": "Core unit with IPv4, IPv6 and MPLS",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 699,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-core-inet-inet6-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description-100g.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-core-inet-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-inet-mpls",
+      "topic": "Core-facing point-to-point link with IPv4 and MPLS families",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 741,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-core-inet-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-lacp-fast.conf",
+            "evo/interfaces/ifd-description-100g.conf",
+            "evo/interfaces/ifd-description-speed-40g.conf",
+            "evo/interfaces/ifd-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-core-vlan-inet-inet6-mpls.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-vlan-inet-inet6-mpls",
+      "topic": "Tagged core unit with IPv4, IPv6 and MPLS",
+      "seen_on": [
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 799,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-core-vlan-inet-inet6-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+            "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf",
+            "evo/interfaces/ifd-description-flexible-speed-100g.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-irb-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 506,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-irb-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-irb-virtual-gateway.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-irb-virtual-gateway",
+      "topic": "IRB unit acting as an anycast default gateway with a virtual-gateway address",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 768,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-irb-virtual-gateway.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-loopback-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet",
+      "topic": "Loopback unit with one IPv4 address",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 488,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-loopback-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-bridge-esi.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-bridge-esi",
+      "topic": "Bridged logical interface with EVPN ESI multihoming",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 693,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-bridge-esi.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-bridge.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-bridge",
+      "topic": "VLAN-tagged bridge unit",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 618,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-bridge.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-esi-all-active-family-ccc",
+      "topic": "Single-tagged cross-connect logical interface with an all-active ESI",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 725,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast-failover-system-id.conf",
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-family-ccc",
+      "topic": "VLAN-tagged circuit cross-connect unit with family ccc",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 537,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-family-inet-inet6.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-family-inet-inet6",
+      "topic": "VLAN unit with the IPv4 and IPv6 families enabled",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 552,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-family-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet-family-inet6.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-family-inet6",
+      "topic": "VLAN unit with an IPv4 address and the IPv6 family enabled",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 664,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-inet-family-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet-filter-input.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-filter-input",
+      "topic": "IPv4 VLAN unit with an input firewall filter",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 824,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-inet-filter-input.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        },
+        {
+          "id": "ref-filter",
+          "kind": "filter",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$INPUT_FILTER"
+          ],
+          "providers": [
+            "evo/firewall/filter-interface-specific-destination-address-next-interface.conf",
+            "evo/firewall/filter-interface-specific-destination-address-next-ip.conf",
+            "evo/firewall/filter-interface-specific-source-address-next-interface.conf",
+            "evo/firewall/filter-interface-specific-source-address-next-ip.conf",
+            "evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf",
+            "evo/firewall/filter-interface-specific-tcp-destination-port-next-ip.conf",
+            "evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf",
+            "evo/firewall/filter-interface-specific-tcp-source-port-next-ip.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6-rpf-check-loose",
+      "topic": "Dual-stack VLAN unit with loose unicast RPF",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 918,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-inet-inet6-rpf-check-loose.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-ae-description-flexible-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-lag-member-ether-description-100g.conf",
+            "evo/interfaces/ifd-lag-member-ether-100g.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet-inet6.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6",
+      "topic": "VLAN unit with IPv4 and IPv6 addresses",
+      "seen_on": [
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 760,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description-flexible-speed-100g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "VLAN-tagged IPv4 unit",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 580,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/per-packet-load-balance-accept",
+      "topic": "Per-packet load-balancing policy with an explicit accept",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 507,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-bgp-to-ospf.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-to-ospf",
+      "topic": "Policy bgp-to-ospf accepting BGP routes",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 376,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/ps-bgp-to-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-nexthop-bgp-next-hop-self.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-nexthop-bgp-next-hop-self",
+      "topic": "Next-hop-self for BGP routes",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 476,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/ps-nexthop-bgp-next-hop-self.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-pplb-evpn-term.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pplb-evpn-term",
+      "topic": "Per-packet load balancing with an EVPN term",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 661,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/ps-pplb-evpn-term.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-send-direct.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-send-direct",
+      "topic": "Export policy for directly connected routes",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 491,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/ps-send-direct.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/policy-options/policy-statement/ps-send-ospf.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/ps-send-ospf",
+      "topic": "Policy accepting OSPF routes",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 430,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/policy-options/policy-statement/ps-send-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-advertise-peer-as-graceful-restart.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-advertise-peer-as-graceful-restart",
+      "topic": "BGP advertise-peer-as with graceful restart",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 295,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-advertise-peer-as-graceful-restart.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-advertise-peer-as.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-advertise-peer-as",
+      "topic": "BGP advertise-peer-as",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 304,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-advertise-peer-as.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-multipath.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-multipath",
+      "topic": "BGP multipath",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 314,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-multipath.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-pe-flow-evpn-route-target.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-pe-flow-evpn-route-target",
+      "topic": "iBGP PE group for IPv4 with flow, EVPN and route-target",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1358,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-overlay-pe-flow-evpn-route-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-send-direct.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-rr-cluster-evpn-route-target-multipath.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-rr-cluster-evpn-route-target-multipath",
+      "topic": "iBGP route reflector for IPv4, EVPN and route-target",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 1417,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-overlay-rr-cluster-evpn-route-target-multipath.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-overlay-rr-cluster-evpn.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-overlay-rr-cluster-evpn",
+      "topic": "iBGP route reflector for IPv4 and EVPN",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 1277,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-overlay-rr-cluster-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/l2-learning-global-mac-limit.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "l2-learning-global-mac-limit",
+      "topic": "Global MAC learning limit",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 361,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/l2-learning-global-mac-limit.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ldp-interface-3-core-loopback.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ldp-interface-3-core-loopback",
+      "topic": "LDP on three core links and the loopback",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 534,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ldp-interface-3-core-loopback.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/interfaces/ifl-core-inet-mpls.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_PHYS_1.0",
+            "$CORE_PHYS_2.0",
+            "$CORE_PHYS_3.0"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-core-inet-mpls.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/ldp-interface-core-loopback-sr-mapping-client.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ldp-interface-core-loopback-sr-mapping-client",
+      "topic": "LDP on one core interface and the loopback, segment routing mapping client",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 596,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ldp-interface-core-loopback-sr-mapping-client.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CORE_INTF_1",
+            "lo0.0"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-core-inet-inet6-mpls.conf",
+            "evo/interfaces/ifl-core-inet-mpls.conf",
+            "evo/interfaces/ifl-loopback-inet.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/protocols/lldp-interface-all.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "lldp-interface-all",
+      "topic": "LLDP enabled on all interfaces",
+      "seen_on": [
+        "ce1_acx7100-48l",
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 407,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/lldp-interface-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/mpls-interface-4-core.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "mpls-interface-4-core",
+      "topic": "MPLS on four core links",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 557,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/mpls-interface-4-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/mpls-te-2-lsp-3-core.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "mpls-te-2-lsp-3-core",
+      "topic": "MPLS with traffic engineering, two LSPs and three core interfaces",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1020,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/mpls-te-2-lsp-3-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/oam-cfm-mep-up-auto-discovery.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "oam-cfm-mep-up-auto-discovery",
+      "topic": "CFM maintenance domain with an up MEP and automatic remote MEP discovery",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1356,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/oam-cfm-mep-up-auto-discovery.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "oam-cfm-perf-mon-two-way-delay-slm",
+      "topic": "CFM performance monitoring with two-way delay and synthetic loss iterator profiles",
+      "seen_on": [
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
       "size_bytes": 1119,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/irb-gateway.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/lag-flexible-services.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "lag-flexible-services",
-      "topic": "LAG with flexible VLAN services (multi-service bundle for VPWS/ELAN ACs)",
+      "path": "evo/protocols/ospf-area-2-interface-p2p.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area-2-interface-p2p",
+      "topic": "OSPF area with two interfaces, one point-to-point",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 615,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area-2-interface-p2p.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area-2-interface.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area-2-interface",
+      "topic": "OSPF area with two interfaces",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 525,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area-2-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area0-2-p2p-1-ldp-sync-core-loopback.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area0-2-p2p-1-ldp-sync-core-loopback",
+      "topic": "OSPF backbone area with two point-to-point and one LDP-synchronized core interface",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1910,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area0-2-p2p-1-ldp-sync-core-loopback.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area0-3-ldp-sync-core-loopback.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area0-3-ldp-sync-core-loopback",
+      "topic": "OSPF backbone area with three LDP-synchronized core interfaces",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 1380,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area0-3-ldp-sync-core-loopback.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area0-3-p2p-1-ldp-sync-core-loopback-mgmt-disable.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area0-3-p2p-1-ldp-sync-core-loopback-mgmt-disable",
+      "topic": "OSPF backbone area with core interfaces and management interfaces disabled",
+      "seen_on": [
+        "p2_ptx10001-36mr"
+      ],
+      "size_bytes": 2555,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area0-3-p2p-1-ldp-sync-core-loopback-mgmt-disable.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area0-3-p2p-1-ldp-sync-core-loopback.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area0-3-p2p-1-ldp-sync-core-loopback",
+      "topic": "OSPF backbone area with three point-to-point and one LDP-synchronized core interface",
+      "seen_on": [
+        "p1_ptx10003"
+      ],
+      "size_bytes": 2372,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area0-3-p2p-1-ldp-sync-core-loopback.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-backup-spf-options-traffic-engineering-sr-mapping-server.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-backup-spf-options-traffic-engineering-sr-mapping-server",
+      "topic": "OSPF post-convergence LFA, traffic engineering and segment routing with a mapping server",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1183,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-backup-spf-options-traffic-engineering-sr-mapping-server.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-traffic-engineering.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-traffic-engineering",
+      "topic": "OSPF traffic-engineering extensions",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 256,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-traffic-engineering.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf3-area-1-interface.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf3-area-1-interface",
+      "topic": "OSPFv3 area with one interface",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 471,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf3-area-1-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf3-area-2-interface-p2p.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf3-area-2-interface-p2p",
+      "topic": "OSPFv3 area with two interfaces, one point-to-point",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 618,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf3-area-2-interface-p2p.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf3-area-2-interface.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf3-area-2-interface",
+      "topic": "OSPFv3 area with two interfaces",
+      "seen_on": [
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 563,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf3-area-2-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-vlan-based-irb",
+      "topic": "EVPN-ELAN VLAN-based MAC-VRF with an IRB gateway",
+      "seen_on": [
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1969,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/lag-flexible-services.conf"
+      "size_bytes": 1438,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL",
+            "$IRB_UNIT"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-irb-inet.conf",
+            "evo/interfaces/ifl-irb-virtual-gateway.conf",
+            "evo/interfaces/ifl-vlan-bridge-esi.conf",
+            "evo/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
     },
     {
-      "path": "junos/interfaces/loopback.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "loopback",
-      "topic": "Loopback interface (router-id, BGP source, MPLS label binding)",
+      "path": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-vlan-based-no-control-word",
+      "topic": "EVPN-ELAN VLAN-based MAC-VRF with one attachment circuit",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
         "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1152,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-bridge-esi.conf",
+            "evo/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word",
+      "topic": "EVPN-ELAN VLAN-bundle MAC-VRF with two attachment circuits",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1224,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_A",
+            "$AC_IFL_B"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-bridge-esi.conf",
+            "evo/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "topic": "EVPN flexible cross-connect, VLAN-aware, two attachment circuits",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1743,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_A",
+            "$AC_IFL_B"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-vpws-control-word",
+      "topic": "EVPN-VPWS point-to-point service with control word",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1452,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+            "evo/interfaces/ifl-vlan-ccc-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "topic": "EVPN Type 5 IP-prefix VRF with vrf-target",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1275,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-irb-service",
+          "kind": "irb-service",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:irb-service"
+          ],
+          "providers": [
+            "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf",
+            "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf",
+            "evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf",
+            "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+            "evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+            "evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IRB_UNIT"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-irb-inet.conf",
+            "evo/interfaces/ifl-irb-virtual-gateway.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/autonomous-system.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Autonomous system number",
+      "seen_on": [
+        "p1_ptx10003",
+        "p2_ptx10001-36mr",
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 424,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/flow-route-6-match-accept.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "flow-route-6-match-accept",
+      "topic": "BGP flow specification routes matching source, destination, ports, DSCP and ICMP",
+      "seen_on": [
+        "wanedge3_acx7509",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 1706,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-nh-evpn",
+      "topic": "Forwarding table with per-packet load balancing and EVPN chained composite next hops",
+      "seen_on": [
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 646,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-pplb-evpn-term.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb-evpn-egress-link-protection.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-evpn-egress-link-protection",
+      "topic": "Forwarding table with per-packet load balancing and EVPN egress link protection",
+      "seen_on": [
+        "wanedge3_acx7509"
+      ],
+      "size_bytes": 540,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/forwarding-table-pplb-evpn-egress-link-protection.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "evo/policy-options/policy-statement/ps-pplb-evpn-term.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb",
+      "topic": "Forwarding-table per-packet load balancing",
+      "seen_on": [
+        "ce1_acx7100-48l",
         "p1_ptx10003",
         "p2_ptx10001-36mr"
       ],
-      "size_bytes": 1020,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/loopback.conf"
+      "size_bytes": 549,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/forwarding-table-pplb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/per-packet-load-balance-accept.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/interfaces/physical-uplink-mpls.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "physical-uplink-mpls",
-      "topic": "Physical core uplink with MPLS and IPv4 (WAN backbone interface)",
+      "path": "evo/routing-options/graceful-restart.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "graceful-restart",
+      "topic": "Graceful restart",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
+        "wanedge4_acx7100-48l"
+      ],
+      "size_bytes": 246,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/graceful-restart.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/router-id.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
         "p1_ptx10003",
-        "p2_ptx10001-36mr"
-      ],
-      "size_bytes": 1718,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/physical-uplink-mpls.conf"
-    },
-    {
-      "path": "junos/interfaces/vlan-bridge.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "vlan-bridge",
-      "topic": "ELAN attachment-circuit (vlan-bridge encapsulation)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
+        "p2_ptx10001-36mr",
         "wanedge3_acx7509",
         "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1097,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/vlan-bridge.conf"
+      "size_bytes": 415,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/vlan-ccc-esi.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "vlan-ccc-esi",
-      "topic": "VPWS attachment-circuit (vlan-ccc with ESI all-active multi-homing)",
+      "path": "evo/routing-options/source-packet-routing-mapping-server-entry.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "source-packet-routing-mapping-server-entry",
+      "topic": "Segment routing mapping server entry for LDP prefixes",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1317,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/vlan-ccc-esi.conf"
-    },
-    {
-      "path": "junos/oam/cfm-maintenance-domain.conf",
-      "os": "junos",
-      "category": "oam",
-      "name": "cfm-maintenance-domain",
-      "topic": "CFM maintenance domain with continuity-check MEP (802.1ag OAM)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1947,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/oam/cfm-maintenance-domain.conf"
-    },
-    {
-      "path": "junos/oam/cfm-sla-iterator.conf",
-      "os": "junos",
-      "category": "oam",
-      "name": "cfm-sla-iterator",
-      "topic": "CFM enhanced SLA iterator (two-way delay and synthetic loss measurement)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
-      ],
-      "size_bytes": 1531,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/oam/cfm-sla-iterator.conf"
-    },
-    {
-      "path": "junos/policy/per-packet-load-balance.conf",
-      "os": "junos",
-      "category": "policy",
-      "name": "per-packet-load-balance",
-      "topic": "Per-packet load-balance and BGP redistribution policies",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
         "p1_ptx10003",
-        "p2_ptx10001-36mr"
+        "p2_ptx10001-36mr",
+        "wanedge4_acx7100-48l"
       ],
-      "size_bytes": 1598,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy/per-packet-load-balance.conf"
+      "size_bytes": 718,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/source-packet-routing-mapping-server-entry.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/evpn-elan-vlan-based-irb.conf",
+      "path": "evo/vlans/vlan-2-interfaces.conf",
+      "os": "evo",
+      "category": "vlans",
+      "name": "vlan-2-interfaces",
+      "topic": "VLAN with two units",
+      "seen_on": [
+        "ce1_acx7100-48l"
+      ],
+      "size_bytes": 511,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/vlans/vlan-2-interfaces.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/bridge-domains/bridge-domain-vlan-2-interfaces.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-elan-vlan-based-irb",
-      "topic": "EVPN-ELAN vlan-based with IRB gateway (L2+L3 integrated)",
+      "category": "bridge-domains",
+      "name": "bridge-domain-vlan-2-interfaces",
+      "topic": "VLAN bridge domain with two units",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 530,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/bridge-domains/bridge-domain-vlan-2-interfaces.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_A",
+            "$AC_IFL_B"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/chassis/aggregated-devices-ethernet.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device count",
+      "seen_on": [
+        "ce4_mx480",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 544,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-mx10004-2-pic-100g.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-mx10004-2-pic-100g",
+      "topic": "MX10004 line card port speeds",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 537,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/chassis/fpc-mx10004-2-pic-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/fpc-mx304-8x100g-2x4x10g.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "fpc-mx304-8x100g-2x4x10g",
+      "topic": "MX304 line card port speeds",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 1117,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/chassis/fpc-mx304-8x100g-2x4x10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/network-services-enhanced-ip.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "network-services-enhanced-ip",
+      "topic": "Enhanced-IP network services mode",
       "seen_on": [
         "wanedge1_mx304",
         "wanedge2_mx10004"
       ],
-      "size_bytes": 2073,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-vlan-based-irb.conf"
+      "size_bytes": 424,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/chassis/network-services-enhanced-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/evpn-elan-vlan-based.conf",
+      "path": "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-elan-vlan-based",
-      "topic": "EVPN-ELAN vlan-based (L2 multipoint, no IRB)",
+      "category": "class-of-service",
+      "name": "classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001",
+      "topic": "DSCP, EXP and IEEE 802.1p classifiers for seven forwarding classes, EXP 001 to BEST-EFFORT",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 2976,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/forwarding-classes/fc-7queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "classifiers/cl-dscp-exp-ieee8021p-8class",
+      "topic": "DSCP, EXP and IEEE 802.1p classifiers for eight forwarding classes",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 4013,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/forwarding-classes/fc-8queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/drop-profiles/drop-profiles-fill-level.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "drop-profiles/drop-profiles-fill-level",
+      "topic": "Two fill-level drop profiles",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 561,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/drop-profiles/drop-profiles-fill-level.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/forwarding-classes/fc-7queue-model.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "forwarding-classes/fc-7queue-model",
+      "topic": "Seven forwarding classes on seven queues",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 635,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/forwarding-classes/fc-7queue-model.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/forwarding-classes/fc-8queue-model.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "forwarding-classes/fc-8queue-model",
+      "topic": "Eight forwarding classes on eight queues",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 675,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/forwarding-classes/fc-8queue-model.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-dscp-classifier",
+      "topic": "DSCP classifier on a logical interface",
       "seen_on": [
         "wanedge1_mx304",
         "wanedge2_mx10004"
       ],
-      "size_bytes": 1556,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-elan-vlan-based.conf"
+      "size_bytes": 624,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/interfaces/ifl-dscp-classifier.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-classifier",
+          "kind": "classifier",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "DSCP"
+          ],
+          "providers": [
+            "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
+            "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/services/evpn-fxc-vlan-aware.conf",
+      "path": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-fxc-vlan-aware",
-      "topic": "EVPN FXC vlan-aware (Flexible Cross-Connect, multi-AC)",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite",
+      "topic": "EXP classifier with EXP and 802.1p rewrite on a logical interface",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
+        "wanedge2_mx10004"
       ],
-      "size_bytes": 2131,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-fxc-vlan-aware.conf"
-    },
-    {
-      "path": "junos/services/evpn-vpws-vlan-based.conf",
-      "os": "junos",
-      "category": "services",
-      "name": "evpn-vpws-vlan-based",
-      "topic": "EVPN-VPWS vlan-based point-to-point pseudowire (single AC, control-word)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
+      "size_bytes": 822,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/interfaces/ifl-exp-classifier-rewrite-ieee8021p-rewrite.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf"
       ],
-      "size_bytes": 1735,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-vpws-vlan-based.conf"
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/evpn-vrf-ip-prefix.conf",
+      "path": "junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
       "os": "junos",
-      "category": "services",
-      "name": "evpn-vrf-ip-prefix",
-      "topic": "EVPN IP-prefix route VRF (L3 VPN with EVPN Type-5 advertisement)",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-exp-classifier-rewrite",
+      "topic": "Per-unit EXP classifier and rewrite application",
       "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
+        "wanedge1_mx304"
       ],
-      "size_bytes": 1810,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/services/evpn-vrf-ip-prefix.conf"
-    },
-    {
-      "path": "junos/transport/bgp-ibgp-evpn.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "bgp-ibgp-evpn",
-      "topic": "iBGP overlay with EVPN signaling (route-reflector client config)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+      "size_bytes": 655,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/interfaces/ifl-exp-classifier-rewrite.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
       ],
-      "size_bytes": 1855,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/transport/bgp-ibgp-evpn.conf"
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/forwarding-options-hash.conf",
+      "path": "junos/class-of-service/interfaces/ifl-exp-classifier.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "forwarding-options-hash",
-      "topic": "Forwarding hash-key configuration for ECMP and LAG load distribution",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-exp-classifier",
+      "topic": "EXP classifier on a logical interface",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 670,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/interfaces/ifl-exp-classifier.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "interfaces/ifl-ieee8021p-classifier",
+      "topic": "IEEE 802.1p classifier on a logical interface",
       "seen_on": [
         "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l"
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 638,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/interfaces/ifl-ieee8021p-classifier.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-classifier",
+          "kind": "classifier",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "8021P"
+          ],
+          "providers": [
+            "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-7class-exp-be-001.conf",
+            "junos/class-of-service/classifiers/cl-dscp-exp-ieee8021p-8class.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/class-of-service/rewrite-rules/rr-dscp-exp-ieee8021p-8class.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "rewrite-rules/rr-dscp-exp-ieee8021p-8class",
+      "topic": "DSCP, EXP and IEEE 802.1p rewrite rules for eight forwarding classes",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 3052,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/rewrite-rules/rr-dscp-exp-ieee8021p-8class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/forwarding-classes/fc-8queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/class-of-service/rewrite-rules/rr-exp-ieee8021p-7class.conf",
+      "os": "junos",
+      "category": "class-of-service",
+      "name": "rewrite-rules/rr-exp-ieee8021p-7class",
+      "topic": "EXP and IEEE 802.1p rewrite rules for seven forwarding classes",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1973,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/class-of-service/rewrite-rules/rr-exp-ieee8021p-7class.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/class-of-service/forwarding-classes/fc-7queue-model.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-destination-address-next-interface.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-destination-address-next-interface",
+      "topic": "Filter-based forwarding on destination address to a next interface",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 961,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-destination-address-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-destination-address-next-ip.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-destination-address-next-ip",
+      "topic": "Filter-based forwarding on destination address to a next-hop IP address",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 907,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-destination-address-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-source-address-next-interface.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-source-address-next-interface",
+      "topic": "Filter-based forwarding on source address to a next interface",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 953,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-source-address-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-source-address-next-ip.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-source-address-next-ip",
+      "topic": "Filter-based forwarding on source address to a next-hop IP address",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 899,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-source-address-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-tcp-destination-port-next-interface.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-tcp-destination-port-next-interface",
+      "topic": "Filter-based forwarding on TCP destination port to a next interface",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 927,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-tcp-destination-port-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-tcp-destination-port-next-ip.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-tcp-destination-port-next-ip",
+      "topic": "Filter-based forwarding on TCP destination port to a next-hop IP address",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 873,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-tcp-destination-port-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-tcp-source-port-next-interface.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-tcp-source-port-next-interface",
+      "topic": "Filter-based forwarding on TCP source port to a next interface",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 920,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-tcp-source-port-next-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-tcp-source-port-next-ip.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-tcp-source-port-next-ip",
+      "topic": "Filter-based forwarding on TCP source port to a next-hop IP address",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 866,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/firewall/filter-tcp-source-port-next-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/forwarding-options/hash-key-inet-inet6-layer-3-4-multiservice-mac.conf",
+      "os": "junos",
+      "category": "forwarding-options",
+      "name": "hash-key-inet-inet6-layer-3-4-multiservice-mac",
+      "topic": "Load-balancing hash on layer 3 and 4 for IPv4 and IPv6, MAC addresses for multiservice",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 712,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/forwarding-options/hash-key-inet-inet6-layer-3-4-multiservice-mac.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id",
+      "topic": "Aggregated Ethernet with fast LACP, fast failover, revertive link protection and system ID",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 957,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast-system-id",
+      "topic": "Aggregated Ethernet with flexible services, fast LACP and system ID",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 781,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-description-flexible-lacp-fast",
+      "topic": "Aggregated Ethernet with flexible services and fast LACP",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 686,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether-description.conf",
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-description-lacp-fast.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-description-lacp-fast",
+      "topic": "Described aggregated Ethernet bundle with active fast LACP",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 632,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-ae-description-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-description.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-description",
+      "topic": "Interface description",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 428,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-flexible-ethernet-services-description",
+      "topic": "Described port with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "ce4_mx480",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 716,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-hierarchical-scheduler-flexible-ethernet-services-description",
+      "topic": "Port with hierarchical scheduling and flexible services",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 665,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-lag-member-gigether-description.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-lag-member-gigether-description",
+      "topic": "Described member link of an aggregated-Ethernet bundle (gigether-options)",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 510,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-lag-member-gigether-description.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-lag-member-gigether.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-lag-member-gigether",
+      "topic": "Aggregated Ethernet member link through gigether-options",
+      "seen_on": [
+        "ce4_mx480",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 623,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifd-lag-member-gigether.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-core-inet-mpls.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-core-inet-mpls",
+      "topic": "Core-facing point-to-point link with IPv4 and MPLS families",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 659,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-core-inet-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-description-lacp-fast.conf",
+            "junos/interfaces/ifd-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-irb-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-irb-inet",
+      "topic": "IRB unit carrying a single IPv4 address",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 496,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-irb-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-irb-virtual-gateway.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-irb-virtual-gateway",
+      "topic": "IRB unit with EVPN anycast virtual gateway and accept-data",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1075,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-irb-virtual-gateway.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet",
+      "topic": "Loopback unit with one IPv4 address",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 441,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-loopback-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-bridge-esi.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-bridge-esi",
+      "topic": "Bridged logical interface with EVPN ESI multihoming",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 673,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-bridge-esi.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+            "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-bridge.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-bridge",
+      "topic": "VLAN-tagged bridge unit",
+      "seen_on": [
+        "ce4_mx480",
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 588,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-bridge.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-description-flexible-lacp-fast.conf",
+            "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+            "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether-description.conf",
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-esi-all-active-family-ccc",
+      "topic": "VLAN CCC unit on an all-active Ethernet segment",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 820,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-description-flexible-lacp-fast-failover-revertive-system-id.conf",
+            "junos/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-ccc-family-ccc",
+      "topic": "VLAN-tagged circuit cross-connect unit with family ccc",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 525,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-filter-input.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-filter-input",
+      "topic": "IPv4 VLAN unit with an input firewall filter",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 812,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet-filter-input.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        },
+        {
+          "id": "ref-filter",
+          "kind": "filter",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$INPUT_FILTER"
+          ],
+          "providers": [
+            "junos/firewall/filter-destination-address-next-interface.conf",
+            "junos/firewall/filter-destination-address-next-ip.conf",
+            "junos/firewall/filter-source-address-next-interface.conf",
+            "junos/firewall/filter-source-address-next-ip.conf",
+            "junos/firewall/filter-tcp-destination-port-next-interface.conf",
+            "junos/firewall/filter-tcp-destination-port-next-ip.conf",
+            "junos/firewall/filter-tcp-source-port-next-interface.conf",
+            "junos/firewall/filter-tcp-source-port-next-ip.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6",
+      "topic": "VLAN logical interface with IPv4 and IPv6 addresses",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 674,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-mpls.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-mpls",
+      "topic": "VLAN-tagged IPv4 unit with MPLS",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 558,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet-mpls.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "VLAN-tagged IPv4 unit",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 568,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+            "junos/interfaces/ifd-hierarchical-scheduler-flexible-ethernet-services-description.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-packet-load-balance-accept",
+      "topic": "Per-packet load-balancing policy with an explicit accept",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 417,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-advertise-loop-direct.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-advertise-loop-direct",
+      "topic": "Policy accepting direct routes (advertise-loop)",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 434,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/ps-advertise-loop-direct.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-to-ospf.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-to-ospf",
+      "topic": "Policy bgp-to-ospf accepting BGP routes",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 364,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/ps-bgp-to-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-pplb-evpn-term-accept",
+      "topic": "Per-packet load balancing with an EVPN term",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 648,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-send-direct.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-send-direct",
+      "topic": "Export policy for directly connected routes",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 479,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/ps-send-direct.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-send-ospf.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-send-ospf",
+      "topic": "Policy accepting OSPF routes",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 350,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/policy-options/policy-statement/ps-send-ospf.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-family-inet-unicast-loops.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-family-inet-unicast-loops",
+      "topic": "BGP IPv4 unicast AS-path loops",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 384,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/bgp-family-inet-unicast-loops.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-overlay-pe-advertise-external-flow-evpn-multipath.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-overlay-pe-advertise-external-flow-evpn-multipath",
+      "topic": "iBGP PE group for IPv4 with flow, and EVPN",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 1220,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/bgp-overlay-pe-advertise-external-flow-evpn-multipath.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-send-direct.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-overlay-pe-flow-evpn-route-target-multipath.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-overlay-pe-flow-evpn-route-target-multipath",
+      "topic": "iBGP PE group for IPv4 with flow, EVPN and route-target",
+      "seen_on": [
+        "wanedge2_mx10004"
       ],
       "size_bytes": 1248,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/transport/forwarding-options-hash.conf"
-    },
-    {
-      "path": "junos/transport/mpls-lsp.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "mpls-lsp",
-      "topic": "MPLS label-switched paths (RSVP-less static LSP definitions)",
-      "seen_on": [
-        "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "wanedge3_acx7509",
-        "wanedge4_acx7100-48l",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/bgp-overlay-pe-flow-evpn-route-target-multipath.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/policy-statement/ps-send-direct.conf"
       ],
-      "size_bytes": 1379,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/transport/mpls-lsp.conf"
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/ospf-sr-lfa.conf",
+      "path": "junos/protocols/lldp-interface-all.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "ospf-sr-lfa",
-      "topic": "OSPF with Segment Routing and TI-LFA (post-convergence node protection)",
+      "category": "protocols",
+      "name": "lldp-interface-all",
+      "topic": "LLDP on all interfaces",
       "seen_on": [
+        "ce4_mx480",
         "wanedge1_mx304",
-        "wanedge2_mx10004",
-        "p1_ptx10003",
-        "p2_ptx10001-36mr"
+        "wanedge2_mx10004"
       ],
-      "size_bytes": 2864,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/transport/ospf-sr-lfa.conf"
+      "size_bytes": 301,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/lldp-interface-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/rsvp-te.conf",
+      "path": "junos/protocols/mpls-interface-all.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "rsvp-te",
-      "topic": "RSVP-TE interface enablement (signaled LSP protection)",
+      "category": "protocols",
+      "name": "mpls-interface-all",
+      "topic": "MPLS on all interfaces",
+      "seen_on": [
+        "ce4_mx480"
+      ],
+      "size_bytes": 242,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/mpls-interface-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/mpls-te-2-lsp-1-core.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "mpls-te-2-lsp-1-core",
+      "topic": "MPLS with traffic engineering, two LSPs and one core interface",
+      "seen_on": [
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 820,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/mpls-te-2-lsp-1-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/mpls-te-2-lsp-2-core.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "mpls-te-2-lsp-2-core",
+      "topic": "MPLS with traffic engineering, two LSPs and two core interfaces",
       "seen_on": [
         "wanedge2_mx10004"
       ],
-      "size_bytes": 795,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/transport/rsvp-te.conf"
+      "size_bytes": 900,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/mpls-te-2-lsp-2-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/oam-cfm-mep-up-auto-discovery.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "oam-cfm-mep-up-auto-discovery",
+      "topic": "CFM maintenance domain with an up MEP and automatic remote MEP discovery",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1342,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/oam-cfm-mep-up-auto-discovery.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "oam-cfm-perf-mon-two-way-delay-slm",
+      "topic": "CFM performance monitoring with two-way delay and synthetic loss iterator profiles",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1105,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf-area-2-interface-p2p.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf-area-2-interface-p2p",
+      "topic": "OSPF area with two interfaces, one point-to-point",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 609,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/ospf-area-2-interface-p2p.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf-area0-2-p2p-core-loopback.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf-area0-2-p2p-core-loopback",
+      "topic": "OSPF backbone area with two point-to-point core interfaces",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1560,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/ospf-area0-2-p2p-core-loopback.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf-backup-spf-options-traffic-engineering-sr.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf-backup-spf-options-traffic-engineering-sr",
+      "topic": "OSPF post-convergence LFA, traffic engineering and segment routing",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 913,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/ospf-backup-spf-options-traffic-engineering-sr.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf3-area-1-interface.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf3-area-1-interface",
+      "topic": "OSPFv3 area with one interface",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 464,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/ospf3-area-1-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf3-area-2-interface-p2p.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf3-area-2-interface-p2p",
+      "topic": "OSPFv3 area with two interfaces, one point-to-point",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 612,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/ospf3-area-2-interface-p2p.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/rsvp-interface-all.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "rsvp-interface-all",
+      "topic": "RSVP on all interfaces",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 237,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/protocols/rsvp-interface-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-2-uni",
+      "topic": "EVPN-ELAN instance with two attachment circuits",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 959,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_A",
+            "$AC_IFL_B"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-bridge-esi.conf",
+            "junos/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-irb-no-normalization",
+      "topic": "EVPN-ELAN instance with an IRB gateway, no VLAN normalization",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1201,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IRB_UNIT",
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-irb-inet.conf",
+            "junos/interfaces/ifl-irb-virtual-gateway.conf",
+            "junos/interfaces/ifl-vlan-bridge-esi.conf",
+            "junos/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-evpn-elan-no-normalization",
+      "topic": "EVPN-ELAN instance with one attachment circuit, no VLAN normalization",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 930,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-bridge-esi.conf",
+            "junos/interfaces/ifl-vlan-bridge.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni",
+      "topic": "EVPN flexible cross-connect, VLAN-aware, two attachment circuits",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1735,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_A",
+            "$AC_IFL_B"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-vpws/ri-evpn-vpws-control-word",
+      "topic": "EVPN-VPWS point-to-point service with control word",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1444,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-ccc-esi-all-active-family-ccc.conf",
+            "junos/interfaces/ifl-vlan-ccc-family-ccc.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target",
+      "topic": "EVPN Type 5 IP-prefix VRF with vrf-target",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1257,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-irb-service",
+          "kind": "irb-service",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:irb-service"
+          ],
+          "providers": [
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf",
+            "junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+            "junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf",
+            "junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IRB_UNIT"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-irb-inet.conf",
+            "junos/interfaces/ifl-irb-virtual-gateway.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/autonomous-system.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Autonomous system number",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 343,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/flow-route-6-match-accept.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "flow-route-6-match-accept",
+      "topic": "BGP flow specification routes matching source, destination, ports, DSCP and ICMP",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 1692,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-options/flow-route-6-match-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-nh-evpn",
+      "topic": "Forwarding-table per-packet load balancing with chained composite next hops for EVPN",
+      "seen_on": [
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 666,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb",
+      "topic": "Forwarding-table per-packet load balancing",
+      "seen_on": [
+        "ce4_mx480",
+        "wanedge1_mx304"
+      ],
+      "size_bytes": 499,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-options/forwarding-table-pplb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/per-packet-load-balance-accept.conf",
+            "junos/policy-options/policy-statement/ps-pplb-evpn-term-accept.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/router-id.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
+        "wanedge1_mx304",
+        "wanedge2_mx10004"
+      ],
+      "size_bytes": 334,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/junos/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     }
   ],
   "reference_files": [
     {
       "path": "_variables.md",
       "kind": "glossary",
-      "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/_variables.md"
+      "topic": "Template variable glossary",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/_variables.md",
+      "size_bytes": 9276,
+      "sha256": "ab81cc84e0a154769c8fb4b8254c1ac6956543a5fa4279dbfd4e17f48c2538c3"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
-      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/TIERS.md"
+      "topic": "Generated service tier and selection requirements",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/TIERS.md",
+      "size_bytes": 9934,
+      "sha256": "ef9f76f08740885f6a3e4e381662b0a3c53af80770eb6eafa9eab97006967930"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
-      "topic": "Auto-fill rules: lab-default addresses, AS numbers, instance names, ESI shape",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/DEFAULTS.md"
+      "topic": "Validated lab defaults",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/DEFAULTS.md",
+      "size_bytes": 4117,
+      "sha256": "6ecba3f010749c3d1da324e84eb848587b44743d4503a6dcf77f5766f360b02a"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
-      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/OUTPUT_FORMAT.md"
+      "topic": "Required output format",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/enterprise_wan/ewan_adv_core_edge/configuration/snips/byoai/OUTPUT_FORMAT.md",
+      "size_bytes": 2315,
+      "sha256": "d901510f5d262c87d9d7aaef09963cdda0fea024c755e04412aced115456c644"
     }
   ]
 }

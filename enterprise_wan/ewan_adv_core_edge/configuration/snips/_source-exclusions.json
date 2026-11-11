@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "scope-p1-routing-options-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "p1_ptx10003",
+      "sourceSha256": "ca2fb95347ac014662ee680fdbec4d3217182407ef511a48e17d6790a2a85001",
+      "hierarchy": [
+        "routing-options",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        183,
+        184
+      ],
+      "terminalSourceIds": [
+        184
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 1
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-p2-protocols-ospf-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "p2_ptx10001-36mr",
+      "sourceSha256": "15160c9785a9b2c7fdad9802ef0fd8b82be93db906a381edacae78203092ab5a",
+      "hierarchy": [
+        "protocols",
+        "ospf",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        2653,
+        2654
+      ],
+      "terminalSourceIds": [
+        2654
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 1
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-routing-options-ppm-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "971cc58b4c20730de5b3977da6e0d782f5d28120614c6bc19574d2c43ee36c52",
+      "hierarchy": [
+        "routing-options",
+        "ppm",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        75221,
+        75222
+      ],
+      "terminalSourceIds": [
+        75222
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 1
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    },
+    {
+      "id": "scope-wanedge4-protocols-bfd-traceoptions",
+      "classification": "excluded-model-scope",
+      "semanticClass": "diagnostic-traceoptions",
+      "device": "wanedge4_acx7100-48l",
+      "sourceSha256": "971cc58b4c20730de5b3977da6e0d782f5d28120614c6bc19574d2c43ee36c52",
+      "hierarchy": [
+        "protocols",
+        "bfd",
+        "traceoptions"
+      ],
+      "sourceIds": [
+        77166,
+        77167,
+        77168
+      ],
+      "terminalSourceIds": [
+        77167,
+        77168
+      ],
+      "evidence": {
+        "sourceStatement": "traceoptions",
+        "statements": 2
+      },
+      "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+      "approvedBy": "Kevin Brown",
+      "approvedOn": "2026-10-09"
+    }
+  ]
+}
