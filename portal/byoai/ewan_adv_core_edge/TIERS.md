@@ -1,130 +1,218 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each service kind at each verbosity tier. It is bundled into [`jvd-ewan-ace-snips.md`](jvd-ewan-ace-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd enterprise_wan/ewan_adv_core_edge`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate file under `junos/` or `evo/`.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. PE already has working OSPF/SR underlay AND iBGP EVPN overlay. You just want the new service. | Service routing-instance + AC interface unit(s) + parent LAG. **Nothing else.** |
-| **`with-overlay`** | Brownfield-ish. PE has working underlay but you want to (re)assert the iBGP EVPN overlay activation. | `minimum` + `transport/bgp-ibgp-evpn.conf`. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working example end-to-end." Mirrors what the JVD validates. | Everything: service + AC + overlay + OSPF/SR underlay + MPLS + LDP/SR coexistence + loopback + core uplink + hash + bootstrap + CoS + OAM + policy + firewall. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** (e.g. "build a new ACX7100-48L WAN-edge turn-up", "bootstrap a new MX304 PE end-to-end") are always treated as **`as-deployed`** regardless of the user's tier choice.
-
-If the user picks `minimum` and the AI cannot tell whether the iBGP EVPN overlay is already on the PE, it should call that out in the `Notes:` section ("assumed `family evpn signaling` already active under `protocols bgp group RR-CLIENT`").
-
----
-
-## Shared underlay (the `as-deployed` baseline for every service)
-
-Every `as-deployed` service includes this common baseline. OS-select each file:
-
-- `transport/bgp-ibgp-evpn.conf` — iBGP overlay to P1/P2 route reflectors (EVPN + inet flow families, BFD, multipath)
-- `transport/ospf-sr-lfa.conf` — OSPF area 0 + Segment Routing + TI-LFA (WAN edges: Junos MX; P routers: EVO PTX)
-- `transport/mpls-lsp.conf` — static MPLS LSPs with traffic-engineering
-- `transport/forwarding-options-hash.conf` — ECMP/LAG hash keys
-- `interfaces/loopback.conf` — /32 router-id + MPLS binding
-- `interfaces/physical-uplink-mpls.conf` — core uplink (family inet + mpls, MTU 9192)
-- `bootstrap/chassis-network-services.conf` — aggregated-devices count; **EVO also sets `network-services enhanced-ip` (REQUIRED for EVPN/MPLS)**
-- `cos/classifier-dscp-exp-8021p.conf` + `cos/forwarding-class-map.conf` + `cos/rewrite-rules-exp.conf` — 8-class CoS
-- `oam/cfm-maintenance-domain.conf` + `oam/cfm-sla-iterator.conf` — 802.1ag CFM + SLA
-- `policy/per-packet-load-balance.conf` — pplb ECMP + send-direct
-- `firewall/filter-ipv4-stateless.conf` — stateless L3/L4 filters
-- `ddos-mitigation/flowspec-routes.conf` — BGP FlowSpec enablement
-
-**OS-specific transport add-ons (as-deployed only):**
-- EVO WAN edges (wanedge3/4) + P routers: `evo/transport/ldp-sr-coexistence.conf`
-- P routers (p1/p2) only: `evo/transport/sr-mapping-server.conf`
-- Junos wanedge2_mx10004 only: `junos/transport/rsvp-te.conf`
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## EVPN-VPWS (vlan-based, MEF E-Line point-to-point)
+## EVPN-VPWS point-to-point service with control word
 
-**minimum** (just the service)
-- `services/evpn-vpws-vlan-based.conf`
-- `interfaces/vlan-ccc-esi.conf` (per-AC unit on the LAG)
-- `interfaces/lag-flexible-services.conf` (parent ae0)
+Family e-line, form evpn-vpws-control-word. OS mode MIXED. Attachment: VLAN CCC unit on an all-active Ethernet segment aggregate toward the CE..
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-evpn.conf` (verify `family evpn signaling`)
+### wanedge3_acx7509 (evo)
 
-**as-deployed** (= with-overlay + the shared underlay baseline above)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
----
+### wanedge4_acx7100-48l (evo)
 
-## EVPN-FXC vlan-aware (Flexible Cross-Connect, multi-AC)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
-**minimum** (just the service)
-- `services/evpn-fxc-vlan-aware.conf`
-- `interfaces/vlan-ccc-esi.conf` (one per bundled AC)
-- `interfaces/lag-flexible-services.conf` (parent ae0)
+### wanedge1_mx304 (junos)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-evpn.conf`
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### wanedge2_mx10004 (junos)
 
----
-
-## EVPN-ELAN (L2 multipoint, no IRB)
-
-Pick the OS-appropriate flavor:
-- **Junos MX:** `junos/services/evpn-elan-vlan-based.conf` (instance-type evpn)
-- **EVO ACX:** `evo/services/evpn-elan-vlan-bundle.conf` (mac-vrf, service-type vlan-bundle)
-
-**minimum** (just the service)
-- the flavor above
-- `interfaces/vlan-bridge.conf` (per-AC vlan-bridge units)
-- `interfaces/lag-flexible-services.conf` (parent ae0)
-
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-evpn.conf`
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
-## EVPN-ELAN with IRB (L2 + L3 integrated)
+## EVPN flexible cross-connect, VLAN-aware, two attachment circuits
 
-**minimum** (just the service)
-- `services/evpn-elan-vlan-based-irb.conf` (Junos: instance-type evpn + routing-interface; EVO: mac-vrf + l3-interface)
-- `services/evpn-vrf-ip-prefix.conf` (the L3 VRF that binds `irb.$UNIT` and advertises Type-5)
-- `interfaces/vlan-bridge.conf` (AC units)
-- `interfaces/irb-gateway.conf` (IRB unit addressing)
-- `interfaces/lag-flexible-services.conf` (parent ae0)
+Family e-line, form evpn-fxc-vlan-aware-2-uni. OS mode MIXED. Attachment: Two VLAN CCC units on an all-active Ethernet segment aggregate toward the CE..
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-evpn.conf` (verify `family evpn signaling`)
+### wanedge3_acx7509 (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
 
 ---
 
-## EVPN Type-5 / L3 VRF (ip-prefix routes, standalone)
+## EVPN-ELAN with two attachment circuits
 
-When the user wants just the L3 VRF (bound to an existing IRB):
+Family e-lan, form evpn-elan-2-uni. OS mode MIXED. Attachment: Two VLAN bridge units toward the CE; Junos uses an EVPN instance, EVO a VLAN-bundle MAC-VRF..
 
-**minimum**
-- `services/evpn-vrf-ip-prefix.conf`
-- `interfaces/irb-gateway.conf` (the IRB the VRF binds to)
+### wanedge3_acx7509 (evo)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-ibgp-evpn.conf` (verify `family evpn signaling`)
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-bundle-2-uni-no-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_A
+  - occurrence-selection-required: logical-interface:$AC_IFL_B
 
 ---
 
-## Add-a-feature requests (no full service)
+## EVPN-ELAN with one attachment circuit
 
-When the user asks to add a supporting feature to an existing device, emit ONLY that snip set:
-- **CoS** → `cos/classifier-dscp-exp-8021p.conf` + `cos/forwarding-class-map.conf` + `cos/rewrite-rules-exp.conf`
-- **OAM/CFM** → `oam/cfm-maintenance-domain.conf` + `oam/cfm-sla-iterator.conf`
-- **Firewall / DDoS** → `firewall/filter-ipv4-stateless.conf` (+ `ddos-mitigation/flowspec-routes.conf` for dynamic FlowSpec)
-- **Load-balancing** → `policy/per-packet-load-balance.conf` + `transport/forwarding-options-hash.conf`
+Family e-lan, form evpn-elan-1-uni. OS mode MIXED. Attachment: One VLAN bridge unit toward the CE; Junos uses an EVPN instance, EVO a VLAN-based MAC-VRF..
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-no-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-no-normalization.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN-ELAN with an IRB gateway
+
+Family e-lan, form evpn-elan-irb. OS mode MIXED. Attachment: One VLAN bridge unit toward the CE and an IRB unit as the layer 3 gateway..
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-elan-vlan-based-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-elan-irb-no-normalization.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN Type 5 IP-prefix VRF
+
+Family l3vpn, form evpn-type5-vrf. OS mode MIXED. Attachment: IRB unit of an EVPN-ELAN service as the VRF interface..
+
+### wanedge3_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+### wanedge4_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+### wanedge1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+### wanedge2_mx10004 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-evpn-ip-prefix-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_UNIT
+
+---
