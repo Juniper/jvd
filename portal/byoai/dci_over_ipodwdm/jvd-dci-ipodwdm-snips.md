@@ -1,69 +1,144 @@
 # JVD Data Center Interconnect over IPoDWDM snippet library
 
-## evo/chassis/aggregated-devices.conf
+## evo/chassis/aggregated-devices-ethernet.conf
 
 ```
 /*
- * Topic:   Enable aggregated-ethernet (chassis device-count)
- * Variant: Junos OS Evolved
+ * Topic: Aggregated Ethernet device count
  * Seen on:
  *   Junos: (none)
- *   EVO:   dci1_ptx10001-36mr dci3_acx7100-48l
- *
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
  * Highlights:
- *  - Reserves the pool of ae interfaces the DWDM bundles are built from.
- *  - `device-count` must be at least as large as the highest ae unit used.
- *
- * Pair with:
- *  - evo/interfaces/dwdm-ae-bundle.conf   (the bundles this enables)
- *  - evo/interfaces/coherent-optics-port.conf   (the member ports)
- *
+ *   - Pre-allocates the aggregated Ethernet interfaces the chassis may create.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from dci1_ptx10001-36mr):
- *   $DEVICE_COUNT   e.g. 10
+ *   $AE_DEVICE_COUNT  e.g. 10
  */
 chassis {
     aggregated-devices {
         ethernet {
-            device-count $DEVICE_COUNT;
+            device-count $AE_DEVICE_COUNT;
         }
     }
 }
 ```
 
-## evo/interfaces/coherent-optics-port.conf
+## evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf
 
 ```
 /*
- * Topic:   Coherent 400G DWDM interface (optics-options / wavelength)
- * Variant: Junos OS Evolved
+ * Topic: Aggregated Ethernet core bundle with minimum links and fast active LACP
  * Seen on:
  *   Junos: (none)
- *   EVO:   dci1_ptx10001-36mr dci3_acx7100-48l
- *
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 2
+ *   dci3_acx7100-48l 2
+ *   total 4
  * Highlights:
- *  - This is the heart of the IPoDWDM (CORA) design: the router's built-in
- *    Juniper 400G Coherent Optic (JCO400-QDD-ZR-M-HP / QDD-400G-ZR-M-HP)
- *    connects directly to the DWDM line system, so no external transponder
- *    is needed.
- *  - `optics-options wavelength` tunes the transceiver to the ITU C-band
- *    wavelength (nm) assigned to this channel by the OLS/ROADM plan.
- *  - On EVO platforms (PTX/ACX) the coherent port uses `ether-options` for
- *    LAG membership. For a channelized port, configure optics-options on the
- *    first sub-port (et-x/y/z:0), not the parent.
- *  - Repeat the interface block per coherent member; each member carries a
- *    distinct wavelength multiplexed onto the fiber pair.
- *
- * Pair with:
- *  - evo/interfaces/dwdm-ae-bundle.conf     (the AE these members join)
- *  - evo/chassis/aggregated-devices.conf    (enables aggregated-ethernet)
- *
+ *   - Bundles the coherent DWDM ports; LACP active with fast periodic hellos, and the bundle stays up with one member.
+ * Pair with: none
  * Variables (example values from dci1_ptx10001-36mr):
- *   $COHERENT_IFD   e.g. et-0/0/8
- *   $AE_BUNDLE      e.g. ae12
- *   $WAVELENGTH     e.g. 1547.12
+ *   $IFD  e.g. ae12
  */
 interfaces {
-    $COHERENT_IFD {
+    $IFD {
+        aggregated-ether-options {
+            minimum-links 1;
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether-wavelength`
+
+## evo/interfaces/ifd-flexible-ethernet-services-100g.conf
+
+```
+/*
+ * Topic: Port at 100G with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci3_acx7100-48l
+ * Count:
+ *   dci3_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *   - Same as `ifd-flexible-ethernet-services` with the port speed set to 100G.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci3_acx7100-48l):
+ *   $IFD  e.g. et-0/0/48
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        speed 100g;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet-services.conf
+
+```
+/*
+ * Topic: Port with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Highlights:
+ *   - Flexible tagging and `flexible-ethernet-services` let one port carry many VLAN units; here the 100 routed customer-side units.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $IFD  e.g. et-0/0/4
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether-wavelength.conf
+
+```
+/*
+ * Topic: Coherent optics port as an aggregated Ethernet member, with its DWDM wavelength
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 5
+ *   dci3_acx7100-48l 4
+ *   total 9
+ * Highlights:
+ *   - The 400G coherent optic plugs straight into the router: `optics-options wavelength` tunes it onto the DWDM line system, so no external transponder is used.
+ *   - Junos OS Evolved sets LAG membership under `ether-options`.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $IFD         e.g. et-0/0/10
+ *   $AE_BUNDLE   e.g. ae12
+ *   $WAVELENGTH  e.g. 1547.72
+ */
+interfaces {
+    $IFD {
         ether-options {
             802.3ad $AE_BUNDLE;
         }
@@ -74,196 +149,1808 @@ interfaces {
 }
 ```
 
-## evo/interfaces/dwdm-ae-bundle.conf
+## evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf
 
 ```
 /*
- * Topic:   DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)
- * Variant: Junos OS Evolved
+ * Topic: Core logical interface with IPv4 and MPLS
  * Seen on:
  *   Junos: (none)
- *   EVO:   dci1_ptx10001-36mr dci3_acx7100-48l
- *
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 2
+ *   dci3_acx7100-48l 2
+ *   total 4
  * Highlights:
- *  - Bundles the coherent 400G members into a single logical DCI core link.
- *  - `minimum-links 1` keeps the bundle up while at least one wavelength is
- *    healthy; `lacp active periodic fast` gives sub-second member detection.
- *  - unit 0 carries the IP core: `family inet` for the point-to-point address
- *    and `family mpls maximum-labels` for the transport label stack.
- *  - Add each coherent member with evo/interfaces/coherent-optics-port.conf.
- *
- * Pair with:
- *  - evo/interfaces/coherent-optics-port.conf   (the member ports)
- *  - evo/chassis/aggregated-devices.conf        (enables aggregated-ethernet)
- *  - evo/interfaces/loopback.conf               (router-id reached over this link)
- *
+ *   - IPv4 and MPLS on the DWDM bundle; MPLS allows a stack of up to five labels.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from dci1_ptx10001-36mr):
- *   $AE_BUNDLE      e.g. ae12
- *   $MIN_LINKS      e.g. 1
- *   $AE_IPV4        e.g. 10.12.1.1/30
- *   $MAX_LABELS     e.g. 5
+ *   $IFD           e.g. ae12
+ *   $UNIT          e.g. 0
+ *   $CORE_V4_ADDR  e.g. 10.12.1.1/30
  */
 interfaces {
-    $AE_BUNDLE {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-aggregate-min-links-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether-wavelength`
+
+## evo/interfaces/ifl-loopback-inet.conf
+
+```
+/*
+ * Topic: Loopback unit with one IPv4 address
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $UNIT             e.g. 0
+ *   $LOOPBACK_V4_PFX  e.g. 10.1.1.1/32
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic: VLAN-tagged IPv4 unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 100
+ *   dci3_acx7100-48l 100
+ *   total 200
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $IFD         e.g. et-0/0/4
+ *   $UNIT        e.g. 1
+ *   $VLAN        e.g. 1
+ *   $AC_ADDR_V4  e.g. 10.10.1.1/30
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-100g`, `interfaces/ifd-flexible-ethernet-services`
+
+## evo/policy-options/policy-statement/per-flow-load-balance.conf
+
+```
+/*
+ * Topic: Per-flow load-balance policy
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Exported to the forwarding table so traffic spreads across equal-cost paths per flow.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+policy-options {
+    policy-statement $PPLB_NAME {
+        then {
+            load-balance per-flow;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-ibgp-inet-vpn-2-peers.conf
+
+```
+/*
+ * Topic: iBGP group for L3VPN with two loopback neighbors
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Full mesh between the three DCI routers: each peers with the other two over loopbacks and carries `inet-vpn unicast` for the 100 VRFs.
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $BGP_GROUP       e.g. grp-iBGP
+ *   $LOOPBACK_V4     e.g. 10.1.1.1
+ *   $IBGP_PEER_V4_1  e.g. 10.1.1.2
+ *   $IBGP_PEER_V4_2  e.g. 10.1.1.3
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet-vpn {
+                unicast;
+            }
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+        }
+    }
+}
+```
+
+## evo/protocols/mpls-te-200-lsp-2-core.conf
+
+```
+/*
+ * Topic: MPLS traffic engineering with 200 RSVP LSPs and two core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - The validated scale: 100 RSVP-signalled LSPs to each of the two other DCI routers, all from the local loopback, listed peer by peer.
+ *   - MPLS runs on the two DWDM core bundles.
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $LSP_NAME_1    e.g. lsp-r1-to-r21
+ *   $LOOPBACK_V4   e.g. 10.1.1.1
+ *   $LSP_TO_A      e.g. 10.1.1.2
+ *   $LSP_NAME_2    e.g. lsp-r1-to-r22
+ *   $LSP_NAME_3    e.g. lsp-r1-to-r23
+ *   $LSP_NAME_4    e.g. lsp-r1-to-r24
+ *   $LSP_NAME_5    e.g. lsp-r1-to-r25
+ *   $LSP_NAME_6    e.g. lsp-r1-to-r26
+ *   $LSP_NAME_7    e.g. lsp-r1-to-r27
+ *   $LSP_NAME_8    e.g. lsp-r1-to-r28
+ *   $LSP_NAME_9    e.g. lsp-r1-to-r29
+ *   $LSP_NAME_10   e.g. lsp-r1-to-r210
+ *   $LSP_NAME_11   e.g. lsp-r1-to-r211
+ *   $LSP_NAME_12   e.g. lsp-r1-to-r212
+ *   $LSP_NAME_13   e.g. lsp-r1-to-r213
+ *   $LSP_NAME_14   e.g. lsp-r1-to-r214
+ *   $LSP_NAME_15   e.g. lsp-r1-to-r215
+ *   $LSP_NAME_16   e.g. lsp-r1-to-r216
+ *   $LSP_NAME_17   e.g. lsp-r1-to-r217
+ *   $LSP_NAME_18   e.g. lsp-r1-to-r218
+ *   $LSP_NAME_19   e.g. lsp-r1-to-r219
+ *   $LSP_NAME_20   e.g. lsp-r1-to-r220
+ *   $LSP_NAME_21   e.g. lsp-r1-to-r221
+ *   $LSP_NAME_22   e.g. lsp-r1-to-r222
+ *   $LSP_NAME_23   e.g. lsp-r1-to-r223
+ *   $LSP_NAME_24   e.g. lsp-r1-to-r224
+ *   $LSP_NAME_25   e.g. lsp-r1-to-r225
+ *   $LSP_NAME_26   e.g. lsp-r1-to-r226
+ *   $LSP_NAME_27   e.g. lsp-r1-to-r227
+ *   $LSP_NAME_28   e.g. lsp-r1-to-r228
+ *   $LSP_NAME_29   e.g. lsp-r1-to-r229
+ *   $LSP_NAME_30   e.g. lsp-r1-to-r230
+ *   $LSP_NAME_31   e.g. lsp-r1-to-r231
+ *   $LSP_NAME_32   e.g. lsp-r1-to-r232
+ *   $LSP_NAME_33   e.g. lsp-r1-to-r233
+ *   $LSP_NAME_34   e.g. lsp-r1-to-r234
+ *   $LSP_NAME_35   e.g. lsp-r1-to-r235
+ *   $LSP_NAME_36   e.g. lsp-r1-to-r236
+ *   $LSP_NAME_37   e.g. lsp-r1-to-r237
+ *   $LSP_NAME_38   e.g. lsp-r1-to-r238
+ *   $LSP_NAME_39   e.g. lsp-r1-to-r239
+ *   $LSP_NAME_40   e.g. lsp-r1-to-r240
+ *   $LSP_NAME_41   e.g. lsp-r1-to-r241
+ *   $LSP_NAME_42   e.g. lsp-r1-to-r242
+ *   $LSP_NAME_43   e.g. lsp-r1-to-r243
+ *   $LSP_NAME_44   e.g. lsp-r1-to-r244
+ *   $LSP_NAME_45   e.g. lsp-r1-to-r245
+ *   $LSP_NAME_46   e.g. lsp-r1-to-r246
+ *   $LSP_NAME_47   e.g. lsp-r1-to-r247
+ *   $LSP_NAME_48   e.g. lsp-r1-to-r248
+ *   $LSP_NAME_49   e.g. lsp-r1-to-r249
+ *   $LSP_NAME_50   e.g. lsp-r1-to-r250
+ *   $LSP_NAME_51   e.g. lsp-r1-to-r251
+ *   $LSP_NAME_52   e.g. lsp-r1-to-r252
+ *   $LSP_NAME_53   e.g. lsp-r1-to-r253
+ *   $LSP_NAME_54   e.g. lsp-r1-to-r254
+ *   $LSP_NAME_55   e.g. lsp-r1-to-r255
+ *   $LSP_NAME_56   e.g. lsp-r1-to-r256
+ *   $LSP_NAME_57   e.g. lsp-r1-to-r257
+ *   $LSP_NAME_58   e.g. lsp-r1-to-r258
+ *   $LSP_NAME_59   e.g. lsp-r1-to-r259
+ *   $LSP_NAME_60   e.g. lsp-r1-to-r260
+ *   $LSP_NAME_61   e.g. lsp-r1-to-r261
+ *   $LSP_NAME_62   e.g. lsp-r1-to-r262
+ *   $LSP_NAME_63   e.g. lsp-r1-to-r263
+ *   $LSP_NAME_64   e.g. lsp-r1-to-r264
+ *   $LSP_NAME_65   e.g. lsp-r1-to-r265
+ *   $LSP_NAME_66   e.g. lsp-r1-to-r266
+ *   $LSP_NAME_67   e.g. lsp-r1-to-r267
+ *   $LSP_NAME_68   e.g. lsp-r1-to-r268
+ *   $LSP_NAME_69   e.g. lsp-r1-to-r269
+ *   $LSP_NAME_70   e.g. lsp-r1-to-r270
+ *   $LSP_NAME_71   e.g. lsp-r1-to-r271
+ *   $LSP_NAME_72   e.g. lsp-r1-to-r272
+ *   $LSP_NAME_73   e.g. lsp-r1-to-r273
+ *   $LSP_NAME_74   e.g. lsp-r1-to-r274
+ *   $LSP_NAME_75   e.g. lsp-r1-to-r275
+ *   $LSP_NAME_76   e.g. lsp-r1-to-r276
+ *   $LSP_NAME_77   e.g. lsp-r1-to-r277
+ *   $LSP_NAME_78   e.g. lsp-r1-to-r278
+ *   $LSP_NAME_79   e.g. lsp-r1-to-r279
+ *   $LSP_NAME_80   e.g. lsp-r1-to-r280
+ *   $LSP_NAME_81   e.g. lsp-r1-to-r281
+ *   $LSP_NAME_82   e.g. lsp-r1-to-r282
+ *   $LSP_NAME_83   e.g. lsp-r1-to-r283
+ *   $LSP_NAME_84   e.g. lsp-r1-to-r284
+ *   $LSP_NAME_85   e.g. lsp-r1-to-r285
+ *   $LSP_NAME_86   e.g. lsp-r1-to-r286
+ *   $LSP_NAME_87   e.g. lsp-r1-to-r287
+ *   $LSP_NAME_88   e.g. lsp-r1-to-r288
+ *   $LSP_NAME_89   e.g. lsp-r1-to-r289
+ *   $LSP_NAME_90   e.g. lsp-r1-to-r290
+ *   $LSP_NAME_91   e.g. lsp-r1-to-r291
+ *   $LSP_NAME_92   e.g. lsp-r1-to-r292
+ *   $LSP_NAME_93   e.g. lsp-r1-to-r293
+ *   $LSP_NAME_94   e.g. lsp-r1-to-r294
+ *   $LSP_NAME_95   e.g. lsp-r1-to-r295
+ *   $LSP_NAME_96   e.g. lsp-r1-to-r296
+ *   $LSP_NAME_97   e.g. lsp-r1-to-r297
+ *   $LSP_NAME_98   e.g. lsp-r1-to-r298
+ *   $LSP_NAME_99   e.g. lsp-r1-to-r299
+ *   $LSP_NAME_100  e.g. lsp-r1-to-r2100
+ *   $LSP_NAME_101  e.g. lsp-r1-to-r31
+ *   $LSP_TO_B      e.g. 10.1.1.3
+ *   $LSP_NAME_102  e.g. lsp-r1-to-r32
+ *   $LSP_NAME_103  e.g. lsp-r1-to-r33
+ *   $LSP_NAME_104  e.g. lsp-r1-to-r34
+ *   $LSP_NAME_105  e.g. lsp-r1-to-r35
+ *   $LSP_NAME_106  e.g. lsp-r1-to-r36
+ *   $LSP_NAME_107  e.g. lsp-r1-to-r37
+ *   $LSP_NAME_108  e.g. lsp-r1-to-r38
+ *   $LSP_NAME_109  e.g. lsp-r1-to-r39
+ *   $LSP_NAME_110  e.g. lsp-r1-to-r310
+ *   $LSP_NAME_111  e.g. lsp-r1-to-r311
+ *   $LSP_NAME_112  e.g. lsp-r1-to-r312
+ *   $LSP_NAME_113  e.g. lsp-r1-to-r313
+ *   $LSP_NAME_114  e.g. lsp-r1-to-r314
+ *   $LSP_NAME_115  e.g. lsp-r1-to-r315
+ *   $LSP_NAME_116  e.g. lsp-r1-to-r316
+ *   $LSP_NAME_117  e.g. lsp-r1-to-r317
+ *   $LSP_NAME_118  e.g. lsp-r1-to-r318
+ *   $LSP_NAME_119  e.g. lsp-r1-to-r319
+ *   $LSP_NAME_120  e.g. lsp-r1-to-r320
+ *   $LSP_NAME_121  e.g. lsp-r1-to-r321
+ *   $LSP_NAME_122  e.g. lsp-r1-to-r322
+ *   $LSP_NAME_123  e.g. lsp-r1-to-r323
+ *   $LSP_NAME_124  e.g. lsp-r1-to-r324
+ *   $LSP_NAME_125  e.g. lsp-r1-to-r325
+ *   $LSP_NAME_126  e.g. lsp-r1-to-r326
+ *   $LSP_NAME_127  e.g. lsp-r1-to-r327
+ *   $LSP_NAME_128  e.g. lsp-r1-to-r328
+ *   $LSP_NAME_129  e.g. lsp-r1-to-r329
+ *   $LSP_NAME_130  e.g. lsp-r1-to-r330
+ *   $LSP_NAME_131  e.g. lsp-r1-to-r331
+ *   $LSP_NAME_132  e.g. lsp-r1-to-r332
+ *   $LSP_NAME_133  e.g. lsp-r1-to-r333
+ *   $LSP_NAME_134  e.g. lsp-r1-to-r334
+ *   $LSP_NAME_135  e.g. lsp-r1-to-r335
+ *   $LSP_NAME_136  e.g. lsp-r1-to-r336
+ *   $LSP_NAME_137  e.g. lsp-r1-to-r337
+ *   $LSP_NAME_138  e.g. lsp-r1-to-r338
+ *   $LSP_NAME_139  e.g. lsp-r1-to-r339
+ *   $LSP_NAME_140  e.g. lsp-r1-to-r340
+ *   $LSP_NAME_141  e.g. lsp-r1-to-r341
+ *   $LSP_NAME_142  e.g. lsp-r1-to-r342
+ *   $LSP_NAME_143  e.g. lsp-r1-to-r343
+ *   $LSP_NAME_144  e.g. lsp-r1-to-r344
+ *   $LSP_NAME_145  e.g. lsp-r1-to-r345
+ *   $LSP_NAME_146  e.g. lsp-r1-to-r346
+ *   $LSP_NAME_147  e.g. lsp-r1-to-r347
+ *   $LSP_NAME_148  e.g. lsp-r1-to-r348
+ *   $LSP_NAME_149  e.g. lsp-r1-to-r349
+ *   $LSP_NAME_150  e.g. lsp-r1-to-r350
+ *   $LSP_NAME_151  e.g. lsp-r1-to-r351
+ *   $LSP_NAME_152  e.g. lsp-r1-to-r352
+ *   $LSP_NAME_153  e.g. lsp-r1-to-r353
+ *   $LSP_NAME_154  e.g. lsp-r1-to-r354
+ *   $LSP_NAME_155  e.g. lsp-r1-to-r355
+ *   $LSP_NAME_156  e.g. lsp-r1-to-r356
+ *   $LSP_NAME_157  e.g. lsp-r1-to-r357
+ *   $LSP_NAME_158  e.g. lsp-r1-to-r358
+ *   $LSP_NAME_159  e.g. lsp-r1-to-r359
+ *   $LSP_NAME_160  e.g. lsp-r1-to-r360
+ *   $LSP_NAME_161  e.g. lsp-r1-to-r361
+ *   $LSP_NAME_162  e.g. lsp-r1-to-r362
+ *   $LSP_NAME_163  e.g. lsp-r1-to-r363
+ *   $LSP_NAME_164  e.g. lsp-r1-to-r364
+ *   $LSP_NAME_165  e.g. lsp-r1-to-r365
+ *   $LSP_NAME_166  e.g. lsp-r1-to-r366
+ *   $LSP_NAME_167  e.g. lsp-r1-to-r367
+ *   $LSP_NAME_168  e.g. lsp-r1-to-r368
+ *   $LSP_NAME_169  e.g. lsp-r1-to-r369
+ *   $LSP_NAME_170  e.g. lsp-r1-to-r370
+ *   $LSP_NAME_171  e.g. lsp-r1-to-r371
+ *   $LSP_NAME_172  e.g. lsp-r1-to-r372
+ *   $LSP_NAME_173  e.g. lsp-r1-to-r373
+ *   $LSP_NAME_174  e.g. lsp-r1-to-r374
+ *   $LSP_NAME_175  e.g. lsp-r1-to-r375
+ *   $LSP_NAME_176  e.g. lsp-r1-to-r376
+ *   $LSP_NAME_177  e.g. lsp-r1-to-r377
+ *   $LSP_NAME_178  e.g. lsp-r1-to-r378
+ *   $LSP_NAME_179  e.g. lsp-r1-to-r379
+ *   $LSP_NAME_180  e.g. lsp-r1-to-r380
+ *   $LSP_NAME_181  e.g. lsp-r1-to-r381
+ *   $LSP_NAME_182  e.g. lsp-r1-to-r382
+ *   $LSP_NAME_183  e.g. lsp-r1-to-r383
+ *   $LSP_NAME_184  e.g. lsp-r1-to-r384
+ *   $LSP_NAME_185  e.g. lsp-r1-to-r385
+ *   $LSP_NAME_186  e.g. lsp-r1-to-r386
+ *   $LSP_NAME_187  e.g. lsp-r1-to-r387
+ *   $LSP_NAME_188  e.g. lsp-r1-to-r388
+ *   $LSP_NAME_189  e.g. lsp-r1-to-r389
+ *   $LSP_NAME_190  e.g. lsp-r1-to-r390
+ *   $LSP_NAME_191  e.g. lsp-r1-to-r391
+ *   $LSP_NAME_192  e.g. lsp-r1-to-r392
+ *   $LSP_NAME_193  e.g. lsp-r1-to-r393
+ *   $LSP_NAME_194  e.g. lsp-r1-to-r394
+ *   $LSP_NAME_195  e.g. lsp-r1-to-r395
+ *   $LSP_NAME_196  e.g. lsp-r1-to-r396
+ *   $LSP_NAME_197  e.g. lsp-r1-to-r397
+ *   $LSP_NAME_198  e.g. lsp-r1-to-r398
+ *   $LSP_NAME_199  e.g. lsp-r1-to-r399
+ *   $LSP_NAME_200  e.g. lsp-r1-to-r3100
+ *   $CORE_INTF_1   e.g. ae12.0
+ *   $CORE_INTF_2   e.g. ae13.0
+ */
+protocols {
+    mpls {
+        traffic-engineering;
+        label-switched-path $LSP_NAME_1 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_2 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_3 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_4 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_5 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_6 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_7 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_8 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_9 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_10 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_11 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_12 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_13 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_14 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_15 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_16 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_17 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_18 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_19 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_20 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_21 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_22 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_23 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_24 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_25 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_26 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_27 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_28 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_29 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_30 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_31 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_32 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_33 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_34 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_35 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_36 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_37 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_38 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_39 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_40 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_41 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_42 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_43 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_44 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_45 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_46 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_47 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_48 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_49 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_50 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_51 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_52 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_53 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_54 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_55 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_56 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_57 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_58 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_59 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_60 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_61 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_62 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_63 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_64 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_65 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_66 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_67 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_68 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_69 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_70 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_71 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_72 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_73 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_74 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_75 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_76 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_77 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_78 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_79 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_80 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_81 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_82 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_83 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_84 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_85 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_86 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_87 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_88 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_89 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_90 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_91 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_92 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_93 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_94 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_95 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_96 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_97 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_98 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_99 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_100 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_101 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_102 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_103 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_104 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_105 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_106 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_107 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_108 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_109 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_110 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_111 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_112 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_113 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_114 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_115 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_116 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_117 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_118 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_119 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_120 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_121 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_122 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_123 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_124 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_125 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_126 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_127 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_128 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_129 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_130 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_131 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_132 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_133 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_134 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_135 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_136 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_137 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_138 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_139 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_140 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_141 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_142 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_143 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_144 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_145 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_146 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_147 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_148 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_149 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_150 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_151 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_152 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_153 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_154 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_155 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_156 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_157 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_158 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_159 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_160 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_161 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_162 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_163 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_164 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_165 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_166 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_167 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_168 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_169 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_170 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_171 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_172 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_173 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_174 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_175 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_176 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_177 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_178 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_179 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_180 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_181 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_182 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_183 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_184 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_185 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_186 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_187 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_188 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_189 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_190 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_191 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_192 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_193 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_194 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_195 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_196 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_197 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_198 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_199 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_200 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## evo/protocols/ospf-area0-loopback-2-p2p-core.conf
+
+```
+/*
+ * Topic: OSPF backbone area with a passive loopback and two point-to-point core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $CORE_INTF_1  e.g. ae12.0
+ *   $CORE_INTF_2  e.g. ae13.0
+ */
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface lo0.0 {
+                passive;
+            }
+            interface $CORE_INTF_1 {
+                interface-type p2p;
+            }
+            interface $CORE_INTF_2 {
+                interface-type p2p;
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/ospf-traffic-engineering.conf
+
+```
+/*
+ * Topic: OSPF traffic-engineering extensions
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Floods TE information so RSVP-TE can compute constrained paths for the LSPs.
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    ospf {
+        traffic-engineering;
+    }
+}
+```
+
+## evo/protocols/rsvp-interface-2-core.conf
+
+```
+/*
+ * Topic: RSVP on two core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $CORE_INTF_1  e.g. ae12.0
+ *   $CORE_INTF_2  e.g. ae13.0
+ */
+protocols {
+    rsvp {
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf
+
+```
+/*
+ * Topic: L3VPN VRF with an eBGP CE session that sets a local AS, and a route target
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 100
+ *   dci3_acx7100-48l 100
+ *   total 200
+ * Highlights:
+ *   - One of the 100 VPNv4 instances: an eBGP IPv4 unicast session to the traffic generator, with the router's own AS set as local AS.
+ *   - `vrf-table-label` gives the VRF one label for IP lookup on egress; route targets come from `vrf-target`.
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $INSTANCE_NAME    e.g. L3VPN_DCI_RI_1
+ *   $BGP_GROUP        e.g. ebgp-w-tgen
+ *   $CE_PEER_V4       e.g. 10.10.1.2
+ *   $PE_LOCAL_V4      e.g. 10.10.1.1
+ *   $ASN_CUSTOMER     e.g. 65501
+ *   $ASN              e.g. 65000
+ *   $AC_IFL           e.g. et-0/0/4.1
+ *   $LOOPBACK_V4      e.g. 10.1.1.1
+ *   $RD_SUB_ASSIGNED  e.g. 1
+ *   $RT_AS            e.g. 65000
+ *   $RT_ID            e.g. 1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group $BGP_GROUP {
+                    type external;
+                    family inet {
+                        unicast;
+                    }
+                    neighbor $CE_PEER_V4 {
+                        local-address $PE_LOCAL_V4;
+                        peer-as $ASN_CUSTOMER;
+                        local-as $ASN;
+                    }
+                }
+            }
+        }
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet`
+
+## evo/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Autonomous system number
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $ASN  e.g. 65000
+ */
+routing-options {
+    autonomous-system $ASN;
+}
+```
+
+## evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for EVPN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Exports the load-balance policy to the forwarding table and enables `chained-composite-next-hop ingress evpn`; no `ecmp-fast-reroute`.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-flow-load-balance`
+
+## evo/routing-options/maximum-ecmp.conf
+
+```
+/*
+ * Topic: Maximum ECMP paths
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Raises the ECMP ceiling to 16 next hops.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    maximum-ecmp 16;
+}
+```
+
+## evo/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Router ID
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $ROUTER_ID  e.g. 10.1.1.1
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## evo/system/login-2-users-super-user.conf
+
+```
+/*
+ * Topic: Two local super-user accounts with encrypted passwords
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr dci3_acx7100-48l
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   dci3_acx7100-48l 1
+ *   total 2
+ * Highlights:
+ *   - Two automation accounts (in the validated configuration, `gnmi_user` and `netconf_user`) with fixed UIDs; both carry the same encrypted password in the published files.
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $LOGIN_USER_1        e.g. gnmi_user
+ *   $LOGIN_UID_1         e.g. 2002
+ *   $ENCRYPTED_PASSWORD  e.g. "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."
+ *   $LOGIN_USER_2        e.g. netconf_user
+ *   $LOGIN_UID_2         e.g. 2003
+ */
+system {
+    login {
+        user $LOGIN_USER_1 {
+            uid $LOGIN_UID_1;
+            class super-user;
+            authentication {
+                encrypted-password $ENCRYPTED_PASSWORD;
+            }
+        }
+        user $LOGIN_USER_2 {
+            uid $LOGIN_UID_2;
+            class super-user;
+            authentication {
+                encrypted-password $ENCRYPTED_PASSWORD;
+            }
+        }
+    }
+}
+```
+
+## evo/system/ntp-server.conf
+
+```
+/*
+ * Topic: NTP server
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $NTP_SERVER  e.g. 66.129.233.81
+ */
+system {
+    ntp {
+        server $NTP_SERVER;
+    }
+}
+```
+
+## evo/system/ports-console-log-out.conf
+
+```
+/*
+ * Topic: Console log-out on disconnect
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Highlights:
+ *   - Logs the console session out when the cable is disconnected.
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+```
+
+## evo/system/processes-ntp-enable.conf
+
+```
+/*
+ * Topic: NTP process enabled
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    processes {
+        ntp enable;
+    }
+}
+```
+
+## evo/system/services-grpc-clear-text-netconf-ssh.conf
+
+```
+/*
+ * Topic: Clear-text gRPC for telemetry and NETCONF over SSH
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Highlights:
+ *   - Same services as `services-netconf-ssh-grpc-clear-text`, configured in the other order (gRPC first).
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    services {
+        extension-service {
+            request-response {
+                grpc {
+                    clear-text {
+                        port 9339;
+                    }
+                    max-connections 8;
+                    skip-authentication;
+                }
+            }
+        }
+        netconf {
+            ssh;
+            rfc-compliant;
+        }
+    }
+}
+```
+
+## evo/system/services-netconf-ssh-grpc-clear-text.conf
+
+```
+/*
+ * Topic: NETCONF over SSH and clear-text gRPC for telemetry
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci3_acx7100-48l
+ * Count:
+ *   dci3_acx7100-48l 1
+ *   total 1
+ * Highlights:
+ *   - NETCONF over SSH with RFC-compliant replies, then gRPC on clear-text port 9339 (eight connections, no authentication) for streaming telemetry.
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    services {
+        netconf {
+            ssh;
+            rfc-compliant;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    clear-text {
+                        port 9339;
+                    }
+                    max-connections 8;
+                    skip-authentication;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/system/time-zone.conf
+
+```
+/*
+ * Topic: System time zone
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: dci1_ptx10001-36mr
+ * Count:
+ *   dci1_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from dci1_ptx10001-36mr):
+ *   $TIME_ZONE  e.g. America/Los_Angeles
+ */
+system {
+    time-zone $TIME_ZONE;
+}
+```
+
+## junos/chassis/aggregated-devices-ethernet.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet device count
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Pre-allocates the aggregated Ethernet interfaces the chassis may create.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $AE_DEVICE_COUNT  e.g. 10
+ */
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx304-5x400g-1x100g-1x4x10g.conf
+
+```
+/*
+ * Topic: MX304 port speeds for 400G coherent optics
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Five ports at 400G for the coherent optics, one at 100G for the test-traffic port and one channelized to four 10G sub-ports.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $FPC_SLOT  e.g. 0
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 1 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 2 {
+                speed 100g;
+            }
+            port 6 {
+                speed 400g;
+            }
+            port 8 {
+                speed 400g;
+            }
+            port 14 {
+                speed 400g;
+            }
+        }
+        pic 1 {
+            port 0 {
+                speed 400g;
+            }
+            port 6 {
+                speed 400g;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet core bundle with minimum links and fast active LACP
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 2
+ *   total 2
+ * Highlights:
+ *   - Bundles the coherent DWDM ports; LACP active with fast periodic hellos, and the bundle stays up with one member.
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $IFD  e.g. ae12
+ */
+interfaces {
+    $IFD {
         aggregated-ether-options {
-            minimum-links $MIN_LINKS;
+            minimum-links 1;
             lacp {
                 active;
                 periodic fast;
             }
         }
-        unit 0 {
-            family inet {
-                address $AE_IPV4;
-            }
-            family mpls {
-                maximum-labels $MAX_LABELS;
-            }
-        }
     }
 }
 ```
 
-## evo/interfaces/loopback.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-wavelength`
+
+## junos/interfaces/ifd-flexible-ethernet-services.conf
 
 ```
 /*
- * Topic:   Loopback lo0 addressing (router-id)
- * Variant: Junos OS Evolved
+ * Topic: Port with flexible VLAN tagging and flexible Ethernet services
  * Seen on:
- *   Junos: (none)
- *   EVO:   dci1_ptx10001-36mr dci3_acx7100-48l
- *
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
  * Highlights:
- *  - lo0.0 is the router-id / control-plane address for each DCI router.
- *  - Used as the BGP/MPLS endpoint for the transport underlay between the
- *    DCI routers.
- *
- * Pair with:
- *  - evo/interfaces/dwdm-ae-bundle.conf   (the core link that reaches lo0)
- *
- * Variables (example values from dci1_ptx10001-36mr):
- *   $LO_UNIT   e.g. 0
- *   $LO_IPV4   e.g. 10.1.1.1/32
+ *   - Flexible tagging and `flexible-ethernet-services` let one port carry many VLAN units; here the 100 routed customer-side units.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $IFD  e.g. et-0/0/2
  */
 interfaces {
-    lo0 {
-        unit $LO_UNIT {
-            family inet {
-                address $LO_IPV4;
-            }
-        }
+    $IFD {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
     }
 }
 ```
 
-## junos/chassis/aggregated-devices.conf
+## junos/interfaces/ifd-lag-member-gigether-wavelength.conf
 
 ```
 /*
- * Topic:   Enable aggregated-ethernet (chassis device-count)
- * Variant: Junos OS
+ * Topic: Coherent optics port as an aggregated Ethernet member, with its DWDM wavelength
  * Seen on:
  *   Junos: dci2_mx304
- *   EVO:   (none)
- *
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 5
+ *   total 5
  * Highlights:
- *  - Reserves the pool of ae interfaces the DWDM bundles are built from.
- *  - `device-count` must be at least as large as the highest ae unit used.
- *
- * Pair with:
- *  - junos/interfaces/dwdm-ae-bundle.conf   (the bundles this enables)
- *  - junos/interfaces/coherent-optics-port.conf   (the member ports)
- *
+ *   - The 400G coherent optic plugs straight into the router: `optics-options wavelength` tunes it onto the DWDM line system, so no external transponder is used.
+ *   - Junos OS sets LAG membership under `gigether-options`.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from dci2_mx304):
- *   $DEVICE_COUNT   e.g. 10
- */
-chassis {
-    aggregated-devices {
-        ethernet {
-            device-count $DEVICE_COUNT;
-        }
-    }
-}
-```
-
-## junos/chassis/port-channelization.conf
-
-```
-/*
- * Topic:   Port speed / channelization (chassis fpc-pic-port)
- * Variant: Junos OS
- * Seen on:
- *   Junos: dci2_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - On MX (Junos) the rate and breakout of a physical port are set under
- *    `chassis` per fpc/pic/port, NOT on the interface (EVO differs).
- *  - `speed` selects the port rate (10g/100g/400g); `number-of-sub-ports`
- *    channelizes the port into that many sub-ports (omit for a non-
- *    channelized port — configure `speed` alone).
- *  - For a coherent 400G DWDM port, pair this with the interface-level
- *    optics-options in junos/interfaces/coherent-optics-port.conf.
- *
- * Pair with:
- *  - junos/interfaces/coherent-optics-port.conf   (the tuned coherent port)
- *
- * Variables (example values from dci2_mx304 — fpc 0 / pic 0 / port 1):
- *   $FPC              e.g. 0
- *   $PIC              e.g. 0
- *   $PORT             e.g. 1
- *   $NUM_SUB_PORTS    e.g. 4
- *   $PORT_SPEED       e.g. 10g
- */
-chassis {
-    fpc $FPC {
-        pic $PIC {
-            port $PORT {
-                number-of-sub-ports $NUM_SUB_PORTS;
-                speed $PORT_SPEED;
-            }
-        }
-    }
-}
-```
-
-## junos/interfaces/coherent-optics-port.conf
-
-```
-/*
- * Topic:   Coherent 400G DWDM interface (optics-options / wavelength)
- * Variant: Junos OS
- * Seen on:
- *   Junos: dci2_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - This is the heart of the IPoDWDM (CORA) design: the router's built-in
- *    Juniper 400G Coherent Optic (JCO400-QDD-ZR-M-HP / QDD-400G-ZR-M-HP)
- *    connects directly to the DWDM line system, so no external transponder
- *    is needed.
- *  - `optics-options wavelength` tunes the transceiver to the ITU C-band
- *    wavelength (nm) assigned to this channel by the OLS/ROADM plan.
- *  - On Junos MX the coherent port uses `gigether-options` for LAG
- *    membership (EVO uses `ether-options`). Channelization (speed +
- *    number-of-sub-ports) is set under `chassis` on MX — see
- *    junos/chassis/port-channelization.conf.
- *  - Repeat the interface block per coherent member; each member carries a
- *    distinct wavelength multiplexed onto the fiber pair.
- *
- * Pair with:
- *  - junos/interfaces/dwdm-ae-bundle.conf      (the AE these members join)
- *  - junos/chassis/aggregated-devices.conf     (enables aggregated-ethernet)
- *  - junos/chassis/port-channelization.conf    (rate/breakout on MX)
- *
- * Variables (example values from dci2_mx304):
- *   $COHERENT_IFD   e.g. et-0/0/6
- *   $AE_BUNDLE      e.g. ae12
- *   $WAVELENGTH     e.g. 1547.12
+ *   $IFD         e.g. et-0/0/14
+ *   $AE_BUNDLE   e.g. ae12
+ *   $WAVELENGTH  e.g. 1548.31
  */
 interfaces {
-    $COHERENT_IFD {
+    $IFD {
         gigether-options {
             802.3ad $AE_BUNDLE;
         }
@@ -274,84 +1961,1552 @@ interfaces {
 }
 ```
 
-## junos/interfaces/dwdm-ae-bundle.conf
+## junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf
 
 ```
 /*
- * Topic:   DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)
- * Variant: Junos OS
+ * Topic: Core logical interface with IPv4 and MPLS
  * Seen on:
  *   Junos: dci2_mx304
- *   EVO:   (none)
- *
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 2
+ *   total 2
  * Highlights:
- *  - Bundles the coherent 400G members into a single logical DCI core link.
- *  - `minimum-links 1` keeps the bundle up while at least one wavelength is
- *    healthy; `lacp active periodic fast` gives sub-second member detection.
- *  - unit 0 carries the IP core: `family inet` for the point-to-point address
- *    and `family mpls maximum-labels` for the transport label stack.
- *  - Add each coherent member with junos/interfaces/coherent-optics-port.conf.
- *
- * Pair with:
- *  - junos/interfaces/coherent-optics-port.conf   (the member ports)
- *  - junos/chassis/aggregated-devices.conf        (enables aggregated-ethernet)
- *  - junos/interfaces/loopback.conf               (router-id reached over this link)
- *
+ *   - IPv4 and MPLS on the DWDM bundle; MPLS allows a stack of up to five labels.
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from dci2_mx304):
- *   $AE_BUNDLE      e.g. ae12
- *   $MIN_LINKS      e.g. 1
- *   $AE_IPV4        e.g. 10.12.1.2/30
- *   $MAX_LABELS     e.g. 5
+ *   $IFD           e.g. ae12
+ *   $UNIT          e.g. 0
+ *   $CORE_V4_ADDR  e.g. 10.12..1.2/30
  */
 interfaces {
-    $AE_BUNDLE {
-        aggregated-ether-options {
-            minimum-links $MIN_LINKS;
-            lacp {
-                active;
-                periodic fast;
-            }
-        }
-        unit 0 {
+    $IFD {
+        unit $UNIT {
             family inet {
-                address $AE_IPV4;
+                address $CORE_V4_ADDR;
             }
             family mpls {
-                maximum-labels $MAX_LABELS;
+                maximum-labels 5;
             }
         }
     }
 }
 ```
 
-## junos/interfaces/loopback.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-core-aggregate-min-links-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether-wavelength`
+
+## junos/interfaces/ifl-loopback-inet.conf
 
 ```
 /*
- * Topic:   Loopback lo0 addressing (router-id)
- * Variant: Junos OS
+ * Topic: Loopback unit with one IPv4 address
  * Seen on:
  *   Junos: dci2_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - lo0.0 is the router-id / control-plane address for each DCI router.
- *  - Used as the BGP/MPLS endpoint for the transport underlay between the
- *    DCI routers.
- *
- * Pair with:
- *  - junos/interfaces/dwdm-ae-bundle.conf   (the core link that reaches lo0)
- *
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
  * Variables (example values from dci2_mx304):
- *   $LO_UNIT   e.g. 0
- *   $LO_IPV4   e.g. 10.1.1.2/32
+ *   $UNIT             e.g. 0
+ *   $LOOPBACK_V4_PFX  e.g. 10.1.1.2/32
  */
 interfaces {
     lo0 {
-        unit $LO_UNIT {
+        unit $UNIT {
             family inet {
-                address $LO_IPV4;
+                address $LOOPBACK_V4_PFX;
             }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic: VLAN-tagged IPv4 unit
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 100
+ *   total 100
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $IFD         e.g. et-0/0/2
+ *   $UNIT        e.g. 1
+ *   $VLAN        e.g. 1
+ *   $AC_ADDR_V4  e.g. 10.20.1.1/30
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services`
+
+## junos/policy-options/policy-statement/per-flow-load-balance.conf
+
+```
+/*
+ * Topic: Per-flow load-balance policy
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Exported to the forwarding table so traffic spreads across equal-cost paths per flow.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+policy-options {
+    policy-statement $PPLB_NAME {
+        then {
+            load-balance per-flow;
+        }
+    }
+}
+```
+
+## junos/protocols/bgp-ibgp-inet-vpn-2-peers.conf
+
+```
+/*
+ * Topic: iBGP group for L3VPN with two loopback neighbors
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Full mesh between the three DCI routers: each peers with the other two over loopbacks and carries `inet-vpn unicast` for the 100 VRFs.
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $BGP_GROUP       e.g. grp-iBGP
+ *   $LOOPBACK_V4     e.g. 10.1.1.2
+ *   $IBGP_PEER_V4_1  e.g. 10.1.1.1
+ *   $IBGP_PEER_V4_2  e.g. 10.1.1.3
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet-vpn {
+                unicast;
+            }
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+        }
+    }
+}
+```
+
+## junos/protocols/mpls-te-200-lsp-2-core.conf
+
+```
+/*
+ * Topic: MPLS traffic engineering with 200 RSVP LSPs and two core interfaces
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - The validated scale: 100 RSVP-signalled LSPs to each of the two other DCI routers, all from the local loopback, listed peer by peer.
+ *   - MPLS runs on the two DWDM core bundles.
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $LSP_NAME_1    e.g. lsp-r2-to-r11
+ *   $LOOPBACK_V4   e.g. 10.1.1.2
+ *   $LSP_TO_A      e.g. 10.1.1.1
+ *   $LSP_NAME_2    e.g. lsp-r2-to-r12
+ *   $LSP_NAME_3    e.g. lsp-r2-to-r13
+ *   $LSP_NAME_4    e.g. lsp-r2-to-r14
+ *   $LSP_NAME_5    e.g. lsp-r2-to-r15
+ *   $LSP_NAME_6    e.g. lsp-r2-to-r16
+ *   $LSP_NAME_7    e.g. lsp-r2-to-r17
+ *   $LSP_NAME_8    e.g. lsp-r2-to-r18
+ *   $LSP_NAME_9    e.g. lsp-r2-to-r19
+ *   $LSP_NAME_10   e.g. lsp-r2-to-r110
+ *   $LSP_NAME_11   e.g. lsp-r2-to-r111
+ *   $LSP_NAME_12   e.g. lsp-r2-to-r112
+ *   $LSP_NAME_13   e.g. lsp-r2-to-r113
+ *   $LSP_NAME_14   e.g. lsp-r2-to-r114
+ *   $LSP_NAME_15   e.g. lsp-r2-to-r115
+ *   $LSP_NAME_16   e.g. lsp-r2-to-r116
+ *   $LSP_NAME_17   e.g. lsp-r2-to-r117
+ *   $LSP_NAME_18   e.g. lsp-r2-to-r118
+ *   $LSP_NAME_19   e.g. lsp-r2-to-r119
+ *   $LSP_NAME_20   e.g. lsp-r2-to-r120
+ *   $LSP_NAME_21   e.g. lsp-r2-to-r121
+ *   $LSP_NAME_22   e.g. lsp-r2-to-r122
+ *   $LSP_NAME_23   e.g. lsp-r2-to-r123
+ *   $LSP_NAME_24   e.g. lsp-r2-to-r124
+ *   $LSP_NAME_25   e.g. lsp-r2-to-r125
+ *   $LSP_NAME_26   e.g. lsp-r2-to-r126
+ *   $LSP_NAME_27   e.g. lsp-r2-to-r127
+ *   $LSP_NAME_28   e.g. lsp-r2-to-r128
+ *   $LSP_NAME_29   e.g. lsp-r2-to-r129
+ *   $LSP_NAME_30   e.g. lsp-r2-to-r130
+ *   $LSP_NAME_31   e.g. lsp-r2-to-r131
+ *   $LSP_NAME_32   e.g. lsp-r2-to-r132
+ *   $LSP_NAME_33   e.g. lsp-r2-to-r133
+ *   $LSP_NAME_34   e.g. lsp-r2-to-r134
+ *   $LSP_NAME_35   e.g. lsp-r2-to-r135
+ *   $LSP_NAME_36   e.g. lsp-r2-to-r136
+ *   $LSP_NAME_37   e.g. lsp-r2-to-r137
+ *   $LSP_NAME_38   e.g. lsp-r2-to-r138
+ *   $LSP_NAME_39   e.g. lsp-r2-to-r139
+ *   $LSP_NAME_40   e.g. lsp-r2-to-r140
+ *   $LSP_NAME_41   e.g. lsp-r2-to-r141
+ *   $LSP_NAME_42   e.g. lsp-r2-to-r142
+ *   $LSP_NAME_43   e.g. lsp-r2-to-r143
+ *   $LSP_NAME_44   e.g. lsp-r2-to-r144
+ *   $LSP_NAME_45   e.g. lsp-r2-to-r145
+ *   $LSP_NAME_46   e.g. lsp-r2-to-r146
+ *   $LSP_NAME_47   e.g. lsp-r2-to-r147
+ *   $LSP_NAME_48   e.g. lsp-r2-to-r148
+ *   $LSP_NAME_49   e.g. lsp-r2-to-r149
+ *   $LSP_NAME_50   e.g. lsp-r2-to-r150
+ *   $LSP_NAME_51   e.g. lsp-r2-to-r151
+ *   $LSP_NAME_52   e.g. lsp-r2-to-r152
+ *   $LSP_NAME_53   e.g. lsp-r2-to-r153
+ *   $LSP_NAME_54   e.g. lsp-r2-to-r154
+ *   $LSP_NAME_55   e.g. lsp-r2-to-r155
+ *   $LSP_NAME_56   e.g. lsp-r2-to-r156
+ *   $LSP_NAME_57   e.g. lsp-r2-to-r157
+ *   $LSP_NAME_58   e.g. lsp-r2-to-r158
+ *   $LSP_NAME_59   e.g. lsp-r2-to-r159
+ *   $LSP_NAME_60   e.g. lsp-r2-to-r160
+ *   $LSP_NAME_61   e.g. lsp-r2-to-r161
+ *   $LSP_NAME_62   e.g. lsp-r2-to-r162
+ *   $LSP_NAME_63   e.g. lsp-r2-to-r163
+ *   $LSP_NAME_64   e.g. lsp-r2-to-r164
+ *   $LSP_NAME_65   e.g. lsp-r2-to-r165
+ *   $LSP_NAME_66   e.g. lsp-r2-to-r166
+ *   $LSP_NAME_67   e.g. lsp-r2-to-r167
+ *   $LSP_NAME_68   e.g. lsp-r2-to-r168
+ *   $LSP_NAME_69   e.g. lsp-r2-to-r169
+ *   $LSP_NAME_70   e.g. lsp-r2-to-r170
+ *   $LSP_NAME_71   e.g. lsp-r2-to-r171
+ *   $LSP_NAME_72   e.g. lsp-r2-to-r172
+ *   $LSP_NAME_73   e.g. lsp-r2-to-r173
+ *   $LSP_NAME_74   e.g. lsp-r2-to-r174
+ *   $LSP_NAME_75   e.g. lsp-r2-to-r175
+ *   $LSP_NAME_76   e.g. lsp-r2-to-r176
+ *   $LSP_NAME_77   e.g. lsp-r2-to-r177
+ *   $LSP_NAME_78   e.g. lsp-r2-to-r178
+ *   $LSP_NAME_79   e.g. lsp-r2-to-r179
+ *   $LSP_NAME_80   e.g. lsp-r2-to-r180
+ *   $LSP_NAME_81   e.g. lsp-r2-to-r181
+ *   $LSP_NAME_82   e.g. lsp-r2-to-r182
+ *   $LSP_NAME_83   e.g. lsp-r2-to-r183
+ *   $LSP_NAME_84   e.g. lsp-r2-to-r184
+ *   $LSP_NAME_85   e.g. lsp-r2-to-r185
+ *   $LSP_NAME_86   e.g. lsp-r2-to-r186
+ *   $LSP_NAME_87   e.g. lsp-r2-to-r187
+ *   $LSP_NAME_88   e.g. lsp-r2-to-r188
+ *   $LSP_NAME_89   e.g. lsp-r2-to-r189
+ *   $LSP_NAME_90   e.g. lsp-r2-to-r190
+ *   $LSP_NAME_91   e.g. lsp-r2-to-r191
+ *   $LSP_NAME_92   e.g. lsp-r2-to-r192
+ *   $LSP_NAME_93   e.g. lsp-r2-to-r193
+ *   $LSP_NAME_94   e.g. lsp-r2-to-r194
+ *   $LSP_NAME_95   e.g. lsp-r2-to-r195
+ *   $LSP_NAME_96   e.g. lsp-r2-to-r196
+ *   $LSP_NAME_97   e.g. lsp-r2-to-r197
+ *   $LSP_NAME_98   e.g. lsp-r2-to-r198
+ *   $LSP_NAME_99   e.g. lsp-r2-to-r199
+ *   $LSP_NAME_100  e.g. lsp-r2-to-r1100
+ *   $LSP_NAME_101  e.g. lsp-r2-to-r31
+ *   $LSP_TO_B      e.g. 10.1.1.3
+ *   $LSP_NAME_102  e.g. lsp-r2-to-r32
+ *   $LSP_NAME_103  e.g. lsp-r2-to-r33
+ *   $LSP_NAME_104  e.g. lsp-r2-to-r34
+ *   $LSP_NAME_105  e.g. lsp-r2-to-r35
+ *   $LSP_NAME_106  e.g. lsp-r2-to-r36
+ *   $LSP_NAME_107  e.g. lsp-r2-to-r37
+ *   $LSP_NAME_108  e.g. lsp-r2-to-r38
+ *   $LSP_NAME_109  e.g. lsp-r2-to-r39
+ *   $LSP_NAME_110  e.g. lsp-r2-to-r310
+ *   $LSP_NAME_111  e.g. lsp-r2-to-r311
+ *   $LSP_NAME_112  e.g. lsp-r2-to-r312
+ *   $LSP_NAME_113  e.g. lsp-r2-to-r313
+ *   $LSP_NAME_114  e.g. lsp-r2-to-r314
+ *   $LSP_NAME_115  e.g. lsp-r2-to-r315
+ *   $LSP_NAME_116  e.g. lsp-r2-to-r316
+ *   $LSP_NAME_117  e.g. lsp-r2-to-r317
+ *   $LSP_NAME_118  e.g. lsp-r2-to-r318
+ *   $LSP_NAME_119  e.g. lsp-r2-to-r319
+ *   $LSP_NAME_120  e.g. lsp-r2-to-r320
+ *   $LSP_NAME_121  e.g. lsp-r2-to-r321
+ *   $LSP_NAME_122  e.g. lsp-r2-to-r322
+ *   $LSP_NAME_123  e.g. lsp-r2-to-r323
+ *   $LSP_NAME_124  e.g. lsp-r2-to-r324
+ *   $LSP_NAME_125  e.g. lsp-r2-to-r325
+ *   $LSP_NAME_126  e.g. lsp-r2-to-r326
+ *   $LSP_NAME_127  e.g. lsp-r2-to-r327
+ *   $LSP_NAME_128  e.g. lsp-r2-to-r328
+ *   $LSP_NAME_129  e.g. lsp-r2-to-r329
+ *   $LSP_NAME_130  e.g. lsp-r2-to-r330
+ *   $LSP_NAME_131  e.g. lsp-r2-to-r331
+ *   $LSP_NAME_132  e.g. lsp-r2-to-r332
+ *   $LSP_NAME_133  e.g. lsp-r2-to-r333
+ *   $LSP_NAME_134  e.g. lsp-r2-to-r334
+ *   $LSP_NAME_135  e.g. lsp-r2-to-r335
+ *   $LSP_NAME_136  e.g. lsp-r2-to-r336
+ *   $LSP_NAME_137  e.g. lsp-r2-to-r337
+ *   $LSP_NAME_138  e.g. lsp-r2-to-r338
+ *   $LSP_NAME_139  e.g. lsp-r2-to-r339
+ *   $LSP_NAME_140  e.g. lsp-r2-to-r340
+ *   $LSP_NAME_141  e.g. lsp-r2-to-r341
+ *   $LSP_NAME_142  e.g. lsp-r2-to-r342
+ *   $LSP_NAME_143  e.g. lsp-r2-to-r343
+ *   $LSP_NAME_144  e.g. lsp-r2-to-r344
+ *   $LSP_NAME_145  e.g. lsp-r2-to-r345
+ *   $LSP_NAME_146  e.g. lsp-r2-to-r346
+ *   $LSP_NAME_147  e.g. lsp-r2-to-r347
+ *   $LSP_NAME_148  e.g. lsp-r2-to-r348
+ *   $LSP_NAME_149  e.g. lsp-r2-to-r349
+ *   $LSP_NAME_150  e.g. lsp-r2-to-r350
+ *   $LSP_NAME_151  e.g. lsp-r2-to-r351
+ *   $LSP_NAME_152  e.g. lsp-r2-to-r352
+ *   $LSP_NAME_153  e.g. lsp-r2-to-r353
+ *   $LSP_NAME_154  e.g. lsp-r2-to-r354
+ *   $LSP_NAME_155  e.g. lsp-r2-to-r355
+ *   $LSP_NAME_156  e.g. lsp-r2-to-r356
+ *   $LSP_NAME_157  e.g. lsp-r2-to-r357
+ *   $LSP_NAME_158  e.g. lsp-r2-to-r358
+ *   $LSP_NAME_159  e.g. lsp-r2-to-r359
+ *   $LSP_NAME_160  e.g. lsp-r2-to-r360
+ *   $LSP_NAME_161  e.g. lsp-r2-to-r361
+ *   $LSP_NAME_162  e.g. lsp-r2-to-r362
+ *   $LSP_NAME_163  e.g. lsp-r2-to-r363
+ *   $LSP_NAME_164  e.g. lsp-r2-to-r364
+ *   $LSP_NAME_165  e.g. lsp-r2-to-r365
+ *   $LSP_NAME_166  e.g. lsp-r2-to-r366
+ *   $LSP_NAME_167  e.g. lsp-r2-to-r367
+ *   $LSP_NAME_168  e.g. lsp-r2-to-r368
+ *   $LSP_NAME_169  e.g. lsp-r2-to-r369
+ *   $LSP_NAME_170  e.g. lsp-r2-to-r370
+ *   $LSP_NAME_171  e.g. lsp-r2-to-r371
+ *   $LSP_NAME_172  e.g. lsp-r2-to-r372
+ *   $LSP_NAME_173  e.g. lsp-r2-to-r373
+ *   $LSP_NAME_174  e.g. lsp-r2-to-r374
+ *   $LSP_NAME_175  e.g. lsp-r2-to-r375
+ *   $LSP_NAME_176  e.g. lsp-r2-to-r376
+ *   $LSP_NAME_177  e.g. lsp-r2-to-r377
+ *   $LSP_NAME_178  e.g. lsp-r2-to-r378
+ *   $LSP_NAME_179  e.g. lsp-r2-to-r379
+ *   $LSP_NAME_180  e.g. lsp-r2-to-r380
+ *   $LSP_NAME_181  e.g. lsp-r2-to-r381
+ *   $LSP_NAME_182  e.g. lsp-r2-to-r382
+ *   $LSP_NAME_183  e.g. lsp-r2-to-r383
+ *   $LSP_NAME_184  e.g. lsp-r2-to-r384
+ *   $LSP_NAME_185  e.g. lsp-r2-to-r385
+ *   $LSP_NAME_186  e.g. lsp-r2-to-r386
+ *   $LSP_NAME_187  e.g. lsp-r2-to-r387
+ *   $LSP_NAME_188  e.g. lsp-r2-to-r388
+ *   $LSP_NAME_189  e.g. lsp-r2-to-r389
+ *   $LSP_NAME_190  e.g. lsp-r2-to-r390
+ *   $LSP_NAME_191  e.g. lsp-r2-to-r391
+ *   $LSP_NAME_192  e.g. lsp-r2-to-r392
+ *   $LSP_NAME_193  e.g. lsp-r2-to-r393
+ *   $LSP_NAME_194  e.g. lsp-r2-to-r394
+ *   $LSP_NAME_195  e.g. lsp-r2-to-r395
+ *   $LSP_NAME_196  e.g. lsp-r2-to-r396
+ *   $LSP_NAME_197  e.g. lsp-r2-to-r397
+ *   $LSP_NAME_198  e.g. lsp-r2-to-r398
+ *   $LSP_NAME_199  e.g. lsp-r2-to-r399
+ *   $LSP_NAME_200  e.g. lsp-r2-to-r3100
+ *   $CORE_INTF_1   e.g. ae12.0
+ *   $CORE_INTF_2   e.g. ae23.0
+ */
+protocols {
+    mpls {
+        traffic-engineering;
+        label-switched-path $LSP_NAME_1 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_2 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_3 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_4 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_5 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_6 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_7 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_8 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_9 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_10 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_11 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_12 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_13 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_14 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_15 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_16 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_17 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_18 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_19 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_20 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_21 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_22 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_23 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_24 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_25 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_26 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_27 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_28 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_29 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_30 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_31 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_32 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_33 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_34 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_35 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_36 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_37 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_38 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_39 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_40 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_41 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_42 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_43 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_44 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_45 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_46 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_47 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_48 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_49 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_50 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_51 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_52 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_53 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_54 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_55 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_56 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_57 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_58 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_59 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_60 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_61 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_62 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_63 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_64 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_65 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_66 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_67 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_68 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_69 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_70 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_71 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_72 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_73 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_74 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_75 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_76 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_77 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_78 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_79 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_80 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_81 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_82 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_83 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_84 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_85 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_86 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_87 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_88 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_89 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_90 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_91 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_92 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_93 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_94 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_95 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_96 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_97 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_98 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_99 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_100 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_A;
+        }
+        label-switched-path $LSP_NAME_101 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_102 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_103 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_104 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_105 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_106 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_107 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_108 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_109 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_110 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_111 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_112 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_113 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_114 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_115 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_116 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_117 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_118 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_119 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_120 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_121 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_122 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_123 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_124 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_125 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_126 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_127 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_128 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_129 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_130 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_131 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_132 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_133 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_134 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_135 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_136 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_137 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_138 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_139 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_140 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_141 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_142 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_143 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_144 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_145 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_146 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_147 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_148 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_149 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_150 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_151 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_152 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_153 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_154 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_155 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_156 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_157 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_158 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_159 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_160 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_161 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_162 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_163 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_164 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_165 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_166 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_167 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_168 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_169 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_170 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_171 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_172 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_173 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_174 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_175 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_176 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_177 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_178 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_179 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_180 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_181 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_182 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_183 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_184 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_185 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_186 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_187 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_188 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_189 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_190 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_191 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_192 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_193 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_194 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_195 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_196 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_197 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_198 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_199 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        label-switched-path $LSP_NAME_200 {
+            from $LOOPBACK_V4;
+            to $LSP_TO_B;
+        }
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## junos/protocols/ospf-area0-loopback-2-p2p-core.conf
+
+```
+/*
+ * Topic: OSPF backbone area with a passive loopback and two point-to-point core interfaces
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $CORE_INTF_1  e.g. ae12.0
+ *   $CORE_INTF_2  e.g. ae23.0
+ */
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface lo0.0 {
+                passive;
+            }
+            interface $CORE_INTF_1 {
+                interface-type p2p;
+            }
+            interface $CORE_INTF_2 {
+                interface-type p2p;
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/ospf-traffic-engineering.conf
+
+```
+/*
+ * Topic: OSPF traffic-engineering extensions
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Floods TE information so RSVP-TE can compute constrained paths for the LSPs.
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    ospf {
+        traffic-engineering;
+    }
+}
+```
+
+## junos/protocols/rsvp-interface-2-core.conf
+
+```
+/*
+ * Topic: RSVP on two core interfaces
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $CORE_INTF_1  e.g. ae12.0
+ *   $CORE_INTF_2  e.g. ae23.0
+ */
+protocols {
+    rsvp {
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf
+
+```
+/*
+ * Topic: L3VPN VRF with an eBGP CE session that sets a local AS, and a route target
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 100
+ *   total 100
+ * Highlights:
+ *   - One of the 100 VPNv4 instances: an eBGP IPv4 unicast session to the traffic generator, with the router's own AS set as local AS.
+ *   - `vrf-table-label` gives the VRF one label for IP lookup on egress; route targets come from `vrf-target`.
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $INSTANCE_NAME    e.g. L3VPN_DCI_RI_1
+ *   $BGP_GROUP        e.g. ebgp-w-tgen
+ *   $CE_PEER_V4       e.g. 10.20.1.2
+ *   $PE_LOCAL_V4      e.g. 10.20.1.1
+ *   $ASN_CUSTOMER     e.g. 65502
+ *   $ASN              e.g. 65000
+ *   $AC_IFL           e.g. et-0/0/2.1
+ *   $LOOPBACK_V4      e.g. 10.1.1.2
+ *   $RD_SUB_ASSIGNED  e.g. 1
+ *   $RT_AS            e.g. 65000
+ *   $RT_ID            e.g. 1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group $BGP_GROUP {
+                    type external;
+                    family inet {
+                        unicast;
+                    }
+                    neighbor $CE_PEER_V4 {
+                        local-address $PE_LOCAL_V4;
+                        peer-as $ASN_CUSTOMER;
+                        local-as $ASN;
+                    }
+                }
+            }
+        }
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet`
+
+## junos/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Autonomous system number
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $ASN  e.g. 65000
+ */
+routing-options {
+    autonomous-system $ASN;
+}
+```
+
+## junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for EVPN
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Exports the load-balance policy to the forwarding table and enables `chained-composite-next-hop ingress evpn`; no `ecmp-fast-reroute`.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-flow-load-balance`
+
+## junos/routing-options/maximum-ecmp.conf
+
+```
+/*
+ * Topic: Maximum ECMP paths
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Raises the ECMP ceiling to 16 next hops.
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    maximum-ecmp 16;
+}
+```
+
+## junos/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Router ID
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from dci2_mx304):
+ *   $ROUTER_ID  e.g. 10.1.1.2
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## junos/system/login-2-users-super-user.conf
+
+```
+/*
+ * Topic: Two local super-user accounts with encrypted passwords
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Two automation accounts (in the validated configuration, `gnmi_user` and `netconf_user`) with fixed UIDs; both carry the same encrypted password in the published files.
+ * Pair with: none
+ * Variables (example values from dci2_mx304):
+ *   $LOGIN_USER_1        e.g. gnmi_user
+ *   $LOGIN_UID_1         e.g. 2002
+ *   $ENCRYPTED_PASSWORD  e.g. "$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."
+ *   $LOGIN_USER_2        e.g. netconf_user
+ *   $LOGIN_UID_2         e.g. 2003
+ */
+system {
+    login {
+        user $LOGIN_USER_1 {
+            uid $LOGIN_UID_1;
+            class super-user;
+            authentication {
+                encrypted-password $ENCRYPTED_PASSWORD;
+            }
+        }
+        user $LOGIN_USER_2 {
+            uid $LOGIN_UID_2;
+            class super-user;
+            authentication {
+                encrypted-password $ENCRYPTED_PASSWORD;
+            }
+        }
+    }
+}
+```
+
+## junos/system/ports-console-log-out.conf
+
+```
+/*
+ * Topic: Console log-out on disconnect
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - Logs the console session out when the cable is disconnected.
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    ports {
+        console log-out-on-disconnect;
+    }
+}
+```
+
+## junos/system/services-netconf-ssh-grpc-clear-text.conf
+
+```
+/*
+ * Topic: NETCONF over SSH and clear-text gRPC for telemetry
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Highlights:
+ *   - NETCONF over SSH with RFC-compliant replies, then gRPC on clear-text port 9339 (eight connections, no authentication) for streaming telemetry.
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    services {
+        netconf {
+            ssh;
+            rfc-compliant;
+        }
+        extension-service {
+            request-response {
+                grpc {
+                    clear-text {
+                        port 9339;
+                    }
+                    max-connections 8;
+                    skip-authentication;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/system/syslog-file-messages-pfe-any.conf
+
+```
+/*
+ * Topic: Syslog messages file with all PFE events
+ * Seen on:
+ *   Junos: dci2_mx304
+ *   EVO: (none)
+ * Count:
+ *   dci2_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    syslog {
+        file messages {
+            pfe any;
         }
     }
 }
@@ -359,300 +3514,193 @@ interfaces {
 
 ## _variables.md
 
-# Snip Variable Reference — Data Center Interconnect over IPoDWDM
+# Snippet variable glossary
 
-Variables used across the `dci_over_ipodwdm` snip library. Replace
-`$VARIABLE` placeholders with site-specific values when adapting snips to a new
-deployment. Values that are deployment topology (wavelengths, addresses, AE
-units) are always variables; there are no JVD-wide literal constants in this
-library.
+All `.conf` files under `junos/` and `evo/` are templates: identifiers that vary between deployments are written
+as `$VAR`. Render a snippet by substituting each placeholder with your deployment's value. The placeholders each
+snippet uses are listed in its `Variables:` header and in the glossary below. Variable names and meanings follow
+the shared JVD snippet vocabulary. Lettered and numbered
+variables (`_A`…`_E`, `_1`, `_2`, …) form an ordered set; the letters and numbers carry no other meaning.
 
-This JVD spans **both operating systems**: `dci1_ptx10001-36mr` (PTX10001-36MR)
-and `dci3_acx7100-48l` (ACX7100-48L) run **Junos OS Evolved** (`evo/`), while
-`dci2_mx304` (MX304) runs **Junos OS** (`junos/`). Where a stanza is identical on
-both OSes it appears in each tree; where syntax differs (LAG membership uses
-`ether-options` on EVO vs `gigether-options` on Junos; port channelization lives
-under `chassis` on MX) the snips differ accordingly.
+Values left literal on purpose: design constants such as `class super-user`, the gRPC port `9339` and its
+connection limit, the MX304 port speeds, `speed 100g`, `minimum-links 1` and the LACP settings, `maximum-labels 5`,
+`maximum-ecmp 16`, the OSPF area `0.0.0.0` and the loopback `lo0.0`.
 
-This library focuses on the **CORA / IPoDWDM transport layer** — the coherent
-400G optics, DWDM aggregated-ethernet core links, and the chassis enablement
-they need. The routing/underlay (BGP, MPLS/RSVP, VRF) used in the test bed is
-deployment-specific scaffolding and is out of scope; see the full sanitized
-device configs under [configuration/conf/](https://github.com/Juniper/jvd/tree/main/optical/dci_over_ipodwdm/configuration/conf).
+## System
 
-## Coherent optics
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ENCRYPTED_PASSWORD` | Encrypted (hashed) login password; secret, supplied by the operator (the published value is sanitized). | `"$1$kPU..$w.4FGRAGanJ8U4Yq6sbj7."` |
+| `$LOGIN_UID_1` | Numeric user ID (`uid`) of the login account with the same number. | `2002` |
+| `$LOGIN_UID_2` | Numeric user ID (`uid`) of the login account with the same number. | `2003` |
+| `$LOGIN_USER_1` | Name of a local login account; `_1`, `_2` order the accounts. | `gnmi_user` |
+| `$LOGIN_USER_2` | Name of a local login account; `_1`, `_2` order the accounts. | `netconf_user` |
+| `$NTP_SERVER` | IPv4 address of an NTP server. | `66.129.233.81` |
+| `$TIME_ZONE` | System time zone (IANA time-zone name). | `America/Los_Angeles` |
 
-| Variable | Example | Used in |
-|----------|---------|---------|
-| `$COHERENT_IFD` | `et-0/0/8` | coherent-optics-port |
-| `$WAVELENGTH` | `1547.12` | coherent-optics-port |
-| `$AE_BUNDLE` | `ae12` | coherent-optics-port, dwdm-ae-bundle |
+## Identity / topology
 
-## Port channelization (Junos / MX)
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN` | Local device autonomous-system number. | `65000` |
+| `$ASN_CUSTOMER` | Customer-facing BGP peer autonomous-system number. | `65501` |
+| `$IBGP_PEER_V4_1` | IPv4 loopback of an internal BGP neighbor; `_1`, `_2` order the neighbors. | `10.1.1.2` |
+| `$IBGP_PEER_V4_2` | IPv4 loopback of an internal BGP neighbor; `_1`, `_2` order the neighbors. | `10.1.1.3` |
+| `$LOOPBACK_V4` | Primary per-node IPv4 loopback address. | `10.1.1.1` |
+| `$LOOPBACK_V4_PFX` | IPv4 address with prefix length on a loopback unit (`lo0.0` or a per-VRF `lo0.<n>`). | `10.1.1.1/32` |
+| `$ROUTER_ID` | Complete router identifier in IPv4 dotted-decimal form. | `10.1.1.1` |
 
-| Variable | Example | Used in |
-|----------|---------|---------|
-| `$FPC` | `0` | port-channelization |
-| `$PIC` | `0` | port-channelization |
-| `$PORT` | `1` | port-channelization |
-| `$NUM_SUB_PORTS` | `4` | port-channelization |
-| `$PORT_SPEED` | `10g` | port-channelization |
+## Interfaces and optics
 
-## DWDM aggregated-ethernet bundle
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_ADDR_V4` | IPv4 address on a routed attachment-circuit unit. | `10.10.1.1/30` |
+| `$AC_IFL` | Full logical attachment-circuit interface identifier, including its unit. | `et-0/0/4.1` |
+| `$AE_BUNDLE` | Aggregated-Ethernet bundle a member link joins (`802.3ad`). | `ae12` |
+| `$AE_DEVICE_COUNT` | Number of aggregated-Ethernet devices the chassis allocates. | `10` |
+| `$CORE_INTF_1` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `ae12.0` |
+| `$CORE_INTF_2` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `ae13.0` |
+| `$CORE_V4_ADDR` | Core interface IPv4 address. | `10.12.1.1/30` |
+| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `0` |
+| `$IFD` | Interface-device identifier, excluding a logical unit. | `ae12` |
+| `$UNIT` | Logical-interface unit number, without the parent interface name. | `0` |
+| `$VLAN` | A single VLAN identifier. | `1` |
+| `$WAVELENGTH` | DWDM wavelength in nanometres of a coherent optic (`optics-options wavelength`); both ends of a link use the same value. | `1547.72` |
 
-| Variable | Example | Used in |
-|----------|---------|---------|
-| `$MIN_LINKS` | `1` | dwdm-ae-bundle |
-| `$AE_IPV4` | `10.12.1.1/30` | dwdm-ae-bundle |
-| `$MAX_LABELS` | `5` | dwdm-ae-bundle |
-| `$DEVICE_COUNT` | `10` | aggregated-devices |
+## Transport
 
-## Interfaces
+| Variable | What it is | Example value |
+|---|---|---|
+| `$LSP_NAME_1` … `$LSP_NAME_200` | Name of an MPLS label-switched path; `_1`…`_200` order the paths of the form (the first 100 go to one peer, the next 100 to the other). | `lsp-r1-to-r21` … `lsp-r1-to-r3100` |
+| `$LSP_TO_A` | Egress address (`to`) of the first group of label-switched paths: the loopback of one remote DCI router. | `10.1.1.2` |
+| `$LSP_TO_B` | Egress address (`to`) of the second group of label-switched paths: the loopback of the other remote DCI router. | `10.1.1.3` |
 
-| Variable | Example | Used in |
-|----------|---------|---------|
-| `$LO_UNIT` | `0` | loopback |
-| `$LO_IPV4` | `10.1.1.1/32` | loopback |
+## Services
 
-## Device inventory
-
-| Device | Platform | OS | lo0 |
-|--------|----------|----|-----|
-| `dci1_ptx10001-36mr` | PTX10001-36MR | Junos OS Evolved 24.2R2 | `10.1.1.1/32` |
-| `dci2_mx304` | MX304 | Junos OS 24.2R2 | `10.1.1.2/32` |
-| `dci3_acx7100-48l` | ACX7100-48L | Junos OS Evolved 24.2R2 | `11.1.1.3/32` |
-
-Coherent transceivers validated: **JCO400-QDD-ZR-M-HP** and **QDD-400G-ZR-M-HP**
-(amplified and unamplified use cases), over an ADTRAN FSP3000C open line system.
-
-## byoai/MENU.md
-
-# Data Center Interconnect over IPoDWDM — BYOAI menu
-
-Browser-facing catalog of what this JVD assistant can generate and explain. This
-is the human-readable companion to the machine bundle (`jvd-dci-ipodwdm-snips.md`)
-the AI actually loads.
-
-This JVD validates **Converged Optical Routing Architecture (CORA)** — Data Center
-Interconnect over IPoDWDM using Juniper 400G Coherent Optics directly in the
-router (no external transponder), over an ADTRAN open line system. Three DCI edge
-routers are validated: **PTX10001-36MR** and **ACX7100-48L** (Junos OS Evolved)
-and **MX304** (Junos OS).
-
----
-
-## Two modes
-
-- **Configuration mode** — generate validated Junos / Junos Evolved config from
-  the 9 snips below. Strict: only validated patterns, no invented syntax.
-- **Design mode** — explore the architecture, grounded in the JVD documentation
-  corpus (datasheet / design guide / solution overview / test report brief), with
-  citations.
-
-## Configuration catalog (9 snips, two OS trees)
-
-| Feature | Snip | Seen on |
-|---------|------|---------|
-| Coherent 400G optics port (EVO) | `evo/interfaces/coherent-optics-port.conf` | dci1, dci3 |
-| Coherent 400G optics port (Junos) | `junos/interfaces/coherent-optics-port.conf` | dci2 |
-| DWDM aggregated-ethernet bundle (EVO) | `evo/interfaces/dwdm-ae-bundle.conf` | dci1, dci3 |
-| DWDM aggregated-ethernet bundle (Junos) | `junos/interfaces/dwdm-ae-bundle.conf` | dci2 |
-| aggregated-devices (EVO) | `evo/chassis/aggregated-devices.conf` | dci1, dci3 |
-| aggregated-devices (Junos) | `junos/chassis/aggregated-devices.conf` | dci2 |
-| Port channelization (Junos / MX) | `junos/chassis/port-channelization.conf` | dci2 |
-| Loopback lo0 (EVO) | `evo/interfaces/loopback.conf` | dci1, dci3 |
-| Loopback lo0 (Junos) | `junos/interfaces/loopback.conf` | dci2 |
-
-### Common tasks
-
-- **Bring up a coherent DWDM interconnect** → `dwdm-core-link` (as-deployed:
-  aggregated-devices + coherent ports + AE bundle + loopback; MX adds
-  port-channelization).
-- **Tune a coherent 400G port to a wavelength** → `coherent-optics`.
-- **Build the aggregated-ethernet core link** → `dwdm-ae-bundle`.
-- **Rate/breakout an MX port** → `port-channelization` (Junos only).
-
-### Devices
-
-- `EVO` = `dci1_ptx10001-36mr` + `dci3_acx7100-48l` (Junos OS Evolved)
-- `MX` = `dci2_mx304` (Junos OS)
-- `ALL` = all three DCI edge routers
-
-## Design catalog (ask me about…)
-
-- **CORA / IPoDWDM** — coherent optics in the router, no external transponder.
-- **Wavelength tuning** and the C-band channel plan.
-- **Amplified vs unamplified (dark-fiber) links** — OSNR and chromatic-dispersion
-  limits vs span-loss budget.
-- The **ADTRAN open line system** and third-party OLS interop (≥75 GHz spacing).
-- **Optical performance monitoring / telemetry** and TCAs.
-- Platforms, coherent transceivers, and results from the **test report brief**.
-
----
-
-*Not sure where to start? Ask for a "rundown of this JVD" and I'll summarise from
-the datasheet.*
+| Variable | What it is | Example value |
+|---|---|---|
+| `$BGP_GROUP` | Name of a BGP group (CE-facing group in a VRF, or a CE's group toward a WAN edge). | `grp-iBGP` |
+| `$CE_PEER_V4` | IPv4 address of the external BGP peer (CE). | `10.10.1.2` |
+| `$INSTANCE_NAME` | Identity stem of a service instance: the routing-instance name, or the shared name of a hub-and-spoke policy and its community. | `L3VPN_DCI_RI_1` |
+| `$PE_LOCAL_V4` | Local IPv4 address of the PE side of a CE eBGP session (`local-address`). | `10.10.1.1` |
+| `$PPLB_NAME` | Per-packet load-balance policy name — a label proven to vary across otherwise-identical deployed forms. | `PPLB` |
+| `$RD_SUB_ASSIGNED` | Route Distinguisher Assigned Number subfield. | `1` |
+| `$RT_AS` | Route Target Administrator subfield. | `65000` |
+| `$RT_ID` | Route Target Assigned Number subfield. | `1` |
 
 ## byoai/TIERS.md
 
-# Configuration form tiers — DCI over IPoDWDM
+> **Tier qualification for this JVD.** Only `minimum` is qualified and selectable.
+> The `self-contained` and `as-deployed` entries below are blocked: each VRF's
+> customer-facing unit is a required selection the library cannot make. They are not
+> selectable: never offer or render them.
 
-Maps each **feature** the user can ask for to the **snip set** to emit for
-`minimum` vs `as-deployed`. Slugs are paths under `snips/`. Read this alongside
-the snip bodies. Emit exactly the listed snips for the chosen tier — and only
-those — unless the user asks for more.
+# Configuration form tiers
 
-This JVD spans **two OS trees**. Use `evo/` snips for `dci1_ptx10001-36mr` and
-`dci3_acx7100-48l` (Junos OS Evolved); use `junos/` snips for `dci2_mx304`
-(Junos OS). The tables below list the EVO path; substitute the matching `junos/`
-path for the MX (the MX coherent port additionally supports port-channelization,
-which EVO does not use).
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd optical/dci_over_ipodwdm`. -->
 
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
-## Feature: dwdm-core-link (bring up a coherent DWDM interconnect)
+## What the tiers mean
 
-- **minimum**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-- **as-deployed**
-  - `evo/chassis/aggregated-devices.conf`
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/interfaces/loopback.conf`
-  - *(MX only, additionally)* `junos/chassis/port-channelization.conf`
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-## Feature: coherent-optics (tune a coherent 400G port)
-
-- **minimum**
-  - `evo/interfaces/coherent-optics-port.conf`
-- **as-deployed**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/chassis/aggregated-devices.conf`
-  - *(MX only)* `junos/chassis/port-channelization.conf`
-
-## Feature: dwdm-ae-bundle (the aggregated-ethernet core link)
-
-- **minimum**
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-- **as-deployed**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/chassis/aggregated-devices.conf`
-
-## Feature: aggregated-devices (enable the ae pool)
-
-- **minimum**
-  - `evo/chassis/aggregated-devices.conf`
-- **as-deployed**
-  - `evo/chassis/aggregated-devices.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-
-## Feature: port-channelization (MX rate / breakout — Junos only)
-
-- **minimum**
-  - `junos/chassis/port-channelization.conf`
-- **as-deployed**
-  - `junos/chassis/port-channelization.conf`
-  - `junos/interfaces/coherent-optics-port.conf`
-
-## Feature: loopback (lo0 router-id)
-
-- **minimum**
-  - `evo/interfaces/loopback.conf`
-- **as-deployed**
-  - `evo/interfaces/loopback.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-### Notes for the assistant
+## L3VPN VRF with an eBGP session to the CE
 
-- **Match the tree to the OS.** For MX targets, replace each `evo/…` slug with
-  the corresponding `junos/…` slug (coherent-optics-port, dwdm-ae-bundle,
-  aggregated-devices, loopback), and add `junos/chassis/port-channelization.conf`
-  when the port is rate-selectable/channelized. EVO DWDM ports are used natively
-  at 400G.
-- **as-deployed always pulls the paired prerequisites** listed in each snip's
-  `Pair with:` header. If you omit a paired snip, call it out in `Notes:`.
-- A coherent DWDM core link is not usable until it has the tuned coherent members
-  (`optics-options wavelength`), the AE bundle (LACP + inet/mpls), and the
-  `aggregated-devices` chassis enablement.
-- The **BGP / MPLS-RSVP / VRF underlay** is out of scope for this library. If the
-  user asks for it, point them to the full device configs under
-  `configuration/conf/`.
+Family l3vpn, form l3vpn-ebgp-vrf. OS mode MIXED. Attachment: VLAN-tagged IPv4 unit on the customer-facing port; one of the 100 VPNv4 instances carried over the DWDM core.
+
+### dci1_ptx10001-36mr (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### dci3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### dci2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
 
 ## byoai/DEFAULTS.md
 
-# Auto-fill defaults — DCI over IPoDWDM
+# DEFAULTS — Data Center Interconnect over IPoDWDM
 
-Deterministic JVD lab values for `auto` mode and short-circuits. Every value below
-is taken from the validated `configuration/conf/*.conf` device configs — do NOT
-invent alternatives. Always echo the values you used in the output `Inputs used:`
-block so the user can rerun with edits.
+Lab auto-fill values for the Data Center Interconnect over IPoDWDM JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks auto-fill; otherwise ask. Variable meanings are in [`_variables.md`](../_variables.md).
 
----
+## Device inventory
 
-## Devices (`Seen on:` names)
+| Role | Device | Platform | OS | `$LOOPBACK_V4` / router-id | `$ASN` |
+|------|--------|----------|----|----------------------------|--------|
+| DCI Edge | dci1_ptx10001-36mr | PTX10001-36MR | EVO | 10.1.1.1 | 65000 |
+| DCI Edge | dci2_mx304 | MX304 | Junos | 10.1.1.2 | 65000 |
+| DCI Edge | dci3_acx7100-48l | ACX7100-48L | EVO | 11.1.1.3 | 65000 |
 
-| Shortcut | Devices | OS / tree |
-|----------|---------|-----------|
-| `EVO` | `dci1_ptx10001-36mr`, `dci3_acx7100-48l` | Junos OS Evolved → `evo/` |
-| `MX`  | `dci2_mx304` | Junos OS → `junos/` |
-| `ALL` | all three | mixed |
+dci1 and dci2 address dci3 as 10.1.1.3 (iBGP neighbor, LSP target); dci3 uses 11.1.1.x for itself and its peers. Render each router as configured.
 
-Single device: any one name above (or a user-supplied hostname + OS).
-Default device selection when unspecified: `EVO`.
+## DWDM core links
 
-## Per-device loopback (router-id, from configs)
+| Link | Bundle (`$IFD`), `$CORE_V4_ADDR` | Coherent members (`$IFD` → `$WAVELENGTH`) |
+|------|----------------------------------|-------------------------------------------|
+| dci1 ↔ dci2 | dci1 ae12 10.12.1.1/30; dci2 ae12 `10.12..1.2/30` (as published) | dci1 et-0/0/8 1547.12, et-0/0/10 1547.72, et-0/1/0 1548.31; dci2 et-0/0/6 1547.12, et-0/0/8 1547.72, et-0/0/14 1548.31 |
+| dci1 ↔ dci3 | dci1 ae13 10.13.1.1/30; dci3 ae13 10.13.1.2/30 | dci1 et-0/1/2 1552.52, et-0/1/8 1550.12; dci3 et-0/0/50 1552.52, et-0/0/51 1550.12 |
+| dci2 ↔ dci3 | dci2 ae23 10.23.1.1/30; dci3 ae23 10.23.1.2/30 | dci2 et-0/1/0 1552.52, et-0/1/6 1550.12; dci3 et-0/0/52 1552.52, et-0/0/53 1550.12 |
 
-| Device | lo0 (`lo0.0`) |
-|--------|---------------|
-| `dci1_ptx10001-36mr` | `10.1.1.1/32` |
-| `dci2_mx304` | `10.1.1.2/32` |
-| `dci3_acx7100-48l` | `11.1.1.3/32` |
+`$AE_DEVICE_COUNT` 10 on every router. Both ends of a link use the same wavelengths.
 
-`$LO_UNIT` default `0`.
+## iBGP and RSVP-TE
 
-## Coherent optics (from configs)
+| Device | `$BGP_GROUP` | iBGP neighbors | LSPs (`$LSP_NAME_1…200`, `$LSP_TO_A` / `$LSP_TO_B`) |
+|--------|--------------|----------------|------------------------------------------------------|
+| dci1 | grp-iBGP | 10.1.1.2, 10.1.1.3 | lsp-r1-to-r2<n> to 10.1.1.2, lsp-r1-to-r3<n> to 10.1.1.3, n = 1–100 |
+| dci2 | grp-iBGP | 10.1.1.1, 10.1.1.3 | lsp-r2-to-r1<n> to 10.1.1.1, lsp-r2-to-r3<n> to 10.1.1.3 |
+| dci3 | grp-iBGP | 11.1.1.1, 11.1.1.2 | lsp-r3-to-r1<n> to 11.1.1.1, lsp-r3-to-r2<n> to 11.1.1.2 |
 
-- `$COHERENT_IFD`: first coherent member default `et-0/0/8` (EVO) / `et-0/0/6` (MX)
-- `$AE_BUNDLE`: default `ae12` (second bundle `ae13`)
-- `$WAVELENGTH` (nm) — validated channel plan, assign in order:
-  `1547.12`, `1547.72`, `1548.31`, `1550.12`, `1552.52`
+## VRF examples (first measured instance)
 
-When the user wants N coherent members, assign successive wavelengths from the
-list above and alternate/extend AE membership per the plan. If N is unspecified,
-default to **1** and note it in Inputs Used.
+| Device | Customer port | Example values |
+|--------|---------------|----------------|
+| dci1 | et-0/0/4 | `L3VPN_DCI_RI_1`, `$AC_IFL` et-0/0/4.1, `$PE_LOCAL_V4` 10.10.1.1, `$CE_PEER_V4` 10.10.1.2, `$ASN_CUSTOMER` 65501, `$BGP_GROUP` ebgp-w-tgen, RD 10.1.1.1:1, `vrf-target` target:65000:1 |
+| dci2 | et-0/0/2 | `L3VPN_DCI_RI_1`, `$AC_IFL` et-0/0/2.1, `$PE_LOCAL_V4` 10.20.1.1, `$CE_PEER_V4` 10.20.1.2, `$ASN_CUSTOMER` 65502, RD 10.1.1.2:1, `vrf-target` target:65000:1 |
+| dci3 | et-0/0/48 (100G) | `L3VPN_DCI_RI_1`, `$AC_IFL` et-0/0/48.1, `$PE_LOCAL_V4` 10.30.1.1, `$CE_PEER_V4` 10.30.1.2, `$ASN_CUSTOMER` 65503, RD 11.1.1.3:1, `vrf-target` target:65000:1 |
 
-## DWDM aggregated-ethernet bundle
+## Numbering conventions (hold on all 300 measured VRFs)
 
-- `$MIN_LINKS`: `1`
-- `$MAX_LABELS`: `5`
-- `$AE_IPV4` (point-to-point /30): default `10.12.1.1/30` (the peer router takes
-  the other host address in the same /30)
-- `$DEVICE_COUNT` (aggregated-devices): `10`
+| Value | Convention for VRF n |
+|-------|----------------------|
+| Instance name | `L3VPN_DCI_RI_<n>` |
+| Unit and VLAN | `$UNIT` = `$VLAN` = n on the customer port |
+| Addresses | `$PE_LOCAL_V4` = .1 and `$CE_PEER_V4` = .2 of the unit's /30 (10.10.n.0/30 on dci1, 10.20.n.0/30 on dci2, 10.30.n.0/30 on dci3) |
+| RD and RT | `$RD_SUB_ASSIGNED` = `$RT_ID` = n; RD administrator = the router's loopback; `$RT_AS` = `$ASN` = 65000 |
+| Local AS | `local-as` = `$ASN` |
 
-## MX port channelization (Junos only — `dci2_mx304`)
-
-- `$FPC`: `0`  ·  `$PIC`: `0`  ·  `$PORT`: `1`
-- `$NUM_SUB_PORTS`: `4`  ·  `$PORT_SPEED`: `10g`
-- Non-channelized ports use `speed` alone (e.g. `400g`); omit `number-of-sub-ports`.
-
-## Fallbacks
-
-- Unspecified coherent-member count → 1.
-- Unspecified device → `EVO`.
-- Unspecified form → `as-deployed` for a core-link turn-up, `minimum` for a
-  single-feature request.
-- Every auto-filled value MUST be listed in `Inputs used:`.
+For `N` VRFs, auto-fill increments n from the example's starting value and keeps the conventions above. Keep the DCI routers of a VRF consistent: same instance name and route target.
 
 ## byoai/OUTPUT_FORMAT.md
 
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-dci-ipodwdm-snips.md`](jvd-dci-ipodwdm-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-dci-ipodwdm-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -661,24 +3709,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum"
+# form: minimum
 # devices:
-#   dci1: { name: <hostname>, os: evo, role: dci-edge, loopback4: <addr> }
-#   dci2: { ... }
-# features:
-#   - { kind: <coherent-optics|dwdm-ae-bundle|port-channelization|aggregated-devices|loopback>,
-#       coherent_ifd: <et-x/y/z>,     # coherent member interface
-#       wavelength: <nm>,             # optics-options wavelength
-#       ae_bundle: <aeN>,             # aggregated-ethernet unit
-#       ae_ipv4: <addr/30>,           # core point-to-point address
-#       min_links: <int>,             # AE minimum-links
-#       max_labels: <int>,            # family mpls maximum-labels
-#       device_count: <int>,          # chassis aggregated-devices count
-#       fpc: <int>, pic: <int>, port: <int>,   # MX channelization
-#       num_sub_ports: <int>, port_speed: <rate> }
+#   dci1: { name: <hostname>, os: evo, loopback4: <addr> }
+#   dci2: { name: <hostname>, os: junos, loopback4: <addr> }
+# services:
+#   - { kind: l3vpn-ebgp-vrf,
+#       count: <int>,
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - evo/interfaces/coherent-optics-port.conf
-#   - evo/interfaces/dwdm-ae-bundle.conf
+#   - junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf
 #   - ...
 ```
 
@@ -697,21 +3740,16 @@ Each device block starts with a `# device:` label and groups its snips with `/* 
 <rendered config block>
 ```
 
-Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment. Use the correct tree for the device's OS: `evo/…` for PTX10001-36MR / ACX7100-48L, `junos/…` for MX304.
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-device / cross-wavelength consistency the user must verify:
-  - Each coherent member's **wavelength** must match the OLS/ROADM channel plan; the two ends of a span must be tuned to the same channel.
-  - Both ends of a **DWDM AE bundle** must agree on LACP and the point-to-point `/30`.
-  - Each device has its own **lo0 router-id**.
-- OS-tree reminders: coherent-port LAG membership is `ether-options` on EVO vs `gigether-options` on Junos (MX); MX port rate/breakout lives under `chassis` (`fpc/pic/port`), EVO uses the DWDM ports natively at 400G.
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- Out-of-scope: the BGP / MPLS-RSVP / VRF underlay is NOT in this library — point the user to `configuration/conf/` for the full validated device configs.
+- Cross-device consistency the user must verify: the DCI routers of one VRF use the same instance name and route target; each router's route distinguisher uses its own loopback.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 
